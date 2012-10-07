@@ -1,14 +1,12 @@
 #include <QApplication>
-#include <QMainWindow>
-
-const QString appName = "AprilBrush";
+#include "mainwindow.h"
 
 int main(int argc, char *argv[])
 {
     QApplication app(argc, argv);
-    QMainWindow *mainWindow = new QMainWindow();
-    mainWindow->setWindowTitle(appName);
-    mainWindow->show();
+    MainWindow window;
+    window.setWindowTitle(appName);
+    window.show();
 
     return app.exec();
 }
