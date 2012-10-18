@@ -1,6 +1,9 @@
 SOURCES += \
     main.cpp \
-    mainwindow.cpp
+    mainwindow.cpp \
+    widgets/testinputdevice.cpp
 
 HEADERS += \
-    mainwindow.h
+    mainwindow.h \
+    widgets/testinputdevice.h
+

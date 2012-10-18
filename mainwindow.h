@@ -15,6 +15,7 @@ public:
 
 private slots:
     void about();
+    void testID();
 
 private:
     void createActions();
@@ -22,7 +23,10 @@ private:
 
     QMenu *fileMenu;
     QMenu *helpMenu;
+    QMenu *viewMenu;
+
     QAction *exitAction;
+    QAction *testIDAction;
     QAction *aboutAction;
     QAction *aboutQtAction;
 };
