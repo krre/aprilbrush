@@ -27,13 +27,13 @@ void MainWindow::createActions()
 
 void MainWindow::createMenus()
 {
-    fileMenu = menuBar()->addMenu("File");
+    QMenu *fileMenu = menuBar()->addMenu("File");
     fileMenu->addAction(exitAction);
 
-    viewMenu = menuBar()->addMenu("View");
+    QMenu *viewMenu = menuBar()->addMenu("View");
     viewMenu->addAction(testIDAction);
 
-    helpMenu = menuBar()->addMenu("Help");
+    QMenu *helpMenu = menuBar()->addMenu("Help");
     helpMenu->addAction(aboutAction);
     helpMenu->addAction(aboutQtAction);
 }

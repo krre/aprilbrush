@@ -21,10 +21,6 @@ private:
     void createActions();
     void createMenus();
 
-    QMenu *fileMenu;
-    QMenu *helpMenu;
-    QMenu *viewMenu;
-
     QAction *exitAction;
     QAction *testIDAction;
     QAction *aboutAction;
