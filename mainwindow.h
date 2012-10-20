@@ -2,6 +2,7 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include "widgets/testinputdevice.h"
 
 const QString appName = "AprilBrush";
 const QString appVersion = "0.0.1";
@@ -25,6 +26,8 @@ private:
     QAction *testIDAction;
     QAction *aboutAction;
     QAction *aboutQtAction;
+
+    QPointer<QWidget> testIDWindow;
 };
 
 #endif // MAINWINDOW_H

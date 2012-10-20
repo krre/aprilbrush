@@ -40,7 +40,9 @@ void MainWindow::createMenus()
 
 void MainWindow::testID()
 {
-    TestInputDevice *testIDWindow = new TestInputDevice();
+    // Create the window if it doesn't exists
+    if (!testIDWindow)
+        testIDWindow = new TestInputDevice();
     testIDWindow->show();
 }
 
