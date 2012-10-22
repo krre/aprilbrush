@@ -1,7 +1,8 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
-#include <QMainWindow>
+#include <QtGui>
+#include "canvas.h"
 #include "widgets/testinputdevice.h"
 
 const QString appName = "AprilBrush";
@@ -21,13 +22,21 @@ private slots:
 private:
     void createActions();
     void createMenus();
+    void createTabBar();
+    void createNewTab();
 
+    QAction *newAction;
+    QAction *openAction;
+    QAction *saveAction;
+    QAction *saveAsAction;
     QAction *exitAction;
     QAction *testIDAction;
     QAction *aboutAction;
     QAction *aboutQtAction;
 
+    QTabWidget *tabBar;
     QPointer<QWidget> testIDWindow;
+    Canvas *appCanvas;
 };
 
 #endif // MAINWINDOW_H
