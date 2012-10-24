@@ -3,13 +3,14 @@
 
 Canvas::Canvas()
 {
-    QPixmap newPixmap = QPixmap(width(), height());
-    newPixmap.fill(Qt::red);
+    QPixmap newPixmap = QPixmap(1000, 500);
+    newPixmap.fill(Qt::white);
     QPainter painter(&newPixmap);
     if (!pixmap.isNull())
         painter.drawPixmap(0, 0, pixmap);
     painter.end();
     pixmap = newPixmap;
+    setAutoFillBackground(true);
 }
 
 void Canvas::paintEvent(QPaintEvent *)
@@ -18,12 +19,17 @@ void Canvas::paintEvent(QPaintEvent *)
     painter.drawPixmap(0, 0, pixmap);
 }
 
-/*
 void  Canvas::mouseMoveEvent(QMouseEvent *event)
 {
     qDebug() << "Mouse: Pos X: " << event->x() << " Pos Y: " << event->y();
+    QPainter painter(&pixmap);
+    painter.setRenderHint(QPainter::Antialiasing, true);
+    painter.setPen(Qt::NoPen);
+    painter.setBrush(QBrush(Qt::blue, Qt::SolidPattern));
+    painter.drawEllipse(event->x(), event->y(), 10, 10);
+    update();
 }
-
+/*
 void Canvas::tabletEvent(QTabletEvent *event)
 {
 

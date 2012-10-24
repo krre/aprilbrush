@@ -11,7 +11,7 @@ public:
 
 protected:
     void paintEvent(QPaintEvent*);
-    //void mouseMoveEvent(QMouseEvent *event);
+    void mouseMoveEvent(QMouseEvent *event);
     //void tabletEvent(QTabletEvent *event);
     
 signals:
