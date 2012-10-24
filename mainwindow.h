@@ -17,13 +17,14 @@ public:
 
 private slots:
     void about();
-    void testID();
+    void testIDWindowAction();
+    void newTabAction();
 
 private:
     void createActions();
     void createMenus();
     void createTabBar();
-    void createNewTab();
+    void createNewTab(TestInputDevice *testIDWindow);
 
     QAction *newAction;
     QAction *openAction;
@@ -34,8 +35,9 @@ private:
     QAction *aboutAction;
     QAction *aboutQtAction;
 
+    //QPointer<TestInputDevice> testIDWindow;
+    TestInputDevice *testIDWindow;
     QTabWidget *tabBar;
-    QPointer<QWidget> testIDWindow;
     Canvas *appCanvas;
 };
 

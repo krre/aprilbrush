@@ -11,7 +11,8 @@ MainWindow::MainWindow()
     createActions();
     createMenus();
     createTabBar();
-    createNewTab();
+    testIDWindow = new TestInputDevice(); // for testing
+    createNewTab(testIDWindow);
 }
 
 void MainWindow::createActions()
@@ -32,7 +33,7 @@ void MainWindow::createActions()
     connect(exitAction, SIGNAL(triggered()), this, SLOT(close()));
 
     testIDAction = new QAction(tr("Test Input Devices"), this);
-    connect(testIDAction, SIGNAL(triggered()), this, SLOT(testID()));
+    connect(testIDAction, SIGNAL(triggered()), this, SLOT(testIDWindowAction()));
 
     aboutAction = new QAction(tr("About"), this);
     connect(aboutAction, SIGNAL(triggered()), this, SLOT(about()));
@@ -66,17 +67,25 @@ void MainWindow::createTabBar()
     setCentralWidget(tabBar);
 }
 
-void MainWindow::createNewTab()
+void MainWindow::createNewTab(TestInputDevice *testIDWindow)
 {
-    Canvas *appCanvas = new Canvas();
+    Canvas *appCanvas = new Canvas(testIDWindow);
     tabBar->addTab(appCanvas, "Untitled");
+    tabBar->setCurrentIndex(tabBar->count() - 1);
 }
 
-void MainWindow::testID()
+void MainWindow::newTabAction()
 {
+    createNewTab(testIDWindow);
+}
+
+void MainWindow::testIDWindowAction()
+{
+/*
     // Create the window if it doesn't exists
     if (!testIDWindow)
         testIDWindow = new TestInputDevice();
+*/
     testIDWindow->show();
 }
 

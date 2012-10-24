@@ -2,12 +2,14 @@
 #define CANVAS_H
 
 #include <QtGui>
+#include "widgets/testinputdevice.h"
 
 class Canvas : public QWidget
 {
     Q_OBJECT
+
 public:
-    Canvas();
+    Canvas(TestInputDevice *testIDWindow);
 
 protected:
     void paintEvent(QPaintEvent*);
@@ -20,7 +22,7 @@ public slots:
 
 private:
     QPixmap pixmap;
-
+    TestInputDevice *testID;
 };
 
 #endif // CANVAS_H

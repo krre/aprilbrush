@@ -1,7 +1,8 @@
 #include "mainwindow.h"
+#include "widgets/testinputdevice.h"
 #include "canvas.h"
 
-Canvas::Canvas()
+Canvas::Canvas(TestInputDevice *testIDWindow)
 {
     QPixmap newPixmap = QPixmap(1000, 500);
     newPixmap.fill(Qt::white);
@@ -11,6 +12,7 @@ Canvas::Canvas()
     painter.end();
     pixmap = newPixmap;
     setAutoFillBackground(true);
+    testID = testIDWindow;
 }
 
 void Canvas::paintEvent(QPaintEvent *)
@@ -21,12 +23,15 @@ void Canvas::paintEvent(QPaintEvent *)
 
 void  Canvas::mouseMoveEvent(QMouseEvent *event)
 {
-    qDebug() << "Mouse: Pos X: " << event->x() << " Pos Y: " << event->y();
     QPainter painter(&pixmap);
     painter.setRenderHint(QPainter::Antialiasing, true);
     painter.setPen(Qt::NoPen);
     painter.setBrush(QBrush(Qt::blue, Qt::SolidPattern));
     painter.drawEllipse(event->x(), event->y(), 10, 10);
+
+    if (testID->isVisible())
+        testID->setInputValues(tr("Mouse"), event->x(), event->y(), 1.0);
+
     update();
 }
 /*
