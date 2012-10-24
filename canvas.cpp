@@ -34,14 +34,23 @@ void  Canvas::mouseMoveEvent(QMouseEvent *event)
 
     update();
 }
-/*
+
 void Canvas::tabletEvent(QTabletEvent *event)
 {
+    qreal pressure = event->pressure();
+    if (pressure > 0)
+    {
+        QPainter painter(&pixmap);
+        painter.setRenderHint(QPainter::Antialiasing, true);
+        painter.setPen(Qt::NoPen);
+        //painter.setBrush(QBrush(Qt::blue, Qt::SolidPattern));
+        painter.setBrush(QBrush(QColor(0, 255, 0, int(pressure * 255)), Qt::SolidPattern));
+        painter.drawEllipse(event->x(), event->y(), 10, 10);
 
-    //qDebug() << "Tablet: " << event->device() << "Pos X: " << event->x() << " Pos Y: " << event->y()
-    //qDebug() << "Pos X: " << event->x() << " Pos Y: " << event->y()
-    //    << " Pressure: " << event->pressure();
-    //qDebug() << event->type();
-    //event->accept();
+    }
+    if (testID->isVisible())
+        testID->setInputValues(tr("Stylus"), event->x(), event->y(), pressure);
+
+    update();
 }
-*/
+
