@@ -43,14 +43,18 @@ void Canvas::tabletEvent(QTabletEvent *event)
         QPainter painter(&pixmap);
         painter.setRenderHint(QPainter::Antialiasing, true);
         painter.setPen(Qt::NoPen);
-        //painter.setBrush(QBrush(Qt::blue, Qt::SolidPattern));
         painter.setBrush(QBrush(QColor(0, 255, 0, int(pressure * 255)), Qt::SolidPattern));
         painter.drawEllipse(event->x(), event->y(), 10, 10);
-
     }
     if (testID->isVisible())
         testID->setInputValues(tr("Stylus"), event->x(), event->y(), pressure);
 
+    update();
+}
+
+void Canvas::clearAction()
+{
+    pixmap.fill(Qt::white);
     update();
 }
 

@@ -32,11 +32,14 @@ void MainWindow::createActions()
     exitAction = new QAction(tr("Exit"), this);
     connect(exitAction, SIGNAL(triggered()), this, SLOT(close()));
 
+    clearAction = new QAction(tr("Clear"), this);
+    //connect(clearAction, SIGNAL(triggered()), appCanvas, SLOT(clearAction()));
+
     testIDAction = new QAction(tr("Test Input Devices"), this);
     connect(testIDAction, SIGNAL(triggered()), this, SLOT(testIDWindowAction()));
 
     aboutAction = new QAction(tr("About"), this);
-    connect(aboutAction, SIGNAL(triggered()), this, SLOT(about()));
+    connect(aboutAction, SIGNAL(triggered()), this, SLOT(aboutWindowAction()));
 
     aboutQtAction = new QAction(tr("About Qt"), this);
     connect(aboutQtAction, SIGNAL(triggered()), qApp, SLOT(aboutQt()));
@@ -51,6 +54,9 @@ void MainWindow::createMenus()
     fileMenu->addAction(saveAsAction);
     fileMenu->addSeparator();
     fileMenu->addAction(exitAction);
+
+    QMenu *editMenu = menuBar()->addMenu(tr("Edit"));
+    editMenu->addAction(clearAction);
 
     QMenu *viewMenu = menuBar()->addMenu(tr("View"));
     viewMenu->addAction(testIDAction);
@@ -72,6 +78,7 @@ void MainWindow::createNewTab(TestInputDevice *testIDWindow)
     Canvas *appCanvas = new Canvas(testIDWindow);
     tabBar->addTab(appCanvas, "Untitled");
     tabBar->setCurrentIndex(tabBar->count() - 1);
+    connect(clearAction, SIGNAL(triggered()), appCanvas, SLOT(clearAction()));
 }
 
 void MainWindow::newTabAction()
@@ -89,7 +96,7 @@ void MainWindow::testIDWindowAction()
     testIDWindow->show();
 }
 
-void MainWindow::about()
+void MainWindow::aboutWindowAction()
 {
     QString aboutText = "<h3><b>" + appName + "</b></h3>" +
             tr("Version ") + appVersion +

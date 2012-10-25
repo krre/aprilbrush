@@ -19,6 +19,7 @@ protected:
 signals:
     
 public slots:
+    void clearAction();
 
 private:
     QPixmap pixmap;

@@ -16,7 +16,7 @@ public:
     MainWindow();
 
 private slots:
-    void about();
+    void aboutWindowAction();
     void testIDWindowAction();
     void newTabAction();
 
@@ -25,13 +25,17 @@ private:
     void createMenus();
     void createTabBar();
     void createNewTab(TestInputDevice *testIDWindow);
-
+    // File
     QAction *newAction;
     QAction *openAction;
     QAction *saveAction;
     QAction *saveAsAction;
     QAction *exitAction;
+    // Edit
+    QAction *clearAction;
+    // View
     QAction *testIDAction;
+    // Help
     QAction *aboutAction;
     QAction *aboutQtAction;
 
