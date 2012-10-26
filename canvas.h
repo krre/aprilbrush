@@ -3,6 +3,7 @@
 
 #include <QtGui>
 #include "widgets/testinputdevice.h"
+#include "brushengine.h"
 
 class Canvas : public QWidget
 {
@@ -24,6 +25,7 @@ public slots:
 private:
     QPixmap pixmap;
     TestInputDevice *testID;
+    BrushEngine *globalBrush;
 };
 
 #endif // CANVAS_H

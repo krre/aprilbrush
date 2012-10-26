@@ -13,6 +13,8 @@ Canvas::Canvas(TestInputDevice *testIDWindow)
     pixmap = newPixmap;
     setAutoFillBackground(true);
     testID = testIDWindow;
+
+    globalBrush = new BrushEngine;
 }
 
 void Canvas::paintEvent(QPaintEvent *)
@@ -23,11 +25,7 @@ void Canvas::paintEvent(QPaintEvent *)
 
 void  Canvas::mouseMoveEvent(QMouseEvent *event)
 {
-    QPainter painter(&pixmap);
-    painter.setRenderHint(QPainter::Antialiasing, true);
-    painter.setPen(Qt::NoPen);
-    painter.setBrush(QBrush(Qt::blue, Qt::SolidPattern));
-    painter.drawEllipse(event->x(), event->y(), 10, 10);
+    globalBrush->paint(&pixmap, event->x(), event->y(), 1);
 
     if (testID->isVisible())
         testID->setInputValues(tr("Mouse"), event->x(), event->y(), 1.0);
