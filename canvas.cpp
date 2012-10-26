@@ -25,7 +25,7 @@ void Canvas::paintEvent(QPaintEvent *)
 
 void  Canvas::mouseMoveEvent(QMouseEvent *event)
 {
-    globalBrush->paint(&pixmap, event->x(), event->y(), 1);
+    globalBrush->paint(&pixmap, event->x(), event->y(), 1.0);
 
     if (testID->isVisible())
         testID->setInputValues(tr("Mouse"), event->x(), event->y(), 1.0);
@@ -37,13 +37,8 @@ void Canvas::tabletEvent(QTabletEvent *event)
 {
     qreal pressure = event->pressure();
     if (pressure > 0)
-    {
-        QPainter painter(&pixmap);
-        painter.setRenderHint(QPainter::Antialiasing, true);
-        painter.setPen(Qt::NoPen);
-        painter.setBrush(QBrush(QColor(0, 255, 0, int(pressure * 255)), Qt::SolidPattern));
-        painter.drawEllipse(event->x(), event->y(), 10, 10);
-    }
+        globalBrush->paint(&pixmap, event->x(), event->y(), pressure);
+
     if (testID->isVisible())
         testID->setInputValues(tr("Stylus"), event->x(), event->y(), pressure);
 
