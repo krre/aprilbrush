@@ -7,7 +7,7 @@ class BrushEngine
 {
 public:
     BrushEngine();
-    void paint(QPixmap *surfacePaint, int inputPosX, int inputPosY, int inputPressure);
+    void paint(QPixmap *surfacePaint, int inputPosX, int inputPosY, qreal inputPressure);
 
     QColor colorBrush;
     int sizeBrush;

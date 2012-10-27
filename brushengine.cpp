@@ -6,7 +6,7 @@ BrushEngine::BrushEngine()
     colorBrush = QColor(0, 255, 0, 255);
 }
 
-void BrushEngine::paint(QPixmap *surfacePaint, int inputPosX, int inputPosY, int inputPressure)
+void BrushEngine::paint(QPixmap *surfacePaint, int inputPosX, int inputPosY, qreal inputPressure)
 {
     QPainter painter(surfacePaint);
     painter.setRenderHint(QPainter::Antialiasing, true);
