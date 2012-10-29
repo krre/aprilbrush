@@ -1,6 +1,6 @@
 #include "testinputdevice.h"
 
-TestInputDevice::TestInputDevice() : QWidget()
+TestInputDevice::TestInputDevice()
 {
     setWindowTitle(tr("Test Input Device"));
     resize(250, 100);
@@ -16,6 +16,5 @@ void TestInputDevice::setInputValues(QString typeDevice, int posX, int posY, flo
                        + tr("\n  Pos X:\t\t") + QString::number(posX)
                        + tr("\n  Pos Y:\t\t") + QString::number(posY)
                        + tr("\n  Pressure:\t") + QString::number(pressure));
-    qDebug() << posX << " " << posY;
 }
 

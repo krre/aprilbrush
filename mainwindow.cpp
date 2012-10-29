@@ -12,6 +12,7 @@ MainWindow::MainWindow()
     createMenus();
     createTabBar();
     testIDWindow = new TestInputDevice(); // for testing
+    brushSettingsWindow = new BrushSettings;
     createNewTab(testIDWindow);
 }
 
@@ -35,8 +36,11 @@ void MainWindow::createActions()
     clearAction = new QAction(tr("Clear"), this);
     //connect(clearAction, SIGNAL(triggered()), appCanvas, SLOT(clearAction()));
 
-    testIDAction = new QAction(tr("Test Input Devices"), this);
+    testIDAction = new QAction(tr("Test Input Devices..."), this);
     connect(testIDAction, SIGNAL(triggered()), this, SLOT(testIDWindowAction()));
+
+    brushSettingsAction = new QAction(tr("Brushes Settings..."), this);
+    connect(brushSettingsAction, SIGNAL(triggered()), this, SLOT(brushSettingsWindowAction()));
 
     aboutAction = new QAction(tr("About"), this);
     connect(aboutAction, SIGNAL(triggered()), this, SLOT(aboutWindowAction()));
@@ -60,6 +64,9 @@ void MainWindow::createMenus()
 
     QMenu *viewMenu = menuBar()->addMenu(tr("View"));
     viewMenu->addAction(testIDAction);
+
+    QMenu *brushesMenu = menuBar()->addMenu(tr("Brushes"));
+    brushesMenu->addAction(brushSettingsAction);
 
     QMenu *helpMenu = menuBar()->addMenu(tr("Help"));
     helpMenu->addAction(aboutAction);
@@ -94,6 +101,11 @@ void MainWindow::testIDWindowAction()
         testIDWindow = new TestInputDevice();
 */
     testIDWindow->show();
+}
+
+void MainWindow::brushSettingsWindowAction()
+{
+    brushSettingsWindow->show();
 }
 
 void MainWindow::aboutWindowAction()
