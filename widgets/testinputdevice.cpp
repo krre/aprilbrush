@@ -3,7 +3,7 @@
 TestInputDevice::TestInputDevice()
 {
     setWindowTitle(tr("Test Input Device"));
-    resize(250, 100);
+    setFixedSize(250, 100);
     setWindowFlags(Qt::WindowStaysOnTopHint | Qt::Tool);
     infoLabel = new QLabel(this);
     infoLabel->resize(220, 80);
