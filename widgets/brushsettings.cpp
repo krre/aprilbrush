@@ -3,21 +3,43 @@
 BrushSettings::BrushSettings()
 {
     setWindowTitle(tr("Brush Settings"));
-    setModal(true);
+    setWindowFlags(Qt::WindowStaysOnTopHint | Qt::Tool);
+    resize(400, -1);
 
-    QLabel *sizeLabel = new QLabel("Size");
+    int lineEditWidth = 30;
+    int resetButtonWidth = 30;
+    QGridLayout *gridLayout = new QGridLayout;
+
+    // Size
+    QLabel *sizeLabel = new QLabel(tr("Size"));
     QSlider *sizeSlider = new QSlider(Qt::Horizontal);
-    QTextEdit *sizeTextEdit = new QTextEdit;
-    QHBoxLayout *horizontalLayoutSize = new QHBoxLayout;
-    horizontalLayoutSize->addWidget(sizeLabel);
-    horizontalLayoutSize->addWidget(sizeSlider);
-    horizontalLayoutSize->addWidget(sizeTextEdit);
+    QLineEdit *sizeLineEdit = new QLineEdit;
+    sizeLineEdit->setMaximumWidth(lineEditWidth);
+    QPushButton *sizeButton = new QPushButton(tr("R"));
+    sizeButton->setMaximumWidth(resetButtonWidth);
+    QLabel *sizeMeasure = new QLabel(tr("px"));
 
-    buttonBox = new QDialogButtonBox(QDialogButtonBox::Ok | QDialogButtonBox::Apply | QDialogButtonBox::Cancel);
+    gridLayout->addWidget(sizeLabel, 0, 0);
+    gridLayout->addWidget(sizeSlider, 0, 1);
+    gridLayout->addWidget(sizeLineEdit, 0, 2);
+    gridLayout->addWidget(sizeMeasure, 0, 3);
+    gridLayout->addWidget(sizeButton, 0, 4);
 
-    QVBoxLayout *verticalLayout = new QVBoxLayout;
-    verticalLayout->addLayout(horizontalLayoutSize);
-    verticalLayout->addWidget(buttonBox);
-    setLayout(verticalLayout);
+    // Opacity
+    QLabel *opacityLabel = new QLabel(tr("Opacity"));
+    QSlider *opacitySlider = new QSlider(Qt::Horizontal);
+    QLineEdit *opacityLineEdit = new QLineEdit;
+    opacityLineEdit->setMaximumWidth(lineEditWidth);
+    QPushButton *opacityButton = new QPushButton(tr("R"));
+    opacityButton->setMaximumWidth(resetButtonWidth);
+    QLabel *opacityMeasure = new QLabel(tr("%"));
+
+    gridLayout->addWidget(opacityLabel, 1, 0);
+    gridLayout->addWidget(opacitySlider, 1, 1);
+    gridLayout->addWidget(opacityLineEdit, 1, 2);
+    gridLayout->addWidget(opacityMeasure, 1, 3);
+    gridLayout->addWidget(opacityButton, 1, 4);
+
+    setLayout(gridLayout);
 }
 
