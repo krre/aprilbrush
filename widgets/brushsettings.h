@@ -2,14 +2,22 @@
 #define BRUSHSETTINGS_H
 
 #include <QtGui>
+#include "../brushengine.h"
 
-class BrushSettings : public QDialog
+// nameValues[] = {minValues, defaultValues, maxValues}
+const int sizeValues[] = {1, 20, 500};
+const int opacityValues[] = {0, 100, 100};
+
+class BrushSettings : public QWidget
 {
+    Q_OBJECT
+
 public:
-    BrushSettings();
+    BrushSettings(BrushEngine *brush);
 
 private:
-    QDialogButtonBox *buttonBox;
+    enum {minValue, defaultValue, maxValue};
+
 };
 
 #endif // BRUSHSETTINGS_H

@@ -3,6 +3,7 @@
 
 #include <QtGui>
 #include "canvas.h"
+#include "brushengine.h"
 #include "widgets/testinputdevice.h"
 #include "widgets/brushsettings.h"
 
@@ -26,7 +27,7 @@ private:
     void createActions();
     void createMenus();
     void createTabBar();
-    void createNewTab(TestInputDevice *testIDWindow);
+    void createNewTab();
 
     // File
     QAction *newAction;
@@ -47,9 +48,10 @@ private:
     //QPointer<TestInputDevice> testIDWindow;
     TestInputDevice *testIDWindow;
     BrushSettings *brushSettingsWindow;
+    BrushEngine *brush;
 
     QTabWidget *tabBar;
-    Canvas *appCanvas;
+    Canvas *canvas;
 };
 
 #endif // MAINWINDOW_H

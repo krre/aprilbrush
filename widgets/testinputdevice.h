@@ -2,15 +2,21 @@
 #define TESTINPUTDEVICE_H
 
 #include <QtGui>
+#include "../canvas.h"
 
 class TestInputDevice : public QWidget
 {
+    Q_OBJECT
+
 public:
-    TestInputDevice();
-    void setInputValues(QString typeDevice, int posX, int posY, float pressure);
+    TestInputDevice(Canvas *canvas);
 
 private:
     QLabel *infoLabel;
+    Canvas *pCanvas;
+
+private slots:
+   void setInputValues();
 
 };
 

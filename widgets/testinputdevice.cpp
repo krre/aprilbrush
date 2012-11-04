@@ -1,20 +1,23 @@
 #include "testinputdevice.h"
 
-TestInputDevice::TestInputDevice()
+TestInputDevice::TestInputDevice(Canvas *canvas)
 {
     setWindowTitle(tr("Test Input Device"));
     setFixedSize(250, 100);
     setWindowFlags(Qt::WindowStaysOnTopHint | Qt::Tool);
     infoLabel = new QLabel(this);
     infoLabel->resize(220, 80);
-    setInputValues(tr("None"), 0, 0, 1.0);
+    pCanvas = canvas;
+    connect(pCanvas, SIGNAL(inputEvent()), this, SLOT(setInputValues()));
+    setInputValues();
 }
 
-void TestInputDevice::setInputValues(QString typeDevice, int posX, int posY, float pressure)
+void TestInputDevice::setInputValues()
 {
-    infoLabel->setText(QString(tr("  Input Device:\t")) + typeDevice
-                       + tr("\n  Pos X:\t\t") + QString::number(posX)
-                       + tr("\n  Pos Y:\t\t") + QString::number(posY)
-                       + tr("\n  Pressure:\t") + QString::number(pressure));
+    infoLabel->setText(QString(tr("  Input Device:\t")) + pCanvas->getTypeDevice()
+                       + tr("\n  Pos X:\t\t") + QString::number(pCanvas->getXPos())
+                       + tr("\n  Pos Y:\t\t") + QString::number(pCanvas->getYPos())
+                       + tr("\n  Pressure:\t") + QString::number(pCanvas->getPressure()));
 }
+
 

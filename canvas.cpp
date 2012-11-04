@@ -1,8 +1,7 @@
 #include "mainwindow.h"
-#include "widgets/testinputdevice.h"
 #include "canvas.h"
 
-Canvas::Canvas(TestInputDevice *testIDWindow)
+Canvas::Canvas(BrushEngine *globalBrush)
 {
     QPixmap newPixmap = QPixmap(1000, 500);
     newPixmap.fill(Qt::white);
@@ -12,9 +11,7 @@ Canvas::Canvas(TestInputDevice *testIDWindow)
     painter.end();
     pixmap = newPixmap;
     setAutoFillBackground(true);
-    testID = testIDWindow;
-
-    globalBrush = new BrushEngine;
+    brush = globalBrush;
 }
 
 void Canvas::paintEvent(QPaintEvent *)
@@ -25,22 +22,25 @@ void Canvas::paintEvent(QPaintEvent *)
 
 void  Canvas::mouseMoveEvent(QMouseEvent *event)
 {
-    globalBrush->paint(&pixmap, event->x(), event->y(), 1.0);
-
-    if (testID->isVisible())
-        testID->setInputValues(tr("Mouse"), event->x(), event->y(), 1.0);
-
+    xPos = event->x();
+    yPos = event->y();
+    typeDevice = "Mouse";
+    pressure = 1.0;
+    emit inputEvent();
+    brush->paint(&pixmap, xPos, yPos, pressure);
     update();
 }
 
 void Canvas::tabletEvent(QTabletEvent *event)
 {
-    qreal pressure = event->pressure();
-    if (pressure > 0)
-        globalBrush->paint(&pixmap, event->x(), event->y(), pressure);
+    xPos = event->x();
+    yPos = event->y();
+    typeDevice = "Stylus";
+    pressure = event->pressure();
+    emit inputEvent();
 
-    if (testID->isVisible())
-        testID->setInputValues(tr("Stylus"), event->x(), event->y(), pressure);
+    if (pressure > 0)
+        brush->paint(&pixmap, xPos, yPos, pressure);
 
     update();
 }

@@ -1,3 +1,9 @@
+TARGET = AprilBrush
+;DESTDIR = Release
+;MOC_DIR = Release/Build
+;OBJECTS_DIR = Release/Build
+;RCC_DIR = Release/Build
+
 SOURCES += \
     main.cpp \
     mainwindow.cpp \

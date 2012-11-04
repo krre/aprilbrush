@@ -1,6 +1,4 @@
 #include "mainwindow.h"
-#include "canvas.h"
-#include "widgets/testinputdevice.h"
 
 MainWindow::MainWindow()
 {
@@ -10,10 +8,11 @@ MainWindow::MainWindow()
 
     createActions();
     createMenus();
+    brush = new BrushEngine;
     createTabBar();
-    testIDWindow = new TestInputDevice(); // for testing
-    brushSettingsWindow = new BrushSettings;
-    createNewTab(testIDWindow);
+    createNewTab();
+    testIDWindow = new TestInputDevice(canvas);
+    brushSettingsWindow = new BrushSettings(brush);
 }
 
 void MainWindow::createActions()
@@ -80,17 +79,17 @@ void MainWindow::createTabBar()
     setCentralWidget(tabBar);
 }
 
-void MainWindow::createNewTab(TestInputDevice *testIDWindow)
+void MainWindow::createNewTab()
 {
-    Canvas *appCanvas = new Canvas(testIDWindow);
-    tabBar->addTab(appCanvas, "Untitled");
+    canvas = new Canvas(brush);
+    tabBar->addTab(canvas, "Untitled");
     tabBar->setCurrentIndex(tabBar->count() - 1);
-    connect(clearAction, SIGNAL(triggered()), appCanvas, SLOT(clearAction()));
+    connect(clearAction, SIGNAL(triggered()), canvas, SLOT(clearAction()));
 }
 
 void MainWindow::newTabAction()
 {
-    createNewTab(testIDWindow);
+    createNewTab();
 }
 
 void MainWindow::testIDWindowAction()

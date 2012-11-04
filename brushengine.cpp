@@ -15,3 +15,4 @@ void BrushEngine::paint(QPixmap *surfacePaint, int inputPosX, int inputPosY, qre
     painter.setBrush(QBrush(colorBrush, Qt::SolidPattern));
     painter.drawEllipse(inputPosX, inputPosY, sizeBrush, sizeBrush);
 }
+
