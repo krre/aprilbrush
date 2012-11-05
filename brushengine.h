@@ -16,7 +16,7 @@ public:
 
 public slots:
     inline void setSizeBrush(int size) {sizeBrush = size;}
-    inline void setAlpha(int alpha) {aColor = alpha;}
+    inline void setAlpha(int alpha) {aColor = int(alpha * 255 / 100);}
 
 private:
     QColor colorBrush;
