@@ -43,6 +43,7 @@ BrushSettings::BrushSettings(BrushEngine *brush)
     QLabel *opacityMeasure = new QLabel(tr("%"));
     connect(opacitySlider, SIGNAL(valueChanged(int)), opacitySpinBox, SLOT(setValue(int)));
     connect(opacitySpinBox, SIGNAL(valueChanged(int)), opacitySlider, SLOT(setValue(int)));
+    connect(opacitySlider, SIGNAL(valueChanged(int)), brush, SLOT(setAlpha(int)));
 
     gridLayout->addWidget(opacityLabel, 1, 0);
     gridLayout->addWidget(opacitySlider, 1, 1);

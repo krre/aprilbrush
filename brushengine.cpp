@@ -7,6 +7,7 @@ BrushEngine::BrushEngine()
     rColor = 0;
     gColor = 255;
     bColor = 0;
+    aColor = 255;
 }
 
 void BrushEngine::paint(QPixmap *surfacePaint, int inputPosX, int inputPosY, qreal inputPressure)
@@ -14,7 +15,7 @@ void BrushEngine::paint(QPixmap *surfacePaint, int inputPosX, int inputPosY, qre
     QPainter painter(surfacePaint);
     painter.setRenderHint(QPainter::Antialiasing, true);
     painter.setPen(Qt::NoPen);
-    colorBrush = QColor(rColor, gColor, bColor, int(inputPressure * 255));
+    colorBrush = QColor(rColor, gColor, bColor, int(inputPressure * aColor));
     painter.setBrush(QBrush(colorBrush, Qt::SolidPattern));
     painter.drawEllipse(inputPosX, inputPosY, sizeBrush, sizeBrush);
 }
