@@ -3,9 +3,9 @@
 BrushEngine::BrushEngine()
 {
     sizeBrush = 15;
-    //colorBrush = QColor(0, 255, 0, 255);
+
     rColor = 0;
-    gColor = 255;
+    gColor = 0;
     bColor = 0;
     aColor = 255;
 }
