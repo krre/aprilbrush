@@ -31,6 +31,17 @@ void  Canvas::mouseMoveEvent(QMouseEvent *event)
     update();
 }
 
+void  Canvas::mousePressEvent(QMouseEvent *event)
+{
+    xPos = event->x();
+    yPos = event->y();
+    typeDevice = "Mouse";
+    pressure = 1.0;
+    emit inputEvent();
+    brush->paint(&pixmap, xPos, yPos, pressure);
+    update();
+}
+
 void Canvas::tabletEvent(QTabletEvent *event)
 {
     xPos = event->x();
