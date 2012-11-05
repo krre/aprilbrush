@@ -21,6 +21,7 @@ private slots:
     void aboutWindowAction();
     void testIDWindowAction();
     void brushSettingsWindowAction();
+    void colorWindowAction();
     void newTabAction();
 
 private:
@@ -41,6 +42,8 @@ private:
     QAction *testIDAction;
     // Brushes
     QAction *brushSettingsAction;
+    // Window
+    QAction *colorAction;
     // Help
     QAction *aboutAction;
     QAction *aboutQtAction;

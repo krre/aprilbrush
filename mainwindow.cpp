@@ -41,6 +41,9 @@ void MainWindow::createActions()
     brushSettingsAction = new QAction(tr("Brushes Settings..."), this);
     connect(brushSettingsAction, SIGNAL(triggered()), this, SLOT(brushSettingsWindowAction()));
 
+    colorAction = new QAction(tr("Color"), this);
+    connect(colorAction, SIGNAL(triggered()), this, SLOT(colorWindowAction()));
+
     aboutAction = new QAction(tr("About"), this);
     connect(aboutAction, SIGNAL(triggered()), this, SLOT(aboutWindowAction()));
 
@@ -66,6 +69,9 @@ void MainWindow::createMenus()
 
     QMenu *brushesMenu = menuBar()->addMenu(tr("Brushes"));
     brushesMenu->addAction(brushSettingsAction);
+
+    QMenu *windowMenu = menuBar()->addMenu(tr("Window"));
+    windowMenu->addAction(colorAction);
 
     QMenu *helpMenu = menuBar()->addMenu(tr("Help"));
     helpMenu->addAction(aboutAction);
@@ -105,6 +111,11 @@ void MainWindow::testIDWindowAction()
 void MainWindow::brushSettingsWindowAction()
 {
     brushSettingsWindow->show();
+}
+
+void MainWindow::colorWindowAction()
+{
+    qDebug() << "color";
 }
 
 void MainWindow::aboutWindowAction()
