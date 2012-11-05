@@ -10,6 +10,8 @@ class BrushEngine : public QObject
 public:
     BrushEngine();
     void paint(QPixmap *surfacePaint, int inputPosX, int inputPosY, qreal inputPressure);
+    inline void setColor(int r, int g, int b) {rColor = r; gColor = g, bColor = b;}
+
 
 public slots:
     inline void setSizeBrush(int size) {sizeBrush = size;}
@@ -17,6 +19,9 @@ public slots:
 private:
     QColor colorBrush;
     int sizeBrush;
+    int rColor;
+    int gColor;
+    int bColor;
 };
 
 #endif // BRUSHENGINE_H

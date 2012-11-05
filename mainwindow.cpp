@@ -115,7 +115,9 @@ void MainWindow::brushSettingsWindowAction()
 
 void MainWindow::colorWindowAction()
 {
-    qDebug() << "color";
+    QColor color;
+    color = QColorDialog::getColor(Qt::green, this);
+    brush->setColor(color.red(), color.green(), color.blue());
 }
 
 void MainWindow::aboutWindowAction()
