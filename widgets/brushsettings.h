@@ -5,7 +5,7 @@
 #include "../brushengine.h"
 
 // nameValues[] = {minValues, defaultValues, maxValues}
-const int sizeValues[] = {1, 20, 500};
+const int sizeValues[] = {1, 20, 100};
 const int opacityValues[] = {0, 100, 100};
 
 class BrushSettings : public QWidget
@@ -17,6 +17,12 @@ public:
 
 private:
     enum {minValue, defaultValue, maxValue};
+    QSlider *sizeSlider;
+    QSlider *opacitySlider;
+
+private slots:
+    void resetSizeSlider();
+    void resetOpacitySlider();
 
 };
 

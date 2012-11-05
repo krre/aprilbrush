@@ -11,7 +11,7 @@ BrushSettings::BrushSettings(BrushEngine *brush)
 
     // Size
     QLabel *sizeLabel = new QLabel(tr("Size"));
-    QSlider *sizeSlider = new QSlider(Qt::Horizontal);
+    sizeSlider = new QSlider(Qt::Horizontal);
     sizeSlider->setRange(sizeValues[minValue], sizeValues[maxValue]);
     sizeSlider->setValue(sizeValues[defaultValue]);
     QSpinBox *sizeSpinBox = new QSpinBox();
@@ -23,6 +23,7 @@ BrushSettings::BrushSettings(BrushEngine *brush)
     connect(sizeSlider, SIGNAL(valueChanged(int)), sizeSpinBox, SLOT(setValue(int)));
     connect(sizeSpinBox, SIGNAL(valueChanged(int)), sizeSlider, SLOT(setValue(int)));
     connect(sizeSlider, SIGNAL(valueChanged(int)), brush, SLOT(setSizeBrush(int)));
+    connect(sizeButton, SIGNAL(clicked()), this, SLOT(resetSizeSlider()));
 
     gridLayout->addWidget(sizeLabel, 0, 0);
     gridLayout->addWidget(sizeSlider, 0, 1);
@@ -32,7 +33,7 @@ BrushSettings::BrushSettings(BrushEngine *brush)
 
     // Opacity
     QLabel *opacityLabel = new QLabel(tr("Opacity"));
-    QSlider *opacitySlider = new QSlider(Qt::Horizontal);
+    opacitySlider = new QSlider(Qt::Horizontal);
     opacitySlider->setRange(opacityValues[minValue], opacityValues[maxValue]);
     opacitySlider->setValue(opacityValues[defaultValue]);
     QSpinBox *opacitySpinBox = new QSpinBox();
@@ -44,6 +45,7 @@ BrushSettings::BrushSettings(BrushEngine *brush)
     connect(opacitySlider, SIGNAL(valueChanged(int)), opacitySpinBox, SLOT(setValue(int)));
     connect(opacitySpinBox, SIGNAL(valueChanged(int)), opacitySlider, SLOT(setValue(int)));
     connect(opacitySlider, SIGNAL(valueChanged(int)), brush, SLOT(setAlpha(int)));
+    connect(opacityButton, SIGNAL(clicked()), this, SLOT(resetOpacitySlider()));
 
     gridLayout->addWidget(opacityLabel, 1, 0);
     gridLayout->addWidget(opacitySlider, 1, 1);
@@ -54,4 +56,12 @@ BrushSettings::BrushSettings(BrushEngine *brush)
     setLayout(gridLayout);
 }
 
+void BrushSettings::resetSizeSlider()
+{
+    sizeSlider->setValue(sizeValues[defaultValue]);
+}
 
+void BrushSettings::resetOpacitySlider()
+{
+    opacitySlider->setValue(opacityValues[defaultValue]);
+}
