@@ -13,7 +13,7 @@ BrushEngine::BrushEngine()
 }
 
 void BrushEngine::paint(QPixmap *surfacePaint, QVector2D prevPos, QVector2D nowPos,
-                        qreal pressure, qreal pressurePrev)
+                        qreal prevPressure, qreal pressure)
 {
     QPainter painter(surfacePaint);
     painter.setRenderHint(QPainter::Antialiasing, true);

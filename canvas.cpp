@@ -56,12 +56,12 @@ void Canvas::tabletEvent(QTabletEvent *event)
     nowPos.setX(event->x());
     nowPos.setY(event->y());
     typeDevice = "Stylus";
-    pressurePrev = pressure;
+    prevPressure = pressure;
     pressure = event->pressure();
     emit inputEvent();
 
     if (pressure > 0)
-        brush->paint(&pixmap, prevPos, nowPos, pressure, pressurePrev);
+        brush->paint(&pixmap, prevPos, nowPos, prevPressure, pressure);
 
     update();
 }

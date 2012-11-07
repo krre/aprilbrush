@@ -39,7 +39,7 @@ private:
     //int yPos;
     //int yPrevPos;
     qreal pressure;
-    qreal pressurePrev;
+    qreal prevPressure;
     QString typeDevice;
 };
 
