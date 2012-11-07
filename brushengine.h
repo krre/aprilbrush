@@ -9,7 +9,7 @@ class BrushEngine : public QObject
 
 public:
     BrushEngine();
-    void paint(QPixmap *surfacePaint, int inputPosX, int inputPosY, qreal inputPressure);
+    void paint(QPixmap *surfacePaint, QVector2D prevPos, QVector2D nowPos, qreal pressure, qreal pressurePrev);
     inline void setColor(int r, int g, int b) {rColor = r; gColor = g, bColor = b;}
     inline void setColor(int r, int g, int b, int a) {rColor = r; gColor = g, bColor = b; aColor = a;}
 
@@ -21,6 +21,8 @@ public slots:
 private:
     QColor colorBrush;
     int sizeBrush;
+    int spaceBrush;
+
     int rColor;
     int gColor;
     int bColor;

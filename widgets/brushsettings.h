@@ -6,7 +6,7 @@
 
 // nameValues[] = {minValues, defaultValues, maxValues}
 const int sizeValues[] = {1, 20, 100};
-const int opacityValues[] = {0, 100, 100};
+const int opacityValues[] = {0, 50, 100};
 
 class BrushSettings : public QWidget
 {

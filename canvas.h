@@ -31,9 +31,14 @@ public slots:
 private:
     BrushEngine *brush;
     QPixmap pixmap;
+    QVector2D nowPos;
+    QVector2D prevPos;
     int xPos;
+    int xPrevPos;
     int yPos;
+    int yPrevPos;
     qreal pressure;
+    qreal pressurePrev;
     QString typeDevice;
 };
 
