@@ -1,15 +1,15 @@
-#ifndef TESTINPUTDEVICE_H
-#define TESTINPUTDEVICE_H
+#ifndef INPUTDEVICES_H
+#define INPUTDEVICES_H
 
 #include <QtGui>
 #include "../canvas.h"
 
-class TestInputDevice : public QWidget
+class InputDevices : public QWidget
 {
     Q_OBJECT
 
 public:
-    TestInputDevice(Canvas *canvas);
+    InputDevices(Canvas *canvas);
 
 private:
     QLabel *infoLabel;

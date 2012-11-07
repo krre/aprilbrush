@@ -4,7 +4,7 @@
 #include <QtGui>
 #include "canvas.h"
 #include "brushengine.h"
-#include "widgets/testinputdevice.h"
+#include "widgets/inputdevices.h"
 #include "widgets/brushsettings.h"
 
 const QString appName = "AprilBrush";
@@ -31,7 +31,7 @@ private:
     void createNewTab();
 
     //QPointer<TestInputDevice> testIDWindow;
-    TestInputDevice *inputDevices;
+    InputDevices *inputDevices;
     BrushSettings *brushSettings;
     BrushEngine *brush;
 

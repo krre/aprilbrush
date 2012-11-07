@@ -7,17 +7,17 @@ TARGET = AprilBrush
 SOURCES += \
     main.cpp \
     mainwindow.cpp \
-    widgets/testinputdevice.cpp \
     canvas.cpp \
     brushengine.cpp \
-    widgets/brushsettings.cpp
+    widgets/brushsettings.cpp \
+    widgets/inputdevices.cpp
 
 HEADERS += \
     mainwindow.h \
-    widgets/testinputdevice.h \
     canvas.h \
     brushengine.h \
-    widgets/brushsettings.h
+    widgets/brushsettings.h \
+    widgets/inputdevices.h
 
 RESOURCES += \
     resources.qrc

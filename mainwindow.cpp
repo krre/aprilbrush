@@ -9,7 +9,7 @@ MainWindow::MainWindow()
     brush = new BrushEngine;
     createTabBar();
     createNewTab();
-    inputDevices = new TestInputDevice(canvas);
+    inputDevices = new InputDevices(canvas);
     brushSettings = new BrushSettings(brush);
 }
 

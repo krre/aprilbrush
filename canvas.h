@@ -11,8 +11,9 @@ class Canvas : public QWidget
 public:
     Canvas(BrushEngine *globalBrush);
 
-    inline int getXPos() {return xPos;}
-    inline int getYPos() {return yPos;}
+    //inline int getXPos() {return xPos;}
+    //inline int getYPos() {return yPos;}
+    inline QVector2D getVectorPoint() {return nowPos;}
     inline qreal getPressure() {return pressure;}
     inline QString getTypeDevice() {return typeDevice;}
 
@@ -33,10 +34,10 @@ private:
     QPixmap pixmap;
     QVector2D nowPos;
     QVector2D prevPos;
-    int xPos;
-    int xPrevPos;
-    int yPos;
-    int yPrevPos;
+    //int xPos;
+    //int xPrevPos;
+    //int yPos;
+    //int yPrevPos;
     qreal pressure;
     qreal pressurePrev;
     QString typeDevice;

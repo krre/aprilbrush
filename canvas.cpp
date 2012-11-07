@@ -13,6 +13,7 @@ Canvas::Canvas(BrushEngine *globalBrush)
     setAutoFillBackground(true);
     nowPos.setX(0);
     nowPos.setY(0);
+    pressure = 1.0;
     brush = globalBrush;
 }
 
@@ -27,9 +28,10 @@ void  Canvas::mouseMoveEvent(QMouseEvent *event)
     prevPos = nowPos;
     nowPos.setX(event->x());
     nowPos.setY(event->y());
+    pressure = 1.0;
     typeDevice = "Mouse";
     emit inputEvent();
-    brush->paint(&pixmap, prevPos, nowPos, 1.0, 1.0);
+    brush->paint(&pixmap, prevPos, nowPos, pressure, pressure);
     update();
 }
 
@@ -39,28 +41,28 @@ void  Canvas::mousePressEvent(QMouseEvent *event)
     prevPos.setY(0);
     nowPos.setX(event->x());
     nowPos.setY(event->y());
+    pressure = 1.0;
 
     typeDevice = "Mouse";
     emit inputEvent();
 
-    brush->paint(&pixmap, prevPos, nowPos, 1.0, 1.0);
+    brush->paint(&pixmap, prevPos, nowPos, pressure, pressure);
     update();
 }
 
 void Canvas::tabletEvent(QTabletEvent *event)
 {
-/*    xPrevPos = xPos;
-    xPos = event->x();
-    yPrevPos = yPos;
-    yPos = event->y();
+    prevPos = nowPos;
+    nowPos.setX(event->x());
+    nowPos.setY(event->y());
     typeDevice = "Stylus";
     pressurePrev = pressure;
     pressure = event->pressure();
     emit inputEvent();
 
     if (pressure > 0)
-        brush->paint(&pixmap, xPos, xPrevPos, yPos, yPrevPos, pressure, pressurePrev);
-*/
+        brush->paint(&pixmap, prevPos, nowPos, pressure, pressurePrev);
+
     update();
 }
 
