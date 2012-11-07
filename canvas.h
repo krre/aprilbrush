@@ -26,7 +26,7 @@ signals:
     void inputEvent();
     
 public slots:
-    void clearAction();
+    void clearCanvas();
 
 private:
     BrushEngine *brush;

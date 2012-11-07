@@ -5,77 +5,37 @@ MainWindow::MainWindow()
     setWindowTitle(appName);
     resize(1100, 700);
     setWindowIcon(QIcon(":/icons/Butterfly_128x128.png"));
-
-    createActions();
     createMenus();
     brush = new BrushEngine;
     createTabBar();
     createNewTab();
-    testIDWindow = new TestInputDevice(canvas);
-    brushSettingsWindow = new BrushSettings(brush);
-}
-
-void MainWindow::createActions()
-{
-    newAction = new QAction(tr("New"), this);
-    //connect(newAction, SIGNAL(triggered()), this, SLOT(close()));
-
-    openAction = new QAction(tr("Open"), this);
-    //connect(openAction, SIGNAL(triggered()), this, SLOT(close()));
-
-    saveAction = new QAction(tr("Save"), this);
-    //connect(saveAction, SIGNAL(triggered()), this, SLOT(close()));
-
-    saveAsAction = new QAction(tr("Save As..."), this);
-    //connect(saveAsAction, SIGNAL(triggered()), this, SLOT(close()));
-
-    exitAction = new QAction(tr("Exit"), this);
-    connect(exitAction, SIGNAL(triggered()), this, SLOT(close()));
-
-    clearAction = new QAction(tr("Clear"), this);
-    //connect(clearAction, SIGNAL(triggered()), appCanvas, SLOT(clearAction()));
-
-    testIDAction = new QAction(tr("Test Input Devices..."), this);
-    connect(testIDAction, SIGNAL(triggered()), this, SLOT(testIDWindowAction()));
-
-    brushSettingsAction = new QAction(tr("Brushes Settings..."), this);
-    connect(brushSettingsAction, SIGNAL(triggered()), this, SLOT(brushSettingsWindowAction()));
-
-    colorAction = new QAction(tr("Color"), this);
-    connect(colorAction, SIGNAL(triggered()), this, SLOT(colorWindowAction()));
-
-    aboutAction = new QAction(tr("About"), this);
-    connect(aboutAction, SIGNAL(triggered()), this, SLOT(aboutWindowAction()));
-
-    aboutQtAction = new QAction(tr("About Qt"), this);
-    connect(aboutQtAction, SIGNAL(triggered()), qApp, SLOT(aboutQt()));
+    inputDevices = new TestInputDevice(canvas);
+    brushSettings = new BrushSettings(brush);
 }
 
 void MainWindow::createMenus()
 {
     QMenu *fileMenu = menuBar()->addMenu(tr("File"));
-    fileMenu->addAction(newAction);
-    fileMenu->addAction(openAction);
-    fileMenu->addAction(saveAction);
-    fileMenu->addAction(saveAsAction);
+    fileMenu->addAction(tr("New"), this, SLOT(close()), Qt::CTRL + Qt::Key_N);
+    fileMenu->addAction(tr("Open"), this, SLOT(close()), Qt::CTRL + Qt::Key_O);
+    fileMenu->addAction(tr("Save"), this, SLOT(close()), Qt::CTRL + Qt::Key_S);
+    fileMenu->addAction(tr("Save As..."), this, SLOT(close()), Qt::CTRL + Qt::SHIFT + Qt::Key_S);
     fileMenu->addSeparator();
-    fileMenu->addAction(exitAction);
+    fileMenu->addAction(tr("Exit"), qApp, SLOT(quit()), Qt::CTRL + Qt::Key_Q);
 
     QMenu *editMenu = menuBar()->addMenu(tr("Edit"));
-    editMenu->addAction(clearAction);
-
-    QMenu *viewMenu = menuBar()->addMenu(tr("View"));
-    viewMenu->addAction(testIDAction);
+    editMenu->addAction(tr("Clear"), this, SLOT(clearCanvasCommand()), Qt::Key_Delete);
 
     QMenu *brushesMenu = menuBar()->addMenu(tr("Brushes"));
-    brushesMenu->addAction(brushSettingsAction);
+    brushesMenu->addAction(tr("Brush Settings..."), this, SLOT(brushSettingsWindow()));
 
     QMenu *windowMenu = menuBar()->addMenu(tr("Window"));
-    windowMenu->addAction(colorAction);
+    windowMenu->addAction(tr("Color"), this, SLOT(colorWindow()));
+    windowMenu->addAction(tr("Input Devices"), this, SLOT(InputDevicesWindow()));
 
     QMenu *helpMenu = menuBar()->addMenu(tr("Help"));
-    helpMenu->addAction(aboutAction);
-    helpMenu->addAction(aboutQtAction);
+    helpMenu->addAction(tr("About"), this, SLOT(aboutWindow()));
+    helpMenu->addAction(tr("About Qt"), qApp, SLOT(aboutQt()));
 }
 
 void MainWindow::createTabBar()
@@ -90,37 +50,41 @@ void MainWindow::createNewTab()
     canvas = new Canvas(brush);
     tabBar->addTab(canvas, "Untitled");
     tabBar->setCurrentIndex(tabBar->count() - 1);
-    connect(clearAction, SIGNAL(triggered()), canvas, SLOT(clearAction()));
 }
 
-void MainWindow::newTabAction()
+void MainWindow::newTab()
 {
     createNewTab();
 }
 
-void MainWindow::testIDWindowAction()
+void MainWindow::clearCanvasCommand()
+{
+    canvas->clearCanvas();
+}
+
+void MainWindow::InputDevicesWindow()
 {
 /*
     // Create the window if it doesn't exists
     if (!testIDWindow)
         testIDWindow = new TestInputDevice();
 */
-    testIDWindow->show();
+    inputDevices->show();
 }
 
-void MainWindow::brushSettingsWindowAction()
+void MainWindow::brushSettingsWindow()
 {
-    brushSettingsWindow->show();
+    brushSettings->show();
 }
 
-void MainWindow::colorWindowAction()
+void MainWindow::colorWindow()
 {
     QColor color;
     color = QColorDialog::getColor(Qt::green, this);
     brush->setColor(color.red(), color.green(), color.blue());
 }
 
-void MainWindow::aboutWindowAction()
+void MainWindow::aboutWindow()
 {
     QString aboutText = "<h3><b>" + appName + "</b></h3>" +
             tr("Version ") + appVersion +

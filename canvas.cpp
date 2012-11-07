@@ -64,7 +64,7 @@ void Canvas::tabletEvent(QTabletEvent *event)
     update();
 }
 
-void Canvas::clearAction()
+void Canvas::clearCanvas()
 {
     pixmap.fill(Qt::white);
     update();

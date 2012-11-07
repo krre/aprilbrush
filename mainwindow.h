@@ -18,39 +18,21 @@ public:
     MainWindow();
 
 private slots:
-    void aboutWindowAction();
-    void testIDWindowAction();
-    void brushSettingsWindowAction();
-    void colorWindowAction();
-    void newTabAction();
+    void aboutWindow();
+    void InputDevicesWindow();
+    void brushSettingsWindow();
+    void colorWindow();
+    void newTab();
+    void clearCanvasCommand();
 
 private:
-    void createActions();
     void createMenus();
     void createTabBar();
     void createNewTab();
 
-    // File
-    QAction *newAction;
-    QAction *openAction;
-    QAction *saveAction;
-    QAction *saveAsAction;
-    QAction *exitAction;
-    // Edit
-    QAction *clearAction;
-    // View
-    QAction *testIDAction;
-    // Brushes
-    QAction *brushSettingsAction;
-    // Window
-    QAction *colorAction;
-    // Help
-    QAction *aboutAction;
-    QAction *aboutQtAction;
-
     //QPointer<TestInputDevice> testIDWindow;
-    TestInputDevice *testIDWindow;
-    BrushSettings *brushSettingsWindow;
+    TestInputDevice *inputDevices;
+    BrushSettings *brushSettings;
     BrushEngine *brush;
 
     QTabWidget *tabBar;
