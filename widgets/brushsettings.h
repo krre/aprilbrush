@@ -9,14 +9,18 @@ class BrushSettings : public QWidget
     Q_OBJECT
 
 public:
-    BrushSettings(BrushEngine *brush);
+    BrushSettings(BrushEngine *brushEngine);
 
 private:
-    void addSlider(BrushEngine *brush, QGridLayout *layout, QString name,
-                   int minValue, int defaultValue, int maxValue, const char *slot, int row);
+    void addSlider(QString name, int minValue, int defaultValue, int maxValue, const char *slot, int row);
+    BrushEngine *brush;
+    QGridLayout *gridLayout;
+    QSignalMapper *signalMapper;
+    QMap<QString, int> defaultSlider;
 
 private slots:
-    void resetSlider(QSlider *slider, int defaultValue);
+    //void resetSlider(const QString &text);
+    void resetSlider(const QString &sliderName);
 };
 
 #endif // BRUSHSETTINGS_H

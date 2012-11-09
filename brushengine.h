@@ -17,12 +17,12 @@ public:
 public slots:
     inline void setSizeBrush(int size) {sizeBrush = size;}
     inline void setAlpha(int alpha) {aColor = int(alpha * 255 / 100);}
-    inline void setSpaceBrush(int space) {spaceBrush = space;}
+    inline void setSpacingBrush(int spacing) {spacingBrush = spacing;}
 
 private:
     QColor colorBrush;
     int sizeBrush;
-    int spaceBrush;
+    int spacingBrush;
 
     int rColor;
     int gColor;

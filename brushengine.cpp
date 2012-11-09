@@ -4,7 +4,7 @@
 BrushEngine::BrushEngine()
 {
     sizeBrush = 20;
-    spaceBrush = 100;
+    spacingBrush = 100;
 
     rColor = 0;
     gColor = 0;
@@ -27,7 +27,7 @@ void BrushEngine::paint(QPixmap *surfacePaint, QVector2D prevPos, QVector2D nowP
     else
     {
         qreal deltaPoint = (nowPos - prevPos).length();
-        int numDabs = int(deltaPoint / sizeBrush * 100 / spaceBrush);
+        int numDabs = int(deltaPoint / sizeBrush * 100 / spacingBrush);
         qreal deltaBetweenPoint = deltaPoint / numDabs;
 
         qDebug() << "delta " << deltaPoint << " numDabs " << numDabs;
