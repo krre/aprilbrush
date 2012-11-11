@@ -26,6 +26,7 @@ private slots:
 
 private:
     void createMenus();
+    void createDockWindows();
     void createTabWidget();
     void createNewTab();
 

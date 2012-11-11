@@ -11,6 +11,7 @@ MainWindow::MainWindow()
     createNewTab();
     brushSettings = new BrushSettings(brushEngine);
     inputDevices = new InputDevices(canvas);
+    createDockWindows();
 }
 
 void MainWindow::createMenus()
@@ -36,6 +37,14 @@ void MainWindow::createMenus()
     QMenu *helpMenu = menuBar()->addMenu(tr("Help"));
     helpMenu->addAction(tr("About"), this, SLOT(aboutWindowSlot()));
     helpMenu->addAction(tr("About Qt"), qApp, SLOT(aboutQt()));
+}
+
+void MainWindow::createDockWindows()
+{
+    QDockWidget *dock = new QDockWidget(tr("Brush Settings"), this);
+    dock->setAllowedAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea);
+    dock->setWidget(brushSettings);
+    addDockWidget(Qt::RightDockWidgetArea, dock);
 }
 
 void MainWindow::createTabWidget()

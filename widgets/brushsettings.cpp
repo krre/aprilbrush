@@ -6,6 +6,7 @@ BrushSettings::BrushSettings(BrushEngine *brushEngine)
     setWindowTitle(tr("Brush Settings"));
     setWindowFlags(Qt::WindowStaysOnTopHint | Qt::Tool);
     resize(400, -1);
+    //resize(400, 50);
 
     gridLayout = new QGridLayout;
     signalMapper = new QSignalMapper(this);
@@ -13,10 +14,13 @@ BrushSettings::BrushSettings(BrushEngine *brushEngine)
     addSlider(tr("Size"), 1, 20, 150, SLOT(setSizeBrush(int)), 0);
     addSlider(tr("Opacity"), 0, 50, 100, SLOT(setAlpha(int)), 1);
     addSlider(tr("Spacing"), 1, 25, 500, SLOT(setSpacingBrush(int)), 3);
-
     connect(signalMapper, SIGNAL(mapped(const QString &)), this, SLOT(resetSlider(const QString &)));
 
-    setLayout(gridLayout);
+    QBoxLayout *boxLayout = new QBoxLayout(QBoxLayout::TopToBottom);
+    boxLayout->addLayout(gridLayout);
+    boxLayout->addStretch();
+    setLayout(boxLayout);
+    //setLayout(gridLayout);
 }
 
 void BrushSettings::resetSlider(const QString &sliderName)
