@@ -10,10 +10,7 @@ class Canvas : public QWidget
 
 public:
     Canvas(BrushEngine *globalBrush);
-
-    //inline int getXPos() {return xPos;}
-    //inline int getYPos() {return yPos;}
-    inline QVector2D getVectorPoint() {return nowPos;}
+    inline QPoint getPosCursor() {return posCursor;}
     inline qreal getPressure() {return pressure;}
     inline QString getTypeDevice() {return typeDevice;}
 
@@ -24,22 +21,16 @@ protected:
     void tabletEvent(QTabletEvent *event);
 
 signals:
-    void inputEvent();
+    void inputEventSignal();
     
 public slots:
-    void clearCanvas();
+    void clearCanvasSlot();
 
 private:
     BrushEngine *brush;
-    QPixmap pixmap;
-    QVector2D nowPos;
-    QVector2D prevPos;
-    //int xPos;
-    //int xPrevPos;
-    //int yPos;
-    //int yPrevPos;
+    QPixmap *pixmap;
+    QPoint posCursor;
     qreal pressure;
-    qreal prevPressure;
     QString typeDevice;
 };
 

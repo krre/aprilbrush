@@ -18,24 +18,23 @@ public:
     MainWindow();
 
 private slots:
-    void aboutWindow();
-    void InputDevicesWindow();
-    void brushSettingsWindow();
-    void colorWindow();
-    void newTab();
-    void clearCanvasCommand();
+    void aboutWindowSlot();
+    void InputDevicesWindowSlot();
+    void brushSettingsWindowSlot();
+    void colorWindowSlot();
+    void clearCanvasSlot();
 
 private:
     void createMenus();
-    void createTabBar();
+    void createTabWidget();
     void createNewTab();
 
     //QPointer<TestInputDevice> testIDWindow;
     InputDevices *inputDevices;
     BrushSettings *brushSettings;
-    BrushEngine *brush;
+    BrushEngine *brushEngine;
 
-    QTabWidget *tabBar;
+    QTabWidget *tabWidget;
     Canvas *canvas;
 };
 

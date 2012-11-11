@@ -6,11 +6,11 @@ MainWindow::MainWindow()
     resize(1100, 700);
     setWindowIcon(QIcon(":/icons/Butterfly_128x128.png"));
     createMenus();
-    brush = new BrushEngine;
-    createTabBar();
+    createTabWidget();
+    brushEngine = new BrushEngine();
     createNewTab();
+    brushSettings = new BrushSettings(brushEngine);
     inputDevices = new InputDevices(canvas);
-    brushSettings = new BrushSettings(brush);
 }
 
 void MainWindow::createMenus()
@@ -24,45 +24,40 @@ void MainWindow::createMenus()
     fileMenu->addAction(tr("Exit"), qApp, SLOT(quit()), Qt::CTRL + Qt::Key_Q);
 
     QMenu *editMenu = menuBar()->addMenu(tr("Edit"));
-    editMenu->addAction(tr("Clear"), this, SLOT(clearCanvasCommand()), Qt::Key_Delete);
+    editMenu->addAction(tr("Clear"), this, SLOT(clearCanvasSlot()), Qt::Key_Delete);
 
     QMenu *brushesMenu = menuBar()->addMenu(tr("Brushes"));
-    brushesMenu->addAction(tr("Brush Settings..."), this, SLOT(brushSettingsWindow()));
+    brushesMenu->addAction(tr("Brush Settings..."), this, SLOT(brushSettingsWindowSlot()));
 
     QMenu *windowMenu = menuBar()->addMenu(tr("Window"));
-    windowMenu->addAction(tr("Color"), this, SLOT(colorWindow()));
-    windowMenu->addAction(tr("Input Devices"), this, SLOT(InputDevicesWindow()));
+    windowMenu->addAction(tr("Color"), this, SLOT(colorWindowSlot()));
+    windowMenu->addAction(tr("Input Devices"), this, SLOT(InputDevicesWindowSlot()));
 
     QMenu *helpMenu = menuBar()->addMenu(tr("Help"));
-    helpMenu->addAction(tr("About"), this, SLOT(aboutWindow()));
+    helpMenu->addAction(tr("About"), this, SLOT(aboutWindowSlot()));
     helpMenu->addAction(tr("About Qt"), qApp, SLOT(aboutQt()));
 }
 
-void MainWindow::createTabBar()
+void MainWindow::createTabWidget()
 {
-    tabBar = new QTabWidget();
-    tabBar->setTabsClosable(true);
-    setCentralWidget(tabBar);
+    tabWidget = new QTabWidget();
+    tabWidget->setTabsClosable(true);
+    setCentralWidget(tabWidget);
 }
 
 void MainWindow::createNewTab()
 {
-    canvas = new Canvas(brush);
-    tabBar->addTab(canvas, "Untitled");
-    tabBar->setCurrentIndex(tabBar->count() - 1);
+    canvas = new Canvas(brushEngine);
+    tabWidget->addTab(canvas, "Untitled");
+    tabWidget->setCurrentIndex(tabWidget->count() - 1);
 }
 
-void MainWindow::newTab()
+void MainWindow::clearCanvasSlot()
 {
-    createNewTab();
+    canvas->clearCanvasSlot();
 }
 
-void MainWindow::clearCanvasCommand()
-{
-    canvas->clearCanvas();
-}
-
-void MainWindow::InputDevicesWindow()
+void MainWindow::InputDevicesWindowSlot()
 {
 /*
     // Create the window if it doesn't exists
@@ -72,19 +67,19 @@ void MainWindow::InputDevicesWindow()
     inputDevices->show();
 }
 
-void MainWindow::brushSettingsWindow()
+void MainWindow::brushSettingsWindowSlot()
 {
     brushSettings->show();
 }
 
-void MainWindow::colorWindow()
+void MainWindow::colorWindowSlot()
 {
     QColor color;
     color = QColorDialog::getColor(Qt::green, this);
-    brush->setColor(color.red(), color.green(), color.blue());
+    brushEngine->setColor(color.red(), color.green(), color.blue());
 }
 
-void MainWindow::aboutWindow()
+void MainWindow::aboutWindowSlot()
 {
     QString aboutText = "<h3><b>" + appName + "</b></h3>" +
             tr("Version ") + appVersion +

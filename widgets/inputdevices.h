@@ -9,14 +9,14 @@ class InputDevices : public QWidget
     Q_OBJECT
 
 public:
-    InputDevices(Canvas *canvas);
+    InputDevices(Canvas *appCanvas);
 
 private:
     QLabel *infoLabel;
-    Canvas *pCanvas;
+    Canvas *canvas;
 
 private slots:
-   void setInputValues();
+   void setInputValuesSlot();
 
 };
 
