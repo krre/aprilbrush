@@ -31,8 +31,14 @@ void BrushSettings::resetSlider(const QString &sliderName)
 
 void BrushSettings::addSlider(QString name, int minValue, int defaultValue, int maxValue, const char *slot, int row)
 {
-    QLabel *label = new QLabel(name);
-    gridLayout->addWidget(label, row, 0);
+    QPushButton *button = new QPushButton(name);
+    button->setFlat(true);
+    button->setStyleSheet("text-align: left");
+    QFont font;
+    QFontMetrics fm(font);
+    int widthText = fm.width(name);
+    button->setFixedWidth(widthText + 8);
+    gridLayout->addWidget(button, row, 0);
 
     QSlider *slider = new QSlider(Qt::Horizontal);
     slider->setRange(minValue, maxValue);
@@ -45,10 +51,6 @@ void BrushSettings::addSlider(QString name, int minValue, int defaultValue, int 
     spinBox->setMaximum(maxValue);
     spinBox->setValue(defaultValue);
     gridLayout->addWidget(spinBox, row, 3);
-
-    QPushButton *button = new QPushButton(tr("R"));
-    button->setMaximumWidth(30);
-    gridLayout->addWidget(button, row, 4);
 
     connect(slider, SIGNAL(valueChanged(int)), spinBox, SLOT(setValue(int)));
     connect(slider, SIGNAL(valueChanged(int)), brush, slot);
