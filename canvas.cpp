@@ -7,7 +7,23 @@ Canvas::Canvas(BrushEngine *globalBrush)
     pixmap->fill(Qt::white);
     setAutoFillBackground(true);
     brush = globalBrush;
+    connect(brush, SIGNAL(sizeBrushSignal()), this, SLOT(drawCursorSlot()));
+    drawCursorSlot();
+}
 
+void Canvas::drawCursorSlot()
+{
+    int sizeBrush = brush->getSizeBrush();
+    QPixmap pixmap(sizeBrush, sizeBrush);
+    pixmap.fill(QColor(255, 255, 255, 0));
+    QPainter painter(&pixmap);
+    painter.setRenderHint(QPainter::Antialiasing, true);
+    painter.setBrush(Qt::NoBrush);
+    painter.setPen(QColor(0, 0, 0, 200));
+    painter.drawEllipse(0, 0, sizeBrush, sizeBrush);
+    painter.setPen(QColor(255, 255, 255, 200));
+    painter.drawEllipse(1, 1, sizeBrush - 2, sizeBrush - 2);
+    setCursor(pixmap);
 }
 
 void Canvas::paintEvent(QPaintEvent*)
@@ -58,3 +74,5 @@ void Canvas::clearCanvasSlot()
     pixmap->fill(Qt::white);
     update();
 }
+
+

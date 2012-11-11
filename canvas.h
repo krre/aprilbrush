@@ -25,8 +25,10 @@ signals:
     
 public slots:
     void clearCanvasSlot();
+    void drawCursorSlot();
 
 private:
+
     BrushEngine *brush;
     QPixmap *pixmap;
     QPoint posCursor;

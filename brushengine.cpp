@@ -28,7 +28,7 @@ void BrushEngine::paint(QPixmap *pixmap, QPoint posCursor, qreal pressure)
     painter.setPen(Qt::NoPen);
     colorBrush = QColor(rColor, gColor, bColor, int(pressure * aColor));
     painter.setBrush(QBrush(colorBrush, Qt::SolidPattern));
-    painter.drawEllipse(posCursor.x(), posCursor.y(), sizeBrush, sizeBrush);
+    painter.drawEllipse(posCursor.x() - sizeBrush / 2, posCursor.y() - sizeBrush / 2, sizeBrush, sizeBrush);
 
     /*
 
