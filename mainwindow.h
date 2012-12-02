@@ -24,6 +24,7 @@ private slots:
     void brushSettingsWindowSlot();
     void colorWindowSlot();
     void clearCanvasSlot();
+    void changeColorSlot();
 
 private:
     void createMenus();
