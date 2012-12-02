@@ -1,7 +1,8 @@
 #include "colorpicker.h"
 #include "qmath.h"
 
-ColorPicker::ColorPicker(QWidget *parent) : QWidget(parent)
+//ColorPicker::ColorPicker(QWidget *parent) : QWidget(parent)
+ColorPicker::ColorPicker(QColor color)
 {
     setWindowTitle(tr("Color"));
     setMinimumSize(200, 200);
@@ -12,7 +13,12 @@ ColorPicker::ColorPicker(QWidget *parent) : QWidget(parent)
     hueGrab = false;
     satValGrab = false;
     scaleInnerWheel = 0.8;
-    currentPickerColor.setHsv(0, 128, 128); // temporary
+    currentPickerColor = color;
+    if (color.hue() == -1)
+        hueColor = 0;
+    else
+        hueColor = color.hue();
+    //currentPickerColor.setHsv(0, 128, 128); // temporary
     //QPixmapCache::setCacheLimit(100000);
 }
 
@@ -74,7 +80,7 @@ void ColorPicker::paintWheel()
     painter.drawPixmap(width() / 2 - outerRadius, height() / 2 - outerRadius, outerRadius * 2, outerRadius * 2, wheelPixmap);
 }
 
-void ColorPicker::setWheelSelector()
+void ColorPicker::drawWheelSelector()
 {
     // Draw the hue selector
     QPainter painter(this);
@@ -299,7 +305,7 @@ void ColorPicker::paintEvent(QPaintEvent *)
     paintWheel();
     paintTriangle();
 
-    setWheelSelector();
+    drawWheelSelector();
     drawTriangleSelector();
 }
 
@@ -355,3 +361,8 @@ void ColorPicker::mouseReleaseEvent(QMouseEvent *)
     satValGrab = false;
 }
 
+void ColorPicker::setColor(QColor color)
+{
+    currentPickerColor = color;
+    hueColor = color.hue();
+}

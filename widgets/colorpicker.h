@@ -8,8 +8,9 @@ class ColorPicker : public QWidget
     Q_OBJECT
 
 public:
-    ColorPicker(QWidget *parent = 0);
+    ColorPicker(QColor color);
     inline QColor color() {return currentPickerColor;}
+    void setColor(QColor color);
 
 protected:
     void resizeEvent(QResizeEvent *);
@@ -28,7 +29,7 @@ private:
     void paintWheel();
     void drawTriangle();
     void paintTriangle();
-    void setWheelSelector();
+    void drawWheelSelector();
     void drawTriangleSelector();
     QColor coordToColor(QPoint coord);
     QPoint colorToCoord(QColor color);

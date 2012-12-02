@@ -11,7 +11,7 @@ MainWindow::MainWindow()
     createNewTab();
     brushSettings = new BrushSettings(brushEngine);
     inputDevices = new InputDevices(canvas);
-    colorPicker = new ColorPicker;
+    colorPicker = new ColorPicker(QColor(0, 0, 0));
     connect(colorPicker, SIGNAL(colorSignal()), this, SLOT(changeColorSlot()));
     createDockWindows();
 }
@@ -93,6 +93,7 @@ void MainWindow::colorWindowSlot()
     QColor color;
     color = QColorDialog::getColor(Qt::green, this);
     brushEngine->setColor(color.red(), color.green(), color.blue());
+    colorPicker->setColor(color);
 }
 
 void MainWindow::changeColorSlot()
