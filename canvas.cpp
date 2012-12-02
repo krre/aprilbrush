@@ -13,7 +13,7 @@ Canvas::Canvas(BrushEngine *globalBrush)
 
 void Canvas::drawCursorSlot()
 {
-    int sizeBrush = brush->getSizeBrush();
+    int sizeBrush = brush->diameterBrush();
     QPixmap pixmap(sizeBrush, sizeBrush);
     pixmap.fill(QColor(255, 255, 255, 0));
     QPainter painter(&pixmap);
@@ -34,11 +34,11 @@ void Canvas::paintEvent(QPaintEvent*)
 
 void  Canvas::mouseMoveEvent(QMouseEvent *event)
 {
-    posCursor.setX(event->x());
-    posCursor.setY(event->y());
-    pressure = 1.0;
-    typeDevice = "Mouse";
-    brush->paint(pixmap, posCursor, pressure);
+    positionCursor.setX(event->x());
+    positionCursor.setY(event->y());
+    pressurePen = 1.0;
+    typeInputDevice = "Mouse";
+    brush->paint(pixmap, positionCursor, pressurePen);
     update();
 
     emit inputEventSignal();
@@ -46,11 +46,11 @@ void  Canvas::mouseMoveEvent(QMouseEvent *event)
 
 void  Canvas::mousePressEvent(QMouseEvent *event)
 {
-    posCursor.setX(event->x());
-    posCursor.setY(event->y());
-    pressure = 1.0;
-    typeDevice = "Mouse";
-    brush->paint(pixmap, posCursor, pressure);
+    positionCursor.setX(event->x());
+    positionCursor.setY(event->y());
+    pressurePen = 1.0;
+    typeInputDevice = "Mouse";
+    brush->paint(pixmap, positionCursor, pressurePen);
     update();
 
     emit inputEventSignal();
@@ -58,12 +58,12 @@ void  Canvas::mousePressEvent(QMouseEvent *event)
 
 void Canvas::tabletEvent(QTabletEvent *event)
 {
-    posCursor.setX(event->x());
-    posCursor.setY(event->y());
-    typeDevice = "Stylus";
-    pressure = event->pressure();
-    if (pressure > 0)
-        brush->paint(pixmap, posCursor, pressure);
+    positionCursor.setX(event->x());
+    positionCursor.setY(event->y());
+    typeInputDevice = "Stylus";
+    pressurePen = event->pressure();
+    if (pressurePen > 0)
+        brush->paint(pixmap, positionCursor, pressurePen);
     update();
 
     emit inputEventSignal();

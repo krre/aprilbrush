@@ -10,9 +10,9 @@ class Canvas : public QWidget
 
 public:
     Canvas(BrushEngine *globalBrush);
-    inline QPoint getPosCursor() {return posCursor;}
-    inline qreal getPressure() {return pressure;}
-    inline QString getTypeDevice() {return typeDevice;}
+    inline QPoint posCursor() {return positionCursor;}
+    inline qreal pressure() {return pressurePen;}
+    inline QString typeDevice() {return typeInputDevice;}
 
 protected:
     void paintEvent(QPaintEvent*);
@@ -31,9 +31,9 @@ private:
 
     BrushEngine *brush;
     QPixmap *pixmap;
-    QPoint posCursor;
-    qreal pressure;
-    QString typeDevice;
+    QPoint positionCursor;
+    qreal pressurePen;
+    QString typeInputDevice;
 };
 
 #endif // CANVAS_H

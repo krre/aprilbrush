@@ -10,14 +10,16 @@ SOURCES += \
     canvas.cpp \
     brushengine.cpp \
     widgets/brushsettings.cpp \
-    widgets/inputdevices.cpp
+    widgets/inputdevices.cpp \
+    widgets/colorpicker.cpp
 
 HEADERS += \
     mainwindow.h \
     canvas.h \
     brushengine.h \
     widgets/brushsettings.h \
-    widgets/inputdevices.h
+    widgets/inputdevices.h \
+    widgets/colorpicker.h
 
 RESOURCES += \
     resources.qrc

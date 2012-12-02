@@ -14,10 +14,10 @@ InputDevices::InputDevices(Canvas *appCanvas)
 
 void InputDevices::setInputValuesSlot()
 {
-    infoLabel->setText(QString(tr("  Input Device:\t")) + canvas->getTypeDevice()
-                       + tr("\n  Pos X:\t\t") + QString::number(canvas->getPosCursor().x())
-                       + tr("\n  Pos Y:\t\t") + QString::number(canvas->getPosCursor().y())
-                       + tr("\n  Pressure:\t") + QString::number(canvas->getPressure()));
+    infoLabel->setText(QString(tr("  Input Device:\t")) + canvas->typeDevice()
+                       + tr("\n  Pos X:\t\t") + QString::number(canvas->posCursor().x())
+                       + tr("\n  Pos Y:\t\t") + QString::number(canvas->posCursor().y())
+                       + tr("\n  Pressure:\t") + QString::number(canvas->pressure()));
 }
 
 

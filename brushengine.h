@@ -10,7 +10,7 @@ class BrushEngine : public QObject
 public:
     BrushEngine();
     void paint(QPixmap *pixmap, QPoint posCursor, qreal pressure);
-    inline int getSizeBrush() {return sizeBrush;}
+    inline int diameterBrush() {return sizeBrush;}
     inline void setColor(int r, int g, int b) {rColor = r; gColor = g, bColor = b;}
     inline void setColor(int r, int g, int b, int a) {rColor = r; gColor = g, bColor = b; aColor = a;}
 

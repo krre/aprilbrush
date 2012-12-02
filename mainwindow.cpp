@@ -11,6 +11,7 @@ MainWindow::MainWindow()
     createNewTab();
     brushSettings = new BrushSettings(brushEngine);
     inputDevices = new InputDevices(canvas);
+    colorPicker = new ColorPicker;
     createDockWindows();
 }
 
@@ -41,10 +42,15 @@ void MainWindow::createMenus()
 
 void MainWindow::createDockWindows()
 {
-    QDockWidget *dock = new QDockWidget(tr("Brush Settings"), this);
-    dock->setAllowedAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea);
-    dock->setWidget(brushSettings);
-    addDockWidget(Qt::RightDockWidgetArea, dock);
+    QDockWidget *dockColor = new QDockWidget(tr("Color"), this);
+    dockColor->setAllowedAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea);
+    dockColor->setWidget(colorPicker);
+    addDockWidget(Qt::RightDockWidgetArea, dockColor);
+
+    QDockWidget *dockBrush = new QDockWidget(tr("Brush Settings"), this);
+    dockBrush->setAllowedAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea);
+    dockBrush->setWidget(brushSettings);
+    addDockWidget(Qt::RightDockWidgetArea, dockBrush);
 }
 
 void MainWindow::createTabWidget()
