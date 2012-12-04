@@ -43,9 +43,16 @@ void MainWindow::createMenus()
 
 void MainWindow::createDockWindows()
 {
+    QWidget *widget = new QWidget;
+    QBoxLayout *colorLayout = new QBoxLayout(QBoxLayout::TopToBottom);
+    colorLayout->addWidget(colorPicker);
+    colorLayout->addStretch();
+    widget->setLayout(colorLayout);
+
     QDockWidget *dockColor = new QDockWidget(tr("Color"), this);
     dockColor->setAllowedAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea);
-    dockColor->setWidget(colorPicker);
+    dockColor->setMaximumHeight(240); // temporary
+    dockColor->setWidget(widget);
     addDockWidget(Qt::RightDockWidgetArea, dockColor);
 
     QDockWidget *dockBrush = new QDockWidget(tr("Brush Settings"), this);

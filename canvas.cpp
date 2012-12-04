@@ -75,4 +75,14 @@ void Canvas::clearCanvasSlot()
     update();
 }
 
+void Canvas::leaveEvent(QEvent *)
+{
+    //qDebug() << "leave";
+}
+
+void Canvas::enterEvent(QEvent *)
+{
+    //qDebug() << "enter";
+}
+
 

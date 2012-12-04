@@ -19,6 +19,8 @@ protected:
     void mouseMoveEvent(QMouseEvent *event);
     void mousePressEvent(QMouseEvent *event);
     void tabletEvent(QTabletEvent *event);
+    void leaveEvent(QEvent *);
+    void enterEvent(QEvent *);
 
 signals:
     void inputEventSignal();
