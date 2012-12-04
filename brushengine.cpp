@@ -5,6 +5,7 @@ BrushEngine::BrushEngine()
 {
     sizeBrush = 20;
     spacingBrush = 100;
+    touchStylus = false;
 
     rColor = 0;
     gColor = 0;
@@ -14,51 +15,40 @@ BrushEngine::BrushEngine()
 
 void BrushEngine::paint(QPixmap *pixmap, QPoint posCursor, qreal pressure)
 {
-    //QTime nowTime;
-    //nowTime.currentTime();
-    //nowTime = QTime::currentTime();
-    //int diffTime = nowMS - time.msec();
-    //qDebug() << "now time: " << nowMS << "prev time: " << time.msec() << "diff time: " << diffTime;
-    //float diffTime = nowTime - time;
-    //time = nowTime;
-    //qDebug() << diffTime;
-
     QPainter painter(pixmap);
     painter.setRenderHint(QPainter::Antialiasing, true);
     painter.setPen(Qt::NoPen);
     colorBrush = QColor(rColor, gColor, bColor, int(pressure * aColor));
     painter.setBrush(QBrush(colorBrush, Qt::SolidPattern));
-    painter.drawEllipse(posCursor.x() - sizeBrush / 2, posCursor.y() - sizeBrush / 2, sizeBrush, sizeBrush);
+    qreal length;
+    int numDabs;
+    qreal deltaDab;
+    qreal angle;
+    QPoint betweenPos;
 
-    /*
-
-    if (prevPos.length() == 0)
-        //painter.drawEllipse(posCursor.toPoint(), sizeBrush, sizeBrush);
-        painter.drawEllipse(posCursor.x(), posCursor.y(), sizeBrush, sizeBrush);
+    // First dab after touching the stylus at a surface
+    if (!touchStylus)
+    {
+        prevPos = posCursor;
+        painter.drawEllipse(posCursor.x() - sizeBrush / 2, posCursor.y() - sizeBrush / 2, sizeBrush, sizeBrush);
+        touchStylus = true;
+    }
     else
     {
-        qreal deltaPoint = (posCursor - prevPos).length();
-        int numDabs = int(deltaPoint / sizeBrush * 100 / spacingBrush);
-        qreal deltaBetweenPoint = deltaPoint / numDabs;
-
-        qDebug() << "delta " << deltaPoint << " numDabs " << numDabs;
-
-        if (numDabs > 0)
+        nowPos = posCursor;
+        length = qSqrt(qPow(prevPos.x() - nowPos.x(), 2) + qPow(prevPos.y() - nowPos.y(), 2));
+        deltaDab = sizeBrush * spacingBrush / 100.0;
+        if (length >= deltaDab)
         {
-            qreal deltaX = deltaBetweenPoint * qCos(qAtan((posCursor.y() - prevPos.y()) / (posCursor.x() - prevPos.x())));
-            qreal deltaY = deltaBetweenPoint * qSin(qAtan((posCursor.y() - prevPos.y()) / (posCursor.x() - prevPos.x())));
-            int xBetween = posCursor.x();
-            int yBetween = posCursor.y();
-
-            for (int countDabs = 1; countDabs <= numDabs; countDabs++)
+            numDabs = qRound(length / deltaDab);
+            angle = qAtan2(nowPos.x() - prevPos.x(), nowPos.y() - prevPos.y());
+            for (int dabCount = 1; dabCount <= numDabs; dabCount++)
             {
-                painter.drawEllipse(xBetween, yBetween, sizeBrush, sizeBrush);
-                xBetween = xBetween + int(deltaX);
-                yBetween = yBetween + int(deltaY);
-                qDebug() << "xBetween " << xBetween << "yBetween " << yBetween;
-            }
+                betweenPos = QPoint(prevPos.x() + deltaDab * qSin(angle), prevPos.y() + deltaDab * qCos(angle));
+                painter.drawEllipse(betweenPos.x() - sizeBrush / 2, betweenPos.y() - sizeBrush / 2, sizeBrush, sizeBrush);
+                prevPos = betweenPos;
+            }            
         }
     }
-    */
 }
 

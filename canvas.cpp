@@ -32,7 +32,7 @@ void Canvas::paintEvent(QPaintEvent*)
     painter.drawPixmap(0, 0, *pixmap);
 }
 
-void  Canvas::mouseMoveEvent(QMouseEvent *event)
+void Canvas::mouseMoveEvent(QMouseEvent *event)
 {
     positionCursor.setX(event->x());
     positionCursor.setY(event->y());
@@ -44,7 +44,7 @@ void  Canvas::mouseMoveEvent(QMouseEvent *event)
     emit inputEventSignal();
 }
 
-void  Canvas::mousePressEvent(QMouseEvent *event)
+void Canvas::mousePressEvent(QMouseEvent *event)
 {
     positionCursor.setX(event->x());
     positionCursor.setY(event->y());
@@ -54,6 +54,11 @@ void  Canvas::mousePressEvent(QMouseEvent *event)
     update();
 
     emit inputEventSignal();
+}
+
+void Canvas::mouseReleaseEvent(QMouseEvent *)
+{
+    brush->setTouch(false);
 }
 
 void Canvas::tabletEvent(QTabletEvent *event)

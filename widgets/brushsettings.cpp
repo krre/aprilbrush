@@ -13,7 +13,7 @@ BrushSettings::BrushSettings(BrushEngine *brushEngine)
 
     addSlider(tr("Size"), 1, 20, 150, SLOT(setSizeBrush(int)), 0);
     addSlider(tr("Opacity"), 0, 50, 100, SLOT(setAlpha(int)), 1);
-    addSlider(tr("Spacing"), 1, 25, 500, SLOT(setSpacingBrush(int)), 3);
+    addSlider(tr("Spacing"), 1, 100, 500, SLOT(setSpacingBrush(int)), 3);
     connect(signalMapper, SIGNAL(mapped(const QString &)), this, SLOT(resetSlider(const QString &)));
 
     QBoxLayout *boxLayout = new QBoxLayout(QBoxLayout::TopToBottom);

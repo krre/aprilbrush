@@ -13,6 +13,7 @@ public:
     inline int diameterBrush() {return sizeBrush;}
     inline void setColor(int r, int g, int b) {rColor = r; gColor = g, bColor = b;}
     inline void setColor(int r, int g, int b, int a) {rColor = r; gColor = g, bColor = b; aColor = a;}
+    inline void setTouch(bool touch) {touchStylus = touch;}
 
 signals:
     void sizeBrushSignal();
@@ -26,6 +27,10 @@ private:
     QColor colorBrush;
     int sizeBrush;
     int spacingBrush;
+
+    QPoint nowPos;
+    QPoint prevPos;
+    bool touchStylus;
 
     int rColor;
     int gColor;
