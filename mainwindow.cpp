@@ -78,25 +78,17 @@ void MainWindow::activeTabSlot(int index)
 void MainWindow::closeTabSlot(int index)
 {
     canvasList.removeAt(index);
-    qDebug() << index;
-    qDebug() << canvasList;
     tabWidget->removeTab(index);
 }
 
 void MainWindow::createNewTabSlot()
 {
-    //Canvas *newCanvas = new Canvas(brushEngine);
-
     canvas = new Canvas(brushEngine);
-    //canvasList << canvas;
     canvasList.append(canvas);
     int index = tabWidget->count();
     QString tabName = tr("Untitled ") + QString::number(index + 1);
     tabWidget->addTab(canvas, tabName);
     tabWidget->setCurrentIndex(index);
-    qDebug() << index;
-    qDebug() << canvasList;
-    //delete newCanvas;
 }
 
 void MainWindow::openImageSlot()
@@ -111,7 +103,15 @@ void MainWindow::saveImageSlot()
 
 void MainWindow::saveAsImageSlot()
 {
-
+    QString filePath = QFileDialog::getSaveFileName(this, tr("Save image as"), "C:/", tr("Images (*.png)"));
+    if (!filePath.isEmpty())
+    {
+        QFileInfo pathInfo(filePath);
+        QString fileName(pathInfo.fileName());
+        canvas->surface()->save(filePath);
+        int index = tabWidget->currentIndex();
+        tabWidget->setTabText(index, fileName);
+    }
 }
 
 void MainWindow::clearCanvasSlot()

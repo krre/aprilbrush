@@ -13,6 +13,7 @@ public:
     inline QPoint posCursor() {return positionCursor;}
     inline qreal pressure() {return pressurePen;}
     inline QString typeDevice() {return typeInputDevice;}
+    inline QPixmap* surface() {return pixmap;}
 
 protected:
     void paintEvent(QPaintEvent*);
