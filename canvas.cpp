@@ -3,7 +3,9 @@
 
 Canvas::Canvas(BrushEngine *globalBrush)
 {
-    pixmap = new QPixmap(1000, 500);
+    int widthScreen = qApp->desktop()->width();
+    int heigthScreen = qApp->desktop()->height();
+    pixmap = new QPixmap(widthScreen, heigthScreen);
     pixmap->fill(Qt::white);
     setAutoFillBackground(true);
     brush = globalBrush;
