@@ -20,9 +20,9 @@ void MainWindow::createMenus()
 {
     QMenu *fileMenu = menuBar()->addMenu(tr("File"));
     fileMenu->addAction(tr("New"), this, SLOT(createNewTabSlot()), Qt::CTRL + Qt::Key_N);
-    fileMenu->addAction(tr("Open"), this, SLOT(close()), Qt::CTRL + Qt::Key_O);
-    fileMenu->addAction(tr("Save"), this, SLOT(close()), Qt::CTRL + Qt::Key_S);
-    fileMenu->addAction(tr("Save As..."), this, SLOT(close()), Qt::CTRL + Qt::SHIFT + Qt::Key_S);
+    fileMenu->addAction(tr("Open"), this, SLOT(openImageSlot()), Qt::CTRL + Qt::Key_O);
+    fileMenu->addAction(tr("Save"), this, SLOT(saveImageSlot()), Qt::CTRL + Qt::Key_S);
+    fileMenu->addAction(tr("Save As..."), this, SLOT(saveAsImageSlot()), Qt::CTRL + Qt::SHIFT + Qt::Key_S);
     fileMenu->addSeparator();
     fileMenu->addAction(tr("Exit"), qApp, SLOT(quit()), Qt::CTRL + Qt::Key_Q);
 
@@ -34,7 +34,7 @@ void MainWindow::createMenus()
 
     QMenu *windowMenu = menuBar()->addMenu(tr("Window"));
     windowMenu->addAction(tr("Color"), this, SLOT(colorWindowSlot()));
-    windowMenu->addAction(tr("Input Devices"), this, SLOT(InputDevicesWindowSlot()));
+    windowMenu->addAction(tr("Input Devices"), this, SLOT(inputDevicesWindowSlot()));
 
     QMenu *helpMenu = menuBar()->addMenu(tr("Help"));
     helpMenu->addAction(tr("About"), this, SLOT(aboutWindowSlot()));
@@ -83,12 +83,27 @@ void MainWindow::createNewTabSlot()
     tabWidget->setCurrentIndex(index);
 }
 
+void MainWindow::openImageSlot()
+{
+
+}
+
+void MainWindow::saveImageSlot()
+{
+
+}
+
+void MainWindow::saveAsImageSlot()
+{
+
+}
+
 void MainWindow::clearCanvasSlot()
 {
     canvas->clearCanvasSlot();
 }
 
-void MainWindow::InputDevicesWindowSlot()
+void MainWindow::inputDevicesWindowSlot()
 {
 /*
     // Create the window if it doesn't exists

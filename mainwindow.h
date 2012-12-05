@@ -20,9 +20,12 @@ public:
 
 private slots:
     void createNewTabSlot();
+    void openImageSlot();
+    void saveImageSlot();
+    void saveAsImageSlot();
     void closeTabSlot(int index);
     void aboutWindowSlot();
-    void InputDevicesWindowSlot();
+    void inputDevicesWindowSlot();
     void brushSettingsWindowSlot();
     void colorWindowSlot();
     void clearCanvasSlot();
