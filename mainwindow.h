@@ -23,6 +23,7 @@ private slots:
     void openImageSlot();
     void saveImageSlot();
     void saveAsImageSlot();
+    void activeTabSlot(int index);
     void closeTabSlot(int index);
     void aboutWindowSlot();
     void inputDevicesWindowSlot();
@@ -45,6 +46,7 @@ private:
 
     QTabWidget *tabWidget;
     Canvas *canvas;
+    QList<Canvas *> canvasList;
 };
 
 #endif // MAINWINDOW_H

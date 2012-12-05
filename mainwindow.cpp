@@ -7,7 +7,7 @@ MainWindow::MainWindow()
     setWindowIcon(QIcon(":/icons/Butterfly_128x128.png"));
     createMenus();
     createTabWidget();
-    brushEngine = new BrushEngine();
+    brushEngine = new BrushEngine();    
     createNewTabSlot();
     brushSettings = new BrushSettings(brushEngine);
     inputDevices = new InputDevices(canvas);
@@ -67,20 +67,36 @@ void MainWindow::createTabWidget()
     tabWidget->setTabsClosable(true);
     setCentralWidget(tabWidget);
     connect(tabWidget, SIGNAL(tabCloseRequested(int)), this, SLOT(closeTabSlot(int)));
+    connect(tabWidget, SIGNAL(currentChanged(int)), this, SLOT(activeTabSlot(int)));
+}
+
+void MainWindow::activeTabSlot(int index)
+{
+    canvas = canvasList.at(index);
 }
 
 void MainWindow::closeTabSlot(int index)
 {
+    canvasList.removeAt(index);
+    qDebug() << index;
+    qDebug() << canvasList;
     tabWidget->removeTab(index);
 }
 
 void MainWindow::createNewTabSlot()
 {
+    //Canvas *newCanvas = new Canvas(brushEngine);
+
     canvas = new Canvas(brushEngine);
+    //canvasList << canvas;
+    canvasList.append(canvas);
     int index = tabWidget->count();
     QString tabName = tr("Untitled ") + QString::number(index + 1);
     tabWidget->addTab(canvas, tabName);
     tabWidget->setCurrentIndex(index);
+    qDebug() << index;
+    qDebug() << canvasList;
+    //delete newCanvas;
 }
 
 void MainWindow::openImageSlot()
