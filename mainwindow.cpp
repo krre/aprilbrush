@@ -8,7 +8,7 @@ MainWindow::MainWindow()
     createMenus();
     createTabWidget();
     brushEngine = new BrushEngine();
-    createNewTab();
+    createNewTabSlot();
     brushSettings = new BrushSettings(brushEngine);
     inputDevices = new InputDevices(canvas);
     colorPicker = new ColorPicker(QColor(0, 0, 0));
@@ -19,7 +19,7 @@ MainWindow::MainWindow()
 void MainWindow::createMenus()
 {
     QMenu *fileMenu = menuBar()->addMenu(tr("File"));
-    fileMenu->addAction(tr("New"), this, SLOT(close()), Qt::CTRL + Qt::Key_N);
+    fileMenu->addAction(tr("New"), this, SLOT(createNewTabSlot()), Qt::CTRL + Qt::Key_N);
     fileMenu->addAction(tr("Open"), this, SLOT(close()), Qt::CTRL + Qt::Key_O);
     fileMenu->addAction(tr("Save"), this, SLOT(close()), Qt::CTRL + Qt::Key_S);
     fileMenu->addAction(tr("Save As..."), this, SLOT(close()), Qt::CTRL + Qt::SHIFT + Qt::Key_S);
@@ -66,13 +66,21 @@ void MainWindow::createTabWidget()
     tabWidget = new QTabWidget();
     tabWidget->setTabsClosable(true);
     setCentralWidget(tabWidget);
+    connect(tabWidget, SIGNAL(tabCloseRequested(int)), this, SLOT(closeTabSlot(int)));
 }
 
-void MainWindow::createNewTab()
+void MainWindow::closeTabSlot(int index)
+{
+    tabWidget->removeTab(index);
+}
+
+void MainWindow::createNewTabSlot()
 {
     canvas = new Canvas(brushEngine);
-    tabWidget->addTab(canvas, "Untitled");
-    tabWidget->setCurrentIndex(tabWidget->count() - 1);
+    int index = tabWidget->count();
+    QString tabName = tr("Untitled ") + QString::number(index + 1);
+    tabWidget->addTab(canvas, tabName);
+    tabWidget->setCurrentIndex(index);
 }
 
 void MainWindow::clearCanvasSlot()

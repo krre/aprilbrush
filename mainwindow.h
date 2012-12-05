@@ -19,6 +19,8 @@ public:
     MainWindow();
 
 private slots:
+    void createNewTabSlot();
+    void closeTabSlot(int index);
     void aboutWindowSlot();
     void InputDevicesWindowSlot();
     void brushSettingsWindowSlot();
@@ -30,7 +32,7 @@ private:
     void createMenus();
     void createDockWindows();
     void createTabWidget();
-    void createNewTab();
+
 
     //QPointer<TestInputDevice> testIDWindow;
     InputDevices *inputDevices;
