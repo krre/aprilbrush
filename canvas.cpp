@@ -69,6 +69,8 @@ void Canvas::tabletEvent(QTabletEvent *event)
     pressurePen = event->pressure();
     if (pressurePen > 0)
         brush->paint(pixmap, positionCursor, pressurePen);
+    else
+        brush->setTouch(false);
     update();
 
     emit inputEventSignal();
