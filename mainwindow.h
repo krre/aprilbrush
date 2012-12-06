@@ -46,6 +46,9 @@ private:
     void createDockWindows();
     void createTabWidget();
 
+    QAction *undoAction;
+    QAction *redoAction;
+
     QUndoStack *undoStack;
     QUndoView *undoView;
     //QPointer<TestInputDevice> testIDWindow;

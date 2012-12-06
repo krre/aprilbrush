@@ -11,7 +11,8 @@ SOURCES += \
     brushengine.cpp \
     widgets/brushsettings.cpp \
     widgets/inputdevices.cpp \
-    widgets/colorpicker.cpp
+    widgets/colorpicker.cpp \
+    undocommands.cpp
 
 HEADERS += \
     mainwindow.h \
@@ -19,7 +20,8 @@ HEADERS += \
     brushengine.h \
     widgets/brushsettings.h \
     widgets/inputdevices.h \
-    widgets/colorpicker.h
+    widgets/colorpicker.h \
+    undocommands.h
 
 RESOURCES += \
     resources.qrc

@@ -35,8 +35,17 @@ void MainWindow::createMenus()
     fileMenu->addAction(tr("Exit"), qApp, SLOT(quit()), Qt::CTRL + Qt::Key_Q);
 
     QMenu *editMenu = menuBar()->addMenu(tr("Edit"));
-    editMenu->addAction(tr("Undo"), this, SLOT(undoSlot()), Qt::CTRL + Qt::Key_Z);
-    editMenu->addAction(tr("Redo"), this, SLOT(redoSlot()), Qt::CTRL + Qt::Key_Y);
+
+    undoAction = undoStack->createUndoAction(this, tr("Undo"));
+    undoAction->setShortcuts(QKeySequence::Undo);
+    editMenu->addAction(undoAction);
+
+    redoAction = undoStack->createUndoAction(this, tr("Redo"));
+    redoAction->setShortcuts(QKeySequence::Redo);
+    editMenu->addAction(redoAction);
+
+    //editMenu->addAction(tr("Undo"), this, SLOT(undoSlot()), Qt::CTRL + Qt::Key_Z);
+    //editMenu->addAction(tr("Redo"), this, SLOT(redoSlot()), Qt::CTRL + Qt::Key_Y);
 
     editMenu->addAction(tr("Clear"), this, SLOT(clearCanvasSlot()), Qt::Key_Delete);
 
