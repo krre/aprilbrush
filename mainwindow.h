@@ -26,6 +26,7 @@ private slots:
     void saveAsImageSlot();
     void closeImageSlot();
     void closeAllImagesSlot();
+    void closeOthersSlot();
     // Edit
     void undoSlot();
     void redoSlot();

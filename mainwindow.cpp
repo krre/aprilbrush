@@ -27,8 +27,10 @@ void MainWindow::createMenus()
     fileMenu->addAction(tr("Open"), this, SLOT(openImageSlot()), Qt::CTRL + Qt::Key_O);
     fileMenu->addAction(tr("Save"), this, SLOT(saveImageSlot()), Qt::CTRL + Qt::Key_S);
     fileMenu->addAction(tr("Save As..."), this, SLOT(saveAsImageSlot()), Qt::CTRL + Qt::SHIFT + Qt::Key_S);
+    fileMenu->addSeparator();
     fileMenu->addAction(tr("Close"), this, SLOT(closeImageSlot()), Qt::CTRL + Qt::Key_W);
     fileMenu->addAction(tr("Close All"), this, SLOT(closeAllImagesSlot()), Qt::CTRL + Qt::SHIFT + Qt::Key_W);
+    fileMenu->addAction(tr("Close Others"), this, SLOT(closeOthersSlot()), Qt::CTRL + Qt::ALT + Qt::Key_W);
     fileMenu->addSeparator();
     fileMenu->addAction(tr("Exit"), qApp, SLOT(quit()), Qt::CTRL + Qt::Key_Q);
 
@@ -158,6 +160,19 @@ void MainWindow::closeAllImagesSlot()
     for (int index = 0; index < numTabs; index++)
     {
         closeTabSlot(0);
+    }
+}
+
+void MainWindow::closeOthersSlot()
+{
+    int numTabs = tabWidget->count();
+    QWidget *activeTab = tabWidget->currentWidget();
+    for (int index = 0; index < numTabs; index++)
+    {
+        if (tabWidget->widget(0) != activeTab)
+            closeTabSlot(0);
+        else
+            closeTabSlot(1);
     }
 }
 
