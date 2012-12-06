@@ -27,6 +27,8 @@ void MainWindow::createMenus()
     fileMenu->addAction(tr("Open"), this, SLOT(openImageSlot()), Qt::CTRL + Qt::Key_O);
     fileMenu->addAction(tr("Save"), this, SLOT(saveImageSlot()), Qt::CTRL + Qt::Key_S);
     fileMenu->addAction(tr("Save As..."), this, SLOT(saveAsImageSlot()), Qt::CTRL + Qt::SHIFT + Qt::Key_S);
+    fileMenu->addAction(tr("Close"), this, SLOT(closeImageSlot()), Qt::CTRL + Qt::Key_W);
+    fileMenu->addAction(tr("Close All"), this, SLOT(closeAllImagesSlot()), Qt::CTRL + Qt::SHIFT + Qt::Key_W);
     fileMenu->addSeparator();
     fileMenu->addAction(tr("Exit"), qApp, SLOT(quit()), Qt::CTRL + Qt::Key_Q);
 
@@ -141,6 +143,21 @@ void MainWindow::saveAsImageSlot()
         int index = tabWidget->currentIndex();
         tabWidget->setTabText(index, fileName);
         pathImageList.replace(index, filePath);
+    }
+}
+
+void MainWindow::closeImageSlot()
+{
+    int index = tabWidget->currentIndex();
+    closeTabSlot(index);
+}
+
+void MainWindow::closeAllImagesSlot()
+{
+    int numTabs = tabWidget->count();
+    for (int index = 0; index < numTabs; index++)
+    {
+        closeTabSlot(0);
     }
 }
 

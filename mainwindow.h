@@ -19,19 +19,25 @@ public:
     MainWindow();
 
 private slots:
+    // File
     void createNewTabSlot();
     void openImageSlot();
     void saveImageSlot();
     void saveAsImageSlot();
+    void closeImageSlot();
+    void closeAllImagesSlot();
+    // Edit
     void undoSlot();
     void redoSlot();
+    void clearCanvasSlot();
+
     void activeTabSlot(int index);
     void closeTabSlot(int index);
     void aboutWindowSlot();
     void inputDevicesWindowSlot();
     void brushSettingsWindowSlot();
     void colorWindowSlot();
-    void clearCanvasSlot();
+
     void changeColorSlot();
 
 private:
