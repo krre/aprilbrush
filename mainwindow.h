@@ -23,6 +23,8 @@ private slots:
     void openImageSlot();
     void saveImageSlot();
     void saveAsImageSlot();
+    void undoSlot();
+    void redoSlot();
     void activeTabSlot(int index);
     void closeTabSlot(int index);
     void aboutWindowSlot();
@@ -37,7 +39,8 @@ private:
     void createDockWindows();
     void createTabWidget();
 
-
+    QUndoStack *undoStack;
+    QUndoView *undoView;
     //QPointer<TestInputDevice> testIDWindow;
     InputDevices *inputDevices;
     BrushSettings *brushSettings;

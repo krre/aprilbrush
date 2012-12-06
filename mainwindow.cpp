@@ -5,6 +5,10 @@ MainWindow::MainWindow()
     setWindowTitle(appName);
     resize(1100, 700);
     setWindowIcon(QIcon(":/icons/Butterfly_128x128.png"));
+
+    undoStack = new QUndoStack(this);
+    undoView = new QUndoView(undoStack);
+
     createMenus();
     createTabWidget();
     brushEngine = new BrushEngine();    
@@ -27,6 +31,9 @@ void MainWindow::createMenus()
     fileMenu->addAction(tr("Exit"), qApp, SLOT(quit()), Qt::CTRL + Qt::Key_Q);
 
     QMenu *editMenu = menuBar()->addMenu(tr("Edit"));
+    editMenu->addAction(tr("Undo"), this, SLOT(undoSlot()), Qt::CTRL + Qt::Key_Z);
+    editMenu->addAction(tr("Redo"), this, SLOT(redoSlot()), Qt::CTRL + Qt::Key_Y);
+
     editMenu->addAction(tr("Clear"), this, SLOT(clearCanvasSlot()), Qt::Key_Delete);
 
     QMenu *brushesMenu = menuBar()->addMenu(tr("Brushes"));
@@ -49,16 +56,21 @@ void MainWindow::createDockWindows()
     colorLayout->addStretch();
     widget->setLayout(colorLayout);
 
-    QDockWidget *dockColor = new QDockWidget(tr("Color"), this);
-    dockColor->setAllowedAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea);
-    dockColor->setMaximumHeight(240); // temporary
-    dockColor->setWidget(widget);
-    addDockWidget(Qt::RightDockWidgetArea, dockColor);
+    QDockWidget *colorDock = new QDockWidget(tr("Color"), this);
+    colorDock->setAllowedAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea);
+    //colorDock->setMaximumHeight(240); // temporary
+    colorDock->setWidget(widget);
+    addDockWidget(Qt::RightDockWidgetArea, colorDock);
 
-    QDockWidget *dockBrush = new QDockWidget(tr("Brush Settings"), this);
-    dockBrush->setAllowedAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea);
-    dockBrush->setWidget(brushSettings);
-    addDockWidget(Qt::RightDockWidgetArea, dockBrush);
+    QDockWidget *brushDock = new QDockWidget(tr("Brush Settings"), this);
+    brushDock->setAllowedAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea);
+    brushDock->setWidget(brushSettings);
+    addDockWidget(Qt::RightDockWidgetArea, brushDock);
+
+    QDockWidget *commandDock = new QDockWidget(tr("Command List"), this);
+    commandDock->setAllowedAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea);
+    commandDock->setWidget(undoView);
+    addDockWidget(Qt::RightDockWidgetArea, commandDock);
 }
 
 void MainWindow::createTabWidget()
@@ -130,6 +142,16 @@ void MainWindow::saveAsImageSlot()
         tabWidget->setTabText(index, fileName);
         pathImageList.replace(index, filePath);
     }
+}
+
+void MainWindow::undoSlot()
+{
+
+}
+
+void MainWindow::redoSlot()
+{
+
 }
 
 void MainWindow::clearCanvasSlot()
