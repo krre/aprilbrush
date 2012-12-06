@@ -47,6 +47,7 @@ private:
     QTabWidget *tabWidget;
     Canvas *canvas;
     QList<Canvas *> canvasList;
+    QList<QString> pathImageList;
 };
 
 #endif // MAINWINDOW_H

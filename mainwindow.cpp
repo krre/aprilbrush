@@ -79,12 +79,14 @@ void MainWindow::closeTabSlot(int index)
 {
     canvasList.removeAt(index);
     tabWidget->removeTab(index);
+    pathImageList.removeAt(index);
 }
 
 void MainWindow::createNewTabSlot()
 {
     canvas = new Canvas(brushEngine);
     canvasList.append(canvas);
+    pathImageList.append("");
     int index = tabWidget->count();
     QString tabName = tr("Untitled ") + QString::number(index + 1);
     tabWidget->addTab(canvas, tabName);
@@ -93,12 +95,27 @@ void MainWindow::createNewTabSlot()
 
 void MainWindow::openImageSlot()
 {
-
+    QString filePath = QFileDialog::getOpenFileName(this, tr("Open image"), "C:/", tr("Images (*.png)"));
+    if (!filePath.isEmpty())
+    {
+        createNewTabSlot();
+        canvas->surface()->load(filePath);
+        QFileInfo pathInfo(filePath);
+        QString fileName(pathInfo.fileName());
+        int index = tabWidget->currentIndex();
+        tabWidget->setTabText(index, fileName);
+        pathImageList.replace(index, filePath);
+    }
 }
 
 void MainWindow::saveImageSlot()
 {
-
+    int index = tabWidget->currentIndex();
+    QString savePath = pathImageList.at(index);
+    if (!savePath.isEmpty())
+        canvas->surface()->save(savePath);
+    else
+        saveAsImageSlot();
 }
 
 void MainWindow::saveAsImageSlot()
@@ -106,11 +123,12 @@ void MainWindow::saveAsImageSlot()
     QString filePath = QFileDialog::getSaveFileName(this, tr("Save image as"), "C:/", tr("Images (*.png)"));
     if (!filePath.isEmpty())
     {
+        canvas->surface()->save(filePath);
         QFileInfo pathInfo(filePath);
         QString fileName(pathInfo.fileName());
-        canvas->surface()->save(filePath);
         int index = tabWidget->currentIndex();
         tabWidget->setTabText(index, fileName);
+        pathImageList.replace(index, filePath);
     }
 }
 
