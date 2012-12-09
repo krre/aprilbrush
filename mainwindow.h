@@ -48,6 +48,7 @@ private:
     QAction *undoAction;
     QAction *redoAction;
 
+    QUndoGroup *undoGroup;
     QUndoStack *undoStack;
     QUndoView *undoView;
     //QPointer<TestInputDevice> testIDWindow;
@@ -58,8 +59,9 @@ private:
 
     QTabWidget *tabWidget;
     Canvas *canvas;
-    QList<Canvas *> canvasList;
+    QList<Canvas*> canvasList;
     QList<QString> pathImageList;
+    QList<QUndoStack*> undoStackList;
 };
 
 #endif // MAINWINDOW_H

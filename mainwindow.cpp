@@ -7,9 +7,8 @@ MainWindow::MainWindow()
     resize(1100, 700);
     setWindowIcon(QIcon(":/icons/Butterfly_128x128.png"));
 
-    undoStack = new QUndoStack(this);
-    undoStack->setUndoLimit(50);
-    undoView = new QUndoView(undoStack);
+    undoGroup = new QUndoGroup(this);
+    undoView = new QUndoView(undoGroup);
 
     createMenus();
     createTabWidget();
@@ -38,11 +37,13 @@ void MainWindow::createMenus()
 
     QMenu *editMenu = menuBar()->addMenu(tr("Edit"));
 
-    undoAction = undoStack->createUndoAction(this, tr("Undo"));
+    //undoAction = undoStack->createUndoAction(this, tr("Undo"));
+    undoAction = undoGroup->createUndoAction(this, tr("Undo"));
     undoAction->setShortcuts(QKeySequence::Undo);
     editMenu->addAction(undoAction);
 
-    redoAction = undoStack->createRedoAction(this, tr("Redo"));
+    //redoAction = undoStack->createRedoAction(this, tr("Redo"));
+    redoAction = undoGroup->createRedoAction(this, tr("Redo"));
     redoAction->setShortcuts(QKeySequence::Redo);
     editMenu->addAction(redoAction);
 
@@ -97,10 +98,16 @@ void MainWindow::createTabWidget()
 void MainWindow::activeTabSlot(int index)
 {
     canvas = canvasList.at(index);
+    undoStack = undoStackList.at(index);
+    undoGroup->setActiveStack(undoStack);
 }
 
 void MainWindow::closeTabSlot(int index)
 {
+    undoGroup->removeStack(undoStack);
+    undoStackList.removeAt(index);
+    undoStack->clear();
+
     canvasList.removeAt(index);
     tabWidget->removeTab(index);
     pathImageList.removeAt(index);
@@ -108,6 +115,11 @@ void MainWindow::closeTabSlot(int index)
 
 void MainWindow::createNewTabSlot()
 {
+    undoStack = new QUndoStack(this);
+    undoStack->setUndoLimit(50);
+    undoStackList.append(undoStack);
+    undoGroup->addStack(undoStack);
+
     canvas = new Canvas(brushEngine);
     connect(canvas, SIGNAL(startPaintSignal()), this, SLOT(paintUndoSlot()));
     canvasList.append(canvas);
