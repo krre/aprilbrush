@@ -2,26 +2,33 @@
 #define UNDOCOMMANDS_H
 
 #include <QUndoCommand>
+#include "canvas.h"
 
 class PaintCommand : public QUndoCommand
 {
 public:
-    PaintCommand();
+    PaintCommand(Canvas *canvasOut);
     void undo();
     void redo();
 
 private:
+    Canvas *canvas;
+    QPixmap pixmap;
+    QPixmap prevPixmap;
+    bool isPaint;
 
 };
 
 class ClearCommand : public QUndoCommand
 {
 public:
-    ClearCommand();
+    ClearCommand(Canvas *canvasOut);
     void undo();
     void redo();
 
 private:
+    Canvas *canvas;
+    QPixmap pixmap;
 
 };
 

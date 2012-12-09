@@ -48,6 +48,7 @@ void Canvas::mouseMoveEvent(QMouseEvent *event)
 
 void Canvas::mousePressEvent(QMouseEvent *event)
 {
+    prevPixmap = *pixmap;
     positionCursor.setX(event->x());
     positionCursor.setY(event->y());
     pressurePen = 1.0;
@@ -61,27 +62,31 @@ void Canvas::mousePressEvent(QMouseEvent *event)
 void Canvas::mouseReleaseEvent(QMouseEvent *)
 {
     brush->setTouch(false);
+    emit startPaintSignal();
 }
 
 void Canvas::tabletEvent(QTabletEvent *event)
 {
+    if (event->type() == event->TabletPress)
+        prevPixmap = *pixmap;
+
+    if (event->type() == event->TabletRelease)
+    {
+        emit startPaintSignal();
+        brush->setTouch(false);
+    }
+
     positionCursor.setX(event->x());
     positionCursor.setY(event->y());
     typeInputDevice = "Stylus";
     pressurePen = event->pressure();
+
     if (pressurePen > 0)
         brush->paint(pixmap, positionCursor, pressurePen);
-    else
-        brush->setTouch(false);
+
     update();
 
     emit inputEventSignal();
-}
-
-void Canvas::clearCanvasSlot()
-{
-    pixmap->fill(Qt::white);
-    update();
 }
 
 void Canvas::leaveEvent(QEvent *)

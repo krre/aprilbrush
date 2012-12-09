@@ -28,8 +28,6 @@ private slots:
     void closeAllImagesSlot();
     void closeOthersSlot();
     // Edit
-    void undoSlot();
-    void redoSlot();
     void clearCanvasSlot();
 
     void activeTabSlot(int index);
@@ -40,6 +38,7 @@ private slots:
     void colorWindowSlot();
 
     void changeColorSlot();
+    void paintUndoSlot();
 
 private:
     void createMenus();

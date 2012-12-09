@@ -13,6 +13,7 @@ public:
     inline int diameterBrush() {return sizeBrush;}
     inline void setColor(int r, int g, int b) {rColor = r; gColor = g, bColor = b;}
     inline void setColor(int r, int g, int b, int a) {rColor = r; gColor = g, bColor = b; aColor = a;}
+    inline bool touch() {return touchStylus;}
     inline void setTouch(bool touch) {touchStylus = touch;}
 
 signals:

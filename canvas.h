@@ -14,6 +14,8 @@ public:
     inline qreal pressure() {return pressurePen;}
     inline QString typeDevice() {return typeInputDevice;}
     inline QPixmap* surface() {return pixmap;}
+    inline QPixmap prevSurface() {return prevPixmap;}
+    inline void setSurface(QPixmap *surface) {*pixmap = *surface;}
 
 protected:
     void paintEvent(QPaintEvent*);
@@ -26,15 +28,16 @@ protected:
 
 signals:
     void inputEventSignal();
+    void startPaintSignal();
     
 public slots:
-    void clearCanvasSlot();
     void drawCursorSlot();
 
 private:
 
     BrushEngine *brush;
     QPixmap *pixmap;
+    QPixmap prevPixmap;
     QPoint positionCursor;
     qreal pressurePen;
     QString typeInputDevice;

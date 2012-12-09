@@ -1,4 +1,5 @@
 #include "mainwindow.h"
+#include "undocommands.h"
 
 MainWindow::MainWindow()
 {
@@ -7,6 +8,7 @@ MainWindow::MainWindow()
     setWindowIcon(QIcon(":/icons/Butterfly_128x128.png"));
 
     undoStack = new QUndoStack(this);
+    undoStack->setUndoLimit(50);
     undoView = new QUndoView(undoStack);
 
     createMenus();
@@ -40,12 +42,9 @@ void MainWindow::createMenus()
     undoAction->setShortcuts(QKeySequence::Undo);
     editMenu->addAction(undoAction);
 
-    redoAction = undoStack->createUndoAction(this, tr("Redo"));
+    redoAction = undoStack->createRedoAction(this, tr("Redo"));
     redoAction->setShortcuts(QKeySequence::Redo);
     editMenu->addAction(redoAction);
-
-    //editMenu->addAction(tr("Undo"), this, SLOT(undoSlot()), Qt::CTRL + Qt::Key_Z);
-    //editMenu->addAction(tr("Redo"), this, SLOT(redoSlot()), Qt::CTRL + Qt::Key_Y);
 
     editMenu->addAction(tr("Clear"), this, SLOT(clearCanvasSlot()), Qt::Key_Delete);
 
@@ -110,6 +109,7 @@ void MainWindow::closeTabSlot(int index)
 void MainWindow::createNewTabSlot()
 {
     canvas = new Canvas(brushEngine);
+    connect(canvas, SIGNAL(startPaintSignal()), this, SLOT(paintUndoSlot()));
     canvasList.append(canvas);
     pathImageList.append("");
     int index = tabWidget->count();
@@ -185,19 +185,10 @@ void MainWindow::closeOthersSlot()
     }
 }
 
-void MainWindow::undoSlot()
-{
-
-}
-
-void MainWindow::redoSlot()
-{
-
-}
-
 void MainWindow::clearCanvasSlot()
 {
-    canvas->clearCanvasSlot();
+    QUndoCommand *clearCommand = new ClearCommand(canvas);
+    undoStack->push(clearCommand);
 }
 
 void MainWindow::inputDevicesWindowSlot()
@@ -226,6 +217,12 @@ void MainWindow::colorWindowSlot()
 void MainWindow::changeColorSlot()
 {
     brushEngine->setColor(colorPicker->color().red(), colorPicker->color().green(), colorPicker->color().blue());
+}
+
+void MainWindow::paintUndoSlot()
+{
+    QUndoCommand *paintCommand = new PaintCommand(canvas);
+    undoStack->push(paintCommand);
 }
 
 void MainWindow::aboutWindowSlot()

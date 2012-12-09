@@ -1,31 +1,51 @@
 #include "undocommands.h"
 
-PaintCommand::PaintCommand()
+PaintCommand::PaintCommand(Canvas *canvasOut)
 {
-
+    canvas = canvasOut;
+    isPaint = false;
 }
 
-PaintCommand::undo()
+void PaintCommand::undo()
 {
-
+    canvas->setSurface(&prevPixmap);
+    canvas->update();
+    setText("Paint");
 }
 
-PaintCommand::redo()
+void PaintCommand::redo()
 {
-
+    if (!isPaint)
+    {
+        prevPixmap = canvas->prevSurface();
+        pixmap = *(canvas->surface());
+        isPaint = true;
+        setText("Paint");
+    }
+    else
+    {
+        canvas->setSurface(&pixmap);
+        canvas->update();
+    }
+    setText("Paint");
 }
 
-ClearCommand::ClearCommand()
+ClearCommand::ClearCommand(Canvas *canvasOut)
 {
-
+    canvas = canvasOut;
 }
 
-ClearCommand::undo()
+void ClearCommand::undo()
 {
-
+    canvas->setSurface(&pixmap);
+    canvas->update();
+    setText("Clear");
 }
 
-ClearCommand::redo()
+void ClearCommand::redo()
 {
-
+    pixmap = *(canvas->surface());
+    canvas->surface()->fill(Qt::white);
+    canvas->update();
+    setText("Clear");
 }
