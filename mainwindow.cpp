@@ -25,7 +25,7 @@ void MainWindow::createMenus()
 {
     QMenu *fileMenu = menuBar()->addMenu(tr("File"));
     fileMenu->addAction(tr("New"), this, SLOT(createNewTabSlot()), Qt::CTRL + Qt::Key_N);
-    fileMenu->addAction(tr("Open"), this, SLOT(openImageSlot()), Qt::CTRL + Qt::Key_O);
+    fileMenu->addAction(tr("Open..."), this, SLOT(openImageSlot()), Qt::CTRL + Qt::Key_O);
     fileMenu->addAction(tr("Save"), this, SLOT(saveImageSlot()), Qt::CTRL + Qt::Key_S);
     fileMenu->addAction(tr("Save As..."), this, SLOT(saveAsImageSlot()), Qt::CTRL + Qt::SHIFT + Qt::Key_S);
     fileMenu->addSeparator();
@@ -37,12 +37,10 @@ void MainWindow::createMenus()
 
     QMenu *editMenu = menuBar()->addMenu(tr("Edit"));
 
-    //undoAction = undoStack->createUndoAction(this, tr("Undo"));
     undoAction = undoGroup->createUndoAction(this, tr("Undo"));
     undoAction->setShortcuts(QKeySequence::Undo);
     editMenu->addAction(undoAction);
 
-    //redoAction = undoStack->createRedoAction(this, tr("Redo"));
     redoAction = undoGroup->createRedoAction(this, tr("Redo"));
     redoAction->setShortcuts(QKeySequence::Redo);
     editMenu->addAction(redoAction);
