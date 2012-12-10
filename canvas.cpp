@@ -42,10 +42,14 @@ void Canvas::paintEvent(QPaintEvent*)
 
 void Canvas::mouseMoveEvent(QMouseEvent *event)
 {
+
     positionCursor.setX(event->x());
     positionCursor.setY(event->y());
     pressurePen = 1.0;
     typeInputDevice = "Mouse";
+
+    //qDebug() << positionCursor;
+    //qDebug() << event->posF();
 
     if (spacePress)
     {
@@ -63,6 +67,7 @@ void Canvas::mouseMoveEvent(QMouseEvent *event)
 
 void Canvas::mousePressEvent(QMouseEvent *event)
 {
+    setFocus();
     if (!spacePress)
     {
         prevPixmap = *pixmap;
@@ -97,6 +102,7 @@ void Canvas::tabletEvent(QTabletEvent *event)
     {
         case (QEvent::TabletPress):
         {
+            setFocus();
             if (!spacePress)
             {
                 prevPixmap = *pixmap;

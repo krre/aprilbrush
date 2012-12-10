@@ -24,13 +24,13 @@ void BrushEngine::paint(QPixmap *pixmap, QPoint posCursor, qreal pressure)
     int numDabs;
     qreal deltaDab;
     qreal angle;
-    QPoint betweenPos;
+    QPointF betweenPos;
 
     // First dab after touching the stylus at a surface
     if (!touchStylus)
     {
         prevPos = posCursor;
-        painter.drawEllipse(posCursor.x() - sizeBrush / 2, posCursor.y() - sizeBrush / 2, sizeBrush, sizeBrush);
+        painter.drawEllipse(QRectF((qreal)posCursor.x() - sizeBrush / 2.0, (qreal)posCursor.y() - sizeBrush / 2.0, sizeBrush, sizeBrush));
         touchStylus = true;
     }
     else
@@ -44,8 +44,8 @@ void BrushEngine::paint(QPixmap *pixmap, QPoint posCursor, qreal pressure)
             angle = qAtan2(nowPos.x() - prevPos.x(), nowPos.y() - prevPos.y());
             for (int dabCount = 1; dabCount <= numDabs; dabCount++)
             {
-                betweenPos = QPoint(prevPos.x() + deltaDab * qSin(angle), prevPos.y() + deltaDab * qCos(angle));
-                painter.drawEllipse(betweenPos.x() - sizeBrush / 2, betweenPos.y() - sizeBrush / 2, sizeBrush, sizeBrush);
+                betweenPos = QPointF(prevPos.x() + deltaDab * qSin(angle), prevPos.y() + deltaDab * qCos(angle));
+                painter.drawEllipse(QRectF(betweenPos.x() - sizeBrush / 2.0, betweenPos.y() - sizeBrush / 2.0, sizeBrush, sizeBrush));
                 prevPos = betweenPos;
             }            
         }

@@ -29,8 +29,8 @@ private:
     int sizeBrush;
     int spacingBrush;
 
-    QPoint nowPos;
-    QPoint prevPos;
+    QPointF nowPos;
+    QPointF prevPos;
     bool touchStylus;
 
     int rColor;
