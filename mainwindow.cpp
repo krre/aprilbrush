@@ -19,6 +19,7 @@ MainWindow::MainWindow()
     colorPicker = new ColorPicker(QColor(0, 0, 0));
     connect(colorPicker, SIGNAL(colorSignal()), this, SLOT(changeColorSlot()));
     createDockWindows();
+    canvas->setFocus();
 }
 
 void MainWindow::createMenus()

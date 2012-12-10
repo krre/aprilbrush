@@ -5,12 +5,18 @@ Canvas::Canvas(BrushEngine *globalBrush)
 {
     int widthScreen = qApp->desktop()->width();
     int heigthScreen = qApp->desktop()->height();
+    //int widthScreen = 500;
+    //int heigthScreen = 500;
     pixmap = new QPixmap(widthScreen, heigthScreen);
     pixmap->fill(Qt::white);
     setAutoFillBackground(true);
     brush = globalBrush;
     connect(brush, SIGNAL(sizeBrushSignal()), this, SLOT(drawCursorSlot()));
     drawCursorSlot();
+    spacePress = false;
+
+    //setFocus();
+    //setFocusPolicy(Qt::ClickFocus);
 }
 
 void Canvas::drawCursorSlot()
@@ -40,7 +46,16 @@ void Canvas::mouseMoveEvent(QMouseEvent *event)
     positionCursor.setY(event->y());
     pressurePen = 1.0;
     typeInputDevice = "Mouse";
-    brush->paint(pixmap, positionCursor, pressurePen);
+
+    if (spacePress)
+    {
+        scrollCanvas();
+    }
+    else
+    {
+        brush->paint(pixmap, positionCursor, pressurePen);
+    }
+
     update();
 
     emit inputEventSignal();
@@ -48,12 +63,15 @@ void Canvas::mouseMoveEvent(QMouseEvent *event)
 
 void Canvas::mousePressEvent(QMouseEvent *event)
 {
-    prevPixmap = *pixmap;
-    positionCursor.setX(event->x());
-    positionCursor.setY(event->y());
-    pressurePen = 1.0;
-    typeInputDevice = "Mouse";
-    brush->paint(pixmap, positionCursor, pressurePen);
+    if (!spacePress)
+    {
+        prevPixmap = *pixmap;
+        positionCursor.setX(event->x());
+        positionCursor.setY(event->y());
+        pressurePen = 1.0;
+        typeInputDevice = "Mouse";
+        brush->paint(pixmap, positionCursor, pressurePen);
+    }
     update();
 
     emit inputEventSignal();
@@ -61,32 +79,81 @@ void Canvas::mousePressEvent(QMouseEvent *event)
 
 void Canvas::mouseReleaseEvent(QMouseEvent *)
 {
-    brush->setTouch(false);
-    emit startPaintSignal();
+    if (!spacePress)
+    {
+        brush->setTouch(false);
+        emit startPaintSignal();
+    }
 }
 
 void Canvas::tabletEvent(QTabletEvent *event)
 {
-    if (event->type() == event->TabletPress)
-        prevPixmap = *pixmap;
-
-    if (event->type() == event->TabletRelease)
-    {
-        emit startPaintSignal();
-        brush->setTouch(false);
-    }
-
     positionCursor.setX(event->x());
     positionCursor.setY(event->y());
     typeInputDevice = "Stylus";
     pressurePen = event->pressure();
 
-    if (pressurePen > 0)
+    switch (event->type())
+    {
+        case (QEvent::TabletPress):
+        {
+            if (!spacePress)
+            {
+                prevPixmap = *pixmap;
+            }
+            break;
+        }
+        case (QEvent::TabletRelease):
+        {
+            if (!spacePress)
+            {
+                emit startPaintSignal();
+                brush->setTouch(false);
+            }
+            break;
+        }
+        case (QEvent::TabletMove):
+        {
+            if (spacePress && (pressurePen > 0))
+            {                
+                scrollCanvas();
+            }
+            break;
+        }
+
+        default:
+            break;
+    }
+
+    if (pressurePen > 0 && !spacePress)
         brush->paint(pixmap, positionCursor, pressurePen);
 
     update();
 
     emit inputEventSignal();
+}
+
+void Canvas::keyPressEvent(QKeyEvent *event)
+{
+    if (event->key() == Qt::Key_Space)
+        prevPositionCursor = positionCursor;
+        spacePress = true;
+}
+
+void Canvas::keyReleaseEvent(QKeyEvent *event)
+{
+    if (event->key() == Qt::Key_Space)
+        spacePress = false;
+}
+
+void Canvas::scrollCanvas()
+{
+    int dx = positionCursor.x() - prevPositionCursor.x();
+    int dy = positionCursor.y() - prevPositionCursor.y();
+    pixmap->scroll(dx, dy, 0, 0, qApp->desktop()->width(), qApp->desktop()->height());
+    //pixmap->scroll(dx, dy, 0, 0, 500, 500);
+    prevPositionCursor = positionCursor;
+    update();
 }
 
 void Canvas::leaveEvent(QEvent *)

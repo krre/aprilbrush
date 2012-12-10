@@ -23,6 +23,8 @@ protected:
     void mousePressEvent(QMouseEvent *event);
     void mouseReleaseEvent(QMouseEvent *);
     void tabletEvent(QTabletEvent *event);
+    void keyPressEvent(QKeyEvent *event);
+    void keyReleaseEvent(QKeyEvent *event);
     void leaveEvent(QEvent *);
     void enterEvent(QEvent *);
 
@@ -34,13 +36,16 @@ public slots:
     void drawCursorSlot();
 
 private:
+    void scrollCanvas();
 
     BrushEngine *brush;
     QPixmap *pixmap;
     QPixmap prevPixmap;
     QPoint positionCursor;
+    QPoint prevPositionCursor;
     qreal pressurePen;
     QString typeInputDevice;
+    bool spacePress;
 };
 
 #endif // CANVAS_H
