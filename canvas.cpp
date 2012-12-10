@@ -23,8 +23,8 @@ void Canvas::drawCursorSlot()
 {
     int sizeBrush = brush->diameterBrush();
     // Size of the cursor should not be very small
-    if (sizeBrush < 5)
-        sizeBrush = 5;
+    if (sizeBrush < 3)
+        sizeBrush = 3;
     QPixmap pixmap(sizeBrush, sizeBrush);
     pixmap.fill(QColor(255, 255, 255, 0));
     QPainter painter(&pixmap);

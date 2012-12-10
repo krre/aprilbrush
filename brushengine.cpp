@@ -38,6 +38,7 @@ void BrushEngine::paint(QPixmap *pixmap, QPoint posCursor, qreal pressure)
         nowPos = posCursor;
         length = qSqrt(qPow(prevPos.x() - nowPos.x(), 2) + qPow(prevPos.y() - nowPos.y(), 2));
         deltaDab = sizeBrush * spacingBrush / 100.0;
+        // Drawing dabs between the events
         if (length >= deltaDab)
         {
             numDabs = qRound(length / deltaDab);
