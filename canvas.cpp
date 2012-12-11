@@ -145,8 +145,10 @@ void Canvas::tabletEvent(QTabletEvent *event)
 void Canvas::keyPressEvent(QKeyEvent *event)
 {
     if (event->key() == Qt::Key_Space)
+    {
         prevPositionCursor = positionCursor;
         spacePress = true;
+    }
 }
 
 void Canvas::keyReleaseEvent(QKeyEvent *event)
