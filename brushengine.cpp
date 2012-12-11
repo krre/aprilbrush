@@ -7,7 +7,7 @@ BrushEngine::BrushEngine()
     spacingBrush = 100;
     touchStylus = false;
 
-    hardnessBrush = 100;
+    hardnessBrush = 80;
 
     rColor = 0;
     gColor = 0;
@@ -15,14 +15,18 @@ BrushEngine::BrushEngine()
     aColor = 127;
 }
 
-void BrushEngine::paint(QPixmap *pixmap, QPoint posCursor, qreal pressure)
+void BrushEngine::paint(QPixmap *pixmap, QPointF posCursor, qreal pressure)
 {
     QPainter painter(pixmap);
     painter.setRenderHint(QPainter::Antialiasing, true);
     painter.setPen(Qt::NoPen);
-    //QRadialGradient radialGradient()
-    colorBrush = QColor(rColor, gColor, bColor, int(pressure * aColor));
-    painter.setBrush(QBrush(colorBrush, Qt::SolidPattern));
+
+    QRadialGradient radialGradient(posCursor, sizeBrush / 2.0);
+    radialGradient.setColorAt(0, QColor(rColor, gColor, bColor, qRound(pressure * aColor)));
+    radialGradient.setColorAt(1, QColor(rColor, gColor, bColor, 0));
+    radialGradient.setColorAt(hardnessBrush / 100.0, QColor(rColor, gColor, bColor, qRound(pressure * aColor)));
+    painter.setBrush(QBrush(radialGradient));
+
     qreal length;
     int numDabs;
     qreal deltaDab;
@@ -33,7 +37,7 @@ void BrushEngine::paint(QPixmap *pixmap, QPoint posCursor, qreal pressure)
     if (!touchStylus)
     {
         prevPos = posCursor;
-        painter.drawEllipse(QRectF((qreal)posCursor.x() - sizeBrush / 2.0, (qreal)posCursor.y() - sizeBrush / 2.0, sizeBrush, sizeBrush));
+        painter.drawEllipse(posCursor, sizeBrush / 2.0, sizeBrush / 2.0);
         touchStylus = true;
     }
     else
@@ -49,7 +53,16 @@ void BrushEngine::paint(QPixmap *pixmap, QPoint posCursor, qreal pressure)
             for (int dabCount = 1; dabCount <= numDabs; dabCount++)
             {
                 betweenPos = QPointF(prevPos.x() + deltaDab * qSin(angle), prevPos.y() + deltaDab * qCos(angle));
-                painter.drawEllipse(QRectF(betweenPos.x() - sizeBrush / 2.0, betweenPos.y() - sizeBrush / 2.0, sizeBrush, sizeBrush));
+                //radialGradient.setCenter(betweenPos);
+
+                // temporary
+                radialGradient = QRadialGradient(betweenPos, sizeBrush / 2.0);
+                radialGradient.setColorAt(0, QColor(rColor, gColor, bColor, qRound(pressure * aColor)));
+                radialGradient.setColorAt(1, QColor(rColor, gColor, bColor, 0));
+                radialGradient.setColorAt(hardnessBrush / 100.0, QColor(rColor, gColor, bColor, qRound(pressure * aColor)));
+
+                painter.setBrush(QBrush(radialGradient));
+                painter.drawEllipse(betweenPos, sizeBrush / 2.0, sizeBrush / 2.0);
                 prevPos = betweenPos;
             }            
         }
