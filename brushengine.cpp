@@ -7,6 +7,8 @@ BrushEngine::BrushEngine()
     spacingBrush = 100;
     touchStylus = false;
 
+    hardnessBrush = 100;
+
     rColor = 0;
     gColor = 0;
     bColor = 0;
@@ -18,6 +20,7 @@ void BrushEngine::paint(QPixmap *pixmap, QPoint posCursor, qreal pressure)
     QPainter painter(pixmap);
     painter.setRenderHint(QPainter::Antialiasing, true);
     painter.setPen(Qt::NoPen);
+    //QRadialGradient radialGradient()
     colorBrush = QColor(rColor, gColor, bColor, int(pressure * aColor));
     painter.setBrush(QBrush(colorBrush, Qt::SolidPattern));
     qreal length;
