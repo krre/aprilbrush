@@ -5,18 +5,20 @@ Canvas::Canvas(BrushEngine *globalBrush)
 {
     int widthScreen = qApp->desktop()->width();
     int heigthScreen = qApp->desktop()->height();
-    //int widthScreen = 500;
-    //int heigthScreen = 500;
+
     pixmap = new QPixmap(widthScreen, heigthScreen);
     pixmap->fill(Qt::white);
-    setAutoFillBackground(true);
+
+    graphicsScene = new QGraphicsScene(0, 0, widthScreen, heigthScreen);
+    pixmapItem = new QGraphicsPixmapItem();
+    pixmapItem->setPixmap(*pixmap);
+    graphicsScene->addItem(pixmapItem);
+    setScene(graphicsScene);
+
     brush = globalBrush;
     connect(brush, SIGNAL(sizeBrushSignal()), this, SLOT(drawCursorSlot()));
     drawCursorSlot();
     spacePress = false;
-
-    //setFocus();
-    //setFocusPolicy(Qt::ClickFocus);
 }
 
 void Canvas::drawCursorSlot()
@@ -36,13 +38,18 @@ void Canvas::drawCursorSlot()
     painter.drawEllipse(1, 1, sizeBrush - 2, sizeBrush - 2);
     setCursor(pixmap);
 }
-
+/*
 void Canvas::paintEvent(QPaintEvent*)
 {
-    QPainter painter(this);
-    painter.drawPixmap(0, 0, *pixmap);
-}
+    //QPainter painter(this);
+    //painter.drawPixmap(0, 0, *pixmap);
 
+    //pixmapItem->setPixmap(*pixmap);
+    QPainter painter(this);
+    graphicsScene->render(&painter);
+    this->render(&painter);
+}
+*/
 void Canvas::mouseMoveEvent(QMouseEvent *event)
 {
 
@@ -51,9 +58,6 @@ void Canvas::mouseMoveEvent(QMouseEvent *event)
     pressurePen = 1.0;
     typeInputDevice = "Mouse";
 
-    //qDebug() << positionCursor;
-    //qDebug() << event->posF();
-
     if (spacePress)
     {
         scrollCanvas();
@@ -61,6 +65,7 @@ void Canvas::mouseMoveEvent(QMouseEvent *event)
     else
     {
         brush->paint(pixmap, positionCursor, pressurePen);
+        pixmapItem->setPixmap(*pixmap);
     }
 
     update();
@@ -79,6 +84,7 @@ void Canvas::mousePressEvent(QMouseEvent *event)
         pressurePen = 1.0;
         typeInputDevice = "Mouse";
         brush->paint(pixmap, positionCursor, pressurePen);
+        pixmapItem->setPixmap(*pixmap);
     }
     update();
 
@@ -162,7 +168,6 @@ void Canvas::scrollCanvas()
     int dx = positionCursor.x() - prevPositionCursor.x();
     int dy = positionCursor.y() - prevPositionCursor.y();
     pixmap->scroll(dx, dy, 0, 0, qApp->desktop()->width(), qApp->desktop()->height());
-    //pixmap->scroll(dx, dy, 0, 0, 500, 500);
     prevPositionCursor = positionCursor;
     update();
 }

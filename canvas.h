@@ -4,7 +4,8 @@
 #include <QtGui>
 #include "brushengine.h"
 
-class Canvas : public QWidget
+//class Canvas : public QWidget
+class Canvas : public QGraphicsView
 {
     Q_OBJECT
 
@@ -18,7 +19,7 @@ public:
     inline void setSurface(QPixmap *surface) {*pixmap = *surface;}
 
 protected:
-    void paintEvent(QPaintEvent*);
+    //void paintEvent(QPaintEvent*);
     void mouseMoveEvent(QMouseEvent *event);
     void mousePressEvent(QMouseEvent *event);
     void mouseReleaseEvent(QMouseEvent *);
@@ -36,7 +37,12 @@ public slots:
     void drawCursorSlot();
 
 private:
+    void drawPixmap();
     void scrollCanvas();
+
+    QGraphicsScene *graphicsScene;
+    QGraphicsView *graphicsView;
+    QGraphicsPixmapItem *pixmapItem;
 
     BrushEngine *brush;
     QPixmap *pixmap;
