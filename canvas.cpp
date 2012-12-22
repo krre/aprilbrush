@@ -11,10 +11,15 @@ Canvas::Canvas(BrushEngine *globalBrush)
     int widthScreen = qApp->desktop()->width();
     int heigthScreen = qApp->desktop()->height();
 
-    pixmap = new QPixmap(widthScreen, heigthScreen);
-    pixmap->fill(Qt::white);
-
     scene = new QGraphicsScene(0, 0, widthScreen, heigthScreen);
+
+    backgroundItem = new QGraphicsRectItem(0, 0, widthScreen, heigthScreen);
+    backgroundItem->setPen(Qt::NoPen);
+    backgroundItem->setBrush(QBrush(Qt::white));
+    scene->addItem(backgroundItem);
+
+    pixmap = new QPixmap(widthScreen, heigthScreen);
+    pixmap->fill(QColor(0, 0, 0, 0));
     pixmapItem = new QGraphicsPixmapItem();
     pixmapItem->setPixmap(*pixmap);
     scene->addItem(pixmapItem);
@@ -186,6 +191,11 @@ void Canvas::keyPressEvent(QKeyEvent *event)
         scale(0.5, 0.5);
         //qDebug() << "minus";
     }
+    if (event->key() == Qt::Key_B)
+        brush->setEraser(false);
+
+    if (event->key() == Qt::Key_E)
+        brush->setEraser(true);
 }
 
 void Canvas::keyReleaseEvent(QKeyEvent *event)

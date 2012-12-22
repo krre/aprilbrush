@@ -42,7 +42,8 @@ private:
     void scrollCanvas();
 
     QGraphicsScene *scene;
-    QGraphicsView *graphicsView;
+    //QGraphicsView *graphicsView;
+    QGraphicsRectItem *backgroundItem;
     QGraphicsPixmapItem *pixmapItem;
 
     BrushEngine *brush;

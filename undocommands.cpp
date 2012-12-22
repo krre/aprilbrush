@@ -48,7 +48,8 @@ void ClearCommand::undo()
 void ClearCommand::redo()
 {
     pixmap = *(canvas->surface());
-    canvas->surface()->fill(Qt::white);
+    canvas->surface()->fill(QColor(0, 0, 0, 0));
+    //canvas->surface()->fill(Qt::white);
     canvas->updatePixmap();
     canvas->update();
     setText("Clear");

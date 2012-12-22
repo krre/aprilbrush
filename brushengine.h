@@ -13,6 +13,7 @@ public:
     inline int diameterBrush() {return sizeBrush;}
     inline void setColor(int r, int g, int b) {rColor = r; gColor = g, bColor = b;}
     inline void setColor(int r, int g, int b, int a) {rColor = r; gColor = g, bColor = b; aColor = a;}
+    inline void setEraser(bool eraserOut) {eraser = eraserOut;}
     inline bool touch() {return touchStylus;}
     inline void setTouch(bool touch) {touchStylus = touch;}
 
@@ -30,6 +31,7 @@ private:
     int sizeBrush;
     int spacingBrush;
     int hardnessBrush;
+    bool eraser;
 
     QPointF nowPos;
     QPointF prevPos;

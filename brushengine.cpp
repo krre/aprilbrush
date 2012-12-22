@@ -6,6 +6,7 @@ BrushEngine::BrushEngine()
     sizeBrush = 20;
     spacingBrush = 100;
     touchStylus = false;
+    eraser = false;
 
     hardnessBrush = 80;
 
@@ -20,6 +21,8 @@ void BrushEngine::paint(QPixmap *pixmap, QPointF posCursor, qreal pressure)
     QPainter painter(pixmap);
     painter.setRenderHint(QPainter::Antialiasing, true);
     painter.setPen(Qt::NoPen);
+    if (eraser)
+        painter.setCompositionMode(QPainter::CompositionMode_DestinationOut);
 
     //qreal alpha = aColor;
     //if (spacingBrush < 100)
