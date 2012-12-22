@@ -3,6 +3,9 @@
 
 Canvas::Canvas(BrushEngine *globalBrush)
 {
+    //setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    //setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+
     int widthScreen = qApp->desktop()->width();
     int heigthScreen = qApp->desktop()->height();
 
@@ -52,7 +55,7 @@ void Canvas::paintEvent(QPaintEvent*)
 */
 void Canvas::mouseMoveEvent(QMouseEvent *event)
 {
-
+    //prevPositionCursor = positionCursor;
     positionCursor.setX(event->x());
     positionCursor.setY(event->y());
     pressurePen = 1.0;
@@ -81,11 +84,13 @@ void Canvas::mouseMoveEvent(QMouseEvent *event)
 void Canvas::mousePressEvent(QMouseEvent *event)
 {
     setFocus();
+    positionCursor.setX(event->x());
+    positionCursor.setY(event->y());
     if (!spacePress)
     {
         prevPixmap = *pixmap;
-        positionCursor.setX(event->x());
-        positionCursor.setY(event->y());
+        //positionCursor.setX(event->x());
+        //positionCursor.setY(event->y());
         pressurePen = 1.0;
         typeInputDevice = "Mouse";
         QPointF itemPos = mapToScene(positionCursor);
@@ -94,6 +99,8 @@ void Canvas::mousePressEvent(QMouseEvent *event)
         pixmapItem->setPixmap(*pixmap);
         //graphicsScene->update();
     }
+
+    prevPositionCursor = positionCursor;
     update();
 
     emit inputEventSignal();
@@ -120,6 +127,7 @@ void Canvas::tabletEvent(QTabletEvent *event)
         case (QEvent::TabletPress):
         {
             setFocus();
+            prevPositionCursor = positionCursor;
             if (!spacePress)
             {
                 prevPixmap = *pixmap;
@@ -164,7 +172,7 @@ void Canvas::keyPressEvent(QKeyEvent *event)
 {
     if (event->key() == Qt::Key_Space)
     {
-        prevPositionCursor = positionCursor;
+        //prevPositionCursor = positionCursor;
         spacePress = true;
     }
 }
@@ -179,7 +187,13 @@ void Canvas::scrollCanvas()
 {
     int dx = positionCursor.x() - prevPositionCursor.x();
     int dy = positionCursor.y() - prevPositionCursor.y();
-    pixmap->scroll(dx, dy, 0, 0, qApp->desktop()->width(), qApp->desktop()->height());
+
+    //qDebug() << "pos:" << positionCursor << "prev:" << prevPositionCursor << dx << dy;
+
+    QScrollBar *horBar = horizontalScrollBar();
+    horBar->setValue(horBar->value() - dx);
+    QScrollBar *verBar = verticalScrollBar();
+    verBar->setValue(verBar->value() - dy);
     prevPositionCursor = positionCursor;
     update();
 }
