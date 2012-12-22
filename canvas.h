@@ -17,6 +17,7 @@ public:
     inline QPixmap* surface() {return pixmap;}
     inline QPixmap prevSurface() {return prevPixmap;}
     inline void setSurface(QPixmap *surface) {*pixmap = *surface;}
+    inline void updatePixmap() {pixmapItem->setPixmap(*pixmap);;}
 
 protected:
     //void paintEvent(QPaintEvent*);
@@ -40,7 +41,7 @@ private:
     void drawPixmap();
     void scrollCanvas();
 
-    QGraphicsScene *graphicsScene;
+    QGraphicsScene *scene;
     QGraphicsView *graphicsView;
     QGraphicsPixmapItem *pixmapItem;
 

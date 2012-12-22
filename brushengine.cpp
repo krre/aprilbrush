@@ -21,16 +21,16 @@ void BrushEngine::paint(QPixmap *pixmap, QPointF posCursor, qreal pressure)
     painter.setRenderHint(QPainter::Antialiasing, true);
     painter.setPen(Qt::NoPen);
 
-    qreal alpha = aColor;
-    if (spacingBrush < 100)
-        alpha = aColor * spacingBrush / 100.0;
+    //qreal alpha = aColor;
+    //if (spacingBrush < 100)
+    //    alpha = aColor * spacingBrush / 100.0;
 
     QRadialGradient radialGradient(posCursor, sizeBrush / 2.0);
-    //radialGradient.setColorAt(0, QColor(rColor, gColor, bColor, qRound(pressure * aColor)));
-    radialGradient.setColorAt(0, QColor(rColor, gColor, bColor, qRound(pressure * alpha)));
+    radialGradient.setColorAt(0, QColor(rColor, gColor, bColor, qRound(pressure * aColor)));
+    //radialGradient.setColorAt(0, QColor(rColor, gColor, bColor, qRound(pressure * alpha)));
     radialGradient.setColorAt(1, QColor(rColor, gColor, bColor, 0));
-    //radialGradient.setColorAt(hardnessBrush / 100.0, QColor(rColor, gColor, bColor, qRound(pressure * aColor)));
-    radialGradient.setColorAt(hardnessBrush / 100.0, QColor(rColor, gColor, bColor, qRound(pressure * alpha)));
+    radialGradient.setColorAt(hardnessBrush / 100.0, QColor(rColor, gColor, bColor, qRound(pressure * aColor)));
+    //radialGradient.setColorAt(hardnessBrush / 100.0, QColor(rColor, gColor, bColor, qRound(pressure * alpha)));
     painter.setBrush(QBrush(radialGradient));
 
     qreal length;
@@ -63,11 +63,11 @@ void BrushEngine::paint(QPixmap *pixmap, QPointF posCursor, qreal pressure)
 
                 // temporary
                 radialGradient = QRadialGradient(betweenPos, sizeBrush / 2.0);
-                //radialGradient.setColorAt(0, QColor(rColor, gColor, bColor, qRound(pressure * aColor)));
-                radialGradient.setColorAt(0, QColor(rColor, gColor, bColor, qRound(pressure * alpha)));
+                radialGradient.setColorAt(0, QColor(rColor, gColor, bColor, qRound(pressure * aColor)));
+                //radialGradient.setColorAt(0, QColor(rColor, gColor, bColor, qRound(pressure * alpha)));
                 radialGradient.setColorAt(1, QColor(rColor, gColor, bColor, 0));
-                //radialGradient.setColorAt(hardnessBrush / 100.0, QColor(rColor, gColor, bColor, qRound(pressure * aColor)));
-                radialGradient.setColorAt(hardnessBrush / 100.0, QColor(rColor, gColor, bColor, qRound(pressure * alpha)));
+                radialGradient.setColorAt(hardnessBrush / 100.0, QColor(rColor, gColor, bColor, qRound(pressure * aColor)));
+                //radialGradient.setColorAt(hardnessBrush / 100.0, QColor(rColor, gColor, bColor, qRound(pressure * alpha)));
 
                 painter.setBrush(QBrush(radialGradient));
                 painter.drawEllipse(betweenPos, sizeBrush / 2.0, sizeBrush / 2.0);

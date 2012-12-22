@@ -9,6 +9,7 @@ PaintCommand::PaintCommand(Canvas *canvasOut)
 void PaintCommand::undo()
 {
     canvas->setSurface(&prevPixmap);
+    canvas->updatePixmap();
     canvas->update();
     setText("Paint");
 }
@@ -25,6 +26,7 @@ void PaintCommand::redo()
     else
     {
         canvas->setSurface(&pixmap);
+        canvas->updatePixmap();
         canvas->update();
     }
     setText("Paint");
@@ -38,6 +40,7 @@ ClearCommand::ClearCommand(Canvas *canvasOut)
 void ClearCommand::undo()
 {
     canvas->setSurface(&pixmap);
+    canvas->updatePixmap();
     canvas->update();
     setText("Clear");
 }
@@ -46,6 +49,7 @@ void ClearCommand::redo()
 {
     pixmap = *(canvas->surface());
     canvas->surface()->fill(Qt::white);
+    canvas->updatePixmap();
     canvas->update();
     setText("Clear");
 }

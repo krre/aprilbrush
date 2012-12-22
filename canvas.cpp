@@ -9,11 +9,11 @@ Canvas::Canvas(BrushEngine *globalBrush)
     pixmap = new QPixmap(widthScreen, heigthScreen);
     pixmap->fill(Qt::white);
 
-    graphicsScene = new QGraphicsScene(0, 0, widthScreen, heigthScreen);
+    scene = new QGraphicsScene(0, 0, widthScreen, heigthScreen);
     pixmapItem = new QGraphicsPixmapItem();
     pixmapItem->setPixmap(*pixmap);
-    graphicsScene->addItem(pixmapItem);
-    setScene(graphicsScene);
+    scene->addItem(pixmapItem);
+    setScene(scene);
 
     brush = globalBrush;
     connect(brush, SIGNAL(sizeBrushSignal()), this, SLOT(drawCursorSlot()));
@@ -64,8 +64,13 @@ void Canvas::mouseMoveEvent(QMouseEvent *event)
     }
     else
     {
-        brush->paint(pixmap, positionCursor, pressurePen);
+        //QPointF itemPos = pixmapItem->mapToItem(pixmapItem, positionCursor);
+        QPointF itemPos = mapToScene(positionCursor);
+        brush->paint(pixmap, itemPos, pressurePen);
+        //brush->paint(pixmap, positionCursor, pressurePen);
         pixmapItem->setPixmap(*pixmap);
+        //graphicsScene->update();
+        //qDebug() << ;
     }
 
     update();
@@ -83,8 +88,11 @@ void Canvas::mousePressEvent(QMouseEvent *event)
         positionCursor.setY(event->y());
         pressurePen = 1.0;
         typeInputDevice = "Mouse";
-        brush->paint(pixmap, positionCursor, pressurePen);
+        QPointF itemPos = mapToScene(positionCursor);
+        brush->paint(pixmap, itemPos, pressurePen);
+        //brush->paint(pixmap, positionCursor, pressurePen);
         pixmapItem->setPixmap(*pixmap);
+        //graphicsScene->update();
     }
     update();
 
@@ -141,8 +149,12 @@ void Canvas::tabletEvent(QTabletEvent *event)
     }
 
     if (pressurePen > 0 && !spacePress)
-        brush->paint(pixmap, positionCursor, pressurePen);
-
+    {
+        QPointF itemPos = mapToScene(positionCursor);
+        brush->paint(pixmap, itemPos, pressurePen);
+        //brush->paint(pixmap, positionCursor, pressurePen);
+        pixmapItem->setPixmap(*pixmap);
+    }
     update();
 
     emit inputEventSignal();
