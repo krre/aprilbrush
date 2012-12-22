@@ -6,6 +6,8 @@ Canvas::Canvas(BrushEngine *globalBrush)
     //setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     //setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
 
+    setBackgroundRole(QPalette::Window);
+
     int widthScreen = qApp->desktop()->width();
     int heigthScreen = qApp->desktop()->height();
 
@@ -174,6 +176,15 @@ void Canvas::keyPressEvent(QKeyEvent *event)
     {
         //prevPositionCursor = positionCursor;
         spacePress = true;
+    }
+    if (event->key() == Qt::Key_Plus)
+    {   scale(2, 2);
+        //qDebug() << "plus";
+    }
+    if (event->key() == Qt::Key_Minus)
+    {
+        scale(0.5, 0.5);
+        //qDebug() << "minus";
     }
 }
 
