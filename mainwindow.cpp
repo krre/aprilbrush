@@ -18,6 +18,7 @@ MainWindow::MainWindow()
     inputDevices = new InputDevices(canvas);
     colorPicker = new ColorPicker(QColor(0, 0, 0));
     connect(colorPicker, SIGNAL(colorSignal()), this, SLOT(changeColorSlot()));
+    layerManager = new LayerManager();
     createDockWindows();
     canvas->setFocus();
 }
@@ -83,6 +84,11 @@ void MainWindow::createDockWindows()
     commandDock->setAllowedAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea);
     commandDock->setWidget(undoView);
     addDockWidget(Qt::RightDockWidgetArea, commandDock);
+
+    QDockWidget *layerDock = new QDockWidget(tr("Layers"), this);
+    layerDock->setAllowedAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea);
+    layerDock->setWidget(layerManager);
+    addDockWidget(Qt::RightDockWidgetArea, layerDock);
 }
 
 void MainWindow::createTabWidget()

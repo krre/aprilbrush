@@ -7,6 +7,7 @@
 #include "widgets/inputdevices.h"
 #include "widgets/brushsettings.h"
 #include "widgets/colorpicker.h"
+#include "widgets/layermanager.h"
 
 const QString appName = "AprilBrush";
 const QString appVersion = "0.0.1";
@@ -56,6 +57,7 @@ private:
     BrushSettings *brushSettings;
     BrushEngine *brushEngine;
     ColorPicker *colorPicker;
+    LayerManager *layerManager;
 
     QTabWidget *tabWidget;
     Canvas *canvas;

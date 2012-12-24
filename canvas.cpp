@@ -13,17 +13,22 @@ Canvas::Canvas(BrushEngine *globalBrush)
 
     scene = new QGraphicsScene(0, 0, widthScreen, heigthScreen);
 
-    backgroundItem = new QGraphicsRectItem(0, 0, widthScreen, heigthScreen);
-    backgroundItem->setPen(Qt::NoPen);
-    backgroundItem->setBrush(QBrush(Qt::white));
+    backgroundPixmap = new QPixmap(widthScreen, heigthScreen);
+    backgroundPixmap->fill(Qt::white);
+    backgroundItem = new QGraphicsPixmapItem();
+    backgroundItem->setPixmap(*backgroundPixmap);
     scene->addItem(backgroundItem);
+    layerList.append(backgroundItem);
 
     pixmap = new QPixmap(widthScreen, heigthScreen);
     pixmap->fill(QColor(0, 0, 0, 0));
     pixmapItem = new QGraphicsPixmapItem();
     pixmapItem->setPixmap(*pixmap);
     scene->addItem(pixmapItem);
+    layerList.append(pixmapItem);
     setScene(scene);
+
+    qDebug() << layerList;
 
     brush = globalBrush;
     connect(brush, SIGNAL(sizeBrushSignal()), this, SLOT(drawCursorSlot()));

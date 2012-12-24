@@ -12,7 +12,8 @@ SOURCES += \
     widgets/brushsettings.cpp \
     widgets/inputdevices.cpp \
     widgets/colorpicker.cpp \
-    undocommands.cpp
+    undocommands.cpp \
+    widgets/layermanager.cpp
 
 HEADERS += \
     mainwindow.h \
@@ -21,7 +22,8 @@ HEADERS += \
     widgets/brushsettings.h \
     widgets/inputdevices.h \
     widgets/colorpicker.h \
-    undocommands.h
+    undocommands.h \
+    widgets/layermanager.h
 
 RESOURCES += \
     resources.qrc

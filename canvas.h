@@ -17,7 +17,8 @@ public:
     inline QPixmap* surface() {return pixmap;}
     inline QPixmap prevSurface() {return prevPixmap;}
     inline void setSurface(QPixmap *surface) {*pixmap = *surface;}
-    inline void updatePixmap() {pixmapItem->setPixmap(*pixmap);;}
+    inline void updatePixmap() {pixmapItem->setPixmap(*pixmap);}
+    inline QList<QGraphicsPixmapItem*> layers() {return layerList;}
 
 protected:
     //void paintEvent(QPaintEvent*);
@@ -43,17 +44,20 @@ private:
 
     QGraphicsScene *scene;
     //QGraphicsView *graphicsView;
-    QGraphicsRectItem *backgroundItem;
+    //QGraphicsRectItem *backgroundItem;
+    QGraphicsPixmapItem *backgroundItem;
     QGraphicsPixmapItem *pixmapItem;
 
     BrushEngine *brush;
     QPixmap *pixmap;
+    QPixmap *backgroundPixmap;
     QPixmap prevPixmap;
     QPoint positionCursor;
     QPoint prevPositionCursor;
     qreal pressurePen;
     QString typeInputDevice;
     bool spacePress;
+    QList<QGraphicsPixmapItem*> layerList;
 };
 
 #endif // CANVAS_H
