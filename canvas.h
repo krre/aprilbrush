@@ -11,6 +11,11 @@ class Canvas : public QGraphicsView
 
 public:
     Canvas(BrushEngine *globalBrush);
+    ~Canvas();
+    inline QString name() {return nameCanvas;}
+    inline void setName(QString name) {nameCanvas = name;}
+    inline QString path() {return pathCanvas;}
+    inline void setPath(QString path) {pathCanvas = path;}
     inline QPoint posCursor() {return positionCursor;}
     inline qreal pressure() {return pressurePen;}
     inline QString typeDevice() {return typeInputDevice;}
@@ -41,6 +46,9 @@ public slots:
 private:
     void drawPixmap();
     void scrollCanvas();
+
+    QString nameCanvas;
+    QString pathCanvas;
 
     QGraphicsScene *scene;
     //QGraphicsView *graphicsView;

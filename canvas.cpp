@@ -5,6 +5,7 @@ Canvas::Canvas(BrushEngine *globalBrush)
 {
     //setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     //setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    pathCanvas = "";
 
     setBackgroundRole(QPalette::Window);
 
@@ -28,12 +29,23 @@ Canvas::Canvas(BrushEngine *globalBrush)
     layerList.append(pixmapItem);
     setScene(scene);
 
-    qDebug() << layerList;
+    //qDebug() << layerList;
 
     brush = globalBrush;
     connect(brush, SIGNAL(sizeBrushSignal()), this, SLOT(drawCursorSlot()));
     drawCursorSlot();
     spacePress = false;
+}
+
+Canvas::~Canvas()
+{
+    //delete pixmap;
+    //delete pixmapItem;
+
+    //delete backgroundPixmap;
+    //delete backgroundItem;
+
+    //delete scene;
 }
 
 void Canvas::drawCursorSlot()

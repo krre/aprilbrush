@@ -105,17 +105,33 @@ void MainWindow::activeTabSlot(int index)
     canvas = canvasList.at(index);
     undoStack = undoStackList.at(index);
     undoGroup->setActiveStack(undoStack);
+    qDebug() << "active";
 }
 
 void MainWindow::closeTabSlot(int index)
 {
+    if (index == -1)
+        return;
+
+    activeTabSlot(index);
+    //qDebug() << canvasList;
+    //tabWidget->removeTab(index);
+    //qDebug() << canvas;
+    qDebug() << index;
+    qDebug() << canvas;
+    qDebug() << canvasList;
+
     undoGroup->removeStack(undoStack);
     undoStackList.removeAt(index);
     undoStack->clear();
 
     canvasList.removeAt(index);
+    //delete canvas;
     tabWidget->removeTab(index);
-    pathImageList.removeAt(index);
+    //pathImageList.removeAt(index);
+    //qDebug() << canvas;
+    delete canvas;
+    //qDebug() << canvasList;
 }
 
 void MainWindow::createNewTabSlot()
@@ -128,9 +144,10 @@ void MainWindow::createNewTabSlot()
     canvas = new Canvas(brushEngine);
     connect(canvas, SIGNAL(startPaintSignal()), this, SLOT(paintUndoSlot()));
     canvasList.append(canvas);
-    pathImageList.append("");
     int index = tabWidget->count();
-    QString tabName = tr("Untitled ") + QString::number(index + 1);
+
+    QString tabName = tr("Untitled ") + QString("%1").arg(index + 1, 2, 10, QChar('0'));
+    canvas->setName(tabName);
     tabWidget->addTab(canvas, tabName);
     tabWidget->setCurrentIndex(index);
 }
@@ -146,7 +163,8 @@ void MainWindow::openImageSlot()
         QString fileName(pathInfo.fileName());
         int index = tabWidget->currentIndex();
         tabWidget->setTabText(index, fileName);
-        pathImageList.replace(index, filePath);
+        canvas->setPath(filePath);
+        //pathImageList.replace(index, filePath);
     }
 }
 
