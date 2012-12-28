@@ -1,7 +1,7 @@
 #ifndef LAYERMANAGER_H
 #define LAYERMANAGER_H
 
-#include <QWidget>
+#include <QtWidgets>
 
 class LayerManager : public QWidget
 {

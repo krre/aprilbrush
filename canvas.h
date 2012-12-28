@@ -1,7 +1,7 @@
 #ifndef CANVAS_H
 #define CANVAS_H
 
-#include <QtGui>
+#include <QtWidgets>
 #include "brushengine.h"
 
 //class Canvas : public QWidget

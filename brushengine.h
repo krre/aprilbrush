@@ -1,7 +1,7 @@
 #ifndef BRUSHENGINE_H
 #define BRUSHENGINE_H
 
-#include <QtGui>
+#include <QtWidgets>
 
 class BrushEngine : public QObject
 {

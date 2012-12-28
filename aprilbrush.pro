@@ -3,6 +3,7 @@ TARGET = AprilBrush
 ;MOC_DIR = Release/Build
 ;OBJECTS_DIR = Release/Build
 ;RCC_DIR = Release/Build
+QT += widgets
 
 SOURCES += \
     main.cpp \
