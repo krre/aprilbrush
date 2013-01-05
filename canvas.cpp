@@ -39,13 +39,13 @@ Canvas::Canvas(BrushEngine *globalBrush)
 
 Canvas::~Canvas()
 {
-    //delete pixmap;
-    //delete pixmapItem;
+    delete pixmap;
+    delete pixmapItem;
 
-    //delete backgroundPixmap;
-    //delete backgroundItem;
+    delete backgroundPixmap;
+    delete backgroundItem;
 
-    //delete scene;
+    delete scene;
 }
 
 void Canvas::drawCursorSlot()

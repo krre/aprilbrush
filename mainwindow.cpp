@@ -4,7 +4,9 @@
 MainWindow::MainWindow()
 {
     setWindowTitle(appName);
-    resize(1100, 700);
+    int appWidth = qApp->desktop()->width() * 0.95;
+    int appHeigth = qApp->desktop()->height() * 0.85;
+    resize(appWidth, appHeigth);
     setWindowIcon(QIcon(":/icons/Butterfly_128x128.png"));
 
     undoGroup = new QUndoGroup(this);
@@ -105,7 +107,6 @@ void MainWindow::activeTabSlot(int index)
     canvas = canvasList.at(index);
     undoStack = undoStackList.at(index);
     undoGroup->setActiveStack(undoStack);
-    qDebug() << "active";
 }
 
 void MainWindow::closeTabSlot(int index)
@@ -114,24 +115,18 @@ void MainWindow::closeTabSlot(int index)
         return;
 
     activeTabSlot(index);
-    //qDebug() << canvasList;
-    //tabWidget->removeTab(index);
-    //qDebug() << canvas;
-    qDebug() << index;
-    qDebug() << canvas;
-    qDebug() << canvasList;
 
     undoGroup->removeStack(undoStack);
     undoStackList.removeAt(index);
     undoStack->clear();
 
+    Canvas *dropCanvas;
+    dropCanvas = canvas;
+
     canvasList.removeAt(index);
-    //delete canvas;
     tabWidget->removeTab(index);
-    //pathImageList.removeAt(index);
-    //qDebug() << canvas;
-    delete canvas;
-    //qDebug() << canvasList;
+
+    delete dropCanvas;
 }
 
 void MainWindow::createNewTabSlot()
@@ -209,7 +204,7 @@ void MainWindow::closeAllImagesSlot()
 
 void MainWindow::closeOthersSlot()
 {
-    int numTabs = tabWidget->count();
+    int numTabs = tabWidget->count() - 1;
     QWidget *activeTab = tabWidget->currentWidget();
     for (int index = 0; index < numTabs; index++)
     {
@@ -267,6 +262,4 @@ void MainWindow::aboutWindowSlot()
             tr("<br>Copyright &copy; 2012, Vladimir Zarypov");
     QMessageBox::about(this, "About " + appName, aboutText);
 }
-
-
 
