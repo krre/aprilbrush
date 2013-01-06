@@ -13,6 +13,7 @@ MainWindow::MainWindow()
     undoView = new QUndoView(undoGroup);
 
     createMenus();
+    maxTabCount = 1;
     createTabWidget();
     brushEngine = new BrushEngine();    
     createNewTabSlot();
@@ -141,7 +142,7 @@ void MainWindow::createNewTabSlot()
     canvasList.append(canvas);
     int index = tabWidget->count();
 
-    QString tabName = tr("Untitled ") + QString("%1").arg(index + 1, 2, 10, QChar('0'));
+    QString tabName = tr("Untitled ") + QString("%1").arg(maxTabCount++, 2, 10, QChar('0'));
     canvas->setName(tabName);
     tabWidget->addTab(canvas, tabName);
     tabWidget->setCurrentIndex(index);

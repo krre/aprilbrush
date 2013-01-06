@@ -60,6 +60,7 @@ private:
     LayerManager *layerManager;
 
     QTabWidget *tabWidget;
+    int maxTabCount;
     Canvas *canvas;
     QList<Canvas*> canvasList;
     QList<QString> pathImageList;
