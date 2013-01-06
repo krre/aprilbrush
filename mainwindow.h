@@ -50,7 +50,6 @@ private:
     QAction *redoAction;
 
     QUndoGroup *undoGroup;
-    QUndoStack *undoStack;
     QUndoView *undoView;
     //QPointer<TestInputDevice> testIDWindow;
     InputDevices *inputDevices;
@@ -63,8 +62,6 @@ private:
     int maxTabCount;
     Canvas *canvas;
     QList<Canvas*> canvasList;
-    QList<QString> pathImageList;
-    QList<QUndoStack*> undoStackList;
 };
 
 #endif // MAINWINDOW_H

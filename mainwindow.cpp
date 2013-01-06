@@ -105,21 +105,16 @@ void MainWindow::createTabWidget()
 
 void MainWindow::activeTabSlot(int index)
 {
+    if (index == -1)
+        return;
     canvas = canvasList.at(index);
-    undoStack = undoStackList.at(index);
-    undoGroup->setActiveStack(undoStack);
+    undoGroup->setActiveStack(canvas->undoStack());
 }
 
 void MainWindow::closeTabSlot(int index)
 {
-    if (index == -1)
-        return;
-
     activeTabSlot(index);
-
-    undoGroup->removeStack(undoStack);
-    undoStackList.removeAt(index);
-    undoStack->clear();
+    undoGroup->removeStack(canvas->undoStack());
 
     Canvas *dropCanvas;
     dropCanvas = canvas;
@@ -132,11 +127,6 @@ void MainWindow::closeTabSlot(int index)
 
 void MainWindow::createNewTabSlot()
 {
-    undoStack = new QUndoStack(this);
-    undoStack->setUndoLimit(50);
-    undoStackList.append(undoStack);
-    undoGroup->addStack(undoStack);
-
     canvas = new Canvas(brushEngine);
     connect(canvas, SIGNAL(startPaintSignal()), this, SLOT(paintUndoSlot()));
     canvasList.append(canvas);
@@ -146,6 +136,8 @@ void MainWindow::createNewTabSlot()
     canvas->setName(tabName);
     tabWidget->addTab(canvas, tabName);
     tabWidget->setCurrentIndex(index);
+
+    undoGroup->addStack(canvas->undoStack());
 }
 
 void MainWindow::openImageSlot()
@@ -160,23 +152,22 @@ void MainWindow::openImageSlot()
         int index = tabWidget->currentIndex();
         tabWidget->setTabText(index, fileName);
         canvas->setPath(filePath);
-        //pathImageList.replace(index, filePath);
+        canvas->setName(fileName);
     }
 }
 
 void MainWindow::saveImageSlot()
 {
-    int index = tabWidget->currentIndex();
-    QString savePath = pathImageList.at(index);
-    if (!savePath.isEmpty())
-        canvas->surface()->save(savePath);
+    if (!canvas->path().isEmpty())
+        canvas->surface()->save(canvas->path());
     else
         saveAsImageSlot();
 }
 
 void MainWindow::saveAsImageSlot()
 {
-    QString filePath = QFileDialog::getSaveFileName(this, tr("Save image as"), "C:/", tr("Images (*.png)"));
+    //qDebug() <<  "C:/" + canvas->name() + ".png";
+    QString filePath = QFileDialog::getSaveFileName(this, tr("Save image as"),  "C:/", tr("Images (*.png)"));
     if (!filePath.isEmpty())
     {
         canvas->surface()->save(filePath);
@@ -184,7 +175,8 @@ void MainWindow::saveAsImageSlot()
         QString fileName(pathInfo.fileName());
         int index = tabWidget->currentIndex();
         tabWidget->setTabText(index, fileName);
-        pathImageList.replace(index, filePath);
+        canvas->setPath(filePath);
+        canvas->setName(fileName);
     }
 }
 
@@ -219,7 +211,7 @@ void MainWindow::closeOthersSlot()
 void MainWindow::clearCanvasSlot()
 {
     QUndoCommand *clearCommand = new ClearCommand(canvas);
-    undoStack->push(clearCommand);
+    canvas->undoStack()->push(clearCommand);
 }
 
 void MainWindow::inputDevicesWindowSlot()
@@ -253,7 +245,7 @@ void MainWindow::changeColorSlot()
 void MainWindow::paintUndoSlot()
 {
     QUndoCommand *paintCommand = new PaintCommand(canvas);
-    undoStack->push(paintCommand);
+    canvas->undoStack()->push(paintCommand);
 }
 
 void MainWindow::aboutWindowSlot()

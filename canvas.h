@@ -14,8 +14,11 @@ public:
     ~Canvas();
     inline QString name() {return nameCanvas;}
     inline void setName(QString name) {nameCanvas = name;}
+
     inline QString path() {return pathCanvas;}
     inline void setPath(QString path) {pathCanvas = path;}
+
+    inline QUndoStack* undoStack() {return undoStackCanvas;}
     inline QPoint posCursor() {return positionCursor;}
     inline qreal pressure() {return pressurePen;}
     inline QString typeDevice() {return typeInputDevice;}
@@ -49,6 +52,7 @@ private:
 
     QString nameCanvas;
     QString pathCanvas;
+    QUndoStack *undoStackCanvas;
 
     QGraphicsScene *scene;
     //QGraphicsView *graphicsView;

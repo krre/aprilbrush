@@ -7,6 +7,9 @@ Canvas::Canvas(BrushEngine *globalBrush)
     //setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     pathCanvas = "";
 
+    undoStackCanvas = new QUndoStack(this);
+    undoStackCanvas->setUndoLimit(50);
+
     setBackgroundRole(QPalette::Window);
 
     int widthScreen = qApp->desktop()->width();
@@ -46,6 +49,9 @@ Canvas::~Canvas()
     delete backgroundItem;
 
     delete scene;
+
+    undoStackCanvas->clear();
+    delete undoStackCanvas;
 }
 
 void Canvas::drawCursorSlot()
