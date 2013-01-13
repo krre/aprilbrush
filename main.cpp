@@ -1,12 +1,13 @@
-#include <QApplication>
-#include "mainwindow.h"
+#include <QGuiApplication>
+#include <QQuickView>
+#include <QUrl>
 
 int main(int argc, char *argv[])
 {
-    QApplication app(argc, argv);
-
-    MainWindow window;
-    window.show();
+    QGuiApplication app(argc, argv);
+    QQuickView view;
+    view.setSource(QUrl("qrc:qml/main.qml"));
+    view.show();
 
     return app.exec();
 }

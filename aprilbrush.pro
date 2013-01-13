@@ -3,7 +3,8 @@ TARGET = AprilBrush
 ;MOC_DIR = Release/Build
 ;OBJECTS_DIR = Release/Build
 ;RCC_DIR = Release/Build
-QT += widgets
+QT += widgets \
+    quick
 
 SOURCES += \
     main.cpp \
@@ -28,4 +29,7 @@ HEADERS += \
 
 RESOURCES += \
     resources.qrc
+
+OTHER_FILES += \
+    qml/main.qml
 
