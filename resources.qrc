@@ -5,4 +5,7 @@
     <qresource prefix="/qml">
         <file>qml/main.qml</file>
     </qresource>
+    <qresource prefix="/svg">
+        <file>svg/checker.svg</file>
+    </qresource>
 </RCC>

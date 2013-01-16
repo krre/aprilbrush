@@ -1,13 +1,13 @@
 import QtQuick 1.1
 
 Rectangle {
-    width: 1100
-    height: 700
     color: "white"
-    id: main
-    Text
-    {
-        text: "AprilBrush"
-        anchors.centerIn: main
+
+    // Checker background
+    Image {
+        width: parent.width
+        height: parent.height
+        fillMode: Image.Tile
+        source: "qrc:/svg/svg/checker.svg"
     }
 }
