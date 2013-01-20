@@ -1,7 +1,7 @@
 #ifndef BRUSHENGINE_H
 #define BRUSHENGINE_H
 
-#include <QtWidgets>
+#include <QtGui>
 
 class BrushEngine : public QObject
 {
@@ -9,7 +9,7 @@ class BrushEngine : public QObject
 
 public:
     BrushEngine();
-    void paint(QPixmap *pixmap, QPointF posCursor, qreal pressure);
+    void paintDab(QPixmap *pixmap, QPointF posCursor, qreal pressure);
     inline int diameterBrush() {return sizeBrush;}
     inline void setColor(int r, int g, int b) {rColor = r; gColor = g, bColor = b;}
     inline void setColor(int r, int g, int b, int a) {rColor = r; gColor = g, bColor = b; aColor = a;}

@@ -2,10 +2,18 @@ TARGET = AprilBrush
 QT += declarative
 
 SOURCES += \
-    main.cpp
+    main.cpp \
+    paintspace.cpp \
+    qtquickwindow.cpp \
+    brushengine.cpp
 
-RESOURCES += \
-    resources.qrc
+HEADERS += \
+    paintspace.h \
+    qtquickwindow.h \
+    brushengine.h
 
 OTHER_FILES += \
     qml/main.qml
+
+RESOURCES += \
+    resources.qrc

@@ -16,7 +16,7 @@ BrushEngine::BrushEngine()
     aColor = 127;
 }
 
-void BrushEngine::paint(QPixmap *pixmap, QPointF posCursor, qreal pressure)
+void BrushEngine::paintDab(QPixmap *pixmap, QPointF posCursor, qreal pressure)
 {
     QPainter painter(pixmap);
     painter.setRenderHint(QPainter::Antialiasing, true);
