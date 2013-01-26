@@ -1,5 +1,4 @@
 #include "qtquickwindow.h"
-//#include "brushengine.h"
 //#include <QDeclarativeComponent>
 //#include <QDeclarativeEngine>
 //#include <QDeclarativeContext>
