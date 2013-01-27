@@ -13,7 +13,9 @@ HEADERS += \
     brushengine.h
 
 OTHER_FILES += \
-    qml/main.qml
+    qml/main.qml \
+    qml/PagePanel.qml \
+    qml/FilePanel.qml
 
 RESOURCES += \
     resources.qrc

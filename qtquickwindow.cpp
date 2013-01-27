@@ -14,23 +14,24 @@ QtQuickWindow::QtQuickWindow(QWidget *parent) : QDeclarativeView(parent)
 
     int startWindowWidth = qApp->desktop()->width() * 0.9;
     int startWindowHeight = qApp->desktop()->height() * 0.85;
-    resize(startWindowWidth, startWindowHeight);
+    //resize(startWindowWidth, startWindowHeight);
 
     //BrushEngine brushEngine;
 }
 
 //void QtQuickWindow::tabletEvent(QTabletEvent *event)
 //{
+//    qDebug() << event->pressure();
 //}
 
-
+/*
 void QtQuickWindow::mouseMoveEvent(QMouseEvent *event)
 {
-    //qDebug() << event->x();
+    qDebug() << event->x();
 
 
 }
-
+*/
 //void QtQuickWindow::mousePressEvent(QMouseEvent *event)
 //{
 //}

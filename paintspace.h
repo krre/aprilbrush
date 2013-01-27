@@ -14,6 +14,8 @@ public:
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *, QWidget *);
     void setColor(const QColor color);
     QColor color();
+
+
     
 signals:
     void colorChanged();
