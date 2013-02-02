@@ -1,9 +1,9 @@
 #include "paintspace.h"
 
-PaintSpace::PaintSpace(QDeclarativeItem *parent) :
-    QDeclarativeItem(parent)
+PaintSpace::PaintSpace(QQuickItem *parent) :
+    QQuickItem(parent)
 {
-    setFlag(QGraphicsItem::ItemHasNoContents, false);
+    //setFlag(QGraphicsItem::ItemHasNoContents, false);
 
     int screenWidth = qApp->desktop()->width();
     int screenHeigth = qApp->desktop()->height();

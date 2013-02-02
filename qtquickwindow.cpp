@@ -3,10 +3,11 @@
 //#include <QDeclarativeEngine>
 //#include <QDeclarativeContext>
 
-QtQuickWindow::QtQuickWindow(QWidget *parent) : QDeclarativeView(parent)
+QtQuickWindow::QtQuickWindow() : QQuickView(parent)
 {
     //setSource(QUrl("qrc:qml/qml/main.qml"));
     setSource(QUrl("../../Projects/aprilbrush/qml/main.qml"));
+    //setSource(QUrl("qml/main.qml"));
     setResizeMode(QDeclarativeView::SizeRootObjectToView);
     setWindowIcon(QIcon(":/icons/Butterfly_128x128.png"));
 
@@ -14,7 +15,7 @@ QtQuickWindow::QtQuickWindow(QWidget *parent) : QDeclarativeView(parent)
 
     int startWindowWidth = qApp->desktop()->width() * 0.9;
     int startWindowHeight = qApp->desktop()->height() * 0.85;
-    //resize(startWindowWidth, startWindowHeight);
+    resize(startWindowWidth, startWindowHeight);
 
     //BrushEngine brushEngine;
 }

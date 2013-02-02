@@ -1,5 +1,5 @@
-import QtQuick 1.1
-import Drawing 1.0
+import QtQuick 2.0
+//import Drawing 1.0
 
 Rectangle {
     id: container
@@ -8,11 +8,12 @@ Rectangle {
 
     // Checker background
     Image {
+        //x: 0; y: 0
         width: parent.width
         height: parent.height
         fillMode: Image.Tile
         source: "qrc:/svg/svg/checker.svg"
-    }   
+    }
 /*
     // White layer
     PaintSpace {

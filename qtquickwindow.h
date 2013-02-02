@@ -1,16 +1,17 @@
 #ifndef QTQUICKWINDOW_H
 #define QTQUICKWINDOW_H
 
-#include <QDeclarativeView>
-#include <QtGui>
+//#include <QDeclarativeView>
+//#include <QtWidgets>
+#include <QQuickView>
 #include "brushengine.h"
 
-class QtQuickWindow : public QDeclarativeView
+class QtQuickWindow : public QQuickView
 {
     Q_OBJECT
 
 public:
-    QtQuickWindow(QWidget *parent = 0);
+    QtQuickWindow();
 
 protected:
 //    void tabletEvent(QTabletEvent *event);
