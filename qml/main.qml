@@ -1,4 +1,5 @@
 import QtQuick 2.0
+import QtQuick.Window 2.0
 //import Drawing 1.0
 
 Rectangle {
@@ -6,14 +7,21 @@ Rectangle {
     width: 800
     height: 600
 
+    MouseArea {
+        anchors.fill: parent
+        onPositionChanged: {
+            console.log(mouse.x + " " + mouse.y)
+        }
+    }
+
     // Checker background
     Image {
-        //x: 0; y: 0
-        width: parent.width
-        height: parent.height
+        width: Screen.width
+        height: Screen.height
         fillMode: Image.Tile
         source: "qrc:/svg/svg/checker.svg"
     }
+
 /*
     // White layer
     PaintSpace {

@@ -6,11 +6,13 @@ SOURCES += \
 #    paintspace.cpp \
 #    qtquickwindow.cpp \
 #    brushengine.cpp
+    qmlwindow.cpp
 
 HEADERS += \
 #    paintspace.h \
 #    qtquickwindow.h \
 #    brushengine.h
+    qmlwindow.h
 
 OTHER_FILES += \
     qml/main.qml \
