@@ -17,7 +17,8 @@ HEADERS += \
 OTHER_FILES += \
     qml/main.qml \
     qml/PagePanel.qml \
-    qml/FilePanel.qml
+    qml/FilePanel.qml \
+    qml/ColorPicker.qml
 
 RESOURCES += \
     resources.qrc

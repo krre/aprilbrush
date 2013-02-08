@@ -3,7 +3,8 @@
 
 QmlWindow::QmlWindow()
 {
-    setSource(QUrl::fromLocalFile("../aprilbrush/qml/main.qml"));
+    //setSource(QUrl::fromLocalFile("../aprilbrush/qml/main.qml"));
+    setSource(QUrl::fromLocalFile("../aprilbrush/qml/ColorPicker.qml"));
     setResizeMode(QQuickView::SizeRootObjectToView);
     setPosition(100, 100);
 }

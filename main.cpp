@@ -1,6 +1,6 @@
 #include <QGuiApplication>
 #include <QQuickView>
-#include <qmlwindow.h>
+#include "qmlwindow.h"
 //#include "paintspace.h"
 
 int main(int argc, char *argv[])
