@@ -3,8 +3,8 @@ import QtGraphicalEffects 1.0
 
 Item {
     id: container
-    width: 700
-    height: 700
+    width: 500
+    height: 500
     Canvas {
         id: canvas
         //var canvasSide = min(container.width, container.width)
