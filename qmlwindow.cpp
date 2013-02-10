@@ -1,7 +1,6 @@
 #include "qmlwindow.h"
 #include <QDebug>
 
-
 QmlWindow::QmlWindow()
 {
     //setSource(QUrl::fromLocalFile("../aprilbrush/qml/main.qml"));
@@ -11,12 +10,11 @@ QmlWindow::QmlWindow()
 
     // Wintab
     wintabInit();
-
 }
 
 QmlWindow::~QmlWindow()
 {
-    qDebug() << "bye!";
+    //qDebug() << "bye!";
     if (ghWintab)
         FreeLibrary(ghWintab);
 }
@@ -77,6 +75,6 @@ void QmlWindow::mouseMoveEvent(QMouseEvent *event)
     else
         pressure = 1;
 
-    qDebug() << event->pos() << "pressure: " << pressure;
+    //qDebug() << event->pos() << "pressure: " << pressure;
 }
 
