@@ -22,3 +22,9 @@ OTHER_FILES += \
 
 RESOURCES += \
     resources.qrc
+
+HEADERS += \
+    paintspace.h
+
+SOURCES += \
+    paintspace.cpp

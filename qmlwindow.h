@@ -23,6 +23,8 @@ public:
 
 protected:
     void mouseMoveEvent(QMouseEvent *event);
+    void mousePressEvent(QMouseEvent *);
+    void mouseReleaseEvent(QMouseEvent *);
 
 private:
     void wintabInit();
@@ -32,6 +34,7 @@ private:
     PtrWTOpen ptrWTOpen;
     PtrWTPacket ptrWTPacket;
     PtrWTQueuePacketsEx ptrWTQueuePacketsEx;
+    bool mousePress;
 };
 
 #endif // QMLWINDOW_H

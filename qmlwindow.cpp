@@ -3,10 +3,11 @@
 
 QmlWindow::QmlWindow()
 {
-    //setSource(QUrl::fromLocalFile("../aprilbrush/qml/main.qml"));
-    setSource(QUrl::fromLocalFile("../aprilbrush/qml/ColorPicker.qml"));
+    setSource(QUrl::fromLocalFile("../aprilbrush/qml/main.qml"));
+    //setSource(QUrl::fromLocalFile("../aprilbrush/qml/ColorPicker.qml"));
     setResizeMode(QQuickView::SizeRootObjectToView);
     setPosition(150, 150);
+    mousePress = false;
 
     // Wintab
     wintabInit();
@@ -56,25 +57,37 @@ void QmlWindow::wintabInit()
 
 void QmlWindow::mouseMoveEvent(QMouseEvent *event)
 {
-    qreal pressure;
-    if (ghWintab)
+    if (mousePress)
     {
-        PACKET packet;
-        UINT FAR lpOld;
-        UINT FAR lpNew;
-        bool serialPacket = ptrWTQueuePacketsEx(tabletHandle, &lpOld, &lpNew);
-        ptrWTPacket(tabletHandle, lpNew, &packet);
-
-        if (serialPacket)
+        qreal pressure;
+        if (ghWintab)
         {
-            pressure = (qreal)packet.pkNormalPressure / 1023;
+            PACKET packet;
+            UINT FAR lpOld;
+            UINT FAR lpNew;
+            bool serialPacket = ptrWTQueuePacketsEx(tabletHandle, &lpOld, &lpNew);
+            ptrWTPacket(tabletHandle, lpNew, &packet);
+
+            if (serialPacket)
+            {
+                pressure = (qreal)packet.pkNormalPressure / 1023;
+            }
+            else
+                pressure = 1;
         }
         else
             pressure = 1;
+        qDebug() << event->pos() << "pressure: " << pressure;
     }
-    else
-        pressure = 1;
+}
 
-    //qDebug() << event->pos() << "pressure: " << pressure;
+void QmlWindow::mousePressEvent(QMouseEvent *)
+{
+    mousePress = true;
+}
+
+void QmlWindow::mouseReleaseEvent(QMouseEvent *)
+{
+    mousePress = false;
 }
 

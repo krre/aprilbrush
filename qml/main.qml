@@ -1,6 +1,6 @@
 import QtQuick 2.0
 import QtQuick.Window 2.0
-//import Drawing 1.0
+import Drawing 1.0
 
 Rectangle {
     id: container
@@ -25,10 +25,14 @@ Rectangle {
 /*
     // White layer
     PaintSpace {
-        color: "white"
+        width: 500
+        height: 500
+        color: "green"
     }
     // Transparent layer
     PaintSpace {
+        width: 500
+        height: 500
 
     }
 */
