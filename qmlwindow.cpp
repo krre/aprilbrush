@@ -1,5 +1,5 @@
 #include "qmlwindow.h"
-#include <QDebug>
+#include <QtGui>
 
 QmlWindow::QmlWindow()
 {
@@ -54,7 +54,7 @@ void QmlWindow::wintabInit()
     tabletHandle = ptrWTOpen(windowHandle, &tabletContext, true);
     //qDebug() << "Tablet handle: " << tabletHandle;
 }
-
+/*
 void QmlWindow::mouseMoveEvent(QMouseEvent *event)
 {
     if (mousePress)
@@ -77,7 +77,7 @@ void QmlWindow::mouseMoveEvent(QMouseEvent *event)
         }
         else
             pressure = 1;
-        qDebug() << event->pos() << "pressure: " << pressure;
+        //qDebug() << event->pos() << "pressure: " << pressure;
     }
 }
 
@@ -90,4 +90,4 @@ void QmlWindow::mouseReleaseEvent(QMouseEvent *)
 {
     mousePress = false;
 }
-
+*/

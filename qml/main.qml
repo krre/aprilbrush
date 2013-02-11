@@ -6,6 +6,7 @@ Rectangle {
     id: container
     width: 800
     height: 600
+    signal createPixmap;
 
     MouseArea {
         anchors.fill: parent
@@ -22,20 +23,20 @@ Rectangle {
         source: "qrc:/svg/svg/checker.svg"
     }
 
-/*
     // White layer
     PaintSpace {
-        width: 500
-        height: 500
-        color: "green"
+        width: Screen.width
+        height: Screen.height
+        color: "white"
     }
+
     // Transparent layer
     PaintSpace {
-        width: 500
-        height: 500
+        width: Screen.width
+        height: Screen.height
 
     }
-*/
+
     // Files panel
     FilePanel {
         id: filePanel

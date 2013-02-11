@@ -1,5 +1,6 @@
 #ifndef QMLWINDOW_H
 #define QMLWINDOW_H
+
 #include <QQuickView>
 #include "windows.h"
 #include "wintab/wintab.h"
@@ -22,9 +23,9 @@ public:
     ~QmlWindow();
 
 protected:
-    void mouseMoveEvent(QMouseEvent *event);
-    void mousePressEvent(QMouseEvent *);
-    void mouseReleaseEvent(QMouseEvent *);
+    //void mouseMoveEvent(QMouseEvent *event);
+    //void mousePressEvent(QMouseEvent *);
+    //void mouseReleaseEvent(QMouseEvent *);
 
 private:
     void wintabInit();
