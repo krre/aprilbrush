@@ -3,16 +3,14 @@ QT += quick
 
 SOURCES += \
     main.cpp \
-#    paintspace.cpp \
-#    qtquickwindow.cpp \
-#    brushengine.cpp
+    paintspace.cpp \
+    brushengine.cpp \
     qmlwindow.cpp
 
 HEADERS += \
-#    paintspace.h \
-#    qtquickwindow.h \
-#    brushengine.h
-    qmlwindow.h
+    qmlwindow.h \
+    paintspace.h \
+    brushengine.h
 
 OTHER_FILES += \
     qml/main.qml \
@@ -20,11 +18,8 @@ OTHER_FILES += \
     qml/FilePanel.qml \
     qml/ColorPicker.qml
 
-RESOURCES += \
-    resources.qrc
+QMAKE_POST_LINK += $$QMAKE_COPY_DIR $$PWD/qml $(DESTDIR) $$escape_expand(\\n\\t)
+QMAKE_POST_LINK += $$QMAKE_COPY_DIR $$PWD/svg $(DESTDIR) $$escape_expand(\\n\\t)
 
-HEADERS += \
-    paintspace.h
 
-SOURCES += \
-    paintspace.cpp
+

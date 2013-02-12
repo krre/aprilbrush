@@ -20,7 +20,7 @@ Rectangle {
         width: Screen.width
         height: Screen.height
         fillMode: Image.Tile
-        source: "qrc:/svg/svg/checker.svg"
+        source: "../svg/checker.svg"
     }
 
     // White layer
