@@ -21,5 +21,5 @@ OTHER_FILES += \
 QMAKE_POST_LINK += $$QMAKE_COPY_DIR $$PWD/qml $(DESTDIR) $$escape_expand(\\n\\t)
 QMAKE_POST_LINK += $$QMAKE_COPY_DIR $$PWD/svg $(DESTDIR) $$escape_expand(\\n\\t)
 
-
-
+OTHER_FILES += \
+    qml/util.js

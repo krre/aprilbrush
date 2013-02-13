@@ -1,6 +1,7 @@
 import QtQuick 2.0
 import QtQuick.Window 2.0
 import Drawing 1.0
+import "util.js" as Util
 
 Rectangle {
     id: container
@@ -42,7 +43,7 @@ Rectangle {
         x: 0; y: 0
         onPressFileItem: {
             if (itemName == "New") {
-                var numNextPage = zeroFill(pagePanel.pageModel.count + 1, 2)
+                var numNextPage = Util.zeroFill(pagePanel.pageModel.count + 1, 2)
                 pagePanel.pageModel.append({"name": "Untitled " + numNextPage})
             }
         }
@@ -54,17 +55,7 @@ Rectangle {
         id: pagePanel
         anchors.horizontalCenter: parent.horizontalCenter
         width: parent.width - filePanel.width * 2
-    }
-
-    function zeroFill(number, width)
-    {
-        width -= number.toString().length;
-        if (width > 0)
-        {
-            return new Array(width + (/\./.test(number) ? 2 : 1)).join('0') + number;
-        }
-        return number + ""; // always return a string
-    }
+    }   
 }
 
 
