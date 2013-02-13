@@ -9,7 +9,7 @@ class BrushEngine : public QObject
 
 public:
     BrushEngine();
-    void paintDab(QPixmap *pixmap, QPointF posCursor, qreal pressure);
+    //Q_INVOKABLE void paintDab(qreal xPos, qreal yPos, qreal pressure);
     inline int diameterBrush() {return sizeBrush;}
     inline void setColor(int r, int g, int b) {rColor = r; gColor = g, bColor = b;}
     inline void setColor(int r, int g, int b, int a) {rColor = r; gColor = g, bColor = b; aColor = a;}

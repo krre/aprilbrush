@@ -6,12 +6,12 @@ Rectangle {
     id: container
     width: 800
     height: 600
-    signal createPixmap;
 
     MouseArea {
         anchors.fill: parent
+        //hoverEnabled: true
         onPositionChanged: {
-            console.log(mouse.x + " " + mouse.y)
+            console.log(mouseX + " " + mouseY)
         }
     }
 
@@ -34,7 +34,6 @@ Rectangle {
     PaintSpace {
         width: Screen.width
         height: Screen.height
-
     }
 
     // Files panel

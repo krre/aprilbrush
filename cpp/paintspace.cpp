@@ -14,6 +14,7 @@ void PaintSpace::paint(QPainter *painter)
         QRectF rect = boundingRect();
         pixmap = QPixmap(rect.width(), rect.height());
         pixmap.fill(pixmapColor);
+        //PaintSpace::pixmapPtr = &pixmap;
     }
 
     painter->drawPixmap(0, 0, pixmap);

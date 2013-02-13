@@ -3,14 +3,14 @@ QT += quick
 
 SOURCES += \
     main.cpp \
-    paintspace.cpp \
-    brushengine.cpp \
-    qmlwindow.cpp
+    cpp/paintspace.cpp \
+    cpp/brushengine.cpp \
+    cpp/qmlwindow.cpp
 
 HEADERS += \
-    qmlwindow.h \
-    paintspace.h \
-    brushengine.h
+    cpp/qmlwindow.h \
+    cpp/paintspace.h \
+    cpp/brushengine.h
 
 OTHER_FILES += \
     qml/main.qml \

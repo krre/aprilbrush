@@ -15,6 +15,7 @@ public:
     void paint(QPainter *painter);
     void setColor(const QColor color) {pixmapColor = color;}
     QColor color() {return pixmapColor;}
+    static QPixmap *pixmapPtr;
     
 signals:
     void colorChanged();

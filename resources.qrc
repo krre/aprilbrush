@@ -1,8 +1,0 @@
-<RCC>
-    <qresource prefix="/">
-        <file>icons/Butterfly_128x128.png</file>
-    </qresource>
-    <qresource prefix="/svg">
-        <file>svg/checker.svg</file>
-    </qresource>
-</RCC>

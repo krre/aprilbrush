@@ -1,4 +1,5 @@
 #include "brushengine.h"
+#include "paintspace.h"
 #include <qmath.h>
 
 BrushEngine::BrushEngine()
@@ -15,10 +16,12 @@ BrushEngine::BrushEngine()
     bColor = 0;
     aColor = 127;
 }
-
-void BrushEngine::paintDab(QPixmap *pixmap, QPointF posCursor, qreal pressure)
+/*
+//void BrushEngine::paintDab(QPixmap *pixmap, QPointF posCursor, qreal pressure)
+void BrushEngine::paintDab(qreal xPos, qreal yPos, qreal pressure=1)
 {
-    QPainter painter(pixmap);
+    QPointF posCursor = QPointF(xPos, yPos);
+    QPainter painter(PaintSpace::pixmapPtr);
     painter.setRenderHint(QPainter::Antialiasing, true);
     painter.setPen(Qt::NoPen);
     if (eraser)
@@ -80,3 +83,4 @@ void BrushEngine::paintDab(QPixmap *pixmap, QPointF posCursor, qreal pressure)
     }
 }
 
+*/

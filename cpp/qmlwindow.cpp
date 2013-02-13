@@ -6,11 +6,9 @@ QmlWindow::QmlWindow()
     setSource(QUrl::fromLocalFile("qml/main.qml"));
     //setSource(QUrl::fromLocalFile("../aprilbrush/qml/ColorPicker.qml"));
     setResizeMode(QQuickView::SizeRootObjectToView);
-    setPosition(150, 150);
-    mousePress = false;
-
-    // Wintab
+    //setPosition(150, 150);
     wintabInit();
+    brushEngine = new BrushEngine;
 }
 
 QmlWindow::~QmlWindow()
@@ -54,40 +52,19 @@ void QmlWindow::wintabInit()
     tabletHandle = ptrWTOpen(windowHandle, &tabletContext, true);
     //qDebug() << "Tablet handle: " << tabletHandle;
 }
-/*
-void QmlWindow::mouseMoveEvent(QMouseEvent *event)
+
+qreal QmlWindow::pressure()
 {
-    if (mousePress)
+    qreal pressure = 1;
+    if (ghWintab)
     {
-        qreal pressure;
-        if (ghWintab)
-        {
-            PACKET packet;
-            UINT FAR lpOld;
-            UINT FAR lpNew;
-            bool serialPacket = ptrWTQueuePacketsEx(tabletHandle, &lpOld, &lpNew);
-            ptrWTPacket(tabletHandle, lpNew, &packet);
-
-            if (serialPacket)
-            {
-                pressure = (qreal)packet.pkNormalPressure / 1023;
-            }
-            else
-                pressure = 1;
-        }
-        else
-            pressure = 1;
-        //qDebug() << event->pos() << "pressure: " << pressure;
+        PACKET packet;
+        UINT FAR lpOld;
+        UINT FAR lpNew;
+        bool serialPacket = ptrWTQueuePacketsEx(tabletHandle, &lpOld, &lpNew);
+        ptrWTPacket(tabletHandle, lpNew, &packet);
+        if (serialPacket)
+            pressure = (qreal)packet.pkNormalPressure / 1023;
     }
+    return pressure;
 }
-
-void QmlWindow::mousePressEvent(QMouseEvent *)
-{
-    mousePress = true;
-}
-
-void QmlWindow::mouseReleaseEvent(QMouseEvent *)
-{
-    mousePress = false;
-}
-*/
