@@ -1,7 +1,7 @@
 import QtQuick 2.0
 import QtQuick.Window 2.0
 import Drawing 1.0
-import "util.js" as Util
+import "utils.js" as Util
 
 Rectangle {
     id: container
