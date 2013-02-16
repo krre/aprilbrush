@@ -1,6 +1,7 @@
 import QtQuick 2.0
 import QtQuick.Window 2.0
 import Drawing 1.0
+import BrushEngine 1.0
 import "utils.js" as Util
 
 Rectangle {
@@ -12,7 +13,7 @@ Rectangle {
         anchors.fill: parent
         //hoverEnabled: true
         onPositionChanged: {
-            console.log(mouseX + " " + mouseY)
+            brush.paintDab(mouseX, mouseY)
         }
     }
 
@@ -35,6 +36,10 @@ Rectangle {
     PaintSpace {
         width: Screen.width
         height: Screen.height
+    }
+
+    Brush {
+        id: brush
     }
 
     // Files panel

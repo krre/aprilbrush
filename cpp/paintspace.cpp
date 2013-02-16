@@ -1,4 +1,5 @@
 #include "paintspace.h"
+#include "qmlwindow.h"
 
 PaintSpace::PaintSpace(QQuickItem *parent) :
     QQuickPaintedItem(parent)
@@ -9,14 +10,17 @@ PaintSpace::PaintSpace(QQuickItem *parent) :
 
 void PaintSpace::paint(QPainter *painter)
 {
+
     if (pixmap.isNull())
     {
         QRectF rect = boundingRect();
         pixmap = QPixmap(rect.width(), rect.height());
         pixmap.fill(pixmapColor);
-        //PaintSpace::pixmapPtr = &pixmap;
+        pixmapPtr = &pixmap;
     }
 
     painter->drawPixmap(0, 0, pixmap);
 }
+
+QPixmap *PaintSpace::pixmapPtr = NULL;
 
