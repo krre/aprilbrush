@@ -20,7 +20,11 @@ typedef int (API *PtrWTQueuePacketsEx)(HCTX, UINT FAR*, UINT FAR*);
 class BrushEngine : public QObject
 {
     Q_OBJECT
-    //Q_INVOKABLE void paintDab(qreal xPos, qreal yPos, qreal pressure);
+    Q_PROPERTY(int size READ size WRITE setSize)
+    Q_PROPERTY(int spacing READ spacing WRITE setSpacing)
+    Q_PROPERTY(int hardness READ hardness WRITE setHardness)
+    Q_PROPERTY(QColor color READ color WRITE setColor)
+    Q_PROPERTY(int opacity READ opacity WRITE setOpacity)
 
 public:
     BrushEngine();
@@ -28,9 +32,7 @@ public:
     Q_INVOKABLE void paintDab(qreal xPos, qreal yPos);
     Q_INVOKABLE void setTouch(bool touch) {touchPen = touch;}
     Q_INVOKABLE void clear();
-    inline int diameterBrush() {return sizeBrush;}
-    inline void setColor(int r, int g, int b) {rColor = r; gColor = g, bColor = b;}
-    inline void setColor(int r, int g, int b, int a) {rColor = r; gColor = g, bColor = b; aColor = a;}
+
     inline void setEraser(bool eraserOut) {eraser = eraserOut;}
     inline bool touch() {return touchPen;}
 
@@ -38,13 +40,18 @@ signals:
     void sizeBrushSignal();
     void paintDone();
 
-public slots:
-    inline void setSizeBrush(int size) {sizeBrush = size; emit sizeBrushSignal();}
-    inline void setAlpha(int alpha) {aColor = int(alpha * 255 / 100);}
-    inline void setSpacingBrush(int spacing) {spacingBrush = spacing;}
-    inline void setHardnessBrush(int hardness) {hardnessBrush = hardness;}
-
 private:
+    inline int size() {return sizeBrush;}
+    inline void setSize(int size) {sizeBrush = size; emit sizeBrushSignal();}
+    inline int spacing() {return spacingBrush;}
+    inline void setSpacing(int spacing) {spacingBrush = spacing;}
+    inline int hardness() {return hardnessBrush;}
+    inline void setHardness(int hardness) {hardnessBrush = hardness;}
+    inline QColor color() {return colorBrush;}
+    inline void setColor(QColor color) {colorBrush = color;}
+    inline int opacity() {return opacityBrush;}
+    inline void setOpacity(int opacity) {opacityBrush = opacity;}
+
     void wintabInit();
     HINSTANCE ghWintab;
     HCTX tabletHandle;
@@ -53,20 +60,16 @@ private:
     PtrWTPacket ptrWTPacket;
     PtrWTQueuePacketsEx ptrWTQueuePacketsEx;
 
-    QColor colorBrush;
     int sizeBrush;
     int spacingBrush;
     int hardnessBrush;
+    QColor colorBrush;
+    int opacityBrush;
     bool eraser;
 
     QPointF nowPos;
     QPointF prevPos;
     bool touchPen;
-
-    int rColor;
-    int gColor;
-    int bColor;
-    int aColor;
 
     QTime time;
     qreal pressure();

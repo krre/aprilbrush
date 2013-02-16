@@ -47,6 +47,11 @@ Rectangle {
     Brush {
         id: brush
         onPaintDone: space.update()
+        size: 50
+        spacing: 100
+        hardness: 85
+        color: "blue"
+        opacity: 100
     }
 
     // Files panel

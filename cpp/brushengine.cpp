@@ -5,18 +5,8 @@
 BrushEngine::BrushEngine()
 {
     wintabInit();
-    sizeBrush = 20;
-    spacingBrush = 100;
     touchPen = false;
     eraser = false;
-
-    hardnessBrush = 80;
-
-    rColor = 0;
-    gColor = 0;
-    bColor = 0;
-    aColor = 127;
-
 }
 
 BrushEngine::~BrushEngine()
@@ -28,43 +18,43 @@ BrushEngine::~BrushEngine()
 
 void BrushEngine::paintDab(qreal xPos, qreal yPos)
 {
+    colorBrush.setAlpha(qRound(255 * opacityBrush / 100.0));
+    QColor pressureColor = colorBrush;
     qreal pressurePen = pressure();
+    pressureColor.setAlpha(qRound(colorBrush.alpha() * pressurePen));
+    QColor alphaColor =  colorBrush;
+    alphaColor.setAlpha(0);
     //qDebug() << xPos << yPos << pressurePen;
     QPointF posCursor = QPointF(xPos, yPos);
     QPainter painter(PaintSpace::pixmapPtr);
     //PaintSpace::pixmapPtr->save("D:\pix.png");
     painter.setRenderHint(QPainter::Antialiasing, true);
     painter.setPen(Qt::NoPen);
-    if (eraser)
-        painter.setCompositionMode(QPainter::CompositionMode_DestinationOut);
 
-    QRadialGradient radialGradient(posCursor, sizeBrush / 2.0);
-    radialGradient.setColorAt(0, QColor(rColor, gColor, bColor, qRound(pressurePen * aColor)));
-    //radialGradient.setColorAt(0, QColor(rColor, gColor, bColor, qRound(pressure * alpha)));
-    radialGradient.setColorAt(1, QColor(rColor, gColor, bColor, 0));
-    radialGradient.setColorAt(hardnessBrush / 100.0, QColor(rColor, gColor, bColor, qRound(pressurePen * aColor)));
-    //radialGradient.setColorAt(hardnessBrush / 100.0, QColor(rColor, gColor, bColor, qRound(pressure * alpha)));
+    QRadialGradient radialGradient;
+    radialGradient.setRadius(sizeBrush / 2.0);
+    radialGradient.setColorAt(0, pressureColor);
+    radialGradient.setColorAt(hardnessBrush / 100.0, pressureColor);
+    radialGradient.setColorAt(1, alphaColor);
     painter.setBrush(QBrush(radialGradient));
 
-    qreal length;
-    int numDabs;
-    qreal deltaDab;
-    qreal angle;
-    QPointF betweenPos;
-
-    //painter.drawEllipse(posCursor, sizeBrush / 2.0, sizeBrush / 2.0);
+    if (eraser)
+        painter.setCompositionMode(QPainter::CompositionMode_DestinationOut);
 
     // First dab after touching the stylus at a surface
     if (!touchPen)
     {
         prevPos = posCursor;
-        painter.drawEllipse(posCursor, sizeBrush / 2.0, sizeBrush / 2.0);
         touchPen = true;
-        emit paintDone();
-        //qDebug() << pressurePen;
     }
     else
     {
+        qreal length;
+        int numDabs;
+        qreal deltaDab;
+        qreal angle;
+        QPointF betweenPos;
+
         nowPos = posCursor;
         length = qSqrt(qPow(prevPos.x() - nowPos.x(), 2) + qPow(prevPos.y() - nowPos.y(), 2));
         deltaDab = sizeBrush * spacingBrush / 100.0;
@@ -76,18 +66,10 @@ void BrushEngine::paintDab(qreal xPos, qreal yPos)
             for (int dabCount = 1; dabCount <= numDabs; dabCount++)
             {
                 betweenPos = QPointF(prevPos.x() + deltaDab * qSin(angle), prevPos.y() + deltaDab * qCos(angle));
-                //radialGradient.setCenter(betweenPos);
-
-                // temporary
-                radialGradient = QRadialGradient(betweenPos, sizeBrush / 2.0);
-                radialGradient.setColorAt(0, QColor(rColor, gColor, bColor, qRound(pressurePen * aColor)));
-                //radialGradient.setColorAt(0, QColor(rColor, gColor, bColor, qRound(pressure * alpha)));
-                radialGradient.setColorAt(1, QColor(rColor, gColor, bColor, 0));
-                radialGradient.setColorAt(hardnessBrush / 100.0, QColor(rColor, gColor, bColor, qRound(pressurePen * aColor)));
-                //radialGradient.setColorAt(hardnessBrush / 100.0, QColor(rColor, gColor, bColor, qRound(pressure * alpha)));
-
-                painter.setBrush(QBrush(radialGradient));
-                painter.drawEllipse(betweenPos, sizeBrush / 2.0, sizeBrush / 2.0);
+                painter.save();
+                painter.translate(betweenPos);
+                painter.drawEllipse(-sizeBrush / 2.0, -sizeBrush / 2.0, sizeBrush, sizeBrush);
+                painter.restore();
                 prevPos = betweenPos;
                 emit paintDone();
             }
