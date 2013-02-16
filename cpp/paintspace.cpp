@@ -20,6 +20,7 @@ void PaintSpace::paint(QPainter *painter)
     }
 
     painter->drawPixmap(0, 0, pixmap);
+    update();
 }
 
 QPixmap *PaintSpace::pixmapPtr = NULL;

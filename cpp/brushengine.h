@@ -34,7 +34,6 @@ public:
     inline void setEraser(bool eraserOut) {eraser = eraserOut;}
     inline bool touch() {return touchPen;}
 
-
 signals:
     void sizeBrushSignal();
 

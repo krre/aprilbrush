@@ -14,11 +14,10 @@ Rectangle {
     MouseArea {
         anchors.fill: parent
         //hoverEnabled: true
-        onPressed: brush.setTouch(true)
+        onPressed: brush.paintDab(mouseX, mouseY)
         onReleased: brush.setTouch(false)
         onPositionChanged: {
             brush.paintDab(mouseX, mouseY)
-            space.update()
         }
     }
 
