@@ -26,12 +26,14 @@ public:
     BrushEngine();
     ~BrushEngine();
     Q_INVOKABLE void paintDab(qreal xPos, qreal yPos);
+    Q_INVOKABLE void setTouch(bool touch) {touchPen = touch;}
+    Q_INVOKABLE void clear();
     inline int diameterBrush() {return sizeBrush;}
     inline void setColor(int r, int g, int b) {rColor = r; gColor = g, bColor = b;}
     inline void setColor(int r, int g, int b, int a) {rColor = r; gColor = g, bColor = b; aColor = a;}
     inline void setEraser(bool eraserOut) {eraser = eraserOut;}
     inline bool touch() {return touchPen;}
-    Q_INVOKABLE void setTouch(bool touch) {touchPen = touch;}
+
 
 signals:
     void sizeBrushSignal();

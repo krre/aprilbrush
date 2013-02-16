@@ -8,6 +8,8 @@ Rectangle {
     id: container
     width: 800
     height: 600
+    Keys.onDeletePressed: {brush.clear(); space.update()}
+    focus: true
 
     MouseArea {
         anchors.fill: parent
@@ -15,7 +17,6 @@ Rectangle {
         onPressed: brush.setTouch(true)
         onReleased: brush.setTouch(false)
         onPositionChanged: {
-
             brush.paintDab(mouseX, mouseY)
             space.update()
         }

@@ -92,6 +92,11 @@ void BrushEngine::paintDab(qreal xPos, qreal yPos)
     }
 }
 
+void BrushEngine::clear()
+{
+    PaintSpace::pixmapPtr->fill(QColor("white"));
+}
+
 void BrushEngine::wintabInit()
 {
     ghWintab = LoadLibraryA("Wintab32.dll");
