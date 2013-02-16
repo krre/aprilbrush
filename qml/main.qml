@@ -12,8 +12,12 @@ Rectangle {
     MouseArea {
         anchors.fill: parent
         //hoverEnabled: true
+        onPressed: brush.setTouch(true)
+        onReleased: brush.setTouch(false)
         onPositionChanged: {
+
             brush.paintDab(mouseX, mouseY)
+            space.update()
         }
     }
 
@@ -27,17 +31,19 @@ Rectangle {
 
     // White layer
     PaintSpace {
+        id: space
         width: Screen.width
         height: Screen.height
         color: "white"
     }
-
+/*
     // Transparent layer
     PaintSpace {
         width: Screen.width
         height: Screen.height
+        color: "red"
     }
-
+*/
     Brush {
         id: brush
     }
