@@ -36,6 +36,7 @@ public:
 
 signals:
     void sizeBrushSignal();
+    void paintDone();
 
 public slots:
     inline void setSizeBrush(int size) {sizeBrush = size; emit sizeBrushSignal();}

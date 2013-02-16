@@ -25,6 +25,7 @@ public slots:
 private:
     QPixmap pixmap;
     QColor pixmapColor;
+    int count;
 };
 
 

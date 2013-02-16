@@ -14,7 +14,7 @@ Rectangle {
     MouseArea {
         anchors.fill: parent
         //hoverEnabled: true
-        onPressed: brush.paintDab(mouseX, mouseY)
+        onPressed: {brush.paintDab(mouseX, mouseY); space.update()}
         onReleased: brush.setTouch(false)
         onPositionChanged: {
             brush.paintDab(mouseX, mouseY)
@@ -46,6 +46,7 @@ Rectangle {
 */
     Brush {
         id: brush
+        onPaintDone: space.update()
     }
 
     // Files panel

@@ -60,6 +60,7 @@ void BrushEngine::paintDab(qreal xPos, qreal yPos)
         prevPos = posCursor;
         painter.drawEllipse(posCursor, sizeBrush / 2.0, sizeBrush / 2.0);
         touchPen = true;
+        emit paintDone();
         //qDebug() << pressurePen;
     }
     else
@@ -88,6 +89,7 @@ void BrushEngine::paintDab(qreal xPos, qreal yPos)
                 painter.setBrush(QBrush(radialGradient));
                 painter.drawEllipse(betweenPos, sizeBrush / 2.0, sizeBrush / 2.0);
                 prevPos = betweenPos;
+                emit paintDone();
             }
         }
     }

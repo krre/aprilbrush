@@ -6,6 +6,7 @@ PaintSpace::PaintSpace(QQuickItem *parent) :
 {
     // Default black transparency color
     pixmapColor.setRgba(qRgba(0, 0, 0, 0));
+    count = 0;
 }
 
 void PaintSpace::paint(QPainter *painter)
@@ -20,7 +21,7 @@ void PaintSpace::paint(QPainter *painter)
     }
 
     painter->drawPixmap(0, 0, pixmap);
-    update();
+    //qDebug() << "update" << count++;
 }
 
 QPixmap *PaintSpace::pixmapPtr = NULL;
