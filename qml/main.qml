@@ -14,7 +14,7 @@ Rectangle {
     MouseArea {
         anchors.fill: parent
         //hoverEnabled: true
-        onPressed: {brush.paintDab(mouseX, mouseY); space.update()}
+        onPressed: {brush.paintDab(mouseX, mouseY)}
         onReleased: brush.setTouch(false)
         onPositionChanged: {
             brush.paintDab(mouseX, mouseY)
@@ -47,8 +47,8 @@ Rectangle {
     Brush {
         id: brush
         onPaintDone: space.update()
-        size: 50
-        spacing: 100
+        size: 20
+        spacing: 25
         hardness: 85
         color: "blue"
         opacity: 100

@@ -5,6 +5,7 @@
 BrushEngine::BrushEngine()
 {
     wintabInit();
+    //ghWintab = 0;
     touchPen = false;
     eraser = false;
 }
@@ -58,6 +59,7 @@ void BrushEngine::paintDab(qreal xPos, qreal yPos)
         nowPos = posCursor;
         length = qSqrt(qPow(prevPos.x() - nowPos.x(), 2) + qPow(prevPos.y() - nowPos.y(), 2));
         deltaDab = sizeBrush * spacingBrush / 100.0;
+        qreal sizeBrushHalf = sizeBrush / 2.0; // for increasing of the painting speed
         // Drawing dabs between the events
         if (length >= deltaDab)
         {
@@ -68,7 +70,7 @@ void BrushEngine::paintDab(qreal xPos, qreal yPos)
                 betweenPos = QPointF(prevPos.x() + deltaDab * qSin(angle), prevPos.y() + deltaDab * qCos(angle));
                 painter.save();
                 painter.translate(betweenPos);
-                painter.drawEllipse(-sizeBrush / 2.0, -sizeBrush / 2.0, sizeBrush, sizeBrush);
+                painter.drawEllipse(-sizeBrushHalf, -sizeBrushHalf, sizeBrush, sizeBrush);
                 painter.restore();
                 prevPos = betweenPos;
                 emit paintDone();
