@@ -3,7 +3,9 @@ import QtQuick 2.0
 Rectangle {
     id: container
     height: 25
-    color: "white"
+    color: "#eeeeee"
+    border.color: "gray"
+    opacity: 0.9
     property alias pageModel: pageModel
 
     ListModel {

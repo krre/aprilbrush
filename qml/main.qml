@@ -1,5 +1,6 @@
 import QtQuick 2.0
 import QtQuick.Window 2.0
+import QtGraphicalEffects 1.0
 import Drawing 1.0
 import BrushEngine 1.0
 import "utils.js" as Util
@@ -72,7 +73,15 @@ Rectangle {
         id: pagePanel
         anchors.horizontalCenter: parent.horizontalCenter
         width: parent.width - filePanel.width * 2
-    }   
+    }
+
+
+    BrushSettings {
+        id: brushSettings
+        x: 500
+        y: 50
+    }
 }
+
 
 

@@ -23,3 +23,6 @@ QMAKE_POST_LINK += $$QMAKE_COPY_DIR $$PWD/svg $(DESTDIR) $$escape_expand(\\n\\t)
 
 OTHER_FILES += \
     qml/utils.js
+
+OTHER_FILES += \
+    qml/BrushSettings.qml
