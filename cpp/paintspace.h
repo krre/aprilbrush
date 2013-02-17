@@ -28,5 +28,4 @@ private:
     int count;
 };
 
-
 #endif // PAINTSPACE_H
