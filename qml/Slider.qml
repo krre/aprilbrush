@@ -3,6 +3,7 @@ import QtQuick 2.0
 Item {
     id:  slider
     height: 25
+    width: parent.width
     property string name: "Slider"
     property int min: 0
     property int max: 1

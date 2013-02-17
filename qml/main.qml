@@ -52,11 +52,11 @@ Rectangle {
     Brush {
         id: brush
         onPaintDone: space.update()
-        size: brushSettings.size
-        spacing: 25
-        hardness: 85
         color: "blue"
-        opacity: 100
+        size: brushSettings.size
+        spacing: brushSettings.spacing
+        hardness: brushSettings.hardness
+        opacity: brushSettings.opacity_
     }
 
     // Files panel
