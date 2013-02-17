@@ -9,7 +9,11 @@ Rectangle {
     id: container
     width: 800
     height: 600
-    Keys.onDeletePressed: {brush.clear(); space.update()}
+    Keys.onPressed: {
+        if (event.key == Qt.Key_Delete) {brush.clear(); space.update()};
+        if (event.key == Qt.Key_P) brushSettings.visible = true;
+    }
+
     focus: true
 
     MouseArea {
@@ -48,7 +52,7 @@ Rectangle {
     Brush {
         id: brush
         onPaintDone: space.update()
-        size: 20
+        size: brushSettings.size
         spacing: 25
         hardness: 85
         color: "blue"
@@ -75,12 +79,19 @@ Rectangle {
         width: parent.width - filePanel.width * 2
     }
 
-
     BrushSettings {
         id: brushSettings
-        x: 500
-        y: 50
+        x: 504
+        y: 79
     }
+/*
+    ColorPicker {
+        id: colorPicker
+        x: 20
+        y: 200
+        visible: false
+    }
+    */
 }
 
 

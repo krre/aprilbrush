@@ -26,3 +26,6 @@ OTHER_FILES += \
 
 OTHER_FILES += \
     qml/BrushSettings.qml
+
+OTHER_FILES += \
+    qml/Slider.qml

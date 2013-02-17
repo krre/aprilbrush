@@ -19,6 +19,12 @@ Item {
             GradientStop {position: 1; color: "blue"}
         }
     }
+
+    MouseArea {
+        anchors.fill: parent
+        drag.target: parent
+        //onClicked: name.z = 1
+    }
 }
 
 
