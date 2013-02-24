@@ -1,3 +1,4 @@
+// Adds prefix zero to number
 function zeroFill(number, width)
 {
     width -= number.toString().length;
@@ -7,3 +8,13 @@ function zeroFill(number, width)
     }
     return number + ""; // always return a string
 }
+
+// Converts HSV to HSL
+function hslColor(hue, saturation, value, alpha) {
+    var lightness = (2 - saturation) * value
+    var newSaturation = saturation * value / (lightness <= 1 ? lightness : 2 - lightness)
+    lightness = lightness / 2
+    return Qt.hsla(hue, newSaturation, lightness, alpha)
+}
+
+

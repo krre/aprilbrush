@@ -3,7 +3,7 @@ import QtQuick.Window 2.0
 import QtGraphicalEffects 1.0
 import Drawing 1.0
 import BrushEngine 1.0
-import "utils.js" as Util
+import "utils.js" as Utils
 
 Rectangle {
     id: container
@@ -18,12 +18,9 @@ Rectangle {
 
     MouseArea {
         anchors.fill: parent
-        //hoverEnabled: true
-        onPressed: {brush.paintDab(mouseX, mouseY)}
+        onPressed: brush.paintDab(mouseX, mouseY)
         onReleased: brush.setTouch(false)
-        onPositionChanged: {
-            brush.paintDab(mouseX, mouseY)
-        }
+        onPositionChanged: brush.paintDab(mouseX, mouseY)
     }
 
     // Checker background
@@ -52,7 +49,7 @@ Rectangle {
     Brush {
         id: brush
         onPaintDone: space.update()
-        color: "blue"
+        color: "red"
         size: brushSettings.size
         spacing: brushSettings.spacing
         hardness: brushSettings.hardness
@@ -65,7 +62,7 @@ Rectangle {
         x: 0; y: 0
         onPressFileItem: {
             if (itemName == "New") {
-                var numNextPage = Util.zeroFill(pagePanel.pageModel.count + 1, 2)
+                var numNextPage = Utils.zeroFill(pagePanel.pageModel.count + 1, 2)
                 pagePanel.pageModel.append({"name": "Untitled " + numNextPage})
             }
         }
@@ -84,14 +81,15 @@ Rectangle {
         x: 504
         y: 79
     }
-/*
+
     ColorPicker {
         id: colorPicker
         x: 20
         y: 200
-        visible: false
+        onColorChanged: brush.color = colorPicker.pickColor
+        //visible: false
     }
-    */
+
 }
 
 
