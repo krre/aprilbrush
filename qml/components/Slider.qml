@@ -8,9 +8,9 @@ Item {
     property int min: 0
     property int max: 1
     property int init: min + (max - min) / 2
-    property int value: min + (max - min) * (handle.x / (slider.width - handle.width))
+    property int value: min + (max - min) * (handle.x / (scale.width - handle.width))
 
-    Component.onCompleted: {handle.x = init / (max - min) * (scale.width - handle.width)}
+    Component.onCompleted: handle.x = (init - min) / (max - min) * (scale.width - handle.width)
 
     Item {
         height: 10

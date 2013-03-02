@@ -20,7 +20,7 @@ Window {
         Slider {id: opacityCtrl; name: "Opacity"; min: 0; max: 100; init: 50}
         Slider {id: hardnessCtrl; name: "Hardness"; min: 1; max: 100; init: 85}
         Slider {id: roundnessCtrl; name: "Roundness"; min: 1; max: 10; init: 1}
-        Slider {id: angleCtrl; name: "Angle"; min: 0; max: 180; init: 0}
+        Slider {id: angleCtrl; name: "Angle"; min: 0; max: 180; init: 90}
     }
 }
 
