@@ -1,6 +1,5 @@
 import QtQuick 2.0
 import QtQuick.Window 2.0
-import QtGraphicalEffects 1.0
 import Drawing 1.0
 import BrushEngine 1.0
 import "components"
@@ -13,6 +12,7 @@ Rectangle {
     Keys.onPressed: {
         if (event.key == Qt.Key_Delete) {brush.clear(); space.update()};
         if (event.key == Qt.Key_P) brushSettings.visible = true;
+        if (event.key == Qt.Key_C) colorPicker.visible = true;
     }
     focus: true
 
@@ -87,22 +87,7 @@ Rectangle {
         x: 20
         y: 200
         onColorChanged: brush.color = colorPicker.pickColor
-        //visible: false
     }
-/*
-    Window {
-        x: 500
-        y: 300
-        title: "Window"
-        Item {
-            //color: "red"
-            anchors.fill: parent
-            Text {
-                text: "text"
-            }
-        }
-    }
-    */
 }
 
 
