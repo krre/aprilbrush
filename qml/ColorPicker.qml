@@ -1,15 +1,12 @@
 import QtQuick 2.0
 import QtGraphicalEffects 1.0
 import "utils.js" as Utils
+import "components"
 
-Rectangle {
+Window {
+    title: "Color"
     id: container
-    width: 300
-    height: 280
-    color: "#eeeeee"
-    border.color: "gray"
-    radius: 7
-    antialiasing: true
+
     property real hueColor: 0
     property real saturationColor: 0
     property real valueColor: 0
@@ -17,19 +14,6 @@ Rectangle {
     property int minWindowSize: Math.min(container.width, container.height) - 20
     property real ringWidth: 0.75
     signal colorChanged
-/*
-    Text {
-        text: "Color"
-        anchors.left: parent.left
-        anchors.leftMargin: 10
-        anchors.top: parent.top
-        anchors.topMargin: 5
-    }
-*/
-    MouseArea {
-        anchors.fill: parent
-        drag.target: parent
-    }
 
     // Color ring
     Rectangle {
@@ -161,3 +145,4 @@ Rectangle {
         }
     }
 }
+
