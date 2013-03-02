@@ -3,6 +3,7 @@ import QtQuick.Window 2.0
 import QtGraphicalEffects 1.0
 import Drawing 1.0
 import BrushEngine 1.0
+import "components"
 import "utils.js" as Utils
 
 Rectangle {
@@ -13,7 +14,6 @@ Rectangle {
         if (event.key == Qt.Key_Delete) {brush.clear(); space.update()};
         if (event.key == Qt.Key_P) brushSettings.visible = true;
     }
-
     focus: true
 
     MouseArea {
@@ -55,7 +55,7 @@ Rectangle {
         hardness: brushSettings.hardness
         opacity: brushSettings.opacity_
     }
-
+/*
     // Files panel
     FilePanel {
         id: filePanel
@@ -75,7 +75,7 @@ Rectangle {
         anchors.horizontalCenter: parent.horizontalCenter
         width: parent.width - filePanel.width * 2
     }
-
+*/
     BrushSettings {
         id: brushSettings
         x: 504
@@ -90,6 +90,18 @@ Rectangle {
         //visible: false
     }
 
+    Window {
+        x: 500
+        y: 300
+        title: "Window"
+        Item {
+            //color: "red"
+            anchors.fill: parent
+            Text {
+                text: "text"
+            }
+        }
+    }
 }
 
 

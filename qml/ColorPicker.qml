@@ -17,7 +17,7 @@ Rectangle {
     property int minWindowSize: Math.min(container.width, container.height) - 20
     property real ringWidth: 0.75
     signal colorChanged
-
+/*
     Text {
         text: "Color"
         anchors.left: parent.left
@@ -25,7 +25,7 @@ Rectangle {
         anchors.top: parent.top
         anchors.topMargin: 5
     }
-
+*/
     MouseArea {
         anchors.fill: parent
         drag.target: parent
@@ -161,6 +161,3 @@ Rectangle {
         }
     }
 }
-
-
-
