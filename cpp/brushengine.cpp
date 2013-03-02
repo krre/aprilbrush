@@ -70,6 +70,8 @@ void BrushEngine::paintDab(qreal xPos, qreal yPos)
                 betweenPos = QPointF(prevPos.x() + deltaDab * qSin(angle), prevPos.y() + deltaDab * qCos(angle));
                 painter.save();
                 painter.translate(betweenPos);
+                painter.rotate(angleBrush);
+                painter.scale(1.0 / roundnessBrush, 1);
                 painter.drawEllipse(-sizeBrushHalf, -sizeBrushHalf, sizeBrush, sizeBrush);
                 painter.restore();
                 prevPos = betweenPos;

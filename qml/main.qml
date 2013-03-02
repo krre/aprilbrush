@@ -54,6 +54,8 @@ Rectangle {
         spacing: brushSettings.spacing
         hardness: brushSettings.hardness
         opacity: brushSettings.opacity_
+        roundness: brushSettings.roundness
+        angle: brushSettings.angle
     }
 /*
     // Files panel
@@ -80,6 +82,7 @@ Rectangle {
         id: brushSettings
         x: 504
         y: 79
+        height: 250
     }
 
     ColorPicker {

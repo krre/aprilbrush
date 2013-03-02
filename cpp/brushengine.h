@@ -25,6 +25,8 @@ class BrushEngine : public QObject
     Q_PROPERTY(int hardness READ hardness WRITE setHardness)
     Q_PROPERTY(QColor color READ color WRITE setColor)
     Q_PROPERTY(int opacity READ opacity WRITE setOpacity)
+    Q_PROPERTY(int roundness READ roundness WRITE setRoundness)
+    Q_PROPERTY(int angle READ angle WRITE setAngle)
 
 public:
     BrushEngine();
@@ -52,6 +54,13 @@ private:
     inline int opacity() {return opacityBrush;}
     inline void setOpacity(int opacity) {opacityBrush = opacity;}
 
+    inline int roundness() {return roundnessBrush;}
+    inline void setRoundness(int roundness) {roundnessBrush = roundness;}
+
+    inline int angle() {return angleBrush;}
+    inline void setAngle(int angle) {angleBrush = angle;}
+
+
     void wintabInit();
     HINSTANCE ghWintab;
     HCTX tabletHandle;
@@ -63,6 +72,8 @@ private:
     int sizeBrush;
     int spacingBrush;
     int hardnessBrush;
+    int roundnessBrush;
+    int angleBrush;
     QColor colorBrush;
     int opacityBrush;
     bool eraser;
