@@ -11,6 +11,7 @@ Window {
 
     Column {
         width: parent.width
+        spacing: 5
         Slider {id: sizeCtrl; name: "Size"; min: 1; max: 200; init: 30}
         Slider {id: spacingCtrl; name: "Spacing"; min: 1; max: 100; init: 30}
         Slider {id: opacityCtrl; name: "Opacity"; min: 0; max: 100; init: 50}

@@ -30,7 +30,7 @@ Item {
 
     Item {
         id: scale
-        height: 10
+        height: 12
         width: parent.width - 20
         anchors.horizontalCenter: parent.horizontalCenter
         anchors.bottom: parent.bottom
