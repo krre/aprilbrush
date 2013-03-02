@@ -1,5 +1,4 @@
 #include "paintspace.h"
-#include "qmlwindow.h"
 
 PaintSpace::PaintSpace(QQuickItem *parent) :
     QQuickPaintedItem(parent)

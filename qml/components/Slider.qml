@@ -37,6 +37,8 @@ Item {
         Rectangle {
             width: parent.width
             height: parent.height
+            radius: 5
+            antialiasing: true
             border.color: "gray"
             opacity: 0.7
         }
@@ -45,6 +47,8 @@ Item {
             id: handle
             width: 20
             height: parent.height
+            radius: 5
+            antialiasing: true
             color: "gray"
             MouseArea {
                 anchors.fill: parent
