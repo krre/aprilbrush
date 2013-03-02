@@ -2,11 +2,13 @@ import QtQuick 2.0
 
 Rectangle {
     property string title: "Unnamed"
-    //property alias closeArea: closeHandler
     default property alias content: stack.children
+    property int defaultWidth: 200
+    property int defaultHeight: 200
+
     id: window
-    width: 200
-    height: 200
+    width: defaultWidth
+    height: defaultHeight
     color: "#eeeeee"
     border.color: "gray"
     opacity: 0.9
@@ -21,7 +23,6 @@ Rectangle {
         // Header
         Item {
             id: head;
-            //color: "#c8c8c8"
             width: window.width;
             height: 25
             Text {
@@ -35,7 +36,6 @@ Rectangle {
         // Content stack
         Item {
             id: stack
-            //color: "green";
             width: window.width;
             height: window.height - head.height
         }
@@ -93,8 +93,10 @@ Rectangle {
             onReleased: grabFlag = false
             onPositionChanged: {
                 if (grabFlag) {
-                    window.width = window.width + (mouseX - grabPoint.x)
-                    window.height = window.height + (mouseY - grabPoint.y)
+                    var newWidth = window.width + (mouseX - grabPoint.x)
+                    window.width = newWidth < defaultWidth ? defaultWidth : newWidth
+                    var newHeight = window.height + (mouseY - grabPoint.y)
+                    window.height = newHeight < defaultHeight ? defaultHeight : newHeight
                 }
             }
         }
