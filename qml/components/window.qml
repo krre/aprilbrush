@@ -42,18 +42,17 @@ Rectangle {
     }
 
     // Close handler
-    Rectangle {
+    Item {
         id: closeHandler
         width: 20
         height: 20
         anchors.top: parent.top
         anchors.right: parent.right
-        color: closeMouseArea.containsMouse ? "red" : "transparent"
         Text {
-            text: "X"
+            text: "x"
             anchors.centerIn: parent
-            font.bold: true
-            color: closeMouseArea.containsMouse ? "white" : "transparent"
+            font.pointSize: 10
+            font.bold: closeMouseArea.containsMouse ? true : false
         }
 
         MouseArea {
@@ -65,19 +64,17 @@ Rectangle {
     }
 
     // Resize handler
-    Rectangle {
+    Item {
         id: resizeHandler
         width: 20
         height: 20
         anchors.bottom: parent.bottom
         anchors.right: parent.right
-        clip: true
-        color: resizeMouseArea.containsMouse ? "gray" : "transparent"
         Text {
             text: "="
             anchors.centerIn: parent
-            font.bold: true
-            color: resizeMouseArea.containsMouse ? "white" : "transparent"
+            font.pointSize: 11
+            font.bold: resizeMouseArea.containsMouse ? true : false
         }
 
         MouseArea {
