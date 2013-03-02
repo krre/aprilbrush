@@ -89,7 +89,7 @@ Rectangle {
         onColorChanged: brush.color = colorPicker.pickColor
         //visible: false
     }
-
+/*
     Window {
         x: 500
         y: 300
@@ -102,6 +102,7 @@ Rectangle {
             }
         }
     }
+    */
 }
 
 
