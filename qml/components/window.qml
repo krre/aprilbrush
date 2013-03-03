@@ -11,7 +11,7 @@ Rectangle {
     height: defaultHeight
     color: "#eeeeee"
     border.color: "gray"
-    opacity: 0.9
+    //opacity: 0.9
     radius: 7
     antialiasing: true
     MouseArea {
