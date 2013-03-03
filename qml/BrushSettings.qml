@@ -11,7 +11,6 @@ Window {
     property int roundness: roundnessCtrl.value
     property int angle: angleCtrl.value
 
-
     Column {
         width: parent.width
         spacing: 5

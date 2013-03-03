@@ -80,8 +80,8 @@ Rectangle {
 */
     BrushSettings {
         id: brushSettings
-        x: 504
-        y: 79
+        x: 550
+        y: 20
         height: 250
     }
 
@@ -90,6 +90,12 @@ Rectangle {
         x: 20
         y: 200
         onColorChanged: brush.color = colorPicker.pickColor
+    }
+
+    BrushLibrary {
+        id: brushLibrary
+        x: 560
+        y: 320
     }
 }
 
