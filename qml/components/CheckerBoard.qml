@@ -2,7 +2,7 @@ import QtQuick 2.0
 
 Item {
     id: root
-    property int cellSide: 30
+    property int cellSide: 10
     width: 100
     height: 100
     Grid {
@@ -21,4 +21,6 @@ Item {
         }
     }
 }
+
+
 

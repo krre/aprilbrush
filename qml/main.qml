@@ -10,11 +10,17 @@ Item {
     width: 1000
     height: 600
 
+    CheckerBoard {
+        cellSide: 30
+        width: Screen.width
+        height: Screen.height
+    }
+/*
     CanvasArea {
         width: Screen.width
         height: Screen.height
     }
-
+*/
     /*
     Keys.onPressed: {
         if (event.key == Qt.Key_Delete) {brush.clear(); space.update()};
