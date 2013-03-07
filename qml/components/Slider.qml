@@ -2,13 +2,15 @@ import QtQuick 2.0
 
 Item {
     id:  slider
-    height: 25
-    width: parent.width
+
     property string name: "Slider"
     property int min: 0
     property int max: 1
     property int init: min + (max - min) / 2
     property int value: min + (max - min) * (handle.x / (scale.width - handle.width))
+
+    width: parent.width
+    height: 25
 
     Component.onCompleted: handle.x = (init - min) / (max - min) * (scale.width - handle.width)
 

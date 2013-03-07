@@ -15,12 +15,13 @@ Item {
         width: Screen.width
         height: Screen.height
     }
-/*
+
     CanvasArea {
         width: Screen.width
         height: Screen.height
+        //initColor: "yellow"
     }
-*/
+
     /*
     Keys.onPressed: {
         if (event.key == Qt.Key_Delete) {brush.clear(); space.update()};
