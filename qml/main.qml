@@ -5,10 +5,17 @@ import BrushEngine 1.0
 import "components"
 import "utils.js" as Utils
 
-Rectangle {
+Item {
     id: container
-    width: 800
+    width: 1000
     height: 600
+
+    CanvasArea {
+        width: Screen.width
+        height: Screen.height
+    }
+
+    /*
     Keys.onPressed: {
         if (event.key == Qt.Key_Delete) {brush.clear(); space.update()};
         if (event.key == Qt.Key_P) brushSettings.visible = true;
@@ -23,6 +30,8 @@ Rectangle {
         onPositionChanged: brush.paintDab(mouseX, mouseY)
     }
 
+*/
+/*
     // Checker background
     Image {
         width: Screen.width
@@ -38,6 +47,7 @@ Rectangle {
         height: Screen.height
         color: "white"
     }
+    */
 /*
     // Transparent layer
     PaintSpace {
@@ -46,6 +56,7 @@ Rectangle {
         color: "red"
     }
 */
+/*
     Brush {
         id: brush
         onPaintDone: space.update()
@@ -57,6 +68,7 @@ Rectangle {
         roundness: brushSettings.roundness
         angle: brushSettings.angle
     }
+*/
 /*
     // Files panel
     FilePanel {
@@ -80,7 +92,7 @@ Rectangle {
 */
     BrushSettings {
         id: brushSettings
-        x: 550
+        x: 780
         y: 20
         height: 250
     }
@@ -94,7 +106,7 @@ Rectangle {
 
     BrushLibrary {
         id: brushLibrary
-        x: 560
+        x: 780
         y: 320
     }
 }

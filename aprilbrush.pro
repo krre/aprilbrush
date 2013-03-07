@@ -19,10 +19,15 @@ OTHER_FILES += \
     qml/utils.js \
     qml/components/Window.qml\
     qml/components/Slider.qml \
-    qml/BrushLibrary.qml
+    qml/components/CheckerBoard.qml \
+    qml/BrushLibrary.qml \
+    qml/CanvasArea.qml
 
 QMAKE_POST_LINK += $$QMAKE_COPY_DIR $$PWD/qml $(DESTDIR) $$escape_expand(\\n\\t)
 QMAKE_POST_LINK += $$QMAKE_COPY_DIR $$PWD/svg $(DESTDIR) $$escape_expand(\\n\\t)
+
+
+
 
 
 
