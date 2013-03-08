@@ -21,9 +21,9 @@ OTHER_FILES += \
     qml/components/Slider.qml \
     qml/components/CheckerBoard.qml \
     qml/BrushLibrary.qml \
-    qml/CanvasArea.qml
+    qml/CanvasArea.qml \
+    qml/LayerManager.qml
 
 QMAKE_POST_LINK += $$QMAKE_COPY_DIR $$PWD/qml $(DESTDIR) $$escape_expand(\\n\\t)
 
-OTHER_FILES += \
-    qml/LayerManager.qml
+

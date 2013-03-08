@@ -97,17 +97,26 @@ Item {
         width: parent.width - filePanel.width * 2
     }
 */
+    LayerManager {
+        id: layerManager
+        x: 20
+        y: 300
+        //visible: false
+    }
+
     BrushSettings {
         id: brushSettings
         x: 780
         y: 20
         height: 250
+        visible: false
     }
 
     ColorPicker {
         id: colorPicker
         x: 20
-        y: 200
+        y: 50
+        visible: false
         onColorChanged: brush.color = colorPicker.pickColor
     }
 
@@ -115,6 +124,7 @@ Item {
         id: brushLibrary
         x: 780
         y: 320
+        visible: false
     }
 }
 

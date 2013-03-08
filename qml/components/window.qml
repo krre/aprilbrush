@@ -5,6 +5,7 @@ Rectangle {
     default property alias content: stack.children
     property int defaultWidth: 200
     property int defaultHeight: 200
+    property int indent: 10
 
     id: window
     width: defaultWidth
@@ -28,7 +29,7 @@ Rectangle {
             Text {
                 anchors.left: parent.left
                 anchors.verticalCenter: parent.verticalCenter
-                anchors.margins: 10
+                anchors.margins: indent
                 text: title
                 font.pointSize: 8
             }
@@ -36,8 +37,9 @@ Rectangle {
         // Content stack
         Item {
             id: stack
-            width: window.width;
+            width: window.width - indent * 2;
             height: window.height - head.height
+            anchors.horizontalCenter: parent.horizontalCenter
         }
     }
 

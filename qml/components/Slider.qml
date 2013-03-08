@@ -33,8 +33,7 @@ Item {
     Item {
         id: scale
         height: 12
-        width: parent.width - 20
-        anchors.horizontalCenter: parent.horizontalCenter
+        width: parent.width
         anchors.bottom: parent.bottom
         Rectangle {
             width: parent.width

@@ -1,6 +1,23 @@
 import QtQuick 2.0
+import "components"
 
-Rectangle {
-    width: 100
-    height: 62
+Window {
+    title: "Layers"
+    Column {
+        width: parent.width
+        Rectangle {
+            width: parent.width
+            height: 40
+            color: "red"
+        }
+        Rectangle {
+            width: parent.width
+            height: 40
+            color: "blue"
+        }
+
+    }
+
+
+
 }

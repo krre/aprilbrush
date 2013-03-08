@@ -14,9 +14,7 @@ Window {
             anchors.fill: parent
             clip: true
             spacing: 5
-            anchors.margins: 10
             orientation: ListView.Horizontal
-
         }
 
         Component {
