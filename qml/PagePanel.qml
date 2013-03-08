@@ -10,9 +10,7 @@ Rectangle {
 
     ListModel {
         id: pageModel
-        ListElement {
-            name: "Untitled 01"
-        }
+        ListElement { name: "Untitled 01" }
     }
 
     Component {
@@ -32,14 +30,15 @@ Rectangle {
 
     ListView {
         id: listView
-        clip: true
         model: pageModel
         delegate: pageDelegate
 
-        orientation: ListView.Horizontal
-        spacing: 10
         width: parent.width
         height: parent.height
+        orientation: ListView.Horizontal
+        spacing: 10
+        clip: true
+
         anchors.margins: 5
     }
 }
