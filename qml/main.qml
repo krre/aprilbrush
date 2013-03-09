@@ -19,6 +19,7 @@ Item {
     CanvasArea {
         width: Screen.width
         height: Screen.height
+        layersModel: layersData
         //initColor: "yellow"
     }
 
@@ -97,8 +98,16 @@ Item {
         width: parent.width - filePanel.width * 2
     }
 */
+    ListModel {
+        id: layersData
+        ListElement { name: "img01"; image: "01.png"; depth: 50.0; enable: true }
+        ListElement { name: "img02"; image: "02.png"; depth: 10.0; enable: true }
+        ListElement { name: "img03"; image: "03.png"; depth: 30.0; enable: true }
+    }
+
     LayerManager {
         id: layerManager
+        layersModel: layersData
         x: 20
         y: 300
         //visible: false

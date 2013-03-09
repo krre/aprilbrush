@@ -4,6 +4,7 @@ import "utils.js" as Utils
 
 Window {
     title: "Layers"
+    property variant layersModel: layers
 
     Column {
         width: parent.width
@@ -57,7 +58,7 @@ Window {
         }
 
         ListModel {
-            id: layersModel
+            id: layers
             ListElement { name: "Layer-01" }
             ListElement { name: "Background" }
         }
