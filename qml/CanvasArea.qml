@@ -39,21 +39,19 @@ Item {
 
     ListModel {
         id: layers
-        ListElement { name: "img01"; image: "01.png"; depth: 50.0; enable: true }
-        ListElement { name: "img02"; image: "02.png"; depth: 100.0; enable: true }
-        ListElement { name: "img03"; image: "03.png"; depth: 30.0; enable: false }
+        ListElement { name: "img01"; image: "01.png"; enable: true }
+        ListElement { name: "img02"; image: "02.png"; enable: true }
+        ListElement { name: "img03"; image: "03.png"; enable: false }
     }
 
     Component {
         id: imgDelegate
         Image {
             source: image
-            z: depth
+            z: 1000 - index
             visible: enable
         }
     }
-
-
 }
 
 

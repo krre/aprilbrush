@@ -75,7 +75,7 @@ Window {
                 radius: 5
                 antialiasing: true
                 Text {
-                    text: qsTr("Add")
+                    text: qsTr("New")
                     anchors.centerIn: parent
                 }
                 MouseArea {
@@ -84,7 +84,7 @@ Window {
                         var numNextLayer = Utils.zeroFill(layersModel.count, 2)
                         if (layersView.currentIndex < 0)
                             layersView.currentIndex = 0
-                        layersModel.insert(layersView.currentIndex, { name: "Layer-" + numNextLayer })
+                        layersModel.insert(layersView.currentIndex, { name: "Layer-" + numNextLayer, image: "01.png", enable: true })
                         layersView.currentIndex--
                     }
                 }
@@ -104,7 +104,7 @@ Window {
                     anchors.fill: parent
                     onClicked: {
                         if (layersView.currentIndex > 0)
-                            layersModel.move(layersView.currentIndex, layersView.currentIndex - 1, 1)
+                            layersModel.move(layersView.currentIndex, layersView.currentIndex - 1, 1)                        
                     }
                 }
             }

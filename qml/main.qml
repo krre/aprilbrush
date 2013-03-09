@@ -100,9 +100,9 @@ Item {
 */
     ListModel {
         id: layersData
-        ListElement { name: "img01"; image: "01.png"; depth: 50.0; enable: true }
-        ListElement { name: "img02"; image: "02.png"; depth: 10.0; enable: true }
-        ListElement { name: "img03"; image: "03.png"; depth: 30.0; enable: true }
+        ListElement { name: "img03"; image: "03.png"; enable: true }
+        ListElement { name: "img02"; image: "02.png"; enable: true }
+        ListElement { name: "img01"; image: "01.png"; enable: true }
     }
 
     LayerManager {
