@@ -59,8 +59,7 @@ Window {
 
         ListModel {
             id: layers
-            ListElement { name: "Layer-01" }
-            ListElement { name: "Background" }
+            ListElement { name: "Background"; image: "01.png"; enable: true }
         }
 
         Row {

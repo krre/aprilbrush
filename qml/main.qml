@@ -1,6 +1,5 @@
 import QtQuick 2.0
 import QtQuick.Window 2.0
-import Drawing 1.0
 import BrushEngine 1.0
 import "components"
 import "utils.js" as Utils
@@ -23,7 +22,7 @@ Item {
         //initColor: "yellow"
     }
 
-    /*
+
     Keys.onPressed: {
         if (event.key == Qt.Key_Delete) {brush.clear(); space.update()};
         if (event.key == Qt.Key_P) brushSettings.visible = true;
@@ -38,33 +37,6 @@ Item {
         onPositionChanged: brush.paintDab(mouseX, mouseY)
     }
 
-*/
-/*
-    // Checker background
-    Image {
-        width: Screen.width
-        height: Screen.height
-        fillMode: Image.Tile
-        source: "../svg/checker.svg"
-    }
-
-    // White layer
-    PaintSpace {
-        id: space
-        width: Screen.width
-        height: Screen.height
-        color: "white"
-    }
-    */
-/*
-    // Transparent layer
-    PaintSpace {
-        width: Screen.width
-        height: Screen.height
-        color: "red"
-    }
-*/
-/*
     Brush {
         id: brush
         onPaintDone: space.update()
@@ -76,7 +48,7 @@ Item {
         roundness: brushSettings.roundness
         angle: brushSettings.angle
     }
-*/
+
 /*
     // Files panel
     FilePanel {

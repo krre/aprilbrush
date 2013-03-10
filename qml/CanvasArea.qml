@@ -1,4 +1,6 @@
 import QtQuick 2.0
+import QtQuick.Window 2.0
+import Drawing 1.0
 
 Item {
     id: root
@@ -9,21 +11,22 @@ Item {
     width: 500
     height: 500
 
-   /*
 
-
-    Rectangle {
-        anchors.fill: parent
-        color: initColor
+    // White layer
+    PaintSpace {
+        id: space
+        width: Screen.width
+        height: Screen.height
+        color: "white"
     }
 
-    ListModel {
-        id: layersModel
-        ListElement {name: "Background"}
-        ListElement {name: "Layer00"}
-    }
 
-    */
+    // Transparent layer
+    PaintSpace {
+        width: Screen.width
+        height: Screen.height
+        //color: "red"
+    }
 
     PathView {
         model: layersModel
@@ -39,9 +42,7 @@ Item {
 
     ListModel {
         id: layers
-        ListElement { name: "img01"; image: "01.png"; enable: true }
-        ListElement { name: "img02"; image: "02.png"; enable: true }
-        ListElement { name: "img03"; image: "03.png"; enable: false }
+        ListElement { name: "Background"; image: "01.png"; enable: true }
     }
 
     Component {

@@ -24,6 +24,6 @@ OTHER_FILES += \
     qml/CanvasArea.qml \
     qml/LayerManager.qml
 
-QMAKE_POST_LINK += $$QMAKE_COPY_DIR $$PWD/qml $(DESTDIR) $$escape_expand(\\n\\t)
+#QMAKE_POST_LINK += $$QMAKE_COPY_DIR $$PWD/qml $(DESTDIR) $$escape_expand(\\n\\t)
 
 

@@ -11,7 +11,8 @@ int main(int argc, char *argv[])
     qmlRegisterType<BrushEngine>("BrushEngine", 1, 0, "Brush");
 
     QQuickView view;
-    view.setSource(QUrl::fromLocalFile("qml/main.qml"));
+    //view.setSource(QUrl::fromLocalFile("qml/main.qml"));
+    view.setSource(QUrl::fromLocalFile("../../aprilbrush/qml/main.qml"));
     view.setResizeMode(QQuickView::SizeRootObjectToView);
     view.show();
 
