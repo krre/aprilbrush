@@ -5,7 +5,6 @@ import "components"
 import "utils.js" as Utils
 
 Item {
-    id: container
     width: 1000
     height: 600
 
@@ -20,6 +19,13 @@ Item {
         width: Screen.width
         height: Screen.height
 
+    }
+
+    PageManager {
+        id: pageManager
+        width: 600
+        height: 34
+        anchors.horizontalCenter: parent.horizontalCenter
     }
 
     Keys.onPressed: {
@@ -50,27 +56,6 @@ Item {
         angle: brushSettings.angle
     }
 
-/*
-    // Files panel
-    FilePanel {
-        id: filePanel
-        x: 0; y: 0
-        onPressFileItem: {
-            if (itemName == "New") {
-                var numNextPage = Utils.zeroFill(pagePanel.pageModel.count + 1, 2)
-                pagePanel.pageModel.append({"name": "Untitled " + numNextPage})
-            }
-        }
-    }
-
-    // Pages panel
-    PagePanel
-    {
-        id: pagePanel
-        anchors.horizontalCenter: parent.horizontalCenter
-        width: parent.width - filePanel.width * 2
-    }
-*/
     ListModel {
         id: layersModel
         ListElement {name: "Layer-01"; number: 1; colorImage: "transparent"; enable: true }

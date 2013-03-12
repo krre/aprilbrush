@@ -12,7 +12,6 @@ HEADERS += \
 
 OTHER_FILES += \
     qml/main.qml \
-    qml/PagePanel.qml \
     qml/FilePanel.qml \
     qml/ColorPicker.qml \
     qml/BrushSettings.qml \
@@ -22,7 +21,8 @@ OTHER_FILES += \
     qml/components/CheckerBoard.qml \
     qml/BrushLibrary.qml \
     qml/CanvasArea.qml \
-    qml/LayerManager.qml
+    qml/LayerManager.qml \
+    qml/PageManager.qml
 
 #QMAKE_POST_LINK += $$QMAKE_COPY_DIR $$PWD/qml $(DESTDIR) $$escape_expand(\\n\\t)
 

@@ -61,11 +61,13 @@ Window {
             }
         }
 
+        // Buttons
         Row {
             width: parent.width
             height: 20
             spacing: 4
 
+            // New button
             Rectangle {
                 width: parent.width / 4 - 4
                 height: parent.height
@@ -92,6 +94,7 @@ Window {
                 }
             }
 
+            // Up button
             Rectangle {
                 width: parent.width / 4 - 4
                 height: parent.height
@@ -111,6 +114,7 @@ Window {
                 }
             }
 
+            // Down button
             Rectangle {
                 width: parent.width / 4 - 4
                 height: parent.height
@@ -130,6 +134,7 @@ Window {
                 }
             }
 
+            // Delete button
             Rectangle {
                 width: parent.width / 4 - 4
                 height: parent.height

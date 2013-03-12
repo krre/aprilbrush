@@ -21,12 +21,12 @@ Item {
         Text {
             text: name
             anchors.left: parent.left
-            anchors.margins: 10
+            anchors.margins: 5
         }
         Text {
             text: value
             anchors.right: parent.right
-            anchors.margins: 10
+            anchors.margins: 5
         }
     }
 
