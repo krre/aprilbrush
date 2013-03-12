@@ -24,8 +24,11 @@ Item {
 
     Keys.onPressed: {
         if (event.key == Qt.Key_Delete) brush.clear()
-        if (event.key == Qt.Key_P) brushSettings.visible = true;
-        if (event.key == Qt.Key_C) colorPicker.visible = true;
+        if (event.key == Qt.Key_S) brushSettings.visible ? brushSettings.visible = false : brushSettings.visible = true
+        if (event.key == Qt.Key_C) colorPicker.visible ? colorPicker.visible = false : colorPicker.visible = true
+        if (event.key == Qt.Key_L) layerManager.visible ? layerManager.visible = false : layerManager.visible = true
+        if (event.key == Qt.Key_P) brushLibrary.visible ? brushLibrary.visible = false : brushLibrary.visible = true
+
     }
     focus: true
 
