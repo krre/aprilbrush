@@ -49,6 +49,31 @@ Window {
                         brush.setLayer(layersModel.get(layersView.currentIndex).number)
                     }
                 }
+
+                Item {
+                    width: 15
+                    height: 15
+                    anchors.verticalCenter: parent.verticalCenter
+                    anchors.right: parent.right
+                    anchors.rightMargin: 5
+                    Text {
+                        text: "x"
+                        anchors.centerIn: parent
+                        font.pointSize: 10
+                        font.bold: closeMouseArea.containsMouse ? true : false
+                    }
+                    MouseArea {
+                        id: closeMouseArea
+                        anchors.fill: parent
+                        hoverEnabled: true
+                        onClicked: {
+                            layersModel.remove(index)
+                            if (layersModel.count > 0) brush.setLayer(layersModel.get(layersView.currentIndex).number);
+
+                        }
+                    }
+                }
+
             }
         }
 
@@ -134,7 +159,7 @@ Window {
                 }
             }
 
-            // Delete button
+            // Clone button
             Rectangle {
                 width: parent.width / 4 - 4
                 height: parent.height
@@ -142,16 +167,13 @@ Window {
                 radius: 5
                 antialiasing: true
                 Text {
-                    text: qsTr("Delete")
+                    text: qsTr("Clone")
                     anchors.centerIn: parent
                 }
                 MouseArea {
                     anchors.fill: parent
                     onClicked: {
-                        if (layersModel.count > 0) {
-                            layersModel.remove(layersView.currentIndex)
-                            if (layersModel.count > 0) brush.setLayer(layersModel.get(layersView.currentIndex).number);
-                        }
+                        console.log("Clone layer")
                     }
                 }
             }
