@@ -3,8 +3,9 @@ import "components"
 import "utils.js" as Utils
 
 Window {
+    id: root
     title: "Layers"
-    property variant layersModel: layers
+    property int countLayer: 1
 
     Column {
         width: parent.width
@@ -43,7 +44,10 @@ Window {
                 }
                 MouseArea {
                     anchors.fill: parent
-                    onClicked: layersView.currentIndex = index
+                    onClicked: {
+                        layersView.currentIndex = index
+                        brush.setLayer(layersModel.get(layersView.currentIndex).number)
+                    }
                 }
             }
         }
@@ -55,11 +59,6 @@ Window {
                 height: 20
                 color: "red"
             }
-        }
-
-        ListModel {
-            id: layers
-            ListElement { name: "Background"; image: "01.png"; enable: true }
         }
 
         Row {
@@ -80,11 +79,15 @@ Window {
                 MouseArea {
                     anchors.fill: parent
                     onClicked: {
-                        var numNextLayer = Utils.zeroFill(layersModel.count, 2)
+                        var numNextLayer = Utils.zeroFill(countLayer + 1, 2)
                         if (layersView.currentIndex < 0)
-                            layersView.currentIndex = 0
-                        layersModel.insert(layersView.currentIndex, { name: "Layer-" + numNextLayer, image: "01.png", enable: true })
-                        layersView.currentIndex--
+                            layersView.currentIndex = 0                                            
+                        layersModel.insert(layersView.currentIndex, {
+                                               name: "Layer-" + numNextLayer,
+                                               number: ++countLayer,
+                                               colorImage: "transparent",
+                                               enable: true })
+                        if (layersModel.count > 1) layersView.currentIndex--
                     }
                 }
             }
@@ -140,8 +143,10 @@ Window {
                 MouseArea {
                     anchors.fill: parent
                     onClicked: {
-                        if (layersModel.count > 0)
+                        if (layersModel.count > 0) {
                             layersModel.remove(layersView.currentIndex)
+                            if (layersModel.count > 0) brush.setLayer(layersModel.get(layersView.currentIndex).number);
+                        }
                     }
                 }
             }

@@ -1,27 +1,28 @@
 #include "paintspace.h"
+#include "brushengine.h"
+
+QList<QQuickPaintedItem*> PaintSpace::paintItemList;
+QList<QPixmap*> PaintSpace::pixmapList;
 
 PaintSpace::PaintSpace(QQuickItem *parent) :
     QQuickPaintedItem(parent)
 {
-    // Default black transparency color
-    pixmapColor.setRgba(qRgba(0, 0, 0, 0));
-    count = 0;
 }
 
 void PaintSpace::paint(QPainter *painter)
 {
-
     if (pixmap.isNull())
     {
-        QRectF rect = boundingRect();
-        pixmap = QPixmap(rect.width(), rect.height());
-        pixmap.fill(pixmapColor);
-        pixmapPtr = &pixmap;
+        pixmap = QPixmap(contentsSize());
+        pixmap.fill(fillColor());
+        paintItemList.append(this);
+        pixmapList.append(&pixmap);
+        BrushEngine::pixmap = &pixmap;
+        BrushEngine::paintedLayer = this;
+
     }
 
     painter->drawPixmap(0, 0, pixmap);
-    //qDebug() << "update" << count++;
 }
 
-QPixmap *PaintSpace::pixmapPtr = NULL;
 

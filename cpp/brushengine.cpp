@@ -2,6 +2,9 @@
 #include "paintspace.h"
 #include <qmath.h>
 
+QPixmap *BrushEngine::pixmap;
+QQuickPaintedItem *BrushEngine::paintedLayer;
+
 BrushEngine::BrushEngine()
 {
     wintabInit();
@@ -17,6 +20,12 @@ BrushEngine::~BrushEngine()
         FreeLibrary(ghWintab);
 }
 
+void BrushEngine::setLayer(int numLayer)
+{
+    paintedLayer = PaintSpace::paintItemList.at(numLayer);
+    pixmap = PaintSpace::pixmapList.at(numLayer);
+}
+
 void BrushEngine::paintDab(qreal xPos, qreal yPos)
 {
     colorBrush.setAlpha(qRound(255 * opacityBrush / 100.0));
@@ -27,8 +36,8 @@ void BrushEngine::paintDab(qreal xPos, qreal yPos)
     alphaColor.setAlpha(0);
     //qDebug() << xPos << yPos << pressurePen;
     QPointF posCursor = QPointF(xPos, yPos);
-    QPainter painter(PaintSpace::pixmapPtr);
-    //PaintSpace::pixmapPtr->save("D:\pix.png");
+
+    QPainter painter(pixmap);
     painter.setRenderHint(QPainter::Antialiasing, true);
     painter.setPen(Qt::NoPen);
 
@@ -75,6 +84,7 @@ void BrushEngine::paintDab(qreal xPos, qreal yPos)
                 painter.drawEllipse(-sizeBrushHalf, -sizeBrushHalf, sizeBrush, sizeBrush);
                 painter.restore();
                 prevPos = betweenPos;
+                paintedLayer->update();
                 emit paintDone();
             }
         }
@@ -83,7 +93,8 @@ void BrushEngine::paintDab(qreal xPos, qreal yPos)
 
 void BrushEngine::clear()
 {
-    PaintSpace::pixmapPtr->fill(QColor("white"));
+    pixmap->fill(QColor(0, 0, 0, 0));
+    paintedLayer->update();
 }
 
 void BrushEngine::wintabInit()

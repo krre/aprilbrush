@@ -7,7 +7,7 @@ int main(int argc, char *argv[])
 {
     QGuiApplication app(argc, argv);
 
-    qmlRegisterType<PaintSpace>("Drawing", 1, 0, "PaintSpace");
+    qmlRegisterType<PaintSpace>("PaintItem", 1, 0, "PaintSpace");
     qmlRegisterType<BrushEngine>("BrushEngine", 1, 0, "Brush");
 
     QQuickView view;

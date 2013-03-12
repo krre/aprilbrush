@@ -10,6 +10,7 @@
 #define PACKETMODE 0
 #include "wintab/pktdef.h"
 #include <QtGui>
+#include <QQuickPaintedItem>
 
 typedef UINT (API *PtrWTInfo)(UINT, UINT, LPVOID);
 typedef HCTX (API *PtrWTOpen)(HWND, LPLOGCONTEXT, BOOL);
@@ -31,12 +32,16 @@ class BrushEngine : public QObject
 public:
     BrushEngine();
     ~BrushEngine();
+    Q_INVOKABLE void setLayer(int numLayer);
     Q_INVOKABLE void paintDab(qreal xPos, qreal yPos);
     Q_INVOKABLE void setTouch(bool touch) {touchPen = touch;}
     Q_INVOKABLE void clear();
 
     inline void setEraser(bool eraserOut) {eraser = eraserOut;}
     inline bool touch() {return touchPen;}
+
+    static QPixmap *pixmap;
+    static QQuickPaintedItem *paintedLayer;
 
 signals:
     void sizeBrushSignal();

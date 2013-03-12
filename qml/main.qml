@@ -16,15 +16,14 @@ Item {
     }
 
     CanvasArea {
+        id: canvasArea
         width: Screen.width
         height: Screen.height
-        layersModel: layersData
-        //initColor: "yellow"
+
     }
 
-
     Keys.onPressed: {
-        if (event.key == Qt.Key_Delete) {brush.clear(); space.update()};
+        if (event.key == Qt.Key_Delete) brush.clear()
         if (event.key == Qt.Key_P) brushSettings.visible = true;
         if (event.key == Qt.Key_C) colorPicker.visible = true;
     }
@@ -32,14 +31,13 @@ Item {
 
     MouseArea {
         anchors.fill: parent
-        onPressed: brush.paintDab(mouseX, mouseY)
+        onPressed: if (layersModel.count > 0) brush.paintDab(mouseX, mouseY)
         onReleased: brush.setTouch(false)
-        onPositionChanged: brush.paintDab(mouseX, mouseY)
+        onPositionChanged: if (layersModel.count > 0) brush.paintDab(mouseX, mouseY)
     }
 
     Brush {
         id: brush
-        onPaintDone: space.update()
         color: "red"
         size: brushSettings.size
         spacing: brushSettings.spacing
@@ -71,15 +69,13 @@ Item {
     }
 */
     ListModel {
-        id: layersData
-        ListElement { name: "img03"; image: "03.png"; enable: true }
-        ListElement { name: "img02"; image: "02.png"; enable: true }
-        ListElement { name: "img01"; image: "01.png"; enable: true }
+        id: layersModel
+        ListElement {name: "Layer-01"; number: 1; colorImage: "transparent"; enable: true }
+        ListElement {name: "Background"; number: 0; colorImage: "white"; enable: true }
     }
 
     LayerManager {
         id: layerManager
-        layersModel: layersData
         x: 20
         y: 300
         //visible: false
@@ -90,14 +86,14 @@ Item {
         x: 780
         y: 20
         height: 250
-        visible: false
+        //visible: false
     }
 
     ColorPicker {
         id: colorPicker
         x: 20
         y: 50
-        visible: false
+        //visible: false
         onColorChanged: brush.color = colorPicker.pickColor
     }
 

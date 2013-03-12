@@ -8,24 +8,16 @@ class PaintSpace : public QQuickPaintedItem
 {
     Q_OBJECT
 
-    Q_PROPERTY(QColor color READ color WRITE setColor NOTIFY colorChanged)
-
 public:
     PaintSpace(QQuickItem *parent = 0);
     void paint(QPainter *painter);
-    void setColor(const QColor color) {pixmapColor = color;}
-    QColor color() {return pixmapColor;}
-    static QPixmap *pixmapPtr;
+    static QList<QQuickPaintedItem*> paintItemList;
+    static QList<QPixmap*> pixmapList;
     
-signals:
-    void colorChanged();
-
 public slots:
 
 private:
     QPixmap pixmap;
-    QColor pixmapColor;
-    int count;
 };
 
 #endif // PAINTSPACE_H

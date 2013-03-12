@@ -1,36 +1,16 @@
 import QtQuick 2.0
 import QtQuick.Window 2.0
-import Drawing 1.0
+import PaintItem 1.0
 
 Item {
     id: root
 
-    property color initColor: "white"
-    property variant layersModel: layers
-
     width: 500
     height: 500
 
-
-    // White layer
-    PaintSpace {
-        id: space
-        width: Screen.width
-        height: Screen.height
-        color: "white"
-    }
-
-
-    // Transparent layer
-    PaintSpace {
-        width: Screen.width
-        height: Screen.height
-        //color: "red"
-    }
-
     PathView {
         model: layersModel
-        delegate: imgDelegate
+        delegate: layersDelegate
 
         anchors.centerIn: parent
         path: Path {
@@ -40,15 +20,14 @@ Item {
         }
     }
 
-    ListModel {
-        id: layers
-        ListElement { name: "Background"; image: "01.png"; enable: true }
-    }
-
     Component {
-        id: imgDelegate
-        Image {
-            source: image
+        id: layersDelegate
+        PaintSpace {
+            width: root.width
+            height: root.height
+            contentsSize.width: Screen.width
+            contentsSize.height: Screen.height
+            fillColor: colorImage
             z: 1000 - index
             visible: enable
         }
