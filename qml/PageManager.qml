@@ -44,6 +44,7 @@ Rectangle {
             delegate: pagesDelegate
             highlight: pageSelected
             highlightMoveDuration: 1
+
             height: parent.height - 8
             width: parent.width - addPageArea.width - 10
             anchors.verticalCenter: parent.verticalCenter
@@ -59,8 +60,7 @@ Rectangle {
                 id: pageContaner
                 width: 100
                 height: pagesView.height
-                color: "lightgray"
-                //color: "transparent"
+                color: (index == pagesView.currentIndex) ? "transparent" : "lightgray"
                 border.width: 1
                 border.color: "gray"
                 radius: 5
@@ -98,7 +98,11 @@ Rectangle {
             Rectangle {
                 width: 100
                 height: pagesView.height
-                color: "red"
+                border.width: 1
+                border.color: "gray"
+                radius: 5
+                antialiasing: true
+                color: "white"
             }
         }
     }

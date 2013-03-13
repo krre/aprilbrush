@@ -26,7 +26,6 @@ Window {
             orientation: ListView.Vertical
             clip: true
             spacing: 4
-            focus: true
         }
 
         Component {
@@ -34,7 +33,7 @@ Window {
             Rectangle {
                 width: parent.width
                 height: 20
-                color: "lightgray"
+                color: index == layersView.currentIndex ? "transparent" : "lightgray"
                 border.width: 1
                 border.color: "gray"
                 radius: 5
@@ -72,7 +71,11 @@ Window {
             Rectangle {
                 width: layersView.width
                 height: 20
-                color: "red"
+                border.width: 1
+                border.color: "gray"
+                radius: 5
+                antialiasing: true
+                color: "white"
             }
         }
 
