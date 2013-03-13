@@ -32,6 +32,7 @@ Rectangle {
                     pagesModel.append({name: "Page-" + numNextPage, activeLayer: 1, layerSet: [
                                               {name: "Layer-01", number: 2, colorImage: "transparent", enable: true },
                                               {name: "Background", number: 1, colorImage: "white", enable: true } ]})
+                    pagesView.currentIndex = pagesModel.count - 1
                 }
             }
         }
@@ -49,13 +50,7 @@ Rectangle {
             spacing: 5
             clip: true
         }
-/*
-        ListModel {
-            id: pagesModel
-            ListElement { name: "Page-01"; layerSet: [ListElement {name: "Layer-test"; number: 1; colorImage: "transparent"; enable: true }] }
-            //ListElement { name: "Page-02" }
-        }
-*/
+
         Component {
             id: pagesDelegate
 
@@ -86,7 +81,7 @@ Rectangle {
                         //brush.setLayer(layersModel.get(layerManager.lView.currentIndex).number)
                     }
                 }
-
+                // Close button
                 Item {
                     width: 15
                     height: 15

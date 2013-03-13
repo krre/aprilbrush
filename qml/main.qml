@@ -8,7 +8,7 @@ Item {
     width: 1000
     height: 600
     focus: true
-    property variant layersModel: pagesModel.get(pageManager.currentPage).layerSet
+    property variant layersModel: pagesModel.count > 0 ? pagesModel.get(pageManager.currentPage).layerSet : 0
 
     Keys.onPressed: {
         if (event.key == Qt.Key_Delete) brush.clear()
@@ -26,7 +26,7 @@ Item {
 
     Brush {
         id: brush
-        color: "red"
+        color: "black"
         size: brushSettings.size
         spacing: brushSettings.spacing
         hardness: brushSettings.hardness

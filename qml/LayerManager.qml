@@ -6,7 +6,7 @@ Window {
     id: root
     title: "Layers"
     property int countLayer: 1
-    property variant layersModel: pagesModel.get(pageManager.currentPage).layerSet
+    property variant layersModel: pagesModel.count > 0 ? pagesModel.get(pageManager.currentPage).layerSet : 0
     property alias lView: layersView
 
     Column {
@@ -51,10 +51,10 @@ Window {
                         //layersModel.get(layersView.currentIndex).active = layersView.currentIndex
                         //layersModel.setProperty(layersView.currentIndex, "active", layersView.currentIndex)
                         //layersModel.set(layersView.currentIndex, { active: layersView.currentIndex })
-                        //brush.setLayer(layersModel.get(layersView.currentIndex).number)
+                        brush.setLayer(layersModel.get(layersView.currentIndex).number)
                     }
                 }
-
+                // Close button
                 Item {
                     width: 15
                     height: 15
