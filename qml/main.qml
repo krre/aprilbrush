@@ -8,6 +8,7 @@ Item {
     width: 1000
     height: 600
     focus: true
+    property variant layersModel: pagesModel.get(pageManager.currentPage).layerSet
 
     Keys.onPressed: {
         if (event.key == Qt.Key_Delete) brush.clear()
@@ -54,11 +55,20 @@ Item {
         height: 34
         anchors.horizontalCenter: parent.horizontalCenter
     }
-
+/*
     ListModel {
         id: layersModel
         ListElement {name: "Layer-01"; number: 1; colorImage: "transparent"; enable: true }
         ListElement {name: "Background"; number: 0; colorImage: "white"; enable: true }
+    }
+*/
+    ListModel {
+        id: pagesModel
+        ListElement { name: "Page-01"; activeLayer: 1; layerSet: [
+                ListElement {name: "Layer-01"; number: 1; colorImage: "transparent"; enable: true },
+                ListElement {name: "Background"; number: 0; colorImage: "white"; enable: true }
+            ]
+        }
     }
 
     LayerManager {

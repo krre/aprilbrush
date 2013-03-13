@@ -4,6 +4,7 @@ import PaintItem 1.0
 
 Item {
     id: root
+    property variant layersModel: pagesModel.get(pageManager.currentPage).layerSet
 
     width: 500
     height: 500

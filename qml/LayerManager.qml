@@ -6,6 +6,8 @@ Window {
     id: root
     title: "Layers"
     property int countLayer: 1
+    property variant layersModel: pagesModel.get(pageManager.currentPage).layerSet
+    property alias lView: layersView
 
     Column {
         width: parent.width
@@ -46,7 +48,10 @@ Window {
                     anchors.fill: parent
                     onClicked: {
                         layersView.currentIndex = index
-                        brush.setLayer(layersModel.get(layersView.currentIndex).number)
+                        //layersModel.get(layersView.currentIndex).active = layersView.currentIndex
+                        //layersModel.setProperty(layersView.currentIndex, "active", layersView.currentIndex)
+                        //layersModel.set(layersView.currentIndex, { active: layersView.currentIndex })
+                        //brush.setLayer(layersModel.get(layersView.currentIndex).number)
                     }
                 }
 

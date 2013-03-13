@@ -2,7 +2,8 @@ import QtQuick 2.0
 import "utils.js" as Utils
 
 Rectangle {
-    property int countPage: 2
+    property int countPage: 1
+    property int currentPage: pagesView.currentIndex
 
     width: 600
     height: 40
@@ -28,9 +29,10 @@ Rectangle {
                 anchors.fill: parent
                 onClicked: {
                     var numNextPage = Utils.zeroFill(++countPage, 2)
-                    pagesModel.append({name: "Page-" + numNextPage})
+                    pagesModel.append({name: "Page-" + numNextPage, activeLayer: 1, layerSet: [
+                                              {name: "Layer-01", number: 2, colorImage: "transparent", enable: true },
+                                              {name: "Background", number: 1, colorImage: "white", enable: true } ]})
                 }
-
             }
         }
 
@@ -47,13 +49,13 @@ Rectangle {
             spacing: 5
             clip: true
         }
-
+/*
         ListModel {
             id: pagesModel
-            ListElement { name: "Page-01" }
-            ListElement { name: "Page-02" }
+            ListElement { name: "Page-01"; layerSet: [ListElement {name: "Layer-test"; number: 1; colorImage: "transparent"; enable: true }] }
+            //ListElement { name: "Page-02" }
         }
-
+*/
         Component {
             id: pagesDelegate
 
@@ -76,7 +78,13 @@ Rectangle {
 
                 MouseArea {
                     anchors.fill: parent
-                    onClicked: pagesView.currentIndex = index
+                    onClicked: {
+                        //console.log(layersModel.get(index).active)
+                        pagesView.currentIndex = index
+                        //layerManager.lView.currentIndex = layersModel.get(layerManager.lView.currentIndex).active
+                        //layersModel.get(layerManager.lView.currentIndex) = layersModel.get(index).active
+                        //brush.setLayer(layersModel.get(layerManager.lView.currentIndex).number)
+                    }
                 }
 
                 Item {
