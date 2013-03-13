@@ -96,7 +96,7 @@ Window {
                                            number: ++countLayer,
                                            colorImage: "transparent",
                                            enable: true })
-                    if (layersModel.count > 1) layersView.currentIndex--
+                    layersView.decrementCurrentIndex()
                 }
             }
             // Up button
