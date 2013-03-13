@@ -82,88 +82,49 @@ Window {
             spacing: 4
 
             // New button
-            Rectangle {
+            Button {
                 width: parent.width / 4 - 4
                 height: parent.height
-                color: "lightgray"
-                radius: 5
-                antialiasing: true
-                Text {
-                    text: qsTr("New")
-                    anchors.centerIn: parent
-                }
-                MouseArea {
-                    anchors.fill: parent
-                    onClicked: {
-                        var numNextLayer = Utils.zeroFill(countLayer + 1, 2)
-                        if (layersView.currentIndex < 0)
-                            layersView.currentIndex = 0                                            
-                        layersModel.insert(layersView.currentIndex, {
-                                               name: "Layer-" + numNextLayer,
-                                               number: ++countLayer,
-                                               colorImage: "transparent",
-                                               enable: true })
-                        if (layersModel.count > 1) layersView.currentIndex--
-                    }
+                text: qsTr("New")
+                onClicked: {
+                    var numNextLayer = Utils.zeroFill(countLayer + 1, 2)
+                    if (layersView.currentIndex < 0)
+                        layersView.currentIndex = 0
+                    layersModel.insert(layersView.currentIndex, {
+                                           name: "Layer-" + numNextLayer,
+                                           number: ++countLayer,
+                                           colorImage: "transparent",
+                                           enable: true })
+                    if (layersModel.count > 1) layersView.currentIndex--
                 }
             }
-
             // Up button
-            Rectangle {
+            Button {
                 width: parent.width / 4 - 4
                 height: parent.height
-                color: "lightgray"
-                radius: 5
-                antialiasing: true
-                Text {
-                    text: qsTr("Up")
-                    anchors.centerIn: parent
-                }
-                MouseArea {
-                    anchors.fill: parent
-                    onClicked: {
-                        if (layersView.currentIndex > 0)
-                            layersModel.move(layersView.currentIndex, layersView.currentIndex - 1, 1)                        
-                    }
+                text: qsTr("Up")
+                onClicked: {
+                    if (layersView.currentIndex > 0)
+                        layersModel.move(layersView.currentIndex, layersView.currentIndex - 1, 1)
                 }
             }
-
             // Down button
-            Rectangle {
+            Button {
                 width: parent.width / 4 - 4
                 height: parent.height
-                color: "lightgray"
-                radius: 5
-                antialiasing: true
-                Text {
-                    text: qsTr("Down")
-                    anchors.centerIn: parent
-                }
-                MouseArea {
-                    anchors.fill: parent
-                    onClicked: {
-                        if (layersView.currentIndex < layersView.count - 1)
-                            layersModel.move(layersView.currentIndex, layersView.currentIndex + 1, 1)
-                    }
+                text: qsTr("Down")
+                onClicked: {
+                    if (layersView.currentIndex < layersView.count - 1)
+                        layersModel.move(layersView.currentIndex, layersView.currentIndex + 1, 1)
                 }
             }
-
             // Clone button
-            Rectangle {
+            Button {
                 width: parent.width / 4 - 4
                 height: parent.height
-                color: "lightgray"
-                radius: 5
-                antialiasing: true
-                Text {
-                    text: qsTr("Clone")
-                    anchors.centerIn: parent
-                }
-                MouseArea {
-                    anchors.fill: parent
-                    onClicked: {
-                        console.log("Clone layer")
-                    }
+                text: qsTr("Clone")
+                onClicked: {
+                    console.log("Clone layer")
                 }
             }
         }
