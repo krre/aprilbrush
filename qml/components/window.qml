@@ -43,26 +43,10 @@ Rectangle {
         }
     }
 
-    // Close handler
-    Item {
-        id: closeHandler
-        width: 20
-        height: 20
+    CloseButton {
         anchors.top: parent.top
         anchors.right: parent.right
-        Text {
-            text: "x"
-            anchors.centerIn: parent
-            font.pointSize: 10
-            font.bold: closeMouseArea.containsMouse ? true : false
-        }
-
-        MouseArea {
-            id: closeMouseArea
-            anchors.fill: parent
-            hoverEnabled: true
-            onClicked: window.visible = false
-        }
+        onClicked: window.visible = false
     }
 
     // Resize handler

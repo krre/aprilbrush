@@ -54,31 +54,15 @@ Window {
                         brush.setLayer(layersModel.get(layersView.currentIndex).number)
                     }
                 }
-                // Close button
-                Item {
-                    width: 15
-                    height: 15
+                CloseButton {
                     anchors.verticalCenter: parent.verticalCenter
                     anchors.right: parent.right
-                    anchors.rightMargin: 5
-                    Text {
-                        text: "x"
-                        anchors.centerIn: parent
-                        font.pointSize: 10
-                        font.bold: closeMouseArea.containsMouse ? true : false
-                    }
-                    MouseArea {
-                        id: closeMouseArea
-                        anchors.fill: parent
-                        hoverEnabled: true
-                        onClicked: {
-                            layersModel.remove(index)
-                            if (layersModel.count > 0) brush.setLayer(layersModel.get(layersView.currentIndex).number);
-
-                        }
+                    anchors.rightMargin: 2
+                    onClicked: {
+                        layersModel.remove(index)
+                        if (layersModel.count > 0) brush.setLayer(layersModel.get(layersView.currentIndex).number);
                     }
                 }
-
             }
         }
 

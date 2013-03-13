@@ -1,4 +1,5 @@
 import QtQuick 2.0
+import "components"
 import "utils.js" as Utils
 
 Rectangle {
@@ -14,7 +15,7 @@ Rectangle {
 
     Row {
         anchors.fill: parent
-        // Add page button
+        // Button for adding page
         Item {
             id: addPageArea
             width: 30
@@ -81,26 +82,11 @@ Rectangle {
                         //brush.setLayer(layersModel.get(layerManager.lView.currentIndex).number)
                     }
                 }
-                // Close button
-                Item {
-                    width: 15
-                    height: 15
+                CloseButton {
                     anchors.verticalCenter: parent.verticalCenter
                     anchors.right: parent.right
-                    anchors.rightMargin: 5
-                    Text {
-                        text: "x"
-                        anchors.centerIn: parent
-                        font.pointSize: 10
-                        font.bold: closeMouseArea.containsMouse ? true : false
-                    }
-                    MouseArea {
-                        id: closeMouseArea
-                        anchors.fill: parent
-                        hoverEnabled: true
-                        onClicked: {
-                            if (pagesModel.count > 0) pagesModel.remove(index)
-                        }
+                    onClicked: {
+                        if (pagesModel.count > 0) pagesModel.remove(index)
                     }
                 }
             }
