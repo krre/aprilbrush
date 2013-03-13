@@ -43,7 +43,7 @@ Rectangle {
             model: pagesModel
             delegate: pagesDelegate
             highlight: pageSelected
-
+            highlightMoveDuration: 1
             height: parent.height - 8
             width: parent.width - addPageArea.width - 10
             anchors.verticalCenter: parent.verticalCenter
@@ -60,6 +60,7 @@ Rectangle {
                 width: 100
                 height: pagesView.height
                 color: "lightgray"
+                //color: "transparent"
                 border.width: 1
                 border.color: "gray"
                 radius: 5

@@ -18,6 +18,7 @@ Window {
             model: layersModel
             delegate: layerDelegate
             highlight: layerSelected
+            highlightMoveDuration: 1
 
             width: parent.width
             height: 120
