@@ -3,7 +3,7 @@
 #include <qmath.h>
 
 QPixmap *BrushEngine::pixmap;
-QQuickPaintedItem *BrushEngine::paintedLayer;
+//PaintSpace *BrushEngine::paintedLayer;
 
 BrushEngine::BrushEngine()
 {
@@ -24,8 +24,14 @@ void BrushEngine::setLayer(long hashPageLayer)
 {
     pixmap = PaintSpace::pixmapHash[hashPageLayer];
     paintedLayer = PaintSpace::paintItemHash[hashPageLayer];
-    qDebug() << pixmap << hashPageLayer;
-    qDebug() << PaintSpace::pixmapHash;
+}
+
+void BrushEngine::deleteLayer(long hashPageLayer)
+{
+    pixmap = PaintSpace::pixmapHash[hashPageLayer];
+    delete pixmap;
+    PaintSpace::pixmapHash.remove(hashPageLayer);
+    PaintSpace::paintItemHash.remove(hashPageLayer);
 }
 
 void BrushEngine::paintDab(qreal xPos, qreal yPos)

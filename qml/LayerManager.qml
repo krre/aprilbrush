@@ -5,9 +5,8 @@ import "utils.js" as Utils
 Window {
     id: root
     title: "Layers"
-    //property int countLayer: 1
-    //property variant layersModel: pagesModel.count > 0 ? pagesModel.get(pageManager.currentPage).layerSet : 0
     property alias currentLayer: layersView.currentIndex
+    property alias layerView: layersView
 
     Column {
         width: parent.width
@@ -38,7 +37,6 @@ Window {
                 border.color: "gray"
                 radius: 5
                 antialiasing: true
-                //hash:
                 Text {
                     text: name
                     anchors.verticalCenter: parent.verticalCenter
@@ -49,9 +47,8 @@ Window {
                     anchors.fill: parent
                     onClicked: {
                         currentLayer = index
-                        var hashPageLayer = pagesModel.get(currentPage).hash * 1000 + layersModel.get(currentLayer).hash
+                        var hashPageLayer = pagesModel.get(currentPage).hashPage * 1000 + hashLayer
                         brush.setLayer(hashPageLayer);
-                        //console.log(hashPageLayer)
                     }
                 }
                 CloseButton {
@@ -59,16 +56,9 @@ Window {
                     anchors.right: parent.right
                     anchors.rightMargin: 2
                     onClicked: {
-                        console.log("index before " + index)
+                        var hashPageLayer = pagesModel.get(currentPage).hashPage * 1000 + hashLayer
                         layersModel.remove(index)
-                        var i = 0
-                        //while (index == -1)
-                        //    i++
-                        console.log(i)
-                        console.log("index after " + index)
-                        var hashPageLayer = pagesModel.get(currentPage).hash * 1000 + layersModel.get(index).hash
-
-                        if (layersModel.count > 0) brush.setLayer(hashPageLayer);
+                        brush.deleteLayer(hashPageLayer)
                     }
                 }
             }
@@ -99,9 +89,11 @@ Window {
                 height: parent.height
                 text: qsTr("New")
                 onClicked: {
+                    if (currentPage < 0)
+                        return
                     var maxNumLayer = 0;
                     for (var layer = 0; layer < layersModel.count; layer++)
-                        if (layersModel.get(layer).hash > maxNumLayer) maxNumLayer = layersModel.get(layer).hash
+                        if (layersModel.get(layer).hashLayer > maxNumLayer) maxNumLayer = layersModel.get(layer).hashLayer
                     maxNumLayer++
                     var numNextLayer = Utils.zeroFill(maxNumLayer, 3)
 
@@ -109,7 +101,7 @@ Window {
                         currentLayer = 0
                     layersModel.insert(currentLayer, {
                                            name: "Layer-" + numNextLayer,
-                                           hash: maxNumLayer,
+                                           hashLayer: maxNumLayer,
                                            colorImage: "transparent",
                                            enable: true })
                     layersView.decrementCurrentIndex()

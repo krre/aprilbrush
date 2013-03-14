@@ -14,7 +14,11 @@ Item {
     focus: true
 
     Keys.onPressed: {
-        if (event.key == Qt.Key_Delete) brush.clear()
+        if (event.key == Qt.Key_Delete) {
+            var hashPageLayer = pagesModel.get(currentPage).hashPage * 1000 + layersModel.get(currentLayer).hashLayer
+            brush.setLayer(hashPageLayer)
+            brush.clear()
+        }
         if (event.key == Qt.Key_S) brushSettings.visible = !brushSettings.visible
         if (event.key == Qt.Key_C) colorPicker.visible = !colorPicker.visible
         if (event.key == Qt.Key_L) layerManager.visible = !layerManager.visible
@@ -41,9 +45,12 @@ Item {
     MouseArea {
         anchors.fill: parent
         onPressed: {
-            if (pagesModel.count > 0 && layersModel.count > 0)
+            if (pagesModel.count > 0 && layersModel.count > 0) {
+                var hashPageLayer = pagesModel.get(currentPage).hashPage * 1000 + layersModel.get(currentLayer).hashLayer
+                brush.setLayer(hashPageLayer)
                 brush.paintDab(mouseX, mouseY)
-            //console.log(pagesModel.count + " " + layersModel.count)
+                //console.log(hashPageLayer)
+            }
         }
         onReleased: brush.setTouch(false)
         onPositionChanged: {
@@ -67,9 +74,9 @@ Item {
 
     ListModel {
         id: pagesModel
-        ListElement { name: "Page-001"; hash: 001; activeLayer: 0; layerSet: [
-                ListElement {name: "Layer-002"; hash: 002; colorImage: "transparent"; enable: true },
-                ListElement {name: "Layer-001"; hash: 001; colorImage: "white"; enable: true }
+        ListElement { name: "Page-001"; hashPage: 001; activeLayer: 0; layerSet: [
+                ListElement {name: "Layer-002"; hashLayer: 002; colorImage: "transparent"; enable: true },
+                ListElement {name: "Layer-001"; hashLayer: 001; colorImage: "white"; enable: true }
             ]
         }
     }
@@ -103,7 +110,6 @@ Item {
         y: 320
         visible: false
     }
-
 }
 
 

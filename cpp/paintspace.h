@@ -13,17 +13,17 @@ class PaintSpace : public QQuickPaintedItem
 public:
     PaintSpace(QQuickItem *parent = 0);
     void paint(QPainter *painter);
-    static QHash<long, QQuickPaintedItem*> paintItemHash;
+    static QHash<long, PaintSpace*> paintItemHash;
     static QHash<long, QPixmap*> pixmapHash;
     
 public slots:
 
 private:
-    inline long hash() { return hashPixmap; }
-    inline void setHash(long hash) { hashPixmap = hash; }
+    inline long hash() { return hashPageLayer; }
+    inline void setHash(long hash) { hashPageLayer = hash; }
 
     QPixmap *pixmap;
-    long hashPixmap;
+    long hashPageLayer;
 };
 
 #endif // PAINTSPACE_H

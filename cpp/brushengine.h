@@ -11,6 +11,7 @@
 #include "wintab/pktdef.h"
 #include <QtGui>
 #include <QQuickPaintedItem>
+#include "paintspace.h"
 
 typedef UINT (API *PtrWTInfo)(UINT, UINT, LPVOID);
 typedef HCTX (API *PtrWTOpen)(HWND, LPLOGCONTEXT, BOOL);
@@ -32,16 +33,17 @@ class BrushEngine : public QObject
 public:
     BrushEngine();
     ~BrushEngine();
-    Q_INVOKABLE void setLayer(long hashLayer);
+    Q_INVOKABLE void setLayer(long hashPageLayer);
+    Q_INVOKABLE void deleteLayer(long hashPageLayer);
     Q_INVOKABLE void paintDab(qreal xPos, qreal yPos);
     Q_INVOKABLE void setTouch(bool touch);
     Q_INVOKABLE void clear();
+
 
     inline void setEraser(bool eraserOut) {eraser = eraserOut;}
     inline bool touch() {return touchPen;}
 
     static QPixmap *pixmap;
-    static QQuickPaintedItem *paintedLayer;
 
 signals:
     void sizeBrushSignal();
@@ -74,9 +76,6 @@ private:
     PtrWTPacket ptrWTPacket;
     PtrWTQueuePacketsEx ptrWTQueuePacketsEx;
 
-    //QPixmap *pixmap;
-    //QQuickPaintedItem *paintedLayer;
-
     int sizeBrush;
     int spacingBrush;
     int hardnessBrush;
@@ -85,6 +84,7 @@ private:
     QColor colorBrush;
     int opacityBrush;
     bool eraser;
+    PaintSpace *paintedLayer;
 
     QPointF nowPos;
     QPointF prevPos;
