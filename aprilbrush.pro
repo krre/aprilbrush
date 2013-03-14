@@ -12,7 +12,6 @@ HEADERS += \
 
 OTHER_FILES += \
     qml/main.qml \
-    qml/FilePanel.qml \
     qml/ColorPicker.qml \
     qml/BrushSettings.qml \
     qml/utils.js \
