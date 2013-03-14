@@ -4,7 +4,7 @@ import PaintItem 1.0
 
 Item {
     id: root
-    property variant layersModel: pagesModel.count > 0 ? pagesModel.get(pageManager.currentPage).layerSet : 0
+    //property variant layersModel: pagesModel.count > 0 ? pagesModel.get(pageManager.currentPage).layerSet : 0
 
     width: 500
     height: 500
@@ -28,6 +28,7 @@ Item {
             height: root.height
             contentsSize.width: Screen.width
             contentsSize.height: Screen.height
+            hash: pagesModel.get(currentPage).hash * 1000 + layersModel.get(index).hash
             fillColor: colorImage
             z: 1000 - index
             visible: enable

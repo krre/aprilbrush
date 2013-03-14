@@ -7,17 +7,23 @@
 class PaintSpace : public QQuickPaintedItem
 {
     Q_OBJECT
+    // Number in format xxxyyy where xxx is page, yyy is layer
+    Q_PROPERTY(long hash READ hash WRITE setHash)
 
 public:
     PaintSpace(QQuickItem *parent = 0);
     void paint(QPainter *painter);
-    static QList<QQuickPaintedItem*> paintItemList;
-    static QList<QPixmap*> pixmapList;
+    static QHash<long, QQuickPaintedItem*> paintItemHash;
+    static QHash<long, QPixmap*> pixmapHash;
     
 public slots:
 
 private:
-    QPixmap pixmap;
+    inline long hash() { return hashPixmap; }
+    inline void setHash(long hash) { hashPixmap = hash; }
+
+    QPixmap *pixmap;
+    long hashPixmap;
 };
 
 #endif // PAINTSPACE_H

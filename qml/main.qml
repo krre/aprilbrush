@@ -5,10 +5,13 @@ import "components"
 import "utils.js" as Utils
 
 Item {
+    property alias currentPage: pageManager.currentPage
+    property alias currentLayer: layerManager.currentLayer
+    property variant layersModel: currentPage > -1 ? pagesModel.get(currentPage).layerSet : 0
+
     width: 1000
     height: 600
     focus: true
-    property variant layersModel: pagesModel.count > 0 ? pagesModel.get(pageManager.currentPage).layerSet : 0
 
     Keys.onPressed: {
         if (event.key == Qt.Key_Delete) brush.clear()
@@ -37,16 +40,22 @@ Item {
 
     MouseArea {
         anchors.fill: parent
-        onPressed: if (layersModel.count > 0) brush.paintDab(mouseX, mouseY)
+        onPressed: {
+            if (pagesModel.count > 0 && layersModel.count > 0)
+                brush.paintDab(mouseX, mouseY)
+            //console.log(pagesModel.count + " " + layersModel.count)
+        }
         onReleased: brush.setTouch(false)
-        onPositionChanged: if (layersModel.count > 0) brush.paintDab(mouseX, mouseY)
+        onPositionChanged: {
+            if (pagesModel.count > 0 && layersModel.count > 0)
+                brush.paintDab(mouseX, mouseY)
+        }
     }
 
     CanvasArea {
         id: canvasArea
         width: Screen.width
         height: Screen.height
-
     }
 
     PageManager {
@@ -55,18 +64,12 @@ Item {
         height: 34
         anchors.horizontalCenter: parent.horizontalCenter
     }
-/*
-    ListModel {
-        id: layersModel
-        ListElement {name: "Layer-01"; number: 1; colorImage: "transparent"; enable: true }
-        ListElement {name: "Background"; number: 0; colorImage: "white"; enable: true }
-    }
-*/
+
     ListModel {
         id: pagesModel
-        ListElement { name: "Page-01"; activeLayer: 1; layerSet: [
-                ListElement {name: "Layer-01"; number: 1; colorImage: "transparent"; enable: true },
-                ListElement {name: "Background"; number: 0; colorImage: "white"; enable: true }
+        ListElement { name: "Page-001"; hash: 001; activeLayer: 0; layerSet: [
+                ListElement {name: "Layer-002"; hash: 002; colorImage: "transparent"; enable: true },
+                ListElement {name: "Layer-001"; hash: 001; colorImage: "white"; enable: true }
             ]
         }
     }

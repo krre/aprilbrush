@@ -32,9 +32,9 @@ class BrushEngine : public QObject
 public:
     BrushEngine();
     ~BrushEngine();
-    Q_INVOKABLE void setLayer(int numLayer);
+    Q_INVOKABLE void setLayer(long hashLayer);
     Q_INVOKABLE void paintDab(qreal xPos, qreal yPos);
-    Q_INVOKABLE void setTouch(bool touch) {touchPen = touch;}
+    Q_INVOKABLE void setTouch(bool touch);
     Q_INVOKABLE void clear();
 
     inline void setEraser(bool eraserOut) {eraser = eraserOut;}
@@ -73,6 +73,9 @@ private:
     PtrWTOpen ptrWTOpen;
     PtrWTPacket ptrWTPacket;
     PtrWTQueuePacketsEx ptrWTQueuePacketsEx;
+
+    //QPixmap *pixmap;
+    //QQuickPaintedItem *paintedLayer;
 
     int sizeBrush;
     int spacingBrush;

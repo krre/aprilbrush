@@ -1,8 +1,9 @@
 #include "paintspace.h"
 #include "brushengine.h"
+#include <QDebug>
 
-QList<QQuickPaintedItem*> PaintSpace::paintItemList;
-QList<QPixmap*> PaintSpace::pixmapList;
+QHash<long, QQuickPaintedItem*> PaintSpace::paintItemHash;
+QHash<long, QPixmap*> PaintSpace::pixmapHash;
 
 PaintSpace::PaintSpace(QQuickItem *parent) :
     QQuickPaintedItem(parent)
@@ -11,18 +12,23 @@ PaintSpace::PaintSpace(QQuickItem *parent) :
 
 void PaintSpace::paint(QPainter *painter)
 {
-    if (pixmap.isNull())
+    //qDebug() << pixmapHash.contains(hashPixmap);
+    if (!pixmapHash.contains(hashPixmap))
+    //if (pixmap.isNull())
     {
-        pixmap = QPixmap(contentsSize());
-        pixmap.fill(fillColor());
-        paintItemList.append(this);
-        pixmapList.append(&pixmap);
-        BrushEngine::pixmap = &pixmap;
+        pixmap = new QPixmap(contentsSize());
+        pixmap->fill(fillColor());
+        paintItemHash[hashPixmap] = this;
+        pixmapHash[hashPixmap] = pixmap;
+        BrushEngine::pixmap = pixmap;
         BrushEngine::paintedLayer = this;
+        //qDebug() << paintItemHash;
+        //qDebug() << pixmapHash;
 
     }
-
-    painter->drawPixmap(0, 0, pixmap);
+    pixmap = pixmapHash[hashPixmap];
+    qDebug() << pixmap << hashPixmap;
+    painter->drawPixmap(0, 0, *pixmap);
 }
 
 

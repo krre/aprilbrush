@@ -3,7 +3,8 @@ import "components"
 import "utils.js" as Utils
 
 Rectangle {
-    property int countPage: 1
+    //property int countPage: 1
+    //property alias pagesView: pagesView
     property int currentPage: pagesView.currentIndex
 
     width: 600
@@ -29,10 +30,14 @@ Rectangle {
             MouseArea {
                 anchors.fill: parent
                 onClicked: {
-                    var numNextPage = Utils.zeroFill(++countPage, 2)
-                    pagesModel.append({name: "Page-" + numNextPage, activeLayer: 1, layerSet: [
-                                              {name: "Layer-01", number: 2, colorImage: "transparent", enable: true },
-                                              {name: "Background", number: 1, colorImage: "white", enable: true } ]})
+                    var maxNumPage = 0;
+                    for (var page = 0; page < pagesModel.count; page++)
+                        if (pagesModel.get(page).hash > maxNumPage) maxNumPage = pagesModel.get(page).hash
+                    maxNumPage++
+                    var numNextPage = Utils.zeroFill(maxNumPage, 3)
+                    pagesModel.append({name: "Page-" + numNextPage, hash: maxNumPage, activeLayer: 0, layerSet: [
+                                              {name: "Layer-002", hash: 002, colorImage: "transparent", enable: true },
+                                              {name: "Layer-001", hash: 001, colorImage: "white", enable: true } ]})
                     pagesView.currentIndex = pagesModel.count - 1
                 }
             }
@@ -76,18 +81,18 @@ Rectangle {
                 MouseArea {
                     anchors.fill: parent
                     onClicked: {
-                        //console.log(layersModel.get(index).active)
                         pagesView.currentIndex = index
-                        //layerManager.lView.currentIndex = layersModel.get(layerManager.lView.currentIndex).active
-                        //layersModel.get(layerManager.lView.currentIndex) = layersModel.get(index).active
-                        //brush.setLayer(layersModel.get(layerManager.lView.currentIndex).number)
+                        var hashPageLayer = pagesModel.get(currentPage).hash * 1000 + layersModel.get(currentLayer).hash
+                        brush.setLayer(hashPageLayer)
                     }
                 }
                 CloseButton {
                     anchors.verticalCenter: parent.verticalCenter
                     anchors.right: parent.right
                     onClicked: {
-                        if (pagesModel.count > 0) pagesModel.remove(index)
+                        console.log("index after " + index)
+                        pagesModel.remove(index)
+                        console.log("index after " + index)
                     }
                 }
             }

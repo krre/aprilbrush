@@ -20,10 +20,12 @@ BrushEngine::~BrushEngine()
         FreeLibrary(ghWintab);
 }
 
-void BrushEngine::setLayer(int numLayer)
+void BrushEngine::setLayer(long hashPageLayer)
 {
-    paintedLayer = PaintSpace::paintItemList.at(numLayer);
-    pixmap = PaintSpace::pixmapList.at(numLayer);
+    pixmap = PaintSpace::pixmapHash[hashPageLayer];
+    paintedLayer = PaintSpace::paintItemHash[hashPageLayer];
+    qDebug() << pixmap << hashPageLayer;
+    qDebug() << PaintSpace::pixmapHash;
 }
 
 void BrushEngine::paintDab(qreal xPos, qreal yPos)
@@ -89,6 +91,11 @@ void BrushEngine::paintDab(qreal xPos, qreal yPos)
             }
         }
     }
+}
+
+void BrushEngine::setTouch(bool touch)
+{
+    touchPen = touch;
 }
 
 void BrushEngine::clear()
