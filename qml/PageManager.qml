@@ -5,6 +5,7 @@ import "utils.js" as Utils
 Rectangle {
     property int currentPage: pagesView.currentIndex
     property int currentLayer: layerManager.currentLayer
+    property int currentUndo: undoManager.currentUndo
 
     width: 600
     height: 40
@@ -29,16 +30,23 @@ Rectangle {
             MouseArea {
                 anchors.fill: parent
                 onClicked: {
-                    if (pagesModel.count > 0)
+                    if (pagesModel.count > 0) {
                         pagesModel.set(currentPage, { activeLayer: currentLayer })
+                        pagesModel.set(currentPage, { activeUndo: currentUndo })
+                    }
                     var maxNumPage = 0;
                     for (var page = 0; page < pagesModel.count; page++)
                         if (pagesModel.get(page).hashPage > maxNumPage) maxNumPage = pagesModel.get(page).hashPage
                     maxNumPage++
                     var numNextPage = Utils.zeroFill(maxNumPage, 3)
-                    pagesModel.append({name: "Page-" + numNextPage, hashPage: maxNumPage, activeLayer: 0, layerSet: [
-                                              {name: "Layer-002", hashLayer: 002, colorImage: "transparent", enable: true },
-                                              {name: "Layer-001", hashLayer: 001, colorImage: "white", enable: true } ]})
+                    pagesModel.append({name: "Page-" + numNextPage, hashPage: maxNumPage, activeLayer: 0, activeUndo: 0,
+                                          layerSet: [
+                                              { name: "Layer-002", hashLayer: 002, colorImage: "transparent", enable: true },
+                                              { name: "Layer-001", hashLayer: 001, colorImage: "white", enable: true } ],
+                                          undoSet: [
+                                              { name: "Start" },
+                                              { name: "Paint" } ]
+                                      })
                     pagesView.currentIndex = pagesModel.count - 1                    
                 }
             }
@@ -61,48 +69,32 @@ Rectangle {
 
         Component {
             id: pagesDelegate
-
-            Rectangle {
-                id: pageContaner
+            ListItem {
                 width: 100
                 height: pagesView.height
                 color: (index == pagesView.currentIndex) ? "transparent" : "lightgray"
-                border.width: 1
-                border.color: "gray"
-                radius: 5
-                antialiasing: true
-
-                Text {
-                    text: name
-                    anchors.left: parent.left
-                    anchors.leftMargin: 10
-                    anchors.verticalCenter: parent.verticalCenter
+                text: name
+                onClicked: {
+                    pagesModel.set(currentPage, { activeLayer: currentLayer })
+                    pagesModel.set(currentPage, { activeUndo: currentUndo })
+                    pagesView.currentIndex = index
+                    layerManager.layerView.currentIndex = pagesModel.get(index).activeLayer
+                    undoManager.undoView.currentIndex = pagesModel.get(index).activeUndo
                 }
-
-                MouseArea {
-                    anchors.fill: parent
-                    onClicked: {
-                        pagesModel.set(currentPage, {activeLayer: currentLayer})
-                        pagesView.currentIndex = index
-                        layerManager.layerView.currentIndex = pagesModel.get(index).activeLayer
+                onClosed: {
+                    if (index > 0) {
+                        layerManager.layerView.currentIndex = pagesModel.get(index - 1).activeLayer
+                        undoManager.undoView.currentIndex = pagesModel.get(index - 1).activeUndo
                     }
-                }
-                CloseButton {
-                    anchors.verticalCenter: parent.verticalCenter
-                    anchors.right: parent.right
-                    onClicked: {
-                        if (index > 0)
-                            layerManager.layerView.currentIndex = pagesModel.get(index - 1).activeLayer
-                        var hashArray = []
-                        for (var i = 0; i < layersModel.count; i++) {
-                            hashArray.push(hashPage * 1000 + layersModel.get(i).hashLayer)
-                        }
+                    var hashArray = []
+                    for (var i = 0; i < layersModel.count; i++) {
+                        hashArray.push(hashPage * 1000 + layersModel.get(i).hashLayer)
+                    }
 
-                        pagesModel.remove(index)
-                        var hashPageLayer
-                        for (var i = hashArray.length - 1; i >= 0; i--) {
-                            brush.deleteLayer(hashArray[i])
-                        }
+                    pagesModel.remove(index)
+                    var hashPageLayer
+                    for (var i = hashArray.length - 1; i >= 0; i--) {
+                        brush.deleteLayer(hashArray[i])
                     }
                 }
             }
@@ -110,14 +102,9 @@ Rectangle {
 
         Component {
             id: pageSelected
-            Rectangle {
+            ListItemComponent {
                 width: 100
                 height: pagesView.height
-                border.width: 1
-                border.color: "gray"
-                radius: 5
-                antialiasing: true
-                color: "white"
             }
         }
     }

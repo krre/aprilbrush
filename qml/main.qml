@@ -75,10 +75,11 @@ Item {
 
     ListModel {
         id: pagesModel
-        ListElement { name: "Page-001"; hashPage: 001; activeLayer: 0; layerSet: [
+        ListElement { name: "Page-001"; hashPage: 001; activeLayer: 0; activeUndo: 0
+            layerSet: [
                 ListElement {name: "Layer-002"; hashLayer: 002; colorImage: "transparent"; enable: true },
                 ListElement {name: "Layer-001"; hashLayer: 001; colorImage: "white"; enable: true } ]
-            undoSet: [ ListElement {name: "Paint"}, ListElement {name: "Clear"} ]
+            undoSet: [ ListElement {name: "Start"}, ListElement {name: "Paint"} ]
         }
     }
 

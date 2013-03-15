@@ -24,7 +24,9 @@ OTHER_FILES += \
     qml/PageManager.qml \
     qml/components/CloseButton.qml \
     qml/components/Button.qml \
-    qml/UndoManager.qml
+    qml/UndoManager.qml \
+    qml/components/ListItem.qml \
+    qml/components/ListItemComponent.qml
 
 #QMAKE_POST_LINK += $$QMAKE_COPY_DIR $$PWD/qml $(DESTDIR) $$escape_expand(\\n\\t)
 

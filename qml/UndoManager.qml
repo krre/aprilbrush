@@ -4,7 +4,9 @@ import "components"
 Window {
     id: root
     title: "Undo History"
-    //property alias currentUndo: value
+    property alias currentUndo: undoView.currentIndex
+    property alias undoView: undoView
+
     Item {
         anchors.fill: parent
 
@@ -12,6 +14,9 @@ Window {
             id: undoView
             model: undoModel
             delegate: undoDelegate
+
+            highlight: undoSelected
+            highlightMoveDuration: 1
 
             width: parent.width
             height: 150
@@ -23,20 +28,20 @@ Window {
 
         Component {
             id: undoDelegate
-            Rectangle {
-                width: parent.width
-                height: 20
-                color: "transparent"
-                border.width: 1
-                border.color: "gray"
-                radius: 5
-                antialiasing: true
-                Text {
-                    text: name
-                    anchors.verticalCenter: parent.verticalCenter
-                    anchors.left: parent.left
-                    anchors.leftMargin: 10
+            ListItem {
+                text: name
+                color: index == currentUndo ? "transparent" : "lightgray"
+                closable: false
+                onClicked: {
+                    currentUndo = index
                 }
+            }
+        }
+
+        Component {
+            id: undoSelected
+            ListItemComponent {
+                width: undoView.width
             }
         }
     }

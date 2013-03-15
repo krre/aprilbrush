@@ -29,51 +29,26 @@ Window {
 
         Component {
             id: layerDelegate
-            Rectangle {
-                width: parent.width
-                height: 20
+            ListItem {
+                text: name
                 color: index == currentLayer ? "transparent" : "lightgray"
-                border.width: 1
-                border.color: "gray"
-                radius: 5
-                antialiasing: true
-                Text {
-                    text: name
-                    anchors.verticalCenter: parent.verticalCenter
-                    anchors.left: parent.left
-                    anchors.leftMargin: 10
+                onClicked: {
+                    currentLayer = index
+                    var hashPageLayer = pagesModel.get(currentPage).hashPage * 1000 + hashLayer
+                    brush.setLayer(hashPageLayer);
                 }
-                MouseArea {
-                    anchors.fill: parent
-                    onClicked: {
-                        currentLayer = index
-                        var hashPageLayer = pagesModel.get(currentPage).hashPage * 1000 + hashLayer
-                        brush.setLayer(hashPageLayer);
-                    }
-                }
-                CloseButton {
-                    anchors.verticalCenter: parent.verticalCenter
-                    anchors.right: parent.right
-                    anchors.rightMargin: 2
-                    onClicked: {
-                        var hashPageLayer = pagesModel.get(currentPage).hashPage * 1000 + hashLayer
-                        layersModel.remove(index)
-                        brush.deleteLayer(hashPageLayer)
-                    }
+                onClosed: {
+                    var hashPageLayer = pagesModel.get(currentPage).hashPage * 1000 + hashLayer
+                    layersModel.remove(index)
+                    brush.deleteLayer(hashPageLayer)
                 }
             }
         }
 
         Component {
             id: layerSelected
-            Rectangle {
+            ListItemComponent {
                 width: layersView.width
-                height: 20
-                border.width: 1
-                border.color: "gray"
-                radius: 5
-                antialiasing: true
-                color: "white"
             }
         }
 
