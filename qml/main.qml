@@ -8,6 +8,7 @@ Item {
     property alias currentPage: pageManager.currentPage
     property alias currentLayer: layerManager.currentLayer
     property variant layersModel: currentPage > -1 ? pagesModel.get(currentPage).layerSet : 0
+    property variant undoModel: currentPage > -1 ? pagesModel.get(currentPage).undoSet : 0
 
     width: 1000
     height: 600
@@ -76,8 +77,8 @@ Item {
         id: pagesModel
         ListElement { name: "Page-001"; hashPage: 001; activeLayer: 0; layerSet: [
                 ListElement {name: "Layer-002"; hashLayer: 002; colorImage: "transparent"; enable: true },
-                ListElement {name: "Layer-001"; hashLayer: 001; colorImage: "white"; enable: true }
-            ]
+                ListElement {name: "Layer-001"; hashLayer: 001; colorImage: "white"; enable: true } ]
+            undoSet: [ ListElement {name: "Paint"}, ListElement {name: "Clear"} ]
         }
     }
 
@@ -93,7 +94,7 @@ Item {
         x: 780
         y: 20
         height: 250
-        //visible: false
+        visible: false
     }
 
     ColorPicker {
@@ -109,6 +110,12 @@ Item {
         x: 780
         y: 320
         visible: false
+    }
+
+    UndoManager {
+        id: undoManager
+        x: 750
+        y: 200
     }
 }
 
