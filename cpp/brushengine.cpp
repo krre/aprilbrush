@@ -74,14 +74,15 @@ void BrushEngine::paintDab(qreal xPos, qreal yPos)
                 painter.rotate(angleBrush);
                 painter.scale(1, 1.0 / roundnessBrush);
                 painter.drawEllipse(-sizeBrushHalf, -sizeBrushHalf, sizeBrush, sizeBrush);
+                paintSpace->update(QRect(qRound(betweenPos.x() - sizeBrush / 2), qRound(betweenPos.y() - sizeBrush / 2), sizeBrush, sizeBrush));
+                //paintSpace->update();
                 painter.restore();
                 prevPos = betweenPos;
                 emit paintDone();
             }
         }
     }
-    paintSpace->update();
-    //qDebug() << paintSpace;
+
 }
 
 void BrushEngine::wintabInit()

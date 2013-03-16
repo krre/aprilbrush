@@ -66,7 +66,7 @@ Item {
         x: 780
         y: 20
         height: 250
-        visible: false
+        //visible: false
         z: 5
     }
 
