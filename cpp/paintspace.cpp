@@ -2,9 +2,6 @@
 #include "brushengine.h"
 #include <QDebug>
 
-QHash<long, PaintSpace*> PaintSpace::paintItemHash;
-QHash<long, QPixmap*> PaintSpace::pixmapHash;
-
 PaintSpace::PaintSpace(QQuickItem *parent) :
     QQuickPaintedItem(parent)
 {
@@ -12,17 +9,13 @@ PaintSpace::PaintSpace(QQuickItem *parent) :
 
 void PaintSpace::paint(QPainter *painter)
 {
-    if (!pixmapHash.contains(hashPageLayer))
+    if (pixmap.isNull())
     {
-        pixmap = new QPixmap(contentsSize());
-        pixmap->fill(fillColor());
-        pixmapHash[hashPageLayer] = pixmap;
-        BrushEngine::pixmap = pixmap;
+        pixmap = QPixmap(contentsSize());
+        pixmap.fill(fillColor());
     }
-
-    paintItemHash[hashPageLayer] = this;
-    pixmap = pixmapHash[hashPageLayer];
-    painter->drawPixmap(0, 0, *pixmap);
+    painter->drawPixmap(0, 0, pixmap);
+    //qDebug() << this;
 }
 
 

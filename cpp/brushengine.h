@@ -33,17 +33,13 @@ class BrushEngine : public QObject
 public:
     BrushEngine();
     ~BrushEngine();
-    Q_INVOKABLE void setLayer(long hashPageLayer);
-    Q_INVOKABLE void deleteLayer(long hashPageLayer);
     Q_INVOKABLE void paintDab(qreal xPos, qreal yPos);
     Q_INVOKABLE void setTouch(bool touch);
     Q_INVOKABLE void clear();
-
+    Q_INVOKABLE void setPaintSpace(PaintSpace *paintSpace);
 
     inline void setEraser(bool eraserOut) {eraser = eraserOut;}
     inline bool touch() {return touchPen;}
-
-    static QPixmap *pixmap;
 
 signals:
     void sizeBrushSignal();
@@ -67,7 +63,6 @@ private:
     inline int angle() {return angleBrush;}
     inline void setAngle(int angle) {angleBrush = angle;}
 
-
     void wintabInit();
     HINSTANCE ghWintab;
     HCTX tabletHandle;
@@ -84,7 +79,7 @@ private:
     QColor colorBrush;
     int opacityBrush;
     bool eraser;
-    PaintSpace *paintedLayer;
+    QPixmap *pixmap;
 
     QPointF nowPos;
     QPointF prevPos;

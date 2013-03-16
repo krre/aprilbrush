@@ -3,10 +3,15 @@ import "components"
 import "utils.js" as Utils
 
 Window {
-    id: root
-    title: "Layers"
+    id: layerManager
     property alias currentLayer: layersView.currentIndex
-    property alias layerView: layersView
+
+    title: "Layers"
+    parent: main
+    visible: index == pagesView.currentIndex
+    x: 20
+    y: 300
+    z: 4
 
     Column {
         width: parent.width
@@ -14,7 +19,7 @@ Window {
 
         ListView {
             id: layersView
-            model: layersModel
+            model: layerSet
             delegate: layerDelegate
             highlight: layerSelected
             highlightMoveDuration: 1
@@ -32,16 +37,8 @@ Window {
             ListItem {
                 text: name
                 color: index == currentLayer ? "transparent" : "lightgray"
-                onClicked: {
-                    currentLayer = index
-                    var hashPageLayer = pagesModel.get(currentPage).hashPage * 1000 + hashLayer
-                    brush.setLayer(hashPageLayer);
-                }
-                onClosed: {
-                    var hashPageLayer = pagesModel.get(currentPage).hashPage * 1000 + hashLayer
-                    layersModel.remove(index)
-                    brush.deleteLayer(hashPageLayer)
-                }
+                onClicked: currentLayer = index
+                onClosed: layerSet.remove(index)
             }
         }
 
@@ -64,21 +61,18 @@ Window {
                 height: parent.height
                 text: qsTr("New")
                 onClicked: {
-                    if (currentPage < 0)
-                        return
+                    // Calculate next number layer
                     var maxNumLayer = 0;
-                    for (var layer = 0; layer < layersModel.count; layer++)
-                        if (layersModel.get(layer).hashLayer > maxNumLayer) maxNumLayer = layersModel.get(layer).hashLayer
+                    for (var layer = 0; layer < layerSet.count; layer++) {
+                        var numLayer = parseInt(layerSet.get(layer).name.substring(7))
+                        if (numLayer > maxNumLayer) maxNumLayer = numLayer
+                    }
                     maxNumLayer++
                     var numNextLayer = Utils.zeroFill(maxNumLayer, 3)
 
                     if (currentLayer < 0)
                         currentLayer = 0
-                    layersModel.insert(currentLayer, {
-                                           name: "Layer-" + numNextLayer,
-                                           hashLayer: maxNumLayer,
-                                           colorImage: "transparent",
-                                           enable: true })
+                    layerSet.insert(currentLayer, { name: "Layer-" + numNextLayer, colorImage: "transparent", enable: true })
                     layersView.decrementCurrentIndex()
                 }
             }

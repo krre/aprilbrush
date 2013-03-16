@@ -5,10 +5,8 @@ import "components"
 import "utils.js" as Utils
 
 Item {
-    property alias currentPage: pageManager.currentPage
-    property alias currentLayer: layerManager.currentLayer
-    property variant layersModel: currentPage > -1 ? pagesModel.get(currentPage).layerSet : 0
-    property variant undoModel: currentPage > -1 ? pagesModel.get(currentPage).undoSet : 0
+    id: main
+    property alias brushEngine: brush
 
     width: 1000
     height: 600
@@ -16,8 +14,8 @@ Item {
 
     Keys.onPressed: {
         if (event.key == Qt.Key_Delete) {
-            var hashPageLayer = pagesModel.get(currentPage).hashPage * 1000 + layersModel.get(currentLayer).hashLayer
-            brush.setLayer(hashPageLayer)
+            //var hashPageLayer = pagesModel.get(currentPage).hashPage * 1000 + layersModel.get(currentLayer).hashLayer
+            //brush.setLayer(hashPageLayer)
             brush.clear()
         }
         if (event.key == Qt.Key_S) brushSettings.visible = !brushSettings.visible
@@ -30,6 +28,7 @@ Item {
         cellSide: 30
         width: Screen.width
         height: Screen.height
+        z: 1
     }
 
     Brush {
@@ -43,51 +42,22 @@ Item {
         angle: brushSettings.angle
     }
 
-    MouseArea {
-        anchors.fill: parent
-        onPressed: {
-            if (pagesModel.count > 0 && layersModel.count > 0) {
-                var hashPageLayer = pagesModel.get(currentPage).hashPage * 1000 + layersModel.get(currentLayer).hashLayer
-                brush.setLayer(hashPageLayer)
-                brush.paintDab(mouseX, mouseY)
-                //console.log(hashPageLayer)
-            }
-        }
-        onReleased: brush.setTouch(false)
-        onPositionChanged: {
-            if (pagesModel.count > 0 && layersModel.count > 0)
-                brush.paintDab(mouseX, mouseY)
-        }
-    }
-
-    CanvasArea {
-        id: canvasArea
-        width: Screen.width
-        height: Screen.height
-    }
-
     PageManager {
         id: pageManager
         width: 600
         height: 34
         anchors.horizontalCenter: parent.horizontalCenter
+        z: 3
     }
 
     ListModel {
         id: pagesModel
-        ListElement { name: "Page-001"; hashPage: 001; activeLayer: 0; activeUndo: 0
+        ListElement { name: "Page-001";
             layerSet: [
-                ListElement {name: "Layer-002"; hashLayer: 002; colorImage: "transparent"; enable: true },
-                ListElement {name: "Layer-001"; hashLayer: 001; colorImage: "white"; enable: true } ]
+                ListElement {name: "Layer-002"; colorImage: "transparent"; enable: true },
+                ListElement {name: "Layer-001"; colorImage: "white"; enable: true } ]
             undoSet: [ ListElement {name: "Start"}, ListElement {name: "Paint"} ]
         }
-    }
-
-    LayerManager {
-        id: layerManager
-        x: 20
-        y: 300
-        //visible: false
     }
 
     BrushSettings {
@@ -96,6 +66,7 @@ Item {
         y: 20
         height: 250
         visible: false
+        z: 5
     }
 
     ColorPicker {
@@ -104,6 +75,7 @@ Item {
         y: 50
         //visible: false
         onColorChanged: brush.color = colorPicker.pickColor
+        z: 6
     }
 
     BrushLibrary {
@@ -111,13 +83,16 @@ Item {
         x: 780
         y: 320
         visible: false
+        z: 7
     }
-
+/*
     UndoManager {
         id: undoManager
         x: 750
         y: 200
+        z: 8
     }
+    */
 }
 
 

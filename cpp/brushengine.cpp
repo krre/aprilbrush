@@ -2,9 +2,6 @@
 #include "paintspace.h"
 #include <qmath.h>
 
-QPixmap *BrushEngine::pixmap;
-//PaintSpace *BrushEngine::paintedLayer;
-
 BrushEngine::BrushEngine()
 {
     wintabInit();
@@ -18,20 +15,6 @@ BrushEngine::~BrushEngine()
     //qDebug() << "bye!";
     if (ghWintab)
         FreeLibrary(ghWintab);
-}
-
-void BrushEngine::setLayer(long hashPageLayer)
-{
-    pixmap = PaintSpace::pixmapHash[hashPageLayer];
-    paintedLayer = PaintSpace::paintItemHash[hashPageLayer];
-}
-
-void BrushEngine::deleteLayer(long hashPageLayer)
-{
-    pixmap = PaintSpace::pixmapHash[hashPageLayer];
-    delete pixmap;
-    PaintSpace::pixmapHash.remove(hashPageLayer);
-    PaintSpace::paintItemHash.remove(hashPageLayer);
 }
 
 void BrushEngine::paintDab(qreal xPos, qreal yPos)
@@ -92,7 +75,6 @@ void BrushEngine::paintDab(qreal xPos, qreal yPos)
                 painter.drawEllipse(-sizeBrushHalf, -sizeBrushHalf, sizeBrush, sizeBrush);
                 painter.restore();
                 prevPos = betweenPos;
-                paintedLayer->update();
                 emit paintDone();
             }
         }
@@ -107,7 +89,13 @@ void BrushEngine::setTouch(bool touch)
 void BrushEngine::clear()
 {
     pixmap->fill(QColor(0, 0, 0, 0));
-    paintedLayer->update();
+    //paintedLayer->update();
+}
+
+void BrushEngine::setPaintSpace(PaintSpace *paintSpace)
+{
+    //qDebug() << paintSpace->pixmap;
+    pixmap = &paintSpace->pixmap;
 }
 
 void BrushEngine::wintabInit()

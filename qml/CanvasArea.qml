@@ -3,14 +3,17 @@ import QtQuick.Window 2.0
 import PaintItem 1.0
 
 Item {
-    id: root
+    parent: main
+    visible: index == pagesView.currentIndex
+    z: 2
 
-    width: 500
-    height: 500
+    width: main.width
+    height: main.height
 
     PathView {
-        model: layersModel
-        delegate: layersDelegate
+        id: pathView
+        model: layerSet
+        delegate: paintSpaceDelegate
 
         anchors.centerIn: parent
         path: Path {
@@ -21,18 +24,28 @@ Item {
     }
 
     Component {
-        id: layersDelegate
+        id: paintSpaceDelegate
+
         PaintSpace {
-            width: root.width
-            height: root.height
+            id: paintSpace
+            width: main.width
+            height: main.height
             contentsSize.width: Screen.width
             contentsSize.height: Screen.height
-            hash: pagesModel.get(currentPage).hashPage * 1000 + hashLayer
             fillColor: colorImage
             z: 1000 - index
             visible: enable
+            MouseArea {
+                anchors.fill: parent
+                onPressed: {
+                    brush.setPaintSpace(paintSpace)
+                    brush.paintDab(mouseX, mouseY)
+                    parent.update()
+
+                }
+                onReleased: brush.setTouch(false)
+                onPositionChanged: { brush.paintDab(mouseX, mouseY); parent.update()}
+            }
         }
     }
 }
-
-
