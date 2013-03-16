@@ -3,6 +3,8 @@ import "components"
 import "utils.js" as Utils
 
 Rectangle {
+    property alias pagesView: pagesView
+
     width: 600
     height: 40
     color: "#eeeeee"
@@ -67,6 +69,7 @@ Rectangle {
         Component {
             id: pagesDelegate
             ListItem {
+                property alias canvasArea: canvasArea
                 width: 100
                 height: pagesView.height
                 color: (index == pagesView.currentIndex) ? "transparent" : "lightgray"
@@ -75,9 +78,11 @@ Rectangle {
                 onClosed: pagesModel.remove(index)
 
                 CanvasArea {
+                    id: canvasArea
                 }
 
                 LayerManager {
+                    id: layerManager
                 }
             }
         }

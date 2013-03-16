@@ -3,6 +3,7 @@ import QtQuick.Window 2.0
 import PaintItem 1.0
 
 Item {
+    property alias pathView: pathView
     parent: main
     visible: index == pagesView.currentIndex
     z: 2
@@ -21,6 +22,7 @@ Item {
             PathLine { x: 0; y: 0 }
             PathAttribute { name: "z"; value: 0.0 }
         }
+        currentIndex: layerManager.currentLayer
     }
 
     Component {
@@ -35,17 +37,18 @@ Item {
             fillColor: colorImage
             z: 1000 - index
             visible: enable
+
             MouseArea {
                 anchors.fill: parent
                 onPressed: {
-                    brush.setPaintSpace(paintSpace)
+                    brush.setPaintSpace(pathView.currentItem)
                     brush.paintDab(mouseX, mouseY)
-                    parent.update()
-
+                    pathView.currentItem.update()
                 }
                 onReleased: brush.setTouch(false)
-                onPositionChanged: { brush.paintDab(mouseX, mouseY); parent.update()}
+                onPositionChanged: { brush.paintDab(mouseX, mouseY); pathView.currentItem.update()}
             }
+
         }
     }
 }

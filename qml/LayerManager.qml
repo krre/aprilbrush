@@ -3,7 +3,7 @@ import "components"
 import "utils.js" as Utils
 
 Window {
-    id: layerManager
+    //id: layerManager
     property alias currentLayer: layersView.currentIndex
 
     title: "Layers"
@@ -83,7 +83,7 @@ Window {
                 text: qsTr("Up")
                 onClicked: {
                     if (currentLayer > 0)
-                        layersModel.move(currentLayer, currentLayer - 1, 1)
+                        layerSet.move(currentLayer, currentLayer - 1, 1)
                 }
             }
             // Down button
@@ -93,7 +93,7 @@ Window {
                 text: qsTr("Down")
                 onClicked: {
                     if (currentLayer < layersView.count - 1)
-                        layersModel.move(currentLayer, currentLayer + 1, 1)
+                        layerSet.move(currentLayer, currentLayer + 1, 1)
                 }
             }
             // Clone button

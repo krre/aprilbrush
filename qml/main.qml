@@ -6,7 +6,7 @@ import "utils.js" as Utils
 
 Item {
     id: main
-    property alias brushEngine: brush
+    property variant currentLayer: pageManager.pagesView.currentItem.canvasArea.pathView.currentItem
 
     width: 1000
     height: 600
@@ -14,9 +14,12 @@ Item {
 
     Keys.onPressed: {
         if (event.key == Qt.Key_Delete) {
-            //var hashPageLayer = pagesModel.get(currentPage).hashPage * 1000 + layersModel.get(currentLayer).hashLayer
-            //brush.setLayer(hashPageLayer)
-            brush.clear()
+            if (currentLayer !== null) {
+                brush.setPaintSpace(currentLayer)
+                brush.clear()
+                currentLayer.update()
+                //console.log(currentLayer)
+            }
         }
         if (event.key == Qt.Key_S) brushSettings.visible = !brushSettings.visible
         if (event.key == Qt.Key_C) colorPicker.visible = !colorPicker.visible
