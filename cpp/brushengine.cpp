@@ -1,6 +1,7 @@
 #include "brushengine.h"
 #include "paintspace.h"
 #include <qmath.h>
+#include <QDebug>
 
 BrushEngine::BrushEngine()
 {
@@ -28,6 +29,7 @@ void BrushEngine::paintDab(qreal xPos, qreal yPos)
     //qDebug() << xPos << yPos << pressurePen;
     QPointF posCursor = QPointF(xPos, yPos);
 
+    pixmap = &paintSpace->pixmap;
     QPainter painter(pixmap);
     painter.setRenderHint(QPainter::Antialiasing, true);
     painter.setPen(Qt::NoPen);
@@ -79,6 +81,8 @@ void BrushEngine::paintDab(qreal xPos, qreal yPos)
             }
         }
     }
+    paintSpace->update();
+    //qDebug() << paintSpace;
 }
 
 void BrushEngine::setTouch(bool touch)
@@ -89,13 +93,8 @@ void BrushEngine::setTouch(bool touch)
 void BrushEngine::clear()
 {
     pixmap->fill(QColor(0, 0, 0, 0));
-    //paintedLayer->update();
-}
-
-void BrushEngine::setPaintSpace(PaintSpace *paintSpace)
-{
-    //qDebug() << paintSpace->pixmap;
-    pixmap = &paintSpace->pixmap;
+    paintSpace->update();
+    //qDebug() << paintSpace;
 }
 
 void BrushEngine::wintabInit()

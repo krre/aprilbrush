@@ -10,7 +10,6 @@
 #define PACKETMODE 0
 #include "wintab/pktdef.h"
 #include <QtGui>
-#include <QQuickPaintedItem>
 #include "paintspace.h"
 
 typedef UINT (API *PtrWTInfo)(UINT, UINT, LPVOID);
@@ -22,6 +21,7 @@ typedef int (API *PtrWTQueuePacketsEx)(HCTX, UINT FAR*, UINT FAR*);
 class BrushEngine : public QObject
 {
     Q_OBJECT
+    Q_PROPERTY(PaintSpace* source READ source WRITE setSource)
     Q_PROPERTY(int size READ size WRITE setSize)
     Q_PROPERTY(int spacing READ spacing WRITE setSpacing)
     Q_PROPERTY(int hardness READ hardness WRITE setHardness)
@@ -36,7 +36,6 @@ public:
     Q_INVOKABLE void paintDab(qreal xPos, qreal yPos);
     Q_INVOKABLE void setTouch(bool touch);
     Q_INVOKABLE void clear();
-    Q_INVOKABLE void setPaintSpace(PaintSpace *paintSpace);
 
     inline void setEraser(bool eraserOut) {eraser = eraserOut;}
     inline bool touch() {return touchPen;}
@@ -46,6 +45,8 @@ signals:
     void paintDone();
 
 private:
+    inline PaintSpace* source() { return paintSpace; }
+    inline void setSource (PaintSpace *source) { paintSpace = source; /*qDebug() << paintSpace*/;}
     inline int size() {return sizeBrush;}
     inline void setSize(int size) {sizeBrush = size; emit sizeBrushSignal();}
     inline int spacing() {return spacingBrush;}
@@ -80,6 +81,7 @@ private:
     int opacityBrush;
     bool eraser;
     QPixmap *pixmap;
+    PaintSpace *paintSpace;
 
     QPointF nowPos;
     QPointF prevPos;

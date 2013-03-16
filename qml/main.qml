@@ -6,20 +6,16 @@ import "utils.js" as Utils
 
 Item {
     id: main
-    property variant currentLayer: pageManager.pagesView.currentItem.canvasArea.pathView.currentItem
+    property var currentLayer: pageManager.pagesView.currentItem.canvasArea.pathView.currentItem
 
     width: 1000
     height: 600
     focus: true
 
     Keys.onPressed: {
-        if (event.key == Qt.Key_Delete) {
-            if (currentLayer !== null) {
-                brush.setPaintSpace(currentLayer)
-                brush.clear()
-                currentLayer.update()
-                //console.log(currentLayer)
-            }
+        //if (currentLayer !== null) {
+        if (pageManager.pagesView.currentItem.canvasArea.pathView.currentItem !== null) {
+            if (event.key == Qt.Key_Delete) brush.clear();
         }
         if (event.key == Qt.Key_S) brushSettings.visible = !brushSettings.visible
         if (event.key == Qt.Key_C) colorPicker.visible = !colorPicker.visible
@@ -43,6 +39,7 @@ Item {
         opacity: brushSettings.opacity_
         roundness: brushSettings.roundness
         angle: brushSettings.angle
+        source: pageManager.pagesView.currentItem.canvasArea.pathView.currentItem
     }
 
     PageManager {
