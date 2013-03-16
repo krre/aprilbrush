@@ -34,11 +34,10 @@ public:
     BrushEngine();
     ~BrushEngine();
     Q_INVOKABLE void paintDab(qreal xPos, qreal yPos);
-    Q_INVOKABLE void setTouch(bool touch);
-    Q_INVOKABLE void clear();
-
-    inline void setEraser(bool eraserOut) {eraser = eraserOut;}
-    inline bool touch() {return touchPen;}
+    Q_INVOKABLE void setTouch(bool touch) { touchPen = touch; }
+    Q_INVOKABLE void clear() { pixmap->fill(QColor(0, 0, 0, 0)); paintSpace->update(); }
+    //inline void setEraser(bool eraserOut) { eraser = eraserOut; }
+    //inline bool touch() { return touchPen; }
 
 signals:
     void sizeBrushSignal();
@@ -46,7 +45,7 @@ signals:
 
 private:
     inline PaintSpace* source() { return paintSpace; }
-    inline void setSource (PaintSpace *source) { paintSpace = source; /*qDebug() << paintSpace*/;}
+    inline void setSource (PaintSpace *source) { paintSpace = source; pixmap = &paintSpace->pixmap; qDebug() << paintSpace; }
     inline int size() {return sizeBrush;}
     inline void setSize(int size) {sizeBrush = size; emit sizeBrushSignal();}
     inline int spacing() {return spacingBrush;}

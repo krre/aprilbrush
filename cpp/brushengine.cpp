@@ -29,7 +29,6 @@ void BrushEngine::paintDab(qreal xPos, qreal yPos)
     //qDebug() << xPos << yPos << pressurePen;
     QPointF posCursor = QPointF(xPos, yPos);
 
-    pixmap = &paintSpace->pixmap;
     QPainter painter(pixmap);
     painter.setRenderHint(QPainter::Antialiasing, true);
     painter.setPen(Qt::NoPen);
@@ -85,18 +84,6 @@ void BrushEngine::paintDab(qreal xPos, qreal yPos)
     //qDebug() << paintSpace;
 }
 
-void BrushEngine::setTouch(bool touch)
-{
-    touchPen = touch;
-}
-
-void BrushEngine::clear()
-{
-    pixmap->fill(QColor(0, 0, 0, 0));
-    paintSpace->update();
-    //qDebug() << paintSpace;
-}
-
 void BrushEngine::wintabInit()
 {
     ghWintab = LoadLibraryA("Wintab32.dll");
@@ -147,3 +134,4 @@ qreal BrushEngine::pressure()
     }
     return pressure;
 }
+

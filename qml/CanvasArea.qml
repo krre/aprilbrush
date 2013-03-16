@@ -41,7 +41,7 @@ Item {
             MouseArea {
                 anchors.fill: parent
                 // Force update the brush engine property "source" to fix bug when it don't updates automatically
-                onPressed: { brush.source = pathView.currentItem; brush.paintDab(mouseX, mouseY) }
+                onPressed: { /*brush.source = pathView.currentItem; */brush.paintDab(mouseX, mouseY) }
                 onReleased: brush.setTouch(false)
                 onPositionChanged: brush.paintDab(mouseX, mouseY)
             }

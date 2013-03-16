@@ -15,7 +15,8 @@ void PaintSpace::paint(QPainter *painter)
         pixmap.fill(fillColor());
     }
     painter->drawPixmap(0, 0, pixmap);
-    //qDebug() << this;
+    //pixmap.save("D:\pix.png");
+    //qDebug() << "update " << this;
 }
 
 
