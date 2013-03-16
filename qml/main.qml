@@ -15,7 +15,7 @@ Item {
     Keys.onPressed: {
         //if (currentPaintSpace !== null) {
         if (pageManager.pagesView.currentItem.canvasArea.pathView.currentItem !== null) {
-            if (event.key == Qt.Key_Delete) brush.clear();
+            if (event.key == Qt.Key_Delete) { brush.setSource(pageManager.pagesView.currentItem.canvasArea.pathView.currentItem); brush.clear() }
         }
         if (event.key == Qt.Key_S) brushSettings.visible = !brushSettings.visible
         if (event.key == Qt.Key_C) colorPicker.visible = !colorPicker.visible

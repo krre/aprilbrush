@@ -40,9 +40,9 @@ Item {
 
             MouseArea {
                 anchors.fill: parent
-                onPressed: brush.paintDab(mouseX, mouseY)
+                onPressed: { brush.setSource(pathView.currentItem); brush.paintDab(mouseX, mouseY) }
                 onReleased: brush.setTouch(false)
-                onPositionChanged: brush.paintDab(mouseX, mouseY)
+                onPositionChanged: { brush.paintDab(mouseX, mouseY) }
             }
         }
     }

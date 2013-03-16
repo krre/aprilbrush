@@ -40,10 +40,6 @@ Window {
                 color: ListView.isCurrentItem ? "transparent" : "lightgray"
                 onClicked: currentLayer = index
                 onClosed: {
-                    // Force update the brush engine property "source" to fix bug when it don't updates automatically
-                    currentLayer--
-                    currentLayer++
-
                     layerSet.remove(index)
                 }
             }
