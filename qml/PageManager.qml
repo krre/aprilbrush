@@ -31,7 +31,7 @@ Rectangle {
                     // Calculate next number page
                     var maxNumPage = 0;
                     for (var page = 0; page < pagesModel.count; page++) {
-                        var numPage = parseInt(pagesModel.get(page).name.substring(6))
+                        var numPage = parseInt(pagesModel.get(page).name.substring(6), 10)
                         if (numPage > maxNumPage) maxNumPage = numPage
                     }
                     maxNumPage++
@@ -72,7 +72,7 @@ Rectangle {
                 property alias canvasArea: canvasArea
                 width: 100
                 height: pagesView.height
-                color: (index == pagesView.currentIndex) ? "transparent" : "lightgray"
+                color: ListView.isCurrentItem ? "transparent" : "lightgray"
                 text: name
                 onClicked: pagesView.currentIndex = index
                 onClosed: pagesModel.remove(index)

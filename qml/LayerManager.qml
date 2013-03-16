@@ -5,6 +5,7 @@ import "utils.js" as Utils
 Window {
     //id: layerManager
     property alias currentLayer: layersView.currentIndex
+    property alias layersView: layersView
 
     title: "Layers"
     parent: main
@@ -36,9 +37,15 @@ Window {
             id: layerDelegate
             ListItem {
                 text: name
-                color: index == currentLayer ? "transparent" : "lightgray"
+                color: ListView.isCurrentItem ? "transparent" : "lightgray"
                 onClicked: currentLayer = index
-                onClosed: layerSet.remove(index)
+                onClosed: {
+                    // Force update the brush engine property "source" to fix bug when it don't updates automatically
+                    currentLayer--
+                    currentLayer++
+
+                    layerSet.remove(index)
+                }
             }
         }
 
@@ -64,14 +71,12 @@ Window {
                     // Calculate next number layer
                     var maxNumLayer = 0;
                     for (var layer = 0; layer < layerSet.count; layer++) {
-                        var numLayer = parseInt(layerSet.get(layer).name.substring(7))
+                        var numLayer = parseInt(layerSet.get(layer).name.substring(6), 10)
                         if (numLayer > maxNumLayer) maxNumLayer = numLayer
                     }
                     maxNumLayer++
                     var numNextLayer = Utils.zeroFill(maxNumLayer, 3)
-
-                    if (currentLayer < 0)
-                        currentLayer = 0
+                    if (currentLayer < 0) currentLayer = 0
                     layerSet.insert(currentLayer, { name: "Layer-" + numNextLayer, colorImage: "transparent", enable: true })
                     layersView.decrementCurrentIndex()
                 }

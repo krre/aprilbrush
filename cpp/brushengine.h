@@ -45,7 +45,7 @@ signals:
 
 private:
     inline PaintSpace* source() { return paintSpace; }
-    inline void setSource (PaintSpace *source) { paintSpace = source; pixmap = &paintSpace->pixmap; qDebug() << paintSpace; }
+    inline void setSource (PaintSpace *source) { paintSpace = source; pixmap = &paintSpace->pixmap; /* qDebug() << paintSpace*/; }
     inline int size() {return sizeBrush;}
     inline void setSize(int size) {sizeBrush = size; emit sizeBrushSignal();}
     inline int spacing() {return spacingBrush;}
