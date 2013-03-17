@@ -1,22 +1,23 @@
 import QtQuick 2.0
-import QtQuick.Window 2.0
 import PaintItem 1.0
 
 Item {
+    id: root
     property alias pathView: pathView
-    parent: main
+
+    parent: checkerBoard
+    width: parent.width
+    height: parent.height
+    x: imageSize.width / 2
+    y: imageSize.height / 2
     visible: index == pagesView.currentIndex
     z: 2
-
-    width: main.width
-    height: main.height
 
     PathView {
         id: pathView
         model: layerSet
         delegate: paintSpaceDelegate
 
-        anchors.centerIn: parent
         path: Path {
             PathAttribute { name: "z"; value: 9999.0 }
             PathLine { x: 0; y: 0 }
@@ -30,10 +31,10 @@ Item {
 
         PaintSpace {
             id: paintSpace
-            width: main.width
-            height: main.height
-            contentsSize.width: Screen.width
-            contentsSize.height: Screen.height
+            width: root.width
+            height: root.height
+            contentsSize.width: imageSize.width
+            contentsSize.height: imageSize.height
             fillColor: colorImage
             z: 1000 - index
             visible: enable

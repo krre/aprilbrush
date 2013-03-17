@@ -4,13 +4,16 @@ import BrushEngine 1.0
 import "components"
 import "utils.js" as Utils
 
-Item {
+Rectangle {
     id: main
+    property real zoom: 1
+    property size imageSize: Qt.size(Screen.width, Screen.height)
     //property var currentPaintSpace: pageManager.pagesView.currentItem.canvasArea.pathView.currentItem
 
     width: 1000
     height: 600
     focus: true
+    color: "lightgray"
 
     Keys.onPressed: {
         //if (currentPaintSpace !== null) {
@@ -21,13 +24,19 @@ Item {
         if (event.key == Qt.Key_C) colorPicker.visible = !colorPicker.visible
         if (event.key == Qt.Key_L) layerManager.visible = !layerManager.visible
         if (event.key == Qt.Key_P) brushLibrary.visible = !brushLibrary.visible
+        if (event.key == Qt.Key_Plus) zoom *= 1.5
+        if (event.key == Qt.Key_Minus) zoom /= 1.5
+        if (event.key == Qt.Key_0) zoom = 1
     }
 
     CheckerBoard {
+        id: checkerBoard
         cellSide: 30
-        width: Screen.width
-        height: Screen.height
+        width: imageSize.width
+        height: imageSize.height
         z: 1
+        scale: zoom
+        anchors.centerIn: parent
     }
 
     Brush {
