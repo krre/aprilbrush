@@ -8,6 +8,7 @@ Item {
     property real zoom: 1
     property bool panMode: false
     property point pan: Qt.point(0, 0)
+    property int mirror: 1
 
     parent: checkerBoard
     width: parent.width
@@ -26,8 +27,9 @@ Item {
         if (event.key == Qt.Key_P) brushLibrary.visible = !brushLibrary.visible
         if (event.key == Qt.Key_Plus) zoom *= 1.5
         if (event.key == Qt.Key_Minus) zoom /= 1.5
-        if (event.key == Qt.Key_0) { zoom = 1; pan = Qt.point(0, 0) }
+        if (event.key == Qt.Key_0) { zoom = 1; pan = Qt.point(0, 0); mirror = 1 }
         if (event.key == Qt.Key_Space) panMode = !panMode
+        if (event.key == Qt.Key_F) mirror *= -1
     }
 
     CheckerBoard {
@@ -40,7 +42,7 @@ Item {
         width: imageSize.width
         height: imageSize.height
         visible: index == pagesView.currentIndex
-        scale: zoom
+        transform: Scale { origin.x: width / 2; origin.y: height / 2; xScale: zoom * mirror; yScale: zoom }
 
         MouseArea {
             // Used two mouse area, because a strange bug does not allow to use a brush and pan in one
