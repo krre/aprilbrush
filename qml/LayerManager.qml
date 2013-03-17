@@ -3,16 +3,17 @@ import "components"
 import "utils.js" as Utils
 
 Window {
-    //id: layerManager
+    id: root
     property alias currentLayer: layersView.currentIndex
     property alias layersView: layersView
 
     title: "Layers"
     parent: main
     visible: (index == pagesView.currentIndex) && layerManagerVisible
-    x: 20
-    y: 300
+    x: layerManagerPos.x
+    y: layerManagerPos.y
     z: 4
+    onReleased: layerManagerPos = Qt.point(x, y)
 
     Column {
         width: parent.width

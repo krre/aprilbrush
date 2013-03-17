@@ -8,6 +8,7 @@ Rectangle {
     id: main
     property size imageSize: Qt.size(Screen.width, Screen.height)
     property bool layerManagerVisible: true
+    property point layerManagerPos: Qt.point(20, 300)
 
     width: 1000
     height: 600

@@ -7,6 +7,7 @@ Rectangle {
     property int defaultWidth: 200
     property int defaultHeight: 200
     property int indent: 10
+    signal released
 
     width: defaultWidth
     height: defaultHeight
@@ -25,6 +26,7 @@ Rectangle {
                 if (root.parent.children[i].z > maxZ) maxZ = root.parent.children[i].z
             root.z = ++maxZ
         }
+        onReleased: root.released()
     }
 
     Column {
