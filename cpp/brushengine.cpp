@@ -26,7 +26,7 @@ void BrushEngine::paintDab(qreal xPos, qreal yPos)
     pressureColor.setAlpha(qRound(colorBrush.alpha() * pressurePen));
     QColor alphaColor =  colorBrush;
     alphaColor.setAlpha(0);
-    //qDebug() << xPos << yPos << pressurePen;
+    //qDebug() << xPos << yPos << pressurePen << touchPen << colorBrush;
     QPointF posCursor = QPointF(xPos, yPos);
 
     QPainter painter(pixmap);
@@ -39,6 +39,7 @@ void BrushEngine::paintDab(qreal xPos, qreal yPos)
     radialGradient.setColorAt(hardnessBrush / 100.0, pressureColor);
     radialGradient.setColorAt(1, alphaColor);
     painter.setBrush(QBrush(radialGradient));
+    //qDebug() << pressureColor << hardnessBrush << alphaColor << painter.brush();
 
     if (eraser)
         painter.setCompositionMode(QPainter::CompositionMode_DestinationOut);
@@ -75,7 +76,6 @@ void BrushEngine::paintDab(qreal xPos, qreal yPos)
                 painter.scale(1, 1.0 / roundnessBrush);
                 painter.drawEllipse(-sizeBrushHalf, -sizeBrushHalf, sizeBrush, sizeBrush);
                 paintSpace->update(QRect(qRound(betweenPos.x() - sizeBrush / 2), qRound(betweenPos.y() - sizeBrush / 2), sizeBrush, sizeBrush));
-                //paintSpace->update();
                 painter.restore();
                 prevPos = betweenPos;
                 emit paintDone();

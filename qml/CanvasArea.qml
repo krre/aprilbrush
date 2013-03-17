@@ -6,6 +6,7 @@ Item {
     id: root
     property alias pathView: pathView
     property real zoom: 1
+    property bool panMode: false
     property point pan: Qt.point(0, 0)
 
     parent: checkerBoard
@@ -25,18 +26,35 @@ Item {
         if (event.key == Qt.Key_P) brushLibrary.visible = !brushLibrary.visible
         if (event.key == Qt.Key_Plus) zoom *= 1.5
         if (event.key == Qt.Key_Minus) zoom /= 1.5
-        if (event.key == Qt.Key_0) zoom = 1
+        if (event.key == Qt.Key_0) { zoom = 1; pan = Qt.point(0, 0) }
+        if (event.key == Qt.Key_Space) panMode = !panMode
     }
 
     CheckerBoard {
         id: checkerBoard
         parent: main
+        x: (parent.width - imageSize.width) / 2 + pan.x
+        y: (parent.height - imageSize.height) / 2 + pan.y
+
         cellSide: 30
         width: imageSize.width
         height: imageSize.height
-        anchors.centerIn: parent
         visible: index == pagesView.currentIndex
         scale: zoom
+
+        MouseArea {
+            // Used two mouse area, because a strange bug does not allow to use a brush and pan in one
+            property point grabPoint: Qt.point(0, 0)
+            anchors.fill: parent
+            hoverEnabled: true
+            onPressed: panMode = false
+            onPositionChanged: {
+                pan.x += (mouseX - grabPoint.x) * zoom
+                pan.y += (mouseY - grabPoint.y) * zoom
+            }
+            visible: panMode
+            onVisibleChanged: grabPoint = Qt.point(mouseX, mouseY)
+        }
     }
 
     PathView {
@@ -69,7 +87,8 @@ Item {
                 anchors.fill: parent
                 onPressed: { brush.setSource(pathView.currentItem); brush.paintDab(mouseX, mouseY) }
                 onReleased: brush.setTouch(false)
-                onPositionChanged: { brush.paintDab(mouseX, mouseY) }
+                onPositionChanged: brush.paintDab(mouseX, mouseY)
+                visible: !panMode
             }
         }
     }
