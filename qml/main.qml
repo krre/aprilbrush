@@ -6,38 +6,12 @@ import "utils.js" as Utils
 
 Rectangle {
     id: main
-    property real zoom: 1
     property size imageSize: Qt.size(Screen.width, Screen.height)
-    //property var currentPaintSpace: pageManager.pagesView.currentItem.canvasArea.pathView.currentItem
+    property bool layerManagerVisible: true
 
     width: 1000
     height: 600
-    focus: true
     color: "lightgray"
-
-    Keys.onPressed: {
-        //if (currentPaintSpace !== null) {
-        if (pageManager.pagesView.currentItem.canvasArea.pathView.currentItem !== null) {
-            if (event.key == Qt.Key_Delete) { brush.setSource(pageManager.pagesView.currentItem.canvasArea.pathView.currentItem); brush.clear() }
-        }
-        if (event.key == Qt.Key_S) brushSettings.visible = !brushSettings.visible
-        if (event.key == Qt.Key_C) colorPicker.visible = !colorPicker.visible
-        if (event.key == Qt.Key_L) layerManager.visible = !layerManager.visible
-        if (event.key == Qt.Key_P) brushLibrary.visible = !brushLibrary.visible
-        if (event.key == Qt.Key_Plus) zoom *= 1.5
-        if (event.key == Qt.Key_Minus) zoom /= 1.5
-        if (event.key == Qt.Key_0) zoom = 1
-    }
-
-    CheckerBoard {
-        id: checkerBoard
-        cellSide: 30
-        width: imageSize.width
-        height: imageSize.height
-        z: 1
-        scale: zoom
-        anchors.centerIn: parent
-    }
 
     Brush {
         id: brush
@@ -48,7 +22,6 @@ Rectangle {
         opacity: brushSettings.opacity_
         roundness: brushSettings.roundness
         angle: brushSettings.angle
-        //source: currentPaintSpace
         source: pageManager.pagesView.currentItem.canvasArea.pathView.currentItem
     }
 
@@ -57,7 +30,7 @@ Rectangle {
         width: 600
         height: 34
         anchors.horizontalCenter: parent.horizontalCenter
-        z: 3
+        z: 1
     }
 
     ListModel {
@@ -76,7 +49,7 @@ Rectangle {
         y: 20
         height: 250
         //visible: false
-        z: 5
+        z: 2
     }
 
     ColorPicker {
@@ -85,7 +58,7 @@ Rectangle {
         y: 50
         //visible: false
         onColorChanged: brush.color = colorPicker.pickColor
-        z: 6
+        z: 3
     }
 
     BrushLibrary {
@@ -93,14 +66,14 @@ Rectangle {
         x: 780
         y: 320
         visible: false
-        z: 7
+        z: 4
     }
 /*
     UndoManager {
         id: undoManager
         x: 750
         y: 200
-        z: 8
+        z: 5
     }
     */
 }
