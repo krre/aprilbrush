@@ -9,7 +9,7 @@ Item {
     property bool panMode: false
     property point pan: Qt.point(0, 0)
     property int mirror: 1
-    property real rotaion: 0
+    property real rotation: 0
 
     parent: checkerBoard
     width: parent.width
@@ -29,14 +29,16 @@ Item {
         if (event.key == Qt.Key_Plus) zoom *= 1.5
         if (event.key == Qt.Key_Minus) zoom /= 1.5
         if (event.key == Qt.Key_0) { zoom = 1; pan = Qt.point(0, 0); mirror = 1; rotation = 0 }
-        if (event.key == Qt.Key_Space) panMode = !panMode
+        if (event.key == Qt.Key_Space) panMode = true
         if (event.key == Qt.Key_F) mirror *= -1
-        if (event.key == Qt.Key_R) rotaion += 90
+        if (event.key == Qt.Key_R) rotation += 90
     }
+    Keys.onReleased: if (event.key == Qt.Key_Space) panMode = false
 
     CheckerBoard {
         id: checkerBoard
         parent: main
+
         x: (parent.width - imageSize.width) / 2 + pan.x
         y: (parent.height - imageSize.height) / 2 + pan.y
 
@@ -46,17 +48,16 @@ Item {
         visible: index == pagesView.currentIndex
         transform: [
             Scale { origin.x: width / 2; origin.y: height / 2; xScale: zoom * mirror; yScale: zoom },
-            Rotation { origin.x: width / 2; origin.y: height / 2; angle: rotaion }
+            Rotation { origin.x: width / 2; origin.y: height / 2; angle: rotation }
         ]
 
         MouseArea {
             // Used two mouse area, because a strange bug does not allow to use a brush and pan in one
             property point grabPoint: Qt.point(0, 0)
             anchors.fill: parent
-            hoverEnabled: true
-            onPressed: panMode = false
+            hoverEnabled: panMode
             onPositionChanged: {
-                pan.x += (mouseX - grabPoint.x) * zoom
+                pan.x += (mouseX - grabPoint.x) * zoom * mirror
                 pan.y += (mouseY - grabPoint.y) * zoom
             }
             visible: panMode
