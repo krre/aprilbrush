@@ -1,6 +1,7 @@
 import QtQuick 2.0
+import QtGraphicalEffects 1.0
 
-Rectangle {
+Item {
     id: root
     property string title: "Unnamed"
     default property alias content: stack.children
@@ -11,11 +12,7 @@ Rectangle {
 
     width: defaultWidth
     height: defaultHeight
-    color: "#eeeeee"
-    border.color: "gray"
-    //opacity: 0.9
-    radius: 7
-    antialiasing: true
+
     MouseArea {
         anchors.fill: parent
         drag.target: parent
@@ -29,68 +26,87 @@ Rectangle {
         onReleased: root.released()
     }
 
-    Column {
-        // Header
+    Rectangle {
+        id: rect
+        anchors.fill: parent
+        color: "#eeeeee"
+        border.color: "gray"
+        radius: 7
+        antialiasing: true
+
+        Column {
+            // Header
+            Item {
+                id: head;
+                width: rect.width;
+                height: 25
+                Text {
+                    anchors.left: parent.left
+                    anchors.verticalCenter: parent.verticalCenter
+                    anchors.margins: indent
+                    text: title
+                    font.pointSize: 8
+                }
+            }
+            // Content stack
+            Item {
+                id: stack
+                width: rect.width - indent * 2;
+                height: rect.height - head.height
+                anchors.horizontalCenter: parent.horizontalCenter
+            }
+        }
+
+        CloseButton {
+            anchors.top: parent.top
+            anchors.right: parent.right
+            onClicked: root.visible = false
+        }
+
+        // Resize handler
         Item {
-            id: head;
-            width: root.width;
-            height: 25
+            id: resizeHandler
+            width: 20
+            height: 20
+            anchors.bottom: parent.bottom
+            anchors.right: parent.right
             Text {
-                anchors.left: parent.left
-                anchors.verticalCenter: parent.verticalCenter
-                anchors.margins: indent
-                text: title
-                font.pointSize: 8
+                text: "="
+                anchors.centerIn: parent
+                font.pointSize: 11
+                font.bold: resizeMouseArea.containsMouse ? true : false
             }
-        }
-        // Content stack
-        Item {
-            id: stack
-            width: root.width - indent * 2;
-            height: root.height - head.height
-            anchors.horizontalCenter: parent.horizontalCenter
-        }
-    }
 
-    CloseButton {
-        anchors.top: parent.top
-        anchors.right: parent.right
-        onClicked: root.visible = false
-    }
-
-    // Resize handler
-    Item {
-        id: resizeHandler
-        width: 20
-        height: 20
-        anchors.bottom: parent.bottom
-        anchors.right: parent.right
-        Text {
-            text: "="
-            anchors.centerIn: parent
-            font.pointSize: 11
-            font.bold: resizeMouseArea.containsMouse ? true : false
-        }
-
-        MouseArea {
-            id: resizeMouseArea
-            property point grabPoint: Qt.point(0, 0)
-            property bool grabFlag: false
-            anchors.fill: parent
-            hoverEnabled: true
-            onPressed: {
-                grabPoint = Qt.point(mouseX, mouseY)
-                grabFlag = true
-            }
-            onReleased: grabFlag = false
-            onPositionChanged: {
-                if (grabFlag) {
-                    var newWidth = root.width + (mouseX - grabPoint.x)
-                    root.width = newWidth < defaultWidth ? defaultWidth : newWidth
-                    var newHeight = root.height + (mouseY - grabPoint.y)
-                    root.height = newHeight < defaultHeight ? defaultHeight : newHeight
+            MouseArea {
+                id: resizeMouseArea
+                property bool grabFlag: false
+                anchors.fill: parent
+                hoverEnabled: true
+                onPressed: {
+                    grabFlag = true
+                }
+                onReleased: grabFlag = false
+                onPositionChanged: {
+                    if (grabFlag) {
+                        var newWidth = root.width + mouseX - indent
+                        root.width = newWidth < defaultWidth ? defaultWidth : newWidth
+                        var newHeight = root.height + mouseY - indent
+                        root.height = newHeight < defaultHeight ? defaultHeight : newHeight
+                    }
                 }
             }
         }
     }
+
+    DropShadow {
+        anchors.fill: rect
+        horizontalOffset: 4
+        verticalOffset: 4
+        radius: 1
+        samples: 7
+        color: "#60000000"
+        source: rect
+    }
 }
+
+
