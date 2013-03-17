@@ -1,98 +1,116 @@
 import QtQuick 2.0
+import QtGraphicalEffects 1.0
 import "components"
 import "utils.js" as Utils
 
-Rectangle {
+Item {
     property alias pagesView: pagesView
 
     width: 600
     height: 40
-    color: "#eeeeee"
-    border.color: "gray"
-    radius: 7
-    antialiasing: true
 
-    Row {
+    Rectangle {
+        id: rect
+        color: "#eeeeee"
+        border.color: "gray"
+        radius: 7
+        antialiasing: true
         anchors.fill: parent
-        // Button for adding page
-        Item {
-            id: addPageArea
-            width: 30
-            height: parent.height
-            Text {
-                text: "+"
-                font.bold: true
-                font.pixelSize: 15
-                anchors.centerIn: parent
-            }
-            MouseArea {
-                anchors.fill: parent
-                onClicked: {
-                    // Calculate next number page
-                    var maxNumPage = 0;
-                    for (var page = 0; page < pagesModel.count; page++) {
-                        var numPage = parseInt(pagesModel.get(page).name.substring(6), 10)
-                        if (numPage > maxNumPage) maxNumPage = numPage
+
+        Row {
+            anchors.fill: parent
+            // Button for adding page
+            Item {
+                id: addPageArea
+                width: 30
+                height: parent.height
+                Text {
+                    text: "+"
+                    font.bold: true
+                    font.pixelSize: 15
+                    anchors.centerIn: parent
+                }
+                MouseArea {
+                    anchors.fill: parent
+                    onClicked: {
+                        // Calculate next number page
+                        var maxNumPage = 0;
+                        for (var page = 0; page < pagesModel.count; page++) {
+                            var numPage = parseInt(pagesModel.get(page).name.substring(6), 10)
+                            if (numPage > maxNumPage) maxNumPage = numPage
+                        }
+                        maxNumPage++
+                        var numNextPage = Utils.zeroFill(maxNumPage, 3)
+
+                        pagesModel.append({name: "Page-" + numNextPage,
+                                              layerSet: [
+                                                  { name: "Layer-002", colorImage: "transparent", enable: true },
+                                                  { name: "Layer-001", colorImage: "white", enable: true } ],
+                                              undoSet: [
+                                                  { name: "Start" },
+                                                  { name: "Paint" } ]
+                                          })
+                        // Placing a item on last position
+                        pagesView.currentIndex = pagesModel.count - 1
                     }
-                    maxNumPage++
-                    var numNextPage = Utils.zeroFill(maxNumPage, 3)
-
-                    pagesModel.append({name: "Page-" + numNextPage,
-                                          layerSet: [
-                                              { name: "Layer-002", colorImage: "transparent", enable: true },
-                                              { name: "Layer-001", colorImage: "white", enable: true } ],
-                                          undoSet: [
-                                              { name: "Start" },
-                                              { name: "Paint" } ]
-                                      })
-                    // Placing a item on last position
-                    pagesView.currentIndex = pagesModel.count - 1
                 }
             }
-        }
 
-        ListView {
-            id: pagesView
-            model: pagesModel
-            delegate: pagesDelegate
-            highlight: pageSelected
-            highlightMoveDuration: 1
+            ListView {
+                id: pagesView
+                model: pagesModel
+                delegate: pagesDelegate
+                highlight: pageSelected
+                highlightMoveDuration: 1
 
-            height: parent.height - 8
-            width: parent.width - addPageArea.width - 10
-            anchors.verticalCenter: parent.verticalCenter
-            orientation: ListView.Horizontal
-            spacing: 5
-            clip: true
-        }
+                height: parent.height - 8
+                width: parent.width - addPageArea.width - 10
+                anchors.verticalCenter: parent.verticalCenter
+                orientation: ListView.Horizontal
+                spacing: 5
+                clip: true
+            }
 
-        Component {
-            id: pagesDelegate
-            ListItem {
-                property alias canvasArea: canvasArea
-                width: 100
-                height: pagesView.height
-                color: ListView.isCurrentItem ? "transparent" : "lightgray"
-                text: name
-                onClicked: pagesView.currentIndex = index
-                onClosed: pagesModel.remove(index)
+            Component {
+                id: pagesDelegate
+                ListItem {
+                    property alias canvasArea: canvasArea
+                    width: 100
+                    height: pagesView.height
+                    color: ListView.isCurrentItem ? "transparent" : "lightgray"
+                    text: name
+                    onClicked: pagesView.currentIndex = index
+                    onClosed: pagesModel.remove(index)
 
-                CanvasArea {
-                    id: canvasArea
-                }
+                    CanvasArea {
+                        id: canvasArea
+                    }
 
-                LayerManager {
-                    id: layerManager
+                    LayerManager {
+                        id: layerManager
+                    }
                 }
             }
-        }
 
-        Component {
-            id: pageSelected
-            ListItemComponent {
-                width: 100
-                height: pagesView.height
+            Component {
+                id: pageSelected
+                ListItemComponent {
+                    width: 100
+                    height: pagesView.height
+                }
             }
         }
     }
+
+    DropShadow {
+        anchors.fill: rect
+        horizontalOffset: 4
+        verticalOffset: 4
+        radius: 1
+        samples: 7
+        color: "#60000000"
+        source: rect
+    }
+
 }
+
