@@ -59,6 +59,7 @@ Rectangle {
         id: colorPicker
         x: 20
         y: 50
+        defaultHeight: 220
         //visible: false
         onColorChanged: brush.color = colorPicker.pickColor
         z: 3
