@@ -9,11 +9,12 @@ Window {
 
     parent: main
     visible: (index == pagesView.currentIndex) && undoManagerVisible
-    //visible: layerManagerVisible
     x: undoManagerPos.x
     y: undoManagerPos.y
     z: 5
+    autoClose: false
     onReleased: undoManagerPos = Qt.point(x, y)
+    onClosed: undoManagerVisible = false
 
     Item {
         anchors.fill: parent

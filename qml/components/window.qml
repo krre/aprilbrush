@@ -8,7 +8,9 @@ Item {
     property int defaultWidth: 200
     property int defaultHeight: 200
     property int indent: 10
+    property bool autoClose: true // used for disabling automatic closing window
     signal released
+    signal closed
 
     width: defaultWidth
     height: defaultHeight
@@ -60,7 +62,7 @@ Item {
         CloseButton {
             anchors.top: parent.top
             anchors.right: parent.right
-            onClicked: root.visible = false
+            onClicked: autoClose ? root.visible = false : root.closed()
         }
 
         // Resize handler

@@ -10,11 +10,12 @@ Window {
     title: "Layers"
     parent: main
     visible: (index == pagesView.currentIndex) && layerManagerVisible
-    //visible: layerManagerVisible
     x: layerManagerPos.x
     y: layerManagerPos.y
     z: 4
+    autoClose: false
     onReleased: layerManagerPos = Qt.point(x, y)
+    onClosed: layerManagerVisible = false
 
     Column {
         width: parent.width
