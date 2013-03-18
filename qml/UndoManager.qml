@@ -12,9 +12,12 @@ Window {
     x: undoManagerPos.x
     y: undoManagerPos.y
     z: 5
+    width: undoManagerSize.width
+    height: undoManagerSize.height
     autoClose: false
     onReleased: undoManagerPos = Qt.point(x, y)
     onClosed: undoManagerVisible = false
+    onResized: undoManagerSize = Qt.size(width, height)
 
     Item {
         anchors.fill: parent

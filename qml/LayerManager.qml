@@ -13,11 +13,15 @@ Window {
     x: layerManagerPos.x
     y: layerManagerPos.y
     z: 4
+    width: layerManagerSize.width
+    height: layerManagerSize.height
     autoClose: false
     onReleased: layerManagerPos = Qt.point(x, y)
+    onResized: layerManagerSize = Qt.size(width, height)
     onClosed: layerManagerVisible = false
 
     Column {
+        anchors.fill: parent
         width: parent.width
         spacing: 5
 
@@ -29,7 +33,8 @@ Window {
             highlightMoveDuration: 1
 
             width: parent.width
-            height: 120
+            height: root.height - 65
+            //anchors.fill: parent
 
             orientation: ListView.Vertical
             clip: true
@@ -57,6 +62,7 @@ Window {
 
         // Buttons
         Row {
+            id: buttons
             width: parent.width
             height: 20
             spacing: 4

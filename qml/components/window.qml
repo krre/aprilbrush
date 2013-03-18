@@ -8,8 +8,10 @@ Item {
     property int defaultHeight: 200
     property int indent: 10
     property bool autoClose: true // used for disabling automatic closing window
+
     signal released
     signal closed
+    signal resized
 
     width: defaultWidth
     height: defaultHeight
@@ -83,10 +85,8 @@ Item {
                 property bool grabFlag: false
                 anchors.fill: parent
                 hoverEnabled: true
-                onPressed: {
-                    grabFlag = true
-                }
-                onReleased: grabFlag = false
+                onPressed: grabFlag = true
+                onReleased: { grabFlag = false; root.resized() }
                 onPositionChanged: {
                     if (grabFlag) {
                         var newWidth = root.width + mouseX - indent
