@@ -25,6 +25,7 @@ Item {
         if (event.key == Qt.Key_S) brushSettings.visible = !brushSettings.visible
         if (event.key == Qt.Key_C) colorPicker.visible = !colorPicker.visible
         if (event.key == Qt.Key_L) layerManagerVisible = !layerManagerVisible
+        if (event.key == Qt.Key_U) undoManagerVisible = !undoManagerVisible
         if (event.key == Qt.Key_P) brushLibrary.visible = !brushLibrary.visible
         if (event.key == Qt.Key_Plus) zoom *= 1.5
         if (event.key == Qt.Key_Minus) zoom /= 1.5

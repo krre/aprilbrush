@@ -10,6 +10,7 @@ Window {
     title: "Layers"
     parent: main
     visible: (index == pagesView.currentIndex) && layerManagerVisible
+    //visible: layerManagerVisible
     x: layerManagerPos.x
     y: layerManagerPos.y
     z: 4

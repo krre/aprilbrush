@@ -89,6 +89,10 @@ Item {
                     LayerManager {
                         id: layerManager
                     }
+
+                    UndoManager {
+                        id: undoManager
+                    }
                 }
             }
 

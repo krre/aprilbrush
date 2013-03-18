@@ -7,12 +7,20 @@ Window {
     property alias currentUndo: undoView.currentIndex
     property alias undoView: undoView
 
+    parent: main
+    visible: (index == pagesView.currentIndex) && undoManagerVisible
+    //visible: layerManagerVisible
+    x: undoManagerPos.x
+    y: undoManagerPos.y
+    z: 5
+    onReleased: undoManagerPos = Qt.point(x, y)
+
     Item {
         anchors.fill: parent
 
         ListView {
             id: undoView
-            model: undoModel
+            model: undoSet
             delegate: undoDelegate
 
             highlight: undoSelected
