@@ -2,24 +2,58 @@ import QtQuick 2.0
 import "components"
 
 Window {
+    id: root
     title: "Brush Settings"
 
-    property int size: sizeCtrl.value
-    property int spacing: spacingCtrl.value
-    property int hardness: hardnessCtrl.value
-    property int opacity_: opacityCtrl.value
-    property int roundness: roundnessCtrl.value
-    property int angle: angleCtrl.value
+    property int size: 30
+    property int opacityBrush: 50
+    property int spacing: 30
+    property int hardness: 85
+    property int roundness: 1
+    property int angle: 90
 
-    Column {
-        width: parent.width
-        spacing: 5
-        Slider {id: sizeCtrl; name: "Size"; min: 1; max: 200; init: 30}
-        Slider {id: spacingCtrl; name: "Spacing"; min: 1; max: 100; init: 30}
-        Slider {id: opacityCtrl; name: "Opacity"; min: 0; max: 100; init: 50}
-        Slider {id: hardnessCtrl; name: "Hardness"; min: 1; max: 100; init: 85}
-        Slider {id: roundnessCtrl; name: "Roundness"; min: 1; max: 10; init: 1}
-        Slider {id: angleCtrl; name: "Angle"; min: 0; max: 180; init: 90}
+    Item {
+        anchors.fill: parent
+        anchors.bottomMargin: 15
+
+        ListView {
+            id: brushSettingsView
+            model: brushSettingsModel
+            delegate: brushSettingsDelegate
+
+            anchors.fill: parent
+            orientation: ListView.Vertical
+            spacing: 30
+            clip: true
+        }
+
+        ListModel {
+            id: brushSettingsModel
+            ListElement { nameParam: "Size"; minParam: 1; maxParam: 200; initParam: 30 }
+            ListElement { nameParam: "Opacity"; minParam: 0; maxParam: 100; initParam: 50 }
+            ListElement { nameParam: "Spacing"; minParam: 1; maxParam: 100; initParam: 30 }
+            ListElement { nameParam: "Hardness"; minParam: 1; maxParam: 100; initParam: 85 }
+            ListElement { nameParam: "Roundness"; minParam: 1; maxParam: 10; initParam: 1 }
+            ListElement { nameParam: "Angle"; minParam: 0; maxParam: 180; initParam: 90 }
+        }
+
+        Component {
+            id: brushSettingsDelegate
+            Item {
+                width: parent.width
+                Slider {
+                    name: nameParam; min: minParam; max: maxParam; init: initParam
+                    onValueChanged: {
+                        if (name == "Size") size = value
+                        if (name == "Opacity") opacityBrush = value
+                        if (name == "Spacing") spacing = value
+                        if (name == "Hardness") hardness = value
+                        if (name == "Roundness") roundness = value
+                        if (name == "Angle") angle = value
+                    }
+                }
+            }
+        }
     }
 }
 

@@ -22,7 +22,7 @@ Rectangle {
         size: brushSettings.size
         spacing: brushSettings.spacing
         hardness: brushSettings.hardness
-        opacity: brushSettings.opacity_
+        opacity: brushSettings.opacityBrush
         roundness: brushSettings.roundness
         angle: brushSettings.angle
         source: pageManager.pagesView.currentItem.canvasArea.pathView.currentItem
@@ -30,10 +30,11 @@ Rectangle {
 
     PageManager {
         id: pageManager
+        z: 1
         width: 600
         height: 34
         anchors.horizontalCenter: parent.horizontalCenter
-        z: 1
+
     }
 
     ListModel {
@@ -49,28 +50,31 @@ Rectangle {
     BrushSettings {
         id: brushSettings
         x: 780
-        y: 20
+        y: 50
+        z: 2
         height: 250
         //visible: false
-        z: 2
+
     }
 
     ColorPicker {
         id: colorPicker
         x: 20
         y: 50
+        z: 3
         defaultHeight: 220
         //visible: false
         onColorChanged: brush.color = colorPicker.pickColor
-        z: 3
+
     }
 
     BrushLibrary {
         id: brushLibrary
         x: 780
         y: 320
-        visible: false
         z: 4
+        visible: false
+
     }
 }
 

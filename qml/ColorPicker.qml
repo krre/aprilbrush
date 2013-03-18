@@ -20,7 +20,6 @@ Window {
         id: container
 
         anchors.fill: parent
-        Component.onCompleted: console.log(minWindowSize)
 
         // Color ring
         Rectangle {

@@ -1,18 +1,18 @@
 import QtQuick 2.0
 
 Item {
-    id:  slider
-
     property string name: "Slider"
     property int min: 0
-    property int max: 1
+    property int max: 100
     property int init: min + (max - min) / 2
     property int value: min + (max - min) * (handle.x / (scale.width - handle.width))
+    property int valueX: 0
+
+    Component.onCompleted: valueX = init
 
     width: parent.width
+    onWidthChanged: valueX = value
     height: 25
-
-    Component.onCompleted: handle.x = (init - min) / (max - min) * (scale.width - handle.width)
 
     Item {
         height: 10
@@ -29,7 +29,7 @@ Item {
             anchors.margins: 5
         }
     }
-
+    // Scale
     Item {
         id: scale
         height: 12
@@ -41,11 +41,11 @@ Item {
             radius: 5
             antialiasing: true
             border.color: "gray"
-            opacity: 0.7
         }
-
+        // Handler
         Rectangle {
             id: handle
+            x: (valueX - min) / (max - min) * (scale.width - width)
             width: 20
             height: parent.height
             radius: 5
@@ -53,10 +53,12 @@ Item {
             color: "gray"
             MouseArea {
                 anchors.fill: parent
-                drag.target: parent
-                drag.axis: Drag.XAxis
-                drag.minimumX: 0
-                drag.maximumX: scale.width - parent.width
+                drag {
+                    target: parent
+                    axis: Drag.XAxis
+                    minimumX: 0
+                    maximumX: scale.width - parent.width
+                }
             }
         }
     }
