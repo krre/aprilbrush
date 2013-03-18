@@ -106,14 +106,8 @@ Item {
         }
     }
 
-    DropShadow {
-        anchors.fill: rect
-        horizontalOffset: 4
-        verticalOffset: 4
-        radius: 1
-        samples: 7
-        color: "#60000000"
-        source: rect
+    Shadow {
+        surface: rect
     }
 
 }
