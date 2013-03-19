@@ -21,6 +21,8 @@ Item {
     focus: index == pagesView.currentIndex
 
     Keys.onPressed: {
+        if (event.key == Qt.Key_B) eraserMode = false
+        if (event.key == Qt.Key_E) eraserMode = true
         if (event.key == Qt.Key_Delete) { brush.setSource(pathView.currentItem); brush.clear() }
         if (event.key == Qt.Key_S) brushSettings.visible = !brushSettings.visible
         if (event.key == Qt.Key_C) colorPicker.visible = !colorPicker.visible

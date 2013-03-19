@@ -8,7 +8,7 @@ BrushEngine::BrushEngine()
     wintabInit();
     //ghWintab = 0;
     touchPen = false;
-    eraser = false;
+    eraserBrush = false;
 }
 
 BrushEngine::~BrushEngine()
@@ -41,7 +41,7 @@ void BrushEngine::paintDab(qreal xPos, qreal yPos)
     painter.setBrush(QBrush(radialGradient));
     //qDebug() << pressureColor << hardnessBrush << alphaColor << painter.brush();
 
-    if (eraser)
+    if (eraserBrush)
         painter.setCompositionMode(QPainter::CompositionMode_DestinationOut);
 
     // First dab after touching the stylus at a surface
@@ -82,7 +82,6 @@ void BrushEngine::paintDab(qreal xPos, qreal yPos)
             }
         }
     }
-
 }
 
 void BrushEngine::wintabInit()

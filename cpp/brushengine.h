@@ -29,6 +29,7 @@ class BrushEngine : public QObject
     Q_PROPERTY(int opacity READ opacity WRITE setOpacity)
     Q_PROPERTY(int roundness READ roundness WRITE setRoundness)
     Q_PROPERTY(int angle READ angle WRITE setAngle)
+    Q_PROPERTY(bool eraser READ eraser WRITE setEraser)
 
 public:
     BrushEngine();
@@ -37,8 +38,6 @@ public:
     Q_INVOKABLE void setTouch(bool touch) { touchPen = touch; }
     Q_INVOKABLE void clear() { pixmap->fill(QColor(0, 0, 0, 0)); paintSpace->update(); }
     Q_INVOKABLE void setSource (PaintSpace *source) { paintSpace = source; pixmap = &paintSpace->pixmap; /*qDebug() << paintSpace*/; }
-    //inline void setEraser(bool eraserOut) { eraser = eraserOut; }
-    //inline bool touch() { return touchPen; }
 
 signals:
     void sizeBrushSignal();
@@ -56,12 +55,12 @@ private:
     inline void setColor(QColor color) {colorBrush = color;}
     inline int opacity() {return opacityBrush;}
     inline void setOpacity(int opacity) {opacityBrush = opacity;}
-
     inline int roundness() {return roundnessBrush;}
     inline void setRoundness(int roundness) {roundnessBrush = roundness;}
-
     inline int angle() {return angleBrush;}
     inline void setAngle(int angle) {angleBrush = angle;}
+    inline bool eraser() {return eraserBrush;}
+    inline void setEraser(bool eraser) {eraserBrush = eraser;}
 
     void wintabInit();
     HINSTANCE ghWintab;
@@ -78,7 +77,7 @@ private:
     int angleBrush;
     QColor colorBrush;
     int opacityBrush;
-    bool eraser;
+    bool eraserBrush;
     QPixmap *pixmap;
     PaintSpace *paintSpace;
 

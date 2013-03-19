@@ -13,6 +13,7 @@ Rectangle {
     property bool undoManagerVisible: true
     property point undoManagerPos: Qt.point(750, 350)
     property size undoManagerSize: Qt.size(200, 200)
+    property bool eraserMode: false
 
     width: 1000
     height: 600
@@ -27,6 +28,7 @@ Rectangle {
         opacity: brushSettings.opacityBrush
         roundness: brushSettings.roundness
         angle: brushSettings.angle
+        eraser: eraserMode
         source: pageManager.pagesView.currentItem.canvasArea.pathView.currentItem
     }
 
