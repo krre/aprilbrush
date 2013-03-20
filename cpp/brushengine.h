@@ -37,7 +37,7 @@ public:
     Q_INVOKABLE void paintDab(qreal xPos, qreal yPos);
     Q_INVOKABLE void setTouch(bool touch) { touchPen = touch; }
     Q_INVOKABLE void clear() { pixmap->fill(QColor(0, 0, 0, 0)); paintedItem->update(); }
-    Q_INVOKABLE void setSource (PaintedItem *source) { paintedItem = source; pixmap = &paintedItem->pixmap; /*qDebug() << paintSpace*/; }
+    Q_INVOKABLE void setSource (PaintedItem *source) { paintedItem = source; pixmap = &paintedItem->pixmapItem; /*qDebug() << paintSpace*/; }
 
 signals:
     void sizeBrushSignal();

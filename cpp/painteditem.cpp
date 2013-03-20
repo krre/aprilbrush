@@ -9,12 +9,12 @@ PaintedItem::PaintedItem(QQuickItem *parent) :
 
 void PaintedItem::paint(QPainter *painter)
 {
-    if (pixmap.isNull())
+    if (pixmapItem.isNull())
     {
-        pixmap = QPixmap(contentsSize());
-        pixmap.fill(fillColor());
+        pixmapItem = QPixmap(contentsSize());
+        pixmapItem.fill(fillColor());
     }
-    painter->drawPixmap(0, 0, pixmap);
+    painter->drawPixmap(0, 0, pixmapItem);
     //pixmap.save("D:\pix.png");
     //qDebug() << "update " << this;
 }
