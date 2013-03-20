@@ -3,11 +3,11 @@ QT += quick
 
 SOURCES += \
     main.cpp \
-    cpp/paintspace.cpp \
+    cpp/painteditem.cpp \
     cpp/brushengine.cpp \
 
 HEADERS += \
-    cpp/paintspace.h \
+    cpp/painteditem.h \
     cpp/brushengine.h \
 
 OTHER_FILES += \

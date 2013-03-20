@@ -1,6 +1,6 @@
 import QtQuick 2.0
 import "components"
-import PaintItem 1.0
+import PaintedItem 1.0
 
 Item {
     id: root
@@ -93,7 +93,7 @@ Item {
     Component {
         id: paintSpaceDelegate
 
-        PaintSpace {
+        PaintedItem {
             id: paintSpace
             width: root.width
             height: root.height

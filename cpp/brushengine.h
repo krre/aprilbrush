@@ -10,7 +10,7 @@
 #define PACKETMODE 0
 #include "wintab/pktdef.h"
 #include <QtGui>
-#include "paintspace.h"
+#include "painteditem.h"
 
 typedef UINT (API *PtrWTInfo)(UINT, UINT, LPVOID);
 typedef HCTX (API *PtrWTOpen)(HWND, LPLOGCONTEXT, BOOL);
@@ -21,7 +21,7 @@ typedef int (API *PtrWTQueuePacketsEx)(HCTX, UINT FAR*, UINT FAR*);
 class BrushEngine : public QObject
 {
     Q_OBJECT
-    Q_PROPERTY(PaintSpace* source READ source WRITE setSource)
+    Q_PROPERTY(PaintedItem* source READ source WRITE setSource)
     Q_PROPERTY(int size READ size WRITE setSize)
     Q_PROPERTY(int spacing READ spacing WRITE setSpacing)
     Q_PROPERTY(int hardness READ hardness WRITE setHardness)
@@ -36,15 +36,15 @@ public:
     ~BrushEngine();
     Q_INVOKABLE void paintDab(qreal xPos, qreal yPos);
     Q_INVOKABLE void setTouch(bool touch) { touchPen = touch; }
-    Q_INVOKABLE void clear() { pixmap->fill(QColor(0, 0, 0, 0)); paintSpace->update(); }
-    Q_INVOKABLE void setSource (PaintSpace *source) { paintSpace = source; pixmap = &paintSpace->pixmap; /*qDebug() << paintSpace*/; }
+    Q_INVOKABLE void clear() { pixmap->fill(QColor(0, 0, 0, 0)); paintedItem->update(); }
+    Q_INVOKABLE void setSource (PaintedItem *source) { paintedItem = source; pixmap = &paintedItem->pixmap; /*qDebug() << paintSpace*/; }
 
 signals:
     void sizeBrushSignal();
     void paintDone();
 
 private:
-    inline PaintSpace* source() { return paintSpace; }
+    inline PaintedItem* source() { return paintedItem; }
     inline int size() {return sizeBrush;}
     inline void setSize(int size) {sizeBrush = size; emit sizeBrushSignal();}
     inline int spacing() {return spacingBrush;}
@@ -79,7 +79,7 @@ private:
     int opacityBrush;
     bool eraserBrush;
     QPixmap *pixmap;
-    PaintSpace *paintSpace;
+    PaintedItem *paintedItem;
 
     QPointF nowPos;
     QPointF prevPos;

@@ -4,12 +4,12 @@
 #include <QQuickPaintedItem>
 #include <QtGui>
 
-class PaintSpace : public QQuickPaintedItem
+class PaintedItem : public QQuickPaintedItem
 {
     Q_OBJECT
 
 public:
-    PaintSpace(QQuickItem *parent = 0);
+    PaintedItem(QQuickItem *parent = 0);
     void paint(QPainter *painter);
     QPixmap pixmap;
 };

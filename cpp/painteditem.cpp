@@ -1,13 +1,13 @@
-#include "paintspace.h"
+#include "painteditem.h"
 #include "brushengine.h"
 #include <QDebug>
 
-PaintSpace::PaintSpace(QQuickItem *parent) :
+PaintedItem::PaintedItem(QQuickItem *parent) :
     QQuickPaintedItem(parent)
 {
 }
 
-void PaintSpace::paint(QPainter *painter)
+void PaintedItem::paint(QPainter *painter)
 {
     if (pixmap.isNull())
     {
