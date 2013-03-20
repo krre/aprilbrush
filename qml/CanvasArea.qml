@@ -21,22 +21,31 @@ Item {
     focus: index == pagesView.currentIndex
 
     Keys.onPressed: {
-        if (event.key == Qt.Key_B) eraserMode = false
-        if (event.key == Qt.Key_E) eraserMode = true
-        if (event.key == Qt.Key_Delete) { brush.setSource(pathView.currentItem); brush.clear() }
-        if (event.key == Qt.Key_S) brushSettings.visible = !brushSettings.visible
-        if (event.key == Qt.Key_C) colorPicker.visible = !colorPicker.visible
-        if (event.key == Qt.Key_L) layerManagerVisible = !layerManagerVisible
-        if (event.key == Qt.Key_U) undoManagerVisible = !undoManagerVisible
-        if (event.key == Qt.Key_P) brushLibrary.visible = !brushLibrary.visible
-        if (event.key == Qt.Key_Plus) zoom *= 1.5
-        if (event.key == Qt.Key_Minus) zoom /= 1.5
-        if (event.key == Qt.Key_0) { zoom = 1; pan = Qt.point(0, 0); mirror = 1; rotation = 0 }
-        if (event.key == Qt.Key_Space) panMode = true
-        if (event.key == Qt.Key_F) mirror *= -1
-        if (event.key == Qt.Key_R) rotation += 90
+        switch (event.key) {
+            case Qt.Key_B: eraserMode = false; break
+            case Qt.Key_E: eraserMode = true; break
+            case Qt.Key_Delete:
+                brush.setSource(pathView.currentItem)
+                brush.clear()
+                console.log("createUndoClear")
+                break
+            case Qt.Key_S: brushSettings.visible = !brushSettings.visible; break
+            case Qt.Key_C: colorPicker.visible = !colorPicker.visible; break
+            case Qt.Key_L: layerManagerVisible = !layerManagerVisible; break
+            case Qt.Key_U: undoManagerVisible = !undoManagerVisible; break
+            case Qt.Key_P: brushLibrary.visible = !brushLibrary.visible; break
+            case Qt.Key_Plus: zoom *= 1.5; break
+            case Qt.Key_Minus: zoom /= 1.5; break
+            case Qt.Key_0: zoom = 1; pan = Qt.point(0, 0); mirror = 1; rotation = 0; break
+            case Qt.Key_Space: panMode = true; break
+            case Qt.Key_F: mirror *= -1; break
+            case Qt.Key_R: rotation += 90; break
+        }
+        if ((event.modifiers & Qt.ControlModifier) && (event.key === Qt.Key_Z)) console.log("undo")
+        if ((event.modifiers & Qt.ControlModifier) && (event.key === Qt.Key_Y)) console.log("redo")
     }
-    Keys.onReleased: if (event.key == Qt.Key_Space) panMode = false
+
+    Keys.onReleased: if (event.key === Qt.Key_Space) panMode = false
 
     CheckerBoard {
         id: checkerBoard
@@ -97,7 +106,7 @@ Item {
             MouseArea {
                 anchors.fill: parent
                 onPressed: { brush.setSource(pathView.currentItem); brush.paintDab(mouseX, mouseY) }
-                onReleased: brush.setTouch(false)
+                onReleased: { brush.setTouch(false); console.log("createUndoPaint") }
                 onPositionChanged: brush.paintDab(mouseX, mouseY)
                 visible: !panMode
             }

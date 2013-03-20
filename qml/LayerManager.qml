@@ -34,7 +34,6 @@ Window {
 
             width: parent.width
             height: root.height - 65
-            //anchors.fill: parent
 
             orientation: ListView.Vertical
             clip: true
@@ -49,6 +48,7 @@ Window {
                 onClicked: currentLayer = index
                 onClosed: {
                     layerSet.remove(index)
+                    console.log("createUndoCloseLayer")
                 }
             }
         }
@@ -84,6 +84,7 @@ Window {
                     if (currentLayer < 0) currentLayer = 0
                     layerSet.insert(currentLayer, { name: "Layer-" + numNextLayer, colorImage: "transparent", enable: true })
                     layersView.decrementCurrentIndex()
+                    console.log("createUndoNewLayer")
                 }
             }
             // Up button
@@ -94,6 +95,7 @@ Window {
                 onClicked: {
                     if (currentLayer > 0)
                         layerSet.move(currentLayer, currentLayer - 1, 1)
+                    console.log("createUndoUpLayer")
                 }
             }
             // Down button
@@ -104,6 +106,7 @@ Window {
                 onClicked: {
                     if (currentLayer < layersView.count - 1)
                         layerSet.move(currentLayer, currentLayer + 1, 1)
+                    console.log("createUndoDownLayer")
                 }
             }
             // Clone button
@@ -113,7 +116,9 @@ Window {
                 text: qsTr("Clone")
                 onClicked: {
                     console.log("Clone layer")
+                    console.log("createUndoCloneLayer")
                 }
+
             }
         }
     }
