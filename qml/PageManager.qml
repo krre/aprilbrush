@@ -46,9 +46,7 @@ Item {
                                               layerSet: [
                                                   { name: "Layer-002", colorImage: "transparent", enable: true },
                                                   { name: "Layer-001", colorImage: "white", enable: true } ],
-                                              undoSet: [
-                                                  { name: "Start" },
-                                                  { name: "Paint" } ]
+                                              undoSet: []
                                           })
                         // Placing a item on last position
                         pagesView.currentIndex = pagesModel.count - 1

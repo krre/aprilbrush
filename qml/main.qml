@@ -45,9 +45,9 @@ Rectangle {
         id: pagesModel
         ListElement { name: "Page-001";
             layerSet: [
-                ListElement {name: "Layer-002"; colorImage: "transparent"; enable: true },
-                ListElement {name: "Layer-001"; colorImage: "white"; enable: true } ]
-            undoSet: [ ListElement {name: "Start"}, ListElement {name: "Paint"} ]
+                ListElement { name: "Layer-002"; colorImage: "transparent"; enable: true },
+                ListElement { name: "Layer-001"; colorImage: "white"; enable: true } ]
+            undoSet: []
         }
     }
 

@@ -46,21 +46,21 @@ signals:
 private:
     inline PaintedItem* source() { return paintedItem; }
     inline int size() {return sizeBrush;}
-    inline void setSize(int size) {sizeBrush = size; emit sizeBrushSignal();}
-    inline int spacing() {return spacingBrush;}
-    inline void setSpacing(int spacing) {spacingBrush = spacing;}
-    inline int hardness() {return hardnessBrush;}
-    inline void setHardness(int hardness) {hardnessBrush = hardness;}
-    inline QColor color() {return colorBrush;}
-    inline void setColor(QColor color) {colorBrush = color;}
-    inline int opacity() {return opacityBrush;}
-    inline void setOpacity(int opacity) {opacityBrush = opacity;}
-    inline int roundness() {return roundnessBrush;}
-    inline void setRoundness(int roundness) {roundnessBrush = roundness;}
-    inline int angle() {return angleBrush;}
-    inline void setAngle(int angle) {angleBrush = angle;}
-    inline bool eraser() {return eraserBrush;}
-    inline void setEraser(bool eraser) {eraserBrush = eraser;}
+    inline void setSize(int size) { sizeBrush = size; emit sizeBrushSignal(); }
+    inline int spacing() { return spacingBrush; }
+    inline void setSpacing(int spacing) { spacingBrush = spacing; }
+    inline int hardness() { return hardnessBrush; }
+    inline void setHardness(int hardness) { hardnessBrush = hardness; }
+    inline QColor color() { return colorBrush; }
+    inline void setColor(QColor color) { colorBrush = color; }
+    inline int opacity() { return opacityBrush; }
+    inline void setOpacity(int opacity) { opacityBrush = opacity; }
+    inline int roundness() { return roundnessBrush; }
+    inline void setRoundness(int roundness) { roundnessBrush = roundness; }
+    inline int angle() { return angleBrush; }
+    inline void setAngle(int angle) { angleBrush = angle; }
+    inline bool eraser() { return eraserBrush; }
+    inline void setEraser(bool eraser) { eraserBrush = eraser; }
 
     void wintabInit();
     HINSTANCE ghWintab;

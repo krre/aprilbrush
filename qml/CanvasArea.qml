@@ -20,14 +20,16 @@ Item {
     visible: index == pagesView.currentIndex
     focus: index == pagesView.currentIndex
 
+    Component.onCompleted: { undoManager.addUndo("Start", pathView.currentItem.pixmap) }
+
     Keys.onPressed: {
         switch (event.key) {
             case Qt.Key_B: eraserMode = false; break
             case Qt.Key_E: eraserMode = true; break
             case Qt.Key_Delete:
+                undoManager.addUndo("Clear", pathView.currentItem.pixmap)
                 brush.setSource(pathView.currentItem)
                 brush.clear()
-                console.log("createUndoClear")
                 break
             case Qt.Key_S: brushSettings.visible = !brushSettings.visible; break
             case Qt.Key_C: colorPicker.visible = !colorPicker.visible; break
@@ -41,8 +43,8 @@ Item {
             case Qt.Key_F: mirror *= -1; break
             case Qt.Key_R: rotation += 90; break
         }
-        if ((event.modifiers & Qt.ControlModifier) && (event.key === Qt.Key_Z)) console.log("undo")
-        if ((event.modifiers & Qt.ControlModifier) && (event.key === Qt.Key_Y)) console.log("redo")
+        if ((event.modifiers & Qt.ControlModifier) && (event.key === Qt.Key_Z)) undoManager.undoView.decrementCurrentIndex()
+        if ((event.modifiers & Qt.ControlModifier) && (event.key === Qt.Key_Y)) undoManager.undoView.incrementCurrentIndex()
     }
 
     Keys.onReleased: if (event.key === Qt.Key_Space) panMode = false
@@ -106,7 +108,7 @@ Item {
             MouseArea {
                 anchors.fill: parent
                 onPressed: { brush.setSource(pathView.currentItem); brush.paintDab(mouseX, mouseY) }
-                onReleased: { brush.setTouch(false); console.log("createUndoPaint") }
+                onReleased: { brush.setTouch(false); undoManager.addUndo("Paint", parent.pixmap) }
                 onPositionChanged: brush.paintDab(mouseX, mouseY)
                 visible: !panMode
             }
