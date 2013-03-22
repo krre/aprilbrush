@@ -33,4 +33,7 @@ OTHER_FILES += \
 OTHER_FILES += \
     qml/components/Shadow.qml
 
+OTHER_FILES += \
+    qml/undo.js
+
 

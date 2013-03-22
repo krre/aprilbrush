@@ -1,6 +1,7 @@
 import QtQuick 2.0
 import "components"
 import PaintedItem 1.0
+import "undo.js" as Undo
 
 Item {
     id: root
@@ -20,14 +21,16 @@ Item {
     visible: index == pagesView.currentIndex
     focus: index == pagesView.currentIndex
 
-    Component.onCompleted: { undoManager.addUndo("Start", pathView.currentItem.pixmap) }
+    Component.onCompleted: {
+        undoManager.add(new Undo.start(pathView.currentItem.pixmap))
+    }
 
     Keys.onPressed: {
         switch (event.key) {
             case Qt.Key_B: eraserMode = false; break
             case Qt.Key_E: eraserMode = true; break
             case Qt.Key_Delete:
-                undoManager.addUndo("Clear", pathView.currentItem.pixmap)
+                undoManager.add(new Undo.clear(pathView.currentItem.pixmap))
                 brush.setSource(pathView.currentItem)
                 brush.clear()
                 break
@@ -108,7 +111,13 @@ Item {
             MouseArea {
                 anchors.fill: parent
                 onPressed: { brush.setSource(pathView.currentItem); brush.paintDab(mouseX, mouseY) }
-                onReleased: { brush.setTouch(false); undoManager.addUndo("Paint", parent.pixmap) }
+                onReleased: {
+                    brush.setTouch(false);
+                    //undoManager.add(new Undo.paint(pathView.currentItem.pixmap))
+                    var xx = new Undo.paint(pathView.currentItem.pixmap)
+                    //xx.undo()
+                    undoManager.add(xx)
+                }
                 onPositionChanged: brush.paintDab(mouseX, mouseY)
                 visible: !panMode
             }

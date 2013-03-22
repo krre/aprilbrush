@@ -1,6 +1,7 @@
 import QtQuick 2.0
 import "components"
 import "utils.js" as Utils
+import "undo.js" as Undo
 
 Window {
     id: root
@@ -48,7 +49,7 @@ Window {
                 onClicked: currentLayer = index
                 onClosed: {
                     layerSet.remove(index)
-                    console.log("createUndoCloseLayer")
+                    undoManager.add(new Undo.deleteLayer(canvasArea.pathView.currentItem.pixmap))
                 }
             }
         }
@@ -84,7 +85,8 @@ Window {
                     if (currentLayer < 0) currentLayer = 0
                     layerSet.insert(currentLayer, { name: "Layer-" + numNextLayer, colorImage: "transparent", enable: true })
                     layersView.decrementCurrentIndex()
-                    console.log("createUndoNewLayer")
+                    undoManager.add(new Undo.addLayer(canvasArea.pathView.currentItem.pixmap))
+
                 }
             }
             // Up button
@@ -95,7 +97,8 @@ Window {
                 onClicked: {
                     if (currentLayer > 0)
                         layerSet.move(currentLayer, currentLayer - 1, 1)
-                    console.log("createUndoUpLayer")
+                    undoManager.add(new Undo.raiseLayer(canvasArea.pathView.currentItem.pixmap))
+
                 }
             }
             // Down button
@@ -106,7 +109,7 @@ Window {
                 onClicked: {
                     if (currentLayer < layersView.count - 1)
                         layerSet.move(currentLayer, currentLayer + 1, 1)
-                    console.log("createUndoDownLayer")
+                    undoManager.add(new Undo.lowerLayer(canvasArea.pathView.currentItem.pixmap))
                 }
             }
             // Clone button
@@ -115,10 +118,8 @@ Window {
                 height: parent.height
                 text: qsTr("Clone")
                 onClicked: {
-                    console.log("Clone layer")
-                    console.log("createUndoCloneLayer")
+                    undoManager.add(new Undo.cloneLayer(canvasArea.pathView.currentItem.pixmap))
                 }
-
             }
         }
     }

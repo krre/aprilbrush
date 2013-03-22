@@ -1,5 +1,6 @@
 import QtQuick 2.0
 import "components"
+import "undo.js" as Undo
 
 Window {
     id: root
@@ -7,6 +8,9 @@ Window {
     property alias currentUndo: undoView.currentIndex
     property alias undoView: undoView
     property int undoDeep: 5
+    property int prevIndex: -1
+    property var commandArray: [] // array for saving undo/redo command (they don't work from ListModel)
+    property bool endList: false
 
     parent: main
     visible: (index == pagesView.currentIndex) && undoManagerVisible
@@ -20,14 +24,36 @@ Window {
     onClosed: undoManagerVisible = false
     onResized: undoManagerSize = Qt.size(width, height)
 
-    function addUndo(nameUndo, pixmapUndo) {
-        if (undoView.currentIndex < undoSet.count - 1)
+    function add(commandUndo) {
+        if (undoView.currentIndex < undoSet.count - 1) {
             undoSet.remove(undoView.currentIndex + 1, undoSet.count - undoView.currentIndex - 1)
-        if (undoSet.count === undoDeep)
+            commandArray.length = undoView.currentIndex + 1
+        }
+        if (undoSet.count === undoDeep) {
+            endList = true
             undoSet.remove(0)
-        undoSet.append({ name: nameUndo, pixmap: pixmapUndo })
+            commandArray.shift()
+        }
+
+        undoSet.append({ name: commandUndo.name })
+        commandArray.push(commandUndo)
         undoView.currentIndex = undoSet.count - 1
-        console.log(undoSet.get(undoSet.count - 1).pixmap)
+        endList = false
+    }
+
+    function run(index) {
+        if ((index < prevIndex) && !endList) {
+            for (var i = prevIndex; i > index; i--) {
+                commandArray[i - 1].undo()
+            }
+        }
+
+        if (index > prevIndex) {
+            for (var i = prevIndex; i < index; i++) {
+                commandArray[i + 1].redo()
+            }
+        }
+        prevIndex = index
     }
 
     Item {
@@ -47,6 +73,7 @@ Window {
             orientation: ListView.Vertical
             clip: true
             spacing: 4
+            onCurrentIndexChanged: run(currentIndex)
         }
 
         Component {
