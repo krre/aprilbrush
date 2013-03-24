@@ -8,7 +8,7 @@ SOURCES += \
 
 HEADERS += \
     cpp/painteditem.h \
-    cpp/brushengine.h \
+    cpp/brushengine.h
 
 OTHER_FILES += \
     qml/main.qml \

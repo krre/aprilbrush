@@ -3,6 +3,7 @@ import QtQuick.Window 2.0
 import BrushEngine 1.0
 import "components"
 import "utils.js" as Utils
+import "undo.js" as Undo
 
 Rectangle {
     id: main

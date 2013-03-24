@@ -4,11 +4,13 @@
 #ifndef NOMINMAX
 #define NOMINMAX // temporary fixing compile error with MSVC
 #endif
+
 #include "windows.h"
 #include "wintab/wintab.h"
 #define PACKETDATA PK_NORMAL_PRESSURE
 #define PACKETMODE 0
 #include "wintab/pktdef.h"
+
 #include <QtGui>
 #include "painteditem.h"
 
@@ -35,9 +37,12 @@ public:
     BrushEngine();
     ~BrushEngine();
     Q_INVOKABLE void paintDab(qreal xPos, qreal yPos);
-    Q_INVOKABLE void setTouch(bool touch) { touchPen = touch; }
-    Q_INVOKABLE void clear() { pixmap->fill(QColor(0, 0, 0, 0)); paintedItem->update(); }
-    Q_INVOKABLE void setSource (PaintedItem *source) { paintedItem = source; pixmap = &paintedItem->pixmapItem; /*qDebug() << paintSpace*/; }
+    Q_INVOKABLE void setTouch(bool touch);
+    Q_INVOKABLE void clear() { paintedItem->pixmapItem.fill(QColor(0, 0, 0, 0)); paintedItem->update(); }
+    Q_INVOKABLE void setSource (PaintedItem *source) { paintedItem = source; }
+    Q_INVOKABLE QPoint startPos() { return minPos; }
+    Q_INVOKABLE QByteArray undoArea() { return undoByteArray; }
+    Q_INVOKABLE QByteArray redoArea() { return redoByteArray; }
 
 signals:
     void sizeBrushSignal();
@@ -78,15 +83,20 @@ private:
     QColor colorBrush;
     int opacityBrush;
     bool eraserBrush;
-    QPixmap *pixmap;
+    QPixmap *prevPixmap;
     PaintedItem *paintedItem;
+    QByteArray undoByteArray;
+    QByteArray redoByteArray;
 
     QPointF nowPos;
     QPointF prevPos;
+    QPoint minPos;
+    QPoint maxPos;
     bool touchPen;
 
     QTime time;
     qreal pressure();
 };
+
 
 #endif // BRUSHENGINE_H

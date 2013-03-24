@@ -103,5 +103,3 @@ Item {
         surface: rect
     }
 }
-
-

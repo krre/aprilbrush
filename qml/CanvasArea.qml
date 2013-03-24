@@ -113,10 +113,7 @@ Item {
                 onPressed: { brush.setSource(pathView.currentItem); brush.paintDab(mouseX, mouseY) }
                 onReleased: {
                     brush.setTouch(false);
-                    //undoManager.add(new Undo.paint(pathView.currentItem.pixmap))
-                    var xx = new Undo.paint(pathView.currentItem.pixmap)
-                    //xx.undo()
-                    undoManager.add(xx)
+                    undoManager.add(new Undo.paint())
                 }
                 onPositionChanged: brush.paintDab(mouseX, mouseY)
                 visible: !panMode

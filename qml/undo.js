@@ -10,13 +10,18 @@ function start(pixmap) {
     }
 }
 
-function paint(pixmap) {
+function paint() {
+    var startPos = brush.startPos()
+    var undoArea = brush.undoArea()
+    var redoArea = brush.redoArea()
     return {
         name: "Paint",
         undo: function() {
+            canvasArea.pathView.currentItem.setPixmapArea(startPos, undoArea)
             console.log("undo-paint");
         },
         redo: function() {
+            canvasArea.pathView.currentItem.setPixmapArea(startPos, redoArea)
             console.log("redo-paint");
         }
     }

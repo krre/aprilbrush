@@ -73,6 +73,8 @@ Item {
                 id: pagesDelegate
                 ListItem {
                     property alias canvasArea: canvasArea
+                    property alias undoManager: undoManager
+                    property alias layerManager: layerManager
                     width: 100
                     height: pagesView.height
                     color: ListView.isCurrentItem ? "transparent" : "lightgray"

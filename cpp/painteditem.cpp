@@ -1,5 +1,4 @@
 #include "painteditem.h"
-#include "brushengine.h"
 #include <QDebug>
 
 PaintedItem::PaintedItem(QQuickItem *parent) :
@@ -14,9 +13,26 @@ void PaintedItem::paint(QPainter *painter)
         pixmapItem = QPixmap(contentsSize());
         pixmapItem.fill(fillColor());
     }
+
     painter->drawPixmap(0, 0, pixmapItem);
-    //pixmap.save("D:\pix.png");
-    //qDebug() << "update " << this;
+}
+
+void PaintedItem::setPixmapArea(QPoint startPos, QByteArray area)
+{
+    QPixmap pixmap;
+    pixmap.loadFromData(qUncompress(area));
+
+    qDebug() << "paintedItem " << startPos << pixmap << area.size();
+
+    QPainter painter(&pixmapItem);
+    painter.setCompositionMode(QPainter::CompositionMode_Source);
+    painter.fillRect(QRect(startPos, pixmap.size()), Qt::transparent);
+    painter.setCompositionMode(QPainter::CompositionMode_SourceOver);
+    painter.drawPixmap(startPos.x(), startPos.y(), pixmap);
+
+    //pixmap.save("d:/pix.png");
+
+    update();
 }
 
 

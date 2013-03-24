@@ -7,10 +7,11 @@ Window {
     title: "Undo History"
     property alias currentUndo: undoView.currentIndex
     property alias undoView: undoView
-    property int undoDeep: 5
+    property int undoDeep: 50
     property int prevIndex: -1
     property var commandArray: [] // array for saving undo/redo command (they don't work from ListModel)
     property bool endList: false
+    property bool newUndo: false
 
     parent: main
     visible: (index == pagesView.currentIndex) && undoManagerVisible
@@ -35,10 +36,12 @@ Window {
             commandArray.shift()
         }
 
+        newUndo = true
         undoSet.append({ name: commandUndo.name })
         commandArray.push(commandUndo)
         undoView.currentIndex = undoSet.count - 1
         endList = false
+        newUndo = false
     }
 
     function run(index) {
@@ -73,7 +76,7 @@ Window {
             orientation: ListView.Vertical
             clip: true
             spacing: 4
-            onCurrentIndexChanged: run(currentIndex)
+            onCurrentIndexChanged: if (!newUndo) run(currentIndex)
         }
 
         Component {
