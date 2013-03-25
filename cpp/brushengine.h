@@ -43,6 +43,7 @@ public:
     Q_INVOKABLE QPoint startPos() { return minPos; }
     Q_INVOKABLE QByteArray undoArea() { return undoByteArray; }
     Q_INVOKABLE QByteArray redoArea() { return redoByteArray; }
+    //Q_INVOKABLE QByteArray startArea() { return compressPixmap(paintedItem->pixmapItem); }
 
 signals:
     void sizeBrushSignal();
@@ -74,6 +75,8 @@ private:
     PtrWTOpen ptrWTOpen;
     PtrWTPacket ptrWTPacket;
     PtrWTQueuePacketsEx ptrWTQueuePacketsEx;
+
+    QByteArray compressPixmap(QPixmap pixmap);
 
     int sizeBrush;
     int spacingBrush;

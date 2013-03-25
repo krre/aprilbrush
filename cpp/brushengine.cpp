@@ -103,22 +103,23 @@ void BrushEngine::setTouch(bool touch)
         maxPos.setY(maxPos.y() + sizeBrush / 2);
 
         // Undo area compress
-        QPixmap undoPixmap = prevPixmap->copy(QRect(minPos, maxPos));
-        QBuffer buffer(&undoByteArray);
-        buffer.open(QIODevice::WriteOnly);
-        undoPixmap.save(&buffer, "TIF");
-        buffer.close();
-        undoByteArray = qCompress(undoByteArray);
-
+        undoByteArray = compressPixmap(prevPixmap->copy(QRect(minPos, maxPos)));
         // Redo area compress
-        QPixmap redoPixmap = paintedItem->pixmapItem.copy(QRect(minPos, maxPos));
-        buffer.setBuffer(&redoByteArray);
-        buffer.open(QIODevice::WriteOnly);
-        redoPixmap.save(&buffer, "TIF");
-        redoByteArray = qCompress(redoByteArray);
+        redoByteArray = compressPixmap(paintedItem->pixmapItem.copy(QRect(minPos, maxPos)));
 
         delete prevPixmap;
     }
+}
+
+QByteArray BrushEngine::compressPixmap(QPixmap pixmap)
+{
+    QByteArray byteArray;
+    QBuffer buffer(&byteArray);
+    buffer.open(QIODevice::WriteOnly);
+    pixmap.save(&buffer, "TIF");
+    buffer.close();
+    byteArray = qCompress(byteArray);
+    return byteArray;
 }
 
 void BrushEngine::wintabInit()

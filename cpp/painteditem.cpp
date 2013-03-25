@@ -22,7 +22,7 @@ void PaintedItem::setPixmapArea(QPoint startPos, QByteArray area)
     QPixmap pixmap;
     pixmap.loadFromData(qUncompress(area));
 
-    qDebug() << "paintedItem " << startPos << pixmap << area.size();
+    //qDebug() << "paintedItem " << startPos << pixmap << area.size();
 
     QPainter painter(&pixmapItem);
     painter.setCompositionMode(QPainter::CompositionMode_Source);

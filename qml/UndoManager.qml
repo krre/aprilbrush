@@ -45,13 +45,14 @@ Window {
     }
 
     function run(index) {
+        //console.log("index: " + index + " prevIndex: " + prevIndex + " " + " endList: " + endList + " newUndo: " + newUndo)
         if ((index < prevIndex) && !endList) {
             for (var i = prevIndex; i > index; i--) {
-                commandArray[i - 1].undo()
+                commandArray[i].undo()
             }
         }
 
-        if (index > prevIndex) {
+        if ((index > prevIndex) && !newUndo) {
             for (var i = prevIndex; i < index; i++) {
                 commandArray[i + 1].redo()
             }
@@ -76,7 +77,7 @@ Window {
             orientation: ListView.Vertical
             clip: true
             spacing: 4
-            onCurrentIndexChanged: if (!newUndo) run(currentIndex)
+            onCurrentIndexChanged: run(currentIndex)
         }
 
         Component {
