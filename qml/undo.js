@@ -1,11 +1,11 @@
-function start(pixmap) {
+function start() {
     return {
         name: "Start",
         undo: function() {
-            console.log("undo-start");
+            //console.log("undo-start");
         },
         redo: function() {
-            console.log("redo-start");
+            //console.log("redo-start");
         }
     }
 }
@@ -18,23 +18,27 @@ function paint() {
         name: "Paint",
         undo: function() {
             canvasArea.pathView.currentItem.setPixmapArea(startPos, undoArea)
-            console.log("undo-paint");
+            //console.log("undo-paint");
         },
         redo: function() {
             canvasArea.pathView.currentItem.setPixmapArea(startPos, redoArea)
-            console.log("redo-paint");
+            //console.log("redo-paint");
         }
     }
 }
 
 function clear(pixmap) {
+    var startPos = Qt.point(0, 0)
+    var undoArea = brush.currentArea()
     return {
         name: "Clear",
         undo: function() {
-            console.log("undo-clear");
+            canvasArea.pathView.currentItem.setPixmapArea(startPos, undoArea)
+            //console.log("undo-clear");
         },
         redo: function() {
-            console.log("redo-clear");
+            brush.clear()
+            //console.log("redo-clear");
         }
     }
 }

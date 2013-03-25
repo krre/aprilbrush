@@ -22,7 +22,7 @@ Item {
     focus: index == pagesView.currentIndex
 
     Component.onCompleted: {
-        undoManager.add(new Undo.start(pathView.currentItem.pixmap))
+        undoManager.add(new Undo.start())
     }
 
     Keys.onPressed: {
@@ -30,7 +30,7 @@ Item {
             case Qt.Key_B: eraserMode = false; break
             case Qt.Key_E: eraserMode = true; break
             case Qt.Key_Delete:
-                undoManager.add(new Undo.clear(pathView.currentItem.pixmap))
+                undoManager.add(new Undo.clear())
                 brush.setSource(pathView.currentItem)
                 brush.clear()
                 break
