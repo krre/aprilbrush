@@ -46,7 +46,7 @@ Window {
             ListItem {
                 text: name
                 color: ListView.isCurrentItem ? "transparent" : "lightgray"
-                onClicked: currentLayer = index
+                onClicked: { undoManager.add(new Undo.changeLayer(currentLayer, index)); currentLayer = index }
                 onClosed: {
                     layerSet.remove(index)
                     undoManager.add(new Undo.deleteLayer(canvasArea.pathView.currentItem.pixmap))

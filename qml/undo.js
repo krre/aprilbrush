@@ -27,7 +27,24 @@ function paint() {
     }
 }
 
-function clear(pixmap) {
+function changeLayer(prevLayer, newLayer) {
+    var undoLayer = prevLayer
+    var redoLayer = newLayer
+    return {
+        name: "Change Layer",
+        undo: function() {
+            currentLayer = undoLayer
+            console.log("undo-change-layer");
+        },
+        redo: function() {
+            currentLayer = redoLayer
+            console.log("redo-change-layer");
+        }
+    }
+}
+
+
+function clear() {
     var startPos = Qt.point(0, 0)
     var undoArea = brush.currentArea()
     return {
