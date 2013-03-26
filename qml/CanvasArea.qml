@@ -87,12 +87,14 @@ Item {
         model: layerSet
         delegate: paintSpaceDelegate
 
+        highlightRangeMode: PathView.NoHighlightRange
         path: Path {
             PathAttribute { name: "z"; value: 9999.0 }
             PathLine { x: 0; y: 0 }
             PathAttribute { name: "z"; value: 0.0 }
         }
         currentIndex: layerManager.currentLayer
+        //onCurrentIndexChanged: console.log("pathview index: " + currentIndex)
     }
 
     Component {

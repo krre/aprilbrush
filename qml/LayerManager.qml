@@ -20,6 +20,7 @@ Window {
     onReleased: layerManagerPos = Qt.point(x, y)
     onResized: layerManagerSize = Qt.size(width, height)
     onClosed: layerManagerVisible = false
+    //onCurrentLayerChanged: console.log("currentLayer: " + currentLayer)
 
     Column {
         anchors.fill: parent
@@ -39,6 +40,7 @@ Window {
             orientation: ListView.Vertical
             clip: true
             spacing: 4
+            //onCurrentIndexChanged: console.log("layerview index: " + currentIndex)
         }
 
         Component {
@@ -46,10 +48,12 @@ Window {
             ListItem {
                 text: name
                 color: ListView.isCurrentItem ? "transparent" : "lightgray"
+                closable: ListView.isCurrentItem
                 onClicked: { undoManager.add(new Undo.changeLayer(currentLayer, index)); currentLayer = index }
                 onClosed: {
+                    undoManager.add(new Undo.deleteLayer(index))
                     layerSet.remove(index)
-                    undoManager.add(new Undo.deleteLayer(canvasArea.pathView.currentItem.pixmap))
+
                 }
             }
         }
@@ -85,8 +89,7 @@ Window {
                     if (currentLayer < 0) currentLayer = 0
                     layerSet.insert(currentLayer, { name: "Layer-" + numNextLayer, colorImage: "transparent", enable: true })
                     layersView.decrementCurrentIndex()
-                    undoManager.add(new Undo.addLayer(canvasArea.pathView.currentItem.pixmap))
-
+                    undoManager.add(new Undo.addLayer(currentLayer))
                 }
             }
             // Up button
@@ -95,9 +98,10 @@ Window {
                 height: parent.height
                 text: qsTr("Up")
                 onClicked: {
-                    if (currentLayer > 0)
+                    if (currentLayer > 0) {
                         layerSet.move(currentLayer, currentLayer - 1, 1)
-                    undoManager.add(new Undo.raiseLayer(canvasArea.pathView.currentItem.pixmap))
+                        undoManager.add(new Undo.raiseLayer())
+                    }
 
                 }
             }
@@ -107,9 +111,10 @@ Window {
                 height: parent.height
                 text: qsTr("Down")
                 onClicked: {
-                    if (currentLayer < layersView.count - 1)
+                    if (currentLayer < layersView.count - 1) {
                         layerSet.move(currentLayer, currentLayer + 1, 1)
-                    undoManager.add(new Undo.lowerLayer(canvasArea.pathView.currentItem.pixmap))
+                        undoManager.add(new Undo.lowerLayer())
+                    }
                 }
             }
             // Clone button

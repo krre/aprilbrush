@@ -27,23 +27,6 @@ function paint() {
     }
 }
 
-function changeLayer(prevLayer, newLayer) {
-    var undoLayer = prevLayer
-    var redoLayer = newLayer
-    return {
-        name: "Change Layer",
-        undo: function() {
-            currentLayer = undoLayer
-            console.log("undo-change-layer");
-        },
-        redo: function() {
-            currentLayer = redoLayer
-            console.log("redo-change-layer");
-        }
-    }
-}
-
-
 function clear() {
     var startPos = Qt.point(0, 0)
     var undoArea = brush.currentArea()
@@ -60,55 +43,103 @@ function clear() {
     }
 }
 
-function addLayer(pixmap) {
+function changeLayer(prevLayer, newLayer) {
+    var undoLayer = prevLayer
+    var redoLayer = newLayer
+    return {
+        name: "Change Layer",
+        undo: function() {
+            currentLayer = undoLayer
+            //console.log("undo-change-layer");
+        },
+        redo: function() {
+            currentLayer = redoLayer
+            //console.log("redo-change-layer");
+        }
+    }
+}
+
+function addLayer(numLayer) {
+    var redoLayer = numLayer
+    var layerName = layerSet.get(numLayer).name
     return {
         name: "Add Layer",
         undo: function() {
-            console.log("undo-add-layer");
+            layerSet.remove(redoLayer)
+            //console.log("undo-add-layer");
         },
         redo: function() {
-            console.log("redo-add-layer");
+            layerSet.insert(redoLayer, { name: layerName, colorImage: "transparent", enable: true })
+            currentLayer = redoLayer
+            //console.log("redo-add-layer");
         }
     }
 }
 
-function deleteLayer(pixmap) {
+function deleteLayer(numLayer) {
+    var redoLayer = numLayer
+    //var isCurrent = (currentLayer === numLayer)
+    var layerName = layerSet.get(numLayer).name
+    //var undoArea
+    //console.log("currentLayer: " + currentLayer + " redoLayer: " + redoLayer + " isCurrent: " + isCurrent)
+    /*
+    if (!isCurrent) {
+        var currentLayerIndex = currentLayer
+        currentLayer = redoLayer
+        brush.setSource(canvasArea.pathView.currentItem)
+        undoArea = brush.currentArea()
+        currentLayer = currentLayerIndex
+    }
+    else*/
+        var undoArea = brush.currentArea()
     return {
         name: "Delete Layer",
         undo: function() {
-            console.log("undo-delete-layer");
+            var currentLayerIndex = currentLayer
+            layerSet.insert(redoLayer, { name: layerName, colorImage: "transparent", enable: true })
+            currentLayer = redoLayer
+            canvasArea.pathView.currentItem.setPixmapArea(Qt.point(0, 0), undoArea)
+/*
+            if (!isCurrent)
+                currentLayer = currentLayerIndex*/
+
         },
         redo: function() {
-            console.log("redo-delete-layer");
+            layerSet.remove(redoLayer)
+            //console.log("redo-delete-layer");
         }
     }
 }
 
-function raiseLayer(pixmap) {
+function raiseLayer() {
     return {
         name: "Raise Layer",
         undo: function() {
-            console.log("undo-raise-layer");
+            layerSet.move(currentLayer, currentLayer + 1, 1)
+            //console.log("undo-raise-layer");
         },
         redo: function() {
-            console.log("redo-raise-layer");
+            layerSet.move(currentLayer, currentLayer - 1, 1)
+            //console.log("redo-raise-layer");
         }
     }
 }
 
-function lowerLayer(pixmap) {
+function lowerLayer() {
     return {
         name: "Lower Layer",
         undo: function() {
-            console.log("undo-lower-layer");
+            layerSet.move(currentLayer, currentLayer - 1, 1)
+            //console.log("undo-lower-layer");
         },
         redo: function() {
-            console.log("redo-lower-layer");
+            layerSet.move(currentLayer, currentLayer + 1, 1)
+            //console.log("redo-lower-layer");
         }
     }
 }
 
-function renameLayer(pixmap) {
+function renameLayer() {
     return {
         name: "Rename Layer",
         undo: function() {
@@ -120,7 +151,7 @@ function renameLayer(pixmap) {
     }
 }
 
-function cloneLayer(pixmap) {
+function cloneLayer() {
     return {
         name: "Clone Layer",
         undo: function() {
