@@ -1,6 +1,7 @@
 import QtQuick 2.0
 import "components"
 import PaintedItem 1.0
+import "utils.js" as Utils
 import "undo.js" as Undo
 
 Item {
@@ -11,6 +12,8 @@ Item {
     property point pan: Qt.point(0, 0)
     property int mirror: 1
     property real rotation: 0
+    property bool saved: false
+    property string oraPath
 
     parent: checkerBoard
     width: parent.width
@@ -34,12 +37,13 @@ Item {
                 brush.setSource(pathView.currentItem)
                 brush.clear()
                 break
-            case Qt.Key_S: brushSettings.visible = !brushSettings.visible; break
+            case Qt.Key_S: if (!event.modifiers) brushSettings.visible = !brushSettings.visible; break
             case Qt.Key_C: colorPicker.visible = !colorPicker.visible; break
             case Qt.Key_L: layerManagerVisible = !layerManagerVisible; break
             case Qt.Key_U: undoManagerVisible = !undoManagerVisible; break
             case Qt.Key_P: brushLibrary.visible = !brushLibrary.visible; break
             case Qt.Key_D: fileDialog.visible = !fileDialog.visible; break
+
             case Qt.Key_Plus: zoom *= 1.5; break
             case Qt.Key_Minus: zoom /= 1.5; break
             case Qt.Key_0: zoom = 1; pan = Qt.point(0, 0); mirror = 1; rotation = 0; break
@@ -49,6 +53,26 @@ Item {
         }
         if ((event.modifiers & Qt.ControlModifier) && (event.key === Qt.Key_Z)) undoManager.undoView.decrementCurrentIndex()
         if ((event.modifiers & Qt.ControlModifier) && (event.key === Qt.Key_Y)) undoManager.undoView.incrementCurrentIndex()
+        if ((event.modifiers & Qt.ControlModifier) && (event.key === Qt.Key_S)) {
+            if (oraPath === "") {
+                fileDialog.openMode = false;
+                fileDialog.visible = true
+            }
+            else
+                Utils.saveOra()
+            return
+        }
+        if ((event.modifiers & Qt.AltModifier) && (event.key === Qt.Key_S)) {
+            fileDialog.openMode = false;
+            fileDialog.visible = true
+            return
+        }
+
+        if ((event.modifiers & Qt.ControlModifier) && (event.key === Qt.Key_O)) {
+            fileDialog.openMode = true;
+            fileDialog.visible = true
+            return
+        }
     }
 
     Keys.onReleased: if (event.key === Qt.Key_Space) panMode = false

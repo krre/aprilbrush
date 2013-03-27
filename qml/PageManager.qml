@@ -5,6 +5,7 @@ import "utils.js" as Utils
 
 Item {
     property alias pagesView: pagesView
+    //property alias currentPage: pagesView.currentItem
 
     width: 600
     height: 40
@@ -79,7 +80,7 @@ Item {
                     height: pagesView.height
                     color: ListView.isCurrentItem ? "transparent" : "lightgray"
                     text: name
-                    onClicked: pagesView.currentIndex = index
+                    onClicked: { pagesView.currentIndex = index; console.log(canvasArea.oraPath) }
                     onClosed: pagesModel.remove(index)
 
                     CanvasArea {

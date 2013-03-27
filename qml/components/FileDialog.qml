@@ -9,7 +9,7 @@ Window {
     property string currentFilePath: currentFolderPath +
                                      (currentFolderPath.substr(-1) === "/" ? "" : "/") + fileNameText.text
     property string currentFolderPath: folderModel.folder.toString().replace("file:///", "")
-    property string prevFolderPath
+    //property string prevFolderPath
     property string currentFileName
     property bool openMode: true
 

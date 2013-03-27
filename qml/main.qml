@@ -16,6 +16,8 @@ Rectangle {
     property size undoManagerSize: Qt.size(200, 200)
     property bool eraserMode: false
 
+    property variant currentPage: pageManager.pagesView.currentItem
+
     width: 1000
     height: 600
     color: "lightgray"
@@ -39,7 +41,6 @@ Rectangle {
         width: 600
         height: 34
         anchors.horizontalCenter: parent.horizontalCenter
-
     }
 
     ListModel {
@@ -59,7 +60,6 @@ Rectangle {
         z: 2
         height: 250
         //visible: false
-
     }
 
     ColorPicker {
@@ -70,7 +70,6 @@ Rectangle {
         defaultHeight: 220
         //visible: false
         onColorChanged: brush.color = colorPicker.pickColor
-
     }
 
     BrushLibrary {
@@ -86,10 +85,7 @@ Rectangle {
         z: 5
         //openMode: true
         openMode: false
-        visible: true
-        onClicked: console.log(currentFilePath)
+        visible: false
+        onClicked: openMode ? Utils.openOra() : Utils.saveAsOra()
     }
 }
-
-
-
