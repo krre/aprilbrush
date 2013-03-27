@@ -79,7 +79,15 @@ Rectangle {
         y: 320
         z: 4
         visible: false
+    }
 
+    FileDialog {
+        id: fileDialog
+        z: 5
+        //openMode: true
+        openMode: false
+        visible: true
+        onClicked: console.log(currentFilePath)
     }
 }
 

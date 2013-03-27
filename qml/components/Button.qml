@@ -2,7 +2,7 @@ import QtQuick 2.0
 
 Rectangle {
     id: root
-    property alias text: label.text
+    property alias title: label.text
     signal clicked()
 
     width: 50

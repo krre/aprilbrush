@@ -39,6 +39,7 @@ Item {
             case Qt.Key_L: layerManagerVisible = !layerManagerVisible; break
             case Qt.Key_U: undoManagerVisible = !undoManagerVisible; break
             case Qt.Key_P: brushLibrary.visible = !brushLibrary.visible; break
+            case Qt.Key_D: fileDialog.visible = !fileDialog.visible; break
             case Qt.Key_Plus: zoom *= 1.5; break
             case Qt.Key_Minus: zoom /= 1.5; break
             case Qt.Key_0: zoom = 1; pan = Qt.point(0, 0); mirror = 1; rotation = 0; break

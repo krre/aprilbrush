@@ -48,7 +48,9 @@ Item {
                     anchors.verticalCenter: parent.verticalCenter
                     anchors.margins: indent
                     text: title
-                    font.pointSize: 8
+                    font.pointSize: 9
+                    //font.bold: true
+
                 }
             }
             // Content stack

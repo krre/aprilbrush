@@ -76,7 +76,7 @@ Window {
             Button {
                 width: parent.width / 4 - 4
                 height: parent.height
-                text: qsTr("New")
+                title: qsTr("New")
                 onClicked: {
                     // Calculate next number layer
                     var maxNumLayer = 0;
@@ -96,7 +96,7 @@ Window {
             Button {
                 width: parent.width / 4 - 4
                 height: parent.height
-                text: qsTr("Up")
+                title: qsTr("Up")
                 onClicked: {
                     if (currentLayer > 0) {
                         layerSet.move(currentLayer, currentLayer - 1, 1)
@@ -109,7 +109,7 @@ Window {
             Button {
                 width: parent.width / 4 - 4
                 height: parent.height
-                text: qsTr("Down")
+                title: qsTr("Down")
                 onClicked: {
                     if (currentLayer < layersView.count - 1) {
                         layerSet.move(currentLayer, currentLayer + 1, 1)
@@ -121,7 +121,7 @@ Window {
             Button {
                 width: parent.width / 4 - 4
                 height: parent.height
-                text: qsTr("Clone")
+                title: qsTr("Clone")
                 onClicked: {
                     undoManager.add(new Undo.cloneLayer(canvasArea.pathView.currentItem.pixmap))
                 }
