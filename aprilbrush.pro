@@ -5,10 +5,12 @@ SOURCES += \
     main.cpp \
     cpp/painteditem.cpp \
     cpp/brushengine.cpp \
+    cpp/openraster/orawriteread.cpp
 
 HEADERS += \
     cpp/painteditem.h \
-    cpp/brushengine.h
+    cpp/brushengine.h \
+    cpp/openraster/orawriteread.h
 
 OTHER_FILES += \
     qml/main.qml \

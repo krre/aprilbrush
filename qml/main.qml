@@ -1,6 +1,7 @@
 import QtQuick 2.0
 import QtQuick.Window 2.0
 import BrushEngine 1.0
+import OraWriteRead 1.0
 import "components"
 import "utils.js" as Utils
 import "undo.js" as Undo
@@ -83,9 +84,14 @@ Rectangle {
     FileDialog {
         id: fileDialog
         z: 5
-        //openMode: true
         openMode: false
         visible: false
-        onClicked: openMode ? Utils.openOra() : Utils.saveAsOra()
+        onClicked: {
+            openMode ? Utils.openOra() : Utils.saveAsOra()
+        }
+    }
+
+    OraWriteRead {
+        id: oraWriteRead
     }
 }

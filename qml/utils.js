@@ -27,19 +27,6 @@ function folderFromPath(path) {
     return path.replace(/^.*[\\\/]/, '')
 }
 
-// Save OpenRaster file
-function saveOra() {
-    console.log(currentPage.canvasArea.oraPath)
-}
-
-// Save OpenRaster file with new name
-function saveAsOra() {
-    var path = fileDialog.currentFilePath
-    currentPage.canvasArea.oraPath = path
-    saveOra()
-    fileDialog.visible = false
-}
-
 // Open OpenRaster file
 function openOra() {
     var path = fileDialog.currentFilePath
@@ -47,3 +34,32 @@ function openOra() {
     fileDialog.visible = false
 }
 
+// Save OpenRaster file with new name
+function saveAsOra() {
+    var path = fileDialog.currentFilePath
+    if (path.substr(-3) !== ".ora")
+        path += ".ora"
+    currentPage.canvasArea.oraPath = path
+    saveOra()
+    fileDialog.visible = false
+}
+
+// Save OpenRaster file
+function saveOra() {
+    //console.log(currentPage.canvasArea.oraPath)
+    var canvas = currentPage.canvasArea.pathView
+    canvas.currentIndexBind = false
+    var currentLayer = canvas.currentIndex
+    var paintedItemList = []
+    for (var i = 0; i < canvas.count; i++) {
+        canvas.currentIndex = i
+        paintedItemList.push(canvas.currentItem)
+    }
+    canvas.currentIndexBind = true
+
+    oraWriteRead.oraWrite(paintedItemList)
+
+    currentPage.canvasArea.focusBind = false
+    currentPage.canvasArea.focus = true
+    currentPage.canvasArea.focusBind = true
+}

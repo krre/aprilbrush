@@ -13,7 +13,9 @@ Item {
     property int mirror: 1
     property real rotation: 0
     property bool saved: false
-    property string oraPath
+    //property string oraPath
+    property string oraPath: "c:/1.ora"
+    property bool focusBind: true
 
     parent: checkerBoard
     width: parent.width
@@ -22,7 +24,10 @@ Item {
     y: imageSize.height / 2
     z: 0
     visible: index == pagesView.currentIndex
-    focus: index == pagesView.currentIndex
+    Binding on focus {
+        when: focusBind
+        value: index == pagesView.currentIndex
+    }
 
     Component.onCompleted: {
         undoManager.add(new Undo.start())
@@ -60,18 +65,15 @@ Item {
             }
             else
                 Utils.saveOra()
-            return
         }
         if ((event.modifiers & Qt.AltModifier) && (event.key === Qt.Key_S)) {
             fileDialog.openMode = false;
             fileDialog.visible = true
-            return
         }
 
         if ((event.modifiers & Qt.ControlModifier) && (event.key === Qt.Key_O)) {
             fileDialog.openMode = true;
             fileDialog.visible = true
-            return
         }
     }
 
@@ -107,8 +109,10 @@ Item {
         }
     }
 
-    PathView {
+    PathView {        
         id: pathView
+        property bool currentIndexBind: true
+
         model: layerSet
         delegate: paintSpaceDelegate
 
@@ -118,7 +122,12 @@ Item {
             PathLine { x: 0; y: 0 }
             PathAttribute { name: "z"; value: 0.0 }
         }
-        currentIndex: layerManager.currentLayer
+        //currentIndex: layerManager.currentLayer
+        Binding on currentIndex {
+            when: pathView.currentIndexBind
+            value: layerManager.currentLayer
+        }
+        //onCurrentIndexChanged: console.log("change")
         //onCurrentIndexChanged: console.log("pathview index: " + currentIndex)
     }
 
