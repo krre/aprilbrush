@@ -14,7 +14,7 @@ Item {
     property real rotation: 0
     property bool saved: false
     //property string oraPath
-    property string oraPath: "c:/1.ora"
+    property string oraPath: "c:/1/1.ora"
     property bool focusBind: true
 
     parent: checkerBoard

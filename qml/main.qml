@@ -1,7 +1,7 @@
 import QtQuick 2.0
 import QtQuick.Window 2.0
 import BrushEngine 1.0
-import OraWriteRead 1.0
+import OpenRaster 1.0
 import "components"
 import "utils.js" as Utils
 import "undo.js" as Undo
@@ -91,7 +91,7 @@ Rectangle {
         }
     }
 
-    OraWriteRead {
-        id: oraWriteRead
+    OpenRaster {
+        id: openRaster
     }
 }

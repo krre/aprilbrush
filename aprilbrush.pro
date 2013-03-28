@@ -5,18 +5,19 @@ SOURCES += \
     main.cpp \
     cpp/painteditem.cpp \
     cpp/brushengine.cpp \
-    cpp/openraster/orawriteread.cpp
+    cpp/openraster/openraster.cpp
 
 HEADERS += \
     cpp/painteditem.h \
     cpp/brushengine.h \
-    cpp/openraster/orawriteread.h
+    cpp/openraster/openraster.h
 
 OTHER_FILES += \
     qml/main.qml \
     qml/ColorPicker.qml \
     qml/BrushSettings.qml \
     qml/utils.js \
+    qml/undo.js \
     qml/components/Window.qml\
     qml/components/Slider.qml \
     qml/components/CheckerBoard.qml \
@@ -29,14 +30,10 @@ OTHER_FILES += \
     qml/UndoManager.qml \
     qml/components/ListItem.qml \
     qml/components/ListItemComponent.qml \
-    qml/components/FileDialog.qml
+    qml/components/FileDialog.qml \
+    qml/components/Shadow.qml
 
 #QMAKE_POST_LINK += $$QMAKE_COPY_DIR $$PWD/qml $(DESTDIR) $$escape_expand(\\n\\t)
 
-OTHER_FILES += \
-    qml/components/Shadow.qml
-
-OTHER_FILES += \
-    qml/undo.js
 
 

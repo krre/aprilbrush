@@ -51,13 +51,18 @@ function saveOra() {
     canvas.currentIndexBind = false
     var currentLayer = canvas.currentIndex
     var paintedItemList = []
+    var layersNameList = []
+
     for (var i = 0; i < canvas.count; i++) {
+        // paintedItem objects
         canvas.currentIndex = i
         paintedItemList.push(canvas.currentItem)
+        // layers name
+        layersNameList.push(pagesModel.get(currentPage).layerSet.get(i).name)
     }
     canvas.currentIndexBind = true
 
-    oraWriteRead.oraWrite(paintedItemList)
+    openRaster.write(currentPage.canvasArea.oraPath, imageSize, paintedItemList, layersNameList)
 
     currentPage.canvasArea.focusBind = false
     currentPage.canvasArea.focus = true
