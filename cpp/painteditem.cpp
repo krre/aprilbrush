@@ -4,7 +4,7 @@
 PaintedItem::PaintedItem(QQuickItem *parent) :
     QQuickPaintedItem(parent)
 {
-    //qDebug() << "new " << this;
+    qDebug() << "new " << this;
 }
 
 void PaintedItem::paint(QPainter *painter)
@@ -14,10 +14,11 @@ void PaintedItem::paint(QPainter *painter)
         pixmapItem = QPixmap(contentsSize());
         pixmapItem.fill(fillColor());
         //pixmapItem.fill(Qt::red);
+        //update();
     }
 
     painter->drawPixmap(0, 0, pixmapItem);
-    //qDebug() << "update" << this;
+    qDebug() << "paint" << this;
     //pixmapItem.save("d:/pix.png");
 }
 
@@ -38,7 +39,7 @@ void PaintedItem::setPixmapArea(QPoint startPos, QByteArray area)
         pixmapItem = QPixmap(pixmap);
 
     //qDebug() << "paintedItem " << startPos << pixmap << area.size() << pixmapItem << this;
-    //qDebug() << "setPixmapArea " << this;
+    //qDebug() << "painedItem " << this;
 
     //pixmapItem.save("d:/pix.png");
 

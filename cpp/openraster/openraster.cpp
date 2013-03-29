@@ -19,6 +19,8 @@ void OpenRaster::write(const QString oraPath, const QSize imageSize,
     // stack.xml file
     QXmlStreamWriter stream(&xmlByteArray);
     stream.setAutoFormatting(true);
+    //stream.setCodec("UTF-8");
+
     stream.writeStartDocument();
 
     stream.writeStartElement("image");
@@ -65,3 +67,41 @@ void OpenRaster::write(const QString oraPath, const QSize imageSize,
 
     zipWriter.close();
 }
+
+void OpenRaster::readAttributes(const QString oraPath)
+{
+    QZipReader zipReader(oraPath, QIODevice::ReadOnly);
+
+    QByteArray xmlByteArray = zipReader.fileData("stack.xml");
+    QXmlStreamReader stream(xmlByteArray);
+    while (!stream.atEnd())
+    {
+        if (stream.isStartElement())
+            if (stream.name() == "layer")
+            {
+                    //qDebug() << stream.attributes().value("name");
+                    QString name = stream.attributes().value("name").toString();
+                    //oraLayersNameList.append(stream.attributes().value("name").toString());
+                    oraLayersNameList.append(name);
+                    QString pngPath = stream.attributes().value("src").toString();
+                    QByteArray pngByteArray = zipReader.fileData(pngPath);
+                    QPixmap pixmap;
+                    pixmap.loadFromData(pngByteArray, "PNG");
+                    //pixmap.save("C:/1/" + name + ".png");
+                    oraPixmapsList.append(pixmap);
+            }
+
+        stream.readNextStartElement();
+    }
+    zipReader.close();
+}
+/*
+void OpenRaster::readPixmap(const QString oraPath, const QString layerName)
+{
+}
+*/
+void OpenRaster::setPixmap(PaintedItem *paintedItem, int index)
+{
+    paintedItem->pixmapItem = QPixmap(oraPixmapsList.at(index));
+}
+

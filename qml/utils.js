@@ -31,6 +31,39 @@ function folderFromPath(path) {
 function openOra() {
     var path = fileDialog.currentFilePath
     currentPage.canvasArea.oraPath = path
+    // Read layer attributes
+    openRaster.readAttributes(path)
+    var layersList = openRaster.layersNameList()
+    console.log(layersList)
+
+    pagesModel.append({name: fileDialog.currentFileName,
+                          layerSet: [],
+                          undoSet: []
+                      })
+
+    //pageManager.pagesView.currentIndex = pagesModel.count - 1
+    var canvas = currentPage.canvasArea.pathView
+    canvas.currentIndexBind = false
+
+    for (var i = 0; i < layersList.length; i++)
+    {
+        //pagesModel.get(pageManager.pagesView.currentIndex).layerSet.append({ name: layersList[i], colorImage: "transparent", enable: true })
+        pagesModel.get(pagesModel.count - 1).layerSet.append({ name: layersList[i], colorImage: "transparent", enable: true })
+        canvas.currentIndex = i
+        openRaster.setPixmap(canvas.currentItem, i)
+        //console.log(canvas.currentItem)
+    }
+
+
+/*
+    for (i = 0; i < canvas.count; i++) {
+        canvas.currentIndex = i
+        console.log(canvas.currentItem)
+        openRaster.setPixmap(canvas.currentItem, i)
+    }*/
+    canvas.currentIndexBind = true
+    console.log("open complete")
+
     fileDialog.visible = false
 }
 
