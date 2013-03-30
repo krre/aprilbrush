@@ -103,5 +103,9 @@ void OpenRaster::readPixmap(const QString oraPath, const QString layerName)
 void OpenRaster::setPixmap(PaintedItem *paintedItem, int index)
 {
     paintedItem->pixmapItem = QPixmap(oraPixmapsList.at(index));
+
+    QString filepath = QString("c:/1/pixmap-") + QString::number(index) + ".png";
+    paintedItem->pixmapItem.save(filepath);
+    qDebug() << "painted item: " << paintedItem << filepath;
 }
 

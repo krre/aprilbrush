@@ -111,6 +111,25 @@ void BrushEngine::setTouch(bool touch)
     }
 }
 
+void BrushEngine::setLayerId(QString arg)
+{
+     m_layerId = arg;
+     QQuickItem *item0 = parent()->findChild<QQuickItem*>("pagesView");
+     QQuickItem *contentItem = qvariant_cast<QQuickItem*>(item0->property("contentItem"));
+     foreach (QQuickItem *item1, contentItem->childItems())
+         if (item1->objectName() == "listItem")
+             foreach (QObject *item2, item1->children())
+                 if (item2->objectName() == "canvas")
+                     foreach (QObject *item3, item2->children())
+                         if (item3->objectName() == "pathView") {
+                             QQuickItem *item4 = qobject_cast<QQuickItem*>(item3);
+                             foreach (QQuickItem *item5, item4->childItems())
+                                 if (item5->objectName() == m_layerId)
+                                     paintedItem = qobject_cast<PaintedItem*>(item5);
+
+                        }
+}
+
 QByteArray BrushEngine::compressPixmap(QPixmap pixmap)
 {
     QByteArray byteArray;

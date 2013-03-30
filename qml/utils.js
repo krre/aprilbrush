@@ -1,4 +1,70 @@
-// Adds prefix zero to number
+// Add new page
+function addPage(pageName) {
+    var newPageName
+    if (pageName)
+        newPageName = pageName
+    else {
+        // Calculate next number page
+        var maxNumPage = 0;
+        for (var page = 0; page < pagesModel.count; page++) {
+            var numPage = parseInt(pagesModel.get(page).name.substring(6), 10)
+            if (numPage > maxNumPage) maxNumPage = numPage
+        }
+        maxNumPage++
+        var numNextPage = zeroFill(maxNumPage, 3)
+        newPageName = "Page-" + numNextPage
+    }
+
+    pagesModel.append({name: newPageName, layerSet: [], undoSet: [] })
+    //console.log("pagesView " + pageManager.pagesView)
+    pageManager.pagesView.currentIndex = pagesModel.count - 1
+
+    if (!pageName) {
+        addLayer(null, "white")
+        addLayer()
+    }
+}
+
+// Add new layer
+function addLayer(layerName, color) {
+    var newLayerName
+    var layerSet = pagesModel.get(currentPageIndex).layerSet
+    if (layerName)
+        newLayerName = layerName
+    else {
+        if (layerSet.count) {
+            // Calculate next number layer
+            var maxNumLayer = 0;
+            for (var layer = 0; layer < layerSet.count; layer++) {
+                var numLayer = parseInt(layerSet.get(layer).name.substring(6), 10)
+                if (numLayer > maxNumLayer) maxNumLayer = numLayer
+            }
+            maxNumLayer++
+            var numNextLayer = zeroFill(maxNumLayer, 3)
+            newLayerName = "Layer-" + numNextLayer
+        }
+        else
+            newLayerName = "Layer-001"
+    }
+
+    var newColor
+    if (color)
+        newColor = color
+    else
+        newColor = "transparent"
+
+    var newLayerId = layerIdCounter++
+    newLayerId = newLayerId.toString()
+    layerSet.append({ name: newLayerName, colorImage: newColor, enable: true, layerId: newLayerId })
+    // Set new layer as current
+    if (layerSet.count > 1) {
+        var selectedLayer = currentPageItem.layerManager.currentLayerIndex
+        layerSet.move(layerSet.count - 1, selectedLayer, 1)
+        currentPageItem.layerManager.currentLayerIndex = selectedLayer
+    }
+}
+
+// Add prefix zero to number
 function zeroFill(number, width)
 {
     width -= number.toString().length;
@@ -30,38 +96,23 @@ function folderFromPath(path) {
 // Open OpenRaster file
 function openOra() {
     var path = fileDialog.currentFilePath
-    currentPage.canvasArea.oraPath = path
+    currentPageItem.canvasArea.oraPath = path
     // Read layer attributes
     openRaster.readAttributes(path)
     var layersList = openRaster.layersNameList()
     console.log(layersList)
 
-    pagesModel.append({name: fileDialog.currentFileName,
-                          layerSet: [],
-                          undoSet: []
-                      })
-
-    //pageManager.pagesView.currentIndex = pagesModel.count - 1
-    var canvas = currentPage.canvasArea.pathView
-    canvas.currentIndexBind = false
-
-    for (var i = 0; i < layersList.length; i++)
-    {
-        //pagesModel.get(pageManager.pagesView.currentIndex).layerSet.append({ name: layersList[i], colorImage: "transparent", enable: true })
-        pagesModel.get(pagesModel.count - 1).layerSet.append({ name: layersList[i], colorImage: "transparent", enable: true })
-        canvas.currentIndex = i
-        openRaster.setPixmap(canvas.currentItem, i)
-        //console.log(canvas.currentItem)
+    addPage(fileDialog.currentFileName)
+    for (var i = layersList.length - 1; i > -1; i-- ) {
+        addLayer(layersList[i])
+        var layerId = pagesModel.get(currentPageIndex).layerSet.get(0).layerId
+        console.log("layerId " + layerId + " i " + i)
+        brush.setLayerId(layerId)
+        console.log("source " + brush.source())
+        openRaster.setPixmap(brush.source(), i)
     }
 
 
-/*
-    for (i = 0; i < canvas.count; i++) {
-        canvas.currentIndex = i
-        console.log(canvas.currentItem)
-        openRaster.setPixmap(canvas.currentItem, i)
-    }*/
-    canvas.currentIndexBind = true
     console.log("open complete")
 
     fileDialog.visible = false

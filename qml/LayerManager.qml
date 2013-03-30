@@ -5,7 +5,7 @@ import "undo.js" as Undo
 
 Window {
     id: root
-    property alias currentLayer: layersView.currentIndex
+    property alias currentLayerIndex: layersView.currentIndex
     property alias layersView: layersView
 
     title: "Layers"
@@ -40,7 +40,7 @@ Window {
             orientation: ListView.Vertical
             clip: true
             spacing: 4
-            //onCurrentIndexChanged: console.log("layerview index: " + currentIndex)
+            onCurrentIndexChanged: if (currentIndex >=0 )currentLayerId = layerSet.get(currentIndex).layerId
         }
 
         Component {
@@ -49,9 +49,9 @@ Window {
                 text: name
                 color: ListView.isCurrentItem ? "transparent" : "lightgray"
                 closable: ListView.isCurrentItem
-                onClicked: { undoManager.add(new Undo.changeLayer(currentLayer, index)); currentLayer = index }
+                onClicked: { undoManager.add(new Undo.changeLayer(currentLayerIndex, index)); currentLayerIndex = index }
                 onClosed: {
-                    undoManager.add(new Undo.deleteLayer(index))
+                    //undoManager.add(new Undo.deleteLayer(index))
                     layerSet.remove(index)
 
                 }
@@ -63,6 +63,7 @@ Window {
             ListItemComponent {
                 width: layersView.width
             }
+
         }
 
         // Buttons
@@ -78,18 +79,8 @@ Window {
                 height: parent.height
                 title: qsTr("New")
                 onClicked: {
-                    // Calculate next number layer
-                    var maxNumLayer = 0;
-                    for (var layer = 0; layer < layerSet.count; layer++) {
-                        var numLayer = parseInt(layerSet.get(layer).name.substring(6), 10)
-                        if (numLayer > maxNumLayer) maxNumLayer = numLayer
-                    }
-                    maxNumLayer++
-                    var numNextLayer = Utils.zeroFill(maxNumLayer, 3)
-                    if (currentLayer < 0) currentLayer = 0
-                    layerSet.insert(currentLayer, { name: "Layer-" + numNextLayer, colorImage: "transparent", enable: true })
-                    layersView.decrementCurrentIndex()
-                    undoManager.add(new Undo.addLayer(currentLayer))
+                    Utils.addLayer()
+                    undoManager.add(new Undo.addLayer(currentLayerIndex))
                 }
             }
             // Up button
@@ -98,8 +89,8 @@ Window {
                 height: parent.height
                 title: qsTr("Up")
                 onClicked: {
-                    if (currentLayer > 0) {
-                        layerSet.move(currentLayer, currentLayer - 1, 1)
+                    if (currentLayerIndex > 0) {
+                        layerSet.move(currentLayerIndex, currentLayerIndex - 1, 1)
                         undoManager.add(new Undo.raiseLayer())
                     }
 
@@ -111,8 +102,8 @@ Window {
                 height: parent.height
                 title: qsTr("Down")
                 onClicked: {
-                    if (currentLayer < layersView.count - 1) {
-                        layerSet.move(currentLayer, currentLayer + 1, 1)
+                    if (currentLayerIndex < layersView.count - 1) {
+                        layerSet.move(currentLayerIndex, currentLayerIndex + 1, 1)
                         undoManager.add(new Undo.lowerLayer())
                     }
                 }

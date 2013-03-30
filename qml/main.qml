@@ -17,7 +17,10 @@ Rectangle {
     property size undoManagerSize: Qt.size(200, 200)
     property bool eraserMode: false
 
-    property variant currentPage: pageManager.pagesView.currentItem
+    property variant currentPageItem: pageManager.pagesView.currentItem
+    property int currentPageIndex: pageManager.pagesView.currentIndex
+    property int layerIdCounter: 0
+    property string currentLayerId
 
     width: 1000
     height: 600
@@ -33,7 +36,11 @@ Rectangle {
         roundness: brushSettings.roundness
         angle: brushSettings.angle
         eraser: eraserMode
-        source: pageManager.pagesView.currentItem.canvasArea.pathView.currentItem
+        layerId: currentLayerId
+    }
+
+    ListModel {
+        id: pagesModel
     }
 
     PageManager {
@@ -42,16 +49,7 @@ Rectangle {
         width: 600
         height: 34
         anchors.horizontalCenter: parent.horizontalCenter
-    }
-
-    ListModel {
-        id: pagesModel
-        ListElement { name: "Page-001";
-            layerSet: [
-                ListElement { name: "Layer-002"; colorImage: "transparent"; enable: true },
-                ListElement { name: "Layer-001"; colorImage: "white"; enable: true } ]
-            undoSet: []
-        }
+        objectName: "page"
     }
 
     BrushSettings {
@@ -89,6 +87,7 @@ Rectangle {
         onClicked: {
             openMode ? Utils.openOra() : Utils.saveAsOra()
         }
+        //onVisibleChanged: visible === false ?
     }
 
     OpenRaster {

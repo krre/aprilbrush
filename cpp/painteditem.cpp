@@ -4,7 +4,7 @@
 PaintedItem::PaintedItem(QQuickItem *parent) :
     QQuickPaintedItem(parent)
 {
-    qDebug() << "new " << this;
+    qDebug() << "new " << this << "objName" << objectName();
 }
 
 void PaintedItem::paint(QPainter *painter)
@@ -13,8 +13,6 @@ void PaintedItem::paint(QPainter *painter)
     {
         pixmapItem = QPixmap(contentsSize());
         pixmapItem.fill(fillColor());
-        //pixmapItem.fill(Qt::red);
-        //update();
     }
 
     painter->drawPixmap(0, 0, pixmapItem);

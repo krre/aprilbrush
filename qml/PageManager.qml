@@ -5,7 +5,6 @@ import "utils.js" as Utils
 
 Item {
     property alias pagesView: pagesView
-    //property alias currentPage: pagesView.currentItem
 
     width: 600
     height: 40
@@ -33,29 +32,12 @@ Item {
                 }
                 MouseArea {
                     anchors.fill: parent
-                    onClicked: {
-                        // Calculate next number page
-                        var maxNumPage = 0;
-                        for (var page = 0; page < pagesModel.count; page++) {
-                            var numPage = parseInt(pagesModel.get(page).name.substring(6), 10)
-                            if (numPage > maxNumPage) maxNumPage = numPage
-                        }
-                        maxNumPage++
-                        var numNextPage = Utils.zeroFill(maxNumPage, 3)
-
-                        pagesModel.append({name: "Page-" + numNextPage,
-                                              layerSet: [
-                                                  { name: "Layer-002", colorImage: "transparent", enable: true },
-                                                  { name: "Layer-001", colorImage: "white", enable: true } ],
-                                              undoSet: []
-                                          })
-                        // Placing a item on last position
-                        pagesView.currentIndex = pagesModel.count - 1
-                    }
+                    onClicked: Utils.addPage()
                 }
             }
 
             ListView {
+                objectName: "pagesView"
                 id: pagesView
                 model: pagesModel
                 delegate: pagesDelegate
@@ -67,12 +49,21 @@ Item {
                 anchors.verticalCenter: parent.verticalCenter
                 orientation: ListView.Horizontal
                 spacing: 5
-                clip: true
+                clip: true                
+                onCurrentIndexChanged: {
+                    if (currentIndex >= 0) {
+                        var layerIndex = pagesView.currentItem.layerManager.currentLayerIndex
+                        if (layerIndex >= 0)
+                            currentLayerId = pagesModel.get(currentIndex).layerSet.get(layerIndex).layerId
+                    }
+                }
+                Component.onCompleted: Utils.addPage()
             }
 
-            Component {
+            Component {               
                 id: pagesDelegate
                 ListItem {
+                    objectName: "listItem"
                     property alias canvasArea: canvasArea
                     property alias undoManager: undoManager
                     property alias layerManager: layerManager
@@ -80,11 +71,12 @@ Item {
                     height: pagesView.height
                     color: ListView.isCurrentItem ? "transparent" : "lightgray"
                     text: name
-                    onClicked: { pagesView.currentIndex = index; console.log(canvasArea.oraPath) }
+                    onClicked: { pagesView.currentIndex = index }
                     onClosed: pagesModel.remove(index)
 
                     CanvasArea {
                         id: canvasArea
+                        objectName: "canvas"
                     }
 
                     LayerManager {
@@ -110,6 +102,4 @@ Item {
     Shadow {
         surface: rect
     }
-
 }
-

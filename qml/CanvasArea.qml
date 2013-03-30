@@ -111,10 +111,11 @@ Item {
 
     PathView {        
         id: pathView
+        objectName: "pathView"
         property bool currentIndexBind: true
 
         model: layerSet
-        delegate: paintSpaceDelegate
+        delegate: paintedItemDelegate
 
         highlightRangeMode: PathView.NoHighlightRange
         path: Path {
@@ -122,20 +123,15 @@ Item {
             PathLine { x: 0; y: 0 }
             PathAttribute { name: "z"; value: 0.0 }
         }
-        //currentIndex: layerManager.currentLayer
-        Binding on currentIndex {
-            when: pathView.currentIndexBind
-            value: layerManager.currentLayer
-        }
-        //onCurrentIndexChanged: console.log("change")
-        //onCurrentIndexChanged: console.log("pathview index: " + currentIndex)
+        currentIndex: layerManager.currentLayerIndex
     }
 
     Component {
-        id: paintSpaceDelegate
+        id: paintedItemDelegate
 
         PaintedItem {
-            id: paintSpace
+            id: paintedItem
+            objectName: layerId
             width: root.width
             height: root.height
             contentsSize.width: imageSize.width
@@ -146,7 +142,7 @@ Item {
 
             MouseArea {
                 anchors.fill: parent
-                onPressed: { brush.setSource(pathView.currentItem); brush.paintDab(mouseX, mouseY) }
+                onPressed: brush.paintDab(mouseX, mouseY)
                 onReleased: {
                     brush.setTouch(false);
                     undoManager.add(new Undo.paint())
@@ -154,6 +150,7 @@ Item {
                 onPositionChanged: brush.paintDab(mouseX, mouseY)
                 visible: !panMode
             }
+            Component.onCompleted: brush.setLayerId(layerSet.get(pathView.currentIndex).layerId)
         }
     }
 }

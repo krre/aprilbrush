@@ -1,5 +1,6 @@
 #include <QGuiApplication>
 #include <QQuickView>
+#include <QtGui>
 #include "cpp/painteditem.h"
 #include "cpp/brushengine.h"
 #include "cpp/openraster/openraster.h"
@@ -17,6 +18,10 @@ int main(int argc, char *argv[])
     view.setSource(QUrl::fromLocalFile("../../aprilbrush/qml/main.qml"));
     view.setResizeMode(QQuickView::SizeRootObjectToView);
     view.show();
+
+    //QQuickItem *item = view.rootObject()->findChild<QQuickItem*>("main1");
+    //QQuickItem *item = view.rootObject()->findChild<QQuickItem*>("main");
+    //qDebug() << "main.cpp: " << view.rootObject()->findChild<QQuickItem*>();
 
     return app.exec();
 }
