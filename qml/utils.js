@@ -21,9 +21,22 @@ function addPage(pageName) {
 
     if (!pageName) {
         addLayer(null, "white")
+        //addLayer(null, "blue")
         addLayer()
     }
 }
+
+// Delete page
+function deletePage(index) {
+    var layerSet = pagesModel.get(index).layerSet
+    if (layerSet.count > 0)
+        for (var i = 0; i < layerSet.count; i++) {
+            var id = layerSet.get(i).layerId
+            imgProcessor.deletePixmap(id)
+        }
+    pagesModel.remove(index)
+}
+
 
 // Add new layer
 function addLayer(layerName, color) {
@@ -55,6 +68,7 @@ function addLayer(layerName, color) {
 
     var newLayerId = layerIdCounter++
     newLayerId = newLayerId.toString()
+    imgProcessor.addPixmap(newLayerId, imageSize, newColor)
     layerSet.append({ name: newLayerName, colorImage: newColor, enable: true, layerId: newLayerId })
     // Set new layer as current
     if (layerSet.count > 1) {
@@ -62,6 +76,13 @@ function addLayer(layerName, color) {
         layerSet.move(layerSet.count - 1, selectedLayer, 1)
         currentPageItem.layerManager.currentLayerIndex = selectedLayer
     }
+}
+
+// Delete layer
+function deleteLayer(index) {
+    var id = pagesModel.get(currentPageIndex).layerSet.get(index).layerId
+    pagesModel.get(currentPageIndex).layerSet.remove(index)
+    imgProcessor.deletePixmap(id)
 }
 
 // Add prefix zero to number

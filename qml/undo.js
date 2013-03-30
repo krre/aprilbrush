@@ -29,7 +29,7 @@ function paint() {
 
 function clear() {
     var startPos = Qt.point(0, 0)
-    var undoArea = brush.currentArea()
+    //var undoArea = brush.currentArea()
     return {
         name: "Clear",
         undo: function() {

@@ -8,6 +8,7 @@ BrushEngine::BrushEngine()
     //ghWintab = 0;
     touchPen = false;
     eraserBrush = false;
+    //qDebug() << "brush engine starts";
 }
 
 BrushEngine::~BrushEngine()
@@ -24,7 +25,7 @@ void BrushEngine::paintDab(qreal xPos, qreal yPos)
     if (!touchPen)
     {
         prevPos = posCursor;
-        prevPixmap = new QPixmap(paintedItem->pixmapItem);
+        //prevPixmap = new QPixmap(paintedItem->pixmapItem);
         minPos = QPoint(prevPos.x(), prevPos.y());
         maxPos = minPos;
         touchPen = true;
@@ -37,7 +38,8 @@ void BrushEngine::paintDab(qreal xPos, qreal yPos)
     QColor alphaColor =  colorBrush;
     alphaColor.setAlpha(0);
 
-    QPainter painter(&paintedItem->pixmapItem);
+    QPainter painter(pixmap);
+    //qDebug() << "pixmap" << pixmap;
     painter.setRenderHint(QPainter::Antialiasing, true);
     painter.setPen(Qt::NoPen);
 
@@ -75,7 +77,7 @@ void BrushEngine::paintDab(qreal xPos, qreal yPos)
             painter.rotate(angleBrush);
             painter.scale(1, 1.0 / roundnessBrush);
             painter.drawEllipse(-sizeBrushHalf, -sizeBrushHalf, sizeBrush, sizeBrush);
-            paintedItem->update(QRect(qRound(betweenPos.x() - sizeBrush / 2), qRound(betweenPos.y() - sizeBrush / 2), sizeBrush, sizeBrush));
+            emit paintDone(QRect(qRound(betweenPos.x() - sizeBrush / 2), qRound(betweenPos.y() - sizeBrush / 2), sizeBrush, sizeBrush));
             painter.restore();
 
             // Detect a min and max corner positions
@@ -86,7 +88,6 @@ void BrushEngine::paintDab(qreal xPos, qreal yPos)
             //qDebug() << betweenPos;
 
             prevPos = betweenPos;
-            //emit paintDone();
         }
     }
 }
@@ -103,31 +104,21 @@ void BrushEngine::setTouch(bool touch)
         maxPos.setY(maxPos.y() + sizeBrush / 2);
 
         // Undo area compress
-        undoByteArray = compressPixmap(prevPixmap->copy(QRect(minPos, maxPos)));
+        //undoByteArray = compressPixmap(prevPixmap->copy(QRect(minPos, maxPos)));
         // Redo area compress
-        redoByteArray = compressPixmap(paintedItem->pixmapItem.copy(QRect(minPos, maxPos)));
+        //redoByteArray = compressPixmap(paintedItem->pixmapItem.copy(QRect(minPos, maxPos)));
 
-        delete prevPixmap;
+        //delete prevPixmap;
     }
 }
 
 void BrushEngine::setLayerId(QString arg)
 {
-     m_layerId = arg;
-     QQuickItem *item0 = parent()->findChild<QQuickItem*>("pagesView");
-     QQuickItem *contentItem = qvariant_cast<QQuickItem*>(item0->property("contentItem"));
-     foreach (QQuickItem *item1, contentItem->childItems())
-         if (item1->objectName() == "listItem")
-             foreach (QObject *item2, item1->children())
-                 if (item2->objectName() == "canvas")
-                     foreach (QObject *item3, item2->children())
-                         if (item3->objectName() == "pathView") {
-                             QQuickItem *item4 = qobject_cast<QQuickItem*>(item3);
-                             foreach (QQuickItem *item5, item4->childItems())
-                                 if (item5->objectName() == m_layerId)
-                                     paintedItem = qobject_cast<PaintedItem*>(item5);
-
-                        }
+    if (arg != "") {
+        m_layerId = arg;
+        pixmap = m_imageProcessor->pixmapHash()[m_layerId];
+        //qDebug() << "m_layerId" << m_layerId << m_imageProcessor->pixmapHash() << *pixmap;
+    }
 }
 
 QByteArray BrushEngine::compressPixmap(QPixmap pixmap)

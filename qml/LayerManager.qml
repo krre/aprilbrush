@@ -52,8 +52,7 @@ Window {
                 onClicked: { undoManager.add(new Undo.changeLayer(currentLayerIndex, index)); currentLayerIndex = index }
                 onClosed: {
                     //undoManager.add(new Undo.deleteLayer(index))
-                    layerSet.remove(index)
-
+                    Utils.deleteLayer(index)
                 }
             }
         }
@@ -63,7 +62,6 @@ Window {
             ListItemComponent {
                 width: layersView.width
             }
-
         }
 
         // Buttons

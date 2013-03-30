@@ -3,22 +3,26 @@
 
 #include <QQuickPaintedItem>
 #include <QtGui>
+#include "imageprocessor.h"
 
 class PaintedItem : public QQuickPaintedItem
 {
     Q_OBJECT
-    Q_PROPERTY(QPixmap pixmap READ pixmap WRITE setPixmap)
+    Q_PROPERTY(ImageProcessor* imageProcessor READ imageProcessor WRITE setImageProcessor)
 
 public:
-    Q_INVOKABLE void setPixmapArea(QPoint startPos, QByteArray area);
+    //Q_INVOKABLE void setPixmapArea(QPoint startPos, QByteArray area);
 
     PaintedItem(QQuickItem *parent = 0);
     void paint(QPainter *painter);
-    QPixmap pixmapItem;
+    ImageProcessor* imageProcessor() const { return m_imageProcessor; }
+
+public slots:
+    void setImageProcessor(ImageProcessor* arg) { m_imageProcessor = arg; }
 
 private:
-    inline QPixmap pixmap() { return pixmapItem; }
-    inline void setPixmap(QPixmap pixmap) { pixmapItem = pixmap; }
+    QPixmap *pixmap;
+    ImageProcessor *m_imageProcessor;
 };
 
 #endif // PAINTSPACE_H

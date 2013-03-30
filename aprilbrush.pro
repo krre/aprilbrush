@@ -5,12 +5,14 @@ SOURCES += \
     main.cpp \
     cpp/painteditem.cpp \
     cpp/brushengine.cpp \
-    cpp/openraster/openraster.cpp
+    cpp/openraster/openraster.cpp \
+    cpp/imageprocessor.cpp
 
 HEADERS += \
     cpp/painteditem.h \
     cpp/brushengine.h \
-    cpp/openraster/openraster.h
+    cpp/openraster/openraster.h \
+    cpp/imageprocessor.h
 
 OTHER_FILES += \
     qml/main.qml \

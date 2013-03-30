@@ -23,7 +23,6 @@ typedef int (API *PtrWTQueuePacketsEx)(HCTX, UINT FAR*, UINT FAR*);
 class BrushEngine : public QObject
 {
     Q_OBJECT
-    //Q_PROPERTY(PaintedItem* source READ source WRITE setSource)
     Q_PROPERTY(int size READ size WRITE setSize)
     Q_PROPERTY(int spacing READ spacing WRITE setSpacing)
     Q_PROPERTY(int hardness READ hardness WRITE setHardness)
@@ -33,31 +32,31 @@ class BrushEngine : public QObject
     Q_PROPERTY(int angle READ angle WRITE setAngle)
     Q_PROPERTY(bool eraser READ eraser WRITE setEraser)
     Q_PROPERTY(QString layerId READ layerId WRITE setLayerId)
+    Q_PROPERTY(ImageProcessor* imageProcessor READ imageProcessor WRITE setImageProcessor)
 
 public:
     BrushEngine();
     ~BrushEngine();
     Q_INVOKABLE void paintDab(qreal xPos, qreal yPos);
     Q_INVOKABLE void setTouch(bool touch);
-    Q_INVOKABLE void clear() { paintedItem->pixmapItem.fill(QColor(0, 0, 0, 0)); paintedItem->update(); }
-    //Q_INVOKABLE void setSource (PaintedItem *source) { paintedItem = source; }
+    Q_INVOKABLE void clear() { pixmap->fill(QColor(0, 0, 0, 0)); emit paintDone(pixmap->rect()); }
     Q_INVOKABLE QPoint startPos() { return minPos; }
     Q_INVOKABLE QByteArray undoArea() { return undoByteArray; }
     Q_INVOKABLE QByteArray redoArea() { return redoByteArray; }
-    Q_INVOKABLE QByteArray currentArea() { return compressPixmap(paintedItem->pixmapItem); }
+    //Q_INVOKABLE QByteArray currentArea() { return compressPixmap(paintedItem->pixmapItem); }
+    ImageProcessor* imageProcessor() const { return m_imageProcessor; }
 
     QString layerId() const { return m_layerId; }
 
 public slots:
     void setLayerId(QString arg);
-    PaintedItem* source() { return paintedItem; }
+    void setImageProcessor(ImageProcessor* arg) { m_imageProcessor = arg; }
 
 signals:
     void sizeBrushSignal();
-    void paintDone();
+    void paintDone(QRect rect);
 
 private:
-    //inline PaintedItem* source() { return paintedItem; }
     inline int size() {return sizeBrush;}
     inline void setSize(int size) { sizeBrush = size; emit sizeBrushSignal(); }
     inline int spacing() { return spacingBrush; }
@@ -107,6 +106,8 @@ private:
     QTime time;
     qreal pressure();
     QString m_layerId;
+    QPixmap *pixmap;
+    ImageProcessor *m_imageProcessor;
 };
 
 

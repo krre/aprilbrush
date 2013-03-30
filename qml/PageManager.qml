@@ -37,7 +37,6 @@ Item {
             }
 
             ListView {
-                objectName: "pagesView"
                 id: pagesView
                 model: pagesModel
                 delegate: pagesDelegate
@@ -57,13 +56,12 @@ Item {
                             currentLayerId = pagesModel.get(currentIndex).layerSet.get(layerIndex).layerId
                     }
                 }
-                Component.onCompleted: Utils.addPage()
+                //Component.onCompleted: Utils.addPage()
             }
 
             Component {               
                 id: pagesDelegate
                 ListItem {
-                    objectName: "listItem"
                     property alias canvasArea: canvasArea
                     property alias undoManager: undoManager
                     property alias layerManager: layerManager
@@ -72,11 +70,10 @@ Item {
                     color: ListView.isCurrentItem ? "transparent" : "lightgray"
                     text: name
                     onClicked: { pagesView.currentIndex = index }
-                    onClosed: pagesModel.remove(index)
+                    onClosed: Utils.deletePage(index)
 
                     CanvasArea {
                         id: canvasArea
-                        objectName: "canvas"
                     }
 
                     LayerManager {

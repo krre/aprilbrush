@@ -2,9 +2,11 @@ import QtQuick 2.0
 import QtQuick.Window 2.0
 import BrushEngine 1.0
 import OpenRaster 1.0
+import ImageProcessor 1.0
 import "components"
 import "utils.js" as Utils
 import "undo.js" as Undo
+
 
 Rectangle {
     id: main
@@ -22,6 +24,8 @@ Rectangle {
     property int layerIdCounter: 0
     property string currentLayerId
 
+    onImageSizeChanged: if (imageSize.width !== 0) Utils.addPage()
+
     width: 1000
     height: 600
     color: "lightgray"
@@ -37,8 +41,18 @@ Rectangle {
         angle: brushSettings.angle
         eraser: eraserMode
         layerId: currentLayerId
+        imageProcessor: imgProcessor
+        onPaintDone: currentPageItem.canvasArea.pathView.currentItem.update(rect)
     }
 
+    ImageProcessor {
+        id: imgProcessor
+    }
+/*
+    OpenRaster {
+        id: openRaster
+    }
+*/
     ListModel {
         id: pagesModel
     }
@@ -49,7 +63,7 @@ Rectangle {
         width: 600
         height: 34
         anchors.horizontalCenter: parent.horizontalCenter
-        objectName: "page"
+        //objectName: "page"
     }
 
     BrushSettings {
@@ -88,9 +102,5 @@ Rectangle {
             openMode ? Utils.openOra() : Utils.saveAsOra()
         }
         //onVisibleChanged: visible === false ?
-    }
-
-    OpenRaster {
-        id: openRaster
     }
 }
