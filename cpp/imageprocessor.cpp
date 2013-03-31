@@ -35,3 +35,21 @@ void ImageProcessor::setPixmapArea(const QPoint startPos, const QByteArray area,
     else
         *pixmap = QPixmap(areaPixmap);
 }
+
+void ImageProcessor::makePng(const QString path, const QVariantList layerIdList)
+{
+    QPixmap *pixmap;
+    QPixmap exportPixmap;
+    for (int i = layerIdList.count() - 1; i >= 0; i--){
+        QString layerId = layerIdList.at(i).toString();
+        pixmap = m_pixmapHash[layerId];
+        if (exportPixmap.isNull())
+        {
+            exportPixmap = QPixmap(pixmap->width(), pixmap->height());
+            exportPixmap.fill(Qt::transparent);
+        }
+        QPainter painter(&exportPixmap);
+        painter.drawPixmap(0, 0, *pixmap);
+    }
+    exportPixmap.save(path);
+}

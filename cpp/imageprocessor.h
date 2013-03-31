@@ -14,6 +14,7 @@ public:
     Q_INVOKABLE void addPixmap(const QString layerId, const QSize size, const QColor color);
     Q_INVOKABLE void deletePixmap(const QString layerId);
     Q_INVOKABLE void setPixmapArea(const QPoint startPos, const QByteArray area, const QString layerId);
+    Q_INVOKABLE void makePng(const QString path, const QVariantList layerIdList);
     QHash<QString, QPixmap*> pixmapHash() { return m_pixmapHash; }
 
 signals:

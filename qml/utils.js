@@ -129,7 +129,11 @@ function exportPng() {
     var path = fileDialog.currentFilePath
     if (path.substr(-4) !== ".png")
         path += ".png"
-
+    var layerModel = pagesModel.get(currentPageIndex).layerModel
+    var layerIdList = []
+    for (var i = 0; i < layerModel.count; i++)
+        layerIdList.push(layerModel.get(i).layerId)
+    imgProcessor.makePng(path, layerIdList)
     console.log("export: " + path)
 }
 
