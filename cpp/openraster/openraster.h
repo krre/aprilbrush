@@ -13,8 +13,8 @@ class OpenRaster : public QObject
 public:
     OpenRaster();
     Q_INVOKABLE void write(const QString oraPath, const QSize imageSize, const QVariantList layerList);
-    Q_INVOKABLE void readAttributes(const QString oraPath);
-    //Q_INVOKABLE void readPixmap(const QString oraPath, const QString layerName);
+    Q_INVOKABLE QVariantList readAttributes(const QString oraPath);
+    Q_INVOKABLE void readPixmap(const QString oraPath, const QString pngPath, const QString layerId);
 
     ImageProcessor* imageProcessor() const { return m_imageProcessor; }
 

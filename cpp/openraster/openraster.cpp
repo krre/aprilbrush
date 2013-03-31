@@ -52,8 +52,6 @@ void OpenRaster::write(const QString oraPath, const QSize imageSize, const QVari
         stream.writeAttribute("y", "0");
         stream.writeAttribute("opacity", "1.0");
         stream.writeEndElement(); // layer
-
-        qDebug() << name << layerId << enable;
     }
 
     stream.writeEndElement(); // stack
@@ -64,38 +62,42 @@ void OpenRaster::write(const QString oraPath, const QSize imageSize, const QVari
     zipWriter.close();
 }
 
-void OpenRaster::readAttributes(const QString oraPath)
+QVariantList OpenRaster::readAttributes(const QString oraPath)
 {    
     QZipReader zipReader(oraPath, QIODevice::ReadOnly);
 
     QByteArray xmlByteArray = zipReader.fileData("stack.xml");
     QXmlStreamReader stream(xmlByteArray);
+    QVariantMap map;
+    QVariantList list;
     while (!stream.atEnd())
     {
         if (stream.isStartElement())
             if (stream.name() == "layer")
             {
-                    //qDebug() << stream.attributes().value("name");
-                    QString name = stream.attributes().value("name").toString();
-                    //oraLayersNameList.append(stream.attributes().value("name").toString());
-                    oraLayersNameList.append(name);
-                    QString pngPath = stream.attributes().value("src").toString();
-                    QByteArray pngByteArray = zipReader.fileData(pngPath);
-                    QPixmap pixmap;
-                    pixmap.loadFromData(pngByteArray, "PNG");
-                    //pixmap.save("C:/1/" + name + ".png");
-                    oraPixmapsList.append(pixmap);
+                map["name"] = stream.attributes().value("name").toString();
+                map["composite-op"] = stream.attributes().value("composite-op").toString();
+                map["visibility"] = stream.attributes().value("visibility").toString();
+                map["src"] = stream.attributes().value("src").toString();
+                map["x"] = stream.attributes().value("x").toString();
+                map["y"] = stream.attributes().value("y").toString();
+                map["opacity"] = stream.attributes().value("opacity").toString();
+                list.append(map);
             }
 
         stream.readNextStartElement();
     }
     zipReader.close();
+
+    return list;
 }
-/*
-void OpenRaster::readPixmap(const QString oraPath, const QString layerName)
+
+void OpenRaster::readPixmap(const QString oraPath, const QString pngPath, const QString layerId)
 {
+    QZipReader zipReader(oraPath, QIODevice::ReadOnly);
+    QByteArray pngByteArray = zipReader.fileData(pngPath);
+    QPixmap *pixmap = m_imageProcessor->pixmapHash()[layerId];
+    pixmap->loadFromData(pngByteArray, "PNG");
+    zipReader.close();
 }
-*/
-
-
 

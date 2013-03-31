@@ -21,9 +21,6 @@ Rectangle {
 
     property variant currentPageItem: pageManager.pagesView.currentItem
     property int currentPageIndex: pageManager.pagesView.currentIndex
-    /*
-    property variant currentLayerModel: currentPageIndex >= 0 ? (pagesModel.get(currentPageIndex).layerModel.count > 0 ?
-                                                                 pagesModel.get(currentPageIndex).layerModel : null) : null*/
     property int layerIdCounter: 0
     property string currentLayerId
 
@@ -68,7 +65,6 @@ Rectangle {
         width: 600
         height: 34
         anchors.horizontalCenter: parent.horizontalCenter
-        //objectName: "page"
     }
 
     BrushSettings {

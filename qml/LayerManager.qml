@@ -20,7 +20,6 @@ Window {
     onReleased: layerManagerPos = Qt.point(x, y)
     onResized: layerManagerSize = Qt.size(width, height)
     onClosed: layerManagerVisible = false
-    //onCurrentLayerChanged: console.log("currentLayer: " + currentLayer)
 
     Column {
         anchors.fill: parent
@@ -40,7 +39,8 @@ Window {
             orientation: ListView.Vertical
             clip: true
             spacing: 4
-            onCurrentIndexChanged: if (currentIndex >=0 )currentLayerId = layerModel.get(currentIndex).layerId
+            onCurrentIndexChanged: if (currentIndex >=0 ) currentLayerId = layerModel.get(currentIndex).layerId
+            onCountChanged: if (currentIndex >=0 ) currentLayerId = layerModel.get(currentIndex).layerId
         }
 
         Component {

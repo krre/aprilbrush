@@ -56,7 +56,6 @@ Item {
                             currentLayerId = pagesModel.get(currentIndex).layerModel.get(layerIndex).layerId
                     }
                 }
-                //Component.onCompleted: Utils.addPage()
             }
 
             Component {               

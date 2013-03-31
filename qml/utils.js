@@ -16,7 +16,6 @@ function addPage(pageName) {
     }
 
     pagesModel.append({name: newPageName, layerModel: [], undoSet: [] })
-    //console.log("pagesView " + pageManager.pagesView)
     pageManager.pagesView.currentIndex = pagesModel.count - 1
 
     if (!pageName) {
@@ -84,6 +83,46 @@ function deleteLayer(index) {
     imgProcessor.deletePixmap(id)
 }
 
+// Open OpenRaster file
+function openOra() {
+    var path = fileDialog.currentFilePath
+    currentPageItem.canvasArea.oraPath = path
+    var layersList = openRaster.readAttributes(path)
+
+    addPage(fileDialog.currentFileName)
+    for (var i = layersList.length - 1; i > -1; i-- ) {
+        addLayer(layersList[i].name)
+        var src = layersList[i].src
+        var layerId = pagesModel.get(currentPageIndex).layerModel.get(0).layerId
+        openRaster.readPixmap(path, src, layerId)
+    }
+    console.log("open complete")
+    fileDialog.visible = false
+}
+
+// Save OpenRaster file with new name
+function saveAsOra() {
+    var path = fileDialog.currentFilePath
+    if (path.substr(-3) !== ".ora")
+        path += ".ora"
+    currentPageItem.canvasArea.oraPath = path
+    saveOra()
+    fileDialog.visible = false
+}
+
+// Save OpenRaster file
+function saveOra() {
+    var path = currentPageItem.canvasArea.oraPath
+    var layerModel = pagesModel.get(currentPageIndex).layerModel
+    var layerList = []
+    for (var i = 0; i < layerModel.count; i++) {
+        layerList.push({ "name": layerModel.get(i).name,
+                         "layerId": layerModel.get(i).layerId,
+                         "enable": layerModel.get(i).enable})
+    }
+    openRaster.write(path, imageSize, layerList)
+}
+
 // Add prefix zero to number
 function zeroFill(number, width)
 {
@@ -111,51 +150,4 @@ function fileFromPath(path) {
 // Get folder from path
 function folderFromPath(path) {
     return path.replace(/^.*[\\\/]/, '')
-}
-
-// Open OpenRaster file
-function openOra() {
-    var path = fileDialog.currentFilePath
-    currentPageItem.canvasArea.oraPath = path
-    // Read layer attributes  
-    var layersList = openRaster.readAttributes(path)
-    console.log(layersList)
-/*
-    addPage(fileDialog.currentFileName)
-    for (var i = layersList.length - 1; i > -1; i-- ) {
-        addLayer(layersList[i])
-        var layerId = pagesModel.get(currentPageIndex).layerModel.get(0).layerId
-        console.log("layerId " + layerId + " i " + i)
-        brush.setLayerId(layerId)
-        console.log("source " + brush.source())
-        openRaster.setPixmap(brush.source(), i)
-    }
-
-*/
-    console.log("open complete")
-
-    fileDialog.visible = false
-}
-
-// Save OpenRaster file with new name
-function saveAsOra() {
-    var path = fileDialog.currentFilePath
-    if (path.substr(-3) !== ".ora")
-        path += ".ora"
-    currentPageItem.canvasArea.oraPath = path
-    saveOra()
-    fileDialog.visible = false
-}
-
-// Save OpenRaster file
-function saveOra() {
-    var path = currentPageItem.canvasArea.oraPath
-    var layerModel = pagesModel.get(currentPageIndex).layerModel
-    var layerList = []
-    for (var i = 0; i < layerModel.count; i++) {
-        layerList.push({ "name": layerModel.get(i).name,
-                         "layerId": layerModel.get(i).layerId,
-                         "enable": layerModel.get(i).enable})
-    }
-    openRaster.write(path, imageSize, layerList)
 }
