@@ -29,8 +29,8 @@ function deletePage(index) {
     var layerModel = pagesModel.get(index).layerModel
     if (layerModel.count > 0)
         for (var i = 0; i < layerModel.count; i++) {
-            var id = layerModel.get(i).layerId
-            imgProcessor.deletePixmap(id)
+            var layerId = layerModel.get(i).layerId
+            imgProcessor.deletePixmap(layerId)
         }
     pagesModel.remove(index)
 }
@@ -86,7 +86,6 @@ function deleteLayer(index) {
 // Open OpenRaster file
 function openOra() {
     var path = fileDialog.currentFilePath
-    currentPageItem.canvasArea.oraPath = path
     var layersList = openRaster.readAttributes(path)
 
     addPage(fileDialog.currentFileName)
@@ -96,17 +95,21 @@ function openOra() {
         var layerId = pagesModel.get(currentPageIndex).layerModel.get(0).layerId
         openRaster.readPixmap(path, src, layerId)
     }
-    console.log("open complete")
+    currentPageItem.canvasArea.oraPath = path
     fileDialog.visible = false
 }
 
 // Save OpenRaster file with new name
 function saveAsOra() {
     var path = fileDialog.currentFilePath
-    if (path.substr(-3) !== ".ora")
+    if (path.substr(-4) !== ".ora")
         path += ".ora"
     currentPageItem.canvasArea.oraPath = path
-    saveOra()
+    saveOra(path)
+    pagesModel.get(currentPageIndex).name = fileFromPath(path)
+    currentPageItem.canvasArea.focusBind = false
+    currentPageItem.canvasArea.focus = true
+    currentPageItem.canvasArea.focusBind = true
     fileDialog.visible = false
 }
 
@@ -121,6 +124,7 @@ function saveOra() {
                          "enable": layerModel.get(i).enable})
     }
     openRaster.write(path, imageSize, layerList)
+    console.log("save: " + path)
 }
 
 // Add prefix zero to number
@@ -144,7 +148,7 @@ function hslColor(hue, saturation, value, alpha) {
 
 // Get filename from path
 function fileFromPath(path) {
-    return path.substring(0, path.lastIndexOf("/") + 1)
+    return path.substr(path.lastIndexOf("/") + 1)
 }
 
 // Get folder from path
