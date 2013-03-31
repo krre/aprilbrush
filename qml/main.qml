@@ -96,11 +96,17 @@ Rectangle {
     FileDialog {
         id: fileDialog
         z: 5
-        openMode: false
         visible: false
         onClicked: {
-            openMode ? Utils.openOra() : Utils.saveAsOra()
+            switch (mode) {
+                case 0: Utils.openOra(); break
+                case 1: Utils.saveAsOra(); break
+                case 2: Utils.exportPng(); break
+            }
+            currentPageItem.canvasArea.focusBind = false
+            currentPageItem.canvasArea.focus = true
+            currentPageItem.canvasArea.focusBind = true
+            visible = false
         }
-        //onVisibleChanged: visible === false ?
     }
 }

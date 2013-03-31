@@ -11,7 +11,7 @@ Window {
     property string currentFolderPath: folderModel.folder.toString().replace("file:///", "")
     //property string prevFolderPath
     property string currentFileName
-    property bool openMode: true
+    property int mode: 0
 
     signal clicked
 
@@ -135,7 +135,7 @@ Window {
 
             Button {
                 id: openButton
-                title: openMode ? "Open" : "Save"
+                title: mode === 0 ? "Open" : (mode === 1 ? "Save" : "Export")
                 onClicked: root.clicked()
             }
         }

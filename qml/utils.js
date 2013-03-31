@@ -96,7 +96,7 @@ function openOra() {
         openRaster.readPixmap(path, src, layerId)
     }
     currentPageItem.canvasArea.oraPath = path
-    fileDialog.visible = false
+    console.log("open: " + path)
 }
 
 // Save OpenRaster file with new name
@@ -107,10 +107,7 @@ function saveAsOra() {
     currentPageItem.canvasArea.oraPath = path
     saveOra(path)
     pagesModel.get(currentPageIndex).name = fileFromPath(path)
-    currentPageItem.canvasArea.focusBind = false
-    currentPageItem.canvasArea.focus = true
-    currentPageItem.canvasArea.focusBind = true
-    fileDialog.visible = false
+    console.log("save: " + path)
 }
 
 // Save OpenRaster file
@@ -125,6 +122,15 @@ function saveOra() {
     }
     openRaster.write(path, imageSize, layerList)
     console.log("save: " + path)
+}
+
+// Export PNG file
+function exportPng() {
+    var path = fileDialog.currentFilePath
+    if (path.substr(-4) !== ".png")
+        path += ".png"
+
+    console.log("export: " + path)
 }
 
 // Add prefix zero to number

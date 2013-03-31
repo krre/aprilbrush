@@ -59,19 +59,23 @@ Item {
         if ((event.modifiers & Qt.ControlModifier) && (event.key === Qt.Key_Y)) undoManager.undoView.incrementCurrentIndex()
         if ((event.modifiers & Qt.ControlModifier) && (event.key === Qt.Key_S)) {
             if (oraPath === "") {
-                fileDialog.openMode = false;
+                fileDialog.mode = 1; // Save mode
                 fileDialog.visible = true
             }
             else
                 Utils.saveOra()
         }
         if ((event.modifiers & Qt.AltModifier) && (event.key === Qt.Key_S)) {
-            fileDialog.openMode = false;
+            fileDialog.mode = 1; // Save mode
             fileDialog.visible = true
         }
 
         if ((event.modifiers & Qt.ControlModifier) && (event.key === Qt.Key_O)) {
-            fileDialog.openMode = true;
+            fileDialog.mode = 0; // Open mode
+            fileDialog.visible = true
+        }
+        if ((event.modifiers & Qt.ControlModifier) && (event.key === Qt.Key_E)) {
+            fileDialog.mode = 2; // Export mode
             fileDialog.visible = true
         }
     }
