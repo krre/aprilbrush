@@ -21,10 +21,13 @@ Rectangle {
 
     property variant currentPageItem: pageManager.pagesView.currentItem
     property int currentPageIndex: pageManager.pagesView.currentIndex
+    /*
+    property variant currentLayerModel: currentPageIndex >= 0 ? (pagesModel.get(currentPageIndex).layerModel.count > 0 ?
+                                                                 pagesModel.get(currentPageIndex).layerModel : null) : null*/
     property int layerIdCounter: 0
     property string currentLayerId
 
-    onImageSizeChanged: if (imageSize.width !== 0) Utils.addPage()
+    onImageSizeChanged: if (imageSize.width) Utils.addPage()
 
     width: 1000
     height: 600
@@ -48,13 +51,15 @@ Rectangle {
     ImageProcessor {
         id: imgProcessor
     }
-/*
+
     OpenRaster {
         id: openRaster
+        imageProcessor: imgProcessor
     }
-*/
+
     ListModel {
         id: pagesModel
+        objectName: "pagesModel"
     }
 
     PageManager {

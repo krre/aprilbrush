@@ -15,7 +15,6 @@ public:
     Q_INVOKABLE void deletePixmap(const QString id);
     QHash<QString, QPixmap*> pixmapHash() { return m_pixmapHash; }
 
-    
 signals:
     
 public slots:

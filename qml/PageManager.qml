@@ -53,7 +53,7 @@ Item {
                     if (currentIndex >= 0) {
                         var layerIndex = pagesView.currentItem.layerManager.currentLayerIndex
                         if (layerIndex >= 0)
-                            currentLayerId = pagesModel.get(currentIndex).layerSet.get(layerIndex).layerId
+                            currentLayerId = pagesModel.get(currentIndex).layerModel.get(layerIndex).layerId
                     }
                 }
                 //Component.onCompleted: Utils.addPage()

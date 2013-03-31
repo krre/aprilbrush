@@ -29,7 +29,7 @@ Window {
 
         ListView {
             id: layersView
-            model: layerSet
+            model: layerModel
             delegate: layerDelegate
             highlight: layerSelected
             highlightMoveDuration: 1
@@ -40,7 +40,7 @@ Window {
             orientation: ListView.Vertical
             clip: true
             spacing: 4
-            onCurrentIndexChanged: if (currentIndex >=0 )currentLayerId = layerSet.get(currentIndex).layerId
+            onCurrentIndexChanged: if (currentIndex >=0 )currentLayerId = layerModel.get(currentIndex).layerId
         }
 
         Component {
@@ -88,7 +88,7 @@ Window {
                 title: qsTr("Up")
                 onClicked: {
                     if (currentLayerIndex > 0) {
-                        layerSet.move(currentLayerIndex, currentLayerIndex - 1, 1)
+                        layerModel.move(currentLayerIndex, currentLayerIndex - 1, 1)
                         undoManager.add(new Undo.raiseLayer())
                     }
 
@@ -101,7 +101,7 @@ Window {
                 title: qsTr("Down")
                 onClicked: {
                     if (currentLayerIndex < layersView.count - 1) {
-                        layerSet.move(currentLayerIndex, currentLayerIndex + 1, 1)
+                        layerModel.move(currentLayerIndex, currentLayerIndex + 1, 1)
                         undoManager.add(new Undo.lowerLayer())
                     }
                 }

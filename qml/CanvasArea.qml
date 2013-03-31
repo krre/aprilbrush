@@ -13,8 +13,8 @@ Item {
     property int mirror: 1
     property real rotation: 0
     property bool saved: false
-    property string oraPath
-    //property string oraPath: "c:/1/1.ora"
+    //property string oraPath
+    property string oraPath: "c:/1/1.ora"
     property bool focusBind: true
 
     parent: checkerBoard
@@ -39,7 +39,6 @@ Item {
             case Qt.Key_E: eraserMode = true; break
             case Qt.Key_Delete:
                 undoManager.add(new Undo.clear())
-                //brush.setSource(pathView.currentItem)
                 brush.clear()
                 break
             case Qt.Key_S: if (!event.modifiers) brushSettings.visible = !brushSettings.visible; break
@@ -111,10 +110,7 @@ Item {
 
     PathView {        
         id: pathView
-        objectName: "pathView"
-        property bool currentIndexBind: true
-
-        model: layerSet
+        model: layerModel
         delegate: paintedItemDelegate
 
         highlightRangeMode: PathView.NoHighlightRange
@@ -148,8 +144,7 @@ Item {
                 onPositionChanged: brush.paintDab(mouseX, mouseY)
                 visible: !panMode
             }
-            //Component.onCompleted: brush.setLayerId(layerSet.get(pathView.currentIndex).layerId)
-            Component.onCompleted: paintedItem.update()
+            //Component.onCompleted: paintedItem.update()
 
         }
     }

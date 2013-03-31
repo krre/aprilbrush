@@ -4,8 +4,7 @@ OpenRaster::OpenRaster()
 {
 }
 
-void OpenRaster::write(const QString oraPath, const QSize imageSize,
-                       const QVariantList paintedItemList, const QVariantList layersNameList)
+void OpenRaster::write(const QString oraPath, const QSize imageSize, const QVariantList layerList)
 {
     QZipWriter zipWriter(oraPath);
     zipWriter.setCompressionPolicy(QZipWriter::AutoCompress);
@@ -19,7 +18,6 @@ void OpenRaster::write(const QString oraPath, const QSize imageSize,
     // stack.xml file
     QXmlStreamWriter stream(&xmlByteArray);
     stream.setAutoFormatting(true);
-    //stream.setCodec("UTF-8");
 
     stream.writeStartDocument();
 
@@ -28,37 +26,35 @@ void OpenRaster::write(const QString oraPath, const QSize imageSize,
     stream.writeAttribute("h",QString::number(imageSize.height()));
     stream.writeStartElement("stack");
 
-    qDebug() << paintedItemList;
-
-    PaintedItem *paintedItem;
     QByteArray pixmapByteArray;
     QBuffer buffer(&pixmapByteArray);
 
-    for (int i = 0; i < paintedItemList.length(); i++)
-    {
-        QVariant v = paintedItemList.at(i);
-        paintedItem = v.value<PaintedItem*>();
-
-        v = layersNameList.at(i);
-        QString layerName = v.value<QString>();
-
+    for (int i = 0; i < layerList.count(); i++) {
+        QMap<QString, QVariant> map = layerList.at(i).toMap();
         // PNG file
         buffer.open(QIODevice::WriteOnly);
-        //paintedItem->pixmapItem.save(&buffer, "PNG");
+        QString layerId = map.value("layerId").toString();
+        QPixmap *pixmap = m_imageProcessor->pixmapHash()[layerId];
+        pixmap->save(&buffer, "PNG");
         buffer.close();
-        zipWriter.addFile("data/" + layerName + ".png", pixmapByteArray);
+        QString name = map.value("name").toString();
+        QString src = "data/" + name + ".png";
+        zipWriter.addFile(src, pixmapByteArray);
 
         // layer
         stream.writeStartElement("layer");
-        stream.writeAttribute("name", layerName);
+        stream.writeAttribute("name", name);
         stream.writeAttribute("composite-op", "svg:src-over");
-        stream.writeAttribute("visibility", "visible");
-        stream.writeAttribute("src", "data/" + layerName + ".png");
+        QString enable = map.value("enable").toBool() ? "visible" : "";
+        stream.writeAttribute("visibility", enable);
+        stream.writeAttribute("src", src);
         stream.writeAttribute("x", "0");
         stream.writeAttribute("y", "0");
         stream.writeAttribute("opacity", "1.0");
         stream.writeEndElement(); // layer
-    }        
+
+        qDebug() << name << layerId << enable;
+    }
 
     stream.writeEndElement(); // stack
     stream.writeEndElement(); // image
@@ -69,7 +65,7 @@ void OpenRaster::write(const QString oraPath, const QSize imageSize,
 }
 
 void OpenRaster::readAttributes(const QString oraPath)
-{
+{    
     QZipReader zipReader(oraPath, QIODevice::ReadOnly);
 
     QByteArray xmlByteArray = zipReader.fileData("stack.xml");
@@ -100,12 +96,6 @@ void OpenRaster::readPixmap(const QString oraPath, const QString layerName)
 {
 }
 */
-void OpenRaster::setPixmap(PaintedItem *paintedItem, int index)
-{
-    //paintedItem->pixmapItem = QPixmap(oraPixmapsList.at(index));
 
-    QString filepath = QString("c:/1/pixmap-") + QString::number(index) + ".png";
-    //paintedItem->pixmapItem.save(filepath);
-    qDebug() << "painted item: " << paintedItem << filepath;
-}
+
 

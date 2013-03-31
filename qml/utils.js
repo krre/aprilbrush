@@ -15,23 +15,22 @@ function addPage(pageName) {
         newPageName = "Page-" + numNextPage
     }
 
-    pagesModel.append({name: newPageName, layerSet: [], undoSet: [] })
+    pagesModel.append({name: newPageName, layerModel: [], undoSet: [] })
     //console.log("pagesView " + pageManager.pagesView)
     pageManager.pagesView.currentIndex = pagesModel.count - 1
 
     if (!pageName) {
-        addLayer(null, "white")
-        //addLayer(null, "blue")
+        addLayer("Background", "white")
         addLayer()
     }
 }
 
 // Delete page
 function deletePage(index) {
-    var layerSet = pagesModel.get(index).layerSet
-    if (layerSet.count > 0)
-        for (var i = 0; i < layerSet.count; i++) {
-            var id = layerSet.get(i).layerId
+    var layerModel = pagesModel.get(index).layerModel
+    if (layerModel.count > 0)
+        for (var i = 0; i < layerModel.count; i++) {
+            var id = layerModel.get(i).layerId
             imgProcessor.deletePixmap(id)
         }
     pagesModel.remove(index)
@@ -41,15 +40,15 @@ function deletePage(index) {
 // Add new layer
 function addLayer(layerName, color) {
     var newLayerName
-    var layerSet = pagesModel.get(currentPageIndex).layerSet
+    var layerModel = pagesModel.get(currentPageIndex).layerModel
     if (layerName)
         newLayerName = layerName
     else {
-        if (layerSet.count) {
+        if (layerModel.count) {
             // Calculate next number layer
             var maxNumLayer = 0;
-            for (var layer = 0; layer < layerSet.count; layer++) {
-                var numLayer = parseInt(layerSet.get(layer).name.substring(6), 10)
+            for (var layer = 0; layer < layerModel.count; layer++) {
+                var numLayer = parseInt(layerModel.get(layer).name.substring(6), 10)
                 if (numLayer > maxNumLayer) maxNumLayer = numLayer
             }
             maxNumLayer++
@@ -69,19 +68,19 @@ function addLayer(layerName, color) {
     var newLayerId = layerIdCounter++
     newLayerId = newLayerId.toString()
     imgProcessor.addPixmap(newLayerId, imageSize, newColor)
-    layerSet.append({ name: newLayerName, colorImage: newColor, enable: true, layerId: newLayerId })
+    layerModel.append({ name: newLayerName, colorImage: newColor, enable: true, layerId: newLayerId })
     // Set new layer as current
-    if (layerSet.count > 1) {
+    if (layerModel.count > 1) {
         var selectedLayer = currentPageItem.layerManager.currentLayerIndex
-        layerSet.move(layerSet.count - 1, selectedLayer, 1)
+        layerModel.move(layerModel.count - 1, selectedLayer, 1)
         currentPageItem.layerManager.currentLayerIndex = selectedLayer
     }
 }
 
 // Delete layer
 function deleteLayer(index) {
-    var id = pagesModel.get(currentPageIndex).layerSet.get(index).layerId
-    pagesModel.get(currentPageIndex).layerSet.remove(index)
+    var id = pagesModel.get(currentPageIndex).layerModel.get(index).layerId
+    pagesModel.get(currentPageIndex).layerModel.remove(index)
     imgProcessor.deletePixmap(id)
 }
 
@@ -118,22 +117,21 @@ function folderFromPath(path) {
 function openOra() {
     var path = fileDialog.currentFilePath
     currentPageItem.canvasArea.oraPath = path
-    // Read layer attributes
-    openRaster.readAttributes(path)
-    var layersList = openRaster.layersNameList()
+    // Read layer attributes  
+    var layersList = openRaster.readAttributes(path)
     console.log(layersList)
-
+/*
     addPage(fileDialog.currentFileName)
     for (var i = layersList.length - 1; i > -1; i-- ) {
         addLayer(layersList[i])
-        var layerId = pagesModel.get(currentPageIndex).layerSet.get(0).layerId
+        var layerId = pagesModel.get(currentPageIndex).layerModel.get(0).layerId
         console.log("layerId " + layerId + " i " + i)
         brush.setLayerId(layerId)
         console.log("source " + brush.source())
         openRaster.setPixmap(brush.source(), i)
     }
 
-
+*/
     console.log("open complete")
 
     fileDialog.visible = false
@@ -144,32 +142,20 @@ function saveAsOra() {
     var path = fileDialog.currentFilePath
     if (path.substr(-3) !== ".ora")
         path += ".ora"
-    currentPage.canvasArea.oraPath = path
+    currentPageItem.canvasArea.oraPath = path
     saveOra()
     fileDialog.visible = false
 }
 
 // Save OpenRaster file
 function saveOra() {
-    //console.log(currentPage.canvasArea.oraPath)
-    var canvas = currentPage.canvasArea.pathView
-    canvas.currentIndexBind = false
-    var currentLayer = canvas.currentIndex
-    var paintedItemList = []
-    var layersNameList = []
-
-    for (var i = 0; i < canvas.count; i++) {
-        // paintedItem objects
-        canvas.currentIndex = i
-        paintedItemList.push(canvas.currentItem)
-        // layers name
-        layersNameList.push(pagesModel.get(currentPage).layerSet.get(i).name)
+    var path = currentPageItem.canvasArea.oraPath
+    var layerModel = pagesModel.get(currentPageIndex).layerModel
+    var layerList = []
+    for (var i = 0; i < layerModel.count; i++) {
+        layerList.push({ "name": layerModel.get(i).name,
+                         "layerId": layerModel.get(i).layerId,
+                         "enable": layerModel.get(i).enable})
     }
-    canvas.currentIndexBind = true
-
-    openRaster.write(currentPage.canvasArea.oraPath, imageSize, paintedItemList, layersNameList)
-
-    currentPage.canvasArea.focusBind = false
-    currentPage.canvasArea.focus = true
-    currentPage.canvasArea.focusBind = true
+    openRaster.write(path, imageSize, layerList)
 }

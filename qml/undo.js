@@ -61,15 +61,15 @@ function changeLayer(prevLayer, newLayer) {
 
 function addLayer(numLayer) {
     var redoLayer = numLayer
-    var layerName = layerSet.get(numLayer).name
+    var layerName = layerModel.get(numLayer).name
     return {
         name: "Add Layer",
         undo: function() {
-            layerSet.remove(redoLayer)
+            layerModel.remove(redoLayer)
             //console.log("undo-add-layer");
         },
         redo: function() {
-            layerSet.insert(redoLayer, { name: layerName, colorImage: "transparent", enable: true })
+            layerModel.insert(redoLayer, { name: layerName, colorImage: "transparent", enable: true })
             currentLayer = redoLayer
             //console.log("redo-add-layer");
         }
@@ -79,7 +79,7 @@ function addLayer(numLayer) {
 function deleteLayer(numLayer) {
     var redoLayer = numLayer
     //var isCurrent = (currentLayer === numLayer)
-    var layerName = layerSet.get(numLayer).name
+    var layerName = layerModel.get(numLayer).name
     //var undoArea
     //console.log("currentLayer: " + currentLayer + " redoLayer: " + redoLayer + " isCurrent: " + isCurrent)
     /*
@@ -96,7 +96,7 @@ function deleteLayer(numLayer) {
         name: "Delete Layer",
         undo: function() {
             var currentLayerIndex = currentLayer
-            layerSet.insert(redoLayer, { name: layerName, colorImage: "transparent", enable: true })
+            layerModel.insert(redoLayer, { name: layerName, colorImage: "transparent", enable: true })
             currentLayer = redoLayer
             canvasArea.pathView.currentItem.setPixmapArea(Qt.point(0, 0), undoArea)
 /*
@@ -105,7 +105,7 @@ function deleteLayer(numLayer) {
 
         },
         redo: function() {
-            layerSet.remove(redoLayer)
+            layerModel.remove(redoLayer)
             //console.log("redo-delete-layer");
         }
     }
@@ -115,11 +115,11 @@ function raiseLayer() {
     return {
         name: "Raise Layer",
         undo: function() {
-            layerSet.move(currentLayer, currentLayer + 1, 1)
+            layerModel.move(currentLayer, currentLayer + 1, 1)
             //console.log("undo-raise-layer");
         },
         redo: function() {
-            layerSet.move(currentLayer, currentLayer - 1, 1)
+            layerModel.move(currentLayer, currentLayer - 1, 1)
             //console.log("redo-raise-layer");
         }
     }
@@ -129,11 +129,11 @@ function lowerLayer() {
     return {
         name: "Lower Layer",
         undo: function() {
-            layerSet.move(currentLayer, currentLayer - 1, 1)
+            layerModel.move(currentLayer, currentLayer - 1, 1)
             //console.log("undo-lower-layer");
         },
         redo: function() {
-            layerSet.move(currentLayer, currentLayer + 1, 1)
+            layerModel.move(currentLayer, currentLayer + 1, 1)
             //console.log("redo-lower-layer");
         }
     }
