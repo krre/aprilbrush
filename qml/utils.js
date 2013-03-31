@@ -78,9 +78,9 @@ function addLayer(layerName, color) {
 
 // Delete layer
 function deleteLayer(index) {
-    var id = pagesModel.get(currentPageIndex).layerModel.get(index).layerId
+    var layerId = pagesModel.get(currentPageIndex).layerModel.get(index).layerId
     pagesModel.get(currentPageIndex).layerModel.remove(index)
-    imgProcessor.deletePixmap(id)
+    imgProcessor.deletePixmap(layerId)
 }
 
 // Open OpenRaster file

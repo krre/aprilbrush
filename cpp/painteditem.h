@@ -11,8 +11,6 @@ class PaintedItem : public QQuickPaintedItem
     Q_PROPERTY(ImageProcessor* imageProcessor READ imageProcessor WRITE setImageProcessor)
 
 public:
-    //Q_INVOKABLE void setPixmapArea(QPoint startPos, QByteArray area);
-
     PaintedItem(QQuickItem *parent = 0);
     void paint(QPainter *painter);
     ImageProcessor* imageProcessor() const { return m_imageProcessor; }

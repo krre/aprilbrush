@@ -7,7 +7,6 @@ import "components"
 import "utils.js" as Utils
 import "undo.js" as Undo
 
-
 Rectangle {
     id: main
     property size imageSize: Qt.size(Screen.width, Screen.height)

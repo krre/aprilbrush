@@ -17,11 +17,13 @@ function paint() {
     return {
         name: "Paint",
         undo: function() {
-            canvasArea.pathView.currentItem.setPixmapArea(startPos, undoArea)
+            imgProcessor.setPixmapArea(startPos, undoArea, currentLayerId)
+            pathView.currentItem.update()
             //console.log("undo-paint");
         },
         redo: function() {
-            canvasArea.pathView.currentItem.setPixmapArea(startPos, redoArea)
+            imgProcessor.setPixmapArea(startPos, redoArea, currentLayerId)
+            pathView.currentItem.update()
             //console.log("redo-paint");
         }
     }
@@ -29,11 +31,12 @@ function paint() {
 
 function clear() {
     var startPos = Qt.point(0, 0)
-    //var undoArea = brush.currentArea()
+    var undoArea = brush.currentArea()
     return {
         name: "Clear",
         undo: function() {
-            canvasArea.pathView.currentItem.setPixmapArea(startPos, undoArea)
+            imgProcessor.setPixmapArea(startPos, undoArea, currentLayerId)
+            pathView.currentItem.update()
             //console.log("undo-clear");
         },
         redo: function() {
@@ -43,69 +46,64 @@ function clear() {
     }
 }
 
-function changeLayer(prevLayer, newLayer) {
-    var undoLayer = prevLayer
-    var redoLayer = newLayer
+function changeLayer(prevLayerIndex, newLayerIndex) {
+    var undoLayerIndex = prevLayerIndex
+    var redoLayerIndex = newLayerIndex
     return {
         name: "Change Layer",
         undo: function() {
-            currentLayer = undoLayer
+            currentLayerIndex = undoLayerIndex
             //console.log("undo-change-layer");
         },
         redo: function() {
-            currentLayer = redoLayer
+            currentLayerIndex = redoLayerIndex
             //console.log("redo-change-layer");
         }
     }
 }
 
-function addLayer(numLayer) {
-    var redoLayer = numLayer
-    var layerName = layerModel.get(numLayer).name
+function addLayer(layerIndex) {
+    var redoLayerIndex = layerIndex
+    var layerName = layerModel.get(layerIndex).name
     return {
         name: "Add Layer",
         undo: function() {
-            layerModel.remove(redoLayer)
+            Utils.deleteLayer(redoLayerIndex)
             //console.log("undo-add-layer");
         },
         redo: function() {
-            layerModel.insert(redoLayer, { name: layerName, colorImage: "transparent", enable: true })
-            currentLayer = redoLayer
+            Utils.addLayer(layerName)
+            currentLayerIndex = redoLayerIndex
             //console.log("redo-add-layer");
         }
     }
 }
 
-function deleteLayer(numLayer) {
-    var redoLayer = numLayer
-    //var isCurrent = (currentLayer === numLayer)
-    var layerName = layerModel.get(numLayer).name
-    //var undoArea
-    //console.log("currentLayer: " + currentLayer + " redoLayer: " + redoLayer + " isCurrent: " + isCurrent)
-    /*
-    if (!isCurrent) {
-        var currentLayerIndex = currentLayer
-        currentLayer = redoLayer
-        brush.setSource(canvasArea.pathView.currentItem)
-        undoArea = brush.currentArea()
-        currentLayer = currentLayerIndex
-    }
-    else*/
-        var undoArea = brush.currentArea()
+function deleteLayer(layerIndex) {
+    var redoLayerIndex = layerIndex
+    var layerName = layerModel.get(layerIndex).name
+    var currentIndexBackUp = currentLayerIndex
+    currentLayerIndex = layerIndex
+    var undoArea = brush.currentArea()
+    currentLayerIndex = currentIndexBackUp
+    delete currentIndexBackUp
+
     return {
         name: "Delete Layer",
         undo: function() {
-            var currentLayerIndex = currentLayer
-            layerModel.insert(redoLayer, { name: layerName, colorImage: "transparent", enable: true })
-            currentLayer = redoLayer
-            canvasArea.pathView.currentItem.setPixmapArea(Qt.point(0, 0), undoArea)
-/*
-            if (!isCurrent)
-                currentLayer = currentLayerIndex*/
-
+            var currentIndexBackUp = currentLayerIndex
+            var startPos = Qt.point(0, 0)
+            Utils.addLayer(layerName)
+            if (currentLayerIndex < 0) currentLayerIndex = 0
+            var layerId = layerModel.get(currentLayerIndex).layerId
+            imgProcessor.setPixmapArea(startPos, undoArea, layerId)
+            if (currentIndexBackUp >= 0) {
+                layerModel.move(currentLayerIndex, redoLayerIndex, 1)
+                currentLayerIndex = currentIndexBackUp
+            }
         },
         redo: function() {
-            layerModel.remove(redoLayer)
+            Utils.deleteLayer(redoLayerIndex)
             //console.log("redo-delete-layer");
         }
     }
@@ -115,11 +113,11 @@ function raiseLayer() {
     return {
         name: "Raise Layer",
         undo: function() {
-            layerModel.move(currentLayer, currentLayer + 1, 1)
+            layerModel.move(currentLayerIndex, currentLayerIndex + 1, 1)
             //console.log("undo-raise-layer");
         },
         redo: function() {
-            layerModel.move(currentLayer, currentLayer - 1, 1)
+            layerModel.move(currentLayerIndex, currentLayerIndex - 1, 1)
             //console.log("redo-raise-layer");
         }
     }
@@ -129,11 +127,11 @@ function lowerLayer() {
     return {
         name: "Lower Layer",
         undo: function() {
-            layerModel.move(currentLayer, currentLayer - 1, 1)
+            layerModel.move(currentLayerIndex, currentLayerIndex - 1, 1)
             //console.log("undo-lower-layer");
         },
         redo: function() {
-            layerModel.move(currentLayer, currentLayer + 1, 1)
+            layerModel.move(currentLayerIndex, currentLayerIndex + 1, 1)
             //console.log("redo-lower-layer");
         }
     }

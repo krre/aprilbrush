@@ -11,8 +11,9 @@ class ImageProcessor : public QObject
 public:
     explicit ImageProcessor();
 
-    Q_INVOKABLE void addPixmap(const QString id, const QSize size, const QColor color);
-    Q_INVOKABLE void deletePixmap(const QString id);
+    Q_INVOKABLE void addPixmap(const QString layerId, const QSize size, const QColor color);
+    Q_INVOKABLE void deletePixmap(const QString layerId);
+    Q_INVOKABLE void setPixmapArea(const QPoint startPos, const QByteArray area, const QString layerId);
     QHash<QString, QPixmap*> pixmapHash() { return m_pixmapHash; }
 
 signals:
@@ -22,7 +23,6 @@ public slots:
 private:
     QPixmap *pixmap;
     QHash<QString, QPixmap*> m_pixmapHash;
-    
 };
 
 #endif // IMAGEPROCESSOR_H

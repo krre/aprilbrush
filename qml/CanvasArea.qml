@@ -13,8 +13,8 @@ Item {
     property int mirror: 1
     property real rotation: 0
     property bool saved: false
-    //property string oraPath
-    property string oraPath: "c:/1/1.ora"
+    property string oraPath
+    //property string oraPath: "c:/1/1.ora"
     property bool focusBind: true
 
     parent: checkerBoard
@@ -144,8 +144,6 @@ Item {
                 onPositionChanged: brush.paintDab(mouseX, mouseY)
                 visible: !panMode
             }
-            //Component.onCompleted: paintedItem.update()
-
         }
     }
 }

@@ -43,7 +43,7 @@ public:
     Q_INVOKABLE QPoint startPos() { return minPos; }
     Q_INVOKABLE QByteArray undoArea() { return undoByteArray; }
     Q_INVOKABLE QByteArray redoArea() { return redoByteArray; }
-    //Q_INVOKABLE QByteArray currentArea() { return compressPixmap(paintedItem->pixmapItem); }
+    Q_INVOKABLE QByteArray currentArea() { return compressPixmap(*pixmap); }
     ImageProcessor* imageProcessor() const { return m_imageProcessor; }
 
     QString layerId() const { return m_layerId; }

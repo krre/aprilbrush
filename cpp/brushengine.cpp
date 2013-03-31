@@ -8,7 +8,6 @@ BrushEngine::BrushEngine()
     //ghWintab = 0;
     touchPen = false;
     eraserBrush = false;
-    //qDebug() << "brush engine starts";
 }
 
 BrushEngine::~BrushEngine()
@@ -25,7 +24,7 @@ void BrushEngine::paintDab(qreal xPos, qreal yPos)
     if (!touchPen)
     {
         prevPos = posCursor;
-        //prevPixmap = new QPixmap(paintedItem->pixmapItem);
+        prevPixmap = new QPixmap(*pixmap);
         minPos = QPoint(prevPos.x(), prevPos.y());
         maxPos = minPos;
         touchPen = true;
@@ -104,11 +103,11 @@ void BrushEngine::setTouch(bool touch)
         maxPos.setY(maxPos.y() + sizeBrush / 2);
 
         // Undo area compress
-        //undoByteArray = compressPixmap(prevPixmap->copy(QRect(minPos, maxPos)));
+        undoByteArray = compressPixmap(prevPixmap->copy(QRect(minPos, maxPos)));
         // Redo area compress
-        //redoByteArray = compressPixmap(paintedItem->pixmapItem.copy(QRect(minPos, maxPos)));
+        redoByteArray = compressPixmap(pixmap->copy(QRect(minPos, maxPos)));
 
-        //delete prevPixmap;
+        delete prevPixmap;
     }
 }
 

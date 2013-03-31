@@ -48,10 +48,9 @@ Window {
             ListItem {
                 text: name
                 color: ListView.isCurrentItem ? "transparent" : "lightgray"
-                closable: ListView.isCurrentItem
                 onClicked: { undoManager.add(new Undo.changeLayer(currentLayerIndex, index)); currentLayerIndex = index }
                 onClosed: {
-                    //undoManager.add(new Undo.deleteLayer(index))
+                    undoManager.add(new Undo.deleteLayer(index))
                     Utils.deleteLayer(index)
                 }
             }
