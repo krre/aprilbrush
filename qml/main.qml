@@ -13,8 +13,8 @@ Rectangle {
     property bool layerManagerVisible: true
     property point layerManagerPos: Qt.point(20, 300)
     property size layerManagerSize: Qt.size(200, 200)
-    property bool undoManagerVisible: false
-    property point undoManagerPos: Qt.point(750, 350)
+    property bool undoManagerVisible: true
+    property point undoManagerPos: Qt.point(780, 310)
     property size undoManagerSize: Qt.size(200, 200)
     property bool eraserMode: false
 
@@ -87,8 +87,8 @@ Rectangle {
 
     BrushLibrary {
         id: brushLibrary
-        x: 780
-        y: 320
+        x: 570
+        y: 50
         z: 4
         //visible: false
     }

@@ -17,8 +17,8 @@ int main(int argc, char *argv[])
     qmlRegisterType<ImageProcessor>("ImageProcessor", 1, 0, "ImageProcessor");
 
     QQuickView view;
-    //view.setSource(QUrl::fromLocalFile("qml/main.qml"));
-    view.setSource(QUrl::fromLocalFile("../../aprilbrush/qml/main.qml"));
+    view.setSource(QUrl::fromLocalFile("qml/main.qml"));
+    //view.setSource(QUrl::fromLocalFile("../../aprilbrush/qml/main.qml"));
     view.setResizeMode(QQuickView::SizeRootObjectToView);
     view.show();
 
