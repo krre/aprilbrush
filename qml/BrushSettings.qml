@@ -5,12 +5,14 @@ Window {
     id: root
     title: "Brush Settings"
 
-    property int size: 30
-    property int opacityBrush: 50
-    property int spacing: 30
-    property int hardness: 85
-    property int roundness: 1
-    property int angle: 90
+    property int size
+    property int opacityBrush
+    property int spacing
+    property int hardness
+    property int roundness
+    property int angle
+
+    property alias brushSettingsModel: brushSettingsModel
 
     Item {
         anchors.fill: parent

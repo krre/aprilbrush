@@ -25,12 +25,21 @@ Window {
         Component {
             id: brushDelegate
             ListItem {
-                text: name
+                text: nameLib
                 width: 50
                 height: 50
                 closable: false
                 color: GridView.isCurrentItem ? "transparent" : "lightgray"
-                onClicked: libraryView.currentIndex = index
+                onClicked: {
+                    libraryView.currentIndex = index
+                    brushSettings.brushSettingsModel.setProperty(0, "initParam", sizeLib)
+                    brushSettings.brushSettingsModel.setProperty(1, "initParam", opacityLib)
+                    brushSettings.brushSettingsModel.setProperty(2, "initParam", spacingLib)
+                    brushSettings.brushSettingsModel.setProperty(3, "initParam", hardnessLib)
+                    brushSettings.brushSettingsModel.setProperty(4, "initParam", roundnessLib)
+                    brushSettings.brushSettingsModel.setProperty(5, "initParam", angleLib)
+                    //console.log(JSON.stringify(brushSettings.brushSettingsModel, null, 4))
+                }
             }
         }
 
@@ -44,12 +53,12 @@ Window {
 
         ListModel {
             id: libraryModel
-            ListElement {name: "Active"}
-            ListElement {name: "Default"}
-            ListElement {name: "Big"}
-            ListElement {name: "Little"}
-            ListElement {name: "Ellipse"}
-            ListElement {name: "Eraser"}
+            ListElement {nameLib: "Active"; sizeLib: 10; opacityLib: 50; spacingLib: 25; hardnessLib: 34; roundnessLib: 2; angleLib: 90 }
+            ListElement {nameLib: "Default"; sizeLib: 30; opacityLib: 50; spacingLib: 30; hardnessLib: 85; roundnessLib: 1; angleLib: 90 }
+            ListElement {nameLib: "Big"}
+            ListElement {nameLib: "Little"}
+            ListElement {nameLib: "Ellipse"}
+            ListElement {nameLib: "Eraser"}
         }
     }
 }

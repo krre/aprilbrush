@@ -9,6 +9,7 @@ Item {
     property int valueX: 0
 
     Component.onCompleted: valueX = init
+    onInitChanged: valueX = init
 
     width: parent.width
     onWidthChanged: valueX = value
