@@ -1,11 +1,10 @@
 #include <QGuiApplication>
 #include <QQuickView>
-#include <QtQml>
-#include <QtGui>
 #include "cpp/painteditem.h"
 #include "cpp/brushengine.h"
 #include "cpp/openraster/openraster.h"
 #include "cpp/imageprocessor.h"
+#include "cpp/corelib.h"
 
 int main(int argc, char *argv[])
 {
@@ -15,10 +14,10 @@ int main(int argc, char *argv[])
     qmlRegisterType<BrushEngine>("BrushEngine", 1, 0, "Brush");
     qmlRegisterType<OpenRaster>("OpenRaster", 1, 0, "OpenRaster");
     qmlRegisterType<ImageProcessor>("ImageProcessor", 1, 0, "ImageProcessor");
+    qmlRegisterType<CoreLib>("CoreLib", 1, 0, "CoreLib");
 
     QQuickView view;
     view.setSource(QUrl::fromLocalFile("qml/main.qml"));
-    //view.setSource(QUrl::fromLocalFile("../../aprilbrush/qml/main.qml"));
     view.setResizeMode(QQuickView::SizeRootObjectToView);
     view.show();
 

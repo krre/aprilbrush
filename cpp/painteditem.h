@@ -2,7 +2,6 @@
 #define PAINTSPACE_H
 
 #include <QQuickPaintedItem>
-#include <QtGui>
 #include "imageprocessor.h"
 
 class PaintedItem : public QQuickPaintedItem

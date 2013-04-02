@@ -2,7 +2,9 @@
 #define IMAGEPROCESSOR_H
 
 #include <QObject>
-#include <QtGui>
+#include <QPixmap>
+#include <QPainter>
+#include <QVariantList>
 
 class ImageProcessor : public QObject
 {

@@ -3,6 +3,7 @@ import QtQuick.Window 2.0
 import BrushEngine 1.0
 import OpenRaster 1.0
 import ImageProcessor 1.0
+import CoreLib 1.0
 import "components"
 import "utils.js" as Utils
 import "undo.js" as Undo
@@ -51,6 +52,10 @@ Rectangle {
     OpenRaster {
         id: openRaster
         imageProcessor: imgProcessor
+    }
+
+    CoreLib {
+        id: coreLib
     }
 
     ListModel {

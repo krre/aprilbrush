@@ -1,18 +1,32 @@
 TARGET = AprilBrush
 QT += quick
 
+CONFIG(debug, debug|release) {
+    DDIR = $$OUT_PWD/debug
+}
+CONFIG(release, debug|release) {
+    DDIR = $$OUT_PWD/release
+}
+
+ab.path = $$DDIR
+ab.files += qml brushlib
+
+INSTALLS += ab
+
 SOURCES += \
     main.cpp \
     cpp/painteditem.cpp \
     cpp/brushengine.cpp \
     cpp/openraster/openraster.cpp \
-    cpp/imageprocessor.cpp
+    cpp/imageprocessor.cpp \
+    cpp/corelib.cpp
 
 HEADERS += \
     cpp/painteditem.h \
     cpp/brushengine.h \
     cpp/openraster/openraster.h \
-    cpp/imageprocessor.h
+    cpp/imageprocessor.h \
+    cpp/corelib.h
 
 OTHER_FILES += \
     qml/main.qml \
@@ -33,9 +47,11 @@ OTHER_FILES += \
     qml/components/ListItem.qml \
     qml/components/ListItemComponent.qml \
     qml/components/FileDialog.qml \
-    qml/components/Shadow.qml
+    qml/components/Shadow.qml \
+    qml/layer.js \
+    qml/brushlib.js
 
-#QMAKE_POST_LINK += $$QMAKE_COPY_DIR $$PWD/qml $(DESTDIR) $$escape_expand(\\n\\t)
+
 
 
 

@@ -2,8 +2,10 @@
 #define BRUSHENGINE_H
 
 #ifndef NOMINMAX
-#define NOMINMAX // temporary fixing compile error with MSVC
+#define NOMINMAX // fixing compile error with MSVC
 #endif
+
+#include <QBuffer>
 
 #include "windows.h"
 #include "wintab/wintab.h"
@@ -11,7 +13,6 @@
 #define PACKETMODE 0
 #include "wintab/pktdef.h"
 
-#include <QtGui>
 #include "painteditem.h"
 
 typedef UINT (API *PtrWTInfo)(UINT, UINT, LPVOID);
@@ -103,7 +104,7 @@ private:
     QPoint maxPos;
     bool touchPen;
 
-    QTime time;
+    //QTime time;
     qreal pressure();
     QString m_layerId;
     QPixmap *pixmap;
