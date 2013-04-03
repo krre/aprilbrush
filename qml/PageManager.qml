@@ -16,6 +16,11 @@ Item {
         radius: 7
         antialiasing: true
         anchors.fill: parent
+        // Uses for correctly change cursor shape
+        MouseArea {
+            anchors.fill: parent
+            hoverEnabled: true
+        }
 
         Row {
             anchors.fill: parent

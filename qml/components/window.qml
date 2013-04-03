@@ -19,6 +19,7 @@ Item {
     MouseArea {
         anchors.fill: parent
         drag.target: parent
+        hoverEnabled: true
         onPressed: {
             // Moving a item on top of the scene
             var maxZ = 0

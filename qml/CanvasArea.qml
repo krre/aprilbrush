@@ -140,12 +140,14 @@ Item {
 
             MouseArea {
                 anchors.fill: parent
+                hoverEnabled: true
+                onHoveredChanged: cursorShape = (containsMouse ? Qt.CrossCursor : cursorShape = Qt.ArrowCursor)
                 onPressed: brushEngine.paintDab(mouseX, mouseY)
                 onReleased: {
                     brushEngine.setTouch(false);
                     undoManager.add(new Undo.paint())
                 }
-                onPositionChanged: brushEngine.paintDab(mouseX, mouseY)
+                onPositionChanged: if (pressed) brushEngine.paintDab(mouseX, mouseY)
                 visible: !panMode
             }
         }
