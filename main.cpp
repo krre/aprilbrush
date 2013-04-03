@@ -1,10 +1,11 @@
-#include <QGuiApplication>
-#include <QQuickView>
 #include "cpp/painteditem.h"
 #include "cpp/brushengine.h"
-#include "cpp/openraster/openraster.h"
+#include "cpp/openraster.h"
 #include "cpp/imageprocessor.h"
 #include "cpp/corelib.h"
+
+#include <QGuiApplication>
+#include <QQuickView>
 
 int main(int argc, char *argv[])
 {

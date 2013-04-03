@@ -1,8 +1,9 @@
 #ifndef PAINTSPACE_H
 #define PAINTSPACE_H
 
-#include <QQuickPaintedItem>
 #include "imageprocessor.h"
+
+#include <QQuickPaintedItem>
 
 class PaintedItem : public QQuickPaintedItem
 {

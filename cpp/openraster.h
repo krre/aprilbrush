@@ -1,15 +1,16 @@
 #ifndef ORAWRITEREAD_H
 #define ORAWRITEREAD_H
 
+#include "imageprocessor.h"
+#include "qzip/qzipreader_p.h"
+#include "qzip/qzipwriter_p.h"
+
 #include <QPixmap>
 #include <QXmlStreamReader>
 #include <QXmlStreamWriter>
 #include <QBuffer>
 #include <QMap>
 #include <QVariant>
-#include "../imageprocessor.h"
-#include "qzip/qzipreader_p.h"
-#include "qzip/qzipwriter_p.h"
 
 class OpenRaster : public QObject
 {

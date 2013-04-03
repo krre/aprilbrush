@@ -5,7 +5,7 @@
 #define NOMINMAX // fixing compile error with MSVC
 #endif
 
-#include <QBuffer>
+#include "painteditem.h"
 
 #include "windows.h"
 #include "wintab/wintab.h"
@@ -13,7 +13,7 @@
 #define PACKETMODE 0
 #include "wintab/pktdef.h"
 
-#include "painteditem.h"
+#include <QBuffer>
 
 typedef UINT (API *PtrWTInfo)(UINT, UINT, LPVOID);
 typedef HCTX (API *PtrWTOpen)(HWND, LPLOGCONTEXT, BOOL);
