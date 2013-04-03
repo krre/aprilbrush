@@ -1,47 +1,39 @@
 function start() {
     return {
         name: "Start",
-        undo: function() {
-            //console.log("undo-start");
-        },
-        redo: function() {
-            //console.log("redo-start");
-        }
+        undo: function() {},
+        redo: function() {}
     }
 }
 
 function paint() {
-    var startPos = brush.startPos()
-    var undoArea = brush.undoArea()
-    var redoArea = brush.redoArea()
+    var startPos = brushEngine.startPos()
+    var undoArea = brushEngine.undoArea()
+    var redoArea = brushEngine.redoArea()
     return {
         name: "Paint",
         undo: function() {
             imgProcessor.setPixmapArea(startPos, undoArea, currentLayerId)
             pathView.currentItem.update()
-            //console.log("undo-paint");
         },
         redo: function() {
             imgProcessor.setPixmapArea(startPos, redoArea, currentLayerId)
             pathView.currentItem.update()
-            //console.log("redo-paint");
         }
     }
 }
 
 function clear() {
     var startPos = Qt.point(0, 0)
-    var undoArea = brush.currentArea()
+    var undoArea = brushEngine.currentArea()
     return {
         name: "Clear",
         undo: function() {
             imgProcessor.setPixmapArea(startPos, undoArea, currentLayerId)
             pathView.currentItem.update()
-            //console.log("undo-clear");
         },
         redo: function() {
-            brush.clear()
-            //console.log("redo-clear");
+            brushEngine.clear()
         }
     }
 }
@@ -53,11 +45,9 @@ function changeLayer(prevLayerIndex, newLayerIndex) {
         name: "Change Layer",
         undo: function() {
             currentLayerIndex = undoLayerIndex
-            //console.log("undo-change-layer");
         },
         redo: function() {
             currentLayerIndex = redoLayerIndex
-            //console.log("redo-change-layer");
         }
     }
 }
@@ -69,12 +59,10 @@ function addLayer(layerIndex) {
         name: "Add Layer",
         undo: function() {
             Utils.deleteLayer(redoLayerIndex)
-            //console.log("undo-add-layer");
         },
         redo: function() {
             Utils.addLayer(layerName)
             currentLayerIndex = redoLayerIndex
-            //console.log("redo-add-layer");
         }
     }
 }
@@ -104,7 +92,6 @@ function deleteLayer(layerIndex) {
         },
         redo: function() {
             Utils.deleteLayer(redoLayerIndex)
-            //console.log("redo-delete-layer");
         }
     }
 }
@@ -114,11 +101,9 @@ function raiseLayer() {
         name: "Raise Layer",
         undo: function() {
             layerModel.move(currentLayerIndex, currentLayerIndex + 1, 1)
-            //console.log("undo-raise-layer");
         },
         redo: function() {
             layerModel.move(currentLayerIndex, currentLayerIndex - 1, 1)
-            //console.log("redo-raise-layer");
         }
     }
 }
@@ -128,11 +113,9 @@ function lowerLayer() {
         name: "Lower Layer",
         undo: function() {
             layerModel.move(currentLayerIndex, currentLayerIndex - 1, 1)
-            //console.log("undo-lower-layer");
         },
         redo: function() {
             layerModel.move(currentLayerIndex, currentLayerIndex + 1, 1)
-            //console.log("redo-lower-layer");
         }
     }
 }

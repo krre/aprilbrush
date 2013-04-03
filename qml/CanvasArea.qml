@@ -39,7 +39,7 @@ Item {
             case Qt.Key_E: eraserMode = true; break
             case Qt.Key_Delete:
                 undoManager.add(new Undo.clear())
-                brush.clear()
+                brushEngine.clear()
                 break
             case Qt.Key_S: if (!event.modifiers) brushSettings.visible = !brushSettings.visible; break
             case Qt.Key_C: colorPicker.visible = !colorPicker.visible; break
@@ -140,12 +140,12 @@ Item {
 
             MouseArea {
                 anchors.fill: parent
-                onPressed: brush.paintDab(mouseX, mouseY)
+                onPressed: brushEngine.paintDab(mouseX, mouseY)
                 onReleased: {
-                    brush.setTouch(false);
+                    brushEngine.setTouch(false);
                     undoManager.add(new Undo.paint())
                 }
-                onPositionChanged: brush.paintDab(mouseX, mouseY)
+                onPositionChanged: brushEngine.paintDab(mouseX, mouseY)
                 visible: !panMode
             }
         }

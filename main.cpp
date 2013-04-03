@@ -11,7 +11,7 @@ int main(int argc, char *argv[])
     QGuiApplication app(argc, argv);
 
     qmlRegisterType<PaintedItem>("PaintedItem", 1, 0, "PaintedItem");
-    qmlRegisterType<BrushEngine>("BrushEngine", 1, 0, "Brush");
+    qmlRegisterType<BrushEngine>("BrushEngine", 1, 0, "BrushEngine");
     qmlRegisterType<OpenRaster>("OpenRaster", 1, 0, "OpenRaster");
     qmlRegisterType<ImageProcessor>("ImageProcessor", 1, 0, "ImageProcessor");
     qmlRegisterType<CoreLib>("CoreLib", 1, 0, "CoreLib");

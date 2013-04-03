@@ -50,8 +50,3 @@ OTHER_FILES += \
     qml/components/Shadow.qml \
     qml/layer.js \
     qml/brushlib.js
-
-
-
-
-

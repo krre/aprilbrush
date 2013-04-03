@@ -30,8 +30,8 @@ Rectangle {
     height: 600
     color: "lightgray"
 
-    Brush {
-        id: brush
+    BrushEngine {
+        id: brushEngine
         color: "black"
         size: brushSettings.size
         spacing: brushSettings.spacing
