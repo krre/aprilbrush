@@ -14,6 +14,8 @@ public:
     PaintedItem(QQuickItem *parent = 0);
     void paint(QPainter *painter);
     ImageProcessor* imageProcessor() const { return m_imageProcessor; }
+    Q_INVOKABLE void setItemCursor(const QString name, const qreal size);
+    Q_INVOKABLE void unSetItemCursor();
 
 public slots:
     void setImageProcessor(ImageProcessor* arg) { m_imageProcessor = arg; }

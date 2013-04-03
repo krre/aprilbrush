@@ -16,6 +16,7 @@ Item {
     property string oraPath
     //property string oraPath: "c:/1/1.ora"
     property bool focusBind: true
+    property string cursorName: "Paint"
 
     parent: checkerBoard
     width: parent.width
@@ -51,7 +52,7 @@ Item {
             case Qt.Key_Plus: zoom *= 1.5; break
             case Qt.Key_Minus: zoom /= 1.5; break
             case Qt.Key_0: zoom = 1; pan = Qt.point(0, 0); mirror = 1; rotation = 0; break
-            case Qt.Key_Space: panMode = true; break
+            case Qt.Key_Space: if (!event.isAutoRepeat) panMode = true; break
             case Qt.Key_F: mirror *= -1; break
             case Qt.Key_R: rotation += 90; break
         }
@@ -80,7 +81,7 @@ Item {
         }
     }
 
-    Keys.onReleased: if (event.key === Qt.Key_Space) panMode = false
+    Keys.onReleased: if (event.key === Qt.Key_Space) if (!event.isAutoRepeat) panMode = false
 
     CheckerBoard {
         id: checkerBoard
@@ -97,19 +98,6 @@ Item {
             Scale { origin.x: width / 2; origin.y: height / 2; xScale: zoom * mirror; yScale: zoom },
             Rotation { origin.x: width / 2; origin.y: height / 2; angle: rotation }
         ]
-
-        MouseArea {
-            // Used two mouse area, because a strange bug does not allow to use a brush and pan in one
-            property point grabPoint: Qt.point(0, 0)
-            anchors.fill: parent
-            hoverEnabled: panMode
-            onPositionChanged: {
-                pan.x += (mouseX - grabPoint.x) * zoom * mirror
-                pan.y += (mouseY - grabPoint.y) * zoom
-            }
-            visible: panMode
-            onVisibleChanged: grabPoint = Qt.point(mouseX, mouseY)
-        }
     }
 
     PathView {        
@@ -139,16 +127,43 @@ Item {
             visible: enable
 
             MouseArea {
+                property real zoomItem: zoom
+                property bool panModeItem: panMode
+                property point grabPoint
+
                 anchors.fill: parent
                 hoverEnabled: true
-                onHoveredChanged: cursorShape = (containsMouse ? Qt.CrossCursor : cursorShape = Qt.ArrowCursor)
-                onPressed: brushEngine.paintDab(mouseX, mouseY)
-                onReleased: {
-                    brushEngine.setTouch(false);
-                    undoManager.add(new Undo.paint())
-                }
-                onPositionChanged: if (pressed) brushEngine.paintDab(mouseX, mouseY)
-                visible: !panMode
+                onHoveredChanged: containsMouse ? paintedItem.setItemCursor(cursorName, brushSettings.size.value * zoom) : paintedItem.unSetItemCursor()
+                onZoomItemChanged: containsMouse ? paintedItem.setItemCursor(cursorName, brushSettings.size.value * zoom) : paintedItem.unSetItemCursor()
+                onPanModeItemChanged: if (panModeItem) { cursorName = "OpenHand"; paintedItem.setItemCursor(cursorName, 0) } else { cursorName = "Paint"; paintedItem.setItemCursor(cursorName, brushSettings.size.value * zoom) }
+
+                onPressed:
+                    if (panMode) {
+                        cursorName = "ClosedHand"
+                        paintedItem.setItemCursor(cursorName, 0)
+                        grabPoint = Qt.point(mouseX, mouseY)
+                    }
+                    else
+                        brushEngine.paintDab(mouseX, mouseY)
+                onReleased:
+                    if (panMode) {
+                        cursorName = "OpenHand"
+                        paintedItem.setItemCursor(cursorName, 0)
+                    }
+                    else {
+                        brushEngine.setTouch(false);
+                        undoManager.add(new Undo.paint())
+                    }
+                onPositionChanged:
+                    if (pressed) {
+                        if
+                            (!panModeItem) brushEngine.paintDab(mouseX, mouseY)
+                        else
+                        {
+                            pan.x += (mouseX - grabPoint.x) * zoom * mirror
+                            pan.y += (mouseY - grabPoint.y) * zoom
+                        }
+                    }
             }
         }
     }
