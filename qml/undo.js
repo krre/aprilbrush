@@ -72,7 +72,7 @@ function deleteLayer(layerIndex) {
     var layerName = layerModel.get(layerIndex).name
     var currentIndexBackUp = currentLayerIndex
     currentLayerIndex = layerIndex
-    var undoArea = brush.currentArea()
+    var undoArea = brushEngine.currentArea()
     currentLayerIndex = currentIndexBackUp
     delete currentIndexBackUp
 
