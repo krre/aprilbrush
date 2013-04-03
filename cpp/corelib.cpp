@@ -1,4 +1,6 @@
 #include "corelib.h"
+#include "qzip/qzipreader_p.h"
+
 #include <QDebug>
 #include <QDir>
 
@@ -6,10 +8,12 @@ CoreLib::CoreLib(QObject *parent) : QObject(parent)
 {
 }
 
-void CoreLib::brushCount()
+QByteArray CoreLib::brushPack()
 {
-    //qDebug() << QDir::currentPath();
     QString brushPresetsPath = QDir::currentPath() + "/presets/brushes";
-    QString defaultBrushPack = brushPresetsPath + "/default.abb";
-    qDebug() << defaultBrushPack;
+    QString defaultBrushPackPath = brushPresetsPath + "/default.abb";
+    QZipReader zipReader(defaultBrushPackPath, QIODevice::ReadOnly);
+    QByteArray jsonArray = zipReader.fileData("default.json");
+    zipReader.close();
+    return jsonArray;
 }

@@ -1,5 +1,7 @@
-function loadLib() {
-    //var libPath =
-    //console.log("load lib")
-    var brushCount = coreLib.brushCount()
+function loadBrushPack() {
+    var brushPack = coreLib.brushPack()
+    var jsonBrushPack = JSON.parse(brushPack)
+    for (var i = 0; i < jsonBrushPack.length; i++) {
+        libraryModel.append(jsonBrushPack[i])
+    }
 }

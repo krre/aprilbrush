@@ -9,7 +9,7 @@ class CoreLib : public QObject
 
 public:
     explicit CoreLib(QObject *parent = 0);
-    Q_INVOKABLE void brushCount();
+    Q_INVOKABLE QByteArray brushPack();
     
 signals:
     

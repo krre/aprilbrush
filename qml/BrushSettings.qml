@@ -5,56 +5,33 @@ Window {
     id: root
     title: "Brush Settings"
 
-    property int size
-    property int opacityBrush
-    property int spacing
-    property int hardness
-    property int roundness
-    property int angle
-
-    property alias brushSettingsModel: brushSettingsModel
+    property alias size: sizeSlider
+    property alias opaque: opacitySlider
+    property alias spacing: spacingSlider
+    property alias hardness: hardnessSlider
+    property alias roundness: roundnessSlider
+    property alias angle: angleSlider
 
     Item {
+        id: sliders
         anchors.fill: parent
         anchors.bottomMargin: 15
 
-        ListView {
-            id: brushSettingsView
-            model: brushSettingsModel
-            delegate: brushSettingsDelegate
+        VisualItemModel {
+            id: brushSettingsModel
+            Slider { id: sizeSlider; width: sliders.width; name: "Size"; min: 1; max: 200 }
+            Slider { id: opacitySlider; width: sliders.width; name: "Opacity"; min: 0; max: 100 }
+            Slider { id: spacingSlider; width: sliders.width; name: "Spacing"; min: 1; max: 100 }
+            Slider { id: hardnessSlider; width: sliders.width; name: "Hardness"; min: 1; max: 100 }
+            Slider { id: roundnessSlider; width: sliders.width; name: "Roundness"; min: 1; max: 10 }
+            Slider { id: angleSlider; width: sliders.width; name: "Angle"; min: 0; max: 180 }
+        }
 
+        ListView {
+            model: brushSettingsModel
             anchors.fill: parent
             orientation: ListView.Vertical
-            spacing: 30
             clip: true
-        }
-
-        ListModel {
-            id: brushSettingsModel
-            ListElement { nameParam: "Size"; minParam: 1; maxParam: 200; initParam: 30 }
-            ListElement { nameParam: "Opacity"; minParam: 0; maxParam: 100; initParam: 50 }
-            ListElement { nameParam: "Spacing"; minParam: 1; maxParam: 100; initParam: 30 }
-            ListElement { nameParam: "Hardness"; minParam: 1; maxParam: 100; initParam: 85 }
-            ListElement { nameParam: "Roundness"; minParam: 1; maxParam: 10; initParam: 1 }
-            ListElement { nameParam: "Angle"; minParam: 0; maxParam: 180; initParam: 90 }
-        }
-
-        Component {
-            id: brushSettingsDelegate
-            Item {
-                width: parent.width
-                Slider {
-                    name: nameParam; min: minParam; max: maxParam; init: initParam
-                    onValueChanged: {
-                        if (name == "Size") size = value
-                        if (name == "Opacity") opacityBrush = value
-                        if (name == "Spacing") spacing = value
-                        if (name == "Hardness") hardness = value
-                        if (name == "Roundness") roundness = value
-                        if (name == "Angle") angle = value
-                    }
-                }
-            }
         }
     }
 }

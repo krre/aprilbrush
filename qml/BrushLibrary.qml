@@ -21,34 +21,33 @@ Window {
             highlight: brushSelected
             highlightMoveDuration: 1
             clip: true
-            Component.onCompleted: BrushLib.loadLib()
+            Component.onCompleted: {
+                BrushLib.loadBrushPack()
+                brushSettings.size.init = libraryModel.get(0).size
+                brushSettings.opaque.init = libraryModel.get(0).opaque
+                brushSettings.spacing.init = libraryModel.get(0).spacing
+                brushSettings.hardness.init = libraryModel.get(0).hardness
+                brushSettings.roundness.init = libraryModel.get(0).roundness
+                brushSettings.angle.init = libraryModel.get(0).angle
+            }
         }
 
         Component {
             id: brushDelegate
             ListItem {
-                text: nameLib
+                text: name
                 width: 50
                 height: 50
                 closable: false
                 color: GridView.isCurrentItem ? "transparent" : "lightgray"
                 onClicked: {
                     libraryView.currentIndex = index
-                    brushSettings.brushSettingsModel.setProperty(0, "initParam", sizeLib)
-                    brushSettings.brushSettingsModel.setProperty(1, "initParam", opacityLib)
-                    brushSettings.brushSettingsModel.setProperty(2, "initParam", spacingLib)
-                    brushSettings.brushSettingsModel.setProperty(3, "initParam", hardnessLib)
-                    brushSettings.brushSettingsModel.setProperty(4, "initParam", roundnessLib)
-                    brushSettings.brushSettingsModel.setProperty(5, "initParam", angleLib)
-                    /*
-                    var list = []
-                    var obj
-                    for (var i = 0; i < 5; i++) {
-                        obj = {name: "Default", size: 30, opacity: 85}
-                        list.push(obj)
-                    }*/
-                    //console.log(JSON.stringify(list, null, 4))
-                    //console.log(JSON.stringify(brushSettings.brushSettingsModel.get(0), null, 4))
+                    brushSettings.size.init = size
+                    brushSettings.opaque.init = opaque
+                    brushSettings.spacing.init = spacing
+                    brushSettings.hardness.init = hardness
+                    brushSettings.roundness.init = roundness
+                    brushSettings.angle.init = angle
                 }
             }
         }
@@ -63,13 +62,6 @@ Window {
 
         ListModel {
             id: libraryModel
-            /*
-            ListElement {nameLib: "Active"; sizeLib: 10; opacityLib: 50; spacingLib: 25; hardnessLib: 34; roundnessLib: 2; angleLib: 90 }
-            ListElement {nameLib: "Default"; sizeLib: 30; opacityLib: 50; spacingLib: 30; hardnessLib: 85; roundnessLib: 1; angleLib: 90 }
-            ListElement {nameLib: "Big"}
-            ListElement {nameLib: "Little"}
-            ListElement {nameLib: "Ellipse"}
-            ListElement {nameLib: "Eraser"}*/
         }
     }
 }

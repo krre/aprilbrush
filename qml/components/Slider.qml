@@ -13,7 +13,7 @@ Item {
 
     width: parent.width
     onWidthChanged: valueX = value
-    height: 25
+    height: 30
 
     Item {
         height: 10

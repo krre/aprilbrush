@@ -9,7 +9,7 @@ CONFIG(release, debug|release) {
 }
 
 ab.path = $$DDIR
-ab.files += qml brushlib
+ab.files += qml presets
 
 INSTALLS += ab
 

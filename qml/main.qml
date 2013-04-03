@@ -33,12 +33,12 @@ Rectangle {
     BrushEngine {
         id: brushEngine
         color: "black"
-        size: brushSettings.size
-        spacing: brushSettings.spacing
-        hardness: brushSettings.hardness
-        opacity: brushSettings.opacityBrush
-        roundness: brushSettings.roundness
-        angle: brushSettings.angle
+        size: brushSettings.size.value
+        spacing: brushSettings.spacing.value
+        hardness: brushSettings.hardness.value
+        opacity: brushSettings.opaque.value
+        roundness: brushSettings.roundness.value
+        angle: brushSettings.angle.value
         eraser: eraserMode
         layerId: currentLayerId
         imageProcessor: imgProcessor
@@ -87,7 +87,7 @@ Rectangle {
         z: 3
         defaultHeight: 220
         //visible: false
-        onColorChanged: brush.color = colorPicker.pickColor
+        onColorChanged: brushEngine.color = colorPicker.pickColor
     }
 
     BrushLibrary {
