@@ -32,7 +32,7 @@ Rectangle {
 
     BrushEngine {
         id: brushEngine
-        color: "black"
+        color: colorPicker.color
         size: brushSettings.size.value
         spacing: brushSettings.spacing.value
         hardness: brushSettings.hardness.value
@@ -87,7 +87,6 @@ Rectangle {
         z: 3
         defaultHeight: 220
         //visible: false
-        onColorChanged: brushEngine.color = colorPicker.pickColor
     }
 
     BrushLibrary {

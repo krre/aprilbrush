@@ -7,14 +7,23 @@ Window {
     title: "Color"
     id: root
 
-    property real hueColor: 0
-    property real saturationColor: 0
-    property real valueColor: 0
-    property color pickColor: Qt.hsla(0, 0, 0, 0)
+    property real h: 0
+    property real s: 0
+    property real v: 0
+    property color color: "blue"
+
     property int minWindowSize: Math.min(container.width, container.height)
     property real ringWidth: 0.75
 
-    signal colorChanged
+    onColorChanged: setColor()
+    Component.onCompleted: setColor()
+
+    function setColor() {
+        var hsvColor = Utils.rgbToHsv(color)
+        h = hsvColor.h
+        s = hsvColor.s
+        v = hsvColor.v
+    }
 
     Item {
         id: container
@@ -50,6 +59,7 @@ Window {
             Rectangle {
                 id: pickerHue
                 property int sizePickerHue: 3
+
                 x: parent.width / 2
                 y: (parent.height - sizePickerHue) / 2
                 width: parent.width / 2
@@ -60,7 +70,7 @@ Window {
                     id: pickerHueAngle
                     origin.x: 0
                     origin.y: pickerHue.height / 2
-                    angle: 0
+                    angle: (1 - h) * 360
                 }
             }
 
@@ -69,11 +79,9 @@ Window {
                 function handleMouseHue(mouse) {
                     if (mouse.buttons & Qt.LeftButton) {
                         var radianAngle = Math.atan2(outerCircle.height / 2 - mouse.y, mouse.x - outerCircle.width / 2)
-                        var degreeAngle = 360 - radianAngle * 180 / Math.PI
-                        pickerHueAngle.angle = degreeAngle
-                        hueColor = (degreeAngle < 360 ? 360 - degreeAngle : 720 - degreeAngle) / 360
-                        pickColor = Utils.hslColor(hueColor, saturationColor, valueColor, 1)
-                        colorChanged()
+                        var degreeAngle = (1 - radianAngle * 0.5 / Math.PI)
+                        h = degreeAngle < 1 ? 1 - degreeAngle : 2 - degreeAngle
+                        color = Utils.hsvToHsl(h, s, v, 1)
                     }
                 }
                 onPositionChanged: handleMouseHue(mouse)
@@ -104,7 +112,7 @@ Window {
                 rotation: -90
                 gradient: Gradient {
                     GradientStop {position: 0.0; color: "white"}
-                    GradientStop {position: 1.0; color: Qt.hsla(hueColor, 1, 0.5, 1)}
+                    GradientStop {position: 1.0; color: Qt.hsla(h, 1, 0.5, 1)}
                 }
             }
             Rectangle {
@@ -118,7 +126,10 @@ Window {
             // Saturation/Value picker
             Item {
                 id: pickerSV
+                x: s * parent.width
+                y: (1 - v) * parent.height
                 property int radiusPickerSV: 5
+
                 Rectangle {
                     x: -parent.radiusPickerSV
                     y: -parent.radiusPickerSV
@@ -136,14 +147,9 @@ Window {
                 anchors.fill: parent
                 function handleMouseSV(mouse) {
                     if (mouse.buttons & Qt.LeftButton) {
-                        pickerSV.x = Math.max(0, Math.min(width, mouse.x))
-                        pickerSV.y = Math.max(0, Math.min(height, mouse.y))
-                        var saturation = pickerSV.x / parent.width
-                        saturationColor = saturation
-                        var value = 1 - pickerSV.y / parent.height
-                        valueColor = value
-                        pickColor = Utils.hslColor(hueColor, saturationColor, valueColor, 1)
-                        colorChanged()
+                        s = Math.max(0, Math.min(width, mouse.x)) / parent.width
+                        v = 1 - Math.max(0, Math.min(height, mouse.y)) / parent.height
+                        color = Utils.hsvToHsl(h, s, v, 1)
                     }
                 }
                 onPositionChanged: handleMouseSV(mouse)

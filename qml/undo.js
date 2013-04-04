@@ -40,7 +40,7 @@ function clear() {
 
 function fillColor() {
     var startPos = Qt.point(0, 0)
-    var redoColor = colorPicker.pickColor
+    var redoColor = colorPicker.color
     var undoArea = brushEngine.currentArea()
     imgProcessor.fillColor(currentLayerId, redoColor)
     pathView.currentItem.update()
