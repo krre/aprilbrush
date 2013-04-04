@@ -7,9 +7,9 @@ Window {
     title: "Color"
     id: root
 
-    property real h: 0
-    property real s: 0
-    property real v: 0
+    property real h
+    property real s
+    property real v
     property color color: "blue"
 
     property int minWindowSize: Math.min(container.width, container.height)

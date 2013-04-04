@@ -139,6 +139,15 @@ function exportPng() {
     console.log("export: " + path)
 }
 
+// Pick color from canvas
+function pickColor(pos) {
+    var layerIdList = []
+    for (var i = 0; i < layerModel.count; i++)
+        layerIdList.push(layerModel.get(i).layerId)
+
+    return imgProcessor.pickColor(pos, layerIdList)
+}
+
 // Add prefix zero to number
 function zeroFill(number, width)
 {

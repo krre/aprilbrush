@@ -47,6 +47,7 @@ Rectangle {
 
     ImageProcessor {
         id: imgProcessor
+        layerId: currentLayerId
     }
 
     OpenRaster {
@@ -60,7 +61,6 @@ Rectangle {
 
     ListModel {
         id: pagesModel
-        objectName: "pagesModel"
     }
 
     PageManager {

@@ -17,6 +17,7 @@ Item {
     //property string oraPath: "c:/1/1.ora"
     property bool focusBind: true
     property string cursorName: "Paint"
+    property bool ctrlMode: false
 
     parent: checkerBoard
     width: parent.width
@@ -82,9 +83,17 @@ Item {
             fileDialog.mode = 2; // Export mode
             fileDialog.visible = true
         }
+
+        if (event.modifiers & Qt.ControlModifier)
+            ctrlMode = true
     }
 
-    Keys.onReleased: if (event.key === Qt.Key_Space) if (!event.isAutoRepeat) panMode = false
+    Keys.onReleased: {
+        if (Qt.ControlModifier)
+            ctrlMode = false
+        if (event.key === Qt.Key_Space) { if (!event.isAutoRepeat) panMode = false }
+
+    }
 
     CheckerBoard {
         id: checkerBoard
@@ -146,25 +155,34 @@ Item {
                         paintedItem.setItemCursor(cursorName, 0)
                         grabPoint = Qt.point(mouseX, mouseY)
                     }
-                    else
-                        brushEngine.paintDab(mouseX, mouseY)
+                    else {
+                        if (ctrlMode)
+                            colorPicker.color = Utils.pickColor(Qt.point(mouseX, mouseY))
+                        else
+                            brushEngine.paintDab(mouseX, mouseY)
+                    }
                 onReleased:
                     if (panMode) {
                         cursorName = "OpenHand"
                         paintedItem.setItemCursor(cursorName, 0)
                     }
-                    else {
-                        brushEngine.setTouch(false);
-                        undoManager.add(new Undo.paint())
-                    }
+                    else
+                        if (!ctrlMode)
+                        {
+                            brushEngine.setTouch(false);
+                            undoManager.add(new Undo.paint())
+                        }
                 onPositionChanged:
                     if (pressed) {
-                        if
-                            (!panModeItem) brushEngine.paintDab(mouseX, mouseY)
-                        else
-                        {
+                        if (panModeItem) {
                             pan.x += (mouseX - grabPoint.x) * zoom * mirror
                             pan.y += (mouseY - grabPoint.y) * zoom
+                        }
+                        else {
+                            if (ctrlMode)
+                                colorPicker.color = Utils.pickColor(Qt.point(mouseX, mouseY))
+                            else
+                                brushEngine.paintDab(mouseX, mouseY)
                         }
                     }
             }

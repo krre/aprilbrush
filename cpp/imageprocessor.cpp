@@ -1,6 +1,7 @@
 #include "imageprocessor.h"
 
 #include <QDebug>
+#include <QImage>
 
 ImageProcessor::ImageProcessor()
 {
@@ -43,18 +44,30 @@ void ImageProcessor::setPixmapArea(const QPoint startPos, const QByteArray area,
 
 void ImageProcessor::makePng(const QString path, const QVariantList layerIdList)
 {
+    unionPixmaps(layerIdList).save(path);
+}
+
+QColor ImageProcessor::pickColor(const QPoint point, const QVariantList layerIdList)
+{
+    QImage image = QPixmap(unionPixmaps(layerIdList)).toImage();
+    QColor color;
+    return color.fromRgb(image.pixel(point));
+}
+
+QPixmap ImageProcessor::unionPixmaps(QVariantList layerIdList)
+{
     QPixmap *pixmap;
-    QPixmap exportPixmap;
+    QPixmap joinPixmap;
     for (int i = layerIdList.count() - 1; i >= 0; i--){
         QString layerId = layerIdList.at(i).toString();
         pixmap = m_pixmapHash[layerId];
-        if (exportPixmap.isNull())
+        if (joinPixmap.isNull())
         {
-            exportPixmap = QPixmap(pixmap->width(), pixmap->height());
-            exportPixmap.fill(Qt::transparent);
+            joinPixmap = QPixmap(pixmap->width(), pixmap->height());
+            joinPixmap.fill(Qt::transparent);
         }
-        QPainter painter(&exportPixmap);
+        QPainter painter(&joinPixmap);
         painter.drawPixmap(0, 0, *pixmap);
     }
-    exportPixmap.save(path);
+    return joinPixmap;
 }
