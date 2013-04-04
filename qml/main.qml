@@ -24,7 +24,7 @@ Rectangle {
     property int layerIdCounter: 0
     property string currentLayerId
 
-    onImageSizeChanged: if (imageSize.width && imageSize.height) Utils.addPage()
+    //onImageSizeChanged: if (imageSize.width && imageSize.height) Utils.addPage()
 
     width: 1000
     height: 600

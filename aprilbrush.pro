@@ -8,7 +8,8 @@ CONFIG(release, debug|release) {
     DDIR = $$OUT_PWD/release
 }
 
-ab.path = $$DDIR
+#ab.path = $$DDIR
+ab.path += $$OUT_PWD
 ab.files += qml presets
 
 INSTALLS += ab

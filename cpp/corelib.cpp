@@ -17,3 +17,4 @@ QByteArray CoreLib::brushPack()
     zipReader.close();
     return jsonArray;
 }
+

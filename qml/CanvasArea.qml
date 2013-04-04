@@ -55,6 +55,7 @@ Item {
             case Qt.Key_Space: if (!event.isAutoRepeat) panMode = true; break
             case Qt.Key_F: mirror *= -1; break
             case Qt.Key_R: rotation += 90; break
+            case Qt.Key_I: imgProcessor.fillColor(currentLayerId, colorPicker.pickColor)
         }
         if ((event.modifiers & Qt.ControlModifier) && (event.key === Qt.Key_Z)) undoManager.undoView.decrementCurrentIndex()
         if ((event.modifiers & Qt.ControlModifier) && (event.key === Qt.Key_Y)) undoManager.undoView.incrementCurrentIndex()

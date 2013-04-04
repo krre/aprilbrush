@@ -1,13 +1,18 @@
 #include "imageprocessor.h"
 
+#include <QDebug>
+
 ImageProcessor::ImageProcessor()
 {
 }
 
 void ImageProcessor::addPixmap(const QString layerId, const QSize size, const QColor color)
 {
+
     pixmap = new QPixmap(size);
-    pixmap->fill(color);
+    //qDebug() << *pixmap << color;
+    //pixmap->fill(color);
+
     m_pixmapHash.insert(layerId, pixmap);
 }
 

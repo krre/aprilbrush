@@ -66,7 +66,9 @@ function addLayer(layerName, color) {
 
     var newLayerId = layerIdCounter++
     newLayerId = newLayerId.toString()
+    console.log(newColor)
     imgProcessor.addPixmap(newLayerId, imageSize, newColor)
+    //imgProcessor.fillColor(newLayerId, newColor)
     layerModel.append({ name: newLayerName, colorImage: newColor, enable: true, layerId: newLayerId })
     // Set new layer as current
     if (layerModel.count > 1) {
