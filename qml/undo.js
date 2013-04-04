@@ -38,6 +38,26 @@ function clear() {
     }
 }
 
+function fillColor() {
+    var startPos = Qt.point(0, 0)
+    var redoColor = colorPicker.pickColor
+    var undoArea = brushEngine.currentArea()
+    imgProcessor.fillColor(currentLayerId, redoColor)
+    pathView.currentItem.update()
+    var redoArea = brushEngine.currentArea()
+    return {
+        name: "Fill Color",
+        undo: function() {
+            imgProcessor.setPixmapArea(startPos, undoArea, currentLayerId)
+            pathView.currentItem.update()
+        },
+        redo: function() {
+            imgProcessor.setPixmapArea(startPos, redoArea, currentLayerId)
+            pathView.currentItem.update()
+        }
+    }
+}
+
 function changeLayer(prevLayerIndex, newLayerIndex) {
     var undoLayerIndex = prevLayerIndex
     var redoLayerIndex = newLayerIndex
