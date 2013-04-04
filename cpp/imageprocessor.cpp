@@ -11,7 +11,7 @@ void ImageProcessor::addPixmap(const QString layerId, const QSize size, const QC
 
     pixmap = new QPixmap(size);
     //qDebug() << *pixmap << color;
-    //pixmap->fill(color);
+    pixmap->fill(color);
 
     m_pixmapHash.insert(layerId, pixmap);
 }

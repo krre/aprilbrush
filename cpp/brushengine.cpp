@@ -4,7 +4,9 @@
 
 BrushEngine::BrushEngine()
 {
-    wintabInit();
+    #ifdef Q_OS_WIN
+        wintabInit();
+    #endif
     //ghWintab = 0;
     touchPen = false;
     eraserBrush = false;
@@ -13,8 +15,10 @@ BrushEngine::BrushEngine()
 BrushEngine::~BrushEngine()
 {
     //qDebug() << "bye!";
-    if (ghWintab)
-        FreeLibrary(ghWintab);
+    #ifdef Q_OS_WIN
+        if (ghWintab)
+            FreeLibrary(ghWintab);
+    #endif
 }
 
 void BrushEngine::paintDab(qreal xPos, qreal yPos)
@@ -131,6 +135,7 @@ QByteArray BrushEngine::compressPixmap(QPixmap pixmap)
     return byteArray;
 }
 
+#ifdef Q_OS_WIN
 void BrushEngine::wintabInit()
 {
     ghWintab = LoadLibraryA("Wintab32.dll");
@@ -165,10 +170,12 @@ void BrushEngine::wintabInit()
     tabletHandle = ptrWTOpen(windowHandle, &tabletContext, true);
     //qDebug() << "Tablet handle: " << tabletHandle;
 }
+#endif
 
 qreal BrushEngine::pressure()
 {
     qreal pressure = 1;
+    #ifdef Q_OS_WIN
     if (ghWintab)
     {
         PACKET packet;
@@ -179,5 +186,6 @@ qreal BrushEngine::pressure()
         if (serialPacket)
             pressure = (qreal)packet.pkNormalPressure / 1023;
     }
+    #endif
     return pressure;
 }

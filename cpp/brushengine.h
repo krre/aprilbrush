@@ -7,19 +7,23 @@
 
 #include "painteditem.h"
 
+#ifdef Q_OS_WIN
 #include "windows.h"
 #include "wintab/wintab.h"
 #define PACKETDATA PK_NORMAL_PRESSURE
 #define PACKETMODE 0
 #include "wintab/pktdef.h"
+#endif
 
 #include <QBuffer>
 
+#ifdef Q_OS_WIN
 typedef UINT (API *PtrWTInfo)(UINT, UINT, LPVOID);
 typedef HCTX (API *PtrWTOpen)(HWND, LPLOGCONTEXT, BOOL);
 typedef int (API *PtrWTPacketsGet)(HCTX, int, LPVOID);
 typedef int (API *PtrWTPacket)(HCTX, UINT, LPVOID);
 typedef int (API *PtrWTQueuePacketsEx)(HCTX, UINT FAR*, UINT FAR*);
+#endif
 
 class BrushEngine : public QObject
 {
@@ -75,6 +79,7 @@ private:
     inline bool eraser() { return eraserBrush; }
     inline void setEraser(bool eraser) { eraserBrush = eraser; }
 
+    #ifdef Q_OS_WIN
     void wintabInit();
     HINSTANCE ghWintab;
     HCTX tabletHandle;
@@ -82,6 +87,7 @@ private:
     PtrWTOpen ptrWTOpen;
     PtrWTPacket ptrWTPacket;
     PtrWTQueuePacketsEx ptrWTQueuePacketsEx;
+    #endif
 
     QByteArray compressPixmap(QPixmap pixmap);
 
