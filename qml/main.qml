@@ -110,9 +110,9 @@ Rectangle {
         z: settings.colorPicker.position.z
         width: settings.colorPicker.size.width
         height: settings.colorPicker.size.height
-        h: settings.colorPicker.color.h
-        s: settings.colorPicker.color.s
-        v: settings.colorPicker.color.v
+        color: Utils.hsvToHsl(settings.colorPicker.color.h,
+                              settings.colorPicker.color.s,
+                              settings.colorPicker.color.v)
         visible: settings.colorPicker.visible
 
         defaultHeight: 220
