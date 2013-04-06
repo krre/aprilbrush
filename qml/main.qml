@@ -164,6 +164,11 @@ Rectangle {
         }
     }
 
+    About {
+        id: aboutWindow
+        visible: false
+    }
+
     Dock {
         anchors.verticalCenter: parent.verticalCenter
         anchors.horizontalCenter: parent.horizontalCenter

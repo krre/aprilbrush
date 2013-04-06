@@ -8,7 +8,6 @@ Rectangle {
     antialiasing: true
     border.color: "gray"
     color: "#f5f5f5"
-    //opacity: 0.8
 
     MouseArea {
         anchors.fill: parent

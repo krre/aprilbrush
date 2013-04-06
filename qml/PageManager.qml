@@ -49,7 +49,7 @@ Item {
                 highlightMoveDuration: 1
 
                 height: parent.height - 8
-                width: parent.width - addPageArea.width - 10
+                width: parent.width - addPageArea.width - helpArea.width - 10
                 anchors.verticalCenter: parent.verticalCenter
                 orientation: ListView.Horizontal
                 spacing: 5
@@ -99,6 +99,24 @@ Item {
                     width: 100
                     height: pagesView.height
                 }
+            }
+
+            Item {
+                id: helpArea
+                width: 15
+                height: parent.height
+                Text {
+                    text: "?"
+                    font.pixelSize: 15
+                    anchors.fill: parent
+                    horizontalAlignment: Text.AlignHCenter
+                    verticalAlignment: Text.AlignVCenter
+                }
+                MouseArea {
+                    anchors.fill: parent
+                    onClicked: aboutWindow.visible = true
+                }
+
             }
         }
     }
