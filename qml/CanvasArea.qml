@@ -43,11 +43,6 @@ Item {
                 undoManager.add(new Undo.clear())
                 brushEngine.clear()
                 break
-            case Qt.Key_S: if (!event.modifiers) brushSettings.visible = !brushSettings.visible; break
-            case Qt.Key_C: colorPicker.visible = !colorPicker.visible; break
-            case Qt.Key_L: layerManagerVisible = !layerManagerVisible; break
-            case Qt.Key_U: undoManagerVisible = !undoManagerVisible; break
-            case Qt.Key_P: brushLibrary.visible = !brushLibrary.visible; break
             case Qt.Key_D: fileDialog.visible = !fileDialog.visible; break
 
             case Qt.Key_Plus: zoom *= 1.5; break
@@ -97,7 +92,7 @@ Item {
 
     CheckerBoard {
         id: checkerBoard
-        parent: main
+        parent: workArea
 
         x: (parent.width - imageSize.width) / 2 + pan.x
         y: (parent.height - imageSize.height) / 2 + pan.y

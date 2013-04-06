@@ -28,6 +28,8 @@ Rectangle {
     property int layerIdCounter: 0
     property string currentLayerId
 
+    property bool dockMode: false
+
     Component.onCompleted: {
         Settings.loadSettings()
         main.width = settings.mainWindow.width
@@ -53,6 +55,18 @@ Rectangle {
     onImageSizeChanged: if (imageSize.width && imageSize.height) Utils.addPage()
 
     color: "lightgray"
+
+    Keys.onPressed: {
+        if (event.modifiers & Qt.AltModifier) {
+            dockMode = true
+        }
+    }
+
+    Keys.onReleased: {
+        if (Qt.AltModifier) {
+            dockMode = false
+        }
+    }
 
     BrushEngine {
         id: brushEngine
@@ -87,62 +101,73 @@ Rectangle {
         id: pageModel
     }
 
-    PageManager {
-        id: pageManager
-        z: 1
-        anchors.horizontalCenter: parent.horizontalCenter
-    }
+    Item {
+        id: workArea
+        anchors.fill: parent
 
-    BrushSettings {
-        id: brushSettings
-        x: settings.brushSettings.position.x
-        y: settings.brushSettings.position.y
-        z: settings.brushSettings.position.z
-        width: settings.brushSettings.size.width
-        height: settings.brushSettings.size.height
-        visible: settings.brushSettings.visible
-    }
-
-    ColorPicker {
-        id: colorPicker
-        x: settings.colorPicker.position.x
-        y: settings.colorPicker.position.y
-        z: settings.colorPicker.position.z
-        width: settings.colorPicker.size.width
-        height: settings.colorPicker.size.height
-        color: Utils.hsvToHsl(settings.colorPicker.color.h,
-                              settings.colorPicker.color.s,
-                              settings.colorPicker.color.v)
-        visible: settings.colorPicker.visible
-
-        defaultHeight: 220
-    }
-
-    BrushLibrary {
-        id: brushLibrary
-        x: settings.brushLibrary.position.x
-        y: settings.brushLibrary.position.y
-        z: settings.brushLibrary.position.z
-        width: settings.brushLibrary.size.width
-        height: settings.brushLibrary.size.height
-        visible: settings.brushLibrary.visible
-    }
-
-    FileDialog {
-        id: fileDialog
-        z: 5
-        visible: false
-        onClicked: {
-            switch (mode) {
-                case 0: Utils.openOra(); break
-                case 1: Utils.saveAsOra(); break
-                case 2: Utils.exportPng(); break
-            }
-            currentPageItem.canvasArea.focusBind = false
-            currentPageItem.canvasArea.focus = true
-            currentPageItem.canvasArea.focusBind = true
-            visible = false
+        PageManager {
+            id: pageManager
+            z: 1
+            anchors.horizontalCenter: parent.horizontalCenter
         }
+
+        BrushSettings {
+            id: brushSettings
+            x: settings.brushSettings.position.x
+            y: settings.brushSettings.position.y
+            z: settings.brushSettings.position.z
+            width: settings.brushSettings.size.width
+            height: settings.brushSettings.size.height
+            visible: settings.brushSettings.visible
+        }
+
+        ColorPicker {
+            id: colorPicker
+            x: settings.colorPicker.position.x
+            y: settings.colorPicker.position.y
+            z: settings.colorPicker.position.z
+            width: settings.colorPicker.size.width
+            height: settings.colorPicker.size.height
+            color: Utils.hsvToHsl(settings.colorPicker.color.h,
+                                  settings.colorPicker.color.s,
+                                  settings.colorPicker.color.v)
+            visible: settings.colorPicker.visible
+
+            defaultHeight: 220
+        }
+
+        BrushLibrary {
+            id: brushLibrary
+            x: settings.brushLibrary.position.x
+            y: settings.brushLibrary.position.y
+            z: settings.brushLibrary.position.z
+            width: settings.brushLibrary.size.width
+            height: settings.brushLibrary.size.height
+            visible: settings.brushLibrary.visible
+        }
+
+        FileDialog {
+            id: fileDialog
+            z: 5
+            visible: false
+            onClicked: {
+                switch (mode) {
+                    case 0: Utils.openOra(); break
+                    case 1: Utils.saveAsOra(); break
+                    case 2: Utils.exportPng(); break
+                }
+                currentPageItem.canvasArea.focusBind = false
+                currentPageItem.canvasArea.focus = true
+                currentPageItem.canvasArea.focusBind = true
+                visible = false
+            }
+        }
+    }
+
+    Dock {
+        anchors.verticalCenter: parent.verticalCenter
+        anchors.horizontalCenter: parent.horizontalCenter
+        visible: dockMode
     }
 }
 

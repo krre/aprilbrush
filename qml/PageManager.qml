@@ -79,12 +79,12 @@ Item {
 
                     LayerManager {
                         id: layerManager
-                        parent: main
+                        parent: workArea
                     }
 
                     UndoManager {
                         id: undoManager
-                        parent: main
+                        parent: workArea
                     }
 
                     CanvasArea {
