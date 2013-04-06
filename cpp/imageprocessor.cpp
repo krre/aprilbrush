@@ -1,6 +1,5 @@
 #include "imageprocessor.h"
 
-#include <QDebug>
 #include <QImage>
 
 ImageProcessor::ImageProcessor()

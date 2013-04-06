@@ -87,6 +87,7 @@ function deleteLayer(index) {
 
 // Open OpenRaster file
 function openOra() {
+    //var layerModel = pageModel.get(currentPageIndex).layerModel
     var path = fileDialog.currentFilePath
     var layersList = openRaster.readAttributes(path)
 
@@ -94,7 +95,7 @@ function openOra() {
     for (var i = layersList.length - 1; i > -1; i-- ) {
         addLayer(layersList[i].name)
         var src = layersList[i].src
-        var layerId = layerModel.get(0).layerId
+        var layerId = pageModel.get(currentPageIndex).layerModel.get(0).layerId
         openRaster.readPixmap(path, src, layerId)
     }
     currentPageItem.canvasArea.oraPath = path
@@ -115,6 +116,7 @@ function saveAsOra() {
 // Save OpenRaster file
 function saveOra() {
     var path = currentPageItem.canvasArea.oraPath
+    var layerModel = pageModel.get(currentPageIndex).layerModel
     var layerList = []
     for (var i = 0; i < layerModel.count; i++) {
         layerList.push({ "name": layerModel.get(i).name,
@@ -127,6 +129,7 @@ function saveOra() {
 
 // Export PNG file
 function exportPng() {
+    var layerModel = pageModel.get(currentPageIndex).layerModel
     var path = fileDialog.currentFilePath
     if (path.substr(-4) !== ".png")
         path += ".png"

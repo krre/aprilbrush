@@ -59,4 +59,5 @@ void PaintedItem::unSetItemCursor()
 {
     QCursor cursor = QCursor(Qt::ArrowCursor);
     setCursor(cursor);
+    //qDebug() << "unset";
 }
