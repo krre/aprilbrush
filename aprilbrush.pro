@@ -49,5 +49,4 @@ OTHER_FILES += \
     qml/components/ListItemComponent.qml \
     qml/components/FileDialog.qml \
     qml/components/Shadow.qml \
-    qml/layer.js \
     qml/brushlib.js

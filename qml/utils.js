@@ -6,8 +6,8 @@ function addPage(pageName) {
     else {
         // Calculate next number page
         var maxNumPage = 0;
-        for (var page = 0; page < pagesModel.count; page++) {
-            var numPage = parseInt(pagesModel.get(page).name.substring(6), 10)
+        for (var page = 0; page < pageModel.count; page++) {
+            var numPage = parseInt(pageModel.get(page).name.substring(6), 10)
             if (numPage > maxNumPage) maxNumPage = numPage
         }
         maxNumPage++
@@ -15,31 +15,33 @@ function addPage(pageName) {
         newPageName = "Page-" + numNextPage
     }
 
-    pagesModel.append({name: newPageName, layerModel: [], undoSet: [] })
-    pageManager.pagesView.currentIndex = pagesModel.count - 1
+    pageModel.append({name: newPageName, layerModel: [], undoModel: [] })
+    pageManager.pagesView.currentIndex = pageModel.count - 1
 
     if (!pageName) {
         addLayer("Background", "white")
         addLayer()
     }
+
+    //undoManager.add(new Undo.start())
 }
 
 // Delete page
 function deletePage(index) {
-    var layerModel = pagesModel.get(index).layerModel
+    var layerModel = pageModel.get(index).layerModel
     if (layerModel.count > 0)
         for (var i = 0; i < layerModel.count; i++) {
             var layerId = layerModel.get(i).layerId
             imgProcessor.deletePixmap(layerId)
         }
-    pagesModel.remove(index)
+    pageModel.remove(index)
 }
 
 
 // Add new layer
 function addLayer(layerName, color) {
+    var layerModel = pageModel.get(currentPageIndex).layerModel
     var newLayerName
-    var layerModel = pagesModel.get(currentPageIndex).layerModel
     if (layerName)
         newLayerName = layerName
     else {
@@ -66,9 +68,7 @@ function addLayer(layerName, color) {
 
     var newLayerId = layerIdCounter++
     newLayerId = newLayerId.toString()
-    //console.log(newColor)
     imgProcessor.addPixmap(newLayerId, imageSize, newColor)
-    //imgProcessor.fillColor(newLayerId, newColor)
     layerModel.append({ name: newLayerName, colorImage: newColor, enable: true, layerId: newLayerId })
     // Set new layer as current
     if (layerModel.count > 1) {
@@ -80,8 +80,8 @@ function addLayer(layerName, color) {
 
 // Delete layer
 function deleteLayer(index) {
-    var layerId = pagesModel.get(currentPageIndex).layerModel.get(index).layerId
-    pagesModel.get(currentPageIndex).layerModel.remove(index)
+    var layerId = layerModel.get(index).layerId
+    layerModel.remove(index)
     imgProcessor.deletePixmap(layerId)
 }
 
@@ -94,7 +94,7 @@ function openOra() {
     for (var i = layersList.length - 1; i > -1; i-- ) {
         addLayer(layersList[i].name)
         var src = layersList[i].src
-        var layerId = pagesModel.get(currentPageIndex).layerModel.get(0).layerId
+        var layerId = layerModel.get(0).layerId
         openRaster.readPixmap(path, src, layerId)
     }
     currentPageItem.canvasArea.oraPath = path
@@ -108,14 +108,13 @@ function saveAsOra() {
         path += ".ora"
     currentPageItem.canvasArea.oraPath = path
     saveOra(path)
-    pagesModel.get(currentPageIndex).name = fileFromPath(path)
+    pageModel.get(currentPageIndex).name = fileFromPath(path)
     console.log("save: " + path)
 }
 
 // Save OpenRaster file
 function saveOra() {
     var path = currentPageItem.canvasArea.oraPath
-    var layerModel = pagesModel.get(currentPageIndex).layerModel
     var layerList = []
     for (var i = 0; i < layerModel.count; i++) {
         layerList.push({ "name": layerModel.get(i).name,
@@ -131,7 +130,6 @@ function exportPng() {
     var path = fileDialog.currentFilePath
     if (path.substr(-4) !== ".png")
         path += ".png"
-    var layerModel = pagesModel.get(currentPageIndex).layerModel
     var layerIdList = []
     for (var i = 0; i < layerModel.count; i++)
         layerIdList.push(layerModel.get(i).layerId)

@@ -5,29 +5,53 @@ import OpenRaster 1.0
 import ImageProcessor 1.0
 import CoreLib 1.0
 import "components"
+import "settings.js" as Settings
 import "utils.js" as Utils
 import "undo.js" as Undo
 
 Rectangle {
     id: main
-    property size imageSize: Qt.size(Screen.width, Screen.height)
-    property bool layerManagerVisible: true
-    property point layerManagerPos: Qt.point(20, 300)
-    property size layerManagerSize: Qt.size(200, 200)
-    property bool undoManagerVisible: true
-    property point undoManagerPos: Qt.point(780, 310)
-    property size undoManagerSize: Qt.size(200, 200)
-    property bool eraserMode: false
 
+    property var settings
+    // Settings property don't works for Layer Manager and Undo Manager
+    property vector3d layerManagerPos
+    property size layerManagerSize
+    property bool layerManagerVisible
+    property vector3d undoManagerPos
+    property size undoManagerSize
+    property bool undoManagerVisible
+
+    property size imageSize: Qt.size(Screen.width, Screen.height)
+    property bool eraserMode: false
     property variant currentPageItem: pageManager.pagesView.currentItem
     property int currentPageIndex: pageManager.pagesView.currentIndex
     property int layerIdCounter: 0
     property string currentLayerId
 
+    Component.onCompleted: {
+        Settings.loadSettings()
+        main.width = settings.mainWindow.width
+        main.height = settings.mainWindow.height
+
+        layerManagerPos.x = settings.layerManager.position.x
+        layerManagerPos.y = settings.layerManager.position.y
+        layerManagerPos.z = settings.layerManager.position.z
+        layerManagerSize.width = settings.layerManager.size.width
+        layerManagerSize.height = settings.layerManager.size.height
+        layerManagerVisible = settings.layerManager.visible
+
+        undoManagerPos.x = settings.undoManager.position.x
+        undoManagerPos.y = settings.undoManager.position.y
+        undoManagerPos.z = settings.undoManager.position.z
+        undoManagerSize.width = settings.undoManager.size.width
+        undoManagerSize.height = settings.undoManager.size.height
+        undoManagerVisible = settings.undoManager.visible
+
+    }
+    Component.onDestruction: Settings.saveSettings()
+
     onImageSizeChanged: if (imageSize.width && imageSize.height) Utils.addPage()
 
-    width: 1000
-    height: 600
     color: "lightgray"
 
     BrushEngine {
@@ -60,41 +84,48 @@ Rectangle {
     }
 
     ListModel {
-        id: pagesModel
+        id: pageModel
     }
 
     PageManager {
         id: pageManager
         z: 1
-        width: 600
-        height: 34
         anchors.horizontalCenter: parent.horizontalCenter
     }
 
     BrushSettings {
         id: brushSettings
-        x: 780
-        y: 50
-        z: 2
-        height: 250
-        //visible: false
+        x: settings.brushSettings.position.x
+        y: settings.brushSettings.position.y
+        z: settings.brushSettings.position.z
+        width: settings.brushSettings.size.width
+        height: settings.brushSettings.size.height
+        visible: settings.brushSettings.visible
     }
 
     ColorPicker {
         id: colorPicker
-        x: 20
-        y: 50
-        z: 3
+        x: settings.colorPicker.position.x
+        y: settings.colorPicker.position.y
+        z: settings.colorPicker.position.z
+        width: settings.colorPicker.size.width
+        height: settings.colorPicker.size.height
+        h: settings.colorPicker.color.h
+        s: settings.colorPicker.color.s
+        v: settings.colorPicker.color.v
+        visible: settings.colorPicker.visible
+
         defaultHeight: 220
-        //visible: false
     }
 
     BrushLibrary {
         id: brushLibrary
-        x: 570
-        y: 50
-        z: 4
-        //visible: false
+        x: settings.brushLibrary.position.x
+        y: settings.brushLibrary.position.y
+        z: settings.brushLibrary.position.z
+        width: settings.brushLibrary.size.width
+        height: settings.brushLibrary.size.height
+        visible: settings.brushLibrary.visible
     }
 
     FileDialog {
@@ -114,3 +145,4 @@ Rectangle {
         }
     }
 }
+

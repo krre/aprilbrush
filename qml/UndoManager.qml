@@ -5,6 +5,7 @@ import "undo.js" as Undo
 Window {
     id: root
     title: "Undo History"
+    autoClose: false
     property alias currentUndo: undoView.currentIndex
     property alias undoView: undoView
     property int undoDeep: 50
@@ -12,40 +13,61 @@ Window {
     property var commandArray: [] // array for saving undo/redo command (they don't work from ListModel)
     property bool endList: false
     property bool newUndo: false
+/*
+    x: settings.undoManager.position.x
+    y: settings.undoManager.position.y
+    z: settings.undoManager.position.z
+    width: settings.undoManager.size.width
+    height: settings.undoManager.size.height
+    visible: (index == pagesView.currentIndex) && settings.undoManager.visible
 
-    parent: main
-    visible: (index == pagesView.currentIndex) && undoManagerVisible
+    onReleased: {
+        settings.undoManager.position.x = x
+        settings.undoManager.position.y = y
+        settings.undoManager.position.z = z
+
+    }
+    onResized: {
+        settings.undoManager.size.width = width
+        settings.undoManager.size.height = height
+    }
+    onClosed: settings.undoManager.visible = false
+*/
     x: undoManagerPos.x
     y: undoManagerPos.y
-    z: 5
+    z: undoManagerPos.z
     width: undoManagerSize.width
     height: undoManagerSize.height
-    autoClose: false
-    onReleased: undoManagerPos = Qt.point(x, y)
+    visible: (index == pagesView.currentIndex) && undoManagerVisible
+
+    onReleased: {
+        undoManagerPos = Qt.vector3d(x, y, z)
+    }
+    onResized: {
+        undoManagerSize = Qt.size(width, height)
+    }
     onClosed: undoManagerVisible = false
-    onResized: undoManagerSize = Qt.size(width, height)
 
     function add(commandUndo) {
-        if (undoView.currentIndex < undoSet.count - 1) {
-            undoSet.remove(undoView.currentIndex + 1, undoSet.count - undoView.currentIndex - 1)
+        if (undoView.currentIndex < undoModel.count - 1) {
+            undoModel.remove(undoView.currentIndex + 1, undoModel.count - undoView.currentIndex - 1)
             commandArray.length = undoView.currentIndex + 1
         }
-        if (undoSet.count === undoDeep) {
+        if (undoModel.count === undoDeep) {
             endList = true
-            undoSet.remove(0)
+            undoModel.remove(0)
             commandArray.shift()
         }
 
         newUndo = true
-        undoSet.append({ name: commandUndo.name })
+        undoModel.append({ name: commandUndo.name })
         commandArray.push(commandUndo)
-        undoView.currentIndex = undoSet.count - 1
+        undoView.currentIndex = undoModel.count - 1
         endList = false
         newUndo = false
     }
 
     function run(index) {
-        //console.log("index: " + index + " prevIndex: " + prevIndex + " " + " endList: " + endList + " newUndo: " + newUndo)
         if ((index < prevIndex) && !endList) {
             for (var i = prevIndex; i > index; i--) {
                 commandArray[i].undo()
@@ -65,7 +87,7 @@ Window {
 
         ListView {
             id: undoView
-            model: undoSet
+            model: undoModel
             delegate: undoDelegate
 
             highlight: undoSelected

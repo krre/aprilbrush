@@ -9,16 +9,30 @@ Window {
     property alias layersView: layersView
 
     title: "Layers"
-    parent: main
-    visible: (index == pagesView.currentIndex) && layerManagerVisible
+    autoClose: false
+    // TODO: fix binding to settings property
+    /*
+    x: settings.layerManager.position.x
+    y: settings.layerManager.position.y
+    z: settings.layerManager.position.z
+    width: settings.layerManager.size.width
+    height: settings.layerManager.size.height
+    visible: (index == pagesView.currentIndex) && settings.layerManager.visible
+    */
+
     x: layerManagerPos.x
     y: layerManagerPos.y
-    z: 4
+    z: layerManagerPos.z
     width: layerManagerSize.width
     height: layerManagerSize.height
-    autoClose: false
-    onReleased: layerManagerPos = Qt.point(x, y)
-    onResized: layerManagerSize = Qt.size(width, height)
+    visible: (index == pagesView.currentIndex) && layerManagerVisible
+
+    onReleased: {
+        layerManagerPos = Qt.vector3d(x, y, z)
+    }
+    onResized: {
+        layerManagerSize = Qt.size(width, height)
+    }
     onClosed: layerManagerVisible = false
 
     Column {

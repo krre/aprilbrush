@@ -7,7 +7,7 @@ Item {
     property alias pagesView: pagesView
 
     width: 600
-    height: 40
+    height: 34
 
     Rectangle {
         id: rect
@@ -43,7 +43,7 @@ Item {
 
             ListView {
                 id: pagesView
-                model: pagesModel
+                model: pageModel
                 delegate: pagesDelegate
                 highlight: pageSelected
                 highlightMoveDuration: 1
@@ -58,7 +58,7 @@ Item {
                     if (currentIndex >= 0) {
                         var layerIndex = pagesView.currentItem.layerManager.currentLayerIndex
                         if (layerIndex >= 0)
-                            currentLayerId = pagesModel.get(currentIndex).layerModel.get(layerIndex).layerId
+                            currentLayerId = pageModel.get(currentIndex).layerModel.get(layerIndex).layerId
                     }
                 }
             }
@@ -66,9 +66,10 @@ Item {
             Component {               
                 id: pagesDelegate
                 ListItem {
-                    property alias canvasArea: canvasArea
                     property alias undoManager: undoManager
                     property alias layerManager: layerManager
+                    property alias canvasArea: canvasArea
+
                     width: 100
                     height: pagesView.height
                     color: ListView.isCurrentItem ? "transparent" : "lightgray"
@@ -76,16 +77,18 @@ Item {
                     onClicked: { pagesView.currentIndex = index }
                     onClosed: Utils.deletePage(index)
 
-                    CanvasArea {
-                        id: canvasArea
-                    }
-
                     LayerManager {
                         id: layerManager
+                        parent: main
                     }
 
                     UndoManager {
                         id: undoManager
+                        parent: main
+                    }
+
+                    CanvasArea {
+                        id: canvasArea
                     }
                 }
             }

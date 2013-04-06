@@ -16,13 +16,14 @@ Window {
     property real ringWidth: 0.75
 
     onColorChanged: setColor()
-    Component.onCompleted: setColor()
+    Component.onCompleted: if (!h && !s && !v) setColor()
 
     function setColor() {
-        var hsvColor = Utils.rgbToHsv(color)
-        h = hsvColor.h
-        s = hsvColor.s
-        v = hsvColor.v
+            var hsvColor = Utils.rgbToHsv(color)
+            h = hsvColor.h
+            s = hsvColor.s
+            v = hsvColor.v
+            color = Utils.hsvToHsl(h, s, v, 1)
     }
 
     Item {
