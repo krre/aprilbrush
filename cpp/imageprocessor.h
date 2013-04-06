@@ -5,6 +5,7 @@
 #include <QPixmap>
 #include <QPainter>
 #include <QVariantList>
+#include <QDebug>
 
 class ImageProcessor : public QObject
 {

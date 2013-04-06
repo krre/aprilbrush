@@ -158,11 +158,11 @@ function zeroFill(number, width)
 }
 
 // Convert HSV to HSL
-function hsvToHsl(h, s, v, a) {
+function hsvToHsl(h, s, v) {
     var l = (2 - s) * v
     var computedH = s * v / (l <= 1 ? l : 2 - l)
     l /= 2
-    return Qt.hsla(h, computedH, l, a)
+    return Qt.hsla(h, computedH, l, 1)
 }
 
 // Convert RGB to HSV
