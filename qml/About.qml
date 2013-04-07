@@ -45,7 +45,7 @@ Window {
                width: 120
                font.pixelSize: 12
                text: "Alt<br />
-                      Space+Click<br />
+                      Space+Drag<br />
                       Ctrl+Click<br />
                       B<br />
                       E<br />
