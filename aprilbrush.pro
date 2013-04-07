@@ -1,14 +1,6 @@
 TARGET = AprilBrush
 QT += quick
 
-CONFIG(debug, debug|release) {
-    DDIR = $$OUT_PWD/debug
-}
-CONFIG(release, debug|release) {
-    DDIR = $$OUT_PWD/release
-}
-
-#ab.path = $$DDIR
 ab.path += $$OUT_PWD
 ab.files += qml presets
 
@@ -21,6 +13,15 @@ SOURCES += \
     cpp/openraster.cpp \
     cpp/imageprocessor.cpp \
     cpp/corelib.cpp
+
+win32: {
+    SOURCES += cpp/wacom/wacom_win.cpp
+    HEADERS += cpp/wacom/wacom_win.h
+}
+unix: {
+    SOURCES += cpp/wacom/wacom_unix.cpp
+    HEADERS += cpp/wacom/wacom_unix.h
+}
 
 HEADERS += \
     cpp/painteditem.h \

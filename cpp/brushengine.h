@@ -1,29 +1,17 @@
 #ifndef BRUSHENGINE_H
 #define BRUSHENGINE_H
 
-#ifndef NOMINMAX
-#define NOMINMAX // fixing compile error with MSVC
-#endif
-
 #include "painteditem.h"
 
 #ifdef Q_OS_WIN
-#include "windows.h"
-#include "wintab/wintab.h"
-#define PACKETDATA PK_NORMAL_PRESSURE
-#define PACKETMODE 0
-#include "wintab/pktdef.h"
+#include "wacom/wacom_win.h"
+#endif
+
+#ifdef Q_OS_UNIX
+#include "wacom/wacom_unix.h"
 #endif
 
 #include <QBuffer>
-
-#ifdef Q_OS_WIN
-typedef UINT (API *PtrWTInfo)(UINT, UINT, LPVOID);
-typedef HCTX (API *PtrWTOpen)(HWND, LPLOGCONTEXT, BOOL);
-typedef int (API *PtrWTPacketsGet)(HCTX, int, LPVOID);
-typedef int (API *PtrWTPacket)(HCTX, UINT, LPVOID);
-typedef int (API *PtrWTQueuePacketsEx)(HCTX, UINT FAR*, UINT FAR*);
-#endif
 
 class BrushEngine : public QObject
 {
@@ -41,7 +29,7 @@ class BrushEngine : public QObject
 
 public:
     BrushEngine();
-    ~BrushEngine();
+
     Q_INVOKABLE void paintDab(qreal xPos, qreal yPos);
     Q_INVOKABLE void setTouch(bool touch);
     Q_INVOKABLE void clear() { pixmap->fill(QColor(0, 0, 0, 0)); emit paintDone(pixmap->rect()); }
@@ -79,16 +67,7 @@ private:
     inline bool eraser() { return eraserBrush; }
     inline void setEraser(bool eraser) { eraserBrush = eraser; }
 
-    #ifdef Q_OS_WIN
-    void wintabInit();
-    HINSTANCE ghWintab;
-    HCTX tabletHandle;
-    PtrWTInfo ptrWTInfo;
-    PtrWTOpen ptrWTOpen;
-    PtrWTPacket ptrWTPacket;
-    PtrWTQueuePacketsEx ptrWTQueuePacketsEx;
-    #endif
-
+    Wacom wacom;
     QByteArray compressPixmap(QPixmap pixmap);
 
     int sizeBrush;
@@ -111,7 +90,7 @@ private:
     bool touchPen;
 
     //QTime time;
-    qreal pressure();
+    qreal pressure;
     QString m_layerId;
     QPixmap *pixmap;
     ImageProcessor *m_imageProcessor;
