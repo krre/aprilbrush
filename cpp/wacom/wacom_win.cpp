@@ -1,16 +1,19 @@
 #include "wacom_win.h"
 
+#include <QDebug>
+
 Wacom::Wacom()
 {
     wintabInit();
-    //ghWintab = 0;
 }
 
 Wacom::~Wacom()
 {
-    //qDebug() << "bye!";
     if (ghWintab)
+    {
+        ptrWTClose(tabletHandle);
         FreeLibrary(ghWintab);
+    }
 }
 
 void Wacom::wintabInit()
@@ -22,13 +25,21 @@ void Wacom::wintabInit()
 
     ptrWTInfo = (PtrWTInfo)GetProcAddress(ghWintab, "WTInfoW");
     ptrWTOpen = (PtrWTOpen)GetProcAddress(ghWintab, "WTOpenW");
+    ptrWTClose = (PtrWTClose)GetProcAddress(ghWintab, "WTClose");
     ptrWTPacket = (PtrWTPacket)GetProcAddress(ghWintab, "WTPacket");
+    ptrWTPacketsGet = (PtrWTPacketsGet)GetProcAddress(ghWintab, "WTPacketsGet");
     ptrWTQueuePacketsEx = (PtrWTQueuePacketsEx)GetProcAddress(ghWintab, "WTQueuePacketsEx");
 
     // Check device name
     char deviceName[50] = {0};
     ptrWTInfo(WTI_DEVICES, DVC_NAME, deviceName);
     //qDebug() << (const char*)&deviceName;
+
+    // Check pressure range
+    AXIS range;
+    ptrWTInfo(WTI_DEVICES, DVC_NPRESSURE, &range);
+    //qDebug() << range.axMax;
+    pressureRange = range.axMax;
 
     // Default context
     LOGCONTEXT tabletContext;
@@ -54,13 +65,20 @@ qreal Wacom::pressure()
 
     if (ghWintab)
     {
-        PACKET packet;
-        UINT FAR lpOld;
-        UINT FAR lpNew;
-        bool serialPacket = ptrWTQueuePacketsEx(tabletHandle, &lpOld, &lpNew);
-        ptrWTPacket(tabletHandle, lpNew, &packet);
-        if (serialPacket)
-            pressure = (qreal)packet.pkNormalPressure / 1023;
+        PACKET packetBuf[128];
+        int packetsNum = ptrWTPacketsGet(tabletHandle, 128, packetBuf);
+        //qDebug() << packetsNum;
+        // If number packets in queue > 0, get first packet, else last from previos queue
+        if (packetsNum)
+        {
+            packet = packetBuf[0];
+            pressure = (qreal)packet.pkNormalPressure / pressureRange;
+            // Save last packet for next event, if the queut to be empty
+            packet = packetBuf[packetsNum > 1 ? packetsNum - 1 : 0];
+        }
+        else
+            pressure = (qreal)packet.pkNormalPressure / pressureRange;
     }
+    //qDebug() << "pressure " << pressure;
     return pressure;
 }
