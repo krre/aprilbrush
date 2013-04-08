@@ -7,7 +7,7 @@
 
 #include "windows.h"
 #include "wintab/wintab.h"
-#define PACKETDATA PK_NORMAL_PRESSURE
+#define PACKETDATA PK_X | PK_Y | PK_NORMAL_PRESSURE
 #define PACKETMODE 0
 #include "wintab/pktdef.h"
 
@@ -32,7 +32,8 @@ private:
     void wintabInit();
     HINSTANCE ghWintab;
     HCTX tabletHandle;
-    PACKET packet;
+    PACKET packetFirst;
+    PACKET packetLast;
 
     PtrWTInfo ptrWTInfo;
     PtrWTOpen ptrWTOpen;

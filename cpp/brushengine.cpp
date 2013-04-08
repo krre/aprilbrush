@@ -24,6 +24,7 @@ void BrushEngine::paintDab(qreal xPos, qreal yPos)
     colorBrush.setAlpha(qRound(255 * opacityBrush / 100.0));
     QColor pressureColor = colorBrush;
     qreal pressurePen = wacom.pressure();
+    //qDebug() << pressurePen;
     pressureColor.setAlpha(qRound(colorBrush.alpha() * pressurePen));
     QColor alphaColor =  colorBrush;
     alphaColor.setAlpha(0);

@@ -68,16 +68,29 @@ qreal Wacom::pressure()
         PACKET packetBuf[128];
         int packetsNum = ptrWTPacketsGet(tabletHandle, 128, packetBuf);
         //qDebug() << packetsNum;
-        // If number packets in queue > 0, get first packet, else last from previos queue
+        // If number packets in queue > 0, get first packet, else get last packet from previos queue
         if (packetsNum)
         {
-            packet = packetBuf[0];
-            pressure = (qreal)packet.pkNormalPressure / pressureRange;
-            // Save last packet for next event, if the queut to be empty
-            packet = packetBuf[packetsNum > 1 ? packetsNum - 1 : 0];
+            packetFirst = packetBuf[0];
+            //qDebug() << packetFirst.pkX << packetLast.pkX << packetFirst.pkY << packetLast.pkY;
+            pressure = (qreal)packetFirst.pkNormalPressure / pressureRange;
+            // Save last packet for next event, if the queue to be empty
+            packetLast = packetBuf[packetsNum > 1 ? packetsNum - 1 : 0];
         }
         else
-            pressure = (qreal)packet.pkNormalPressure / pressureRange;
+        {
+            // Tablet plugged but stroke done by mouse (x and y coords from pen don't changes)
+            if (!packetFirst.pkX && !packetFirst.pkY)
+                pressure = 1;
+            else
+                // Stroke done by tablet pen and it moves but the queue is empty
+                if (packetFirst.pkX != packetLast.pkX || packetFirst.pkY != packetLast.pkY)
+                    pressure = (qreal)packetLast.pkNormalPressure / pressureRange;
+                //
+                else
+                    // Don't pressure between adjacent packets
+                    pressure = 0;
+        }
     }
     //qDebug() << "pressure " << pressure;
     return pressure;
