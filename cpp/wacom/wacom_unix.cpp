@@ -1,62 +1,98 @@
 #include "wacom_unix.h"
-#include "xcb/xproto.h"
-//#include "xcb/xcbext.h"
-//#include "xcb/xcb_atom.h"
-
 #include <QDebug>
+#include "X11/Xlib.h"
+#include "X11/extensions/XInput.h"
+
+Display *x11Display;
 
 Wacom::Wacom()
 {
+    wacomInit();
 }
 
 Wacom::~Wacom()
 {
-    xcb_disconnect(xcbConnection);
+    XCloseDisplay(x11Display);
 }
 
 void Wacom::wacomInit()
 {
-    xcbConnection = xcb_connect(NULL, NULL);
-    //qDebug() << "xcbConnection" << xcbConnection;
+    if ((x11Display = XOpenDisplay(NULL)) == NULL)
+    {
+        qDebug() << "Can not connect to the X server";
+        return;
+    }
 
-    // Get id for current (in focus) window
-    xcb_get_input_focus_reply_t *focus = xcb_get_input_focus_reply(xcbConnection, xcb_get_input_focus(xcbConnection), NULL);
-    xcb_window_t currentWindow = focus->focus;
-    free(focus);
-    //qDebug() << "focus" << currentWindow;
+    int numDevices;
+    XDeviceInfo *deviceInfo;
+    deviceInfo = XListInputDevices(x11Display, &numDevices);
 
-    uint32_t values[] = { XCB_EVENT_MASK_POINTER_MOTION };
-    //uint32_t values[] = { XCB_EVENT_MASK_BUTTON_1_MOTION | XCB_EVENT_MASK_POINTER_MOTION };
-    xcb_change_window_attributes(xcbConnection, currentWindow, XCB_CW_EVENT_MASK, values);
+    XAnyClassPtr any;
+    XValuatorInfoPtr v;
+    XAxisInfoPtr a;
+    XEventClass eventList[numDevices];
+    XEventClass anyEventClass[1];
+    wacomId = 0;
+
+    for (int i = 0; i < numDevices; i++)
+    {
+        QString nameDevice = deviceInfo[i].name;
+        if (nameDevice.contains("stylus"))
+        {
+            wacomId = deviceInfo[i].id;
+            any = (XAnyClassPtr)deviceInfo[i].inputclassinfo;
+            for (int j = 0; j < deviceInfo[i].num_classes; j++)
+            {
+                if (any->c_class == ValuatorClass)
+                {
+                    v = (XValuatorInfoPtr)any;
+                    a = (XAxisInfoPtr)((char *)v + sizeof(XValuatorInfo));
+                    pressureRange = a[2].max_value - a[2].min_value;
+                }
+                any = (XAnyClassPtr)((char*)any + any->length);
+            }
+        }
+
+        // Set the allowed event classes
+        XDevice *device;
+        device = XOpenDevice(x11Display, deviceInfo[i].id);
+        if (device)
+        {
+            int motionType;
+            DeviceMotionNotify(device, motionType, eventList[i]);
+            XCloseDevice(x11Display, device);
+            anyEventClass[0] = eventList[i];
+        }
+        else
+            eventList[i] = 0;
+    }
+
+    // Set an event class of not existing device to event class of any existing device
+    for (int i = 0; i < numDevices; i++)
+        if (!eventList[i])
+            eventList[i] = anyEventClass[0];
+
+    // Set root window by the source events
+    unsigned long screen;
+    screen = DefaultScreen(x11Display);
+    Window rootWindow = RootWindow(x11Display, screen);
+    XSelectExtensionEvent(x11Display, rootWindow, eventList, numDevices);
 }
 
 qreal Wacom::pressure()
 {
-    /*
-    if (!xcbConnection)
-        wacomInit();
-    qDebug() << "connection" << xcbConnection;
+    qreal pressure = 1.0;
 
-    xcb_generic_event_t *event;
-    while (event = xcb_poll_for_event(xcbConnection))
-    {
-        xcb_motion_notify_event_t *eventValue = (xcb_motion_notify_event_t *)event;
-        qDebug() << eventValue->event_x << eventValue->event_y;
-        free(eventValue);
-    }
+    if (!x11Display)
+        return pressure;
 
-    xcb_flush(xcbConnection);*/
+    XEvent event;
+    XSync(x11Display, true);
+    XNextEvent(x11Display, &event);
+    XDeviceMotionEvent *motion = reinterpret_cast<XDeviceMotionEvent *>(&event);
 
-   return 1.0;
-}
+    if (motion->deviceid == wacomId)
+        pressure = (qreal)motion->axis_data[2] / pressureRange;
 
-bool XcbEventFilter::nativeEventFilter(const QByteArray &eventType, void *message, long *)
-{
-    //qDebug() << "eventType" << eventType;
-    if (eventType == "xcb_generic_event_t") {
-        xcb_generic_event_t* event = static_cast<xcb_generic_event_t *>(message);
-        xcb_motion_notify_event_t *eventValue = (xcb_motion_notify_event_t *)event;
-        //qDebug() << eventValue->event_x << eventValue->event_y;
-    }
-    return false;
+    return pressure;
 }

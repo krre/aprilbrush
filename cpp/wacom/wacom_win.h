@@ -29,7 +29,7 @@ public:
 
 private:
 
-    void wintabInit();
+    void wacomInit();
     HINSTANCE ghWintab;
     HCTX tabletHandle;
     PACKET packetFirst;

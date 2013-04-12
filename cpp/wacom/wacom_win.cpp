@@ -4,7 +4,7 @@
 
 Wacom::Wacom()
 {
-    wintabInit();
+    wacomInit();
 }
 
 Wacom::~Wacom()
@@ -16,7 +16,7 @@ Wacom::~Wacom()
     }
 }
 
-void Wacom::wintabInit()
+void Wacom::wacomInit()
 {
     ghWintab = LoadLibraryA("Wintab32.dll");
     //qDebug() << "LoadLibrary: " << ghWintab;

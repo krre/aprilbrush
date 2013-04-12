@@ -21,6 +21,7 @@ win32: {
 unix: {
     SOURCES += cpp/wacom/wacom_unix.cpp
     HEADERS += cpp/wacom/wacom_unix.h
+    LIBS += -lXi
 }
 
 HEADERS += \
