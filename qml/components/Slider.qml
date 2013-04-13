@@ -54,6 +54,7 @@ Item {
             color: "gray"
             MouseArea {
                 anchors.fill: parent
+                preventStealing: true
                 drag {
                     target: parent
                     axis: Drag.XAxis
