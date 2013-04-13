@@ -7,6 +7,7 @@
 #include <QGuiApplication>
 #include <QQuickView>
 #include <QtQml>
+#include <QDebug>
 
 int main(int argc, char *argv[])
 {

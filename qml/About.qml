@@ -15,7 +15,7 @@ Window {
         Text {
             width: parent.width
             horizontalAlignment: Text.AlignHCenter
-            text: "AprilBrush 0.1.0 Alpha 1"
+            text: coreLib.version()
             font.pixelSize: 17
         }
 
