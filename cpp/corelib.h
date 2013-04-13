@@ -2,9 +2,9 @@
 #define CORELIB_H
 
 #include <QObject>
-
+#include <QDebug>
 #include <QVariant>
-#include <QCoreApplication>
+#include <QDate>
 
 class CoreLib : public QObject
 {
@@ -15,6 +15,8 @@ public:
     Q_INVOKABLE QByteArray loadBrushPack();
     Q_INVOKABLE QVariant loadSettings();
     Q_INVOKABLE void saveSettings(QVariant settings);
+    //Q_INVOKABLE void buildDate() { qDebug() << QLocale(QLocale::C).toDate(QString(__DATE__).simplified(), QLatin1String("MMM d yyyy")); }
+    Q_INVOKABLE QString buildDate() { return QString(__DATE__).simplified(); }
     
 signals:
     

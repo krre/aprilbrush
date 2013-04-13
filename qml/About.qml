@@ -15,14 +15,14 @@ Window {
         Text {
             width: parent.width
             horizontalAlignment: Text.AlignHCenter
-            text: "AprilBrush 0.1.0"
+            text: "AprilBrush 0.1.0 Alpha 1"
             font.pixelSize: 17
         }
 
         Text {
             width: parent.width
             horizontalAlignment: Text.AlignHCenter
-            text: "Build date: 06 Apr 2013"
+            text: "Build date: " + coreLib.buildDate()
             font.pixelSize: 12
         }
         Text {

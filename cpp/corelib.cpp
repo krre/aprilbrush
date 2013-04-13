@@ -1,7 +1,6 @@
 #include "corelib.h"
 #include "qzip/qzipreader_p.h"
 
-#include <QDebug>
 #include <QDir>
 
 CoreLib::CoreLib(QObject *parent) : QObject(parent)
