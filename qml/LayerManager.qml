@@ -86,7 +86,7 @@ Window {
 
             // New button
             Button {
-                width: parent.width / 4 - 4
+                width: parent.width / 3 - 4
                 height: parent.height
                 title: qsTr("New")
                 onClicked: {
@@ -96,7 +96,7 @@ Window {
             }
             // Up button
             Button {
-                width: parent.width / 4 - 4
+                width: parent.width / 3 - 4
                 height: parent.height
                 title: qsTr("Up")
                 onClicked: {
@@ -109,7 +109,7 @@ Window {
             }
             // Down button
             Button {
-                width: parent.width / 4 - 4
+                width: parent.width / 3 - 4
                 height: parent.height
                 title: qsTr("Down")
                 onClicked: {
@@ -119,6 +119,7 @@ Window {
                     }
                 }
             }
+            /*
             // Clone button
             Button {
                 width: parent.width / 4 - 4
@@ -127,7 +128,7 @@ Window {
                 onClicked: {
                     undoManager.add(new Undo.cloneLayer(canvasArea.pathView.currentItem.pixmap))
                 }
-            }
+            }*/
         }
     }
 }
