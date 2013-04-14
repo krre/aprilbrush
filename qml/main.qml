@@ -1,5 +1,4 @@
 import QtQuick 2.0
-import QtQuick.Window 2.0
 import BrushEngine 1.0
 import OpenRaster 1.0
 import ImageProcessor 1.0
@@ -21,7 +20,7 @@ Rectangle {
     property size undoManagerSize
     property bool undoManagerVisible
 
-    property size imageSize: Qt.size(Screen.width, Screen.height)
+    property size imageSize: coreLib.screenSize()
     property bool eraserMode: false
     property variant currentPageItem: pageManager.pagesView.currentItem
     property int currentPageIndex: pageManager.pagesView.currentIndex
@@ -51,7 +50,6 @@ Rectangle {
     }
     Component.onDestruction: Settings.saveSettings()
 
-    onImageSizeChanged: if (imageSize.width && imageSize.height) Utils.addPage()
     color: "lightgray"
 
     Keys.onPressed: {

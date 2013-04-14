@@ -8,6 +8,7 @@
 #include <QQuickView>
 #include <QtQml>
 #include <QDebug>
+#include <QScreen>
 
 int main(int argc, char *argv[])
 {
@@ -20,6 +21,8 @@ int main(int argc, char *argv[])
     qmlRegisterType<CoreLib>("CoreLib", 1, 0, "CoreLib");
 
     QQuickView view;
+    QScreen *screen = view.screen();
+    CoreLib::m_screenSize = screen->size();
     view.setSource(QUrl::fromLocalFile("qml/main.qml"));
     view.setResizeMode(QQuickView::SizeRootObjectToView);
     view.show();
