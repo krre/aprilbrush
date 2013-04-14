@@ -48,12 +48,10 @@ Rectangle {
         undoManagerSize.width = settings.undoManager.size.width
         undoManagerSize.height = settings.undoManager.size.height
         undoManagerVisible = settings.undoManager.visible
-
     }
     Component.onDestruction: Settings.saveSettings()
 
     onImageSizeChanged: if (imageSize.width && imageSize.height) Utils.addPage()
-
     color: "lightgray"
 
     Keys.onPressed: {
