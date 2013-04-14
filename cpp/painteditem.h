@@ -16,6 +16,7 @@ public:
     ImageProcessor* imageProcessor() const { return m_imageProcessor; }
     Q_INVOKABLE void setItemCursor(const QString name, const qreal size);
     Q_INVOKABLE void unSetItemCursor();
+    Q_INVOKABLE void forceUpdate(QRect rect) { this->update(rect); }
 
 public slots:
     void setImageProcessor(ImageProcessor* arg) { m_imageProcessor = arg; }
