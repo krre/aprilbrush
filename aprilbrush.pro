@@ -1,16 +1,5 @@
 TARGET = AprilBrush
 
-VER_MAJ = 0
-VER_MIN = 1
-VER_PAT = 0
-VER_STATE = 1
-
-DEFINES += 'APP_VER_MAJ=$$VER_MAJ'
-DEFINES += 'APP_VER_MIN=$$VER_MIN'
-DEFINES += 'APP_VER_PAT=$$VER_PAT'
-DEFINES += APP_STATE='\\"Alpha\\"'
-DEFINES += 'APP_VER_STATE=$$VER_STATE'
-
 QT += quick
 
 ab.path += $$OUT_PWD

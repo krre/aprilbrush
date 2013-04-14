@@ -15,7 +15,7 @@ Window {
         Text {
             width: parent.width
             horizontalAlignment: Text.AlignHCenter
-            text: coreLib.version()
+            text: main.version
             font.pixelSize: 17
         }
 

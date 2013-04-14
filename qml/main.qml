@@ -11,6 +11,8 @@ import "undo.js" as Undo
 Rectangle {
     id: main
 
+    property string version: "AprilBrush 0.1.0 Alpha 1"
+
     property var settings
     // Settings property don't works for Layer Manager and Undo Manager
     property vector3d layerManagerPos
