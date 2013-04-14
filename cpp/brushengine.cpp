@@ -37,10 +37,10 @@ void BrushEngine::paintDab(qreal xPos, qreal yPos)
     QRadialGradient radialGradient;
     radialGradient.setRadius(sizeBrush / 2.0);
     radialGradient.setColorAt(0, pressureColor);
-    radialGradient.setColorAt(hardnessBrush / 100.0, pressureColor);
     radialGradient.setColorAt(1, alphaColor);
+    radialGradient.setColorAt(hardnessBrush / 100.0, pressureColor);
     painter.setBrush(QBrush(radialGradient));
-    //qDebug() << pressureColor << hardnessBrush << alphaColor << painter.brush();
+    //qDebug() << pressureColor << hardnessBrush / 100.0 << alphaColor;
 
     if (eraserBrush)
         painter.setCompositionMode(QPainter::CompositionMode_DestinationOut);
