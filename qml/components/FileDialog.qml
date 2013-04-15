@@ -6,13 +6,12 @@ Window {
     title: "File Dialog"
     width: 400
     height: 300
-    property string currentFilePath: currentFolderPath +
-                                     (currentFolderPath.substr(-1) === "/" ? "" : "/") + fileNameText.text
-    property string currentFolderPath: folderModel.folder.toString().replace("file:///", "")
-    //property string prevFolderPath
-    property string currentFileName
-    property int mode: 0
 
+    property int mode: 0
+    property string currentFolderPath: folderModel.folder
+    property string currentFileName: fileNameText.text
+    property string currentFilePath: currentFolderPath +
+                                     (currentFolderPath.substring[-1] === "/" ? "" : "/") + currentFileName
     signal clicked
 
     Column {
@@ -29,11 +28,9 @@ Window {
                 id: upButton
                 title: "Up"
                 onClicked: {
-                    var folderPath = folderModel.parentFolder
-                    if (folderPath != "file:") {
-                        folderModel.folder = folderPath
-                        currentFolderPath = folderPath.toString().replace("file:///", "")
-                    }
+                    var re = new RegExp("file:\/\/\/.:\/$", "i")
+                    if ((currentFolderPath != "file:///") && !re.test(currentFolderPath))
+                        folderModel.folder = folderModel.parentFolder
                 }
             }
 
@@ -46,7 +43,7 @@ Window {
                 TextEdit {
                     anchors.fill: parent
                     text: currentFolderPath
-                    onTextChanged: if (text.substr(1) === ":/") folderModel.folder = "file:///" + text
+                    onTextChanged: folderModel.folder = text
                 }
             }
         }
@@ -79,17 +76,15 @@ Window {
                     anchors.fill: parent
                     onClicked: {
                         fileView.currentIndex = index
-                        if (folderModel.isFolder(index)) {                            
-                            var parentPath = folderModel.parentFolder
-                            folderModel.folder = "file:/" + filePath
-                            currentFileName = ""
-                            fileView.currentIndex = 0                            
-                            var folderPath = folderModel.folder
-                            currentFolderPath = folderPath.toString().substr(-2) === ".." ? parentPath : folderPath
-                            currentFolderPath = currentFolderPath.replace("file:///", "")
+                        if (fileIsDir) {
+                            if (fileName == "..")
+                                folderModel.folder = folderModel.parentFolder
+                            else
+                                folderModel.folder += (folderModel.folder.toString().substr(-1) === "/" ? "" : "/")  + fileName
+                            fileView.currentIndex = 0
                         }
                         else {
-                            currentFileName = fileName
+                            fileNameText.text = fileName
                         }
                     }
                 }
@@ -98,7 +93,7 @@ Window {
 
         FolderListModel {
             id: folderModel
-            folder: "file:/C:/"
+            folder: coreLib.rootFolder()
             showDirs: true
             showDotAndDotDot: true
             showDirsFirst: true
@@ -128,8 +123,6 @@ Window {
                 TextEdit {
                     id: fileNameText
                     anchors.fill: parent
-                    text: currentFileName
-                    //onTextChanged: text = text.replace("\n", "")
                 }
             }
 

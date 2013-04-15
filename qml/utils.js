@@ -85,10 +85,22 @@ function deleteLayer(index) {
     imgProcessor.deletePixmap(layerId)
 }
 
+function polishPath(path) {
+    var re = new RegExp("\/{2,}", "g")
+    path = path.replace(re, "/")
+    path = path.replace("file:", "")
+    re = new RegExp("^\/.:")
+    if (re.test(path))
+        path = path.substring(1)
+
+    return path
+}
+
 // Open OpenRaster file
 function openOra() {
     //var layerModel = pageModel.get(currentPageIndex).layerModel
     var path = fileDialog.currentFilePath
+    path = polishPath(path)
     var layersList = openRaster.readAttributes(path)
 
     addPage(fileDialog.currentFileName)
@@ -107,10 +119,12 @@ function saveAsOra() {
     var path = fileDialog.currentFilePath
     if (path.substr(-4) !== ".ora")
         path += ".ora"
+
+    path = polishPath(path)
+
     currentPageItem.canvasArea.oraPath = path
     saveOra(path)
     pageModel.get(currentPageIndex).name = fileFromPath(path)
-    console.log("save: " + path)
 }
 
 // Save OpenRaster file
