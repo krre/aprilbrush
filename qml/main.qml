@@ -51,18 +51,6 @@ Rectangle {
 
     color: "lightgray"
 
-    Keys.onPressed: {
-        if (event.modifiers & Qt.AltModifier) {
-            dockMode = true
-        }
-    }
-
-    Keys.onReleased: {
-        if (Qt.AltModifier) {
-            dockMode = false
-        }
-    }
-
     BrushEngine {
         id: brushEngine
         color: colorPicker.color

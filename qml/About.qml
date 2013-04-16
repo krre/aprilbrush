@@ -44,7 +44,7 @@ Window {
                id: hotkeyList
                width: 120
                font.pixelSize: 12
-               text: "Alt<br />
+               text: "C<br />
                       Space+Drag<br />
                       Ctrl+Click<br />
                       B<br />
@@ -53,12 +53,13 @@ Window {
                       +<br />
                       -<br />
                       0<br />
-                      F<br />
+                      M<br />
                       R<br />
-                      I<br />
-                      Ctrl+Z<br />
-                      Ctrl+Y<br />
+                      F<br />
+                      Z<br />
+                      X<br />
                       Ctrl+S<br / >
+                      Shift+S<br / >
                       Ctrl+O<br />
                       Ctrl+E<br />"
            }
@@ -80,6 +81,7 @@ Window {
                       Undo<br />
                       Redo<br />
                       Save<br />
+                      Save As<br />
                       Open<br />
                       Export<br />"
            }

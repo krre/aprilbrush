@@ -43,20 +43,18 @@ Item {
                 brushEngine.clear()
                 pathView.currentItem.update()
                 break
-            case Qt.Key_D: fileDialog.visible = !fileDialog.visible; break
-
             case Qt.Key_Plus: zoom *= 1.5; break
             case Qt.Key_Minus: zoom /= 1.5; break
             case Qt.Key_0: zoom = 1; pan = Qt.point(0, 0); mirror = 1; rotation = 0; break
             case Qt.Key_Space: if (!event.isAutoRepeat) panMode = true; break
-            case Qt.Key_F: mirror *= -1; break
+            case Qt.Key_C: if (!event.isAutoRepeat) dockMode = true; break
+            case Qt.Key_M: mirror *= -1; break
             case Qt.Key_R: rotation += 90; break
-            case Qt.Key_I:
-                undoManager.add(new Undo.fillColor())
-                break
+            case Qt.Key_F: undoManager.add(new Undo.fillColor()); break
+            case Qt.Key_Z: undoManager.undoView.decrementCurrentIndex(); break
+            case Qt.Key_X: undoManager.undoView.incrementCurrentIndex(); break
         }
-        if ((event.modifiers & Qt.ControlModifier) && (event.key === Qt.Key_Z)) undoManager.undoView.decrementCurrentIndex()
-        if ((event.modifiers & Qt.ControlModifier) && (event.key === Qt.Key_Y)) undoManager.undoView.incrementCurrentIndex()
+
         if ((event.modifiers & Qt.ControlModifier) && (event.key === Qt.Key_S)) {
             if (oraPath === "") {
                 fileDialog.mode = 1; // Save mode
@@ -65,7 +63,8 @@ Item {
             else
                 Utils.saveOra()
         }
-        if ((event.modifiers & Qt.AltModifier) && (event.key === Qt.Key_S)) {
+
+        if ((event.modifiers & Qt.ShiftModifier) && (event.key === Qt.Key_S)) {
             fileDialog.mode = 1; // Save mode
             fileDialog.visible = true
         }
@@ -79,6 +78,10 @@ Item {
             fileDialog.visible = true
         }
 
+        if ((event.modifiers & Qt.ControlModifier) && (event.key === Qt.Key_Space)) {
+            if (!event.isAutoRepeat) dockMode = true
+        }
+
         if (event.modifiers & Qt.ControlModifier)
             ctrlMode = true
     }
@@ -87,7 +90,7 @@ Item {
         if (Qt.ControlModifier)
             ctrlMode = false
         if (event.key === Qt.Key_Space) { if (!event.isAutoRepeat) panMode = false }
-
+        if (event.key === Qt.Key_C) { if (!event.isAutoRepeat) dockMode = false }
     }
 
     CheckerBoard {
