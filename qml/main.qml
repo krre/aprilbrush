@@ -1,8 +1,5 @@
 import QtQuick 2.0
-import BrushEngine 1.0
-import OpenRaster 1.0
-import ImageProcessor 1.0
-import CoreLib 1.0
+import AprilBrushLib 1.0
 import "components"
 import "settings.js" as Settings
 import "utils.js" as Utils
@@ -78,7 +75,6 @@ Rectangle {
         eraser: eraserMode
         layerId: currentLayerId
         imageProcessor: imgProcessor
-        //onPaintDone: currentPageItem.canvasArea.pathView.currentItem.forceUpdate(rect)
     }
 
     ImageProcessor {

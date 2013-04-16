@@ -1,6 +1,6 @@
 import QtQuick 2.0
+import AprilBrushLib 1.0
 import "components"
-import PaintedItem 1.0
 import "utils.js" as Utils
 import "undo.js" as Undo
 

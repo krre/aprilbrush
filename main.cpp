@@ -14,11 +14,11 @@ int main(int argc, char *argv[])
 {
     QGuiApplication app(argc, argv);
 
-    qmlRegisterType<PaintedItem>("PaintedItem", 1, 0, "PaintedItem");
-    qmlRegisterType<BrushEngine>("BrushEngine", 1, 0, "BrushEngine");
-    qmlRegisterType<OpenRaster>("OpenRaster", 1, 0, "OpenRaster");
-    qmlRegisterType<ImageProcessor>("ImageProcessor", 1, 0, "ImageProcessor");
-    qmlRegisterType<CoreLib>("CoreLib", 1, 0, "CoreLib");
+    qmlRegisterType<PaintedItem>("AprilBrushLib", 1, 0, "PaintedItem");
+    qmlRegisterType<BrushEngine>("AprilBrushLib", 1, 0, "BrushEngine");
+    qmlRegisterType<OpenRaster>("AprilBrushLib", 1, 0, "OpenRaster");
+    qmlRegisterType<ImageProcessor>("AprilBrushLib", 1, 0, "ImageProcessor");
+    qmlRegisterType<CoreLib>("AprilBrushLib", 1, 0, "CoreLib");
 
     QQuickView view;
     QScreen *screen = view.screen();
