@@ -14,7 +14,6 @@ Item {
     property real rotation: 0
     property bool saved: false
     property string oraPath
-    //property string oraPath: "c:/1/1.ora"
     property bool focusBind: true
     property string cursorName: "Paint"
     property bool ctrlMode: false
@@ -42,6 +41,7 @@ Item {
             case Qt.Key_Delete:
                 undoManager.add(new Undo.clear())
                 brushEngine.clear()
+                pathView.currentItem.update()
                 break
             case Qt.Key_D: fileDialog.visible = !fileDialog.visible; break
 
@@ -176,8 +176,8 @@ Item {
                         else {
                             if (ctrlMode)
                                 colorPicker.color = Utils.pickColor(Qt.point(mouseX, mouseY))
-                            else
-                                brushEngine.paintDab(mouseX, mouseY)
+                            else {
+                                brushEngine.paintDab(mouseX, mouseY); parent.update() }
                         }
                     }
             }

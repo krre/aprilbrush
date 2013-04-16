@@ -78,7 +78,7 @@ Rectangle {
         eraser: eraserMode
         layerId: currentLayerId
         imageProcessor: imgProcessor
-        onPaintDone: currentPageItem.canvasArea.pathView.currentItem.forceUpdate(rect)
+        //onPaintDone: currentPageItem.canvasArea.pathView.currentItem.forceUpdate(rect)
     }
 
     ImageProcessor {

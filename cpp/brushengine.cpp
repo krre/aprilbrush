@@ -68,7 +68,7 @@ void BrushEngine::paintDab(qreal xPos, qreal yPos)
             painter.rotate(angleBrush);
             painter.scale(1, 1.0 / roundnessBrush);
             painter.drawEllipse(-sizeBrushHalf, -sizeBrushHalf, sizeBrush, sizeBrush);
-            emit paintDone(QRect(qRound(betweenPos.x() - sizeBrush / 2), qRound(betweenPos.y() - sizeBrush / 2), sizeBrush, sizeBrush));
+            //emit paintDone(QRect(qRound(betweenPos.x() - sizeBrush / 2), qRound(betweenPos.y() - sizeBrush / 2), sizeBrush, sizeBrush));
             painter.restore();
 
             // Detect a min and max corner positions
