@@ -27,28 +27,28 @@ Item {
 
             DockItem {
                 name: brushSettings.title
-                onClicked: brushSettings.visible = true
+                onClicked: brushSettings.visible = !brushSettings.visible
             }
 
             DockItem {
                 name: "Layers" // TODO: bind on layerManager object
-                onClicked: layerManagerVisible = true
+                onClicked: layerManagerVisible = !layerManagerVisible
             }
 
             DockItem {
                 name: colorPicker.title
-                onClicked: colorPicker.visible = true
+                onClicked: colorPicker.visible = !colorPicker.visible
             }
 
             DockItem {
                 name: "Undo History" // TODO: bind on undoManager object
-                onClicked: undoManagerVisible = true;
+                onClicked: undoManagerVisible = !undoManagerVisible
 
             }
 
             DockItem {
                 name: brushLibrary.title
-                onClicked: brushLibrary.visible = true
+                onClicked: brushLibrary.visible = !brushLibrary.visible
             }
         }
     }
