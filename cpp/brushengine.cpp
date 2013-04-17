@@ -1,106 +1,87 @@
 #include "brushengine.h"
 #include <qmath.h>
+
+#include <QBuffer>
 #include <QDebug>
 
 BrushEngine::BrushEngine()
 {
-    touchPen = false;
-    eraserBrush = false;
+    m_eraser = false;
 }
 
-void BrushEngine::paintDab(qreal xPos, qreal yPos)
+void BrushEngine::paintDab(QPoint nowPoint)
 {
-    QPointF posCursor = QPointF(xPos, yPos);
-    // First dab after touching the stylus at a surface
-    if (!touchPen)
-    {
-        prevPos = posCursor;
-        prevPixmap = new QPixmap(*pixmap);
-        minPos = QPoint(prevPos.x(), prevPos.y());
-        maxPos = minPos;
-        touchPen = true;
-    }
-
-    colorBrush.setAlpha(qRound(255 * opacityBrush / 100.0));
-    QColor pressureColor = colorBrush;
-    qreal pressurePen = wacom.pressure();
-    //qDebug() << pressurePen;
-    pressureColor.setAlpha(qRound(colorBrush.alpha() * pressurePen));
-    QColor alphaColor =  colorBrush;
+    m_color.setAlpha(qRound(255 * m_opacity / 100.0));
+    QColor pressureColor = m_color;
+    qreal pressure = wacom.pressure();
+    pressureColor.setAlpha(qRound(m_color.alpha() * pressure));
+    QColor alphaColor =  m_color;
     alphaColor.setAlpha(0);
 
     QPainter painter(pixmap);
-    //qDebug() << "pixmap" << pixmap;
     painter.setRenderHint(QPainter::Antialiasing, true);
     painter.setPen(Qt::NoPen);
 
     QRadialGradient radialGradient;
-    radialGradient.setRadius(sizeBrush / 2.0);
+    radialGradient.setRadius(m_size / 2.0);
     radialGradient.setColorAt(0, pressureColor);
     radialGradient.setColorAt(1, alphaColor);
-    radialGradient.setColorAt(hardnessBrush / 100.0, pressureColor);
+    radialGradient.setColorAt(m_hardness / 100.0, pressureColor);
     painter.setBrush(QBrush(radialGradient));
-    //qDebug() << pressureColor << hardnessBrush / 100.0 << alphaColor;
 
-    if (eraserBrush)
+    if (m_eraser)
         painter.setCompositionMode(QPainter::CompositionMode_DestinationOut);
 
-    qreal length;
-    int numDabs;
-    qreal deltaDab;
-    qreal angle;
-    QPointF betweenPos;
-
-    nowPos = posCursor;
-    length = qSqrt(qPow(prevPos.x() - nowPos.x(), 2) + qPow(prevPos.y() - nowPos.y(), 2));
-    deltaDab = sizeBrush * spacingBrush / 100.0;
-    qreal sizeBrushHalf = sizeBrush / 2.0; // for increasing painting speed
+    qreal length = qSqrt(qPow(prevPoint.x() - nowPoint.x(), 2) + qPow(prevPoint.y() - nowPoint.y(), 2));
+    qreal deltaDab = m_size * m_spacing / 100.0;
     // Drawing dabs between the events
     if (length >= deltaDab)
     {
-        numDabs = qRound(length / deltaDab);
-        angle = qAtan2(nowPos.x() - prevPos.x(), nowPos.y() - prevPos.y());
+        int numDabs = qRound(length / deltaDab);
+        qreal angle = qAtan2(nowPoint.x() - prevPoint.x(), nowPoint.y() - prevPoint.y());
+        QPointF betweenPoint;
         for (int dabCount = 1; dabCount <= numDabs; dabCount++)
         {
-            betweenPos = QPointF(prevPos.x() + deltaDab * qSin(angle), prevPos.y() + deltaDab * qCos(angle));
+            betweenPoint = QPointF(prevPoint.x() + deltaDab * qSin(angle), prevPoint.y() + deltaDab * qCos(angle));
             painter.save();
-            painter.translate(betweenPos);
-            painter.rotate(angleBrush);
-            painter.scale(1, 1.0 / roundnessBrush);
-            painter.drawEllipse(-sizeBrushHalf, -sizeBrushHalf, sizeBrush, sizeBrush);
-            //emit paintDone(QRect(qRound(betweenPos.x() - sizeBrush / 2), qRound(betweenPos.y() - sizeBrush / 2), sizeBrush, sizeBrush));
+            painter.translate(betweenPoint);
+            painter.rotate(m_angle);
+            painter.scale(1, 1.0 / m_roundness);
+            painter.drawEllipse(-m_size / 2.0, -m_size / 2.0, m_size, m_size);
             painter.restore();
 
-            // Detect a min and max corner positions
-            if (betweenPos.x() > maxPos.x()) maxPos.setX(betweenPos.x());
-            if (betweenPos.x() < minPos.x()) minPos.setX(betweenPos.x());
-            if (betweenPos.y() > maxPos.y()) maxPos.setY(betweenPos.y());
-            if (betweenPos.y() < minPos.y()) minPos.setY(betweenPos.y());
-            //qDebug() << betweenPos;
-
-            prevPos = betweenPos;
+            prevPoint = betweenPoint.toPoint();
         }
+        // Detect a min and max corner positions
+        maxPoint.setX(qMax(maxPoint.x(), nowPoint.x()));
+        maxPoint.setY(qMax(maxPoint.y(), nowPoint.y()));
+        minPoint.setX(qMin(minPoint.x(), nowPoint.x()));
+        minPoint.setY(qMin(minPoint.y(), nowPoint.y()));
     }
 }
 
-void BrushEngine::setTouch(bool touch)
+void BrushEngine::setTouch(QPoint nowPoint)
 {
-    touchPen = touch;
-    if (!touchPen) {
+    prevPoint = nowPoint;
+    prevPixmap = new QPixmap(*pixmap);
+    minPoint = QPoint(pixmap->width(), pixmap->height());
+    maxPoint = QPoint(0, 0);
+}
 
-        // Correct corner positions on brush size
-        minPos.setX(minPos.x() - sizeBrush / 2);
-        minPos.setY(minPos.y() - sizeBrush / 2);
-        maxPos.setX(maxPos.x() + sizeBrush / 2);
-        maxPos.setY(maxPos.y() + sizeBrush / 2);
+void BrushEngine::setUnTouch()
+{
+    // Correct corner positions on brush size
+    minPoint.setX(minPoint.x() - m_size / 2);
+    minPoint.setY(minPoint.y() - m_size / 2);
+    maxPoint.setX(maxPoint.x() + m_size / 2);
+    maxPoint.setY(maxPoint.y() + m_size / 2);
 
-        // Undo area compress
-        undoByteArray = compressPixmap(prevPixmap->copy(QRect(minPos, maxPos)));
-        // Redo area compress
-        redoByteArray = compressPixmap(pixmap->copy(QRect(minPos, maxPos)));
+    // Undo area compress
+    undoByteArray = compressPixmap(prevPixmap->copy(QRect(minPoint, maxPoint)));
+    // Redo area compress
+    redoByteArray = compressPixmap(pixmap->copy(QRect(minPoint, maxPoint)));
 
-        delete prevPixmap;
-    }
+    delete prevPixmap;
 }
 
 void BrushEngine::setLayerId(QString arg)

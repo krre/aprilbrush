@@ -1,7 +1,7 @@
 #ifndef BRUSHENGINE_H
 #define BRUSHENGINE_H
 
-#include "painteditem.h"
+#include "imageprocessor.h"
 
 #ifdef Q_OS_WIN
 #include "wacom/wacom_win.h"
@@ -10,8 +10,6 @@
 #ifdef Q_OS_UNIX
 #include "wacom/wacom_unix.h"
 #endif
-
-#include <QBuffer>
 
 class BrushEngine : public QObject
 {
@@ -30,10 +28,11 @@ class BrushEngine : public QObject
 public:
     BrushEngine();
 
-    Q_INVOKABLE void paintDab(qreal xPos, qreal yPos);
-    Q_INVOKABLE void setTouch(bool touch);
-    Q_INVOKABLE void clear() { pixmap->fill(QColor(0, 0, 0, 0)); emit paintDone(pixmap->rect()); }
-    Q_INVOKABLE QPoint startPos() { return minPos; }
+    Q_INVOKABLE void paintDab(QPoint nowPoint);
+    Q_INVOKABLE void setTouch(QPoint nowPoint);
+    Q_INVOKABLE void setUnTouch();
+    Q_INVOKABLE void clear() { pixmap->fill(QColor(0, 0, 0, 0)); }
+    Q_INVOKABLE QPoint startPos() { return minPoint; }
     Q_INVOKABLE QByteArray undoArea() { return undoByteArray; }
     Q_INVOKABLE QByteArray redoArea() { return redoByteArray; }
     Q_INVOKABLE QByteArray currentArea() { return compressPixmap(*pixmap); }
@@ -45,52 +44,42 @@ public slots:
     void setLayerId(QString arg);
     void setImageProcessor(ImageProcessor* arg) { m_imageProcessor = arg; }
 
-signals:
-    void sizeBrushSignal();
-    void paintDone(QRect rect);
-
 private:
-    inline int size() {return sizeBrush;}
-    inline void setSize(int size) { sizeBrush = size; emit sizeBrushSignal(); }
-    inline int spacing() { return spacingBrush; }
-    inline void setSpacing(int spacing) { spacingBrush = spacing; }
-    inline int hardness() { return hardnessBrush; }
-    inline void setHardness(int hardness) { hardnessBrush = hardness; }
-    inline QColor color() { return colorBrush; }
-    inline void setColor(QColor color) { colorBrush = color; }
-    inline int opacity() { return opacityBrush; }
-    inline void setOpacity(int opacity) { opacityBrush = opacity; }
-    inline int roundness() { return roundnessBrush; }
-    inline void setRoundness(int roundness) { roundnessBrush = roundness; }
-    inline int angle() { return angleBrush; }
-    inline void setAngle(int angle) { angleBrush = angle; }
-    inline bool eraser() { return eraserBrush; }
-    inline void setEraser(bool eraser) { eraserBrush = eraser; }
+    inline int size() {return m_size;}
+    inline void setSize(int size) { m_size = size; }
+    inline int spacing() { return m_spacing; }
+    inline void setSpacing(int spacing) { m_spacing = spacing; }
+    inline int hardness() { return m_hardness; }
+    inline void setHardness(int hardness) { m_hardness = hardness; }
+    inline QColor color() { return m_color; }
+    inline void setColor(QColor color) { m_color = color; }
+    inline int opacity() { return m_opacity; }
+    inline void setOpacity(int opacity) { m_opacity = opacity; }
+    inline int roundness() { return m_roundness; }
+    inline void setRoundness(int roundness) { m_roundness = roundness; }
+    inline int angle() { return m_angle; }
+    inline void setAngle(int angle) { m_angle = angle; }
+    inline bool eraser() { return m_eraser; }
+    inline void setEraser(bool eraser) { m_eraser = eraser; }
 
     Wacom wacom;
     QByteArray compressPixmap(QPixmap pixmap);
 
-    int sizeBrush;
-    int spacingBrush;
-    int hardnessBrush;
-    int roundnessBrush;
-    int angleBrush;
-    QColor colorBrush;
-    int opacityBrush;
-    bool eraserBrush;
+    int m_size;
+    int m_spacing;
+    int m_hardness;
+    int m_roundness;
+    int m_angle;
+    QColor m_color;
+    int m_opacity;
+    bool m_eraser;
     QPixmap *prevPixmap;
-    PaintedItem *paintedItem;
     QByteArray undoByteArray;
     QByteArray redoByteArray;
 
-    QPointF nowPos;
-    QPointF prevPos;
-    QPoint minPos;
-    QPoint maxPos;
-    bool touchPen;
-
-    //QTime time;
-    qreal pressure;
+    QPoint prevPoint;
+    QPoint minPoint;
+    QPoint maxPoint;
     QString m_layerId;
     QPixmap *pixmap;
     ImageProcessor *m_imageProcessor;

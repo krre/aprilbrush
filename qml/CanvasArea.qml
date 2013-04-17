@@ -156,8 +156,10 @@ Item {
                     else {
                         if (ctrlMode)
                             colorPicker.color = Utils.pickColor(Qt.point(mouseX, mouseY))
-                        else
-                            brushEngine.paintDab(mouseX, mouseY)
+                        else {
+                            brushEngine.setTouch(Qt.point(mouseX, mouseY))
+                            brushEngine.paintDab(Qt.point(mouseX, mouseY))
+                        }
                     }
                 onReleased:
                     if (panMode) {
@@ -167,7 +169,7 @@ Item {
                     else
                         if (!ctrlMode)
                         {
-                            brushEngine.setTouch(false);
+                            brushEngine.setUnTouch();
                             undoManager.add(new Undo.paint())
                         }
                 onPositionChanged:
@@ -180,7 +182,7 @@ Item {
                             if (ctrlMode)
                                 colorPicker.color = Utils.pickColor(Qt.point(mouseX, mouseY))
                             else {
-                                brushEngine.paintDab(mouseX, mouseY); parent.update() }
+                                brushEngine.paintDab(Qt.point(mouseX, mouseY)); parent.update() }
                         }
                     }
             }
