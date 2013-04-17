@@ -52,12 +52,13 @@ void BrushEngine::paintDab(QPoint nowPoint)
 
             prevPoint = betweenPoint.toPoint();
         }
-        // Detect a min and max corner positions
-        maxPoint.setX(qMax(maxPoint.x(), nowPoint.x()));
-        maxPoint.setY(qMax(maxPoint.y(), nowPoint.y()));
-        minPoint.setX(qMin(minPoint.x(), nowPoint.x()));
-        minPoint.setY(qMin(minPoint.y(), nowPoint.y()));
     }
+
+    // Detect a min and max corner positions
+    maxPoint.setX(qMax(maxPoint.x(), nowPoint.x()));
+    maxPoint.setY(qMax(maxPoint.y(), nowPoint.y()));
+    minPoint.setX(qMin(minPoint.x(), nowPoint.x()));
+    minPoint.setY(qMin(minPoint.y(), nowPoint.y()));
 }
 
 void BrushEngine::setTouch(QPoint nowPoint)
@@ -71,10 +72,10 @@ void BrushEngine::setTouch(QPoint nowPoint)
 void BrushEngine::setUnTouch()
 {
     // Correct corner positions on brush size
-    minPoint.setX(minPoint.x() - m_size / 2);
-    minPoint.setY(minPoint.y() - m_size / 2);
-    maxPoint.setX(maxPoint.x() + m_size / 2);
-    maxPoint.setY(maxPoint.y() + m_size / 2);
+    minPoint.setX(minPoint.x() - m_size);
+    minPoint.setY(minPoint.y() - m_size);
+    maxPoint.setX(maxPoint.x() + m_size);
+    maxPoint.setY(maxPoint.y() + m_size);
 
     // Undo area compress
     undoByteArray = compressPixmap(prevPixmap->copy(QRect(minPoint, maxPoint)));
