@@ -34,6 +34,7 @@ function clear() {
         },
         redo: function() {
             brushEngine.clear()
+            pathView.currentItem.update()
         }
     }
 }
