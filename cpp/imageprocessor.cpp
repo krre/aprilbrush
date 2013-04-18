@@ -31,16 +31,11 @@ void ImageProcessor::setPixmapArea(const QPoint startPos, const QByteArray area,
     areaPixmap.loadFromData(qUncompress(area));
     pixmap  = m_pixmapHash[layerId];
 
-    if ((startPos.x()) != 0 && (startPos.y() != 0))
-    {
-        QPainter painter(pixmap);
-        painter.setCompositionMode(QPainter::CompositionMode_Source);
-        painter.fillRect(QRect(startPos, areaPixmap.size()), Qt::transparent);
-        painter.setCompositionMode(QPainter::CompositionMode_SourceOver);
-        painter.drawPixmap(startPos.x(), startPos.y(), areaPixmap);
-    }
-    else
-        *pixmap = QPixmap(areaPixmap);
+    QPainter painter(pixmap);
+    painter.setCompositionMode(QPainter::CompositionMode_Source);
+    painter.fillRect(QRect(startPos, areaPixmap.size()), Qt::transparent);
+    painter.setCompositionMode(QPainter::CompositionMode_SourceOver);
+    painter.drawPixmap(startPos.x(), startPos.y(), areaPixmap);
 }
 
 void ImageProcessor::makePng(const QString path, const QVariantList layerIdList)
