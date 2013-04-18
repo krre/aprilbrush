@@ -5,6 +5,7 @@
 PaintedItem::PaintedItem(QQuickItem *parent) : QQuickPaintedItem(parent)
 {
     pixmap = 0;
+    setRenderTarget(QQuickPaintedItem::FramebufferObject);
 }
 
 void PaintedItem::paint(QPainter *painter)
