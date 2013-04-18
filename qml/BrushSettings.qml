@@ -21,7 +21,7 @@ Window {
             id: brushSettingsModel
             Slider { id: sizeSlider; width: sliders.width; name: "Size"; min: 1; max: 200 }
             Slider { id: opacitySlider; width: sliders.width; name: "Opacity"; min: 0; max: 100 }
-            Slider { id: spacingSlider; width: sliders.width; name: "Spacing"; min: 1; max: 100 }
+            Slider { id: spacingSlider; width: sliders.width; name: "Spacing"; min: 1; max: 200 }
             Slider { id: hardnessSlider; width: sliders.width; name: "Hardness"; min: 1; max: 100 }
             Slider { id: roundnessSlider; width: sliders.width; name: "Roundness"; min: 1; max: 10 }
             Slider { id: angleSlider; width: sliders.width; name: "Angle"; min: 0; max: 180 }
