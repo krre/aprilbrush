@@ -55,15 +55,17 @@ void BrushEngine::paintDab(QPoint nowPoint)
             painter.scale(1, 1.0 / m_roundness);
             painter.drawEllipse(-m_size / 2.0, -m_size / 2.0, m_size, m_size);
             painter.restore();
+
+            // Detect a min and max corner positions
+            maxPoint.setX(qMax(maxPoint.x(), qRound(betweenPoint.x())));
+            maxPoint.setY(qMax(maxPoint.y(), qRound(betweenPoint.y())));
+            minPoint.setX(qMin(minPoint.x(), qRound(betweenPoint.x())));
+            minPoint.setY(qMin(minPoint.y(), qRound(betweenPoint.y())));
         }
         prevPoint = betweenPoint;
     }
 
-    // Detect a min and max corner positions
-    maxPoint.setX(qMax(maxPoint.x(), nowPoint.x()));
-    maxPoint.setY(qMax(maxPoint.y(), nowPoint.y()));
-    minPoint.setX(qMin(minPoint.x(), nowPoint.x()));
-    minPoint.setY(qMin(minPoint.y(), nowPoint.y()));
+
 }
 
 void BrushEngine::setTouch(QPoint nowPoint)
@@ -81,6 +83,11 @@ void BrushEngine::setUnTouch()
     minPoint.setY(minPoint.y() - m_size);
     maxPoint.setX(maxPoint.x() + m_size);
     maxPoint.setY(maxPoint.y() + m_size);
+
+    if (minPoint.x() < 0) minPoint.setX(0);
+    if (minPoint.y() < 0) minPoint.setY(0);
+    if (maxPoint.x() > pixmap->width()) maxPoint.setX(pixmap->width());
+    if (maxPoint.y() > pixmap->height()) maxPoint.setY(pixmap->height());
 
     // Undo area compress
     undoByteArray = compressPixmap(prevPixmap->copy(QRect(minPoint, maxPoint)));

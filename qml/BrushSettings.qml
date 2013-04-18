@@ -26,7 +26,7 @@ Window {
             Slider { id: hardnessSlider; width: sliders.width; name: "Hardness"; min: 1; max: 100 }
             Slider { id: roundnessSlider; width: sliders.width; name: "Roundness"; min: 1; max: 10 }
             Slider { id: angleSlider; width: sliders.width; name: "Angle"; min: 0; max: 180 }
-            Slider { id: jitterSlider; width: sliders.width; name: "Jitter"; min: 0; max: 200 }
+            Slider { id: jitterSlider; width: sliders.width; name: "Jitter"; min: 0; max: 1000 }
         }
 
         ListView {
