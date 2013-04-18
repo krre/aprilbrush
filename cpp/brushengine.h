@@ -77,7 +77,7 @@ private:
     QByteArray undoByteArray;
     QByteArray redoByteArray;
 
-    QPoint prevPoint;
+    QPointF prevPoint;
     QPoint minPoint;
     QPoint maxPoint;
     QString m_layerId;

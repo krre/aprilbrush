@@ -39,19 +39,20 @@ void BrushEngine::paintDab(QPoint nowPoint)
     {
         int numDabs = qRound(length / deltaDab);
         qreal angle = qAtan2(nowPoint.x() - prevPoint.x(), nowPoint.y() - prevPoint.y());
+        qreal deltaX = deltaDab * qSin(angle);
+        qreal deltaY = deltaDab * qCos(angle);
         QPointF betweenPoint;
-        for (int dabCount = 1; dabCount <= numDabs; dabCount++)
+        for (int i = 1; i <= numDabs; i++)
         {
-            betweenPoint = QPointF(prevPoint.x() + deltaDab * qSin(angle), prevPoint.y() + deltaDab * qCos(angle));
+            betweenPoint = QPointF(prevPoint.x() + deltaX * i, prevPoint.y() + deltaY * i);
             painter.save();
             painter.translate(betweenPoint);
             painter.rotate(m_angle);
             painter.scale(1, 1.0 / m_roundness);
             painter.drawEllipse(-m_size / 2.0, -m_size / 2.0, m_size, m_size);
             painter.restore();
-
-            prevPoint = betweenPoint.toPoint();
         }
+        prevPoint = betweenPoint;
     }
 
     // Detect a min and max corner positions
