@@ -60,6 +60,7 @@ Rectangle {
         opacity: brushSettings.opaque.value
         roundness: brushSettings.roundness.value
         angle: brushSettings.angle.value
+        jitter: brushSettings.jitter.value
         eraser: eraserMode
         layerId: currentLayerId
         imageProcessor: imgProcessor

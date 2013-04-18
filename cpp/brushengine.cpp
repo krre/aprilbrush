@@ -44,7 +44,11 @@ void BrushEngine::paintDab(QPoint nowPoint)
         QPointF betweenPoint;
         for (int i = 1; i <= numDabs; i++)
         {
-            betweenPoint = QPointF(prevPoint.x() + deltaX * i, prevPoint.y() + deltaY * i);
+            qreal x = prevPoint.x() + deltaX * i +
+                    (10000 - qrand() % 20000) / 10000.0 * m_size * m_jitter / 100;
+            qreal y = prevPoint.y() + deltaY * i +
+                    (10000 - qrand() % 20000) / 10000.0 * m_size * m_jitter / 100;
+            betweenPoint = QPointF(x, y);
             painter.save();
             painter.translate(betweenPoint);
             painter.rotate(m_angle);

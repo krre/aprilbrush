@@ -29,6 +29,7 @@ Window {
                 brushSettings.hardness.init = libraryModel.get(0).hardness
                 brushSettings.roundness.init = libraryModel.get(0).roundness
                 brushSettings.angle.init = libraryModel.get(0).angle
+                brushSettings.jitter.init = libraryModel.get(0).jitter
             }
         }
 
@@ -48,6 +49,7 @@ Window {
                     brushSettings.hardness.init = hardness
                     brushSettings.roundness.init = roundness
                     brushSettings.angle.init = angle
+                    brushSettings.jitter.init = jitter
                 }
             }
         }
