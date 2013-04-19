@@ -5,9 +5,10 @@ COPYRIGHT
 
 Copyright (C) 2012-2013 Vladimir Zarypov <krre@mail.ru>
 
-HOME PAGE
+LINKS
 
-http://sourceforge.net/p/aprilbrush
+Website: http://sourceforge.net/p/aprilbrush
+Source code: https://github.com/krre/aprilbrush
 
 INFORMATION
 
