@@ -21,8 +21,9 @@ public:
     Q_INVOKABLE void makePng(const QString path, const QVariantList layerIdList);
     Q_INVOKABLE void fillColor(const QString layerId, const QColor color) { m_pixmapHash[layerId]->fill(color); }
     Q_INVOKABLE QColor pickColor(const QPoint point, const QVariantList layerIdList);
-    QHash<QString, QPixmap*> pixmapHash() { return m_pixmapHash; }
+    Q_INVOKABLE QVariantList mergePixmap(const QVariantList layerIdList);
 
+    QHash<QString, QPixmap*> pixmapHash() { return m_pixmapHash; }
     QString layerId() const { return m_layerId; }
     void setlayerId(QString arg) { if (m_layerId != arg) m_layerId = arg; }
 

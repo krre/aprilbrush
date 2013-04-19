@@ -62,7 +62,10 @@ Window {
             ListItem {
                 text: name
                 color: ListView.isCurrentItem ? "transparent" : "lightgray"
-                onClicked: { undoManager.add(new Undo.changeLayer(currentLayerIndex, index)); currentLayerIndex = index }
+                onClicked: {
+                    undoManager.add(new Undo.changeLayer(currentLayerIndex, index));
+                    currentLayerIndex = index
+                }
                 onClosed: {
                     undoManager.add(new Undo.deleteLayer(index))
                     Utils.deleteLayer(index)
@@ -86,17 +89,17 @@ Window {
 
             // New button
             Button {
-                width: parent.width / 3 - 4
+                width: parent.width / 5 - 4
                 height: parent.height
                 title: qsTr("New")
                 onClicked: {
                     Utils.addLayer()
-                    undoManager.add(new Undo.addLayer(currentLayerIndex))
+                    undoManager.add(new Undo.addLayer())
                 }
             }
             // Up button
             Button {
-                width: parent.width / 3 - 4
+                width: parent.width / 5 - 4
                 height: parent.height
                 title: qsTr("Up")
                 onClicked: {
@@ -109,7 +112,7 @@ Window {
             }
             // Down button
             Button {
-                width: parent.width / 3 - 4
+                width: parent.width / 5 - 4
                 height: parent.height
                 title: qsTr("Down")
                 onClicked: {
@@ -119,16 +122,28 @@ Window {
                     }
                 }
             }
-            /*
+
+            // Merge button
+            Button {
+                width: parent.width / 5 - 4
+                height: parent.height
+                title: qsTr("Merge")
+                onClicked: {
+                    if ((layersView.count > 1) && (currentLayerIndex < layersView.count - 1)) {
+                        undoManager.add(new Undo.mergeLayer())
+                    }
+                }
+            }
+
             // Clone button
             Button {
-                width: parent.width / 4 - 4
+                width: parent.width / 5 - 4
                 height: parent.height
                 title: qsTr("Clone")
                 onClicked: {
-                    undoManager.add(new Undo.cloneLayer(canvasArea.pathView.currentItem.pixmap))
+                    undoManager.add(new Undo.cloneLayer())
                 }
-            }*/
+            }
         }
     }
 }

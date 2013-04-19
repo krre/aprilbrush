@@ -73,9 +73,9 @@ function changeLayer(prevLayerIndex, newLayerIndex) {
     }
 }
 
-function addLayer(layerIndex) {
-    var redoLayerIndex = layerIndex
-    var layerName = layerModel.get(layerIndex).name
+function addLayer() {
+    var redoLayerIndex = currentLayerIndex
+    var layerName = layerModel.get(redoLayerIndex).name
     return {
         name: "Add Layer",
         undo: function() {
@@ -141,17 +141,45 @@ function lowerLayer() {
     }
 }
 
-function renameLayer() {
+function mergeLayer() {
+    var layerId1 = currentLayerId
+    var layerId2 = layerModel.get(currentLayerIndex + 1).layerId
+    var layerIdList = [layerId1, layerId2]
+    var pixmapList = imgProcessor.mergePixmap(layerIdList)
+    var mergeLayerIndex = currentLayerIndex
+    var layerName = layerModel.get(mergeLayerIndex).name
+    currentLayerIndex++
+    currentPageItem.canvasArea.pathView.currentItem.update()
+    currentLayerIndex--
+    Utils.deleteLayer(currentLayerIndex)
     return {
-        name: "Rename Layer",
+        name: "Merge Layer",
         undo: function() {
-            console.log("undo-rename-layer");
+            var startPos = Qt.point(0, 0)
+            imgProcessor.setPixmapArea(startPos, pixmapList[1], currentLayerId)
+            Utils.addLayer(layerName)
+            if (currentLayerIndex < 0) currentLayerIndex = 0
+            var layerId = layerModel.get(currentLayerIndex).layerId
+            imgProcessor.setPixmapArea(startPos, pixmapList[0], currentLayerId)
+            if (mergeLayerIndex >= 0) {
+                layerModel.move(currentLayerIndex, mergeLayerIndex, 1)
+                currentLayerIndex = mergeLayerIndex
+            }
+            currentLayerIndex++
+            currentPageItem.canvasArea.pathView.currentItem.update()
+            currentLayerIndex--
         },
         redo: function() {
-            console.log("redo-rename-layer");
+            layerIdList = [currentLayerId, layerModel.get(currentLayerIndex + 1).layerId]
+            imgProcessor.mergePixmap(layerIdList)
+            currentLayerIndex++
+            currentPageItem.canvasArea.pathView.currentItem.update()
+            currentLayerIndex--
+            Utils.deleteLayer(mergeLayerIndex)
         }
     }
 }
+
 
 function cloneLayer() {
     return {
@@ -161,6 +189,18 @@ function cloneLayer() {
         },
         redo: function() {
             console.log("redo-clone-layer");
+        }
+    }
+}
+
+function renameLayer() {
+    return {
+        name: "Rename Layer",
+        undo: function() {
+            console.log("undo-rename-layer");
+        },
+        redo: function() {
+            console.log("redo-rename-layer");
         }
     }
 }

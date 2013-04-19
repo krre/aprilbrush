@@ -1,6 +1,7 @@
 #include "imageprocessor.h"
 
 #include <QImage>
+#include <QBuffer>
 
 ImageProcessor::ImageProcessor()
 {
@@ -10,7 +11,6 @@ void ImageProcessor::addPixmap(const QString layerId, const QSize size, const QC
 {
 
     pixmap = new QPixmap(size);
-    //qDebug() << *pixmap << color;
 #ifdef QT_NO_DEBUG
     // This line causes crash in debug mode on start application in Windows
     pixmap->fill(color);
@@ -28,7 +28,7 @@ void ImageProcessor::deletePixmap(const QString layerId)
 void ImageProcessor::setPixmapArea(const QPoint startPos, const QByteArray area, const QString layerId)
 {
     QPixmap areaPixmap;
-    areaPixmap.loadFromData(qUncompress(area));
+    areaPixmap.loadFromData(area);
     pixmap  = m_pixmapHash[layerId];
 
     QPainter painter(pixmap);
@@ -50,11 +50,40 @@ QColor ImageProcessor::pickColor(const QPoint point, const QVariantList layerIdL
     return color.fromRgb(image.pixel(point));
 }
 
+QVariantList ImageProcessor::mergePixmap(const QVariantList layerIdList)
+{
+    QString layerId1 = layerIdList.at(0).toString();
+    QString layerId2 = layerIdList.at(1).toString();
+    QPixmap pixmap1 = *m_pixmapHash[layerId1];
+    QPixmap pixmap2 = *m_pixmapHash[layerId2];
+
+    QByteArray byteArray;
+    QVariantList pixmapList;
+
+    QBuffer buffer(&byteArray);
+    buffer.open(QIODevice::WriteOnly);
+    pixmap1.save(&buffer, "TIF");
+    buffer.close();
+    pixmapList.append(byteArray);
+
+    buffer.setBuffer(&byteArray);
+    buffer.open(QIODevice::WriteOnly);
+    pixmap2.save(&buffer, "TIF");
+    buffer.close();
+    pixmapList.append(byteArray);
+
+    QPainter painter(m_pixmapHash[layerId2]);
+    painter.drawPixmap(0, 0, pixmap1);
+
+    return pixmapList;
+}
+
 QPixmap ImageProcessor::unionPixmaps(QVariantList layerIdList)
 {
     QPixmap *pixmap;
     QPixmap joinPixmap;
-    for (int i = layerIdList.count() - 1; i >= 0; i--){
+    for (int i = layerIdList.count() - 1; i >= 0; i--)
+    {
         QString layerId = layerIdList.at(i).toString();
         pixmap = m_pixmapHash[layerId];
         if (joinPixmap.isNull())
@@ -67,3 +96,5 @@ QPixmap ImageProcessor::unionPixmaps(QVariantList layerIdList)
     }
     return joinPixmap;
 }
+
+

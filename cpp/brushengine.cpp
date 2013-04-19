@@ -65,8 +65,6 @@ void BrushEngine::paintDab(QPoint nowPoint)
         }
         prevPoint = betweenPoint;
     }
-
-
 }
 
 void BrushEngine::setTouch(QPoint nowPoint)
@@ -114,7 +112,6 @@ QByteArray BrushEngine::compressPixmap(QPixmap pixmap)
     buffer.open(QIODevice::WriteOnly);
     pixmap.save(&buffer, "TIF");
     buffer.close();
-    byteArray = qCompress(byteArray);
     return byteArray;
 }
 
