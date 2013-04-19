@@ -180,15 +180,20 @@ function mergeLayer() {
     }
 }
 
-
 function cloneLayer() {
+    var layerName = layerModel.get(currentLayerIndex).name
+    var cloneArea = brushEngine.currentArea()
+    Utils.addLayer(layerName)
+    imgProcessor.setPixmapArea(Qt.point(0, 0), cloneArea, currentLayerId)
     return {
         name: "Clone Layer",
         undo: function() {
-            console.log("undo-clone-layer");
+            Utils.deleteLayer(currentLayerIndex)
         },
         redo: function() {
-            console.log("redo-clone-layer");
+            var cloneArea = brushEngine.currentArea()
+            Utils.addLayer(layerName)
+            imgProcessor.setPixmapArea(Qt.point(0, 0), cloneArea, currentLayerId)
         }
     }
 }
