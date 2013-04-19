@@ -1,0 +1,14 @@
+﻿Version 0.1.0 - 2013.04.20
+--------------------------
+- First public release
+- Multi-page
+- Layers
+- Color Picker
+- Brush Settings
+- Brush Library
+- Undo Stack
+- Procedural Brushes
+- Dock
+- Transformations of Canvas (Zoom, Pan, Rotate)
+- Save to OpenRaster
+- Export to PNG
