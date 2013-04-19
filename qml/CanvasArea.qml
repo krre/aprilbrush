@@ -145,8 +145,14 @@ Item {
                 hoverEnabled: true
                 onHoveredChanged: containsMouse ? paintedItem.setItemCursor(cursorName, brushSettings.size.value * zoom) : paintedItem.unSetItemCursor()
                 onZoomItemChanged: containsMouse ? paintedItem.setItemCursor(cursorName, brushSettings.size.value * zoom) : paintedItem.unSetItemCursor()
-                onPanModeItemChanged: if (panModeItem) { cursorName = "OpenHand"; paintedItem.setItemCursor(cursorName, 0) } else { cursorName = "Paint"; paintedItem.setItemCursor(cursorName, brushSettings.size.value * zoom) }
-
+                onPanModeItemChanged: if (panModeItem) {
+                                          cursorName = "OpenHand";
+                                          paintedItem.setItemCursor(cursorName, 0)
+                                      }
+                                      else {
+                                          cursorName = "Paint";
+                                          paintedItem.setItemCursor(cursorName, brushSettings.size.value * zoom)
+                                      }
                 onPressed:
                     if (panMode) {
                         cursorName = "ClosedHand"
@@ -181,8 +187,8 @@ Item {
                         else {
                             if (ctrlMode)
                                 colorPicker.color = Utils.pickColor(Qt.point(mouseX, mouseY))
-                            else {
-                                brushEngine.paintDab(Qt.point(mouseX, mouseY)); parent.update() }
+                            else
+                                brushEngine.paintDab(Qt.point(mouseX, mouseY))
                         }
                     }
             }

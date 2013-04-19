@@ -41,6 +41,9 @@ public:
 
     QString layerId() const { return m_layerId; }
 
+signals:
+    void paintDone();
+
 public slots:
     void setLayerId(QString arg);
     void setImageProcessor(ImageProcessor* arg) { m_imageProcessor = arg; }

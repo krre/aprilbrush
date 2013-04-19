@@ -61,6 +61,7 @@ void BrushEngine::paintDab(QPoint nowPoint)
             maxPoint.setY(qMax(maxPoint.y(), qRound(betweenPoint.y())));
             minPoint.setX(qMin(minPoint.x(), qRound(betweenPoint.x())));
             minPoint.setY(qMin(minPoint.y(), qRound(betweenPoint.y())));
+            emit paintDone();
         }
         prevPoint = betweenPoint;
     }
