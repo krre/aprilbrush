@@ -35,8 +35,10 @@ Windows:
  - Download Qt framework version 5.0 or later from by link
    http://qt-project.org/downloads
  - Install application.
- - Follow to the source folder
- - qmake
+ - Follow to the root source folder
+ - mkdir build
+ - cd build
+ - qmake ..
  - make
  - make install
 
