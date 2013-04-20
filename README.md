@@ -7,7 +7,7 @@ Copyright (C) 2012-2013 Vladimir Zarypov <krre@mail.ru>
 
 LINKS
 
-Website: http://sourceforge.net/p/aprilbrush
+Website: http://sourceforge.net/projects/aprilbrush
 Source code: https://github.com/krre/aprilbrush
 
 INFORMATION
