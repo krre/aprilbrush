@@ -26,28 +26,3 @@ Windows:
    for multi-threaded GUI work. The multi-threaded work may be unstable.
 
 Linux:
-
-
-COMPILING
-
-Windows:
-
- - Download Qt framework version 5.0 or later from by link
-   http://qt-project.org/downloads
- - Install application.
- - Follow to the root source folder
- - mkdir build
- - cd build
- - qmake ..
- - make
- - make install
-
-Linux:
-
- - Download Qt framework version 5.0 or later from by link
-   http://qt-project.org/downloads
- - Install application.
- - Follow to the source folder
- - qmake
- - make
- - make install

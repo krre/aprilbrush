@@ -17,7 +17,7 @@ import "components"
 Window {
     title: ""
     defaultWidth: 420
-    defaultHeight: 420
+    defaultHeight: 450
 
     Column {
         width: 200
