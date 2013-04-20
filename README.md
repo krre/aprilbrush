@@ -1,4 +1,4 @@
-﻿AprilBrush 0.1.0
+AprilBrush 0.1.0
 ================
 
 COPYRIGHT
