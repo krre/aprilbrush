@@ -1,9 +1,9 @@
-TARGET = AprilBrush
+TARGET = aprilbrush
 
 QT += quick
 
 ab.path += $$OUT_PWD
-ab.files += qml presets README.md changelog.txt license.txt
+ab.files += qml presets
 
 INSTALLS += ab
 

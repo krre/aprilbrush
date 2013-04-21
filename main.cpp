@@ -34,6 +34,7 @@ int main(int argc, char *argv[])
     qmlRegisterType<CoreLib>("AprilBrushLib", 1, 0, "CoreLib");
 
     QQuickView view;
+    view.setTitle("AprilBrush");
     QScreen *screen = view.screen();
     CoreLib::m_screenSize = screen->size();
     view.setSource(QUrl::fromLocalFile("qml/main.qml"));
