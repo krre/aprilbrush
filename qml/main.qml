@@ -11,7 +11,8 @@
  * GNU General Public License for more details.
  */
 
-import QtQuick 2.0
+import QtQuick 2.1
+import QtQuick.Dialogs 1.0
 import AprilBrushLib 1.0
 import "components"
 import "settings.js" as Settings
@@ -145,18 +146,23 @@ Rectangle {
 
         FileDialog {
             id: fileDialog
-            z: 5
-            visible: false
-            onClicked: {
+
+            property int mode: 0 // 0 - open, 1 - save, 2 - export, 3 - folder
+
+            selectExisting: mode == 0 ? true : false
+            selectFolder: mode == 3 ? true : false
+            nameFilters: mode == 2 ? "Images (*.png)" : "OpenRaster (*.ora)"
+            //folder: "d:/1"
+
+            onAccepted: {
+                console.log(fileDialog.filePath)
+                /*
                 switch (mode) {
                     case 0: Utils.openOra(); break
                     case 1: Utils.saveAsOra(); break
                     case 2: Utils.exportPng(); break
                 }
-                currentPageItem.canvasArea.focusBind = false
-                currentPageItem.canvasArea.focus = true
-                currentPageItem.canvasArea.focusBind = true
-                visible = false
+                */
             }
         }
     }

@@ -50,6 +50,5 @@ OTHER_FILES += \
     qml/UndoManager.qml \
     qml/components/ListItem.qml \
     qml/components/ListItemComponent.qml \
-    qml/components/FileDialog.qml \
     qml/components/Shadow.qml \
-    qml/brushlib.js
+    qml/brushlib.js \

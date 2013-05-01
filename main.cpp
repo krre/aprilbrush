@@ -26,7 +26,7 @@
 int main(int argc, char *argv[])
 {
     // Set GUI multi-threaded while it disabled in Qt 5 on the Windows systems
-    qputenv("QML_FORCE_THREADED_RENDERER", "1");
+    //qputenv("QML_FORCE_THREADED_RENDERER", "1");
 
     QGuiApplication app(argc, argv);
 

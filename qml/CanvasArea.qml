@@ -79,16 +79,16 @@ Item {
 
         if ((event.modifiers & Qt.ShiftModifier) && (event.key === Qt.Key_S)) {
             fileDialog.mode = 1; // Save mode
-            fileDialog.visible = true
+            fileDialog.open()
         }
 
         if ((event.modifiers & Qt.ControlModifier) && (event.key === Qt.Key_O)) {
             fileDialog.mode = 0; // Open mode
-            fileDialog.visible = true
+            fileDialog.open()
         }
         if ((event.modifiers & Qt.ControlModifier) && (event.key === Qt.Key_E)) {
             fileDialog.mode = 2; // Export mode
-            fileDialog.visible = true
+            fileDialog.open()
         }
 
         if ((event.modifiers & Qt.ControlModifier) && (event.key === Qt.Key_Space)) {
