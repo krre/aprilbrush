@@ -52,7 +52,6 @@ Window {
     width: undoManagerSize.width
     height: undoManagerSize.height
     visible: (index == pagesView.currentIndex) && undoManagerVisible
-    //visible: true
 
     onReleased: {
         undoManagerPos = Qt.vector3d(x, y, z)

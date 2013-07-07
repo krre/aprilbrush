@@ -152,17 +152,12 @@ Rectangle {
             selectExisting: mode == 0 ? true : false
             selectFolder: mode == 3 ? true : false
             nameFilters: mode == 2 ? "Images (*.png)" : "OpenRaster (*.ora)"
-            //folder: "d:/1"
-
             onAccepted: {
-                console.log(fileDialog.filePath)
-                /*
                 switch (mode) {
-                    case 0: Utils.openOra(); break
-                    case 1: Utils.saveAsOra(); break
-                    case 2: Utils.exportPng(); break
+                    case 0: Utils.openOra(fileDialog.fileUrl); break
+                    case 1: Utils.saveAsOra(fileDialog.fileUrl); break
+                    case 2: Utils.exportPng(fileDialog.fileUrl); break
                 }
-                */
             }
         }
     }

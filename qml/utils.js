@@ -110,9 +110,9 @@ function polishPath(path) {
 }
 
 // Open OpenRaster file
-function openOra() {
+function openOra(filePath) {
     //var layerModel = pageModel.get(currentPageIndex).layerModel
-    var path = fileDialog.currentFilePath
+    var path = filePath.toString()
     path = polishPath(path)
     var layersList = openRaster.readAttributes(path)
 
@@ -128,8 +128,9 @@ function openOra() {
 }
 
 // Save OpenRaster file with new name
-function saveAsOra() {
-    var path = fileDialog.currentFilePath
+function saveAsOra(filePath) {
+    //console.log(path)
+    var path = filePath.toString()
     if (path.substr(-4) !== ".ora")
         path += ".ora"
 
@@ -155,9 +156,9 @@ function saveOra() {
 }
 
 // Export PNG file
-function exportPng() {
+function exportPng(filePath) {
     var layerModel = pageModel.get(currentPageIndex).layerModel
-    var path = fileDialog.currentFilePath
+    var path = filePath.toString()
     if (path.substr(-4) !== ".png")
         path += ".png"
     var layerIdList = []
