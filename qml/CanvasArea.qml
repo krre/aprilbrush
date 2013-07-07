@@ -12,7 +12,7 @@
  */
 
 import QtQuick 2.1
-import AprilBrushLib 1.0
+import ABLib 1.0
 import "components"
 import "utils.js" as Utils
 import "undo.js" as Undo

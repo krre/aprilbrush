@@ -13,7 +13,7 @@
 
 import QtQuick 2.1
 import QtQuick.Dialogs 1.0
-import AprilBrushLib 1.0
+import ABLib 1.0
 import "components"
 import "settings.js" as Settings
 import "utils.js" as Utils

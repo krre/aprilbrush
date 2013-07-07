@@ -30,11 +30,11 @@ int main(int argc, char *argv[])
 
     QGuiApplication app(argc, argv);
 
-    qmlRegisterType<PaintedItem>("AprilBrushLib", 1, 0, "PaintedItem");
-    qmlRegisterType<BrushEngine>("AprilBrushLib", 1, 0, "BrushEngine");
-    qmlRegisterType<OpenRaster>("AprilBrushLib", 1, 0, "OpenRaster");
-    qmlRegisterType<ImageProcessor>("AprilBrushLib", 1, 0, "ImageProcessor");
-    qmlRegisterType<CoreLib>("AprilBrushLib", 1, 0, "CoreLib");
+    qmlRegisterType<PaintedItem>("ABLib", 1, 0, "PaintedItem");
+    qmlRegisterType<BrushEngine>("ABLib", 1, 0, "BrushEngine");
+    qmlRegisterType<OpenRaster>("ABLib", 1, 0, "OpenRaster");
+    qmlRegisterType<ImageProcessor>("ABLib", 1, 0, "ImageProcessor");
+    qmlRegisterType<CoreLib>("ABLib", 1, 0, "CoreLib");
 
     QQuickView view;
     view.setTitle("AprilBrush");
