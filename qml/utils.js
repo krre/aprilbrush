@@ -116,7 +116,7 @@ function openOra(filePath) {
     path = polishPath(path)
     var layersList = openRaster.readAttributes(path)
 
-    addPage(fileDialog.currentFileName)
+    addPage(fileFromPath(path))
     for (var i = layersList.length - 1; i > -1; i-- ) {
         addLayer(layersList[i].name)
         var src = layersList[i].src
@@ -129,7 +129,6 @@ function openOra(filePath) {
 
 // Save OpenRaster file with new name
 function saveAsOra(filePath) {
-    //console.log(path)
     var path = filePath.toString()
     if (path.substr(-4) !== ".ora")
         path += ".ora"
@@ -164,6 +163,7 @@ function exportPng(filePath) {
     var layerIdList = []
     for (var i = 0; i < layerModel.count; i++)
         layerIdList.push(layerModel.get(i).layerId)
+    path = polishPath(path)
     imgProcessor.makePng(path, layerIdList)
     console.log("export: " + path)
 }
