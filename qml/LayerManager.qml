@@ -11,7 +11,7 @@
  * GNU General Public License for more details.
  */
 
-import QtQuick 2.0
+import QtQuick 2.1
 import "components"
 import "utils.js" as Utils
 import "undo.js" as Undo
