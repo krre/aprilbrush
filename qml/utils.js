@@ -32,8 +32,8 @@ function addPage(pageName) {
     pageManager.pagesView.currentIndex = pageModel.count - 1
 
     if (!pageName) {
-        addLayer(0, "Background", "white")
-        addLayer(0)
+        addLayer("Background", "white")
+        addLayer()
     }
 
     //undoManager.add(new Undo.start())
@@ -52,7 +52,7 @@ function deletePage(index) {
 
 
 // Add new layer
-function addLayer(position, layerName, color) {
+function addLayer(layerName, color) {
     var layerModel = pageModel.get(currentPageIndex).layerModel
     var newLayerName
     if (layerName)
@@ -83,8 +83,8 @@ function addLayer(position, layerName, color) {
     newLayerId = newLayerId.toString()
     imgProcessor.addPixmap(newLayerId, imageSize, newColor)
     var insertPos
-    if (position !== undefined)
-        insertPos = position
+    if (currentPageItem.layerManager.currentLayerIndex === -1)
+        insertPos = 0
     else
         insertPos = currentPageItem.layerManager.currentLayerIndex
     layerModel.insert(insertPos, { name: newLayerName, colorImage: newColor, enable: true, layerId: newLayerId })
