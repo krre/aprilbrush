@@ -107,7 +107,7 @@ Window {
             highlightMoveDuration: 1
 
             width: parent.width
-            height: root.height - 45
+            height: parent.height
 
             orientation: ListView.Vertical
             clip: true

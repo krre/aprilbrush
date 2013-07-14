@@ -28,7 +28,7 @@ Window {
             delegate: brushDelegate
 
             width: parent.width
-            height: root.height - 65
+            height: parent.height
             cellWidth: 56
             cellHeight: 56
             highlight: brushSelected

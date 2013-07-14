@@ -30,7 +30,6 @@ Window {
     Item {
         id: sliders
         anchors.fill: parent
-        anchors.bottomMargin: 15
 
         VisualItemModel {
             id: brushSettingsModel
