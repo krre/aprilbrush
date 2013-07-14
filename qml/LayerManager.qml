@@ -13,6 +13,7 @@
 
 import QtQuick 2.1
 import QtQuick.Controls 1.0
+import QtQuick.Layouts 1.0
 import "components"
 import "utils.js" as Utils
 import "undo.js" as Undo
@@ -39,7 +40,7 @@ Window {
     z: layerManagerPos.z
     width: layerManagerSize.width
     height: layerManagerSize.height
-    visible: (index == pagesView.currentIndex) && layerManagerVisible
+    visible: (index === pagesView.currentIndex) && layerManagerVisible
 
     onReleased: {
         layerManagerPos = Qt.vector3d(x, y, z)
@@ -49,9 +50,8 @@ Window {
     }
     onClosed: layerManagerVisible = false
 
-    Column {
+    ColumnLayout {
         anchors.fill: parent
-        width: parent.width
         spacing: 5
 
         ListView {
@@ -61,8 +61,8 @@ Window {
             highlight: layerSelected
             highlightMoveDuration: 1
 
-            width: parent.width
-            height: root.height - 65
+            Layout.fillWidth: true
+            Layout.fillHeight: true
 
             orientation: ListView.Vertical
             clip: true
@@ -95,16 +95,16 @@ Window {
         }
 
         // Buttons
-        Row {
+        RowLayout {
             id: buttons
-            width: parent.width
+            spacing: 2
             height: 20
-            spacing: 4
 
             // New button
             Button {
-                width: parent.width / 5 - 4
-                height: parent.height
+                Layout.fillWidth: true
+                Layout.fillHeight: true
+                Layout.maximumHeight: parent.height
                 text: qsTr("New")
                 onClicked: {
                     Utils.addLayer()
@@ -113,8 +113,9 @@ Window {
             }
             // Up button
             Button {
-                width: parent.width / 5 - 4
-                height: parent.height
+                Layout.fillWidth: true
+                Layout.fillHeight: true
+                Layout.maximumHeight: parent.height
                 text: qsTr("Up")
                 onClicked: {
                     if (currentLayerIndex > 0) {
@@ -126,8 +127,9 @@ Window {
             }
             // Down button
             Button {
-                width: parent.width / 5 - 4
-                height: parent.height
+                Layout.fillWidth: true
+                Layout.fillHeight: true
+                Layout.maximumHeight: parent.height
                 text: qsTr("Down")
                 onClicked: {
                     if (currentLayerIndex < layersView.count - 1) {
@@ -139,8 +141,9 @@ Window {
 
             // Merge button
             Button {
-                width: parent.width / 5 - 4
-                height: parent.height
+                Layout.fillWidth: true
+                Layout.fillHeight: true
+                Layout.maximumHeight: parent.height
                 text: qsTr("Merge")
                 onClicked: {
                     if ((layersView.count > 1) && (currentLayerIndex < layersView.count - 1)) {
@@ -151,8 +154,9 @@ Window {
 
             // Clone button
             Button {
-                width: parent.width / 5 - 4
-                height: parent.height
+                Layout.fillWidth: true
+                Layout.fillHeight: true
+                Layout.maximumHeight: parent.height
                 text: qsTr("Clone")
                 onClicked: {
                     undoManager.add(new Undo.cloneLayer())
