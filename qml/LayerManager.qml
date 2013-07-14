@@ -12,6 +12,7 @@
  */
 
 import QtQuick 2.1
+import QtQuick.Controls 1.0
 import "components"
 import "utils.js" as Utils
 import "undo.js" as Undo
@@ -104,7 +105,7 @@ Window {
             Button {
                 width: parent.width / 5 - 4
                 height: parent.height
-                title: qsTr("New")
+                text: qsTr("New")
                 onClicked: {
                     Utils.addLayer()
                     undoManager.add(new Undo.addLayer())
@@ -114,7 +115,7 @@ Window {
             Button {
                 width: parent.width / 5 - 4
                 height: parent.height
-                title: qsTr("Up")
+                text: qsTr("Up")
                 onClicked: {
                     if (currentLayerIndex > 0) {
                         layerModel.move(currentLayerIndex, currentLayerIndex - 1, 1)
@@ -127,7 +128,7 @@ Window {
             Button {
                 width: parent.width / 5 - 4
                 height: parent.height
-                title: qsTr("Down")
+                text: qsTr("Down")
                 onClicked: {
                     if (currentLayerIndex < layersView.count - 1) {
                         layerModel.move(currentLayerIndex, currentLayerIndex + 1, 1)
@@ -140,7 +141,7 @@ Window {
             Button {
                 width: parent.width / 5 - 4
                 height: parent.height
-                title: qsTr("Merge")
+                text: qsTr("Merge")
                 onClicked: {
                     if ((layersView.count > 1) && (currentLayerIndex < layersView.count - 1)) {
                         undoManager.add(new Undo.mergeLayer())
@@ -152,7 +153,7 @@ Window {
             Button {
                 width: parent.width / 5 - 4
                 height: parent.height
-                title: qsTr("Clone")
+                text: qsTr("Clone")
                 onClicked: {
                     undoManager.add(new Undo.cloneLayer())
                 }
