@@ -36,13 +36,13 @@ Window {
             clip: true
             Component.onCompleted: {
                 BrushLib.loadBrushPack()
-                brushSettings.size.init = libraryModel.get(0).size
-                brushSettings.opaque.init = libraryModel.get(0).opaque
-                brushSettings.spacing.init = libraryModel.get(0).spacing
-                brushSettings.hardness.init = libraryModel.get(0).hardness
-                brushSettings.roundness.init = libraryModel.get(0).roundness
-                brushSettings.angle.init = libraryModel.get(0).angle
-                brushSettings.jitter.init = libraryModel.get(0).jitter
+                brushSettings.size.value = libraryModel.get(0).size
+                brushSettings.opaque.value = libraryModel.get(0).opaque
+                brushSettings.spacing.value = libraryModel.get(0).spacing
+                brushSettings.hardness.value = libraryModel.get(0).hardness
+                brushSettings.roundness.value = libraryModel.get(0).roundness
+                brushSettings.angle.value = libraryModel.get(0).angle
+                brushSettings.jitter.value = libraryModel.get(0).jitter
             }
         }
 
@@ -56,13 +56,13 @@ Window {
                 color: GridView.isCurrentItem ? "transparent" : "lightgray"
                 onClicked: {
                     libraryView.currentIndex = index
-                    brushSettings.size.init = size
-                    brushSettings.opaque.init = opaque
-                    brushSettings.spacing.init = spacing
-                    brushSettings.hardness.init = hardness
-                    brushSettings.roundness.init = roundness
-                    brushSettings.angle.init = angle
-                    brushSettings.jitter.init = jitter
+                    brushSettings.size.value = size
+                    brushSettings.opaque.value = opaque
+                    brushSettings.spacing.value = spacing
+                    brushSettings.hardness.value = hardness
+                    brushSettings.roundness.value = roundness
+                    brushSettings.angle.value = angle
+                    brushSettings.jitter.value = jitter
                 }
             }
         }
