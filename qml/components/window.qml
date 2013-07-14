@@ -72,7 +72,7 @@ Item {
             Item {
                 id: stack
                 width: rect.width - indent * 2;
-                height: rect.height - head.height
+                height: rect.height - head.height - indent * 1.5
                 anchors.horizontalCenter: parent.horizontalCenter
             }
         }

@@ -46,7 +46,6 @@ OTHER_FILES += \
     qml/LayerManager.qml \
     qml/PageManager.qml \
     qml/components/CloseButton.qml \
-    qml/components/Button.qml \
     qml/UndoManager.qml \
     qml/components/ListItem.qml \
     qml/components/ListItemComponent.qml \

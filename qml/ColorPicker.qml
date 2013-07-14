@@ -12,6 +12,7 @@
  */
 
 import QtQuick 2.1
+import QtQuick.Layouts 1.0
 import QtGraphicalEffects 1.0
 import "utils.js" as Utils
 import "components"
@@ -25,7 +26,7 @@ Window {
     property real v
     property color color: "blue"
 
-    property int minWindowSize: Math.min(container.width, container.height)
+    property int minWindowSize: Math.min(columnLayout.width, columnLayout.height)
     property real ringWidth: 0.75
 
     onColorChanged: setColor()
@@ -37,17 +38,20 @@ Window {
             v = hsvColor.v
     }
 
-    Item {
-        id: container
-
+    ColumnLayout {
+        id: columnLayout
         anchors.fill: parent
 
         // Color ring
         Rectangle {
             id: outerCircle
-            width: minWindowSize
-            height: minWindowSize
-            radius: outerCircle.width / 2
+            Layout.alignment: Qt.AlignCenter
+            Layout.fillWidth: true
+            Layout.fillHeight: true
+            Layout.maximumWidth: minWindowSize
+            Layout.maximumHeight: minWindowSize
+
+            radius: width / 2
             anchors.centerIn: parent
             antialiasing: true
 
@@ -55,7 +59,7 @@ Window {
                 anchors.fill: parent
                 angle: 90
                 clip: true
-                source: outerCircle
+                source: parent
                 gradient: Gradient {
                     GradientStop {position: 0 / 6; color: "red"}
                     GradientStop {position: 1 / 6; color: "magenta"}
@@ -66,6 +70,7 @@ Window {
                     GradientStop {position: 6 / 6; color: "red"}
                 }
             }
+
 
             // Hue picker
             Rectangle {
@@ -99,73 +104,74 @@ Window {
                 onPositionChanged: handleMouseHue(mouse)
                 onPressed: handleMouseHue(mouse)
             }
-        }
 
-        // Clearing inner circle
-        Rectangle {
-            id: innerCircle
-            width: outerCircle.width * ringWidth
-            height: outerCircle.height * ringWidth
-            anchors.centerIn: parent
-            radius: outerCircle.width * ringWidth / 2
-            antialiasing: true
-            color: "#eeeeee"
-        }
 
-        // Color square
-        Item {
-            id: squareSV
-            width: outerCircle.width * ringWidth / Math.sqrt(2)
-            height: outerCircle.width * ringWidth / Math.sqrt(2)
-            anchors.centerIn: parent
-
+            // Clearing inner circle
             Rectangle {
-                anchors.fill: parent;
-                rotation: -90
-                gradient: Gradient {
-                    GradientStop {position: 0.0; color: "white"}
-                    GradientStop {position: 1.0; color: Qt.hsla(h, 1, 0.5, 1)}
-                }
-            }
-            Rectangle {
-                anchors.fill: parent
-                gradient: Gradient {
-                    GradientStop {position: 1.0; color: "#FF000000"}
-                    GradientStop {position: 0.0; color: "#00000000"}
-                }
+                id: innerCircle
+                width: outerCircle.width * ringWidth
+                height: outerCircle.height * ringWidth
+                anchors.centerIn: parent
+                radius: outerCircle.width * ringWidth / 2
+                antialiasing: true
+                color: "#eeeeee"
             }
 
-            // Saturation/Value picker
+            // Color square
             Item {
-                id: pickerSV
-                x: s * parent.width
-                y: (1 - v) * parent.height
-                property int radiusPickerSV: 5
+                id: squareSV
+                width: outerCircle.width * ringWidth / Math.sqrt(2)
+                height: outerCircle.width * ringWidth / Math.sqrt(2)
+                anchors.centerIn: parent
 
                 Rectangle {
-                    x: -parent.radiusPickerSV
-                    y: -parent.radiusPickerSV
-                    width: parent.radiusPickerSV * 2
-                    height: parent.radiusPickerSV * 2
-                    radius: parent.radiusPickerSV
-                    border.color: (pickerSV.x > squareSV.width / 2) || (pickerSV.y > squareSV.height / 2) ? "white" : "black"
-                    border.width: 2
-                    color: "transparent"
-                    antialiasing: true
-                }
-            }
-
-            MouseArea {
-                anchors.fill: parent
-                function handleMouseSV(mouse) {
-                    if (mouse.buttons & Qt.LeftButton) {
-                        s = Math.max(0, Math.min(width, mouse.x)) / parent.width
-                        v = 1 - Math.max(0, Math.min(height, mouse.y)) / parent.height
-                        color = Utils.hsvToHsl(h, s, v, 1)
+                    anchors.fill: parent;
+                    rotation: -90
+                    gradient: Gradient {
+                        GradientStop {position: 0.0; color: "white"}
+                        GradientStop {position: 1.0; color: Qt.hsla(h, 1, 0.5, 1)}
                     }
                 }
-                onPositionChanged: handleMouseSV(mouse)
-                onPressed: handleMouseSV(mouse)
+                Rectangle {
+                    anchors.fill: parent
+                    gradient: Gradient {
+                        GradientStop {position: 1.0; color: "#FF000000"}
+                        GradientStop {position: 0.0; color: "#00000000"}
+                    }
+                }
+
+                // Saturation/Value picker
+                Item {
+                    id: pickerSV
+                    x: s * parent.width
+                    y: (1 - v) * parent.height
+                    property int radiusPickerSV: 5
+
+                    Rectangle {
+                        x: -parent.radiusPickerSV
+                        y: -parent.radiusPickerSV
+                        width: parent.radiusPickerSV * 2
+                        height: parent.radiusPickerSV * 2
+                        radius: parent.radiusPickerSV
+                        border.color: (pickerSV.x > squareSV.width / 2) || (pickerSV.y > squareSV.height / 2) ? "white" : "black"
+                        border.width: 2
+                        color: "transparent"
+                        antialiasing: true
+                    }
+                }
+
+                MouseArea {
+                    anchors.fill: parent
+                    function handleMouseSV(mouse) {
+                        if (mouse.buttons & Qt.LeftButton) {
+                            s = Math.max(0, Math.min(width, mouse.x)) / parent.width
+                            v = 1 - Math.max(0, Math.min(height, mouse.y)) / parent.height
+                            color = Utils.hsvToHsl(h, s, v, 1)
+                        }
+                    }
+                    onPositionChanged: handleMouseSV(mouse)
+                    onPressed: handleMouseSV(mouse)
+                }
             }
         }
     }
