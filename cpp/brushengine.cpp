@@ -46,7 +46,7 @@ void BrushEngine::paintDab(QPoint nowPoint)
         painter.setCompositionMode(QPainter::CompositionMode_DestinationOut);
 
     qreal length = qSqrt(qPow(prevPoint.x() - nowPoint.x(), 2) + qPow(prevPoint.y() - nowPoint.y(), 2));
-    qreal deltaDab = m_size * m_spacing / 2 / 100.0;
+    qreal deltaDab = m_size * m_spacing / 100.0;
     // Drawing dabs between the events
     if (length >= deltaDab)
     {
