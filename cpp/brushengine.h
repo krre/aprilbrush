@@ -32,6 +32,7 @@ class BrushEngine : public QObject
     Q_PROPERTY(int hardness READ hardness WRITE setHardness)
     Q_PROPERTY(QColor color READ color WRITE setColor)
     Q_PROPERTY(int opacity READ opacity WRITE setOpacity)
+    Q_PROPERTY(qreal opacityCorrect READ opacityCorrect WRITE setOpacityCorrect)
     Q_PROPERTY(int roundness READ roundness WRITE setRoundness)
     Q_PROPERTY(int angle READ angle WRITE setAngle)
     Q_PROPERTY(int jitter READ jitter WRITE setJitter)
@@ -64,20 +65,31 @@ public slots:
 private:
     inline int size() {return m_size;}
     inline void setSize(int size) { m_size = size; }
+
     inline int spacing() { return m_spacing; }
     inline void setSpacing(int spacing) { m_spacing = spacing; }
+
     inline int hardness() { return m_hardness; }
     inline void setHardness(int hardness) { m_hardness = hardness; }
+
     inline QColor color() { return m_color; }
     inline void setColor(QColor color) { m_color = color; }
+
     inline int opacity() { return m_opacity; }
     inline void setOpacity(int opacity) { m_opacity = opacity; }
+
+    inline qreal opacityCorrect() { return m_opacityCorrect; }
+    inline void setOpacityCorrect(qreal opacityCorrect) { m_opacityCorrect = opacityCorrect; }
+
     inline int roundness() { return m_roundness; }
     inline void setRoundness(int roundness) { m_roundness = roundness; }
+
     inline int angle() { return m_angle; }
-    inline void setJitter(int jitter) { m_jitter = jitter; }
-    inline int jitter() { return m_jitter; }
     inline void setAngle(int angle) { m_angle = angle; }
+
+    inline int jitter() { return m_jitter; }
+    inline void setJitter(int jitter) { m_jitter = jitter; }
+
     inline bool eraser() { return m_eraser; }
     inline void setEraser(bool eraser) { m_eraser = eraser; }
 
@@ -92,6 +104,7 @@ private:
     int m_jitter;
     QColor m_color;
     int m_opacity;
+    qreal m_opacityCorrect;
     bool m_eraser;
     QPixmap *prevPixmap;
     QByteArray undoByteArray;

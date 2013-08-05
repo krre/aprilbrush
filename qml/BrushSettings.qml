@@ -21,6 +21,7 @@ Window {
 
     property alias size: sizeSlider
     property alias opaque: opacitySlider
+    property alias opaqueCorrect: opacityCorrectSlider
     property alias spacing: spacingSlider
     property alias hardness: hardnessSlider
     property alias roundness: roundnessSlider
@@ -82,6 +83,14 @@ Window {
                 Label { text: Math.round(jitterSlider.value); anchors.right: parent.right }
             }
             Slider { id: jitterSlider; width: sliders.width; minimumValue: 0; maximumValue: 1000 }
+            Item {
+                height: 14
+                width: sliders.width
+                Label { text: qsTr("Opacity Correcting"); anchors.left: parent.left }
+                Label { text: opacityCorrectSlider.value.toFixed(2); anchors.right: parent.right }
+            }
+            Slider { id: opacityCorrectSlider; width: sliders.width; minimumValue: 0; maximumValue: 2.0 }
+
         }
 
         ListView {
