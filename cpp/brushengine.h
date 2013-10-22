@@ -63,35 +63,35 @@ public slots:
     void setImageProcessor(ImageProcessor* arg) { m_imageProcessor = arg; }
 
 private:
-    inline int size() {return m_size;}
-    inline void setSize(int size) { m_size = size; }
+    int size() {return m_size;}
+    void setSize(int size) { m_size = size; }
 
-    inline int spacing() { return m_spacing; }
-    inline void setSpacing(int spacing) { m_spacing = spacing; }
+    int spacing() { return m_spacing; }
+    void setSpacing(int spacing) { m_spacing = spacing; }
 
-    inline int hardness() { return m_hardness; }
-    inline void setHardness(int hardness) { m_hardness = hardness; }
+    int hardness() { return m_hardness; }
+    void setHardness(int hardness) { m_hardness = hardness; }
 
-    inline QColor color() { return m_color; }
-    inline void setColor(QColor color) { m_color = color; }
+    QColor color() { return m_color; }
+    void setColor(QColor color) { m_color = color; }
 
-    inline int opacity() { return m_opacity; }
-    inline void setOpacity(int opacity) { m_opacity = opacity; }
+    int opacity() { return m_opacity; }
+    void setOpacity(int opacity) { m_opacity = opacity; }
 
-    inline qreal opacityCorrect() { return m_opacityCorrect; }
-    inline void setOpacityCorrect(qreal opacityCorrect) { m_opacityCorrect = opacityCorrect; }
+    qreal opacityCorrect() { return m_opacityCorrect; }
+    void setOpacityCorrect(qreal opacityCorrect) { m_opacityCorrect = opacityCorrect; }
 
-    inline int roundness() { return m_roundness; }
-    inline void setRoundness(int roundness) { m_roundness = roundness; }
+    int roundness() { return m_roundness; }
+    void setRoundness(int roundness) { m_roundness = roundness; }
 
-    inline int angle() { return m_angle; }
-    inline void setAngle(int angle) { m_angle = angle; }
+    int angle() { return m_angle; }
+    void setAngle(int angle) { m_angle = angle; }
 
-    inline int jitter() { return m_jitter; }
-    inline void setJitter(int jitter) { m_jitter = jitter; }
+    int jitter() { return m_jitter; }
+    void setJitter(int jitter) { m_jitter = jitter; }
 
-    inline bool eraser() { return m_eraser; }
-    inline void setEraser(bool eraser) { m_eraser = eraser; }
+    bool eraser() { return m_eraser; }
+    void setEraser(bool eraser) { m_eraser = eraser; }
 
     Wacom wacom;
     QByteArray compressPixmap(QPixmap pixmap);
