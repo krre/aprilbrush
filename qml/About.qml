@@ -40,7 +40,7 @@ Window {
         }
         Text {
             width: parent.width
-            text: "Copyright (c) 2012-2013, Vladimir Zarypov<br />Ukraine, Kiev<br /> \
+            text: "Copyright (c) 2012-2013, Vladimir Zarypov<br /> \
                 http://sourceforge.net/projects/aprilbrush<br />"
             horizontalAlignment: Text.AlignHCenter
             font.pixelSize: 12
