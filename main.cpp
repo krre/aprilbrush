@@ -40,7 +40,7 @@ int main(int argc, char *argv[])
     view.setTitle("AprilBrush");
     QScreen *screen = view.screen();
     CoreLib::m_screenSize = screen->size();
-    view.setSource(QUrl::fromLocalFile("qml/main.qml"));
+    view.setSource(QUrl("qrc:///qml/main.qml"));
     view.setResizeMode(QQuickView::SizeRootObjectToView);
     view.show();
 

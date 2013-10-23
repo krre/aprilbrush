@@ -51,3 +51,6 @@ OTHER_FILES += \
     qml/components/ListItemComponent.qml \
     qml/components/Shadow.qml \
     qml/brushlib.js \
+
+RESOURCES += \
+    resources.qrc
