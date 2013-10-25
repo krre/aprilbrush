@@ -20,10 +20,7 @@
 #include <QApplication>
 #include <QtQuick>
 #include <QtQml>
-//#include <QtGui>
-//#include <QtCore>
-//#include <QDebug>
-//#include <QScreen>
+#include <QScreen>
 
 int main(int argc, char *argv[])
 {

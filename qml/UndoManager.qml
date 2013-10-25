@@ -15,10 +15,9 @@ import QtQuick 2.1
 import "components"
 import "undo.js" as Undo
 
-Window {
+ToolWindow {
     id: root
     title: "Undo History"
-    autoClose: false
     property alias currentUndo: undoView.currentIndex
     property alias undoView: undoView
     property int undoDeep: 50
@@ -26,6 +25,7 @@ Window {
     property var commandArray: [] // array for saving undo/redo command (they don't work from ListModel)
     property bool endList: false
     property bool newUndo: false
+
 /*
     x: settings.undoManager.position.x
     y: settings.undoManager.position.y
@@ -48,18 +48,9 @@ Window {
 */
     x: undoManagerPos.x
     y: undoManagerPos.y
-    z: undoManagerPos.z
     width: undoManagerSize.width
     height: undoManagerSize.height
     visible: (index == pagesView.currentIndex) && undoManagerVisible
-
-    onReleased: {
-        undoManagerPos = Qt.vector3d(x, y, z)
-    }
-    onResized: {
-        undoManagerSize = Qt.size(width, height)
-    }
-    onClosed: undoManagerVisible = false
 
     function add(commandUndo) {
         if (undoView.currentIndex < undoModel.count - 1) {

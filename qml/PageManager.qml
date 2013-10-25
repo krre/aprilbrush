@@ -98,7 +98,6 @@ Item {
 
                     UndoManager {
                         id: undoManager
-                        parent: workArea
                     }
 
                     CanvasArea {

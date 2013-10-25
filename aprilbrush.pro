@@ -38,6 +38,7 @@ OTHER_FILES += \
     qml/components/ListItemComponent.qml \
     qml/components/Shadow.qml \
     qml/brushlib.js \
+    qml/components/ToolWindow.qml
 
 RESOURCES += \
     resources.qrc
