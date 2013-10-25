@@ -76,6 +76,7 @@ ApplicationWindow {
     menuBar: MenuBar {
         Menu {
             title: qsTr("File")
+            MenuItem { text: qsTr("New") }
             MenuItem { text: qsTr("Open...") }
             MenuItem { text: qsTr("Save") }
             MenuItem { text: qsTr("Save As...") }
@@ -95,8 +96,26 @@ ApplicationWindow {
 
         Menu {
             title: qsTr("Tools")
-            MenuItem { text: qsTr("ColorPicker") }
-            MenuItem { text: qsTr("Undo Manager") }
+            MenuItem {
+                text: qsTr("ColorPicker")
+                onTriggered: colorPicker.visible = !colorPicker.visible
+            }
+            MenuItem {
+                text: qsTr("Undo Manager")
+                onTriggered: undoManagerVisible = !undoManagerVisible
+            }
+            MenuItem {
+                text: qsTr("Layer Manager")
+                onTriggered: layerManagerVisible = !layerManagerVisible
+            }
+            MenuItem {
+                text: qsTr("Brush Settings")
+                onTriggered: brushSettings.visible = !brushSettings.visible
+            }
+            MenuItem {
+                text: qsTr("Brush Library")
+                onTriggered: brushLibrary.visible = !brushLibrary.visible
+            }
         }
 
         Menu {
@@ -203,12 +222,6 @@ ApplicationWindow {
     About {
         id: aboutWindow
         visible: false
-    }
-
-    Dock {
-        anchors.verticalCenter: parent.verticalCenter
-        anchors.horizontalCenter: parent.horizontalCenter
-        visible: dockMode
     }
 }
 

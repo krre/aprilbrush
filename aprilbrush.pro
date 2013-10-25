@@ -26,7 +26,6 @@ OTHER_FILES += \
     qml/utils.js \
     qml/undo.js \
     qml/components/Window.qml\
-    qml/Dock.qml\
     qml/components/CheckerBoard.qml \
     qml/BrushLibrary.qml \
     qml/CanvasArea.qml \

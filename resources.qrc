@@ -6,7 +6,6 @@
         <file>qml/BrushSettings.qml</file>
         <file>qml/CanvasArea.qml</file>
         <file>qml/ColorPicker.qml</file>
-        <file>qml/Dock.qml</file>
         <file>qml/LayerManager.qml</file>
         <file>qml/main.qml</file>
         <file>qml/PageManager.qml</file>
@@ -16,7 +15,6 @@
         <file>qml/utils.js</file>
         <file>qml/components/CheckerBoard.qml</file>
         <file>qml/components/CloseButton.qml</file>
-        <file>qml/components/DockItem.qml</file>
         <file>qml/components/ListItem.qml</file>
         <file>qml/components/ListItemComponent.qml</file>
         <file>qml/components/Shadow.qml</file>
