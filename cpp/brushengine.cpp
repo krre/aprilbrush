@@ -27,7 +27,7 @@ void BrushEngine::paintDab(QPoint nowPoint)
     qreal tunedOpacity = m_opacity * (m_spacing > 100 ? 100 : m_spacing) / 100.0;
     m_color.setAlpha(qRound(255 * tunedOpacity / 100.0));
     QColor pressureColor = m_color;
-    qreal pressure = wacom.pressure();
+    qreal pressure = 1.0; // temporary setted to 1
     pressureColor.setAlpha(qRound(m_color.alpha() * pressure));
     QColor alphaColor =  m_color;
     alphaColor.setAlpha(0);

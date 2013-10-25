@@ -16,14 +16,6 @@
 
 #include "imageprocessor.h"
 
-#ifdef Q_OS_WIN
-#include "wacom/wacom_win.h"
-#endif
-
-#ifdef Q_OS_UNIX
-#include "wacom/wacom_unix.h"
-#endif
-
 class BrushEngine : public QObject
 {
     Q_OBJECT
@@ -93,7 +85,6 @@ private:
     bool eraser() { return m_eraser; }
     void setEraser(bool eraser) { m_eraser = eraser; }
 
-    Wacom wacom;
     QByteArray compressPixmap(QPixmap pixmap);
 
     int m_size;

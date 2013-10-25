@@ -49,7 +49,7 @@ Item {
             }
 
             DockItem {
-                name: colorPicker.title
+                name: "Color"
                 onClicked: colorPicker.visible = !colorPicker.visible
             }
 

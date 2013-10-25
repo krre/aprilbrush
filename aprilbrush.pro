@@ -2,11 +2,6 @@ TARGET = aprilbrush
 
 QT += quick
 
-ab.path += $$OUT_PWD
-ab.files += qml presets
-
-INSTALLS += ab
-
 SOURCES += \
     main.cpp \
     cpp/painteditem.cpp \
@@ -14,16 +9,6 @@ SOURCES += \
     cpp/openraster.cpp \
     cpp/imageprocessor.cpp \
     cpp/corelib.cpp
-
-win32: {
-    SOURCES += cpp/wacom/wacom_win.cpp
-    HEADERS += cpp/wacom/wacom_win.h
-}
-unix: {
-    SOURCES += cpp/wacom/wacom_unix.cpp
-    HEADERS += cpp/wacom/wacom_unix.h
-    LIBS += -lXi
-}
 
 HEADERS += \
     cpp/painteditem.h \
@@ -39,7 +24,7 @@ OTHER_FILES += \
     qml/utils.js \
     qml/undo.js \
     qml/components/Window.qml\
-    qml/components/Slider.qml \
+    qml/Dock.qml\
     qml/components/CheckerBoard.qml \
     qml/BrushLibrary.qml \
     qml/CanvasArea.qml \
