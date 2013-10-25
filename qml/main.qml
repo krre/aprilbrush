@@ -30,10 +30,10 @@ ApplicationWindow {
     // Settings property don't works for Layer Manager and Undo Manager
     property vector3d layerManagerPos
     property size layerManagerSize
-    property bool layerManagerVisible
+    property bool layerManagerVisible: false
     property vector3d undoManagerPos
     property size undoManagerSize
-    property bool undoManagerVisible
+    property bool undoManagerVisible: false
 
     property size imageSize: coreLib.screenSize()
     property bool eraserMode: false
@@ -47,7 +47,13 @@ ApplicationWindow {
     Timer {
         id: timer
         interval: 1
-        onTriggered: colorPicker.visible = settings.colorPicker.visible
+        onTriggered: {
+            colorPicker.visible = settings.colorPicker.visible
+            brushSettings.visible = settings.brushSettings.visible
+            brushLibrary.visible = settings.brushLibrary.visible
+            layerManagerVisible = settings.layerManager.visible
+            undoManagerVisible = settings.undoManager.visible
+        }
     }
 
     Component.onCompleted: {
@@ -57,17 +63,13 @@ ApplicationWindow {
 
         layerManagerPos.x = settings.layerManager.position.x
         layerManagerPos.y = settings.layerManager.position.y
-        layerManagerPos.z = settings.layerManager.position.z
         layerManagerSize.width = settings.layerManager.size.width
         layerManagerSize.height = settings.layerManager.size.height
-        layerManagerVisible = settings.layerManager.visible
 
         undoManagerPos.x = settings.undoManager.position.x
         undoManagerPos.y = settings.undoManager.position.y
-        undoManagerPos.z = settings.undoManager.position.z
         undoManagerSize.width = settings.undoManager.size.width
         undoManagerSize.height = settings.undoManager.size.height
-        undoManagerVisible = settings.undoManager.visible
 
         timer.start()
     }
@@ -176,7 +178,6 @@ ApplicationWindow {
             y: settings.brushSettings.position.y
             width: settings.brushSettings.size.width
             height: settings.brushSettings.size.height
-            visible: settings.brushSettings.visible
         }
 
         ColorPicker {
@@ -196,7 +197,6 @@ ApplicationWindow {
             y: settings.brushLibrary.position.y
             width: settings.brushLibrary.size.width
             height: settings.brushLibrary.size.height
-            visible: settings.brushLibrary.visible
         }
 
         FileDialog {

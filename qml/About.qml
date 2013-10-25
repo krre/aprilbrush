@@ -103,8 +103,8 @@ ToolWindow {
     }
 
     Component.onCompleted: {
-        x = (parent.width - width) / 2
-        y = (parent.height - height) / 2
+        //x = (parent.width - width) / 2
+        //y = (parent.height - height) / 2
     }
 
 }
