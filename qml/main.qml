@@ -42,6 +42,12 @@ Rectangle {
 
     property bool dockMode: false
 
+    Timer {
+        id: timer
+        interval: 1
+        onTriggered: colorPicker.visible = settings.colorPicker.visible
+    }
+
     Component.onCompleted: {
         Settings.loadSettings()
         main.width = settings.mainWindow.width
@@ -60,6 +66,8 @@ Rectangle {
         undoManagerSize.width = settings.undoManager.size.width
         undoManagerSize.height = settings.undoManager.size.height
         undoManagerVisible = settings.undoManager.visible
+
+        timer.start()
     }
     Component.onDestruction: Settings.saveSettings()
 
@@ -124,15 +132,11 @@ Rectangle {
             id: colorPicker
             x: settings.colorPicker.position.x
             y: settings.colorPicker.position.y
-            z: settings.colorPicker.position.z
             width: settings.colorPicker.size.width
             height: settings.colorPicker.size.height
             color: Utils.hsvToHsl(settings.colorPicker.color.h,
                                   settings.colorPicker.color.s,
                                   settings.colorPicker.color.v)
-            visible: settings.colorPicker.visible
-
-            defaultHeight: 220
         }
 
         BrushLibrary {

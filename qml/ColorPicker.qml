@@ -14,8 +14,8 @@
 import QtQuick 2.1
 import QtQuick.Layouts 1.0
 import QtGraphicalEffects 1.0
+import QtQuick.Window 2.0
 import "utils.js" as Utils
-import "components"
 
 Window {
     title: "Color"
@@ -37,6 +37,10 @@ Window {
             s = hsvColor.s
             v = hsvColor.v
     }
+
+    flags: Qt.Tool
+    minimumWidth: 150
+    minimumHeight: 150
 
     ColumnLayout {
         id: columnLayout
