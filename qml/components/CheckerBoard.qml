@@ -39,10 +39,6 @@ Item {
             }
         }
     }
-
-    Shadow {
-        surface: rect
-    }
 }
 
 

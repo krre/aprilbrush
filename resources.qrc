@@ -17,7 +17,6 @@
         <file>qml/components/CloseButton.qml</file>
         <file>qml/components/ListItem.qml</file>
         <file>qml/components/ListItemComponent.qml</file>
-        <file>qml/components/Shadow.qml</file>
         <file>qml/components/ToolWindow.qml</file>
     </qresource>
 </RCC>
