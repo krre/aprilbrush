@@ -137,7 +137,6 @@ ApplicationWindow {
         spacing: brushSettings.spacing.value
         hardness: brushSettings.hardness.value
         opacity: brushSettings.opaque.value
-        opacityCorrect: brushSettings.opaqueCorrect.value
         roundness: brushSettings.roundness.value
         angle: brushSettings.angle.value
         jitter: brushSettings.jitter.value

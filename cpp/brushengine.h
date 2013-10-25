@@ -24,7 +24,6 @@ class BrushEngine : public QObject
     Q_PROPERTY(int hardness READ hardness WRITE setHardness)
     Q_PROPERTY(QColor color READ color WRITE setColor)
     Q_PROPERTY(int opacity READ opacity WRITE setOpacity)
-    Q_PROPERTY(qreal opacityCorrect READ opacityCorrect WRITE setOpacityCorrect)
     Q_PROPERTY(int roundness READ roundness WRITE setRoundness)
     Q_PROPERTY(int angle READ angle WRITE setAngle)
     Q_PROPERTY(int jitter READ jitter WRITE setJitter)
@@ -70,9 +69,6 @@ private:
     int opacity() { return m_opacity; }
     void setOpacity(int opacity) { m_opacity = opacity; }
 
-    qreal opacityCorrect() { return m_opacityCorrect; }
-    void setOpacityCorrect(qreal opacityCorrect) { m_opacityCorrect = opacityCorrect; }
-
     int roundness() { return m_roundness; }
     void setRoundness(int roundness) { m_roundness = roundness; }
 
@@ -95,7 +91,6 @@ private:
     int m_jitter;
     QColor m_color;
     int m_opacity;
-    qreal m_opacityCorrect;
     bool m_eraser;
     QPixmap *prevPixmap;
     QByteArray undoByteArray;
@@ -108,6 +103,5 @@ private:
     QPixmap *pixmap;
     ImageProcessor *m_imageProcessor;
 };
-
 
 #endif // BRUSHENGINE_H
