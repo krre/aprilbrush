@@ -17,18 +17,18 @@
 #include "cpp/imageprocessor.h"
 #include "cpp/corelib.h"
 
-#include <QGuiApplication>
-#include <QQuickView>
+#include <QApplication>
+#include <QtQuick>
 #include <QtQml>
-#include <QDebug>
-#include <QScreen>
+//#include <QtGui>
+//#include <QtCore>
+//#include <QDebug>
+//#include <QScreen>
 
 int main(int argc, char *argv[])
 {
     // Set GUI multi-threaded while it disabled in Qt 5 on the Windows systems
     qputenv("QML_FORCE_THREADED_RENDERER", "1");
-
-    QGuiApplication app(argc, argv);
 
     qmlRegisterType<PaintedItem>("ABLib", 1, 0, "PaintedItem");
     qmlRegisterType<BrushEngine>("ABLib", 1, 0, "BrushEngine");
@@ -36,13 +36,18 @@ int main(int argc, char *argv[])
     qmlRegisterType<ImageProcessor>("ABLib", 1, 0, "ImageProcessor");
     qmlRegisterType<CoreLib>("ABLib", 1, 0, "CoreLib");
 
-    QQuickView view;
-    view.setTitle("AprilBrush");
-    QScreen *screen = view.screen();
-    CoreLib::m_screenSize = screen->size();
-    view.setSource(QUrl("qrc:///qml/main.qml"));
-    view.setResizeMode(QQuickView::SizeRootObjectToView);
-    view.show();
+    //    QScreen *screen = window->screen();
+    CoreLib::m_screenSize = QSize(1000, 600);
 
+    QApplication app(argc, argv);
+    QQmlApplicationEngine engine(QUrl(QString("qrc:/qml/main.qml")));
+    QObject *topLevel = engine.rootObjects().value(0);
+    QQuickWindow *window = qobject_cast<QQuickWindow *>(topLevel);
+    if (!window) {
+        qWarning("Error: Your root item has to be a Window.");
+        return -1;
+    }
+
+    window->show();
     return app.exec();
 }

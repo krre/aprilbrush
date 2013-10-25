@@ -2,6 +2,8 @@ TARGET = aprilbrush
 
 QT += quick
 
+greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
+
 SOURCES += \
     main.cpp \
     cpp/painteditem.cpp \

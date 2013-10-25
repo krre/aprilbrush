@@ -13,14 +13,16 @@
 
 import QtQuick 2.1
 import QtQuick.Dialogs 1.0
+import QtQuick.Controls 1.0
 import ABLib 1.0
 import "components"
 import "settings.js" as Settings
 import "utils.js" as Utils
 import "undo.js" as Undo
 
-Rectangle {
+ApplicationWindow {
     id: main
+    title: "AprilBrush"
 
     property string version: "AprilBrush 0.1.1"
 
