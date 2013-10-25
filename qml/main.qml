@@ -24,7 +24,7 @@ ApplicationWindow {
     id: main
     title: "AprilBrush"
 
-    property string version: "AprilBrush 0.1.1"
+    property string version: "AprilBrush 1.0.0"
 
     property var settings
     // Settings property don't works for Layer Manager and Undo Manager
@@ -122,7 +122,10 @@ ApplicationWindow {
 
         Menu {
             title: qsTr("Help")
-            MenuItem { text: qsTr("About") }
+            MenuItem {
+                text: qsTr("About")
+                onTriggered: aboutWindow.show()
+            }
         }
     }
 

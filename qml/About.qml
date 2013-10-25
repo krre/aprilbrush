@@ -57,8 +57,7 @@ ToolWindow {
                id: hotkeyList
                width: 120
                font.pixelSize: 12
-               text: "C<br />
-                      Space+Drag<br />
+               text: "Space+Drag<br />
                       Ctrl+Click<br />
                       B<br />
                       E<br />
@@ -79,8 +78,7 @@ ToolWindow {
            Text {
                width: parent.width - hotkeyList.width
                font.pixelSize: 12
-               text: "Dock Menu<br />
-                      Pan<br />
+               text: "Pan<br />
                       Pick Color<br />
                       Brush<br />
                       Eraser<br />
