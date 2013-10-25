@@ -73,7 +73,38 @@ ApplicationWindow {
     }
     Component.onDestruction: Settings.saveSettings()
 
-    color: "lightgray"
+    menuBar: MenuBar {
+        Menu {
+            title: qsTr("File")
+            MenuItem { text: qsTr("Open...") }
+            MenuItem { text: qsTr("Save") }
+            MenuItem { text: qsTr("Save As...") }
+            MenuSeparator { }
+            MenuItem {
+                text: qsTr("Quit")
+                shortcut: "Ctrl+Q"
+                onTriggered: main.close()
+            }
+        }
+
+        Menu {
+            title: qsTr("Edit")
+            MenuItem { text: qsTr("Undo") }
+            MenuItem { text: qsTr("Redo") }
+        }
+
+        Menu {
+            title: qsTr("Tools")
+            MenuItem { text: qsTr("ColorPicker") }
+            MenuItem { text: qsTr("Undo Manager") }
+        }
+
+        Menu {
+            title: qsTr("Help")
+            MenuItem { text: qsTr("About") }
+        }
+    }
+
 
     BrushEngine {
         id: brushEngine
