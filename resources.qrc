@@ -18,7 +18,6 @@
         <file>qml/components/ListItem.qml</file>
         <file>qml/components/ListItemComponent.qml</file>
         <file>qml/components/Shadow.qml</file>
-        <file>qml/components/Window.qml</file>
         <file>qml/components/ToolWindow.qml</file>
     </qresource>
 </RCC>

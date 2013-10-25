@@ -174,7 +174,6 @@ ApplicationWindow {
             id: brushSettings
             x: settings.brushSettings.position.x
             y: settings.brushSettings.position.y
-            z: settings.brushSettings.position.z
             width: settings.brushSettings.size.width
             height: settings.brushSettings.size.height
             visible: settings.brushSettings.visible
@@ -195,7 +194,6 @@ ApplicationWindow {
             id: brushLibrary
             x: settings.brushLibrary.position.x
             y: settings.brushLibrary.position.y
-            z: settings.brushLibrary.position.z
             width: settings.brushLibrary.size.width
             height: settings.brushLibrary.size.height
             visible: settings.brushLibrary.visible

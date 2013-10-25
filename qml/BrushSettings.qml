@@ -15,7 +15,7 @@ import QtQuick 2.1
 import QtQuick.Controls 1.0
 import "components"
 
-Window {
+ToolWindow {
     id: root
     title: "Brush Settings"
 

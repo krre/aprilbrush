@@ -93,7 +93,6 @@ Item {
 
                     LayerManager {
                         id: layerManager
-                        parent: workArea
                     }
 
                     UndoManager {

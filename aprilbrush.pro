@@ -23,9 +23,9 @@ OTHER_FILES += \
     qml/main.qml \
     qml/ColorPicker.qml \
     qml/BrushSettings.qml \
+    qml/About.qml \
     qml/utils.js \
     qml/undo.js \
-    qml/components/Window.qml\
     qml/components/CheckerBoard.qml \
     qml/BrushLibrary.qml \
     qml/CanvasArea.qml \

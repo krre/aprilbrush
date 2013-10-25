@@ -18,13 +18,12 @@ import "components"
 import "utils.js" as Utils
 import "undo.js" as Undo
 
-Window {
+ToolWindow {
     id: root
     property alias currentLayerIndex: layersView.currentIndex
     property alias layersView: layersView
 
     title: "Layers"
-    autoClose: false
     // TODO: fix binding to settings property
     /*
     x: settings.layerManager.position.x
@@ -37,18 +36,9 @@ Window {
 
     x: layerManagerPos.x
     y: layerManagerPos.y
-    z: layerManagerPos.z
     width: layerManagerSize.width
     height: layerManagerSize.height
     visible: (index === pagesView.currentIndex) && layerManagerVisible
-
-    onReleased: {
-        layerManagerPos = Qt.vector3d(x, y, z)
-    }
-    onResized: {
-        layerManagerSize = Qt.size(width, height)
-    }
-    onClosed: layerManagerVisible = false
 
     ColumnLayout {
         anchors.fill: parent

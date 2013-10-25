@@ -15,7 +15,7 @@ import QtQuick 2.1
 import "components"
 import "brushlib.js" as BrushLib
 
-Window {
+ToolWindow {
     id: root
     title: "Brush Library"
 

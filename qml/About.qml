@@ -14,10 +14,10 @@
 import QtQuick 2.1
 import "components"
 
-Window {
-    title: ""
-    defaultWidth: 420
-    defaultHeight: 450
+ToolWindow {
+    title: qsTr("About AprilBrush")
+    width: 420
+    height: 450
 
     Column {
         width: 200
