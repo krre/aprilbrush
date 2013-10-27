@@ -21,7 +21,7 @@ import "utils.js" as Utils
 import "undo.js" as Undo
 
 ApplicationWindow {
-    id: main
+    id: mainWindow
     title: "AprilBrush"
 
     property string version: "AprilBrush 1.0.0"
@@ -30,13 +30,6 @@ ApplicationWindow {
     property int newLayerCounter: 0
 
     property var settings
-    // Settings property don't works for Layer Manager and Undo Manager
-    property vector3d layerManagerPos
-    property size layerManagerSize
-    property bool layerManagerVisible: false
-    property vector3d undoManagerPos
-    property size undoManagerSize
-    property bool undoManagerVisible: false
 
     property size imageSize: coreLib.screenSize()
     property bool eraserMode: false
@@ -54,29 +47,16 @@ ApplicationWindow {
             colorPicker.visible = settings.colorPicker.visible
             brushSettings.visible = settings.brushSettings.visible
             brushLibrary.visible = settings.brushLibrary.visible
-            layerManagerVisible = settings.layerManager.visible
-            undoManagerVisible = settings.undoManager.visible
+            layerManager.visible = settings.layerManager.visible
+            undoManager.visible = settings.undoManager.visible
         }
     }
 
     Component.onCompleted: {
-        Settings.loadSettings()
-        main.width = settings.mainWindow.width
-        main.height = settings.mainWindow.height
-
-        layerManagerPos.x = settings.layerManager.position.x
-        layerManagerPos.y = settings.layerManager.position.y
-        layerManagerSize.width = settings.layerManager.size.width
-        layerManagerSize.height = settings.layerManager.size.height
-
-        undoManagerPos.x = settings.undoManager.position.x
-        undoManagerPos.y = settings.undoManager.position.y
-        undoManagerSize.width = settings.undoManager.size.width
-        undoManagerSize.height = settings.undoManager.size.height
-
         //Utils.addPage()
 
         timer.start()
+        Settings.loadSettings()
     }
     Component.onDestruction: Settings.saveSettings()
 
@@ -140,11 +120,11 @@ ApplicationWindow {
             }
             MenuItem {
                 text: qsTr("Undo Manager")
-                onTriggered: undoManagerVisible = !undoManagerVisible
+                onTriggered: undoManager.visible = !undoManager.visible
             }
             MenuItem {
                 text: qsTr("Layer Manager")
-                onTriggered: layerManagerVisible = !layerManagerVisible
+                onTriggered: layerManager.visible = !layerManager.visible
             }
             MenuItem {
                 text: qsTr("Brush Settings")
@@ -220,18 +200,10 @@ ApplicationWindow {
 
     BrushSettings {
         id: brushSettings
-        x: settings.brushSettings.position.x
-        y: settings.brushSettings.position.y
-        width: settings.brushSettings.size.width
-        height: settings.brushSettings.size.height
     }
 
     ColorPicker {
         id: colorPicker
-        x: settings.colorPicker.position.x
-        y: settings.colorPicker.position.y
-        width: settings.colorPicker.size.width
-        height: settings.colorPicker.size.height
         color: Utils.hsvToHsl(settings.colorPicker.color.h,
                               settings.colorPicker.color.s,
                               settings.colorPicker.color.v)
@@ -239,10 +211,6 @@ ApplicationWindow {
 
     BrushLibrary {
         id: brushLibrary
-        x: settings.brushLibrary.position.x
-        y: settings.brushLibrary.position.y
-        width: settings.brushLibrary.size.width
-        height: settings.brushLibrary.size.height
     }
 
     FileDialog {

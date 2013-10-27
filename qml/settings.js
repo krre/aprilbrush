@@ -11,29 +11,25 @@
  * GNU General Public License for more details.
  */
 
-// Load settings
+.import "utils.js" as Utils
+
 function loadSettings() {
     var fileSettings = coreLib.loadSettings()
-    if (fileSettings)
-        settings = JSON.parse(fileSettings)
-    else
+    if (!fileSettings) {
         // Default settings
         settings = {
             mainWindow: {
                 width: 1000,
-                height: 600
+                height: 600,
+                x: 100,
+                y: 100
             },
 
             colorPicker: {
-                position: {
-                    x: 20,
-                    y: 50,
-                    z: 2
-                },
-                size: {
-                    width: 200,
-                    height: 200
-                },
+                x: 20,
+                y: 50,
+                width: 200,
+                height: 200,
                 color: {
                     h: 0.6,
                     s: 1.0,
@@ -43,135 +39,128 @@ function loadSettings() {
             },
 
             brushSettings: {
-                position: {
-                    x: 780,
-                    y: 50,
-                    z: 3
-                },
-                size: {
-                    width: 200,
-                    height: 250
-                },
+                x: 780,
+                y: 50,
+                width: 200,
+                height: 250,
                 visible: true
             },
 
             brushLibrary: {
-                position: {
-                    x: 570,
-                    y: 50,
-                    z: 4
-                },
-                size: {
-                    width: 200,
-                    height: 200
-                },
+                x: 570,
+                y: 50,
+                width: 200,
+                height: 200,
                 visible: true
             },
 
             layerManager: {
-                position: {
-                    x: 20,
-                    y: 300,
-                    z: 5
-                },
-                size: {
-                    width: 200,
-                    height: 200
-                },
+                x: 20,
+                y: 300,
+                width: 200,
+                height: 200,
                 visible: true
             },
 
             undoManager: {
-                position: {
-                    x: 780,
-                    y: 310,
-                    z: 6
-                },
-                size: {
-                    width: 200,
-                    height: 200
-                },
+                x: 780,
+                y: 310,
+                width: 200,
+                height: 200,
                 visible: true
             },
         }
+    }
+    else {
+        settings = JSON.parse(fileSettings)
+    }
+
+    mainWindow.x = settings.mainWindow.x
+    mainWindow.y = settings.mainWindow.y
+    mainWindow.width = settings.mainWindow.width
+    mainWindow.height = settings.mainWindow.height
+
+    colorPicker.x = settings.colorPicker.x
+    colorPicker.y = settings.colorPicker.y
+    colorPicker.width = settings.colorPicker.width
+    colorPicker.height = settings.colorPicker.height
+    colorPicker.color = Utils.hsvToHsl(settings.colorPicker.color.h,
+                                       settings.colorPicker.color.s,
+                                       settings.colorPicker.color.v)
+
+    brushSettings.x = settings.brushSettings.x
+    brushSettings.y = settings.brushSettings.y
+    brushSettings.width = settings.brushSettings.width
+    brushSettings.height = settings.brushSettings.height
+
+    brushLibrary.x = settings.brushLibrary.x
+    brushLibrary.y = settings.brushLibrary.y
+    brushLibrary.width = settings.brushLibrary.width
+    brushLibrary.height = settings.brushLibrary.height
+
+    layerManager.x = settings.layerManager.x
+    layerManager.y = settings.layerManager.y
+    layerManager.width = settings.layerManager.width
+    layerManager.height = settings.layerManager.height
+
+    undoManager.x = settings.undoManager.x
+    undoManager.y = settings.undoManager.y
+    undoManager.width = settings.undoManager.width
+    undoManager.height = settings.undoManager.height
 }
 
-// Save settings
 function saveSettings() {
     var fileSettings = {
         mainWindow: {
-            width: main.width,
-            height: main.height
+            width: mainWindow.width,
+            height: mainWindow.height,
+            x: mainWindow.x,
+            y: mainWindow.y
         },
 
         colorPicker: {
-            position: {
-                x: colorPicker.x,
-                y: colorPicker.y,
-                z: colorPicker.z
-            },
-            size: {
-                width: colorPicker.width,
-                height: colorPicker.height
-            },
+            x: colorPicker.x,
+            y: colorPicker.y,
+            width: colorPicker.width,
+            height: colorPicker.height,
             color: {
-              h: colorPicker.h,
-              s: colorPicker.s,
-              v: colorPicker.v
+                  h: colorPicker.h,
+                  s: colorPicker.s,
+                  v: colorPicker.v
             },
             visible: colorPicker.visible
         },
 
         brushSettings: {
-            position: {
-                x: brushSettings.x,
-                y: brushSettings.y,
-                z: brushSettings.z
-            },
-            size: {
-                width: brushSettings.width,
-                height: brushSettings.height
-            },
+            x: brushSettings.x,
+            y: brushSettings.y,
+            width: brushSettings.width,
+            height: brushSettings.height,
             visible: brushSettings.visible
         },
 
         brushLibrary: {
-            position: {
-                x: brushLibrary.x,
-                y: brushLibrary.y,
-                z: brushLibrary.z
-            },
-            size: {
-                width: brushLibrary.width,
-                height: brushLibrary.height
-            },
+            x: brushLibrary.x,
+            y: brushLibrary.y,
+            width: brushLibrary.width,
+            height: brushLibrary.height,
             visible: brushLibrary.visible
         },
 
         layerManager: {
-            position: {
-                x: layerManagerPos.x,
-                y: layerManagerPos.y,
-                z: layerManagerPos.z
-            },
-            size: {
-                width: layerManagerSize.width,
-                height: layerManagerSize.height
-            },
-            visible: layerManagerVisible
+            x: layerManager.x,
+            y: layerManager.y,
+            width: layerManager.width,
+            height: layerManager.height,
+            visible: layerManager.visible
         },
 
         undoManager: {
-            position: {
-                x: undoManagerPos.x,
-                y: undoManagerPos.y,
-                z: undoManagerPos.z
-            },
-            size: {
-                width: undoManagerSize.width,
-                height: undoManagerSize.height
-            },
-            visible: undoManagerVisible
+            x: undoManager.x,
+            y: undoManager.y,
+            width: undoManager.width,
+            height: undoManager.height,
+            visible: undoManager.visible
         }
     }
 

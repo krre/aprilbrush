@@ -24,21 +24,6 @@ ToolWindow {
     property alias layersView: layersView
 
     title: "Layers"
-    // TODO: fix binding to settings property
-    /*
-    x: settings.layerManager.position.x
-    y: settings.layerManager.position.y
-    z: settings.layerManager.position.z
-    width: settings.layerManager.size.width
-    height: settings.layerManager.size.height
-    visible: (index == pagesView.currentIndex) && settings.layerManager.visible
-    */
-
-    x: layerManagerPos.x
-    y: layerManagerPos.y
-    width: layerManagerSize.width
-    height: layerManagerSize.height
-//    visible: (index === pagesView.currentIndex) && layerManagerVisible
     border: false
 
     ColumnLayout {

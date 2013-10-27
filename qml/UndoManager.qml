@@ -26,32 +26,6 @@ ToolWindow {
     property bool endList: false
     property bool newUndo: false
 
-/*
-    x: settings.undoManager.position.x
-    y: settings.undoManager.position.y
-    z: settings.undoManager.position.z
-    width: settings.undoManager.size.width
-    height: settings.undoManager.size.height
-    visible: (index == pagesView.currentIndex) && settings.undoManager.visible
-
-    onReleased: {
-        settings.undoManager.position.x = x
-        settings.undoManager.position.y = y
-        settings.undoManager.position.z = z
-
-    }
-    onResized: {
-        settings.undoManager.size.width = width
-        settings.undoManager.size.height = height
-    }
-    onClosed: settings.undoManager.visible = false
-*/
-    x: undoManagerPos.x
-    y: undoManagerPos.y
-    width: undoManagerSize.width
-    height: undoManagerSize.height
-    visible: (index == pagesView.currentIndex) && undoManagerVisible
-
     function add(commandUndo) {
         if (undoView.currentIndex < undoModel.count - 1) {
             undoModel.remove(undoView.currentIndex + 1, undoModel.count - undoView.currentIndex - 1)

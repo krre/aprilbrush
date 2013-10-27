@@ -28,7 +28,7 @@ ToolWindow {
         Text {
             width: parent.width
             horizontalAlignment: Text.AlignHCenter
-            text: main.version
+            text: mainWindow.version
             font.pixelSize: 17
         }
 
