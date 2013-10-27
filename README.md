@@ -3,12 +3,12 @@ AprilBrush 0.1.0
 
 COPYRIGHT
 
-Copyright (C) 2012-2013 Vladimir Zarypov <krre@mail.ru>
+Copyright (C) 2012-2013 Vladimir Zarypov <krre31@gmail.com>
 
 LINKS
 
 Website: http://sourceforge.net/projects/aprilbrush
-Source code: https://github.com/krre/aprilbrush
+Source code: https://github.com/krre/AprilBrush-Desktop
 
 INFORMATION
 
