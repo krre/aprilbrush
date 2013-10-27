@@ -26,6 +26,9 @@ ApplicationWindow {
 
     property string version: "AprilBrush 1.0.0"
 
+    property int newPageCounter: 0
+    property int newLayerCounter: 0
+
     property var settings
     // Settings property don't works for Layer Manager and Undo Manager
     property vector3d layerManagerPos
@@ -37,8 +40,8 @@ ApplicationWindow {
 
     property size imageSize: coreLib.screenSize()
     property bool eraserMode: false
-    property variant currentPageItem: pageManager.pagesView.currentItem
-    property int currentPageIndex: pageManager.pagesView.currentIndex
+//    property variant currentPageItem: pageManager.pagesView.currentItem
+//    property int currentPageIndex: pageManager.pagesView.currentIndex
     property int layerIdCounter: 0
     property string currentLayerId
 
@@ -71,6 +74,8 @@ ApplicationWindow {
         undoManagerSize.width = settings.undoManager.size.width
         undoManagerSize.height = settings.undoManager.size.height
 
+        //Utils.addPage()
+
         timer.start()
     }
     Component.onDestruction: Settings.saveSettings()
@@ -81,7 +86,7 @@ ApplicationWindow {
             MenuItem {
                 text: qsTr("New")
                 shortcut: "Ctrl+N"
-                onTriggered: pageView.addTab("tab")
+                onTriggered: Utils.addPage()
             }
             MenuItem {
                 text: qsTr("Open...")
@@ -100,7 +105,11 @@ ApplicationWindow {
             MenuItem {
                 text: qsTr("Close")
                 shortcut: "Ctrl+W"
-                onTriggered: pageView.removeTab(pageView.currentIndex)
+                onTriggered: {
+                    pageView.removeTab(pageView.currentIndex)
+                    if (!pageView.count)
+                        newPageCounter = 0
+                }
                 enabled: pageView.count > 0
             }
             MenuSeparator { }
@@ -150,7 +159,7 @@ ApplicationWindow {
         Menu {
             title: qsTr("Help")
             MenuItem {
-                text: qsTr("About")
+                text: qsTr("About...")
                 onTriggered: aboutWindow.show()
             }
         }
@@ -159,10 +168,7 @@ ApplicationWindow {
     TabView {
         id: pageView
         anchors.fill: parent
-        onCurrentIndexChanged: console.log("tab " + currentIndex)
-        Tab { title: "Tab 1" }
-        Tab { title: "Tab 2" }
-        Tab { title: "Tab 3" }
+        visible: count > 0
     }
 
 
@@ -199,11 +205,11 @@ ApplicationWindow {
     ListModel {
         id: pageModel
     }
-
+/*
     CanvasArea {
         id: canvasArea
     }
-
+*/
     LayerManager {
         id: layerManager
     }
@@ -212,14 +218,6 @@ ApplicationWindow {
         id: undoManager
     }
 
-
-/*
-    PageManager {
-        id: pageManager
-        z: 1
-        anchors.horizontalCenter: parent.horizontalCenter
-    }
-*/
     BrushSettings {
         id: brushSettings
         x: settings.brushSettings.position.x

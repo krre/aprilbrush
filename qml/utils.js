@@ -13,29 +13,15 @@
 
 // Add new page
 function addPage(pageName) {
-    var newPageName
-    if (pageName)
-        newPageName = pageName
-    else {
-        // Calculate next number page
-        var maxNumPage = 0;
-        for (var page = 0; page < pageModel.count; page++) {
-            var numPage = parseInt(pageModel.get(page).name.substring(6), 10)
-            if (numPage > maxNumPage) maxNumPage = numPage
-        }
-        maxNumPage++
-        var numNextPage = zeroFill(maxNumPage, 3)
-        newPageName = "Page-" + numNextPage
-    }
-
-    pageModel.append({name: newPageName, layerModel: [], undoModel: [] })
-    pageManager.pagesView.currentIndex = pageModel.count - 1
-
+    var newPageName = pageName ? pageName : "Untitled-" + (++newPageCounter)
+    pageModel.append({layerModel: [], undoModel: [] })
+    pageView.addTab(newPageName)
+/*
     if (!pageName) {
         addLayer("Background", "white")
         addLayer()
     }
-
+*/
     //undoManager.add(new Undo.start())
 }
 
