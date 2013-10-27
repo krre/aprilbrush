@@ -78,10 +78,31 @@ ApplicationWindow {
     menuBar: MenuBar {
         Menu {
             title: qsTr("File")
-            MenuItem { text: qsTr("New") }
-            MenuItem { text: qsTr("Open...") }
-            MenuItem { text: qsTr("Save") }
-            MenuItem { text: qsTr("Save As...") }
+            MenuItem {
+                text: qsTr("New")
+                shortcut: "Ctrl+N"
+                onTriggered: pageView.addTab("tab")
+            }
+            MenuItem {
+                text: qsTr("Open...")
+                shortcut: "Ctrl+O"
+            }
+            MenuItem {
+                text: qsTr("Save")
+                shortcut: "Ctrl+S"
+                enabled: pageView.count > 0
+            }
+            MenuItem {
+                text: qsTr("Save As...")
+                shortcut: "Ctrl+Shift+S"
+                enabled: pageView.count > 0
+            }
+            MenuItem {
+                text: qsTr("Close")
+                shortcut: "Ctrl+W"
+                onTriggered: pageView.removeTab(pageView.currentIndex)
+                enabled: pageView.count > 0
+            }
             MenuSeparator { }
             MenuItem {
                 text: qsTr("Quit")
@@ -92,8 +113,14 @@ ApplicationWindow {
 
         Menu {
             title: qsTr("Edit")
-            MenuItem { text: qsTr("Undo") }
-            MenuItem { text: qsTr("Redo") }
+            MenuItem {
+                text: qsTr("Undo")
+                shortcut: "Ctrl+Z"
+            }
+            MenuItem {
+                text: qsTr("Redo")
+                shortcut: "Ctrl+Y"
+            }
         }
 
         Menu {
@@ -127,6 +154,15 @@ ApplicationWindow {
                 onTriggered: aboutWindow.show()
             }
         }
+    }
+
+    TabView {
+        id: pageView
+        anchors.fill: parent
+        onCurrentIndexChanged: console.log("tab " + currentIndex)
+        Tab { title: "Tab 1" }
+        Tab { title: "Tab 2" }
+        Tab { title: "Tab 3" }
     }
 
 
@@ -164,57 +200,66 @@ ApplicationWindow {
         id: pageModel
     }
 
-    Item {
-        id: workArea
-        anchors.fill: parent
+    CanvasArea {
+        id: canvasArea
+    }
 
-        PageManager {
-            id: pageManager
-            z: 1
-            anchors.horizontalCenter: parent.horizontalCenter
-        }
+    LayerManager {
+        id: layerManager
+    }
 
-        BrushSettings {
-            id: brushSettings
-            x: settings.brushSettings.position.x
-            y: settings.brushSettings.position.y
-            width: settings.brushSettings.size.width
-            height: settings.brushSettings.size.height
-        }
+    UndoManager {
+        id: undoManager
+    }
 
-        ColorPicker {
-            id: colorPicker
-            x: settings.colorPicker.position.x
-            y: settings.colorPicker.position.y
-            width: settings.colorPicker.size.width
-            height: settings.colorPicker.size.height
-            color: Utils.hsvToHsl(settings.colorPicker.color.h,
-                                  settings.colorPicker.color.s,
-                                  settings.colorPicker.color.v)
-        }
 
-        BrushLibrary {
-            id: brushLibrary
-            x: settings.brushLibrary.position.x
-            y: settings.brushLibrary.position.y
-            width: settings.brushLibrary.size.width
-            height: settings.brushLibrary.size.height
-        }
+/*
+    PageManager {
+        id: pageManager
+        z: 1
+        anchors.horizontalCenter: parent.horizontalCenter
+    }
+*/
+    BrushSettings {
+        id: brushSettings
+        x: settings.brushSettings.position.x
+        y: settings.brushSettings.position.y
+        width: settings.brushSettings.size.width
+        height: settings.brushSettings.size.height
+    }
 
-        FileDialog {
-            id: fileDialog
+    ColorPicker {
+        id: colorPicker
+        x: settings.colorPicker.position.x
+        y: settings.colorPicker.position.y
+        width: settings.colorPicker.size.width
+        height: settings.colorPicker.size.height
+        color: Utils.hsvToHsl(settings.colorPicker.color.h,
+                              settings.colorPicker.color.s,
+                              settings.colorPicker.color.v)
+    }
 
-            property int mode: 0 // 0 - open, 1 - save, 2 - export, 3 - folder
+    BrushLibrary {
+        id: brushLibrary
+        x: settings.brushLibrary.position.x
+        y: settings.brushLibrary.position.y
+        width: settings.brushLibrary.size.width
+        height: settings.brushLibrary.size.height
+    }
 
-            selectExisting: mode == 0 ? true : false
-            selectFolder: mode == 3 ? true : false
-            nameFilters: mode == 2 ? "Images (*.png)" : "OpenRaster (*.ora)"
-            onAccepted: {
-                switch (mode) {
-                    case 0: Utils.openOra(fileDialog.fileUrl); break
-                    case 1: Utils.saveAsOra(fileDialog.fileUrl); break
-                    case 2: Utils.exportPng(fileDialog.fileUrl); break
-                }
+    FileDialog {
+        id: fileDialog
+
+        property int mode: 0 // 0 - open, 1 - save, 2 - export, 3 - folder
+
+        selectExisting: mode == 0 ? true : false
+        selectFolder: mode == 3 ? true : false
+        nameFilters: mode == 2 ? "Images (*.png)" : "OpenRaster (*.ora)"
+        onAccepted: {
+            switch (mode) {
+                case 0: Utils.openOra(fileDialog.fileUrl); break
+                case 1: Utils.saveAsOra(fileDialog.fileUrl); break
+                case 2: Utils.exportPng(fileDialog.fileUrl); break
             }
         }
     }

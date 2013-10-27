@@ -18,8 +18,9 @@ Window {
     title: "Unnamed"
     default property alias content: stack.children
     property int defaultSize: 200
-    property int indent: 10
+    property int indent: border ? 10 : 0
     property color backGroundColor: sysPalette.window
+    property bool border: true
 
     minimumWidth: defaultSize
     minimumHeight: defaultSize

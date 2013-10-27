@@ -108,7 +108,7 @@ Item {
 
     CheckerBoard {
         id: checkerBoard
-        parent: workArea
+//        parent: main
 
         x: (parent.width - imageSize.width) / 2 + pan.x
         y: (parent.height - imageSize.height) / 2 + pan.y

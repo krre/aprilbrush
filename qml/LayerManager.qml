@@ -20,7 +20,7 @@ import "undo.js" as Undo
 
 ToolWindow {
     id: root
-    property alias currentLayerIndex: layersView.currentIndex
+    property alias currentLayerIndex: layersView.currentRow
     property alias layersView: layersView
 
     title: "Layers"
@@ -38,12 +38,33 @@ ToolWindow {
     y: layerManagerPos.y
     width: layerManagerSize.width
     height: layerManagerSize.height
-    visible: (index === pagesView.currentIndex) && layerManagerVisible
+//    visible: (index === pagesView.currentIndex) && layerManagerVisible
+    border: false
 
     ColumnLayout {
         anchors.fill: parent
-        spacing: 5
 
+        TableView {
+            id: layersView
+            Layout.fillWidth: true
+            Layout.fillHeight: true
+            headerVisible: false
+            model: layerModel
+//            currentRow: 0
+            onActivated: console.log("activated " + row)
+            onClicked: console.log("clicked " + row)
+
+            TableViewColumn {
+                delegate: Component {
+                    Text {
+                        text: name
+                        anchors.leftMargin: 10
+                    }
+                }
+            }
+        }
+
+/*
         ListView {
             id: layersView
             model: layerModel
@@ -83,18 +104,14 @@ ToolWindow {
                 width: layersView.width
             }
         }
-
+*/
         // Buttons
         RowLayout {
-            id: buttons
             spacing: 2
-            height: 20
 
             // New button
             Button {
                 Layout.fillWidth: true
-                Layout.fillHeight: true
-                Layout.maximumHeight: parent.height
                 text: qsTr("New")
                 onClicked: {
                     Utils.addLayer()
@@ -104,8 +121,6 @@ ToolWindow {
             // Up button
             Button {
                 Layout.fillWidth: true
-                Layout.fillHeight: true
-                Layout.maximumHeight: parent.height
                 text: qsTr("Up")
                 onClicked: {
                     if (currentLayerIndex > 0) {
@@ -118,8 +133,6 @@ ToolWindow {
             // Down button
             Button {
                 Layout.fillWidth: true
-                Layout.fillHeight: true
-                Layout.maximumHeight: parent.height
                 text: qsTr("Down")
                 onClicked: {
                     if (currentLayerIndex < layersView.count - 1) {
@@ -132,8 +145,8 @@ ToolWindow {
             // Merge button
             Button {
                 Layout.fillWidth: true
-                Layout.fillHeight: true
-                Layout.maximumHeight: parent.height
+//                Layout.fillHeight: true
+//                Layout.maximumHeight: parent.height
                 text: qsTr("Merge")
                 onClicked: {
                     if ((layersView.count > 1) && (currentLayerIndex < layersView.count - 1)) {
@@ -145,11 +158,19 @@ ToolWindow {
             // Clone button
             Button {
                 Layout.fillWidth: true
-                Layout.fillHeight: true
-                Layout.maximumHeight: parent.height
                 text: qsTr("Clone")
                 onClicked: {
                     undoManager.add(new Undo.cloneLayer())
+                }
+            }
+
+            // Delete button
+            Button {
+                Layout.fillWidth: true
+                text: qsTr("Delete")
+                onClicked: {
+                    console.log("delete layer" + layersView.currentRow)
+//                    undoManager.add(new Undo.deleteLayer(layersView.currentRow))
                 }
             }
         }

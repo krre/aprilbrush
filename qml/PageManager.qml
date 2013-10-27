@@ -90,18 +90,6 @@ Item {
                     text: name
                     onClicked: { pagesView.currentIndex = index }
                     onClosed: Utils.deletePage(index)
-
-                    LayerManager {
-                        id: layerManager
-                    }
-
-                    UndoManager {
-                        id: undoManager
-                    }
-
-                    CanvasArea {
-                        id: canvasArea
-                    }
                 }
             }
 
