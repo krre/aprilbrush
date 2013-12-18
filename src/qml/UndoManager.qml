@@ -65,7 +65,7 @@ ToolWindow {
 
         ListView {
             id: undoView
-            model: undoModel
+            model: pageModel.count > 0 ? pageModel.get(pageView.currentIndex).undoModel : 0
             delegate: undoDelegate
 
             highlight: undoSelected

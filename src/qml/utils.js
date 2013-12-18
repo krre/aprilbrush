@@ -13,15 +13,15 @@
 
 // Add new page
 function addPage(pageName) {
-    var newPageName = pageName ? pageName : "Untitled-" + (++newPageCounter)
+    var newPageName = pageName ? pageName : qsTr("Untitled-") + (++newPageCounter)
     pageModel.append({layerModel: [], undoModel: [] })
     pageView.addTab(newPageName)
-/*
+
     if (!pageName) {
         addLayer("Background", "white")
         addLayer()
     }
-*/
+
     //undoManager.add(new Undo.start())
 }
 
@@ -39,42 +39,19 @@ function deletePage(index) {
 
 // Add new layer
 function addLayer(layerName, color) {
-    var layerModel = pageModel.get(currentPageIndex).layerModel
-    var newLayerName
-    if (layerName)
-        newLayerName = layerName
-    else {
-        if (layerModel.count) {
-            // Calculate next number layer
-            var maxNumLayer = 0;
-            for (var layer = 0; layer < layerModel.count; layer++) {
-                var numLayer = parseInt(layerModel.get(layer).name.substring(6), 10)
-                if (numLayer > maxNumLayer) maxNumLayer = numLayer
-            }
-            maxNumLayer++
-            var numNextLayer = zeroFill(maxNumLayer, 3)
-            newLayerName = "Layer-" + numNextLayer
-        }
-        else
-            newLayerName = "Layer-001"
-    }
-
-    var newColor
-    if (color)
-        newColor = color
-    else
-        newColor = "transparent"
-
-    var newLayerId = layerIdCounter++
-    newLayerId = newLayerId.toString()
+    var newLayerName = layerName ? layerName : qsTr("Layer-") + (++newLayerCounter)
+    var newColor = color ? color : "transparent"
+    var newLayerId = (layerIdCounter++).toString()
+    /*
     imgProcessor.addPixmap(newLayerId, imageSize, newColor)
     var insertPos
     if (currentPageItem.layerManager.currentLayerIndex === -1)
         insertPos = 0
     else
         insertPos = currentPageItem.layerManager.currentLayerIndex
-    layerModel.insert(insertPos, { name: newLayerName, colorImage: newColor, enable: true, layerId: newLayerId })
-    currentPageItem.layerManager.currentLayerIndex = insertPos
+        */
+    layerModel.insert(pageView.currentIndex, { name: newLayerName, colorImage: newColor, enable: true, layerId: newLayerId })
+    //currentPageItem.layerManager.currentLayerIndex = insertPos
 }
 
 // Delete layer

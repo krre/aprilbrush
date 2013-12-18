@@ -20,7 +20,7 @@ import "undo.js" as Undo
 
 ToolWindow {
     id: root
-    property alias currentLayerIndex: layersView.currentRow
+    //property alias currentLayerIndex: layersView.currentRow
     property alias layersView: layersView
 
     title: "Layers"
@@ -28,47 +28,42 @@ ToolWindow {
 
     ColumnLayout {
         anchors.fill: parent
+        visible: pageView.count > 0
 
-        TableView {
-            id: layersView
+        ScrollView {
             Layout.fillWidth: true
             Layout.fillHeight: true
-            headerVisible: false
-            model: layerModel
-//            currentRow: 0
-            onActivated: console.log("activated " + row)
-            onClicked: console.log("clicked " + row)
+            ListView {
+                id: layersView
+                model: layerModel
+                delegate: layerDelegate
+                highlight: layerSelected
+                highlightMoveDuration: 1
 
-            TableViewColumn {
-                delegate: Component {
-                    Text {
-                        text: name
-                        anchors.leftMargin: 10
-                    }
-                }
+
+
+                orientation: ListView.Vertical
+                clip: true
+                spacing: 4
+                onCurrentIndexChanged: if (currentIndex >=0 ) currentLayerId = layerModel.get(currentIndex).layerId
+                onCountChanged: if (currentIndex >=0 ) currentLayerId = layerModel.get(currentIndex).layerId
             }
-        }
-
-/*
-        ListView {
-            id: layersView
-            model: layerModel
-            delegate: layerDelegate
-            highlight: layerSelected
-            highlightMoveDuration: 1
-
-            Layout.fillWidth: true
-            Layout.fillHeight: true
-
-            orientation: ListView.Vertical
-            clip: true
-            spacing: 4
-            onCurrentIndexChanged: if (currentIndex >=0 ) currentLayerId = layerModel.get(currentIndex).layerId
-            onCountChanged: if (currentIndex >=0 ) currentLayerId = layerModel.get(currentIndex).layerId
         }
 
         Component {
             id: layerDelegate
+            Text {
+                text: name
+                width: layersView.width
+                height: 20
+                color:  ListView.isCurrentItem ? "white" : "black"
+                MouseArea {
+                    anchors.fill: parent
+                    onClicked: layersView.currentIndex = index
+                }
+            }
+
+            /*
             ListItem {
                 text: name
                 color: ListView.isCurrentItem ? "transparent" : "lightgray"
@@ -80,16 +75,18 @@ ToolWindow {
                     undoManager.add(new Undo.deleteLayer(index))
                     Utils.deleteLayer(index)
                 }
-            }
+            }*/
         }
 
         Component {
             id: layerSelected
-            ListItemComponent {
-                width: layersView.width
+            Rectangle {
+                height: 20
+                color: "blue"
+
             }
         }
-*/
+
         // Buttons
         RowLayout {
             spacing: 2
@@ -100,7 +97,7 @@ ToolWindow {
                 text: qsTr("New")
                 onClicked: {
                     Utils.addLayer()
-                    undoManager.add(new Undo.addLayer())
+                    //undoManager.add(new Undo.addLayer())
                 }
             }
             // Up button

@@ -28,6 +28,7 @@ ApplicationWindow {
 
     property int newPageCounter: 0
     property int newLayerCounter: 0
+    property variant layerModel: 0
 
     property var settings
 
@@ -37,8 +38,6 @@ ApplicationWindow {
 //    property int currentPageIndex: pageManager.pagesView.currentIndex
     property int layerIdCounter: 0
     property string currentLayerId
-
-    property bool dockMode: false
 
     Timer {
         id: timer
@@ -53,10 +52,9 @@ ApplicationWindow {
     }
 
     Component.onCompleted: {
-        //Utils.addPage()
-
         timer.start()
         Settings.loadSettings()
+        Utils.addPage()
     }
     Component.onDestruction: Settings.saveSettings()
 
@@ -149,6 +147,7 @@ ApplicationWindow {
         id: pageView
         anchors.fill: parent
         visible: count > 0
+        onCountChanged: count > 0 ? layerModel = pageModel.get(pageView.currentIndex).layerModel : 0
     }
 
 

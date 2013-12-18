@@ -12,7 +12,8 @@
  */
 
 import QtQuick 2.1
-import QtQuick.Controls 1.0
+import QtQuick.Controls 1.1
+import QtQuick.Layouts 1.0
 import "components"
 
 ToolWindow {
@@ -35,32 +36,32 @@ ToolWindow {
             id: brushSettingsModel
             Item {
                 height: 14
-                width: sliders.width
+                width: scrollView.viewport.width
                 Label { text: qsTr("Size"); anchors.left: parent.left }
                 Label { text: Math.round(sizeSlider.value); anchors.right: parent.right }
             }
-            Slider { id: sizeSlider; width: sliders.width; minimumValue: 1; maximumValue: 200 }
+            Slider { id: sizeSlider; width: scrollView.viewport.width; minimumValue: 1; maximumValue: 200 }
             Item {
                 height: 14
-                width: sliders.width
+                width: scrollView.viewport.width
                 Label { text: qsTr("Opacity"); anchors.left: parent.left }
                 Label { text: Math.round(opacitySlider.value); anchors.right: parent.right }
             }
-            Slider { id: opacitySlider; width: sliders.width; minimumValue: 0; maximumValue: 100 }
+            Slider { id: opacitySlider; width: scrollView.viewport.width; minimumValue: 0; maximumValue: 100 }
             Item {
                 height: 14
-                width: sliders.width
+                width: scrollView.viewport.width
                 Label { text: qsTr("Spacing"); anchors.left: parent.left }
                 Label { text: Math.round(spacingSlider.value); anchors.right: parent.right }
             }
-            Slider { id: spacingSlider; width: sliders.width; minimumValue: 1; maximumValue: 200 }
+            Slider { id: spacingSlider; width: scrollView.viewport.width; minimumValue: 1; maximumValue: 200 }
             Item {
                 height: 14
-                width: sliders.width
+                width: scrollView.viewport.width
                 Label { text: qsTr("Hardness"); anchors.left: parent.left }
                 Label { text: Math.round(hardnessSlider.value); anchors.right: parent.right }
             }
-            Slider { id: hardnessSlider; width: sliders.width; minimumValue: 1; maximumValue: 100 }
+            Slider { id: hardnessSlider; width: scrollView.viewport.width; minimumValue: 1; maximumValue: 100 }
             Item {
                 height: 14
                 width: sliders.width
@@ -84,11 +85,16 @@ ToolWindow {
             Slider { id: jitterSlider; width: sliders.width; minimumValue: 0; maximumValue: 1000 }
         }
 
-        ListView {
-            model: brushSettingsModel
-            anchors.fill: parent
-            orientation: ListView.Vertical
-            clip: true
+        ScrollView {
+            id: scrollView
+            anchors.fill: root
+            highlightOnFocus: true
+            ListView {
+                model: brushSettingsModel
+//                anchors.fill: parent
+                orientation: ListView.Vertical
+                clip: true
+            }
         }
     }
 }
