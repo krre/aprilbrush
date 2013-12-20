@@ -17,7 +17,7 @@ import "undo.js" as Undo
 
 ToolWindow {
     id: root
-    title: "Undo History"
+//    title: "Undo History"
     property alias currentUndo: undoView.currentIndex
     property alias undoView: undoView
     property int undoDeep: 50

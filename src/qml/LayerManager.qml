@@ -23,7 +23,7 @@ ToolWindow {
     //property alias currentLayerIndex: layersView.currentRow
     property alias layersView: layersView
 
-    title: "Layers"
+//    title: "Layers"
     border: false
 
     ColumnLayout {

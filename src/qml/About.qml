@@ -15,7 +15,7 @@ import QtQuick 2.1
 import "components"
 
 ToolWindow {
-    title: qsTr("About AprilBrush")
+//    title: qsTr("About AprilBrush")
     width: 420
     height: 450
 

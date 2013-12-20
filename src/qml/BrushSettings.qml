@@ -18,7 +18,7 @@ import "components"
 
 ToolWindow {
     id: root
-    title: "Brush Settings"
+//    title: "Brush Settings"
 
     property alias size: sizeSlider
     property alias opaque: opacitySlider

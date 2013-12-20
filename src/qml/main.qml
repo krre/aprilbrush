@@ -14,6 +14,7 @@
 import QtQuick 2.1
 import QtQuick.Dialogs 1.0
 import QtQuick.Controls 1.0
+import QtQuick.Layouts 1.1
 import ABLib 1.0
 import "components"
 import "settings.js" as Settings
@@ -143,12 +144,46 @@ ApplicationWindow {
         }
     }
 
-    TabView {
-        id: pageView
+    SplitView {
         anchors.fill: parent
-        visible: count > 0
-        onCountChanged: count > 0 ? layerModel = pageModel.get(pageView.currentIndex).layerModel : 0
+        orientation: Qt.Horizontal
+
+        Item {
+            width: 200
+            Layout.minimumWidth: 100
+
+            ColorPicker {
+                id: colorPicker
+                width: parent.width
+                color: Utils.hsvToHsl(settings.colorPicker.color.h,
+                                      settings.colorPicker.color.s,
+                                      settings.colorPicker.color.v)
+            }
+
+        }
+
+        Item {
+            Layout.minimumWidth: 100
+            Layout.fillWidth: true
+
+            TabView {
+                id: pageView
+                anchors.fill: parent
+                visible: count > 0
+                onCountChanged: count > 0 ? layerModel = pageModel.get(pageView.currentIndex).layerModel : 0
+            }
+        }
+
+        Item {
+            width: 200
+            Layout.minimumWidth: 100
+
+        }
+
+
     }
+
+
 
 
     BrushEngine {
@@ -201,12 +236,7 @@ ApplicationWindow {
         id: brushSettings
     }
 
-    ColorPicker {
-        id: colorPicker
-        color: Utils.hsvToHsl(settings.colorPicker.color.h,
-                              settings.colorPicker.color.s,
-                              settings.colorPicker.color.v)
-    }
+
 
     BrushLibrary {
         id: brushLibrary

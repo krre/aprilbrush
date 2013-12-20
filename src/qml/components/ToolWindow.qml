@@ -14,22 +14,22 @@
 import QtQuick 2.1
 import QtQuick.Window 2.0
 
-Window {
-    title: "Unnamed"
+Item {
+//    title: "Unnamed"
     default property alias content: stack.children
     property int defaultSize: 200
     property int indent: border ? 10 : 0
     property color backGroundColor: sysPalette.window
     property bool border: true
 
-    minimumWidth: defaultSize
-    minimumHeight: defaultSize
-    flags: Qt.Tool
+//    minimumWidth: defaultSize
+//    minimumHeight: defaultSize
+//    flags: Qt.Tool
     SystemPalette {
         id: sysPalette
         colorGroup: SystemPalette.Active
     }
-    color: backGroundColor
+//    color: backGroundColor
 
     // Content stack
     Item {
