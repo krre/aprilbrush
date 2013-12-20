@@ -13,29 +13,55 @@
 
 import QtQuick 2.1
 import QtQuick.Window 2.0
+import QtQuick.Layouts 1.1
 
-Item {
-//    title: "Unnamed"
+Rectangle {
+    id: root
+    property alias text: title.text
     default property alias content: stack.children
-    property int defaultSize: 200
-    property int indent: border ? 10 : 0
-    property color backGroundColor: sysPalette.window
-    property bool border: true
+    property int defaultSize: 100
+    property int indent: 5
+    property color backgroundColor: sysPalette.window
 
-//    minimumWidth: defaultSize
-//    minimumHeight: defaultSize
-//    flags: Qt.Tool
+    Layout.minimumWidth: defaultSize
+    Layout.minimumHeight: defaultSize
+
     SystemPalette {
         id: sysPalette
         colorGroup: SystemPalette.Active
     }
-//    color: backGroundColor
+    color: backgroundColor
 
-    // Content stack
-    Item {
-        id: stack
-        width: parent.width - indent * 2;
-        height: parent.height - indent * 2
-        anchors.centerIn: parent
+    ColumnLayout {
+        anchors.fill: parent
+        spacing: 0
+
+        Rectangle {
+            Layout.preferredWidth: parent.width
+            height: 25
+            color: sysPalette.window
+
+            Text {
+                id: title
+                x: 10
+                anchors.verticalCenter: parent.verticalCenter
+                text: qsTr("title")
+            }
+
+        }
+
+        Item {
+            Layout.preferredWidth: parent.width
+            Layout.fillHeight: true
+
+            // Content stack
+            Item {
+                id: stack
+                width: parent.width - indent * 2;
+                height: parent.height - indent
+                anchors.horizontalCenter: parent.horizontalCenter
+                Layout.fillHeight: true
+            }
+        }
     }
 }

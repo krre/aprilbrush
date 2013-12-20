@@ -23,8 +23,8 @@ ToolWindow {
     //property alias currentLayerIndex: layersView.currentRow
     property alias layersView: layersView
 
-//    title: "Layers"
-    border: false
+    text: "Layers"
+    backgroundColor: "white"
 
     ColumnLayout {
         anchors.fill: parent

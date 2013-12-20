@@ -17,7 +17,7 @@ import "brushlib.js" as BrushLib
 
 ToolWindow {
     id: root
-//    title: "Brush Library"
+    text: "Brush Library"
 
     Item {
         anchors.fill: parent

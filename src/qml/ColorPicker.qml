@@ -18,7 +18,7 @@ import "utils.js" as Utils
 import "components"
 
 ToolWindow {
-//    title: "Color"
+    text: "Color"
     id: root
 
     property real h
@@ -114,7 +114,7 @@ ToolWindow {
                 anchors.centerIn: parent
                 radius: outerCircle.width * ringWidth / 2
                 antialiasing: true
-                color: backGroundColor
+//                color: backGroundColor
             }
 
             // Color square

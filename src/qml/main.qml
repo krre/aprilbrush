@@ -44,11 +44,13 @@ ApplicationWindow {
         id: timer
         interval: 1
         onTriggered: {
+            /*
             colorPicker.visible = settings.colorPicker.visible
             brushSettings.visible = settings.brushSettings.visible
             brushLibrary.visible = settings.brushLibrary.visible
             layerManager.visible = settings.layerManager.visible
             undoManager.visible = settings.undoManager.visible
+            */
         }
     }
 
@@ -148,43 +150,89 @@ ApplicationWindow {
         anchors.fill: parent
         orientation: Qt.Horizontal
 
-        Item {
+        SplitView {
             width: 200
+            orientation: Qt.Vertical
             Layout.minimumWidth: 100
 
+
+/*
             ColorPicker {
                 id: colorPicker
                 width: parent.width
+                height: 200
                 color: Utils.hsvToHsl(settings.colorPicker.color.h,
                                       settings.colorPicker.color.s,
                                       settings.colorPicker.color.v)
             }
+*/
+
+
+            ToolWindow {
+                text: "Color"
+                width: parent.width
+                height: 200
+
+                Rectangle {
+                    anchors.fill: parent
+                    color: "red"
+                }
+            }
+
+            LayerManager {
+                id: layerManager
+                width: parent.width
+                Layout.fillHeight: true
+            }
 
         }
 
-        Item {
+        TabView {
+            id: pageView
             Layout.minimumWidth: 100
             Layout.fillWidth: true
-
-            TabView {
-                id: pageView
-                anchors.fill: parent
-                visible: count > 0
-                onCountChanged: count > 0 ? layerModel = pageModel.get(pageView.currentIndex).layerModel : 0
-            }
+            visible: count > 0
+            onCountChanged: count > 0 ? layerModel = pageModel.get(pageView.currentIndex).layerModel : 0
         }
 
-        Item {
+
+        SplitView {
             width: 200
             Layout.minimumWidth: 100
+            orientation: Qt.Vertical
+/*
+            Rectangle {
+                height: 200
+                color: "magenta"
+            }
 
+            Rectangle {
+                //                hei
+                height: 200
+//                Layout.fillHeight: true
+                color: "yellow"
+            }
+
+*/
+
+            BrushSettings {
+                id: brushSettings
+                width: parent.width
+                Layout.fillHeight: true
+            }
+
+            UndoManager {
+                id: undoManager
+                width: parent.width
+                height: 200
+            }
+
+            BrushLibrary {
+                id: brushLibrary
+                height: 200
+            }
         }
-
-
     }
-
-
-
 
     BrushEngine {
         id: brushEngine
@@ -219,28 +267,12 @@ ApplicationWindow {
     ListModel {
         id: pageModel
     }
+
 /*
     CanvasArea {
         id: canvasArea
     }
 */
-    LayerManager {
-        id: layerManager
-    }
-
-    UndoManager {
-        id: undoManager
-    }
-
-    BrushSettings {
-        id: brushSettings
-    }
-
-
-
-    BrushLibrary {
-        id: brushLibrary
-    }
 
     FileDialog {
         id: fileDialog
@@ -263,5 +295,6 @@ ApplicationWindow {
         id: aboutWindow
         visible: false
     }
+
 }
 
