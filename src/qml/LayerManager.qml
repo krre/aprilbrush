@@ -41,8 +41,8 @@ ToolWindow {
                 highlightMoveDuration: 1
                 orientation: ListView.Vertical
                 spacing: 4
-                onCurrentIndexChanged: if (currentIndex >=0 ) { currentLayerId = layerModel.get(currentIndex).layerId }
-                onCountChanged: if (currentIndex >=0 ) { currentLayerId = layerModel.get(currentIndex).layerId }
+                onCurrentIndexChanged: if (currentIndex >= 0 ) { currentLayerId = layerModel.get(currentIndex).layerId }
+                onCountChanged: if (currentIndex >= 0 ) { currentLayerId = layerModel.get(currentIndex).layerId }
             }
         }
 
@@ -66,7 +66,6 @@ ToolWindow {
                 width: layersView.width
                 height: 20
                 color: "blue"
-
             }
         }
 

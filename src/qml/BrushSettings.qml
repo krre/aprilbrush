@@ -28,72 +28,68 @@ ToolWindow {
     property alias angle: angleSlider
     property alias jitter: jitterSlider
 
-    Item {
-        id: sliders
+    ScrollView {
+        id: scrollView
         anchors.fill: parent
 
-        VisualItemModel {
-            id: brushSettingsModel
-            Item {
-                height: 14
-                width: scrollView.viewport.width
-                Label { text: qsTr("Size"); anchors.left: parent.left }
-                Label { text: Math.round(sizeSlider.value); anchors.right: parent.right }
-            }
-            Slider { id: sizeSlider; width: scrollView.viewport.width; minimumValue: 1; maximumValue: 200 }
-            Item {
-                height: 14
-                width: scrollView.viewport.width
-                Label { text: qsTr("Opacity"); anchors.left: parent.left }
-                Label { text: Math.round(opacitySlider.value); anchors.right: parent.right }
-            }
-            Slider { id: opacitySlider; width: scrollView.viewport.width; minimumValue: 0; maximumValue: 100 }
-            Item {
-                height: 14
-                width: scrollView.viewport.width
-                Label { text: qsTr("Spacing"); anchors.left: parent.left }
-                Label { text: Math.round(spacingSlider.value); anchors.right: parent.right }
-            }
-            Slider { id: spacingSlider; width: scrollView.viewport.width; minimumValue: 1; maximumValue: 200 }
-            Item {
-                height: 14
-                width: scrollView.viewport.width
-                Label { text: qsTr("Hardness"); anchors.left: parent.left }
-                Label { text: Math.round(hardnessSlider.value); anchors.right: parent.right }
-            }
-            Slider { id: hardnessSlider; width: scrollView.viewport.width; minimumValue: 1; maximumValue: 100 }
-            Item {
-                height: 14
-                width: sliders.width
-                Label { text: qsTr("Roundness"); anchors.left: parent.left }
-                Label { text: Math.round(roundnessSlider.value); anchors.right: parent.right }
-            }
-            Slider { id: roundnessSlider; width: sliders.width; minimumValue: 1; maximumValue: 10 }
-            Item {
-                height: 14
-                width: sliders.width
-                Label { text: qsTr("Angle"); anchors.left: parent.left }
-                Label { text: Math.round(angleSlider.value); anchors.right: parent.right }
-            }
-            Slider { id: angleSlider; width: sliders.width; minimumValue: 0; maximumValue: 180 }
-            Item {
-                height: 14
-                width: sliders.width
-                Label { text: qsTr("Jitter"); anchors.left: parent.left }
-                Label { text: Math.round(jitterSlider.value); anchors.right: parent.right }
-            }
-            Slider { id: jitterSlider; width: sliders.width; minimumValue: 0; maximumValue: 1000 }
-        }
+        ColumnLayout {
+            width: parent.width
+            height: childrenRect.height
 
-        ScrollView {
-            id: scrollView
-            anchors.fill: root
-            highlightOnFocus: true
-            ListView {
-                model: brushSettingsModel
-//                anchors.fill: parent
-                orientation: ListView.Vertical
-                clip: true
+            SliderText {
+                id: sizeSlider
+                Layout.preferredWidth: scrollView.viewport.width
+                text: qsTr("Size")
+                minValue: 1
+                maxValue: 200
+            }
+
+            SliderText {
+                id: opacitySlider
+                Layout.preferredWidth: scrollView.viewport.width
+                text: qsTr("Opacity")
+                minValue: 0
+                maxValue: 100
+            }
+
+            SliderText {
+                id: spacingSlider
+                Layout.preferredWidth: scrollView.viewport.width
+                text: qsTr("Spacing")
+                minValue: 1
+                maxValue: 100
+            }
+
+            SliderText {
+                id: hardnessSlider
+                Layout.preferredWidth: scrollView.viewport.width
+                text: qsTr("Hardness")
+                minValue: 1
+                maxValue: 100
+            }
+
+            SliderText {
+                id: roundnessSlider
+                Layout.preferredWidth: scrollView.viewport.width
+                text: qsTr("Roundness")
+                minValue: 1
+                maxValue: 100
+            }
+
+            SliderText {
+                id: angleSlider
+                Layout.preferredWidth: scrollView.viewport.width
+                text: qsTr("Angle")
+                minValue: 0
+                maxValue: 180
+            }
+
+            SliderText {
+                id: jitterSlider
+                Layout.preferredWidth: scrollView.viewport.width
+                text: qsTr("Jitter")
+                minValue: 0
+                maxValue: 1000
             }
         }
     }

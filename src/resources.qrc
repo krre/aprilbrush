@@ -20,5 +20,6 @@
         <file>qml/components/ToolWindow.qml</file>
         <file>qml/style.js</file>
         <file>qml/FileDialog.qml</file>
+        <file>qml/components/SliderText.qml</file>
     </qresource>
 </RCC>
