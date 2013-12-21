@@ -23,10 +23,10 @@ import "undo.js" as Undo
 import "style.js" as Style
 
 ApplicationWindow {
-    id: mainWindow
+    id: mainRoot
     title: "AprilBrush"
 
-    property string version: "AprilBrush 1.0.0"
+    property string version: "AprilBrush 1.1.0"
     property var palette: Style.defaultStyle()
 
     property int newPageCounter: 0
@@ -128,7 +128,13 @@ ApplicationWindow {
             title: qsTr("Help")
             MenuItem {
                 text: qsTr("About...")
-                onTriggered: aboutWindow.show()
+                onTriggered: {
+                    var component = Qt.createComponent("About.qml");
+                    console.log("Error About", component.errorString())
+                    if (component.status === Component.Ready) {
+                        var object = component.createObject(mainRoot);
+                    }
+                }
             }
         }
     }
@@ -253,11 +259,5 @@ ApplicationWindow {
             }
         }
     }
-
-    About {
-        id: aboutWindow
-        visible: false
-    }
-
 }
 

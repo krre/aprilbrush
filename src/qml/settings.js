@@ -60,10 +60,10 @@ function loadSettings() {
         settings = JSON.parse(fileSettings)
     }
 
-    mainWindow.x = settings.mainWindow.x
-    mainWindow.y = settings.mainWindow.y
-    mainWindow.width = settings.mainWindow.width
-    mainWindow.height = settings.mainWindow.height
+    mainRoot.x = settings.mainWindow.x
+    mainRoot.y = settings.mainWindow.y
+    mainRoot.width = settings.mainWindow.width
+    mainRoot.height = settings.mainWindow.height
 
     colorPicker.height = settings.colorPicker.height
     colorPicker.color = Utils.hsvToHsl(settings.colorPicker.color.h,
@@ -82,8 +82,8 @@ function loadSettings() {
 function saveSettings() {
     var fileSettings = {
         mainWindow: {
-            width: mainWindow.width,
-            height: mainWindow.height,
+            width: mainRoot.width,
+            height: mainRoot.height,
             x: mainWindow.x,
             y: mainWindow.y
         },

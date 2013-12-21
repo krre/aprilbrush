@@ -12,23 +12,34 @@
  */
 
 import QtQuick 2.1
-import "components"
+import QtQuick.Window 2.0
+import QtQuick.Layouts 1.1
 
-ToolWindow {
-//    title: qsTr("About AprilBrush")
-    width: 420
-    height: 450
+Window {
+    title: qsTr("About AprilBrush")
+    minimumWidth: 420
+    maximumWidth: 420
+    minimumHeight: 400
+    maximumHeight: 400
+
+    onVisibleChanged: if (!visible) {
+                          destroy()
+                      }
+
+    x: (Screen.width - width) / 2
+    y: (Screen.height - height) / 2
+
+    visible: true
 
     Column {
         width: 200
         anchors.centerIn: parent
-        height: parent.height
         spacing: 5
 
         Text {
             width: parent.width
             horizontalAlignment: Text.AlignHCenter
-            text: mainWindow.version
+            text: mainRoot.version
             font.pixelSize: 17
         }
 
@@ -47,7 +58,7 @@ ToolWindow {
         }
         Text {
            width: parent.width
-           text: "Hotkeys"
+           text: "Hotkeys:"
            horizontalAlignment: Text.AlignHCenter
            font.pixelSize: 14
         }
@@ -96,13 +107,6 @@ ToolWindow {
                       Open<br />
                       Export<br />"
            }
-
         }
     }
-
-    Component.onCompleted: {
-        //x = (parent.width - width) / 2
-        //y = (parent.height - height) / 2
-    }
-
 }
