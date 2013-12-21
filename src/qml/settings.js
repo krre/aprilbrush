@@ -26,9 +26,6 @@ function loadSettings() {
             },
 
             colorPicker: {
-                x: 20,
-                y: 50,
-                width: 200,
                 height: 200,
                 color: {
                     h: 0.6,
@@ -39,33 +36,21 @@ function loadSettings() {
             },
 
             brushSettings: {
-                x: 780,
-                y: 50,
-                width: 200,
                 height: 250,
                 visible: true
             },
 
             brushLibrary: {
-                x: 570,
-                y: 50,
-                width: 200,
                 height: 200,
                 visible: true
             },
 
             layerManager: {
-                x: 20,
-                y: 300,
-                width: 200,
                 height: 200,
                 visible: true
             },
 
             undoManager: {
-                x: 780,
-                y: 310,
-                width: 200,
                 height: 200,
                 visible: true
             },
@@ -80,32 +65,17 @@ function loadSettings() {
     mainWindow.width = settings.mainWindow.width
     mainWindow.height = settings.mainWindow.height
 
-    colorPicker.x = settings.colorPicker.x
-    colorPicker.y = settings.colorPicker.y
-    colorPicker.width = settings.colorPicker.width
     colorPicker.height = settings.colorPicker.height
     colorPicker.color = Utils.hsvToHsl(settings.colorPicker.color.h,
                                        settings.colorPicker.color.s,
                                        settings.colorPicker.color.v)
 
-    brushSettings.x = settings.brushSettings.x
-    brushSettings.y = settings.brushSettings.y
-    brushSettings.width = settings.brushSettings.width
     brushSettings.height = settings.brushSettings.height
 
-    brushLibrary.x = settings.brushLibrary.x
-    brushLibrary.y = settings.brushLibrary.y
-    brushLibrary.width = settings.brushLibrary.width
     brushLibrary.height = settings.brushLibrary.height
 
-    layerManager.x = settings.layerManager.x
-    layerManager.y = settings.layerManager.y
-    layerManager.width = settings.layerManager.width
     layerManager.height = settings.layerManager.height
 
-    undoManager.x = settings.undoManager.x
-    undoManager.y = settings.undoManager.y
-    undoManager.width = settings.undoManager.width
     undoManager.height = settings.undoManager.height
 }
 
@@ -119,9 +89,6 @@ function saveSettings() {
         },
 
         colorPicker: {
-            x: colorPicker.x,
-            y: colorPicker.y,
-            width: colorPicker.width,
             height: colorPicker.height,
             color: {
                   h: colorPicker.h,
@@ -132,33 +99,21 @@ function saveSettings() {
         },
 
         brushSettings: {
-            x: brushSettings.x,
-            y: brushSettings.y,
-            width: brushSettings.width,
             height: brushSettings.height,
             visible: brushSettings.visible
         },
 
         brushLibrary: {
-            x: brushLibrary.x,
-            y: brushLibrary.y,
-            width: brushLibrary.width,
             height: brushLibrary.height,
             visible: brushLibrary.visible
         },
 
         layerManager: {
-            x: layerManager.x,
-            y: layerManager.y,
-            width: layerManager.width,
             height: layerManager.height,
             visible: layerManager.visible
         },
 
         undoManager: {
-            x: undoManager.x,
-            y: undoManager.y,
-            width: undoManager.width,
             height: undoManager.height,
             visible: undoManager.visible
         }

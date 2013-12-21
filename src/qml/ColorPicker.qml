@@ -71,7 +71,6 @@ ToolWindow {
                 }
             }
 
-
             // Hue picker
             Rectangle {
                 id: pickerHue
@@ -114,7 +113,7 @@ ToolWindow {
                 anchors.centerIn: parent
                 radius: outerCircle.width * ringWidth / 2
                 antialiasing: true
-//                color: backGroundColor
+                color: palette.toolBgColor
             }
 
             // Color square

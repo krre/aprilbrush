@@ -42,22 +42,7 @@ ApplicationWindow {
     property int layerIdCounter: 0
     property string currentLayerId
 
-    Timer {
-        id: timer
-        interval: 1
-        onTriggered: {
-            /*
-            colorPicker.visible = settings.colorPicker.visible
-            brushSettings.visible = settings.brushSettings.visible
-            brushLibrary.visible = settings.brushLibrary.visible
-            layerManager.visible = settings.layerManager.visible
-            undoManager.visible = settings.undoManager.visible
-            */
-        }
-    }
-
     Component.onCompleted: {
-        timer.start()
         Settings.loadSettings()
         Utils.addPage()
     }
@@ -155,10 +140,7 @@ ApplicationWindow {
         SplitView {
             width: 200
             orientation: Qt.Vertical
-            Layout.minimumWidth: 100
 
-
-/*
             ColorPicker {
                 id: colorPicker
                 width: parent.width
@@ -167,25 +149,11 @@ ApplicationWindow {
                                       settings.colorPicker.color.s,
                                       settings.colorPicker.color.v)
             }
-*/
-
-
-            ToolWindow {
-                text: "Color"
-                width: parent.width
-                height: 200
-
-                Rectangle {
-                    anchors.fill: parent
-                    color: "red"
-                }
-            }
 
             LayerManager {
                 id: layerManager
                 width: parent.width
                 height: 200
-//                Layout.fillHeight: true
             }
 
             Item {
@@ -202,30 +170,9 @@ ApplicationWindow {
             onCountChanged: count > 0 ? layerModel = pageModel.get(pageView.currentIndex).layerModel : 0
         }
 
-
         SplitView {
             width: 200
-            Layout.minimumWidth: 100
             orientation: Qt.Vertical
-/*
-            Rectangle {
-                height: 200
-                color: "magenta"
-//                Layout.fillHeight: true
-            }
-
-            Rectangle {
-                //                hei
-                height: 200
-//                Layout.fillHeight: true
-                color: "yellow"
-            }
-
-            Item {
-                Layout.fillHeight: true
-            }
-*/
-
 
             BrushSettings {
                 id: brushSettings
@@ -247,7 +194,6 @@ ApplicationWindow {
             Item {
                 Layout.fillHeight: true
             }
-
         }
     }
 
