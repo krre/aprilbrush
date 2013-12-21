@@ -14,6 +14,8 @@
 import QtQuick 2.1
 import QtQuick.Window 2.0
 import QtQuick.Layouts 1.1
+import QtQuick.Controls 1.1
+import QtQuick.Controls.Styles 1.1
 
 Rectangle {
     id: root
@@ -21,45 +23,65 @@ Rectangle {
     default property alias content: stack.children
     property int defaultSize: 100
     property int indent: 5
-    property color backgroundColor: sysPalette.window
 
     Layout.minimumWidth: defaultSize
     Layout.minimumHeight: defaultSize
 
-    SystemPalette {
-        id: sysPalette
-        colorGroup: SystemPalette.Active
-    }
-    color: backgroundColor
+    color: palette.toolBgColor
 
     ColumnLayout {
         anchors.fill: parent
         spacing: 0
 
         Rectangle {
+            height: 2
             Layout.preferredWidth: parent.width
-            height: 25
-            color: sysPalette.window
-
-            Text {
-                id: title
-                x: 10
-                anchors.verticalCenter: parent.verticalCenter
-                text: qsTr("title")
-            }
-
+            color: palette.borderColor
         }
 
-        Item {
+        Rectangle {
+            Layout.preferredWidth: parent.width
+            height: 20
+            gradient: Gradient {
+                GradientStop { position: 0.0; color: palette.toolHeaderColor1 }
+                GradientStop { position: 1.0; color: palette.toolHeaderColor2 }
+            }
+
+            Row {
+                spacing: 2
+
+                ToolButton {
+                    text: ">"
+
+                }
+
+                Text {
+                    id: title
+                    x: 10
+                    anchors.verticalCenter: parent.verticalCenter
+                    text: qsTr("title")
+                    color: "white"
+                }
+            }
+        }
+
+        Rectangle {
+            height: 2
+            Layout.preferredWidth: parent.width
+            color: palette.borderColor
+        }
+
+        Rectangle {
             Layout.preferredWidth: parent.width
             Layout.fillHeight: true
+            color: palette.toolBgColor
 
             // Content stack
             Item {
                 id: stack
                 width: parent.width - indent * 2;
-                height: parent.height - indent
-                anchors.horizontalCenter: parent.horizontalCenter
+                height: parent.height - indent * 2
+                anchors.centerIn: parent
                 Layout.fillHeight: true
             }
         }

@@ -24,7 +24,6 @@ ToolWindow {
     property alias layersView: layersView
 
     text: "Layers"
-    backgroundColor: "white"
 
     ColumnLayout {
         anchors.fill: parent

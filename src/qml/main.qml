@@ -20,12 +20,14 @@ import "components"
 import "settings.js" as Settings
 import "utils.js" as Utils
 import "undo.js" as Undo
+import "style.js" as Style
 
 ApplicationWindow {
     id: mainWindow
     title: "AprilBrush"
 
     property string version: "AprilBrush 1.0.0"
+    property var palette: Style.defaultStyle()
 
     property int newPageCounter: 0
     property int newLayerCounter: 0
