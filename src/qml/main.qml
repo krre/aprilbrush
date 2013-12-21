@@ -59,6 +59,12 @@ ApplicationWindow {
             MenuItem {
                 text: qsTr("Open...")
                 shortcut: "Ctrl+O"
+                onTriggered: {
+                    var component = Qt.createComponent("FileDialog.qml");
+                    if (component.status === Component.Ready) {
+                        var object = component.createObject(mainRoot, { mode: 0 });
+                    }
+                }
             }
             MenuItem {
                 text: qsTr("Save")
@@ -69,6 +75,23 @@ ApplicationWindow {
                 text: qsTr("Save As...")
                 shortcut: "Ctrl+Shift+S"
                 enabled: pageView.count > 0
+                onTriggered: {
+                    var component = Qt.createComponent("FileDialog.qml");
+                    if (component.status === Component.Ready) {
+                        var object = component.createObject(mainRoot, { mode: 1 });
+                    }
+                }
+            }
+            MenuItem {
+                text: qsTr("Export...")
+                shortcut: "Ctrl+E"
+                enabled: pageView.count > 0
+                onTriggered: {
+                    var component = Qt.createComponent("FileDialog.qml");
+                    if (component.status === Component.Ready) {
+                        var object = component.createObject(mainRoot, { mode: 2 });
+                    }
+                }
             }
             MenuItem {
                 text: qsTr("Close")
@@ -212,22 +235,5 @@ ApplicationWindow {
         id: canvasArea
     }
 */
-
-    FileDialog {
-        id: fileDialog
-
-        property int mode: 0 // 0 - open, 1 - save, 2 - export, 3 - folder
-
-        selectExisting: mode == 0 ? true : false
-        selectFolder: mode == 3 ? true : false
-        nameFilters: mode == 2 ? "Images (*.png)" : "OpenRaster (*.ora)"
-        onAccepted: {
-            switch (mode) {
-                case 0: Utils.openOra(fileDialog.fileUrl); break
-                case 1: Utils.saveAsOra(fileDialog.fileUrl); break
-                case 2: Utils.exportPng(fileDialog.fileUrl); break
-            }
-        }
-    }
 }
 

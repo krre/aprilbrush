@@ -81,9 +81,9 @@ Window {
                       F<br />
                       Z<br />
                       X<br />
-                      Ctrl+S<br / >
-                      Shift+S<br / >
                       Ctrl+O<br />
+                      Ctrl+S<br / >
+                      Ctrl+Shift+S<br / >
                       Ctrl+E<br />"
            }
            Text {
@@ -102,9 +102,9 @@ Window {
                       Fill Color<br />
                       Undo<br />
                       Redo<br />
+                      Open<br />
                       Save<br />
                       Save As<br />
-                      Open<br />
                       Export<br />"
            }
         }

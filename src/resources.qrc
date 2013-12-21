@@ -19,5 +19,6 @@
         <file>qml/components/ListItemComponent.qml</file>
         <file>qml/components/ToolWindow.qml</file>
         <file>qml/style.js</file>
+        <file>qml/FileDialog.qml</file>
     </qresource>
 </RCC>
