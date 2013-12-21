@@ -32,20 +32,17 @@ ToolWindow {
         ScrollView {
             Layout.fillWidth: true
             Layout.fillHeight: true
+
             ListView {
                 id: layersView
                 model: layerModel
                 delegate: layerDelegate
                 highlight: layerSelected
                 highlightMoveDuration: 1
-
-
-
                 orientation: ListView.Vertical
-                clip: true
                 spacing: 4
-                onCurrentIndexChanged: if (currentIndex >=0 ) currentLayerId = layerModel.get(currentIndex).layerId
-                onCountChanged: if (currentIndex >=0 ) currentLayerId = layerModel.get(currentIndex).layerId
+                onCurrentIndexChanged: if (currentIndex >=0 ) { currentLayerId = layerModel.get(currentIndex).layerId }
+                onCountChanged: if (currentIndex >=0 ) { currentLayerId = layerModel.get(currentIndex).layerId }
             }
         }
 
@@ -61,25 +58,12 @@ ToolWindow {
                     onClicked: layersView.currentIndex = index
                 }
             }
-
-            /*
-            ListItem {
-                text: name
-                color: ListView.isCurrentItem ? "transparent" : "lightgray"
-                onClicked: {
-                    undoManager.add(new Undo.changeLayer(currentLayerIndex, index));
-                    currentLayerIndex = index
-                }
-                onClosed: {
-                    undoManager.add(new Undo.deleteLayer(index))
-                    Utils.deleteLayer(index)
-                }
-            }*/
         }
 
         Component {
             id: layerSelected
             Rectangle {
+                width: layersView.width
                 height: 20
                 color: "blue"
 
@@ -99,6 +83,7 @@ ToolWindow {
                     //undoManager.add(new Undo.addLayer())
                 }
             }
+
             // Up button
             Button {
                 Layout.fillWidth: true
@@ -111,6 +96,7 @@ ToolWindow {
 
                 }
             }
+
             // Down button
             Button {
                 Layout.fillWidth: true
@@ -126,8 +112,6 @@ ToolWindow {
             // Merge button
             Button {
                 Layout.fillWidth: true
-//                Layout.fillHeight: true
-//                Layout.maximumHeight: parent.height
                 text: qsTr("Merge")
                 onClicked: {
                     if ((layersView.count > 1) && (currentLayerIndex < layersView.count - 1)) {
