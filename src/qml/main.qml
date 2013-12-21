@@ -184,6 +184,11 @@ ApplicationWindow {
             LayerManager {
                 id: layerManager
                 width: parent.width
+                height: 200
+//                Layout.fillHeight: true
+            }
+
+            Item {
                 Layout.fillHeight: true
             }
 
@@ -206,6 +211,7 @@ ApplicationWindow {
             Rectangle {
                 height: 200
                 color: "magenta"
+//                Layout.fillHeight: true
             }
 
             Rectangle {
@@ -215,12 +221,16 @@ ApplicationWindow {
                 color: "yellow"
             }
 
+            Item {
+                Layout.fillHeight: true
+            }
 */
+
 
             BrushSettings {
                 id: brushSettings
                 width: parent.width
-                Layout.fillHeight: true
+                height: 200
             }
 
             UndoManager {
@@ -233,6 +243,11 @@ ApplicationWindow {
                 id: brushLibrary
                 height: 200
             }
+
+            Item {
+                Layout.fillHeight: true
+            }
+
         }
     }
 

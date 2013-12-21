@@ -21,13 +21,22 @@ Rectangle {
     id: root
     property alias text: title.text
     default property alias content: stack.children
-    property int defaultSize: 100
     property int indent: 5
+    property bool collapse: false
+    property int stashHeight: height
 
-    Layout.minimumWidth: defaultSize
-    Layout.minimumHeight: defaultSize
+    Layout.minimumHeight: header.height + 4
 
     color: palette.toolBgColor
+
+    onCollapseChanged: if (collapse) {
+                           stashHeight = height
+                           root.Layout.maximumHeight = header.height + 4
+                       } else {
+                           root.Layout.maximumHeight = -1
+                           height = stashHeight
+                       }
+
 
     ColumnLayout {
         anchors.fill: parent
@@ -40,6 +49,7 @@ Rectangle {
         }
 
         Rectangle {
+            id: header
             Layout.preferredWidth: parent.width
             height: 20
             gradient: Gradient {
@@ -52,6 +62,8 @@ Rectangle {
 
                 ToolButton {
                     text: ">"
+                    onClicked: collapse = !collapse
+                    rotation: collapse ? 90 : 0
 
                 }
 
@@ -72,6 +84,7 @@ Rectangle {
         }
 
         Rectangle {
+            id: contentContainer
             Layout.preferredWidth: parent.width
             Layout.fillHeight: true
             color: palette.toolBgColor
@@ -82,7 +95,6 @@ Rectangle {
                 width: parent.width - indent * 2;
                 height: parent.height - indent * 2
                 anchors.centerIn: parent
-                Layout.fillHeight: true
             }
         }
     }
