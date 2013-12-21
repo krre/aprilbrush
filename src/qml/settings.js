@@ -84,8 +84,8 @@ function saveSettings() {
         mainWindow: {
             width: mainRoot.width,
             height: mainRoot.height,
-            x: mainWindow.x,
-            y: mainWindow.y
+            x: mainRoot.x,
+            y: mainRoot.y
         },
 
         colorPicker: {

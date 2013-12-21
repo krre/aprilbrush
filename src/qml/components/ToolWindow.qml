@@ -25,7 +25,8 @@ Rectangle {
     property bool collapse: false
     property int stashHeight: height
 
-    Layout.minimumHeight: header.height + 4
+    Layout.minimumHeight: collapse ? header.height + 4 : 200
+    Layout.minimumWidth: 200
 
     color: palette.toolBgColor
 
@@ -88,6 +89,7 @@ Rectangle {
             Layout.preferredWidth: parent.width
             Layout.fillHeight: true
             color: palette.toolBgColor
+            visible: !collapse
 
             // Content stack
             Item {

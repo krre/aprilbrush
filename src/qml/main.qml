@@ -130,7 +130,6 @@ ApplicationWindow {
                 text: qsTr("About...")
                 onTriggered: {
                     var component = Qt.createComponent("About.qml");
-                    console.log("Error About", component.errorString())
                     if (component.status === Component.Ready) {
                         var object = component.createObject(mainRoot);
                     }
@@ -144,13 +143,12 @@ ApplicationWindow {
         orientation: Qt.Horizontal
 
         SplitView {
-            width: 200
+            Layout.minimumWidth: 200
             orientation: Qt.Vertical
 
             ColorPicker {
                 id: colorPicker
                 width: parent.width
-                height: 200
                 color: Utils.hsvToHsl(settings.colorPicker.color.h,
                                       settings.colorPicker.color.s,
                                       settings.colorPicker.color.v)
@@ -159,7 +157,6 @@ ApplicationWindow {
             LayerManager {
                 id: layerManager
                 width: parent.width
-                height: 200
             }
 
             Item {
@@ -170,31 +167,28 @@ ApplicationWindow {
 
         TabView {
             id: pageView
-            Layout.minimumWidth: 100
+            Layout.minimumWidth: 200
             Layout.fillWidth: true
             visible: count > 0
             onCountChanged: count > 0 ? layerModel = pageModel.get(pageView.currentIndex).layerModel : 0
         }
 
         SplitView {
-            width: 200
+            Layout.minimumWidth: 200
             orientation: Qt.Vertical
 
             BrushSettings {
                 id: brushSettings
                 width: parent.width
-                height: 200
             }
 
             UndoManager {
                 id: undoManager
                 width: parent.width
-                height: 200
             }
 
             BrushLibrary {
                 id: brushLibrary
-                height: 200
             }
 
             Item {
