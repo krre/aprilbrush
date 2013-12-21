@@ -84,7 +84,7 @@ ApplicationWindow {
             MenuItem {
                 text: qsTr("Quit")
                 shortcut: "Ctrl+Q"
-                onTriggered: main.close()
+                onTriggered: mainRoot.close()
             }
         }
 
@@ -97,30 +97,6 @@ ApplicationWindow {
             MenuItem {
                 text: qsTr("Redo")
                 shortcut: "Ctrl+Y"
-            }
-        }
-
-        Menu {
-            title: qsTr("Tools")
-            MenuItem {
-                text: qsTr("ColorPicker")
-                onTriggered: colorPicker.visible = !colorPicker.visible
-            }
-            MenuItem {
-                text: qsTr("Undo Manager")
-                onTriggered: undoManager.visible = !undoManager.visible
-            }
-            MenuItem {
-                text: qsTr("Layer Manager")
-                onTriggered: layerManager.visible = !layerManager.visible
-            }
-            MenuItem {
-                text: qsTr("Brush Settings")
-                onTriggered: brushSettings.visible = !brushSettings.visible
-            }
-            MenuItem {
-                text: qsTr("Brush Library")
-                onTriggered: brushLibrary.visible = !brushLibrary.visible
             }
         }
 
