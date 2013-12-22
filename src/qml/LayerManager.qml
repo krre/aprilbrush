@@ -47,7 +47,7 @@ ToolWindow {
                 text: qsTr("New")
                 onClicked: {
                     Utils.addLayer()
-                    //undoManager.add(new Undo.addLayer())
+                    undoManager.add(new Undo.addLayer())
                 }
             }
 
@@ -56,8 +56,8 @@ ToolWindow {
                 Layout.fillWidth: true
                 text: qsTr("Up")
                 onClicked: {
-                    if (currentLayerIndex > 0) {
-                        layerModel.move(currentLayerIndex, currentLayerIndex - 1, 1)
+                    if (layerView.currentIndex > 0) {
+                        layerModel.move(layerView.currentIndex, layerView.currentIndex - 1, 1)
                         undoManager.add(new Undo.raiseLayer())
                     }
 
@@ -69,8 +69,8 @@ ToolWindow {
                 Layout.fillWidth: true
                 text: qsTr("Down")
                 onClicked: {
-                    if (currentLayerIndex < layersView.count - 1) {
-                        layerModel.move(currentLayerIndex, currentLayerIndex + 1, 1)
+                    if (layerView.currentIndex < layerView.count - 1) {
+                        layerModel.move(layerView.currentIndex, layerView.currentIndex + 1, 1)
                         undoManager.add(new Undo.lowerLayer())
                     }
                 }
@@ -81,7 +81,7 @@ ToolWindow {
                 Layout.fillWidth: true
                 text: qsTr("Merge")
                 onClicked: {
-                    if ((layersView.count > 1) && (currentLayerIndex < layersView.count - 1)) {
+                    if ((layerView.count > 1) && (layerView.currentIndex < layerView.count - 1)) {
                         undoManager.add(new Undo.mergeLayer())
                     }
                 }
@@ -101,8 +101,7 @@ ToolWindow {
                 Layout.fillWidth: true
                 text: qsTr("Delete")
                 onClicked: {
-                    console.log("delete layer" + layersView.currentRow)
-//                    undoManager.add(new Undo.deleteLayer(layersView.currentRow))
+                    undoManager.add(new Undo.deleteLayer(layerView.currentIndex))
                 }
             }
         }

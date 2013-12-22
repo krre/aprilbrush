@@ -43,10 +43,6 @@ Item {
         value: index === pagesView.currentIndex
     }
 
-    Component.onCompleted: {
-        undoManager.add(new Undo.start())
-    }
-
     Keys.onPressed: {
         switch (event.key) {
             case Qt.Key_B: eraserMode = false; break

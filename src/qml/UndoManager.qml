@@ -62,41 +62,13 @@ ToolWindow {
 
     Item {
         anchors.fill: parent
+        visible: tabView.count > 0
 
-        ListView {
+        VerticalList {
             id: undoView
-            model: pageModel.count > 0 ? pageModel.get(pageView.currentIndex).undoModel : 0
-            delegate: undoDelegate
-
-            highlight: undoSelected
-            highlightMoveDuration: 1
-
-            width: parent.width
-            height: parent.height
-
-            orientation: ListView.Vertical
-            clip: true
-            spacing: 4
+            anchors.fill: parent
+            model: undoModel
             onCurrentIndexChanged: run(currentIndex)
-        }
-
-        Component {
-            id: undoDelegate
-            ListItem {
-                text: name
-                color: index == currentUndo ? "transparent" : "lightgray"
-                closable: false
-                onClicked: {
-                    currentUndo = index
-                }
-            }
-        }
-
-        Component {
-            id: undoSelected
-            ListItemComponent {
-                width: undoView.width
-            }
         }
     }
 }

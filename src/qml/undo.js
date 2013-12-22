@@ -78,16 +78,16 @@ function changeLayer(prevLayerIndex, newLayerIndex) {
     return {
         name: "Change Layer",
         undo: function() {
-            currentLayerIndex = undoLayerIndex
+            layerManager.layerView.currentIndex = undoLayerIndex
         },
         redo: function() {
-            currentLayerIndex = redoLayerIndex
+            layerManager.layerView.currentIndex = redoLayerIndex
         }
     }
 }
 
 function addLayer() {
-    var redoLayerIndex = currentLayerIndex
+    var redoLayerIndex = layerManager.layerView.currentIndex
     var layerName = layerModel.get(redoLayerIndex).name
     return {
         name: "Add Layer",
@@ -96,7 +96,7 @@ function addLayer() {
         },
         redo: function() {
             Utils.addLayer(layerName)
-            currentLayerIndex = redoLayerIndex
+            layerManager.layerView.currentIndex = redoLayerIndex
         }
     }
 }
@@ -104,15 +104,16 @@ function addLayer() {
 function deleteLayer(layerIndex) {
     var redoLayerIndex = layerIndex
     var layerName = layerModel.get(layerIndex).name
-    var currentIndexBackUp = currentLayerIndex
-    currentLayerIndex = layerIndex
+    var currentIndexBackUp = layerView.currentIndex
+    layerView.currentIndex = layerIndex
     var undoArea = brushEngine.currentArea()
-    currentLayerIndex = currentIndexBackUp
+    layerView.currentIndex = currentIndexBackUp
     delete currentIndexBackUp
 
     return {
         name: "Delete Layer",
         undo: function() {
+            var currentLayerIndex = layerView.currentIndex
             var currentIndexBackUp = currentLayerIndex
             var startPos = Qt.point(0, 0)
             Utils.addLayer(layerName)
@@ -121,7 +122,7 @@ function deleteLayer(layerIndex) {
             imgProcessor.setPixmapArea(startPos, undoArea, layerId)
             if (currentIndexBackUp >= 0) {
                 layerModel.move(currentLayerIndex, redoLayerIndex, 1)
-                currentLayerIndex = currentIndexBackUp
+                layerView.currentIndex = currentIndexBackUp
             }
         },
         redo: function() {
@@ -134,10 +135,10 @@ function raiseLayer() {
     return {
         name: "Raise Layer",
         undo: function() {
-            layerModel.move(currentLayerIndex, currentLayerIndex + 1, 1)
+            layerModel.move(layerView.currentIndex, layerView.currentIndex + 1, 1)
         },
         redo: function() {
-            layerModel.move(currentLayerIndex, currentLayerIndex - 1, 1)
+            layerModel.move(layerView.currentIndex, layerView.currentIndex - 1, 1)
         }
     }
 }
@@ -146,32 +147,32 @@ function lowerLayer() {
     return {
         name: "Lower Layer",
         undo: function() {
-            layerModel.move(currentLayerIndex, currentLayerIndex - 1, 1)
+            layerModel.move(layerView.currentIndex, layerView.currentIndex - 1, 1)
         },
         redo: function() {
-            layerModel.move(currentLayerIndex, currentLayerIndex + 1, 1)
+            layerModel.move(layerView.currentIndex, layerView.currentIndex + 1, 1)
         }
     }
 }
 
 function mergeLayer() {
     var layerId1 = currentLayerId
-    var layerId2 = layerModel.get(currentLayerIndex + 1).layerId
+    var layerId2 = layerModel.get(layerView.currentIndex + 1).layerId
     var layerIdList = [layerId1, layerId2]
     var pixmapList = imgProcessor.mergePixmap(layerIdList)
     var mergeLayerIndex = currentLayerIndex
     var layerName = layerModel.get(mergeLayerIndex).name
-    currentLayerIndex++
+    layerView.currentIndex++
     currentPageItem.canvasArea.pathView.currentItem.update()
-    currentLayerIndex--
-    Utils.deleteLayer(currentLayerIndex)
+    layerView.currentIndex--
+    Utils.deleteLayer(layerView.currentIndex)
     return {
         name: "Merge Layer",
         undo: function() {
             var startPos = Qt.point(0, 0)
             imgProcessor.setPixmapArea(startPos, pixmapList[1], currentLayerId)
             Utils.addLayer(layerName)
-            if (currentLayerIndex < 0) currentLayerIndex = 0
+            if (layerView.currentIndex < 0) layerView.currentIndex = 0
             var layerId = layerModel.get(currentLayerIndex).layerId
             imgProcessor.setPixmapArea(startPos, pixmapList[0], currentLayerId)
             if (mergeLayerIndex >= 0) {

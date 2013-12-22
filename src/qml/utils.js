@@ -11,13 +11,15 @@
  * GNU General Public License for more details.
  */
 
-// Add new page
-function addPage(pageName) {
-    var newPageName = pageName ? pageName : qsTr("Untitled-") + (++newPageCounter)
-    tabView.addTab(newPageName, tabView.tabComponent)
+.import "undo.js" as Undo
+
+// Add new tab
+function addTab(tabName) {
+    var newTabName = tabName ? tabName : qsTr("Untitled-") + (++newTabCounter)
+    tabView.addTab(newTabName, tabView.tabComponent)
     tabView.currentIndex = tabView.count - 1
 
-    if (!pageName) {
+    if (!tabName) {
         addLayer("Background", "white")
         addLayer()
     }

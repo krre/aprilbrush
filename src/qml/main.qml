@@ -29,11 +29,11 @@ ApplicationWindow {
     property string version: "AprilBrush 1.1.0"
     property var palette: Style.defaultStyle()
 
-    property int newPageCounter: 0
+    property int newTabCounter: 0
 
     property var tabContent: tabView.count > 0 ? tabView.getTab(tabView.currentIndex).item : 0
-    property var layerModel: tabView.count > 0 ? tabContent.layerModel : 0
-    property var undoModel: tabView.count > 0 ? tabContent.undoModel : 0
+    property var layerModel: tabView.count > 0 ? tabContent.layerModel : []
+    property var undoModel: tabView.count > 0 ? tabContent.undoModel : []
 
     property var settings
 
@@ -44,7 +44,7 @@ ApplicationWindow {
 
     Component.onCompleted: {
         Settings.loadSettings()
-        Utils.addPage()
+        Utils.addTab()
     }
     Component.onDestruction: Settings.saveSettings()
 
@@ -54,7 +54,7 @@ ApplicationWindow {
             MenuItem {
                 text: qsTr("New")
                 shortcut: "Ctrl+N"
-                onTriggered: Utils.addPage()
+                onTriggered: Utils.addTab()
             }
             MenuItem {
                 text: qsTr("Open...")
@@ -97,9 +97,9 @@ ApplicationWindow {
                 text: qsTr("Close")
                 shortcut: "Ctrl+W"
                 onTriggered: {
-                    pageView.removeTab(pageView.currentIndex)
-                    if (!pageView.count)
-                        newPageCounter = 0
+                    tabView.removeTab(tabView.currentIndex)
+                    if (!tabView.count)
+                        newTabCounter = 0
                 }
                 enabled: tabView.count > 0
             }
