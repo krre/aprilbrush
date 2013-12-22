@@ -14,15 +14,15 @@
 // Add new page
 function addPage(pageName) {
     var newPageName = pageName ? pageName : qsTr("Untitled-") + (++newPageCounter)
-    pageModel.append({layerModel: [], undoModel: [] })
-    pageView.addTab(newPageName)
+    tabView.addTab(newPageName, tabView.tabComponent)
+    tabView.currentIndex = tabView.count - 1
 
     if (!pageName) {
         addLayer("Background", "white")
         addLayer()
     }
 
-    //undoManager.add(new Undo.start())
+    undoManager.add(new Undo.start())
 }
 
 // Delete page
@@ -39,19 +39,15 @@ function deletePage(index) {
 
 // Add new layer
 function addLayer(layerName, color) {
-    var newLayerName = layerName ? layerName : qsTr("Layer-") + (++newLayerCounter)
+    var newLayerName = layerName ? layerName : qsTr("Layer-") + (++tabContent.newLayerCounter)
     var newColor = color ? color : "transparent"
     var newLayerId = (layerIdCounter++).toString()
-    /*
+
     imgProcessor.addPixmap(newLayerId, imageSize, newColor)
-    var insertPos
-    if (currentPageItem.layerManager.currentLayerIndex === -1)
-        insertPos = 0
-    else
-        insertPos = currentPageItem.layerManager.currentLayerIndex
-        */
-    layerModel.insert(pageView.currentIndex, { name: newLayerName, colorImage: newColor, enable: true, layerId: newLayerId })
-    //currentPageItem.layerManager.currentLayerIndex = insertPos
+
+    var insertPos = layerManager.layerView.currentIndex < 0 ? 0 : layerManager.layerView.currentIndex
+    layerModel.insert(insertPos, { name: newLayerName, colorImage: newColor, enable: true, layerId: newLayerId })
+    layerManager.layerView.currentIndex = insertPos
 }
 
 // Delete layer

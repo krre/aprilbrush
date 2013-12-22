@@ -20,17 +20,16 @@ import "undo.js" as Undo
 
 ToolWindow {
     id: root
-    //property alias currentLayerIndex: layersView.currentRow
-    property alias layersView: layersView
+    property alias layerView: layerView
 
     text: "Layers"
 
     ColumnLayout {
         anchors.fill: parent
-        visible: pageView.count > 0
+        visible: tabView.count > 0
 
         VerticalList {
-            id: layersView
+            id: layerView
             model: layerModel
             Layout.fillHeight: true
             Layout.fillWidth: true

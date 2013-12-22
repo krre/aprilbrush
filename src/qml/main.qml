@@ -30,15 +30,15 @@ ApplicationWindow {
     property var palette: Style.defaultStyle()
 
     property int newPageCounter: 0
-    property int newLayerCounter: 0
-    property variant layerModel: 0
+
+    property var tabContent: tabView.count > 0 ? tabView.getTab(tabView.currentIndex).item : 0
+    property var layerModel: tabView.count > 0 ? tabContent.layerModel : 0
+    property var undoModel: tabView.count > 0 ? tabContent.undoModel : 0
 
     property var settings
 
     property size imageSize: coreLib.screenSize()
     property bool eraserMode: false
-//    property variant currentPageItem: pageManager.pagesView.currentItem
-//    property int currentPageIndex: pageManager.pagesView.currentIndex
     property int layerIdCounter: 0
     property string currentLayerId
 
@@ -69,12 +69,12 @@ ApplicationWindow {
             MenuItem {
                 text: qsTr("Save")
                 shortcut: "Ctrl+S"
-                enabled: pageView.count > 0
+                enabled: tabView.count > 0
             }
             MenuItem {
                 text: qsTr("Save As...")
                 shortcut: "Ctrl+Shift+S"
-                enabled: pageView.count > 0
+                enabled: tabView.count > 0
                 onTriggered: {
                     var component = Qt.createComponent("FileDialog.qml");
                     if (component.status === Component.Ready) {
@@ -85,7 +85,7 @@ ApplicationWindow {
             MenuItem {
                 text: qsTr("Export...")
                 shortcut: "Ctrl+E"
-                enabled: pageView.count > 0
+                enabled: tabView.count > 0
                 onTriggered: {
                     var component = Qt.createComponent("FileDialog.qml");
                     if (component.status === Component.Ready) {
@@ -101,7 +101,7 @@ ApplicationWindow {
                     if (!pageView.count)
                         newPageCounter = 0
                 }
-                enabled: pageView.count > 0
+                enabled: tabView.count > 0
             }
             MenuSeparator { }
             MenuItem {
@@ -165,11 +165,37 @@ ApplicationWindow {
         }
 
         TabView {
-            id: pageView
+            id: tabView
+            property alias tabComponent: tabComponent
             Layout.minimumWidth: 200
             Layout.fillWidth: true
             visible: count > 0
-            onCountChanged: count > 0 ? layerModel = pageModel.get(pageView.currentIndex).layerModel : 0
+
+            Component {
+                id: tabComponent
+
+                Item {
+                    property alias layerModel: layerModel
+                    property alias undoModel: undoModel
+                    property int newLayerCounter: 0
+
+                    ScrollView {
+                        anchors.fill: parent
+
+                        CanvasArea {
+                            id: canvasArea
+                        }
+                    }
+
+                    ListModel {
+                        id: layerModel
+                    }
+
+                    ListModel {
+                        id: undoModel
+                    }
+                }
+            }
         }
 
         SplitView {
@@ -226,15 +252,5 @@ ApplicationWindow {
     CoreLib {
         id: coreLib
     }
-
-    ListModel {
-        id: pageModel
-    }
-
-/*
-    CanvasArea {
-        id: canvasArea
-    }
-*/
 }
 

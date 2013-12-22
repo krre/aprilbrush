@@ -37,10 +37,10 @@ Item {
     x: imageSize.width / 2
     y: imageSize.height / 2
     z: 0
-    visible: index == pagesView.currentIndex
+    visible: index === pagesView.currentIndex
     Binding on focus {
         when: focusBind
-        value: index == pagesView.currentIndex
+        value: index === pagesView.currentIndex
     }
 
     Component.onCompleted: {
@@ -123,7 +123,7 @@ Item {
         ]
     }
 
-    PathView {        
+    PathView {
         id: pathView
         model: layerModel
         delegate: paintedItemDelegate
