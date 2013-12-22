@@ -53,7 +53,7 @@ ToolWindow {
         }
 
         if ((index > prevIndex) && !newUndo) {
-            for (var i = prevIndex; i < index; i++) {
+            for (i = prevIndex; i < index; i++) {
                 commandArray[i + 1].redo()
             }
         }

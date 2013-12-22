@@ -158,10 +158,10 @@ ApplicationWindow {
                 width: parent.width
             }
 
-            Item {
+            Rectangle {
                 Layout.fillHeight: true
+                color: palette.toolBgColor
             }
-
         }
 
         TabView {
@@ -190,8 +190,9 @@ ApplicationWindow {
                 id: brushLibrary
             }
 
-            Item {
+            Rectangle {
                 Layout.fillHeight: true
+                color: palette.toolBgColor
             }
         }
     }
