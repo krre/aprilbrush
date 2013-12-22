@@ -52,7 +52,7 @@ ToolWindow {
                 text: name
                 width: layersView.width
                 height: 20
-                color:  ListView.isCurrentItem ? "white" : "black"
+                color:  "white"
                 MouseArea {
                     anchors.fill: parent
                     onClicked: layersView.currentIndex = index
@@ -65,7 +65,7 @@ ToolWindow {
             Rectangle {
                 width: layersView.width
                 height: 20
-                color: "blue"
+                color: "#4444e8"
             }
         }
 
