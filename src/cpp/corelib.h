@@ -31,15 +31,12 @@ public:
     Q_INVOKABLE void saveSettings(QVariant settings);
     //Q_INVOKABLE void buildDate() { qDebug() << QLocale(QLocale::C).toDate(QString(__DATE__).simplified(), QLatin1String("MMM d yyyy")); }
     Q_INVOKABLE QString buildDate() { return QString(__DATE__); }
-    Q_INVOKABLE QSize screenSize() { return m_screenSize; }
     Q_INVOKABLE QString rootFolder();
 
-    static QSize m_screenSize;
-    
 signals:
-    
+
 public slots:
-    
+
 };
 
 #endif // CORELIB_H

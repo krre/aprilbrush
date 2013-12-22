@@ -33,9 +33,6 @@ int main(int argc, char *argv[])
     qmlRegisterType<ImageProcessor>("ABLib", 1, 0, "ImageProcessor");
     qmlRegisterType<CoreLib>("ABLib", 1, 0, "CoreLib");
 
-    //    QScreen *screen = window->screen();
-    CoreLib::m_screenSize = QSize(1000, 600);
-
     QApplication app(argc, argv);
     QQmlApplicationEngine engine(QUrl(QString("qrc:/qml/main.qml")));
     QObject *topLevel = engine.rootObjects().value(0);

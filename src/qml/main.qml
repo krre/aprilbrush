@@ -15,6 +15,7 @@ import QtQuick 2.1
 import QtQuick.Dialogs 1.0
 import QtQuick.Controls 1.0
 import QtQuick.Layouts 1.1
+import QtQuick.Window 2.0
 import ABLib 1.0
 import "components"
 import "settings.js" as Settings
@@ -37,12 +38,14 @@ ApplicationWindow {
 
     property var settings
 
-    property size imageSize: coreLib.screenSize()
+    property size imageSize
     property bool eraserMode: false
     property int layerIdCounter: 0
     property string currentLayerId
 
     Component.onCompleted: {
+        imageSize = Qt.size(550, 550)
+//        imageSize = Qt.size(Screen.width, Screen.height)
         Settings.loadSettings()
         Utils.addTab()
     }
@@ -180,6 +183,7 @@ ApplicationWindow {
                     property int newLayerCounter: 0
 
                     ScrollView {
+                        id: scrollView
                         anchors.fill: parent
 
                         CanvasArea {

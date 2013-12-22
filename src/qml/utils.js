@@ -18,12 +18,12 @@ function addTab(tabName) {
     var newTabName = tabName ? tabName : qsTr("Untitled-") + (++newTabCounter)
     tabView.addTab(newTabName, tabView.tabComponent)
     tabView.currentIndex = tabView.count - 1
-
+/*
     if (!tabName) {
         addLayer("Background", "white")
         addLayer()
     }
-
+*/
     undoManager.add(new Undo.start())
 }
 

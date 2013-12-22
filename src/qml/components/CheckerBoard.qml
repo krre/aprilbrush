@@ -13,33 +13,19 @@
 
 import QtQuick 2.1
 
-Item {
-    id: root
+Grid {
     property int cellSide: 10
-    width: 100
-    height: 100
+    rows: Math.ceil(height / cellSide)
+    columns: Math.ceil(width / cellSide) + (Math.ceil(width / cellSide) % 2 == 1 ? 0 : 1)
+    clip: true
 
-    Rectangle {
-    id: rect
-    anchors.fill: parent
+    Repeater {
+        model: columns * rows
 
-        Grid {
-            id: grid
-            anchors.fill: parent
-            rows: parent.height / cellSide + (index % 2 == 0 ? 2 : 1)
-            columns: parent.width / cellSide + (index % 2 == 0 ? 2 : 1)
-            clip: true
-            Repeater {
-                model: grid.columns * grid.rows
-                Rectangle {
-                    width: root.cellSide
-                    height: root.cellSide
-                    color: (index % 2 == 0) ? "gray" : "white"
-                }
-            }
+        Rectangle {
+            width: cellSide
+            height: cellSide
+            color: (index % 2 == 0) ? "gray" : "white"
         }
     }
 }
-
-
-

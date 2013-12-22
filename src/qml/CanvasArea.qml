@@ -31,17 +31,10 @@ Item {
     property string cursorName: "Paint"
     property bool ctrlMode: false
 
-    parent: checkerBoard
-    width: parent.width
-    height: parent.height
-    x: imageSize.width / 2
-    y: imageSize.height / 2
-    z: 0
-    visible: index === pagesView.currentIndex
-    Binding on focus {
-        when: focusBind
-        value: index === pagesView.currentIndex
-    }
+    width: imageSize.width * 3
+    height: imageSize.height * 3
+//    x: (scrollView.width - width) / 2
+//    y: (scrollView.height - height) / 2
 
     Keys.onPressed: {
         switch (event.key) {
@@ -104,15 +97,10 @@ Item {
 
     CheckerBoard {
         id: checkerBoard
-//        parent: main
-
-        x: (parent.width - imageSize.width) / 2 + pan.x
-        y: (parent.height - imageSize.height) / 2 + pan.y
-
-        cellSide: 30
         width: imageSize.width
         height: imageSize.height
-        visible: index == pagesView.currentIndex
+        anchors.centerIn: parent
+        cellSide: 30
         transform: [
             Scale { origin.x: width / 2; origin.y: height / 2; xScale: zoom * mirror; yScale: zoom },
             Rotation { origin.x: width / 2; origin.y: height / 2; angle: rotation }
@@ -130,7 +118,7 @@ Item {
             PathLine { x: 0; y: 0 }
             PathAttribute { name: "z"; value: 0.0 }
         }
-        currentIndex: layerManager.currentLayerIndex
+        currentIndex: layerManager.layerView.currentIndex
     }
 
     Component {

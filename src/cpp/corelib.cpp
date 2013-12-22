@@ -16,8 +16,6 @@
 
 #include <QDir>
 
-QSize CoreLib::m_screenSize;
-
 CoreLib::CoreLib(QObject *parent) : QObject(parent)
 {
 }
