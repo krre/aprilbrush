@@ -24,7 +24,7 @@ Item {
 
     Slider {
         id: slider
-        width: parent.width
+        width: parent.width - 5
         anchors.top: name.bottom
         anchors.topMargin: 2
     }

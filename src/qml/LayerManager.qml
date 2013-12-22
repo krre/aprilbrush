@@ -29,44 +29,13 @@ ToolWindow {
         anchors.fill: parent
         visible: pageView.count > 0
 
-        ScrollView {
-            Layout.fillWidth: true
+        VerticalList {
+            id: layersView
+            model: layerModel
             Layout.fillHeight: true
-
-            ListView {
-                id: layersView
-                model: layerModel
-                delegate: layerDelegate
-                highlight: layerSelected
-                highlightMoveDuration: 1
-                orientation: ListView.Vertical
-                spacing: 4
-                onCurrentIndexChanged: if (currentIndex >= 0 ) { currentLayerId = layerModel.get(currentIndex).layerId }
-                onCountChanged: if (currentIndex >= 0 ) { currentLayerId = layerModel.get(currentIndex).layerId }
-            }
-        }
-
-        Component {
-            id: layerDelegate
-            Text {
-                text: name
-                width: layersView.width
-                height: 20
-                color:  "white"
-                MouseArea {
-                    anchors.fill: parent
-                    onClicked: layersView.currentIndex = index
-                }
-            }
-        }
-
-        Component {
-            id: layerSelected
-            Rectangle {
-                width: layersView.width
-                height: 20
-                color: "#4444e8"
-            }
+            Layout.fillWidth: true
+            onCurrentIndexChanged: if (currentIndex >= 0 ) { currentLayerId = layerModel.get(currentIndex).layerId }
+            onCountChanged: if (currentIndex >= 0 ) { currentLayerId = layerModel.get(currentIndex).layerId }
         }
 
         // Buttons

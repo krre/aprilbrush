@@ -12,6 +12,8 @@
  */
 
 import QtQuick 2.1
+import QtQuick.Controls 1.1
+import QtQuick.Layouts 1.1
 import "components"
 import "brushlib.js" as BrushLib
 
@@ -19,59 +21,26 @@ ToolWindow {
     id: root
     text: "Brush Library"
 
+    function changeBrushSettings(row) {
+        brushSettings.size.value = libraryModel.get(row).size
+        brushSettings.opaque.value = libraryModel.get(row).opaque
+        brushSettings.spacing.value = libraryModel.get(row).spacing
+        brushSettings.hardness.value = libraryModel.get(row).hardness
+        brushSettings.roundness.value = libraryModel.get(row).roundness
+        brushSettings.angle.value = libraryModel.get(row).angle
+        brushSettings.jitter.value = libraryModel.get(row).jitter
+    }
+
     Item {
         anchors.fill: parent
 
-        GridView {
-            id: libraryView
+        VerticalList {
+            anchors.fill: parent
             model: libraryModel
-            delegate: brushDelegate
-
-            width: parent.width
-            height: parent.height
-            cellWidth: 56
-            cellHeight: 56
-            highlight: brushSelected
-            highlightMoveDuration: 1
-            clip: true
+            onCurrentIndexChanged: changeBrushSettings(currentIndex)
             Component.onCompleted: {
                 BrushLib.loadBrushPack()
-                brushSettings.size.value = libraryModel.get(0).size
-                brushSettings.opaque.value = libraryModel.get(0).opaque
-                brushSettings.spacing.value = libraryModel.get(0).spacing
-                brushSettings.hardness.value = libraryModel.get(0).hardness
-                brushSettings.roundness.value = libraryModel.get(0).roundness
-                brushSettings.angle.value = libraryModel.get(0).angle
-                brushSettings.jitter.value = libraryModel.get(0).jitter
-            }
-        }
-
-        Component {
-            id: brushDelegate
-            ListItem {
-                text: name
-                width: 50
-                height: 50
-                closable: false
-                color: GridView.isCurrentItem ? "transparent" : "lightgray"
-                onClicked: {
-                    libraryView.currentIndex = index
-                    brushSettings.size.value = size
-                    brushSettings.opaque.value = opaque
-                    brushSettings.spacing.value = spacing
-                    brushSettings.hardness.value = hardness
-                    brushSettings.roundness.value = roundness
-                    brushSettings.angle.value = angle
-                    brushSettings.jitter.value = jitter
-                }
-            }
-        }
-
-        Component {
-            id: brushSelected
-            ListItemComponent {
-                width: 50
-                height: 50
+                changeBrushSettings(0)
             }
         }
 

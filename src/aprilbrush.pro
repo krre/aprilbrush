@@ -40,7 +40,8 @@ OTHER_FILES += \
     qml/components/ToolWindow.qml \
     qml/style.js \
     qml/FileDialog.qml \
-    qml/components/SliderText.qml
+    qml/components/SliderText.qml \
+    qml/components/VerticalList.qml
 
 RESOURCES += \
     resources.qrc
