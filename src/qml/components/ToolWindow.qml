@@ -61,11 +61,14 @@ Rectangle {
             Row {
                 spacing: 2
 
-                ToolButton {
-                    text: ">"
-                    onClicked: collapse = !collapse
-                    rotation: collapse ? 90 : 0
-
+                Image {
+                    source: "../../images/triangle.png"
+                    scale: 0.7
+                    rotation: collapse ? 0 : 90
+                    MouseArea {
+                        anchors.fill: parent
+                        onClicked: collapse = !collapse
+                    }
                 }
 
                 Text {
