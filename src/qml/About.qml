@@ -22,9 +22,7 @@ Window {
     minimumHeight: 400
     maximumHeight: 400
 
-    onVisibleChanged: if (!visible) {
-                          destroy()
-                      }
+    onVisibleChanged: if (!visible) { destroy() }
 
     x: (Screen.width - width) / 2
     y: (Screen.height - height) / 2
@@ -39,7 +37,7 @@ Window {
         Text {
             width: parent.width
             horizontalAlignment: Text.AlignHCenter
-            text: mainRoot.version
+            text: mainRoot.title + " " + mainRoot.version
             font.pixelSize: 17
         }
 
@@ -51,7 +49,7 @@ Window {
         }
         Text {
             width: parent.width
-            text: "Copyright (c) 2012-2013, Vladimir Zarypov<br /> \
+            text: "Copyright (c) 2012-2014, Vladimir Zarypov<br /> \
                 http://sourceforge.net/projects/aprilbrush<br />"
             horizontalAlignment: Text.AlignHCenter
             font.pixelSize: 12

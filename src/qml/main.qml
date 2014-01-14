@@ -27,7 +27,7 @@ ApplicationWindow {
     id: mainRoot
     title: "AprilBrush"
 
-    property string version: "AprilBrush 1.1.0"
+    property string version: "1.1.0"
     property var palette: Style.defaultStyle()
 
     property int newTabCounter: 0
