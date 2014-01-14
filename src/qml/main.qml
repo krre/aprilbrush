@@ -25,9 +25,10 @@ import "style.js" as Style
 
 ApplicationWindow {
     id: mainRoot
-    title: "AprilBrush"
+    title: appName
 
     property string version: "1.1.0"
+    property string appName: "AprilBrush"
     property var palette: Style.defaultStyle()
 
     property int newTabCounter: 0

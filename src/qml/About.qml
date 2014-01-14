@@ -16,95 +16,46 @@ import QtQuick.Window 2.0
 import QtQuick.Layouts 1.1
 
 Window {
-    title: qsTr("About AprilBrush")
-    minimumWidth: 420
-    maximumWidth: 420
-    minimumHeight: 400
-    maximumHeight: 400
+    title: qsTr("About " + mainRoot.appName)
+    width: 450
+    height: 500
+    visible: true
+
+    Component.onCompleted: {
+        x = (Screen.width - width) / 2
+        y = (Screen.height - height) / 2
+    }
 
     onVisibleChanged: if (!visible) { destroy() }
 
-    x: (Screen.width - width) / 2
-    y: (Screen.height - height) / 2
-
-    visible: true
-
-    Column {
-        width: 200
+    Text {
         anchors.centerIn: parent
-        spacing: 5
-
-        Text {
-            width: parent.width
-            horizontalAlignment: Text.AlignHCenter
-            text: mainRoot.title + " " + mainRoot.version
-            font.pixelSize: 17
-        }
-
-        Text {
-            width: parent.width
-            horizontalAlignment: Text.AlignHCenter
-            text: "Build date: " + coreLib.buildDate()
-            font.pixelSize: 12
-        }
-        Text {
-            width: parent.width
-            text: "Copyright (c) 2012-2014, Vladimir Zarypov<br /> \
-                http://sourceforge.net/projects/aprilbrush<br />"
-            horizontalAlignment: Text.AlignHCenter
-            font.pixelSize: 12
-        }
-        Text {
-           width: parent.width
-           text: "Hotkeys:"
-           horizontalAlignment: Text.AlignHCenter
-           font.pixelSize: 14
-        }
-        Row {
-           width: parent.width
-           Text {
-               id: hotkeyList
-               width: 120
-               font.pixelSize: 12
-               text: "Space+Drag<br />
-                      Ctrl+Click<br />
-                      B<br />
-                      E<br />
-                      Delete<br />
-                      +<br />
-                      -<br />
-                      0<br />
-                      M<br />
-                      R<br />
-                      F<br />
-                      Z<br />
-                      X<br />
-                      Ctrl+O<br />
-                      Ctrl+S<br / >
-                      Ctrl+Shift+S<br / >
-                      Ctrl+E<br />"
-           }
-           Text {
-               width: parent.width - hotkeyList.width
-               font.pixelSize: 12
-               text: "Pan<br />
-                      Pick Color<br />
-                      Brush<br />
-                      Eraser<br />
-                      Clear<br />
-                      Zoom In<br />
-                      Zoom Out<br />
-                      Reset<br />
-                      Mirror<br />
-                      Rotate<br />
-                      Fill Color<br />
-                      Undo<br />
-                      Redo<br />
-                      Open<br />
-                      Save<br />
-                      Save As<br />
-                      Export<br />"
-           }
-        }
+        font.pointSize: 10
+        textFormat: Text.RichText
+        onLinkActivated: console.log(link)
+        text: "<h3>" + mainRoot.appName + " " + mainRoot.version + "</h3><br>
+              Build date: " + coreLib.buildDate() + "<br>
+              Copyright (c) 2012-2014, Vladimir Zarypov<br>
+              <a href=\"http://sourceforge.net/projects/aprilbrush\">http://sourceforge.net/projects/aprilbrush</a><br><br>
+              <b>Hotkeys:</b><br>
+              <table>
+                  <tr><td>Space+Drag</td><td>Pan Canvas</td></tr>
+                  <tr><td>Ctrl+Click</td><td>Pick Color</td></tr>
+                  <tr><td>B</td><td>Brush</td></tr>
+                  <tr><td>E</td><td>Eraser</td></tr>
+                  <tr><td>Delete</td><td>Clear Canvas</td></tr>
+                  <tr><td>+</td><td>Zoom In</td></tr>
+                  <tr><td>-</td><td>Zoom Out</td></tr>
+                  <tr><td>0</td><td>Reset Transformations</td></tr>
+                  <tr><td>M</td><td>Mirror Canvas</td></tr>
+                  <tr><td>R</td><td>Rotate Canvas</td></tr>
+                  <tr><td>F</td><td>Fill Color</td></tr>
+                  <tr><td>Z</td><td>Undo Command</td></tr>
+                  <tr><td>X</td><td>Redo Command</td></tr>
+                  <tr><td>Ctrl+O</td><td>Open File</td></tr>
+                  <tr><td>Ctrl+S</td><td>Save File</td></tr>
+                  <tr><td>Ctrl+Shift+S\n</td><td>Save As File</td></tr>
+                  <tr><td>Ctrl+E</td><td>Export File</td></tr>
+              </table>"
     }
 }
