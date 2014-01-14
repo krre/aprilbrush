@@ -44,8 +44,8 @@ ApplicationWindow {
     property string currentLayerId
 
     Component.onCompleted: {
-        imageSize = Qt.size(550, 550)
-//        imageSize = Qt.size(Screen.width, Screen.height)
+//        imageSize = Qt.size(550, 550)
+        imageSize = Qt.size(Screen.width, Screen.height)
         Settings.loadSettings()
         Utils.addTab()
     }
@@ -62,12 +62,7 @@ ApplicationWindow {
             MenuItem {
                 text: qsTr("Open...")
                 shortcut: "Ctrl+O"
-                onTriggered: {
-                    var component = Qt.createComponent("FileDialog.qml");
-                    if (component.status === Component.Ready) {
-                        var object = component.createObject(mainRoot, { mode: 0 });
-                    }
-                }
+                onTriggered: Utils.createDynamicObject(mainRoot, "FileDialog.qml", { mode: 0 })
             }
             MenuItem {
                 text: qsTr("Save")
@@ -78,23 +73,13 @@ ApplicationWindow {
                 text: qsTr("Save As...")
                 shortcut: "Ctrl+Shift+S"
                 enabled: tabView.count > 0
-                onTriggered: {
-                    var component = Qt.createComponent("FileDialog.qml");
-                    if (component.status === Component.Ready) {
-                        var object = component.createObject(mainRoot, { mode: 1 });
-                    }
-                }
+                onTriggered: Utils.createDynamicObject(mainRoot, "FileDialog.qml", { mode: 1 })
             }
             MenuItem {
                 text: qsTr("Export...")
                 shortcut: "Ctrl+E"
                 enabled: tabView.count > 0
-                onTriggered: {
-                    var component = Qt.createComponent("FileDialog.qml");
-                    if (component.status === Component.Ready) {
-                        var object = component.createObject(mainRoot, { mode: 2 });
-                    }
-                }
+                onTriggered: Utils.createDynamicObject(mainRoot, "FileDialog.qml", { mode: 2 })
             }
             MenuItem {
                 text: qsTr("Close")
@@ -130,12 +115,7 @@ ApplicationWindow {
             title: qsTr("Help")
             MenuItem {
                 text: qsTr("About...")
-                onTriggered: {
-                    var component = Qt.createComponent("About.qml");
-                    if (component.status === Component.Ready) {
-                        var object = component.createObject(mainRoot);
-                    }
-                }
+                onTriggered: Utils.createDynamicObject(mainRoot, "About.qml")
             }
         }
     }

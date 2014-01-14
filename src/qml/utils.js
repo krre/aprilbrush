@@ -191,3 +191,18 @@ function fileFromPath(path) {
 function folderFromPath(path) {
     return path.replace(/^.*[\\\/]/, '')
 }
+
+function createDynamicObject(parent, name, item) {
+    var component = Qt.createComponent(name);
+    var errorMessage = component.errorString()
+    if (errorMessage !== "") {
+        console.log("Error loading component " + name + ":", errorMessage);
+    }
+    else {
+        if (item) {
+            return component.createObject(parent, item)
+        } else {
+            return component.createObject(parent)
+        }
+    }
+}
