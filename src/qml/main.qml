@@ -45,12 +45,98 @@ ApplicationWindow {
     property string currentLayerId
 
     Component.onCompleted: {
-//        imageSize = Qt.size(550, 550)
         imageSize = Qt.size(Screen.width, Screen.height)
         Settings.loadSettings()
         Utils.addTab()
     }
     Component.onDestruction: Settings.saveSettings()
+
+    TabView {
+        id: tabView
+        property alias tabComponent: tabComponent
+        anchors.fill: parent
+        visible: count > 0
+        focus: true
+
+        Keys.onPressed: {
+            event.accepted = true;
+            if (event.key === Qt.Key_Tab) {
+                dock.visible = !dock.visible
+            }
+        }
+
+        Component {
+            id: tabComponent
+
+            Item {
+                property alias layerModel: layerModel
+                property alias undoModel: undoModel
+                property int newLayerCounter: 0
+
+                CanvasArea {
+                    id: canvasArea
+                }
+
+                ListModel {
+                    id: layerModel
+                }
+
+                ListModel {
+                    id: undoModel
+                }
+            }
+        }
+    }
+
+    Item {
+        id: dock
+        width: 650
+        height: 600
+        visible: false
+        anchors.centerIn: parent
+
+        ColumnLayout {
+            anchors.left: parent.left
+            width: 200
+            height: parent.height
+            spacing: 0
+
+            LayerManager {
+                id: layerManager
+                Layout.fillHeight: true
+            }
+
+            BrushSettings {
+                id: brushSettings
+                Layout.fillHeight: true
+            }
+        }
+
+        ColorPicker {
+            id: colorPicker
+            anchors.centerIn: parent
+            color: Utils.hsvToHsl(settings.colorPicker.color.h,
+                                  settings.colorPicker.color.s,
+                                  settings.colorPicker.color.v)
+        }
+
+        ColumnLayout {
+            anchors.right: parent.right
+            width: 200
+            height: parent.height
+            spacing: 0
+
+            UndoManager {
+                id: undoManager
+                Layout.fillHeight: true
+            }
+
+            BrushLibrary {
+                id: brushLibrary
+                Layout.fillHeight: true
+            }
+        }
+    }
 
     menuBar: MenuBar {
         Menu {
@@ -117,93 +203,6 @@ ApplicationWindow {
             MenuItem {
                 text: qsTr("About...")
                 onTriggered: Utils.createDynamicObject(mainRoot, "About.qml")
-            }
-        }
-    }
-
-    SplitView {
-        anchors.fill: parent
-        orientation: Qt.Horizontal
-
-        SplitView {
-            Layout.minimumWidth: 200
-            orientation: Qt.Vertical
-
-            ColorPicker {
-                id: colorPicker
-                width: parent.width
-                color: Utils.hsvToHsl(settings.colorPicker.color.h,
-                                      settings.colorPicker.color.s,
-                                      settings.colorPicker.color.v)
-            }
-
-            LayerManager {
-                id: layerManager
-                width: parent.width
-            }
-
-            Rectangle {
-                Layout.fillHeight: true
-                color: palette.toolBgColor
-            }
-        }
-
-        TabView {
-            id: tabView
-            property alias tabComponent: tabComponent
-            Layout.minimumWidth: 200
-            Layout.fillWidth: true
-            visible: count > 0
-
-            Component {
-                id: tabComponent
-
-                Item {
-                    property alias layerModel: layerModel
-                    property alias undoModel: undoModel
-                    property int newLayerCounter: 0
-
-                    ScrollView {
-                        id: scrollView
-                        anchors.fill: parent
-
-                        CanvasArea {
-                            id: canvasArea
-                        }
-                    }
-
-                    ListModel {
-                        id: layerModel
-                    }
-
-                    ListModel {
-                        id: undoModel
-                    }
-                }
-            }
-        }
-
-        SplitView {
-            Layout.minimumWidth: 200
-            orientation: Qt.Vertical
-
-            BrushSettings {
-                id: brushSettings
-                width: parent.width
-            }
-
-            UndoManager {
-                id: undoManager
-                width: parent.width
-            }
-
-            BrushLibrary {
-                id: brushLibrary
-            }
-
-            Rectangle {
-                Layout.fillHeight: true
-                color: palette.toolBgColor
             }
         }
     }

@@ -28,6 +28,9 @@ Rectangle {
     Layout.minimumHeight: collapse ? header.height + 4 : 200
     Layout.minimumWidth: 200
 
+    width: 200
+    height: 200
+
     color: palette.toolBgColor
 
     onCollapseChanged: if (collapse) {

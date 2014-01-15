@@ -31,8 +31,8 @@ Item {
     property string cursorName: "Paint"
     property bool ctrlMode: false
 
-    width: scrollView.width * 3 / 2 + imageSize.width
-    height: scrollView.height * 3 / 2 + imageSize.height
+    width: imageSize.width
+    height: imageSize.height
 
     Keys.onPressed: {
         switch (event.key) {
