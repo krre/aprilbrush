@@ -61,7 +61,9 @@ ApplicationWindow {
         Keys.onPressed: {
             event.accepted = true;
             if (event.key === Qt.Key_Tab) {
-                dock.visible = !dock.visible
+                if (!event.isAutoRepeat) {
+                    dock.visible = !dock.visible
+                }
             }
         }
 
