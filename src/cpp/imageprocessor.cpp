@@ -23,7 +23,6 @@ ImageProcessor::ImageProcessor()
 void ImageProcessor::addPixmap(const QString layerId, const QSize size, const QColor color)
 {
     pixmap = new QPixmap(size);
-    // This line causes crash in debug mode on start application in Windows
     pixmap->fill(color);
     m_pixmapHash.insert(layerId, pixmap);
 }

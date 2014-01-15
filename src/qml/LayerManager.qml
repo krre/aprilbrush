@@ -102,6 +102,7 @@ ToolWindow {
                 text: qsTr("Delete")
                 onClicked: {
                     undoManager.add(new Undo.deleteLayer(layerView.currentIndex))
+                    Utils.deleteLayer(layerView.currentIndex)
                 }
             }
         }

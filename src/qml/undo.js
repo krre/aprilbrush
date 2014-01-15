@@ -156,6 +156,7 @@ function lowerLayer() {
 }
 
 function mergeLayer() {
+    var currentLayerIndex = layerView.currentIndex
     var layerId1 = currentLayerId
     var layerId2 = layerModel.get(layerView.currentIndex + 1).layerId
     var layerIdList = [layerId1, layerId2]
@@ -163,7 +164,7 @@ function mergeLayer() {
     var mergeLayerIndex = currentLayerIndex
     var layerName = layerModel.get(mergeLayerIndex).name
     layerView.currentIndex++
-    currentPageItem.canvasArea.pathView.currentItem.update()
+    tabContent.canvasArea.pathView.currentItem.update()
     layerView.currentIndex--
     Utils.deleteLayer(layerView.currentIndex)
     return {
@@ -180,14 +181,14 @@ function mergeLayer() {
                 currentLayerIndex = mergeLayerIndex
             }
             currentLayerIndex++
-            currentPageItem.canvasArea.pathView.currentItem.update()
+            tabContent.canvasArea.pathView.currentItem.update()
             currentLayerIndex--
         },
         redo: function() {
             layerIdList = [currentLayerId, layerModel.get(currentLayerIndex + 1).layerId]
             imgProcessor.mergePixmap(layerIdList)
             currentLayerIndex++
-            currentPageItem.canvasArea.pathView.currentItem.update()
+            tabContent.canvasArea.pathView.currentItem.update()
             currentLayerIndex--
             Utils.deleteLayer(mergeLayerIndex)
         }

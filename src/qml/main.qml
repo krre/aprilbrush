@@ -58,6 +58,8 @@ ApplicationWindow {
         visible: count > 0
         focus: true
 
+        onCurrentIndexChanged: tabContent.canvasArea.pathView.currentItem.update()
+
         Keys.onPressed: {
             event.accepted = true;
             if (event.key === Qt.Key_Tab) {
@@ -71,6 +73,7 @@ ApplicationWindow {
             id: tabComponent
 
             Item {
+                property alias canvasArea: canvasArea
                 property alias layerModel: layerModel
                 property alias undoModel: undoModel
                 property int newLayerCounter: 0
@@ -222,7 +225,7 @@ ApplicationWindow {
         eraser: eraserMode
         layerId: currentLayerId
         imageProcessor: imgProcessor
-        onPaintDone: currentPageItem.canvasArea.pathView.currentItem.update()
+        onPaintDone: tabContent.canvasArea.pathView.currentItem.update()
     }
 
     ImageProcessor {

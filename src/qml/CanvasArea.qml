@@ -55,33 +55,6 @@ Item {
             case Qt.Key_X: undoManager.undoView.incrementCurrentIndex(); break
         }
 
-        if ((event.modifiers & Qt.ControlModifier) && (event.key === Qt.Key_S)) {
-            if (oraPath === "") {
-                fileDialog.mode = 1; // Save mode
-                fileDialog.visible = true
-            }
-            else
-                Utils.saveOra()
-        }
-
-        if ((event.modifiers & Qt.ShiftModifier) && (event.key === Qt.Key_S)) {
-            fileDialog.mode = 1; // Save mode
-            fileDialog.open()
-        }
-
-        if ((event.modifiers & Qt.ControlModifier) && (event.key === Qt.Key_O)) {
-            fileDialog.mode = 0; // Open mode
-            fileDialog.open()
-        }
-        if ((event.modifiers & Qt.ControlModifier) && (event.key === Qt.Key_E)) {
-            fileDialog.mode = 2; // Export mode
-            fileDialog.open()
-        }
-
-        if ((event.modifiers & Qt.ControlModifier) && (event.key === Qt.Key_Space)) {
-            if (!event.isAutoRepeat) dockMode = true
-        }
-
         if (event.modifiers & Qt.ControlModifier)
             ctrlMode = true
     }
@@ -90,7 +63,6 @@ Item {
         if (Qt.ControlModifier)
             ctrlMode = false
         if (event.key === Qt.Key_Space) { if (!event.isAutoRepeat) panMode = false }
-        if (event.key === Qt.Key_C) { if (!event.isAutoRepeat) dockMode = false }
     }
 
     CheckerBoard {
@@ -107,6 +79,7 @@ Item {
 
     PathView {
         id: pathView
+        anchors.centerIn: parent
         model: layerModel
         delegate: paintedItemDelegate
 
