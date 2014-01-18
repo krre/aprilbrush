@@ -86,7 +86,7 @@ ToolWindow {
                     }
                 }
             }
-
+/*
             // Clone button
             Button {
                 Layout.fillWidth: true
@@ -95,7 +95,7 @@ ToolWindow {
                     undoManager.add(new Undo.cloneLayer())
                 }
             }
-
+*/
             // Delete button
             Button {
                 Layout.fillWidth: true
