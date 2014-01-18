@@ -45,7 +45,6 @@ Item {
             case Qt.Key_C: if (!event.isAutoRepeat) dockMode = true; break
             case Qt.Key_M: mirror *= -1; break
             case Qt.Key_R: rotation += 90; break
-            case Qt.Key_F: undoManager.add(new Undo.fillColor()); break
         }
 
         if (event.modifiers & Qt.ControlModifier)

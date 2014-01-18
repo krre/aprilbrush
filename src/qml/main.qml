@@ -219,7 +219,18 @@ ApplicationWindow {
                 shortcut: "Delete"
                 enabled: tabView.count > 0
             }
+
+            MenuItem {
+                text: qsTr("Fill Color")
+                onTriggered: {
+                    undoManager.add(new Undo.fillColor())
+                }
+                shortcut: "F"
+                enabled: tabView.count > 0
+            }
         }
+
+
 
         Menu {
             title: qsTr("Help")

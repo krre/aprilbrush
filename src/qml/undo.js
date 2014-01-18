@@ -57,17 +57,17 @@ function fillColor() {
     var redoColor = colorPicker.color
     var undoArea = brushEngine.currentArea()
     imgProcessor.fillColor(currentLayerId, redoColor)
-    pathView.currentItem.update()
+    tabContent.canvasArea.pathView.currentItem.update()
     var redoArea = brushEngine.currentArea()
     return {
         name: "Fill Color",
         undo: function() {
             imgProcessor.setPixmapArea(startPos, undoArea, currentLayerId)
-            pathView.currentItem.update()
+            tabContent.canvasArea.pathView.currentItem.update()
         },
         redo: function() {
             imgProcessor.setPixmapArea(startPos, redoArea, currentLayerId)
-            pathView.currentItem.update()
+            tabContent.canvasArea.pathView.currentItem.update()
         }
     }
 }
