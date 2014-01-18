@@ -230,6 +230,28 @@ ApplicationWindow {
             }
         }
 
+        Menu {
+            title: qsTr("Brushes")
+
+            MenuItem {
+                text: qsTr("Brush")
+                onTriggered: {
+                    eraserMode = false
+                }
+                shortcut: "B"
+                enabled: tabView.count > 0
+            }
+
+            MenuItem {
+                text: qsTr("Eraser")
+                onTriggered: {
+                    eraserMode = true
+                }
+                shortcut: "E"
+                enabled: tabView.count > 0
+            }
+        }
+
 
 
         Menu {

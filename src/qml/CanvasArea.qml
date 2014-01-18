@@ -36,13 +36,10 @@ Item {
 
     Keys.onPressed: {
         switch (event.key) {
-            case Qt.Key_B: eraserMode = false; break
-            case Qt.Key_E: eraserMode = true; break
             case Qt.Key_Plus: zoom *= 1.5; break
             case Qt.Key_Minus: zoom /= 1.5; break
             case Qt.Key_0: zoom = 1; pan = Qt.point(0, 0); mirror = 1; rotation = 0; break
             case Qt.Key_Space: if (!event.isAutoRepeat) panMode = true; break
-            case Qt.Key_C: if (!event.isAutoRepeat) dockMode = true; break
             case Qt.Key_M: mirror *= -1; break
             case Qt.Key_R: rotation += 90; break
         }
