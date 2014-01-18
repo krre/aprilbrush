@@ -38,11 +38,6 @@ Item {
         switch (event.key) {
             case Qt.Key_B: eraserMode = false; break
             case Qt.Key_E: eraserMode = true; break
-            case Qt.Key_Delete:
-                undoManager.add(new Undo.clear())
-                brushEngine.clear()
-                pathView.currentItem.update()
-                break
             case Qt.Key_Plus: zoom *= 1.5; break
             case Qt.Key_Minus: zoom /= 1.5; break
             case Qt.Key_0: zoom = 1; pan = Qt.point(0, 0); mirror = 1; rotation = 0; break
@@ -51,8 +46,6 @@ Item {
             case Qt.Key_M: mirror *= -1; break
             case Qt.Key_R: rotation += 90; break
             case Qt.Key_F: undoManager.add(new Undo.fillColor()); break
-            case Qt.Key_Z: undoManager.undoView.decrementCurrentIndex(); break
-            case Qt.Key_X: undoManager.undoView.incrementCurrentIndex(); break
         }
 
         if (event.modifiers & Qt.ControlModifier)

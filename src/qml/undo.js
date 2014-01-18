@@ -43,11 +43,11 @@ function clear() {
         name: "Clear",
         undo: function() {
             imgProcessor.setPixmapArea(startPos, undoArea, currentLayerId)
-            pathView.currentItem.update()
+            tabContent.canvasArea.pathView.currentItem.update()
         },
         redo: function() {
             brushEngine.clear()
-            pathView.currentItem.update()
+            tabContent.canvasArea.pathView.currentItem.update()
         }
     }
 }

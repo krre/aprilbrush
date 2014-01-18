@@ -27,7 +27,7 @@ ApplicationWindow {
     id: mainRoot
     title: appName
 
-    property string version: "1.1.0"
+    property string version: "0.2.0"
     property string appName: "AprilBrush"
     property var palette: Style.defaultStyle()
 
@@ -196,10 +196,28 @@ ApplicationWindow {
             MenuItem {
                 text: qsTr("Undo")
                 shortcut: "Ctrl+Z"
+                enabled: (tabView.count > 0) && (undoManager.undoView.currentIndex > 0)
+                onTriggered: undoManager.undoView.listView.decrementCurrentIndex()
             }
             MenuItem {
                 text: qsTr("Redo")
                 shortcut: "Ctrl+Y"
+                enabled: (tabView.count > 0) && (undoManager.undoView.currentIndex < undoManager.undoView.listView.count - 1)
+                onTriggered: undoManager.undoView.listView.incrementCurrentIndex()
+            }
+        }
+
+        Menu {
+            title: qsTr("Canvas")
+            MenuItem {
+                text: qsTr("Clear")
+                onTriggered: {
+                    undoManager.add(new Undo.clear())
+                    brushEngine.clear()
+                    tabContent.canvasArea.pathView.currentItem.update()
+                }
+                shortcut: "Delete"
+                enabled: tabView.count > 0
             }
         }
 
