@@ -34,7 +34,7 @@ class BrushEngine : public QObject
 public:
     BrushEngine();
 
-    Q_INVOKABLE void paintDab(QPoint nowPoint);
+    Q_INVOKABLE void paintDab(QPoint nowPoint, qreal pressure);
     Q_INVOKABLE void setTouch(QPoint nowPoint);
     Q_INVOKABLE void setUnTouch();
     Q_INVOKABLE void clear() { pixmap->fill(QColor(0, 0, 0, 0)); }

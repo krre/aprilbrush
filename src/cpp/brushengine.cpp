@@ -22,11 +22,11 @@ BrushEngine::BrushEngine()
     m_eraser = false;
 }
 
-void BrushEngine::paintDab(QPoint nowPoint)
+void BrushEngine::paintDab(QPoint nowPoint, qreal pressure)
 {
     m_color.setAlpha(qRound(255 * m_opacity / 100.0));
     QColor pressureColor = m_color;
-    qreal pressure = 1.0; // temporary setted to 1
+//    qreal pressure = 1.0; // temporary setted to 1
     pressureColor.setAlpha(qRound(m_color.alpha() * pressure));
     QColor alphaColor =  m_color;
     alphaColor.setAlpha(0);

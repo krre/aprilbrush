@@ -26,6 +26,7 @@ import "style.js" as Style
 ApplicationWindow {
     id: mainRoot
     title: appName
+    property real pressure: 0
 
     property string version: "0.2.0"
     property string appName: "AprilBrush"
@@ -50,6 +51,12 @@ ApplicationWindow {
         Utils.addTab()
     }
     Component.onDestruction: Settings.saveSettings()
+
+    Connections {
+        target: PointerEater
+        onPressure: mainRoot.pressure = pressure
+        onPressed: type == 0 ? mainRoot.pressure = 1 : mainRoot.pressure = 0
+    }
 
     TabView {
         id: tabView

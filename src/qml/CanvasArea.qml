@@ -121,7 +121,7 @@ Item {
                             colorPicker.color = Utils.pickColor(Qt.point(mouseX, mouseY))
                         else {
                             brushEngine.setTouch(Qt.point(mouseX, mouseY))
-                            brushEngine.paintDab(Qt.point(mouseX, mouseY))
+                            brushEngine.paintDab(Qt.point(mouseX, mouseY), pressure)
                         }
                     }
                 onReleased:
@@ -144,8 +144,10 @@ Item {
                         else {
                             if (ctrlMode)
                                 colorPicker.color = Utils.pickColor(Qt.point(mouseX, mouseY))
-                            else
-                                brushEngine.paintDab(Qt.point(mouseX, mouseY))
+                            else {
+                                brushEngine.paintDab(Qt.point(mouseX, mouseY), mainRoot.pressure)
+//                                console.log(mainRoot.pressure)
+                            }
                         }
                     }
             }
