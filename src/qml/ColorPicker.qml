@@ -32,10 +32,10 @@ ToolWindow {
     onColorChanged: setColor()
 
     function setColor() {
-            var hsvColor = Utils.rgbToHsv(color)
-            h = hsvColor.h
-            s = hsvColor.s
-            v = hsvColor.v
+        var hsvColor = Utils.rgbToHsv(color)
+        h = hsvColor.h
+        s = hsvColor.s
+        v = hsvColor.v
     }
 
     ColumnLayout {
@@ -166,6 +166,7 @@ ToolWindow {
                             s = Math.max(0, Math.min(width, mouse.x)) / parent.width
                             v = 1 - Math.max(0, Math.min(height, mouse.y)) / parent.height
                             color = Utils.hsvToHsl(h, s, v, 1)
+//                            console.log(h, s, v)
                         }
                     }
                     onPositionChanged: handleMouseSV(mouse)
