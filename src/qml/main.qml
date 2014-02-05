@@ -34,9 +34,9 @@ ApplicationWindow {
 
     property int newTabCounter: 0
 
-    property var tabContent: tabView.count > 0 ? tabView.getTab(tabView.currentIndex).item : 0
-    property var layerModel: tabView.count > 0 ? tabContent.layerModel : []
-    property var undoModel: tabView.count > 0 ? tabContent.undoModel : []
+//    property var tabContent: tabView.count > 0 ? tabView.getTab(tabView.currentIndex).item : 0
+//    property var layerModel: tabView.count > 0 ? tabContent.layerModel : []
+//    property var undoModel: tabView.count > 0 ? tabContent.undoModel : []
 
     property var settings
 
@@ -47,8 +47,12 @@ ApplicationWindow {
 
     Component.onCompleted: {
         imageSize = Qt.size(Screen.width, Screen.height)
-        Settings.loadSettings()
-        Utils.addTab()
+//        Settings.loadSettings()
+//        Utils.addTab()
+        width = 1000
+        height = 600
+        x = (Screen.width - width) / 2
+        y = (Screen.height - height) / 2
     }
     Component.onDestruction: Settings.saveSettings()
 
@@ -57,6 +61,31 @@ ApplicationWindow {
         onPressure: mainRoot.pressure = pressure
         onPressed: type == 0 ? mainRoot.pressure = 1 : mainRoot.pressure = 0
     }
+
+    Canvas {
+        id: canvas
+//        anchors.fill: parent
+        width: imageSize.width
+        height: imageSize.height
+        antialiasing: true
+
+        Component.onCompleted: requestPaint()
+
+        property color fillStyle: "#ffffff"
+        property real alpha: 1.0
+
+        onPaint: {
+            var ctx = canvas.getContext("2d")
+            ctx.save()
+            ctx.globalAlpha = 1.0
+            ctx.fillStyle = canvas.fillStyle
+            ctx.fillRect(0, 0, width, height)
+            ctx.restore();
+        }
+    }
+
+
+    /*
 
     TabView {
         id: tabView
@@ -295,12 +324,15 @@ ApplicationWindow {
         id: openRaster
         imageProcessor: imgProcessor
     }
+    */
 
     CoreLib {
         id: coreLib
     }
 
 
+
+/*
     ShaderEffect {
         x: 100
         y: 330
@@ -335,5 +367,6 @@ ApplicationWindow {
                    qt_TexCoord0 = qt_MultiTexCoord0;
                }"
     }
+    */
 }
 
