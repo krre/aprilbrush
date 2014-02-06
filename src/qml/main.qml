@@ -64,21 +64,75 @@ ApplicationWindow {
 
     Canvas {
         id: canvas
-//        anchors.fill: parent
         width: imageSize.width
         height: imageSize.height
         antialiasing: true
+        property var ctx
+        property bool paintComplete: true
 
         Component.onCompleted: requestPaint()
 
+        onWidthChanged: requestPaint()
+        onHeightChanged: requestPaint()
+
         property color fillStyle: "#ffffff"
-        property real alpha: 1.0
+
+//        renderStrategy: Canvas.Immediate
+
+//        renderStrategy: Canvas.Threaded
 
         onPaint: {
-            var ctx = canvas.getContext("2d")
-            ctx.save()
-            ctx.globalAlpha = 1.0
+            if (!ctx) { ctx = canvas.getContext("2d") }
+//            var ctx = canvas.getContext("2d")
+//            ctx.save()
+            paintComplete = false
             ctx.fillStyle = canvas.fillStyle
+            ctx.fillRect(0, 0, width, height)
+            var dabCanvas = dab.getContext("2d").getImageData(0, 0, dab.width, dab.height)
+            ctx.drawImage(dabCanvas, 100, 100)
+            ctx.drawImage(dabCanvas, 200, 200)
+//            ctx.restore();
+        }
+
+        onPainted: paintComplete = true
+
+        MouseArea {
+            anchors.fill: parent
+            onPositionChanged: { canvas.drawDab(mouseX, mouseY) }
+        }
+
+        function drawDab(x, y) {
+//            console.log(x, y, ctx)
+            var dabCanvas = dab.getContext("2d").getImageData(0, 0, dab.width, dab.height)
+//            ctx.drawImage(dabCanvas, x, y)
+//            ctx.save()
+            ctx.fillStyle = ctx.fillStyle = Qt.rgba(0.5, 0, 0, 1.0)
+            ctx.fillRect(x, y, 15, 15)
+//            ctx.restore()
+//            markDirty(x, y, dab.width, dab.height)
+//            if (paintComplete) {
+                markDirty(x, y, 15, 15)
+//            }
+
+        }
+    }
+
+    Canvas {
+        id: dab
+        width: 20
+        height: 20
+        visible: false
+        antialiasing: true
+//        renderStrategy: Canvas.Threaded
+
+        Component.onCompleted: {
+//            requestPaint();
+        }
+
+        onPaint: {
+            var ctx = dab.getContext("2d")
+            ctx.save()
+            ctx.fillStyle = Qt.rgba(0.5, 0, 0, 1.0)
             ctx.fillRect(0, 0, width, height)
             ctx.restore();
         }
