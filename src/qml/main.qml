@@ -40,21 +40,18 @@ ApplicationWindow {
 
     property var settings
 
-    property size imageSize
+    property size imageSize: Qt.size(Screen.width, Screen.height)
     property bool eraserMode: false
     property int layerIdCounter: 0
     property string currentLayerId
 
     Component.onCompleted: {
-        imageSize = Qt.size(Screen.width, Screen.height)
 //        Settings.loadSettings()
 //        Utils.addTab()
         width = 1000
         height = 600
-        x = (Screen.width - width) / 2
-        y = (Screen.height - height) / 2
     }
-    Component.onDestruction: Settings.saveSettings()
+//    Component.onDestruction: Settings.saveSettings()
 
     Connections {
         target: PointerEater
@@ -66,35 +63,20 @@ ApplicationWindow {
         id: canvas
         width: imageSize.width
         height: imageSize.height
+        anchors.centerIn: parent
         antialiasing: true
-        property var ctx
-        property bool paintComplete: true
 
         Component.onCompleted: requestPaint()
 
-        onWidthChanged: requestPaint()
-        onHeightChanged: requestPaint()
-
         property color fillStyle: "#ffffff"
 
-//        renderStrategy: Canvas.Immediate
-
-//        renderStrategy: Canvas.Threaded
-
         onPaint: {
-            if (!ctx) { ctx = canvas.getContext("2d") }
-//            var ctx = canvas.getContext("2d")
-//            ctx.save()
-            paintComplete = false
+            var ctx = canvas.getContext("2d")
+            ctx.save()
             ctx.fillStyle = canvas.fillStyle
             ctx.fillRect(0, 0, width, height)
-            var dabCanvas = dab.getContext("2d").getImageData(0, 0, dab.width, dab.height)
-            ctx.drawImage(dabCanvas, 100, 100)
-            ctx.drawImage(dabCanvas, 200, 200)
-//            ctx.restore();
+            ctx.restore();
         }
-
-        onPainted: paintComplete = true
 
         MouseArea {
             anchors.fill: parent
@@ -102,18 +84,12 @@ ApplicationWindow {
         }
 
         function drawDab(x, y) {
-//            console.log(x, y, ctx)
             var dabCanvas = dab.getContext("2d").getImageData(0, 0, dab.width, dab.height)
-//            ctx.drawImage(dabCanvas, x, y)
-//            ctx.save()
-            ctx.fillStyle = ctx.fillStyle = Qt.rgba(0.5, 0, 0, 1.0)
-            ctx.fillRect(x, y, 15, 15)
-//            ctx.restore()
-//            markDirty(x, y, dab.width, dab.height)
-//            if (paintComplete) {
-                markDirty(x, y, 15, 15)
-//            }
-
+            var ctx = canvas.getContext("2d")
+            ctx.save()
+            ctx.drawImage(dabCanvas, x, y)
+            ctx.restore()
+            markDirty(x, y, dab.width, dab.height)
         }
     }
 
@@ -123,16 +99,11 @@ ApplicationWindow {
         height: 20
         visible: false
         antialiasing: true
-//        renderStrategy: Canvas.Threaded
-
-        Component.onCompleted: {
-//            requestPaint();
-        }
 
         onPaint: {
             var ctx = dab.getContext("2d")
             ctx.save()
-            ctx.fillStyle = Qt.rgba(0.5, 0, 0, 1.0)
+            ctx.fillStyle = Qt.rgba(0.5, 0, 0, 0.5)
             ctx.fillRect(0, 0, width, height)
             ctx.restore();
         }
