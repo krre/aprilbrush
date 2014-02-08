@@ -65,46 +65,77 @@ ApplicationWindow {
         height: imageSize.height
         anchors.centerIn: parent
         antialiasing: true
+        focus: true
 
-        property real diameter: 50
-        property real spacing: 1
+//        renderTarget:
+//        renderTarget: Canvas.FramebufferObject
+        renderStrategy: Canvas.Threaded
+
+        property real diameter: 5
+        property real spacing: 0.25
         property real opaque: 1
-        property real hardness: 1
+        property real hardness: 0.5
         property color rgba: Qt.rgba(0, 1, 0, opaque)
 
         Component.onCompleted: requestPaint()
 
         property color fillStyle: "#ffffff"
 
+        Keys.onDeletePressed: clear()
+
         onPaint: {
+            clear()
+        }
+
+
+        function clear() {
             var ctx = canvas.getContext("2d")
             ctx.save()
             ctx.fillStyle = canvas.fillStyle
             ctx.fillRect(0, 0, width, height)
             ctx.restore();
+            requestPaint()
         }
 
         MouseArea {
-            property real deltaDab: canvas.spacing * canvas.diameter
+            property real deltaDab: Math.max(canvas.spacing * canvas.diameter, 1)
             property real currentSpacing
             property point prev: Qt.point(0, 0)
+            property real pathLength: 0
 
             anchors.fill: parent
 
             onPressed: {
+                curve.reset(Qt.point(mouseX, mouseY))
                 canvas.drawDab(mouseX, mouseY)
                 prev.x = mouseX
                 prev.y = mouseY
+                pathLength = 0
             }
 
             onPositionChanged: {
-                currentSpacing = Math.sqrt(Math.pow(prev.x - mouseX, 2) + Math.pow(prev.y - mouseY, 2))
-                if (currentSpacing >= deltaDab) {
-                    canvas.drawDab(mouseX, mouseY)
-                    prev.x = mouseX
-                    prev.y = mouseY
-                }
 
+                currentSpacing = Math.sqrt(Math.pow(prev.x - mouseX, 2) + Math.pow(prev.y - mouseY, 2))
+
+                if (currentSpacing >= deltaDab) {
+                    var time = new Date().getTime()
+//                    curve.quadTo(Qt.point(prev.x, prev.y), Qt.point((mouseX + prev.x) / 2, (mouseY + prev.y) / 2))
+                    curve.lineTo(Qt.point(mouseX, mouseY))
+                } else {
+                    curve.lineTo(Qt.point(mouseX, mouseY))
+                }
+                var point
+                while (curve.length() >= pathLength) {
+                    if (pathLength > 0) {
+                        point = curve.pointAtLength(pathLength)
+                        canvas.drawDab(point.x, point.y)
+//                        console.log(point)
+                    }
+                    pathLength += deltaDab
+                }
+                pathLength = 0
+                prev.x = mouseX
+                prev.y = mouseY
             }
         }
 
@@ -138,7 +169,12 @@ ApplicationWindow {
             ctx.fill()
 
             ctx.restore();
+            markDirty(0, 0, width, height)
         }
+    }
+
+    Curve {
+        id: curve
     }
 
     /*
