@@ -87,28 +87,68 @@ ApplicationWindow {
             var dabCanvas = dab.getContext("2d").getImageData(0, 0, dab.width, dab.height)
             var ctx = canvas.getContext("2d")
             ctx.save()
-            ctx.drawImage(dabCanvas, x, y)
+            ctx.drawImage(dabCanvas, x - dab.width / 2, y - dab.height / 2)
             ctx.restore()
-            markDirty(x, y, dab.width, dab.height)
+            markDirty(x - dab.width / 2, y - dab.height / 2, dab.width, dab.height)
         }
     }
 
     Canvas {
         id: dab
-        width: 20
-        height: 20
+        width: 50
+        height: 50
         visible: false
         antialiasing: true
 
         onPaint: {
             var ctx = dab.getContext("2d")
             ctx.save()
-            ctx.fillStyle = Qt.rgba(0.5, 0, 0, 0.5)
-            ctx.fillRect(0, 0, width, height)
+            var gradient = ctx.createRadialGradient(width / 2, height / 2, 0, width / 2, height / 2, width / 2)
+            gradient.addColorStop(0, Qt.rgba(1, 0, 0, 1));
+            gradient.addColorStop(0.5, Qt.rgba(1, 0, 0, 1));
+            gradient.addColorStop(1, Qt.rgba(1, 0, 0, 0));
+
+            ctx.ellipse(0, 0, width, height)
+            ctx.fillStyle = gradient
+            ctx.fill()
+
             ctx.restore();
         }
     }
 
+/*
+    Rectangle {
+        width: 400
+        height: 400
+
+        PathInterpolator {
+            id: motionPath
+
+            path: Path {
+                startX: 0; startY: 0
+
+                PathCubic {
+                    x: 350; y: 350
+
+                    control1X: 350; control1Y: 0
+                    control2X: 0; control2Y: 350
+                }
+            }
+
+            NumberAnimation on progress { from: 0; to: 1; duration: 2000 }
+        }
+
+        Rectangle {
+            width: 50; height: 50
+            color: "green"
+
+            //bind our attributes to follow the path as progress changes
+            x: motionPath.x
+            y: motionPath.y
+            rotation: motionPath.angle
+        }
+    }
+    */
 
     /*
 
