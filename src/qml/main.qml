@@ -66,6 +66,12 @@ ApplicationWindow {
         anchors.centerIn: parent
         antialiasing: true
 
+        property real diameter: 50
+        property real spacing: 1
+        property real opaque: 1
+        property real hardness: 1
+        property color rgba: Qt.rgba(0, 1, 0, opaque)
+
         Component.onCompleted: requestPaint()
 
         property color fillStyle: "#ffffff"
@@ -79,8 +85,27 @@ ApplicationWindow {
         }
 
         MouseArea {
+            property real deltaDab: canvas.spacing * canvas.diameter
+            property real currentSpacing
+            property point prev: Qt.point(0, 0)
+
             anchors.fill: parent
-            onPositionChanged: { canvas.drawDab(mouseX, mouseY) }
+
+            onPressed: {
+                canvas.drawDab(mouseX, mouseY)
+                prev.x = mouseX
+                prev.y = mouseY
+            }
+
+            onPositionChanged: {
+                currentSpacing = Math.sqrt(Math.pow(prev.x - mouseX, 2) + Math.pow(prev.y - mouseY, 2))
+                if (currentSpacing >= deltaDab) {
+                    canvas.drawDab(mouseX, mouseY)
+                    prev.x = mouseX
+                    prev.y = mouseY
+                }
+
+            }
         }
 
         function drawDab(x, y) {
@@ -95,8 +120,8 @@ ApplicationWindow {
 
     Canvas {
         id: dab
-        width: 50
-        height: 50
+        width: canvas.diameter
+        height: canvas.diameter
         visible: false
         antialiasing: true
 
@@ -104,9 +129,9 @@ ApplicationWindow {
             var ctx = dab.getContext("2d")
             ctx.save()
             var gradient = ctx.createRadialGradient(width / 2, height / 2, 0, width / 2, height / 2, width / 2)
-            gradient.addColorStop(0, Qt.rgba(1, 0, 0, 1));
-            gradient.addColorStop(0.5, Qt.rgba(1, 0, 0, 1));
-            gradient.addColorStop(1, Qt.rgba(1, 0, 0, 0));
+            gradient.addColorStop(0, canvas.rgba);
+            gradient.addColorStop(canvas.hardness, canvas.rgba);
+            gradient.addColorStop(1, Qt.rgba(canvas.rgba.r, canvas.rgba.g, canvas.rgba.b, canvas.hardness < 1 ? 0 : canvas.opaque));
 
             ctx.ellipse(0, 0, width, height)
             ctx.fillStyle = gradient
@@ -115,40 +140,6 @@ ApplicationWindow {
             ctx.restore();
         }
     }
-
-/*
-    Rectangle {
-        width: 400
-        height: 400
-
-        PathInterpolator {
-            id: motionPath
-
-            path: Path {
-                startX: 0; startY: 0
-
-                PathCubic {
-                    x: 350; y: 350
-
-                    control1X: 350; control1Y: 0
-                    control2X: 0; control2Y: 350
-                }
-            }
-
-            NumberAnimation on progress { from: 0; to: 1; duration: 2000 }
-        }
-
-        Rectangle {
-            width: 50; height: 50
-            color: "green"
-
-            //bind our attributes to follow the path as progress changes
-            x: motionPath.x
-            y: motionPath.y
-            rotation: motionPath.angle
-        }
-    }
-    */
 
     /*
 
