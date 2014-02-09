@@ -67,8 +67,8 @@ ApplicationWindow {
         antialiasing: true
         focus: true
 
-        property real diameter: 5
-        property real spacing: 0.25
+        property real diameter: 2
+        property real spacing: 1
         property real opaque: 0.8
         property real hardness: 0.99
         property color rgba: Qt.rgba(0, 1, 0, opaque)
@@ -95,11 +95,22 @@ ApplicationWindow {
         MouseArea {
             property real deltaDab: Math.max(canvas.spacing * canvas.diameter, 1)
             property var points: []
+            property bool linearMode: true
             anchors.fill: parent
 
-            function bezierQuadCurve(start, control, end, t) {
-                var x = Math.pow((1 - t), 2) * start.x + 2 * t * (1 - t) * control.x + t * t * end.x
-                var y = Math.pow((1 - t), 2) * start.y + 2 * t * (1 - t) * control.y + t * t * end.y
+            function bezierCurve(start, control, end, t) {
+                var x, y
+                // linear bezier curve
+                if (!control) {
+                    x = (1 - t) * start.x + t * end.x
+                    y = (1 - t) * start.y + t * end.y
+                }
+                // quad bezier curve
+                else {
+                    x = Math.pow((1 - t), 2) * start.x + 2 * t * (1 - t) * control.x + t * t * end.x
+                    y = Math.pow((1 - t), 2) * start.y + 2 * t * (1 - t) * control.y + t * t * end.y
+                }
+
                 return Qt.point(x, y)
             }
 
@@ -110,46 +121,37 @@ ApplicationWindow {
             }
 
             onPositionChanged: {
-                var prevPoint = points[points.length - 1]
-                var currentPoint = Qt.point(mouseX, mouseY)
-                var currentSpacing = Math.sqrt(Math.pow(prevPoint.x - currentPoint.x, 2) + Math.pow(prevPoint.y - currentPoint.y, 2))
+                var currentSpacing = Math.sqrt(Math.pow(mouseX - points[points.length - 1].x, 2) + Math.pow(mouseY - points[points.length - 1].y, 2))
                 var numDabs = currentSpacing / deltaDab
                 var betweenPoint
                 if (numDabs >= 1) {
-
-//                    canvas.drawDab(currentPoint.x + 5, currentPoint.y + 5)
-
-                    var deltaPoint
-                    if (points.length < 2) {
-                        var angle = Math.atan2(currentPoint.x - prevPoint.x, currentPoint.y - prevPoint.y)
-                        deltaPoint = Qt.point(deltaDab * Math.sin(angle), deltaDab * Math.cos(angle))
-                        for (var i = 1; i <= Math.round(numDabs); i++) {
-                            betweenPoint = Qt.point(prevPoint.x + deltaPoint.x * i, prevPoint.y + deltaPoint.y * i)
-                            canvas.drawDab(betweenPoint.x, betweenPoint.y)
-                        }
-                        points.push(betweenPoint)
-
+                    var startPoint
+                    var controlPoint
+                    var endPoint
+                    if (points.length == 1 || linearMode) {
+                        startPoint = points[points.length - 1]
+                        endPoint = Qt.point(mouseX, mouseY)
                     } else {
-                        var startPoint = points[points.length - 2]
-                        var middlePoint = prevPoint
-                        var controlPoint = Qt.point(2 * middlePoint.x - (startPoint.x + currentPoint.x) / 2,
-                                                   2 * middlePoint.y - (startPoint.y + currentPoint.y) / 2)
-                        betweenPoint = middlePoint
-                        var point
-                        var deltaT = 0.5 / numDabs / 25
-                        var t = 0.5
-                        while (t <= 1) {
-                            point = bezierQuadCurve(startPoint, controlPoint, currentPoint, t)
-                            deltaPoint = Math.sqrt(Math.pow(point.x - betweenPoint.x, 2) + Math.pow(point.y - betweenPoint.y, 2))
-                            if (Math.abs(deltaPoint - deltaDab) <= 1) {
-                                canvas.drawDab(point.x, point.y)
-                                betweenPoint = point
-                            }
-
-                            t += deltaT
-                        }
-                        points.push(betweenPoint)
+                        startPoint = points[points.length - 2]
+                        controlPoint = points[points.length - 1]
+                        endPoint = Qt.point((controlPoint.x + mouseX) / 2, (controlPoint.y + mouseY) / 2)
                     }
+
+//                    canvas.drawDab(mouseX + 5, mouseY + 5)
+                    betweenPoint = startPoint
+                    var deltaT = 1 / numDabs
+                    var t = 0
+                    while (t <= 1) {
+                        var point = bezierCurve(startPoint, controlPoint, endPoint, t)
+                        var deltaPoint = Math.sqrt(Math.pow(point.x - betweenPoint.x, 2) + Math.pow(point.y - betweenPoint.y, 2))
+                        if (Math.abs(deltaPoint - deltaDab) <= 1) {
+                            canvas.drawDab(point.x, point.y)
+                            betweenPoint = point
+                        }
+                        t += deltaT
+                    }
+                    points.push(betweenPoint)
+//                    console.log(betweenPoint)
                 }
             }
         }
