@@ -67,14 +67,10 @@ ApplicationWindow {
         antialiasing: true
         focus: true
 
-//        renderTarget:
-//        renderTarget: Canvas.FramebufferObject
-        renderStrategy: Canvas.Threaded
-
         property real diameter: 5
         property real spacing: 0.25
         property real opaque: 0.8
-        property real hardness: 0.5
+        property real hardness: 0.99
         property color rgba: Qt.rgba(0, 1, 0, opaque)
 
         Component.onCompleted: requestPaint()
@@ -86,7 +82,6 @@ ApplicationWindow {
         onPaint: {
             clear()
         }
-
 
         function clear() {
             var ctx = canvas.getContext("2d")
@@ -121,25 +116,37 @@ ApplicationWindow {
                 var numDabs = currentSpacing / deltaDab
                 var betweenPoint
                 if (numDabs >= 1) {
+
+//                    canvas.drawDab(currentPoint.x + 5, currentPoint.y + 5)
+
+                    var deltaPoint
                     if (points.length < 2) {
                         var angle = Math.atan2(currentPoint.x - prevPoint.x, currentPoint.y - prevPoint.y)
-                        var deltaPoint = Qt.point(deltaDab * Math.sin(angle), deltaDab * Math.cos(angle))
-                        for (var i = 1; i <= numDabs; i++) {
+                        deltaPoint = Qt.point(deltaDab * Math.sin(angle), deltaDab * Math.cos(angle))
+                        for (var i = 1; i <= Math.round(numDabs); i++) {
                             betweenPoint = Qt.point(prevPoint.x + deltaPoint.x * i, prevPoint.y + deltaPoint.y * i)
                             canvas.drawDab(betweenPoint.x, betweenPoint.y)
                         }
                         points.push(betweenPoint)
-
 
                     } else {
                         var startPoint = points[points.length - 2]
                         var middlePoint = prevPoint
                         var controlPoint = Qt.point(2 * middlePoint.x - (startPoint.x + currentPoint.x) / 2,
                                                    2 * middlePoint.y - (startPoint.y + currentPoint.y) / 2)
-                        var deltaT = 0.5 / numDabs
-                        for (var j = 1; j <= numDabs; j++) {
-                            betweenPoint = bezierQuadCurve(startPoint, controlPoint, currentPoint, 0.5 + deltaT * j)
-                            canvas.drawDab(betweenPoint.x, betweenPoint.y)
+                        betweenPoint = middlePoint
+                        var point
+                        var deltaT = 0.5 / numDabs / 25
+                        var t = 0.5
+                        while (t <= 1) {
+                            point = bezierQuadCurve(startPoint, controlPoint, currentPoint, t)
+                            deltaPoint = Math.sqrt(Math.pow(point.x - betweenPoint.x, 2) + Math.pow(point.y - betweenPoint.y, 2))
+                            if (Math.abs(deltaPoint - deltaDab) <= 1) {
+                                canvas.drawDab(point.x, point.y)
+                                betweenPoint = point
+                            }
+
+                            t += deltaT
                         }
                         points.push(betweenPoint)
                     }
