@@ -11,8 +11,7 @@ SOURCES += \
     cpp/openraster.cpp \
     cpp/imageprocessor.cpp \
     cpp/corelib.cpp \
-    cpp/pointereater.cpp \
-    cpp/curve.cpp
+    cpp/pointereater.cpp
 
 HEADERS += \
     cpp/painteditem.h \
@@ -20,8 +19,7 @@ HEADERS += \
     cpp/openraster.h \
     cpp/imageprocessor.h \
     cpp/corelib.h \
-    cpp/pointereater.h \
-    cpp/curve.h
+    cpp/pointereater.h
 
 OTHER_FILES += \
     qml/main.qml \

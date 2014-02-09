@@ -16,7 +16,6 @@
 #include "cpp/openraster.h"
 #include "cpp/imageprocessor.h"
 #include "cpp/corelib.h"
-#include "cpp/curve.h"
 
 #include <QApplication>
 #include <QtQuick>
@@ -36,7 +35,6 @@ int main(int argc, char *argv[])
     qmlRegisterType<OpenRaster>("ABLib", 1, 0, "OpenRaster");
     qmlRegisterType<ImageProcessor>("ABLib", 1, 0, "ImageProcessor");
     qmlRegisterType<CoreLib>("ABLib", 1, 0, "CoreLib");
-    qmlRegisterType<Curve>("ABLib", 1, 0, "Curve");
 
     PointerEater *pointerEater = new PointerEater();
     app.installEventFilter(pointerEater);

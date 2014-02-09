@@ -73,7 +73,7 @@ ApplicationWindow {
 
         property real diameter: 5
         property real spacing: 0.25
-        property real opaque: 1
+        property real opaque: 0.8
         property real hardness: 0.5
         property color rgba: Qt.rgba(0, 1, 0, opaque)
 
@@ -99,43 +99,51 @@ ApplicationWindow {
 
         MouseArea {
             property real deltaDab: Math.max(canvas.spacing * canvas.diameter, 1)
-            property real currentSpacing
-            property point prev: Qt.point(0, 0)
-            property real pathLength: 0
-
+            property var points: []
             anchors.fill: parent
 
+            function bezierQuadCurve(start, control, end, t) {
+                var x = Math.pow((1 - t), 2) * start.x + 2 * t * (1 - t) * control.x + t * t * end.x
+                var y = Math.pow((1 - t), 2) * start.y + 2 * t * (1 - t) * control.y + t * t * end.y
+                return Qt.point(x, y)
+            }
+
             onPressed: {
-                curve.reset(Qt.point(mouseX, mouseY))
                 canvas.drawDab(mouseX, mouseY)
-                prev.x = mouseX
-                prev.y = mouseY
-                pathLength = 0
+                points = []
+                points.push(Qt.point(mouseX, mouseY))
             }
 
             onPositionChanged: {
+                var prevPoint = points[points.length - 1]
+                var currentPoint = Qt.point(mouseX, mouseY)
+                var currentSpacing = Math.sqrt(Math.pow(prevPoint.x - currentPoint.x, 2) + Math.pow(prevPoint.y - currentPoint.y, 2))
+                var numDabs = currentSpacing / deltaDab
+                var betweenPoint
+                if (numDabs >= 1) {
+                    if (points.length < 2) {
+                        var angle = Math.atan2(currentPoint.x - prevPoint.x, currentPoint.y - prevPoint.y)
+                        var deltaPoint = Qt.point(deltaDab * Math.sin(angle), deltaDab * Math.cos(angle))
+                        for (var i = 1; i <= numDabs; i++) {
+                            betweenPoint = Qt.point(prevPoint.x + deltaPoint.x * i, prevPoint.y + deltaPoint.y * i)
+                            canvas.drawDab(betweenPoint.x, betweenPoint.y)
+                        }
+                        points.push(betweenPoint)
 
-                currentSpacing = Math.sqrt(Math.pow(prev.x - mouseX, 2) + Math.pow(prev.y - mouseY, 2))
 
-                if (currentSpacing >= deltaDab) {
-                    var time = new Date().getTime()
-//                    curve.quadTo(Qt.point(prev.x, prev.y), Qt.point((mouseX + prev.x) / 2, (mouseY + prev.y) / 2))
-                    curve.lineTo(Qt.point(mouseX, mouseY))
-                } else {
-                    curve.lineTo(Qt.point(mouseX, mouseY))
-                }
-                var point
-                while (curve.length() >= pathLength) {
-                    if (pathLength > 0) {
-                        point = curve.pointAtLength(pathLength)
-                        canvas.drawDab(point.x, point.y)
-//                        console.log(point)
+                    } else {
+                        var startPoint = points[points.length - 2]
+                        var middlePoint = prevPoint
+                        var controlPoint = Qt.point(2 * middlePoint.x - (startPoint.x + currentPoint.x) / 2,
+                                                   2 * middlePoint.y - (startPoint.y + currentPoint.y) / 2)
+                        var deltaT = 0.5 / numDabs
+                        for (var j = 1; j <= numDabs; j++) {
+                            betweenPoint = bezierQuadCurve(startPoint, controlPoint, currentPoint, 0.5 + deltaT * j)
+                            canvas.drawDab(betweenPoint.x, betweenPoint.y)
+                        }
+                        points.push(betweenPoint)
                     }
-                    pathLength += deltaDab
                 }
-                pathLength = 0
-                prev.x = mouseX
-                prev.y = mouseY
             }
         }
 
@@ -171,10 +179,6 @@ ApplicationWindow {
             ctx.restore();
             markDirty(0, 0, width, height)
         }
-    }
-
-    Curve {
-        id: curve
     }
 
     /*
