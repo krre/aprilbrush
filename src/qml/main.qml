@@ -59,15 +59,18 @@ ApplicationWindow {
         onPressed: type == 0 ? mainRoot.pressure = 1 : mainRoot.pressure = 0
     }
 
+
     Canvas {
         id: canvas
+        property point lastDrawPoint
+
         width: imageSize.width
         height: imageSize.height
         anchors.centerIn: parent
         antialiasing: true
         focus: true
 
-        property real diameter: 2
+        property real diameter: 25
         property real spacing: 1
         property real opaque: 0.8
         property real hardness: 0.99
@@ -95,7 +98,9 @@ ApplicationWindow {
         MouseArea {
             property real deltaDab: Math.max(canvas.spacing * canvas.diameter, 1)
             property var points: []
-            property bool linearMode: true
+            property bool linearMode: false
+
+
             anchors.fill: parent
 
             function bezierCurve(start, control, end, t) {
@@ -115,54 +120,58 @@ ApplicationWindow {
             }
 
             onPressed: {
-                canvas.drawDab(mouseX, mouseY)
+                var point = Qt.point(mouseX, mouseY)
+                canvas.drawDab(point)
+                canvas.lastDrawPoint = point
                 points = []
-                points.push(Qt.point(mouseX, mouseY))
+                points.push(point)
+
             }
 
             onPositionChanged: {
-                var currentSpacing = Math.sqrt(Math.pow(mouseX - points[points.length - 1].x, 2) + Math.pow(mouseY - points[points.length - 1].y, 2))
-                var numDabs = currentSpacing / deltaDab
-                var betweenPoint
+                var currentPoint = Qt.point(mouseX, mouseY)
+                var startPoint = canvas.lastDrawPoint
+                var currentSpacing = Math.sqrt(Math.pow(currentPoint.x - startPoint.x, 2) + Math.pow(currentPoint.y - startPoint.y, 2))
+                var numDabs = Math.floor(currentSpacing / deltaDab)
                 if (numDabs >= 1) {
-                    var startPoint
-                    var controlPoint
-                    var endPoint
-                    if (points.length == 1 || linearMode) {
-                        startPoint = points[points.length - 1]
-                        endPoint = Qt.point(mouseX, mouseY)
+
+                    if (points.length == 1 || numDabs < 3 || linearMode) {
+                        var endPoint = currentPoint
                     } else {
-                        startPoint = points[points.length - 2]
-                        controlPoint = points[points.length - 1]
-                        endPoint = Qt.point((controlPoint.x + mouseX) / 2, (controlPoint.y + mouseY) / 2)
+                        var controlPoint = points[points.length - 1]
+                        endPoint = Qt.point((controlPoint.x + currentPoint.x) / 2, (controlPoint.y + currentPoint.y) / 2)
                     }
 
-//                    canvas.drawDab(mouseX + 5, mouseY + 5)
-                    betweenPoint = startPoint
+
                     var deltaT = 1 / numDabs
-                    var t = 0
+                    var betweenPoint = startPoint
+                    var t = deltaT
                     while (t <= 1) {
                         var point = bezierCurve(startPoint, controlPoint, endPoint, t)
                         var deltaPoint = Math.sqrt(Math.pow(point.x - betweenPoint.x, 2) + Math.pow(point.y - betweenPoint.y, 2))
-                        if (Math.abs(deltaPoint - deltaDab) <= 1) {
-                            canvas.drawDab(point.x, point.y)
+                        var diff = deltaPoint - deltaDab
+//                        console.log(betweenPoint, point, deltaPoint, diff)
+                        if (Math.abs(diff) <= 0.5) {
+                            canvas.drawDab(point)
                             betweenPoint = point
+                            t += deltaT
+                        } else {
+                            t -= diff / deltaDab * deltaT
                         }
-                        t += deltaT
                     }
-                    points.push(betweenPoint)
-//                    console.log(betweenPoint)
+                    points.push(currentPoint)
+                    canvas.lastDrawPoint = point
                 }
             }
         }
 
-        function drawDab(x, y) {
+        function drawDab(point) {
             var dabCanvas = dab.getContext("2d").getImageData(0, 0, dab.width, dab.height)
             var ctx = canvas.getContext("2d")
             ctx.save()
-            ctx.drawImage(dabCanvas, x - dab.width / 2, y - dab.height / 2)
+            ctx.drawImage(dabCanvas, point.x - dab.width / 2, point.y - dab.height / 2)
             ctx.restore()
-            markDirty(x - dab.width / 2, y - dab.height / 2, dab.width, dab.height)
+            markDirty(point.x - dab.width / 2, point.y - dab.height / 2, dab.width, dab.height)
         }
     }
 
