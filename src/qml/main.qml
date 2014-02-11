@@ -70,11 +70,11 @@ ApplicationWindow {
         antialiasing: true
         focus: true
 
-        property real diameter: 25
-        property real spacing: 1
+        property real diameter: 5
+        property real spacing: 0.25
         property real opaque: 0.8
         property real hardness: 0.99
-        property color rgba: Qt.rgba(0, 1, 0, opaque)
+        property color rgba: Qt.rgba(0, 0, 1, opaque)
 
         Component.onCompleted: requestPaint()
 
@@ -142,7 +142,6 @@ ApplicationWindow {
                         endPoint = Qt.point((controlPoint.x + currentPoint.x) / 2, (controlPoint.y + currentPoint.y) / 2)
                     }
 
-
                     var deltaT = 1 / numDabs
                     var betweenPoint = startPoint
                     var t = deltaT
@@ -150,7 +149,6 @@ ApplicationWindow {
                         var point = bezierCurve(startPoint, controlPoint, endPoint, t)
                         var deltaPoint = Math.sqrt(Math.pow(point.x - betweenPoint.x, 2) + Math.pow(point.y - betweenPoint.y, 2))
                         var diff = deltaPoint - deltaDab
-//                        console.log(betweenPoint, point, deltaPoint, diff)
                         if (Math.abs(diff) <= 0.5) {
                             canvas.drawDab(point)
                             betweenPoint = point
@@ -160,7 +158,7 @@ ApplicationWindow {
                         }
                     }
                     points.push(currentPoint)
-                    canvas.lastDrawPoint = point
+                    canvas.lastDrawPoint = betweenPoint
                 }
             }
         }
