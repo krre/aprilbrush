@@ -23,7 +23,7 @@ import "utils.js" as Utils
 import "undo.js" as Undo
 import "style.js" as Style
 
-ApplicationWindow {
+Window {
     id: mainRoot
     title: appName
     property real pressure: 0
@@ -70,8 +70,8 @@ ApplicationWindow {
         antialiasing: true
         focus: true
 
-        property real diameter: 5
-        property real spacing: 0.25
+        property real diameter: 20
+        property real spacing: 0.5
         property real opaque: 0.8
         property real hardness: 0.99
         property color rgba: Qt.rgba(0, 0, 1, opaque)
@@ -145,7 +145,7 @@ ApplicationWindow {
                     var deltaT = 1 / numDabs
                     var betweenPoint = startPoint
                     var t = deltaT
-                    while (t <= 1) {
+                    while (t > 0 && t <= 1) {
                         var point = bezierCurve(startPoint, controlPoint, endPoint, t)
                         var deltaPoint = Math.sqrt(Math.pow(point.x - betweenPoint.x, 2) + Math.pow(point.y - betweenPoint.y, 2))
                         var diff = deltaPoint - deltaDab
