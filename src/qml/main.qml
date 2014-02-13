@@ -23,9 +23,9 @@ import "utils.js" as Utils
 import "undo.js" as Undo
 import "style.js" as Style
 
-Window {
+Rectangle {
     id: mainRoot
-    title: appName
+//    title: appName
     property real pressure: 0
 
     property string version: "0.2.0"

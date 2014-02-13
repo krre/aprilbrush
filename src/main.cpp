@@ -11,24 +11,20 @@
  * GNU General Public License for more details.
  */
 
+#include "cpp/qtquick2applicationviewer/qtquick2applicationviewer.h"
 #include "cpp/painteditem.h"
 #include "cpp/brushengine.h"
 #include "cpp/openraster.h"
 #include "cpp/imageprocessor.h"
 #include "cpp/corelib.h"
+#include "cpp/pointereater.h"
 
-#include <QApplication>
 #include <QtQuick>
 #include <QtQml>
-#include <QScreen>
-#include "cpp/pointereater.h"
 
 int main(int argc, char *argv[])
 {
-    QApplication app(argc, argv);
-
-    // Set GUI multi-threaded while it disabled in Qt 5 on the Windows systems
-//    qputenv("QML_FORCE_THREADED_RENDERER", "1");
+    QGuiApplication app(argc, argv);
 
     qmlRegisterType<PaintedItem>("ABLib", 1, 0, "PaintedItem");
     qmlRegisterType<BrushEngine>("ABLib", 1, 0, "BrushEngine");
@@ -39,19 +35,13 @@ int main(int argc, char *argv[])
     PointerEater *pointerEater = new PointerEater();
     app.installEventFilter(pointerEater);
 
-    QQmlApplicationEngine engine;
-    QQmlContext *context = new QQmlContext(engine.rootContext());
+    QtQuick2ApplicationViewer viewer;
+
+    QQmlContext *context = viewer.engine()->rootContext();
     context->setContextProperty("PointerEater", pointerEater);
 
-    QQmlComponent component(&engine, QUrl(QString("qrc:/qml/main.qml")));
-    QObject *topLevel = component.create(context);
-    QQuickWindow *window = qobject_cast<QQuickWindow *>(topLevel);
+    viewer.setMainQmlFile(QStringLiteral("qml/main.qml"));
+    viewer.showExpanded();
 
-    if (!window) {
-        qWarning("Error: Your root item has to be a Window.");
-        return -1;
-    }
-
-    window->show();
     return app.exec();
 }
