@@ -25,13 +25,8 @@ import "style.js" as Style
 
 Rectangle {
     id: mainRoot
-//    title: appName
     property real pressure: 0
-
-    property string version: "0.2.0"
-    property string appName: "AprilBrush"
     property var palette: Style.defaultStyle()
-
     property int newTabCounter: 0
 
 //    property var tabContent: tabView.count > 0 ? tabView.getTab(tabView.currentIndex).item : 0
@@ -199,6 +194,11 @@ Rectangle {
             markDirty(0, 0, width, height)
         }
     }
+
+   TopBar {
+       width: parent.width
+
+   }
 
     /*
 

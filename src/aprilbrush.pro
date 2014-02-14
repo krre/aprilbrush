@@ -50,6 +50,8 @@ OTHER_FILES += \
     qml/style.js \
     qml/FileDialog.qml \
     qml/components/SliderText.qml \
-    qml/components/VerticalList.qml
+    qml/components/VerticalList.qml \
+    qml/TopBar.qml \
+    qml/components/TopButton.qml
 
 RESOURCES +=
