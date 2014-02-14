@@ -27,6 +27,8 @@ Rectangle {
     id: mainRoot
     property real pressure: 0
     property var palette: Style.defaultStyle()
+    property bool cornerHover: rightTopCorner.containsMouse | leftBottomCorner.containsMouse
+
     property int newTabCounter: 0
 
 //    property var tabContent: tabView.count > 0 ? tabView.getTab(tabView.currentIndex).item : 0
@@ -61,7 +63,19 @@ Rectangle {
         anchors.right: parent.right
         anchors.top: parent.top
         preventStealing: true
+        hoverEnabled: true
         onDoubleClicked: topBar.visible = !topBar.visible
+    }
+
+    MouseArea {
+        id: leftBottomCorner
+        width: 50
+        height: 50
+        anchors.left: parent.left
+        anchors.bottom: parent.bottom
+        preventStealing: true
+        hoverEnabled: true
+        onDoubleClicked: canvas.clear()
     }
 
     Canvas {
@@ -83,8 +97,6 @@ Rectangle {
         Component.onCompleted: requestPaint()
 
         property color fillStyle: "#ffffff"
-
-        Keys.onDeletePressed: clear()
 
         onPaint: {
             clear()
@@ -124,8 +136,10 @@ Rectangle {
 
             onPressed: {
                 var point = Qt.point(mouseX, mouseY)
-                canvas.drawDab(point)
                 canvas.lastDrawPoint = point
+                if (!cornerHover) {
+                    canvas.drawDab(point)
+                }
                 points = []
                 points.push(point)
             }
