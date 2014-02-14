@@ -41,6 +41,7 @@ int main(int argc, char *argv[])
     context->setContextProperty("PointerEater", pointerEater);
 
     viewer.setMainQmlFile(QStringLiteral("qml/main.qml"));
+    viewer.setTitle("AprilBrush");
     viewer.showExpanded();
 
     return app.exec();
