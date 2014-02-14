@@ -54,6 +54,15 @@ Rectangle {
         onPressed: type == 0 ? mainRoot.pressure = 1 : mainRoot.pressure = 0
     }
 
+    MouseArea {
+        id: rightTopCorner
+        width: 50
+        height: 50
+        anchors.right: parent.right
+        anchors.top: parent.top
+        preventStealing: true
+        onDoubleClicked: topBar.visible = !topBar.visible
+    }
 
     Canvas {
         id: canvas
@@ -94,9 +103,8 @@ Rectangle {
             property real deltaDab: Math.max(canvas.spacing * canvas.diameter, 1)
             property var points: []
             property bool linearMode: false
-
-
             anchors.fill: parent
+            propagateComposedEvents: true
 
             function bezierCurve(start, control, end, t) {
                 var x, y
@@ -121,7 +129,6 @@ Rectangle {
                 points = []
                 points.push(point)
             }
-
             onPositionChanged: {
                 var currentPoint = Qt.point(mouseX, mouseY)
                 var startPoint = canvas.lastDrawPoint
@@ -195,10 +202,10 @@ Rectangle {
         }
     }
 
-   TopBar {
-       width: parent.width
-
-   }
+    TopBar {
+        id: topBar
+        width: parent.width
+    }
 
     /*
 
