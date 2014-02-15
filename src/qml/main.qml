@@ -88,11 +88,10 @@ Rectangle {
         antialiasing: true
         focus: true
 
-        property real diameter: 1
+        property real diameter: 5
         property real spacing: 0.25
         property real opaque: 0.8
         property real hardness: 0.99
-        property color rgba: Qt.rgba(0, 0, 1, opaque)
 
         Component.onCompleted: requestPaint()
 
@@ -202,10 +201,11 @@ Rectangle {
         onPaint: {
             var ctx = dab.getContext("2d")
             ctx.save()
+            var color = Qt.rgba(colorPicker.color.r, colorPicker.color.g, colorPicker.color.b, canvas.opaque)
             var gradient = ctx.createRadialGradient(width / 2, height / 2, 0, width / 2, height / 2, width / 2)
-            gradient.addColorStop(0, canvas.rgba);
-            gradient.addColorStop(canvas.hardness, canvas.rgba);
-            gradient.addColorStop(1, Qt.rgba(canvas.rgba.r, canvas.rgba.g, canvas.rgba.b, canvas.hardness < 1 ? 0 : canvas.opaque));
+            gradient.addColorStop(0, color);
+            gradient.addColorStop(canvas.hardness, color);
+            gradient.addColorStop(1, Qt.rgba(colorPicker.color.r, colorPicker.color.g, colorPicker.color.b, canvas.hardness < 1 ? 0 : canvas.opaque));
 
             ctx.ellipse(0, 0, width, height)
             ctx.fillStyle = gradient
@@ -219,6 +219,13 @@ Rectangle {
     TopBar {
         id: topBar
         width: parent.width
+    }
+
+    ColorPicker {
+        id: colorPicker
+        x: 300
+        y: 300
+        onColorChanged: dab.requestPaint()
     }
 
     /*

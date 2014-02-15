@@ -16,7 +16,7 @@ Item {
         TopButton {
             id: toolsButton
             hoverColor: "#ff7777"
-            onClicked: console.log("red")
+            onClicked: colorPicker.visible = !colorPicker.visible
         }
 
         TopButton {

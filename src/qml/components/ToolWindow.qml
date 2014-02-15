@@ -11,99 +11,119 @@
  * GNU General Public License for more details.
  */
 
-import QtQuick 2.1
-import QtQuick.Window 2.0
-import QtQuick.Layouts 1.1
-import QtQuick.Controls 1.1
-import QtQuick.Controls.Styles 1.1
+import QtQuick 2.2
 
-Rectangle {
+Item {
     id: root
-    property alias text: title.text
+    property alias title: title.text
     default property alias content: stack.children
-    property int indent: 5
+    property int indent: 10
+    property int headerHeight: 30
     property bool collapse: false
-    property int stashHeight: height
+    property real currentHeight: implicitHeight
 
-    Layout.minimumHeight: collapse ? header.height + 4 : 200
-    Layout.minimumWidth: 200
+    implicitWidth: 200
+    implicitHeight: 200
+    height: collapse ? headerHeight: currentHeight
 
-    width: 200
-    height: 200
-
-    color: palette.toolBgColor
-
-    onCollapseChanged: if (collapse) {
-                           stashHeight = height
-                           root.Layout.maximumHeight = header.height + 4
-                       } else {
-                           root.Layout.maximumHeight = -1
-                           height = stashHeight
-                       }
-
-
-    ColumnLayout {
+    Rectangle {
         anchors.fill: parent
-        spacing: 0
-
-        Rectangle {
-            height: 2
-            Layout.preferredWidth: parent.width
-            color: palette.borderColor
+        opacity: 0.8
+        border.color: "black"
+        radius: 5
+        antialiasing: true
+        gradient: Gradient {
+            GradientStop { position: 0.0; color: "gray" }
+            GradientStop { position: headerHeight / height; color: "black" }
+            GradientStop { position: 1.0; color: "black" }
         }
+    }
 
-        Rectangle {
-            id: header
-            Layout.preferredWidth: parent.width
-            height: 20
-            gradient: Gradient {
-                GradientStop { position: 0.0; color: palette.toolHeaderColor1 }
-                GradientStop { position: 1.0; color: palette.toolHeaderColor2 }
-            }
+    MouseArea {
+        anchors.fill: parent
+        drag.target: root
+    }
 
-            Row {
-                spacing: 2
+    Row {
+        anchors.left: parent.left
+        anchors.leftMargin: 2
+        anchors.top: parent.top
+        anchors.topMargin: 8
+        spacing: 2
 
-                Image {
-                    source: "../../images/triangle.png"
-                    scale: 0.7
-                    rotation: collapse ? 0 : 90
-                    MouseArea {
-                        anchors.fill: parent
-                        onClicked: collapse = !collapse
-                    }
-                }
-
-                Text {
-                    id: title
-                    x: 10
-                    anchors.verticalCenter: parent.verticalCenter
-                    text: qsTr("title")
-                    color: "white"
-                }
+        Image {
+            y: -2
+            source: "../../images/triangle.png"
+            scale: 0.6
+            rotation: collapse ? 0 : 90
+            MouseArea {
+                anchors.fill: parent
+                onClicked: collapse = !collapse
             }
         }
 
-        Rectangle {
-            height: 2
-            Layout.preferredWidth: parent.width
-            color: palette.borderColor
+        Text {
+            id: title
+            text: qsTr("Untitled")
+            color: "white"
+        }
+    }
+
+    CloseButton {
+        id: closeButton
+        anchors.top: parent.top
+        anchors.topMargin: 5
+        anchors.right: parent.right
+        anchors.rightMargin: 5
+        onClicked: colorPicker.visible = false
+    }
+
+    // Content stack
+    Item {
+        id: stack
+        width: parent.width - indent * 2
+        height: parent.height - headerHeight - indent
+        anchors.horizontalCenter: parent.horizontalCenter
+        anchors.bottom: parent.bottom
+        anchors.bottomMargin: indent
+        visible: !collapse
+    }
+
+    // Resize handler
+    Item {
+        id: resizeHandler
+        width: 20
+        height: 20
+        anchors.bottom: parent.bottom
+        anchors.bottomMargin: 3
+        anchors.right: parent.right
+        anchors.rightMargin: 3
+        visible: !collapse
+
+        Text {
+            text: "="
+            anchors.centerIn: parent
+            font.pointSize: 15
+            color: resizeMouseArea.containsMouse ? "white" : "gray"
+            opacity: resizeMouseArea.pressed ? 0.5 : 1
         }
 
-        Rectangle {
-            id: contentContainer
-            Layout.preferredWidth: parent.width
-            Layout.fillHeight: true
-            color: palette.toolBgColor
-            visible: !collapse
-
-            // Content stack
-            Item {
-                id: stack
-                width: parent.width - indent * 2;
-                height: parent.height - indent * 2
-                anchors.centerIn: parent
+        MouseArea {
+            id: resizeMouseArea
+            property bool resizeMode: false
+            anchors.fill: parent
+            hoverEnabled: true
+            onPressed: resizeMode = true
+            onReleased: { resizeMode = false }
+            onPositionChanged: {
+                if (resizeMode) {
+                    var newWidth = root.width + mouseX - indent
+                    root.width = newWidth < root.implicitWidth ? root.implicitWidth : newWidth
+                    var newHeight = root.height + mouseY - indent
+                    currentHeight = newHeight < root.implicitWidth ? root.implicitWidth : newHeight
+                }
             }
         }
     }
 }
+

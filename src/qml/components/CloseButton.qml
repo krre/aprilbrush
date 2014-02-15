@@ -11,21 +11,19 @@
  * GNU General Public License for more details.
  */
 
-import QtQuick 2.1
+import QtQuick 2.2
 
-Item {
+Rectangle {
     id: root
+    property int size: 13
+    property color activeColor: "#ff2735"
+    width: size
+    height: size
+    radius: size
+    antialiasing: true
+    color: mouseArea.pressed ? Qt.darker(activeColor, 1.2) : mouseArea.containsMouse ? activeColor : "#9c9494"
+
     signal clicked()
-
-    width: 20
-    height: 20
-
-    Text {
-        text: "x"
-        anchors.centerIn: parent
-        font.pointSize: 10
-        font.bold: mouseArea.containsMouse ? true : false
-    }
 
     MouseArea {
         id: mouseArea

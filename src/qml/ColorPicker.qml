@@ -18,7 +18,7 @@ import "utils.js" as Utils
 import "components"
 
 ToolWindow {
-    text: "Color"
+    title: "Color"
     id: root
 
     property real h
