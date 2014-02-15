@@ -27,7 +27,7 @@ ToolWindow {
     property color color: "blue"
 
     property int minWindowSize: Math.min(columnLayout.width, columnLayout.height)
-    property real ringWidth: 0.75
+    property real ringRatio: 0.75
 
     onColorChanged: setColor()
 
@@ -44,7 +44,7 @@ ToolWindow {
 
         // Color ring
         Rectangle {
-            id: outerCircle
+            id: ring
             Layout.alignment: Qt.AlignCenter
             Layout.fillWidth: true
             Layout.fillHeight: true
@@ -54,20 +54,35 @@ ToolWindow {
             radius: width / 2
             anchors.centerIn: parent
             antialiasing: true
+            color: "transparent"
 
             ConicalGradient {
                 anchors.fill: parent
                 angle: 90
                 clip: true
-                source: parent
+                source: innerCircle
                 gradient: Gradient {
-                    GradientStop {position: 0 / 6; color: "red"}
-                    GradientStop {position: 1 / 6; color: "magenta"}
-                    GradientStop {position: 2 / 6; color: "blue"}
-                    GradientStop {position: 3 / 6; color: "cyan"}
-                    GradientStop {position: 4 / 6; color: "lime"}
-                    GradientStop {position: 5 / 6; color: "yellow"}
-                    GradientStop {position: 6 / 6; color: "red"}
+                    GradientStop { position: 0 / 6; color: "red" }
+                    GradientStop { position: 1 / 6; color: "magenta" }
+                    GradientStop { position: 2 / 6; color: "blue" }
+                    GradientStop { position: 3 / 6; color: "cyan" }
+                    GradientStop { position: 4 / 6; color: "lime" }
+                    GradientStop { position: 5 / 6; color: "yellow" }
+                    GradientStop { position: 6 / 6; color: "red" }
+                }
+
+                // Clearing inner circle
+                Rectangle {
+                    id: innerCircle
+                    width: parent.width
+                    height: parent.height
+                    anchors.centerIn: parent
+                    border.color: "green"
+                    border.width: parent.width * (1 - ringRatio) / 2
+                    radius: parent.width
+                    antialiasing: true
+                    color: "transparent"
+                    visible: false
                 }
             }
 
@@ -76,16 +91,14 @@ ToolWindow {
                 id: pickerHue
                 property int sizePickerHue: 3
 
-                x: parent.width / 2
-                y: (parent.height - sizePickerHue) / 2
-                width: parent.width / 2
+                x: parent.width * (1 + ringRatio) / 2
+                y: parent.height / 2
+                width: parent.width * (1 - ringRatio) / 2
                 height: sizePickerHue
                 color: "white"
                 antialiasing: true
                 transform: Rotation {
-                    id: pickerHueAngle
-                    origin.x: 0
-                    origin.y: pickerHue.height / 2
+                    origin.x: -ring.width * ringRatio / 2
                     angle: (1 - h) * 360
                 }
             }
@@ -94,7 +107,7 @@ ToolWindow {
                 anchors.fill: parent
                 function handleMouseHue(mouse) {
                     if (mouse.buttons & Qt.LeftButton) {
-                        var radianAngle = Math.atan2(outerCircle.height / 2 - mouse.y, mouse.x - outerCircle.width / 2)
+                        var radianAngle = Math.atan2(parent.height / 2 - mouse.y, mouse.x - parent.width / 2)
                         var degreeAngle = (1 - radianAngle * 0.5 / Math.PI)
                         h = degreeAngle < 1 ? 1 - degreeAngle : 2 - degreeAngle
                         color = Utils.hsvToHsl(h, s, v, 1)
@@ -104,47 +117,35 @@ ToolWindow {
                 onPressed: handleMouseHue(mouse)
             }
 
-
-            // Clearing inner circle
-            Rectangle {
-                id: innerCircle
-                width: outerCircle.width * ringWidth
-                height: outerCircle.height * ringWidth
-                anchors.centerIn: parent
-                radius: outerCircle.width * ringWidth / 2
-                antialiasing: true
-                color: palette.toolBgColor
-            }
-
             // Color square
             Item {
                 id: squareSV
-                width: outerCircle.width * ringWidth / Math.sqrt(2)
-                height: outerCircle.width * ringWidth / Math.sqrt(2)
+                width: parent.width * ringRatio / Math.sqrt(2)
+                height: parent.width * ringRatio / Math.sqrt(2)
                 anchors.centerIn: parent
 
                 Rectangle {
                     anchors.fill: parent;
                     rotation: -90
                     gradient: Gradient {
-                        GradientStop {position: 0.0; color: "white"}
-                        GradientStop {position: 1.0; color: Qt.hsla(h, 1, 0.5, 1)}
+                        GradientStop { position: 0.0; color: "white" }
+                        GradientStop { position: 1.0; color: Qt.hsla(h, 1, 0.5, 1) }
                     }
                 }
                 Rectangle {
                     anchors.fill: parent
                     gradient: Gradient {
-                        GradientStop {position: 1.0; color: "#FF000000"}
-                        GradientStop {position: 0.0; color: "#00000000"}
+                        GradientStop { position: 1.0; color: "#FF000000" }
+                        GradientStop { position: 0.0; color: "#00000000" }
                     }
                 }
 
                 // Saturation/Value picker
                 Item {
                     id: pickerSV
+                    property int radiusPickerSV: 5
                     x: s * parent.width
                     y: (1 - v) * parent.height
-                    property int radiusPickerSV: 5
 
                     Rectangle {
                         x: -parent.radiusPickerSV
