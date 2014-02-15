@@ -151,10 +151,9 @@ function zeroFill(number, width)
 
 // Convert HSV to HSL
 function hsvToHsl(h, s, v) {
-    var l = (2 - s) * v
-    var computedH = s * v / (l <= 1 ? l : 2 - l)
-    l /= 2
-    return Qt.hsla(h, computedH, l, 1)
+    var l = (2 - s) * v / 2
+    var computedS = s * v / (1 - Math.abs(2 * l - 1))
+    return Qt.hsla(h, computedS, l, 1)
 }
 
 // Convert RGB to HSV
@@ -180,6 +179,28 @@ function rgbToHsv(color) {
      computedV = maxRGB
 
      return { h: computedH, s: computedS, v: computedV }
+}
+
+// Convert HSV to RGB
+function hsvToRgb(h, s, v) {
+    var r, g, b, i, f, p, q, t;
+    if (h && s === undefined && v === undefined) {
+        s = h.s; v = h.v; h = h.h;
+    }
+    i = Math.floor(h * 6);
+    f = h * 6 - i;
+    p = v * (1 - s);
+    q = v * (1 - f * s);
+    t = v * (1 - (1 - f) * s);
+    switch (i % 6) {
+        case 0: r = v; g = t; b = p; break;
+        case 1: r = q; g = v; b = p; break;
+        case 2: r = p; g = v; b = t; break;
+        case 3: r = p; g = q; b = v; break;
+        case 4: r = t; g = p; b = v; break;
+        case 5: r = v; g = p; b = q; break;
+    }
+    return Qt.rgba(r, g, b, 1)
 }
 
 // Get filename from path

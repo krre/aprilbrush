@@ -25,18 +25,21 @@ ToolWindow {
     property real s
     property real v
     property color color: "blue"
+    property bool changeColorByPicker: false
 
     property int minWindowSize: Math.min(columnLayout.width, columnLayout.height)
     property real ringRatio: 0.75
 
-    onColorChanged: setColor()
+    onColorChanged: if (!changeColorByPicker) { setHsv(color) }
 
-    function setColor() {
+    function setHsv(color) {
         var hsvColor = Utils.rgbToHsv(color)
         h = hsvColor.h
         s = hsvColor.s
         v = hsvColor.v
     }
+
+    Component.onCompleted: setHsv(color)
 
     ColumnLayout {
         id: columnLayout
@@ -108,9 +111,10 @@ ToolWindow {
                 function handleMouseHue(mouse) {
                     if (mouse.buttons & Qt.LeftButton) {
                         var radianAngle = Math.atan2(parent.height / 2 - mouse.y, mouse.x - parent.width / 2)
-                        var degreeAngle = (1 - radianAngle * 0.5 / Math.PI)
-                        h = degreeAngle < 1 ? 1 - degreeAngle : 2 - degreeAngle
-                        color = Utils.hsvToHsl(h, s, v, 1)
+                        h = (radianAngle > 0 ? radianAngle : 2 * Math.PI + radianAngle) / Math.PI / 2
+                        changeColorByPicker = true
+                        color = Utils.hsvToRgb(h, s, v)
+                        changeColorByPicker = false
                     }
                 }
                 onPositionChanged: handleMouseHue(mouse)
@@ -166,8 +170,9 @@ ToolWindow {
                         if (mouse.buttons & Qt.LeftButton) {
                             s = Math.max(0, Math.min(width, mouse.x)) / parent.width
                             v = 1 - Math.max(0, Math.min(height, mouse.y)) / parent.height
-                            color = Utils.hsvToHsl(h, s, v, 1)
-//                            console.log(h, s, v)
+                            changeColorByPicker = true
+                            color = Utils.hsvToRgb(h, s, v)
+                            changeColorByPicker = false
                         }
                     }
                     onPositionChanged: handleMouseSV(mouse)
