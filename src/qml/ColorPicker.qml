@@ -15,6 +15,7 @@ import QtQuick 2.1
 import QtQuick.Layouts 1.0
 import QtGraphicalEffects 1.0
 import "utils.js" as Utils
+import "settings.js" as Settings
 import "components"
 
 ToolWindow {
@@ -29,6 +30,9 @@ ToolWindow {
 
     property int minWindowSize: Math.min(columnLayout.width, columnLayout.height)
     property real ringRatio: 0.75
+
+    objectName: "colorPicker"
+    storage: { var list = Settings.defaultStorage(); list.push("color"); return list }
 
     onColorChanged: if (!changeColorByPicker) { setHsv(color) }
 

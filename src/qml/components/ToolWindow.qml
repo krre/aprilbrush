@@ -21,10 +21,10 @@ Item {
     property int headerHeight: 30
     property bool collapse: false
     property real currentHeight: implicitHeight
+    property var storage
 
     implicitWidth: 200
     implicitHeight: 200
-    height: collapse ? headerHeight: currentHeight
 
     Rectangle {
         anchors.fill: parent
@@ -58,7 +58,10 @@ Item {
             rotation: collapse ? 0 : 90
             MouseArea {
                 anchors.fill: parent
-                onClicked: collapse = !collapse
+                onClicked: {
+                    collapse = !collapse
+                    root.height = collapse ? headerHeight: currentHeight
+                }
             }
         }
 
@@ -121,6 +124,7 @@ Item {
                     root.width = newWidth < root.implicitWidth ? root.implicitWidth : newWidth
                     var newHeight = root.height + mouseY - indent
                     currentHeight = newHeight < root.implicitWidth ? root.implicitWidth : newHeight
+                    root.height = currentHeight
                 }
             }
         }

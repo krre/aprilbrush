@@ -11,113 +11,52 @@
  * GNU General Public License for more details.
  */
 
-.import "utils.js" as Utils
+function defaultStorage() {
+    return ["x", "y", "z", "width", "height", "currentHeight", "collapse", "visible"]
+}
 
 function loadSettings() {
-    var fileSettings = coreLib.loadSettings()
-    if (!fileSettings) {
-        // Default settings
-        settings = {
-            mainWindow: {
-                width: 1000,
-                height: 600,
-                x: 100,
-                y: 100
-            },
-
-            colorPicker: {
-                height: 200,
-                color: {
-                    h: 0.6,
-                    s: 1.0,
-                    v: 1.0
-                },
-                visible: true
-            },
-
-            brushSettings: {
-                height: 250,
-                visible: true
-            },
-
-            brushLibrary: {
-                height: 200,
-                visible: true
-            },
-
-            layerManager: {
-                height: 200,
-                visible: true
-            },
-
-            undoManager: {
-                height: 200,
-                visible: true
-            },
+    var settings = coreLib.loadSettings()
+    if (settings) {
+        settings = JSON.parse(settings)
+        for (var i = 0; i < settings.length; i++) {
+            var objName = settings[i].name
+            for (var j = 0; j < children.length; j++) {
+                if (objName === children[j].objectName) {
+                    var properties = settings[i].properties
+                    for (var prop in properties) {
+                        if (typeof children[j][prop] !== undefined) {
+                            var value = properties[prop]
+                            if (value === "true") {
+                                children[j][prop] = true
+                            } else if (value === "false") {
+                                children[j][prop] = false
+                            } else {
+                                children[j][prop] = value
+                            }
+                        }
+                    }
+                    break
+                }
+            }
         }
     }
-    else {
-        settings = JSON.parse(fileSettings)
-    }
-
-    mainRoot.x = settings.mainWindow.x
-    mainRoot.y = settings.mainWindow.y
-    mainRoot.width = settings.mainWindow.width
-    mainRoot.height = settings.mainWindow.height
-
-    colorPicker.height = settings.colorPicker.height
-    colorPicker.color = Utils.hsvToHsl(settings.colorPicker.color.h,
-                                       settings.colorPicker.color.s,
-                                       settings.colorPicker.color.v)
-
-    brushSettings.height = settings.brushSettings.height
-
-    brushLibrary.height = settings.brushLibrary.height
-
-    layerManager.height = settings.layerManager.height
-
-    undoManager.height = settings.undoManager.height
 }
 
 function saveSettings() {
-    var fileSettings = {
-        mainWindow: {
-            width: mainRoot.width,
-            height: mainRoot.height,
-            x: mainRoot.x,
-            y: mainRoot.y
-        },
-
-        colorPicker: {
-            height: colorPicker.height,
-            color: {
-                  h: colorPicker.h,
-                  s: colorPicker.s,
-                  v: colorPicker.v
-            },
-            visible: colorPicker.visible
-        },
-
-        brushSettings: {
-            height: brushSettings.height,
-            visible: brushSettings.visible
-        },
-
-        brushLibrary: {
-            height: brushLibrary.height,
-            visible: brushLibrary.visible
-        },
-
-        layerManager: {
-            height: layerManager.height,
-            visible: layerManager.visible
-        },
-
-        undoManager: {
-            height: undoManager.height,
-            visible: undoManager.visible
+    var settings = []
+    for (var i = 0; i < children.length; i++) {
+        var storage = children[i].storage
+        if (storage) {
+            var obj = {}
+            obj.name = children[i].objectName
+            obj.properties = {}
+            for (var j = 0; j < storage.length; j++) {
+                obj.properties[storage[j]] = children[i][storage[j]].toString()
+            }
+            settings.push(obj)
         }
     }
-
-    coreLib.saveSettings(JSON.stringify(fileSettings, null, 4))
+    coreLib.saveSettings(JSON.stringify(settings, null, 4))
 }
+

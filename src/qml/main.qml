@@ -28,6 +28,7 @@ Rectangle {
     property real pressure: 0
     property var palette: Style.defaultStyle()
     property bool cornerHover: rightTopCorner.containsMouse | leftBottomCorner.containsMouse
+    property var storage: { var list = Settings.defaultStorage(); list.push("eraserMode"); return list }
 
     property int newTabCounter: 0
 
@@ -35,20 +36,20 @@ Rectangle {
 //    property var layerModel: tabView.count > 0 ? tabContent.layerModel : []
 //    property var undoModel: tabView.count > 0 ? tabContent.undoModel : []
 
-    property var settings
-
     property size imageSize: Qt.size(Screen.width, Screen.height)
     property bool eraserMode: false
     property int layerIdCounter: 0
     property string currentLayerId
 
+    width: 1000
+    height: 600
+
     Component.onCompleted: {
-//        Settings.loadSettings()
+        Settings.loadSettings()
 //        Utils.addTab()
-        width = 1000
-        height = 600
+
     }
-//    Component.onDestruction: Settings.saveSettings()
+    Component.onDestruction: Settings.saveSettings()
 
     Connections {
         target: PointerEater
@@ -218,14 +219,23 @@ Rectangle {
 
     TopBar {
         id: topBar
+        property var storage: ["visible"]
+        objectName: "topBar"
         width: parent.width
     }
 
     ColorPicker {
         id: colorPicker
-        x: 300
-        y: 300
+        x: 25
+        y: 25
         onColorChanged: dab.requestPaint()
+    }
+
+    Item {
+        property alias mainWidth: mainRoot.width
+        property alias mainHeight: mainRoot.height
+        property var storage: ["mainWidth", "mainHeight"]
+        objectName: "commonStorage"
     }
 
     /*
