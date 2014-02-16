@@ -93,14 +93,9 @@ Rectangle {
         property real spacing: 0.25
         property real opaque: 0.8
         property real hardness: 0.99
-
-        Component.onCompleted: requestPaint()
-
         property color fillStyle: "#ffffff"
 
-        onPaint: {
-            clear()
-        }
+        onAvailableChanged: clear()
 
         function clear() {
             var ctx = canvas.getContext("2d")
@@ -482,44 +477,5 @@ Rectangle {
     CoreLib {
         id: coreLib
     }
-
-
-
-/*
-    ShaderEffect {
-        x: 100
-        y: 330
-        width: 400
-        property color c3: Qt.rgba(0.0, 1.0, 0.0, 1.0)
-        rotation: -90
-        height: width * Math.sqrt(3) / 2
-        fragmentShader: "
-            varying highp vec2 qt_TexCoord0;
-            uniform vec4 c3;
-            void main(void)
-            {
-                lowp vec4 c1 = vec4( 0.0, 0.0, 0.0, 1.0 );
-                lowp vec4 c0 = vec4( 0.0, 0.0, 0.0, 0.0 );
-                lowp vec4 c2 = vec4( 1.0, 1.0, 1.0, 1.0 );
-                lowp vec4 mix1 = mix(c0, c1, qt_TexCoord0.y);
-                lowp vec4 mix2 = mix(c2, c3, qt_TexCoord0.x);
-                gl_FragColor = mix1 + mix2 * (1.0 - mix1[3]);
-            }"
-
-        vertexShader: "
-               uniform highp mat4 qt_Matrix;
-               attribute highp vec4 qt_Vertex;
-               attribute highp vec2 qt_MultiTexCoord0;
-               varying highp vec2 qt_TexCoord0;
-               uniform highp float width;
-               void main() {
-                   highp vec4 pos = qt_Vertex;
-                   highp float d = .5 * smoothstep(0., 1., qt_MultiTexCoord0.y);
-                   pos.x = width * mix(d, 1.0 - d, qt_MultiTexCoord0.x);
-                   gl_Position = qt_Matrix * pos;
-                   qt_TexCoord0 = qt_MultiTexCoord0;
-               }"
-    }
-    */
 }
 
