@@ -82,11 +82,12 @@ Rectangle {
     Canvas {
         id: canvas
         property point lastDrawPoint
-
+//        scale: 20
         width: imageSize.width
         height: imageSize.height
         anchors.centerIn: parent
-        antialiasing: true
+//        antialiasing: true
+        smooth: false
         focus: true
 
         property real diameter: brushSettings.brushModel.children[0].value
@@ -179,10 +180,31 @@ Rectangle {
         }
 
         function drawDab(point) {
+//            console.log(point)
             var dabCanvas = dab.getContext("2d").getImageData(0, 0, dab.width, dab.height)
             var ctx = canvas.getContext("2d")
             ctx.save()
-            ctx.drawImage(dabCanvas, point.x - dab.width / 2, point.y - dab.height / 2)
+            var x = point.x - dab.width / 2
+            var y = point.y - dab.height / 2
+//            console.log(x, y)
+            ctx.globalAlpha = (x - Math.floor(x) + y - Math.floor(y)) / 2
+            ctx.drawImage(dabCanvas, Math.floor(x), Math.floor(y))
+//            console.log(ctx.globalAlpha, Math.floor(x), Math.floor(y))
+
+            ctx.globalAlpha = (Math.floor(x + 1) - x + Math.floor(y + 1) - y) / 2
+            ctx.drawImage(dabCanvas, Math.floor(x + 1), Math.floor(y + 1))
+//            console.log(ctx.globalAlpha, Math.floor(x + 1), Math.floor(y + 1))
+
+            ctx.globalAlpha = (x - Math.floor(x) + Math.floor(y + 1) - y) / 2
+            ctx.drawImage(dabCanvas, Math.floor(x), Math.floor(y + 1))
+//            console.log(ctx.globalAlpha, Math.floor(x), Math.floor(y + 1))
+
+            ctx.globalAlpha = (Math.floor(x + 1) - x + y - Math.floor(y)) / 2
+            ctx.drawImage(dabCanvas, Math.floor(x + 1), Math.floor(y))
+//            console.log(ctx.globalAlpha, Math.floor(x + 1), Math.floor(y))
+
+
+//            ctx.drawImage(dabCanvas, point.x - dab.width / 2, point.y - dab.height / 2)
             ctx.restore()
             markDirty(point.x - dab.width / 2, point.y - dab.height / 2, dab.width, dab.height)
         }
