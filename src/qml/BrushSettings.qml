@@ -13,84 +13,31 @@
 
 import QtQuick 2.1
 import QtQuick.Controls 1.1
-import QtQuick.Layouts 1.0
 import "components"
+import "settings.js" as Settings
 
 ToolWindow {
     id: root
-    text: "Brush Settings"
+    title: qsTr("Brush Settings")
+    property alias brushModel: brushModel
 
-    property alias size: sizeSlider
-    property alias opaque: opacitySlider
-    property alias spacing: spacingSlider
-    property alias hardness: hardnessSlider
-    property alias roundness: roundnessSlider
-    property alias angle: angleSlider
-    property alias jitter: jitterSlider
+    objectName: "brushSettings"
+    storage: { var list = Settings.defaultStorage(); return list }
 
-    ScrollView {
-        id: scrollView
+    signal settingsChanged()
+
+    ListView {
         anchors.fill: parent
+        model: brushModel
+        clip: true
+        spacing: 7
 
-        ColumnLayout {
-            width: parent.width
-            height: childrenRect.height
-
-            SliderText {
-                id: sizeSlider
-                Layout.preferredWidth: scrollView.viewport.width
-                text: qsTr("Size")
-                minValue: 1
-                maxValue: 200
-            }
-
-            SliderText {
-                id: opacitySlider
-                Layout.preferredWidth: scrollView.viewport.width
-                text: qsTr("Opacity")
-                minValue: 0
-                maxValue: 100
-            }
-
-            SliderText {
-                id: spacingSlider
-                Layout.preferredWidth: scrollView.viewport.width
-                text: qsTr("Spacing")
-                minValue: 1
-                maxValue: 100
-            }
-
-            SliderText {
-                id: hardnessSlider
-                Layout.preferredWidth: scrollView.viewport.width
-                text: qsTr("Hardness")
-                minValue: 1
-                maxValue: 100
-            }
-
-            SliderText {
-                id: roundnessSlider
-                Layout.preferredWidth: scrollView.viewport.width
-                text: qsTr("Roundness")
-                minValue: 1
-                maxValue: 100
-            }
-
-            SliderText {
-                id: angleSlider
-                Layout.preferredWidth: scrollView.viewport.width
-                text: qsTr("Angle")
-                minValue: 0
-                maxValue: 180
-            }
-
-            SliderText {
-                id: jitterSlider
-                Layout.preferredWidth: scrollView.viewport.width
-                text: qsTr("Jitter")
-                minValue: 0
-                maxValue: 1000
-            }
+        VisualItemModel {
+            id: brushModel
+            SliderText { title: qsTr("Diameter"); width: parent.width; minimumValue: 1; maximumValue: 100; value: 20; onValueChanged: root.settingsChanged() }
+            SliderText { title: qsTr("Opaque"); width: parent.width; value: 85; onValueChanged: root.settingsChanged() }
+            SliderText { title: qsTr("Hardness"); width: parent.width; minimumValue: 1; value: 95; onValueChanged: root.settingsChanged() }
+            SliderText { title: qsTr("Spacing"); width: parent.width; minimumValue: 5; maximumValue: 200; value: 25; onValueChanged: root.settingsChanged() }
         }
     }
 }

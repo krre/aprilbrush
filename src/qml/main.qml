@@ -89,10 +89,11 @@ Rectangle {
         antialiasing: true
         focus: true
 
-        property real diameter: 5
-        property real spacing: 0.25
-        property real opaque: 0.8
-        property real hardness: 0.99
+        property real diameter: brushSettings.brushModel.children[0].value
+        property real opaque: brushSettings.brushModel.children[1].value / 100
+        property real hardness: brushSettings.brushModel.children[2].value / 100
+        property real spacing: brushSettings.brushModel.children[3].value / 100
+
         property color fillStyle: "#ffffff"
 
         onAvailableChanged: clear()
@@ -224,6 +225,13 @@ Rectangle {
         x: 25
         y: 25
         onColorChanged: dab.requestPaint()
+    }
+
+    BrushSettings {
+        id: brushSettings
+        x: 500
+        y: 25
+        onSettingsChanged: dab.requestPaint()
     }
 
     Item {

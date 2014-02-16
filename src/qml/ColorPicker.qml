@@ -19,9 +19,8 @@ import "settings.js" as Settings
 import "components"
 
 ToolWindow {
-    title: "Color"
     id: root
-
+    title: qsTr("Color")
     property real h
     property real s
     property real v

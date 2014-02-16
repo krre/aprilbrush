@@ -16,7 +16,7 @@ import QtQuick 2.2
 Rectangle {
     id: root
     property int size: 13
-    property color activeColor: "#ff5a5a"
+    property color activeColor: Qt.darker("white", 1.1)
     width: size
     height: size
     radius: size

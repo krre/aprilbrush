@@ -78,7 +78,7 @@ Item {
         anchors.topMargin: 5
         anchors.right: parent.right
         anchors.rightMargin: 5
-        onClicked: colorPicker.visible = false
+        onClicked: root.visible = false
     }
 
     // Content stack
@@ -104,11 +104,11 @@ Item {
         visible: !collapse
 
         Text {
+            property color activeColor: Qt.darker("white", 1.1)
             text: "="
             anchors.centerIn: parent
             font.pointSize: 15
-            color: resizeMouseArea.containsMouse ? "white" : "gray"
-            opacity: resizeMouseArea.pressed ? 0.5 : 1
+            color: resizeMouseArea.pressed ? Qt.darker(activeColor, 1.2) : resizeMouseArea.containsMouse ? activeColor : "#9c9494"
         }
 
         MouseArea {

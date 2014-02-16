@@ -21,7 +21,7 @@ Item {
 
         TopButton {
             hoverColor: "#abff6f"
-            onClicked: console.log("green")
+            onClicked: brushSettings.visible = !brushSettings.visible
         }
 
         TopButton {

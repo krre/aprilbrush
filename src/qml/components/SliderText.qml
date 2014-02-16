@@ -1,31 +1,53 @@
-import QtQuick 2.0
+import QtQuick 2.2
 import QtQuick.Controls 1.1
+import QtQuick.Controls.Styles 1.1
 
-Item {
-    property alias minValue: slider.minimumValue
-    property alias maxValue: slider.maximumValue
-    property alias value: slider.value
-    property alias text: name.text
-    height: childrenRect.height
+Slider {
+    property string title
+    minimumValue: 0
+    maximumValue: 100
+    stepSize: 1
 
-    Label {
-        id: name
-        text: "Slider"
-        color: "white"
-        anchors.left: parent.left
-    }
+    style: SliderStyle {
+        groove: Rectangle {
+            id: grooveRect
+            implicitWidth: root.width
+            implicitHeight: sliderTitle.height * 1.5
+            color: "transparent"
+            antialiasing: true
+            border.color: "gray"
+            radius: height / 2
 
-    Label {
-        text: Math.round(slider.value)
-        color: "white"
-        anchors.right: parent.right
-        anchors.rightMargin: 5
-    }
+            Item {
+                clip: true
+                width: styleData.handlePosition
+                height: parent.height
+                Rectangle {
+                    width: grooveRect.width
+                    height: parent.height
+                    radius: height / 2
+                    antialiasing: true
+                    color: "gray"
+                }
+            }
 
-    Slider {
-        id: slider
-        width: parent.width - 5
-        anchors.top: name.bottom
-        anchors.topMargin: 2
+            Text {
+                id: sliderTitle
+                text: control.title
+                anchors.left: parent.left
+                anchors.leftMargin: parent.height / 2
+                anchors.verticalCenter: parent.verticalCenter
+                color: "white"
+            }
+            Text {
+                text: control.value
+                anchors.verticalCenter: parent.verticalCenter
+                anchors.right: parent.right
+                anchors.rightMargin: parent.height / 2
+                color: "white"
+            }
+        }
+        handle: Item {}
     }
 }
+
