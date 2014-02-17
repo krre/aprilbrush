@@ -219,7 +219,7 @@ Rectangle {
 
         onPaint: {
             var ctx = dab.getContext("2d")
-            ctx.save()
+            ctx.clearRect(0, 0, width, height)
             var color = Qt.rgba(colorPicker.color.r, colorPicker.color.g, colorPicker.color.b, canvas.opaque)
             var gradient = ctx.createRadialGradient(width / 2, height / 2, 0, width / 2, height / 2, width / 2)
             gradient.addColorStop(0, color);
