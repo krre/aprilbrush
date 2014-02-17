@@ -15,17 +15,17 @@ Item {
 
         TopButton {
             id: toolsButton
-            hoverColor: "#ff7777"
+            title: qsTr("Color")
             onClicked: colorPicker.visible = !colorPicker.visible
         }
 
         TopButton {
-            hoverColor: "#abff6f"
+            title: qsTr("Brush Settings")
             onClicked: brushSettings.visible = !brushSettings.visible
         }
 
         TopButton {
-            hoverColor: "#6fb2ff"
+            title: qsTr("Brush Library")
             onClicked: console.log("magenta")
         }
     }

@@ -2,12 +2,18 @@ import QtQuick 2.2
 
 Rectangle {
     id: root
-    property color hoverColor: "blue"
-    width: 100
-    height: 10
-    radius: 10
-    color: mouseArea.containsMouse ? hoverColor : "lightgray"
-    opacity: mouseArea.pressed ? 0.5 : 1
+    property alias title: title.text
+    width: 120
+    height: title.height * 1.2
+    radius: height / 2
+    color: mouseArea.pressed? "#222222" : mouseArea.containsMouse ? "#474747" : "black"
+    opacity: 0.8
+
+    Text {
+        id: title
+        color: "white"
+        anchors.centerIn: parent
+    }
 
     signal clicked
 
