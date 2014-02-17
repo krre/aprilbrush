@@ -80,6 +80,15 @@ Rectangle {
     }
 
     Keys.onSpacePressed: flickable.interactive = !flickable.interactive
+    Keys.onPressed: {
+        if (event.key === Qt.Key_Plus) {
+            canvas.scale *= 1.1
+        } else if (event.key === Qt.Key_Minus) {
+            canvas.scale /= 1.1
+        } else if (event.key === Qt.Key_0) {
+            canvas.scale = 1
+        }
+    }
 
     Flickable {
         id: flickable
@@ -91,7 +100,6 @@ Rectangle {
         Canvas {
             id: canvas
             property point lastDrawPoint
-    //        scale: 20
             width: imageSize.width
             height: imageSize.height
             anchors.centerIn: parent
