@@ -42,6 +42,17 @@ Item {
     MouseArea {
         anchors.fill: parent
         drag.target: root
+        preventStealing: true
+        hoverEnabled: true
+        onPressed: {
+            // Moving a item on top of the scene
+            var maxZ = 0
+            for (var i = 0; i < root.parent.children.length; i++)
+                if (root.parent.children[i].z > maxZ) {
+                    maxZ = root.parent.children[i].z
+                }
+            root.z = ++maxZ
+        }
     }
 
     Row {
