@@ -9,6 +9,8 @@ Item {
     property alias count: listView.count
     property alias listView: listView
 
+    signal clicked
+
     ScrollView {
         anchors.fill: parent
 
@@ -32,7 +34,7 @@ Item {
             color:  "white"
             MouseArea {
                 anchors.fill: parent
-                onClicked: listView.currentIndex = index
+                onClicked: { listView.currentIndex = index; root.clicked() }
             }
         }
     }
