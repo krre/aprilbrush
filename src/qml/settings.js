@@ -32,7 +32,7 @@ function loadSettings() {
                             } else if (value === "false") {
                                 children[j][prop] = false
                             } else {
-                                children[j][prop] = value
+                                children[j][prop] = value.toString()
                             }
                         }
                     }
