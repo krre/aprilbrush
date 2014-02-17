@@ -44,7 +44,6 @@ ToolWindow {
             anchors.fill: parent
             model: libraryModel
             onCurrentIndexChanged: changeBrushSettings(currentIndex)
-            Component.onCompleted: BrushLib.loadBrushPack()
         }
 
         ListModel {
