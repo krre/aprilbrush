@@ -256,6 +256,12 @@ Rectangle {
         onSettingsChanged: dab.requestPaint()
     }
 
+    BrushLibrary {
+        id: brushLibrary
+        x: 500
+        y: 200
+    }
+
     Item {
         property alias mainWidth: mainRoot.width
         property alias mainHeight: mainRoot.height

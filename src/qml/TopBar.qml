@@ -26,7 +26,7 @@ Item {
 
         TopButton {
             title: qsTr("Brush Library")
-            onClicked: console.log("magenta")
+            onClicked: brushLibrary.visible = !brushLibrary.visible
         }
     }
 }

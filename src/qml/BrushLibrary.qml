@@ -16,19 +16,25 @@ import QtQuick.Controls 1.1
 import QtQuick.Layouts 1.1
 import "components"
 import "brushlib.js" as BrushLib
+import "settings.js" as Settings
 
 ToolWindow {
     id: root
-    text: "Brush Library"
+    title: "Brush Library"
+    objectName: "brushLibrary"
+    storage: {
+        var list = Settings.defaultStorage()
+        return list
+    }
 
     function changeBrushSettings(row) {
-        brushSettings.size.value = libraryModel.get(row).size
-        brushSettings.opaque.value = libraryModel.get(row).opaque
-        brushSettings.spacing.value = libraryModel.get(row).spacing
-        brushSettings.hardness.value = libraryModel.get(row).hardness
-        brushSettings.roundness.value = libraryModel.get(row).roundness
-        brushSettings.angle.value = libraryModel.get(row).angle
-        brushSettings.jitter.value = libraryModel.get(row).jitter
+        brushSettings.diameter = libraryModel.get(row).size
+        brushSettings.opaque = libraryModel.get(row).opaque
+        brushSettings.spacing = libraryModel.get(row).spacing
+        brushSettings.hardness = libraryModel.get(row).hardness
+//        brushSettings.roundness = libraryModel.get(row).roundness
+//        brushSettings.angle = libraryModel.get(row).angle
+//        brushSettings.jitter = libraryModel.get(row).jitter
     }
 
     Item {
@@ -38,10 +44,7 @@ ToolWindow {
             anchors.fill: parent
             model: libraryModel
             onCurrentIndexChanged: changeBrushSettings(currentIndex)
-            Component.onCompleted: {
-                BrushLib.loadBrushPack()
-                changeBrushSettings(0)
-            }
+            Component.onCompleted: BrushLib.loadBrushPack()
         }
 
         ListModel {
