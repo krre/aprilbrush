@@ -64,7 +64,7 @@ Rectangle {
         anchors.bottom: parent.bottom
         preventStealing: true
         hoverEnabled: true
-        onDoubleClicked: pageManager.pageView.currentItem.canvasArea.canvas.clear()
+        onDoubleClicked: canvasArea.clear()
     }
 
     Keys.onSpacePressed: flickable.interactive = !flickable.interactive
@@ -78,6 +78,11 @@ Rectangle {
         }
     }
 
+    CanvasArea {
+        id: canvasArea
+        anchors.fill: parent
+    }
+
     PageManager {
         id: pageManager
         width: parent.width
@@ -89,7 +94,6 @@ Rectangle {
         objectName: "topBar"
         width: parent.width
         anchors.top: pageManager.bottom
-
     }
 
     ColorPicker {

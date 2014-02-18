@@ -80,15 +80,13 @@ Item {
             id: pageDelegate
 
             Rectangle {
-                id: rect
-                property alias canvasArea: canvasArea
                 width: 100
                 height: ListView.view.height
                 opacity: ListView.isCurrentItem ? 1.0 : 0.6
 
                 MouseArea {
                     anchors.fill: parent
-                    onClicked: rect.ListView.view.currentIndex = index
+                    onClicked: parent.ListView.view.currentIndex = index
                 }
 
                 CloseButton {
@@ -97,11 +95,6 @@ Item {
                     anchors.right: parent.right
                     anchors.rightMargin: 5
                     onClicked: pageModel.remove(index)
-                }
-
-                CanvasArea {
-                    id: canvasArea
-
                 }
             }
         }

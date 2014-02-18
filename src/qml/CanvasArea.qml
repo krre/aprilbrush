@@ -16,15 +16,22 @@ import QtQuick 2.2
 Flickable {
     id: flickable
     property alias canvas: canvas
-    anchors.fill: parent
     contentWidth: canvas.width
     contentHeight: canvas.height
     interactive: false
 
+    function clear() {
+        var ctx = canvas.getContext("2d")
+        ctx.save()
+        ctx.fillStyle = canvas.fillStyle
+        ctx.fillRect(0, 0, width, height)
+        ctx.restore();
+        canvas.requestPaint()
+    }
+
     Canvas {
         id: canvas
         property point lastDrawPoint
-        parent: mainRoot
         width: imageSize.width
         height: imageSize.height
         anchors.centerIn: parent
@@ -40,15 +47,6 @@ Flickable {
         property color fillStyle: "#ffffff"
 
         onAvailableChanged: clear()
-
-        function clear() {
-            var ctx = canvas.getContext("2d")
-            ctx.save()
-            ctx.fillStyle = canvas.fillStyle
-            ctx.fillRect(0, 0, width, height)
-            ctx.restore();
-            requestPaint()
-        }
 
         MouseArea {
             property real deltaDab: Math.max(canvas.spacing * canvas.diameter, 1)
