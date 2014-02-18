@@ -1,11 +1,19 @@
 import QtQuick 2.2
+import "components"
 
-Rectangle {
+Item {
     id: root
     width: 500
     height: 62
-    color: "black"
-    opacity: 0.8
+
+    Rectangle {
+        anchors.fill: parent
+        color: "black"
+        opacity: 0.8
+        MouseArea {
+            anchors.fill: parent
+        }
+    }
 
     ListModel {
         id: pageModel
@@ -57,8 +65,23 @@ Rectangle {
             id: pageDelegate
 
             Rectangle {
+                id: rect
                 width: 100
                 height: ListView.view.height
+                opacity: ListView.isCurrentItem ? 1.0 : 0.6
+
+                MouseArea {
+                    anchors.fill: parent
+                    onClicked: rect.ListView.view.currentIndex = index
+                }
+
+                CloseButton {
+                    anchors.top: parent.top
+                    anchors.topMargin: 5
+                    anchors.right: parent.right
+                    anchors.rightMargin: 5
+                    onClicked: pageModel.remove(index)
+                }
             }
         }
     }
