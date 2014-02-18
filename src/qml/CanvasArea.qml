@@ -20,7 +20,7 @@ Canvas {
     height: imageSize.height
 //        antialiasing: true
     smooth: false
-    focus: true
+    visible: ListView.isCurrentItem
 
     property real diameter: brushSettings.brushModel.children[0].value
     property real opaque: brushSettings.brushModel.children[1].value / 100

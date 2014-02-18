@@ -88,10 +88,10 @@ Rectangle {
         anchors.fill: parent
         model: mainModel
         currentIndex: pageManager.pageView.currentIndex
-        spacing: -width
+        spacing: -imageSize.width
         orientation: ListView.Horizontal
         interactive: false
-        delegate: CanvasArea { visible: ListView.isCurrentItem }
+        delegate: CanvasArea {}
     }
 
     PageManager {
