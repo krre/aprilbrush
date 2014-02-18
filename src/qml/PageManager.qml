@@ -4,6 +4,7 @@ import "settings.js" as Settings
 
 Item {
     id: root
+    property alias pageView: pageView
     width: 500
     height: collapse ? 0 : implicitHeight
     implicitHeight: 62
@@ -80,6 +81,7 @@ Item {
 
             Rectangle {
                 id: rect
+                property alias canvasArea: canvasArea
                 width: 100
                 height: ListView.view.height
                 opacity: ListView.isCurrentItem ? 1.0 : 0.6
@@ -95,6 +97,11 @@ Item {
                     anchors.right: parent.right
                     anchors.rightMargin: 5
                     onClicked: pageModel.remove(index)
+                }
+
+                CanvasArea {
+                    id: canvasArea
+
                 }
             }
         }

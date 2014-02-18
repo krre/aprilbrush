@@ -19,6 +19,7 @@ import "settings.js" as Settings
 ToolWindow {
     id: root
     title: qsTr("Brush Settings")
+    property alias dab: dab
     property alias brushModel: brushModel
     property alias diameter: diameter.value
     property alias opaque: opaque.value
@@ -46,6 +47,31 @@ ToolWindow {
             SliderText { id: opaque; title: qsTr("Opaque"); width: parent.width; value: 85; onValueChanged: root.settingsChanged() }
             SliderText { id: hardness; title: qsTr("Hardness"); width: parent.width; minimumValue: 1; value: 95; onValueChanged: root.settingsChanged() }
             SliderText { id: spacing; title: qsTr("Spacing"); width: parent.width; minimumValue: 5; maximumValue: 200; value: 25; onValueChanged: root.settingsChanged() }
+        }
+    }
+
+    Canvas {
+        id: dab
+        width: diameter.value
+        height: diameter.value
+        visible: false
+        antialiasing: true
+
+        onPaint: {
+            var ctx = dab.getContext("2d")
+            ctx.clearRect(0, 0, width, height)
+            var color = Qt.rgba(colorPicker.color.r, colorPicker.color.g, colorPicker.color.b, opaque.value / 100)
+            var gradient = ctx.createRadialGradient(width / 2, height / 2, 0, width / 2, height / 2, width / 2)
+            gradient.addColorStop(0, color);
+            gradient.addColorStop(hardness.value / 100, color);
+            gradient.addColorStop(1, Qt.rgba(colorPicker.color.r, colorPicker.color.g, colorPicker.color.b, hardness.value / 100 < 1 ? 0 : opaque.value / 100));
+
+            ctx.ellipse(0, 0, width, height)
+            ctx.fillStyle = gradient
+            ctx.fill()
+
+            ctx.restore();
+            markDirty(0, 0, width, height)
         }
     }
 }
