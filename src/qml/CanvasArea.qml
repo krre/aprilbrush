@@ -38,6 +38,7 @@ Canvas {
         ctx.fillRect(0, 0, width, height)
         ctx.restore();
         canvas.requestPaint()
+        pageManager.pageView.currentItem.paintThumbnail()
     }
 
     MouseArea {
@@ -72,6 +73,10 @@ Canvas {
             points = []
             points.push(point)
         }
+        onReleased: {
+            pageManager.pageView.currentItem.paintThumbnail()
+        }
+
         onPositionChanged: {
             var currentPoint = Qt.point(mouseX, mouseY)
             var startPoint = canvas.lastDrawPoint
