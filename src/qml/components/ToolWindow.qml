@@ -26,6 +26,10 @@ Item {
     implicitWidth: 200
     implicitHeight: 200
 
+    function defaultStorage() {
+        return ["x", "y", "z", "width", "height", "currentHeight", "collapse", "visible"]
+    }
+
     Rectangle {
         anchors.fill: parent
         opacity: 0.8

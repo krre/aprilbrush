@@ -11,10 +11,6 @@
  * GNU General Public License for more details.
  */
 
-function defaultStorage() {
-    return ["x", "y", "z", "width", "height", "currentHeight", "collapse", "visible"]
-}
-
 function loadSettings() {
     var settings = coreLib.loadSettings()
     if (settings) {

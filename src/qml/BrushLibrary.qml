@@ -22,10 +22,7 @@ ToolWindow {
     id: root
     title: "Brush Library"
     objectName: "brushLibrary"
-    storage: {
-        var list = Settings.defaultStorage()
-        return list
-    }
+    storage: defaultStorage()
 
     function changeBrushSettings(row) {
         brushSettings.diameter = libraryModel.get(row).size

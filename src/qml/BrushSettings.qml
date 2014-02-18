@@ -27,7 +27,7 @@ ToolWindow {
 
     objectName: "brushSettings"
     storage: {
-        var list = Settings.defaultStorage()
+        var list = defaultStorage()
         list.push("diameter", "opaque", "hardness", "spacing")
         return list
     }

@@ -28,7 +28,7 @@ Rectangle {
     property real pressure: 0
     property var palette: Style.defaultStyle()
     property bool cornerHover: rightTopCorner.containsMouse | leftBottomCorner.containsMouse
-    property var storage: { var list = Settings.defaultStorage(); list.push("eraserMode"); return list }
+    property var storage: ["width", "height", "eraserMode"]
 
     property int newTabCounter: 0
 
