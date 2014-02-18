@@ -62,10 +62,10 @@ Rectangle {
         width: 50
         height: 50
         anchors.right: parent.right
-        anchors.top: parent.top
+        anchors.top: pageManager.bottom
         preventStealing: true
         hoverEnabled: true
-        onDoubleClicked: topBar.visible = !topBar.visible
+        onDoubleClicked: pageManager.collapse = !pageManager.collapse
     }
 
     MouseArea {
@@ -89,8 +89,6 @@ Rectangle {
             canvas.scale = 1
         }
     }
-
-
 
     Flickable {
         id: flickable

@@ -1,10 +1,16 @@
 import QtQuick 2.2
 import "components"
+import "settings.js" as Settings
 
 Item {
     id: root
     width: 500
-    height: 62
+    height: collapse ? 0 : implicitHeight
+    implicitHeight: 62
+    property bool collapse: false
+
+    objectName: "pageManager"
+    property var storage: ["collapse"]
 
     Rectangle {
         anchors.fill: parent
@@ -20,6 +26,7 @@ Item {
     }
 
     Row {
+        visible: !collapse
         anchors.centerIn: parent
         spacing: 5
 
