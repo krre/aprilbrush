@@ -12,12 +12,11 @@ Rectangle {
     }
 
     Row {
-//        width: childrenRect.width
-//        height: parent.height
-        anchors.fill: parent
+        anchors.centerIn: parent
         spacing: 5
 
         Rectangle {
+            id: plus
             width: 35
             height: 35
             anchors.verticalCenter: parent.verticalCenter
@@ -45,8 +44,7 @@ Rectangle {
         ListView {
             id: pageView
             height: root.height - 6
-//            width: Math.max(count * (currentItem.width + spacing), root.width - 45)
-            width: root.width - 45
+            width: Math.min(count * (currentItem ? currentItem.width + spacing : 0), root.width - plus.width - 20)
             anchors.verticalCenter: parent.verticalCenter
             model: pageModel
             delegate: pageDelegate
