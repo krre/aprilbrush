@@ -12,6 +12,13 @@ Item {
     objectName: "pageManager"
     property var storage: ["collapse"]
 
+    Component.onCompleted: addPage()
+
+    function addPage() {
+        pageModel.append({})
+        pageView.currentIndex = pageView.count - 1
+    }
+
     Rectangle {
         anchors.fill: parent
         color: "black"
@@ -52,7 +59,7 @@ Item {
                 id: mouseArea
                 anchors.fill: parent
                 hoverEnabled: true
-                onClicked: { pageModel.append({}); pageView.currentIndex = pageView.count - 1 }
+                onClicked: addPage()
             }
         }
 
