@@ -16,7 +16,7 @@ Item {
     Component.onCompleted: addPage()
 
     function addPage() {
-        pageModel.append({})
+        mainModel.append({})
         pageView.currentIndex = pageView.count - 1
     }
 
@@ -27,10 +27,6 @@ Item {
         MouseArea {
             anchors.fill: parent
         }
-    }
-
-    ListModel {
-        id: pageModel
     }
 
     Row {
@@ -69,7 +65,7 @@ Item {
             height: root.height - 6
             width: Math.min(count * (currentItem ? currentItem.width + spacing : 0), root.width - plus.width - 20)
             anchors.verticalCenter: parent.verticalCenter
-            model: pageModel
+            model: mainModel
             delegate: pageDelegate
             orientation: ListView.Horizontal
             spacing: 5
@@ -94,7 +90,7 @@ Item {
                     anchors.topMargin: 5
                     anchors.right: parent.right
                     anchors.rightMargin: 5
-                    onClicked: pageModel.remove(index)
+                    onClicked: mainModel.remove(index)
                 }
             }
         }

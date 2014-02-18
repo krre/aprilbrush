@@ -32,6 +32,7 @@ Rectangle {
 
     width: 1000
     height: 600
+    color: "lightgray"
 
     Component.onCompleted: {
         Settings.loadSettings()
@@ -64,7 +65,7 @@ Rectangle {
         anchors.bottom: parent.bottom
         preventStealing: true
         hoverEnabled: true
-        onDoubleClicked: canvasArea.clear()
+        onDoubleClicked: canvasView.currentItem.clear()
     }
 
     Keys.onSpacePressed: flickable.interactive = !flickable.interactive
@@ -78,9 +79,19 @@ Rectangle {
         }
     }
 
-    CanvasArea {
-        id: canvasArea
+    ListModel {
+        id: mainModel
+    }
+
+    ListView {
+        id: canvasView
         anchors.fill: parent
+        model: mainModel
+        currentIndex: pageManager.pageView.currentIndex
+        spacing: -width
+        orientation: ListView.Horizontal
+        interactive: false
+        delegate: CanvasArea { visible: ListView.isCurrentItem }
     }
 
     PageManager {
@@ -127,4 +138,3 @@ Rectangle {
         id: coreLib
     }
 }
-
