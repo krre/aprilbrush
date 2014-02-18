@@ -90,6 +90,8 @@ Rectangle {
         }
     }
 
+
+
     Flickable {
         id: flickable
         anchors.fill: parent
@@ -254,11 +256,19 @@ Rectangle {
         }
     }
 
+    PageManager {
+        id: pageManager
+        width: parent.width
+//        height: 0
+    }
+
     TopBar {
         id: topBar
         property var storage: ["visible"]
         objectName: "topBar"
         width: parent.width
+        anchors.top: pageManager.bottom
+
     }
 
     ColorPicker {
