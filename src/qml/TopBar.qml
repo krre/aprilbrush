@@ -25,8 +25,13 @@ Item {
         }
 
         TopButton {
+            title: qsTr("Layers")
+            onClicked: brushSettings.visible = !brushSettings.visible
+        }
+
+        TopButton {
             title: qsTr("Brush Library")
-            onClicked: brushLibrary.visible = !brushLibrary.visible
+            onClicked: layerManager.visible = !layerManager.visible
         }
     }
 }

@@ -21,12 +21,19 @@ import "undo.js" as Undo
 ToolWindow {
     id: root
     property alias layerView: layerView
+    property alias currentRow: layerView.currentIndex
+    property var layerModel: currentPageIndex > 0 ? mainModel.get(currentPageIndex).layerModel : []
 
-    text: "Layers"
+    title: "Layers"
+    objectName: "layerManager"
+    storage: { var list = defaultStorage(); return list }
+
+    function addLayer() {
+
+}
 
     ColumnLayout {
         anchors.fill: parent
-        visible: tabView.count > 0
 
         VerticalList {
             id: layerView
@@ -37,21 +44,18 @@ ToolWindow {
             onCountChanged: if (currentIndex >= 0 ) { currentLayerId = layerModel.get(currentIndex).layerId }
         }
 
-        // Buttons
         RowLayout {
             spacing: 2
 
-            // New button
             Button {
                 Layout.fillWidth: true
                 text: qsTr("New")
                 onClicked: {
-                    Utils.addLayer()
-                    undoManager.add(new Undo.addLayer())
+                    addLayer()
+//                    undoManager.add(new Undo.addLayer())
                 }
             }
 
-            // Up button
             Button {
                 Layout.fillWidth: true
                 text: qsTr("Up")
@@ -64,7 +68,6 @@ ToolWindow {
                 }
             }
 
-            // Down button
             Button {
                 Layout.fillWidth: true
                 text: qsTr("Down")
@@ -76,7 +79,6 @@ ToolWindow {
                 }
             }
 
-            // Merge button
             Button {
                 Layout.fillWidth: true
                 text: qsTr("Merge")
@@ -86,23 +88,12 @@ ToolWindow {
                     }
                 }
             }
-/*
-            // Clone button
+
             Button {
                 Layout.fillWidth: true
                 text: qsTr("Clone")
                 onClicked: {
                     undoManager.add(new Undo.cloneLayer())
-                }
-            }
-*/
-            // Delete button
-            Button {
-                Layout.fillWidth: true
-                text: qsTr("Delete")
-                onClicked: {
-                    undoManager.add(new Undo.deleteLayer(layerView.currentIndex))
-                    Utils.deleteLayer(layerView.currentIndex)
                 }
             }
         }

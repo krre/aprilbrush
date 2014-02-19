@@ -16,7 +16,7 @@ Item {
     Component.onCompleted: addPage()
 
     function addPage() {
-        mainModel.append({})
+        mainModel.append({ layerModel: []})
         pageView.currentIndex = pageView.count - 1
     }
 

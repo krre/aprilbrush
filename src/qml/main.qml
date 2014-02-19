@@ -29,6 +29,7 @@ Rectangle {
     property var palette: Style.defaultStyle()
     property bool cornerHover: rightTopCorner.containsMouse | leftBottomCorner.containsMouse
     property size imageSize: Qt.size(Screen.width, Screen.height)
+    property int currentPageIndex: pageManager.pageView.currentIndex
 
     width: 1000
     height: 600
@@ -119,6 +120,12 @@ Rectangle {
         x: 500
         y: 25
         onSettingsChanged: dab.requestPaint()
+    }
+
+    LayerManager {
+        id: layerManager
+        x: 25
+        y: 200
     }
 
     BrushLibrary {
