@@ -43,13 +43,10 @@ OTHER_FILES += \
     qml/LayerManager.qml \
     qml/components/CloseButton.qml \
     qml/UndoManager.qml \
-    qml/components/ListItem.qml \
-    qml/components/ListItemComponent.qml \
     qml/components/ToolWindow.qml \
     qml/style.js \
     qml/FileDialog.qml \
     qml/components/SliderText.qml \
-    qml/components/VerticalList.qml \
     qml/TopBar.qml \
     qml/style/ButtonStyle.qml
 
