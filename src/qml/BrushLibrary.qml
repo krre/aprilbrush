@@ -15,7 +15,7 @@ import QtQuick 2.1
 import QtQuick.Controls 1.1
 import QtQuick.Layouts 1.1
 import "components"
-import "brushlib.js" as BrushLib
+import "style"
 import "settings.js" as Settings
 
 ToolWindow {
@@ -23,6 +23,14 @@ ToolWindow {
     title: "Brush Library"
     objectName: "brushLibrary"
     storage: defaultStorage()
+
+    Component.onCompleted: {
+        var brushPack = coreLib.loadBrushPack()
+        var jsonBrushPack = JSON.parse(brushPack)
+        for (var i = 0; i < jsonBrushPack.length; i++) {
+            libraryModel.append(jsonBrushPack[i])
+        }
+    }
 
     function changeBrushSettings(row) {
         brushSettings.diameter = libraryModel.get(row).size
@@ -34,14 +42,20 @@ ToolWindow {
 //        brushSettings.jitter = libraryModel.get(row).jitter
     }
 
-    Item {
+    Flow {
         anchors.fill: parent
+        spacing: 5
 
-        VerticalList {
-            anchors.fill: parent
+        Repeater {
             model: libraryModel
-            onClicked: changeBrushSettings(currentIndex)
-            Component.onCompleted: BrushLib.loadBrushPack()
+            delegate: Button {
+                width: 50
+                height: 50
+                text: name
+                style: ButtonStyle {}
+                onClicked: changeBrushSettings(index)
+            }
+
         }
 
         ListModel {
