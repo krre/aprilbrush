@@ -27,7 +27,6 @@ Rectangle {
     id: mainRoot
     property real pressure: 0
     property var palette: Style.defaultStyle()
-    property bool cornerHover: rightTopCorner.containsMouse | leftBottomCorner.containsMouse
     property size imageSize: Qt.size(Screen.width, Screen.height)
     property int currentPageIndex: pageManager.pageView.currentIndex
     property var layerModel: currentPageIndex >= 0 ? mainModel.get(currentPageIndex).layerModel : []
@@ -46,28 +45,6 @@ Rectangle {
         target: PointerEater
         onPressure: mainRoot.pressure = pressure
         onPressed: type == 0 ? mainRoot.pressure = 1 : mainRoot.pressure = 0
-    }
-
-    MouseArea {
-        id: rightTopCorner
-        width: 50
-        height: 50
-        anchors.right: parent.right
-        anchors.top: pageManager.bottom
-        preventStealing: true
-        hoverEnabled: true
-        onDoubleClicked: pageManager.collapse = !pageManager.collapse
-    }
-
-    MouseArea {
-        id: leftBottomCorner
-        width: 50
-        height: 50
-        anchors.left: parent.left
-        anchors.bottom: parent.bottom
-        preventStealing: true
-        hoverEnabled: true
-        onDoubleClicked: canvasView.currentItem.clear()
     }
 
     Keys.onSpacePressed: flickable.interactive = !flickable.interactive
@@ -96,17 +73,22 @@ Rectangle {
         delegate: CanvasArea {}
     }
 
-    PageManager {
-        id: pageManager
+    Column {
         width: parent.width
-    }
+        spacing: 0
 
-    TopBar {
-        id: topBar
-        property var storage: ["visible"]
-        objectName: "topBar"
-        width: parent.width
-        anchors.top: pageManager.bottom
+        PageManager {
+            id: pageManager
+            width: parent.width
+        }
+
+        TopBar {
+            id: topBar
+            property var storage: ["visible"]
+            objectName: "topBar"
+            width: parent.width
+        }
+
     }
 
     ColorPicker {

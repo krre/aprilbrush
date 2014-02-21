@@ -15,6 +15,7 @@ import QtQuick 2.1
 import QtQuick.Controls 1.0
 import QtQuick.Layouts 1.0
 import "components"
+import "style"
 import "utils.js" as Utils
 import "undo.js" as Undo
 
@@ -102,6 +103,8 @@ ToolWindow {
 //                    undoManager.add(new Undo.addLayer())
                 }
                 enabled: mainModel.count > 0
+                style: ButtonStyle {}
+
             }
 
             Button {
@@ -113,6 +116,7 @@ ToolWindow {
 //                        undoManager.add(new Undo.raiseLayer())
                     }
                 }
+                style: ButtonStyle {}
             }
 
             Button {
@@ -124,6 +128,7 @@ ToolWindow {
 //                        undoManager.add(new Undo.lowerLayer())
                     }
                 }
+                style: ButtonStyle {}
             }
 
             Button {
@@ -134,6 +139,7 @@ ToolWindow {
 //                        undoManager.add(new Undo.mergeLayer())
                     }
                 }
+                style: ButtonStyle {}
             }
 
             Button {
@@ -142,6 +148,7 @@ ToolWindow {
                 onClicked: {
 //                    undoManager.add(new Undo.cloneLayer())
                 }
+                style: ButtonStyle {}
             }
         }
     }

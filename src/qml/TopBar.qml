@@ -1,37 +1,48 @@
 import QtQuick 2.2
+import QtQuick.Controls 1.1
 import "components"
-import QtQuick.Layouts 1.1
+import "style"
 
-Item {
-    property real betweenSpace: (width - toolsButton.width * toolsButtonRow.children.length) / (toolsButtonRow.children.length + 1)
-    width: parent.width
-    height: 20
+Rectangle {
+    height: 28
+    color: "black"
+    opacity: 0.8
 
-    RowLayout {
-        id: toolsButtonRow
-        x: betweenSpace
+    Row {
+        x: 10
+        width: parent.width
         anchors.verticalCenter: parent.verticalCenter
-        spacing: betweenSpace
+        spacing: 10
 
-        TopButton {
+        Button {
             id: toolsButton
-            title: qsTr("Color")
+            text: qsTr("Color")
+            style: ButtonStyle {}
             onClicked: colorPicker.visible = !colorPicker.visible
         }
 
-        TopButton {
-            title: qsTr("Brush Settings")
+        Button {
+            text: qsTr("Brush Settings")
+            style: ButtonStyle {}
             onClicked: brushSettings.visible = !brushSettings.visible
         }
 
-        TopButton {
-            title: qsTr("Layers")
+        Button {
+            text: qsTr("Layers")
+            style: ButtonStyle {}
             onClicked: layerManager.visible = !layerManager.visible
         }
 
-        TopButton {
-            title: qsTr("Brush Library")
+        Button {
+            text: qsTr("Brush Library")
+            style: ButtonStyle {}
             onClicked: brushLibrary.visible = !brushLibrary.visible
+        }
+
+        Button {
+            text: qsTr("Clear")
+            style: ButtonStyle {}
+            onClicked: canvasView.currentItem.clear()
         }
     }
 }

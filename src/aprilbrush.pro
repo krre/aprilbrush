@@ -52,6 +52,6 @@ OTHER_FILES += \
     qml/components/SliderText.qml \
     qml/components/VerticalList.qml \
     qml/TopBar.qml \
-    qml/components/TopButton.qml
+    qml/style/ButtonStyle.qml
 
 RESOURCES +=

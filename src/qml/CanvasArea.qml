@@ -67,9 +67,7 @@ Canvas {
         onPressed: {
             var point = Qt.point(mouseX, mouseY)
             canvas.lastDrawPoint = point
-            if (!cornerHover) {
-                canvas.drawDab(point)
-            }
+            canvas.drawDab(point)
             points = []
             points.push(point)
         }

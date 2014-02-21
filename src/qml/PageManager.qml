@@ -1,5 +1,7 @@
 import QtQuick 2.2
+import QtQuick.Controls 1.0
 import "components"
+import "style"
 import "settings.js" as Settings
 
 Item {
@@ -34,30 +36,14 @@ Item {
         anchors.centerIn: parent
         spacing: 5
 
-        Rectangle {
+        Button {
             id: plus
             width: 35
             height: 35
             anchors.verticalCenter: parent.verticalCenter
-            radius: 10
-            antialiasing: true
-            color: mouseArea.pressed? "#222222" : mouseArea.containsMouse ? "#474747" : "transparent"
-            border.color: "gray"
-
-            Text {
-                text: "+"
-                anchors.centerIn: parent
-                color: "white"
-                font.pointSize: 17
-                font.bold: true
-            }
-
-            MouseArea {
-                id: mouseArea
-                anchors.fill: parent
-                hoverEnabled: true
-                onClicked: addPage()
-            }
+            text: "+"
+            style: ButtonStyle {}
+            onClicked: addPage()
         }
 
         ListView {
