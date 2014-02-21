@@ -30,6 +30,7 @@ Rectangle {
     property bool cornerHover: rightTopCorner.containsMouse | leftBottomCorner.containsMouse
     property size imageSize: Qt.size(Screen.width, Screen.height)
     property int currentPageIndex: pageManager.pageView.currentIndex
+    property var layerModel: currentPageIndex >= 0 ? mainModel.get(currentPageIndex).layerModel : []
 
     width: 1000
     height: 600

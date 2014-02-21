@@ -90,7 +90,9 @@ Item {
 
                 MouseArea {
                     anchors.fill: parent
-                    onClicked: parent.ListView.view.currentIndex = index
+                    onClicked: {
+                        parent.ListView.view.currentIndex = index
+                    }
                 }
 
                 CloseButton {

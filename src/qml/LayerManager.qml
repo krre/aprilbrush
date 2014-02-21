@@ -22,26 +22,73 @@ ToolWindow {
     id: root
     property alias layerView: layerView
     property alias currentRow: layerView.currentIndex
-    property var layerModel: currentPageIndex > 0 ? mainModel.get(currentPageIndex).layerModel : []
 
     title: "Layers"
     objectName: "layerManager"
     storage: { var list = defaultStorage(); return list }
 
     function addLayer() {
-
-}
+        layerModel.append({ name: qsTr("Layer")})
+        layerView.currentIndex = layerModel.count - 1
+    }
 
     ColumnLayout {
         anchors.fill: parent
 
-        VerticalList {
+        ListView {
             id: layerView
             model: layerModel
+            delegate: layerDelegate
             Layout.fillHeight: true
             Layout.fillWidth: true
-            onCurrentIndexChanged: if (currentIndex >= 0 ) { currentLayerId = layerModel.get(currentIndex).layerId }
-            onCountChanged: if (currentIndex >= 0 ) { currentLayerId = layerModel.get(currentIndex).layerId }
+            spacing: 5
+            clip: true
+        }
+
+        Component {
+            id: layerDelegate
+
+            RowLayout {
+                property alias thumbnail: thumbnail
+                width: ListView.view.width
+                height: 50
+                opacity: ListView.isCurrentItem ? 1.0 : 0.6
+                spacing: 10
+
+                Component.onCompleted: thumbnail.paintThumbnail()
+
+                Canvas {
+                    id: thumbnail
+                    Layout.preferredWidth: 80
+                    Layout.preferredHeight: parent.height
+
+                    function paintThumbnail() {
+                        var ctx = getContext("2d")
+                        ctx.clearRect(0, 0, width, height)
+                        var thumbnail = canvasView.currentItem.getContext("2d").getImageData(0, 0, imageSize.width, imageSize.height)
+                        ctx.drawImage(thumbnail, 0, 0, width, height)
+                        requestPaint()
+                    }
+                }
+
+                Text {
+                    text: name
+                    Layout.fillWidth: true
+                    color: "white"
+                }
+
+                MouseArea {
+                    anchors.fill: parent
+                    onClicked: parent.ListView.view.currentIndex = index
+                }
+
+                CloseButton {
+                    anchors.verticalCenter: parent.verticalCenter
+                    anchors.right: parent.right
+                    anchors.rightMargin: 5
+                    onClicked: layerModel.remove(index)
+                }
+            }
         }
 
         RowLayout {
@@ -54,6 +101,7 @@ ToolWindow {
                     addLayer()
 //                    undoManager.add(new Undo.addLayer())
                 }
+                enabled: mainModel.count > 0
             }
 
             Button {
@@ -62,9 +110,8 @@ ToolWindow {
                 onClicked: {
                     if (layerView.currentIndex > 0) {
                         layerModel.move(layerView.currentIndex, layerView.currentIndex - 1, 1)
-                        undoManager.add(new Undo.raiseLayer())
+//                        undoManager.add(new Undo.raiseLayer())
                     }
-
                 }
             }
 
@@ -74,7 +121,7 @@ ToolWindow {
                 onClicked: {
                     if (layerView.currentIndex < layerView.count - 1) {
                         layerModel.move(layerView.currentIndex, layerView.currentIndex + 1, 1)
-                        undoManager.add(new Undo.lowerLayer())
+//                        undoManager.add(new Undo.lowerLayer())
                     }
                 }
             }
@@ -84,7 +131,7 @@ ToolWindow {
                 text: qsTr("Merge")
                 onClicked: {
                     if ((layerView.count > 1) && (layerView.currentIndex < layerView.count - 1)) {
-                        undoManager.add(new Undo.mergeLayer())
+//                        undoManager.add(new Undo.mergeLayer())
                     }
                 }
             }
@@ -93,7 +140,7 @@ ToolWindow {
                 Layout.fillWidth: true
                 text: qsTr("Clone")
                 onClicked: {
-                    undoManager.add(new Undo.cloneLayer())
+//                    undoManager.add(new Undo.cloneLayer())
                 }
             }
         }

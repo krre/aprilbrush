@@ -75,6 +75,7 @@ Canvas {
         }
         onReleased: {
             pageManager.pageView.currentItem.paintThumbnail()
+            layerManager.layerView.currentItem.thumbnail.paintThumbnail()
         }
 
         onPositionChanged: {
