@@ -113,14 +113,13 @@ Item {
         width: 20
         height: 20
         anchors.bottom: parent.bottom
-        anchors.bottomMargin: 3
+        anchors.bottomMargin: 2
         anchors.right: parent.right
-        anchors.rightMargin: 3
         visible: !collapse
 
         Text {
             property color activeColor: Qt.darker("white", 1.1)
-            text: "="
+            text: ".."
             anchors.centerIn: parent
             font.pointSize: 15
             color: resizeMouseArea.pressed ? Qt.darker(activeColor, 1.2) : resizeMouseArea.containsMouse ? activeColor : "#9c9494"
