@@ -45,4 +45,13 @@ Rectangle {
             onClicked: canvasView.currentItem.clear()
         }
     }
+
+    Button {
+        anchors.verticalCenter: parent.verticalCenter
+        anchors.right: parent.right
+        anchors.rightMargin: 10
+        text: pageManager.collapse ? qsTr("Show Tabs") : qsTr("Hide Tabs")
+        style: ButtonStyle {}
+        onClicked: pageManager.collapse = !pageManager.collapse
+    }
 }
