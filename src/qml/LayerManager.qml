@@ -28,9 +28,9 @@ ToolWindow {
     objectName: "layerManager"
     storage: { var list = defaultStorage(); return list }
 
-    function addLayer() {
-        layerModel.append({ name: qsTr("Layer")})
-        layerView.currentIndex = layerModel.count - 1
+    function addLayer(name, color) {
+        layerModel.insert(0, { name: name, color: color })
+        layerView.currentIndex = 0
     }
 
     ColumnLayout {
@@ -56,12 +56,11 @@ ToolWindow {
                 opacity: ListView.isCurrentItem ? 1.0 : 0.6
                 spacing: 10
 
-                Component.onCompleted: thumbnail.paintThumbnail()
-
                 Canvas {
                     id: thumbnail
                     Layout.preferredWidth: 80
                     Layout.preferredHeight: parent.height
+                    onAvailableChanged: if (true) { paintThumbnail() }
 
                     function paintThumbnail() {
                         var ctx = getContext("2d")

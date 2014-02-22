@@ -20,6 +20,9 @@ Item {
     function addPage() {
         mainModel.append({ layerModel: []})
         pageView.currentIndex = pageView.count - 1
+
+        layerManager.addLayer("Background", "white")
+        layerManager.addLayer("Layer", "transparent")
     }
 
     Rectangle {
