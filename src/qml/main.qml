@@ -94,27 +94,27 @@ Rectangle {
     ColorPicker {
         id: colorPicker
         x: 25
-        y: 25
+        y: 120
         onColorChanged: brushSettings.dab.requestPaint()
     }
 
     BrushSettings {
         id: brushSettings
-        x: 500
-        y: 25
+        x: 772
+        y: 120
         onSettingsChanged: dab.requestPaint()
     }
 
     LayerManager {
         id: layerManager
         x: 25
-        y: 200
+        y: 375
     }
 
     BrushLibrary {
         id: brushLibrary
-        x: 500
-        y: 200
+        x: 780
+        y: 375
     }
 
     Item {

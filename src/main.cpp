@@ -12,10 +12,6 @@
  */
 
 #include "cpp/qtquick2applicationviewer/qtquick2applicationviewer.h"
-#include "cpp/painteditem.h"
-#include "cpp/brushengine.h"
-#include "cpp/openraster.h"
-#include "cpp/imageprocessor.h"
 #include "cpp/corelib.h"
 #include "cpp/pointereater.h"
 
@@ -26,10 +22,6 @@ int main(int argc, char *argv[])
 {
     QGuiApplication app(argc, argv);
 
-    qmlRegisterType<PaintedItem>("ABLib", 1, 0, "PaintedItem");
-    qmlRegisterType<BrushEngine>("ABLib", 1, 0, "BrushEngine");
-    qmlRegisterType<OpenRaster>("ABLib", 1, 0, "OpenRaster");
-    qmlRegisterType<ImageProcessor>("ABLib", 1, 0, "ImageProcessor");
     qmlRegisterType<CoreLib>("ABLib", 1, 0, "CoreLib");
 
     PointerEater *pointerEater = new PointerEater();

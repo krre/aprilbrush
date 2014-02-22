@@ -14,18 +14,10 @@ TARGET = aprilbrush
 
 SOURCES += \
     main.cpp \
-    cpp/painteditem.cpp \
-    cpp/brushengine.cpp \
-    cpp/openraster.cpp \
-    cpp/imageprocessor.cpp \
     cpp/corelib.cpp \
     cpp/pointereater.cpp
 
 HEADERS += \
-    cpp/painteditem.h \
-    cpp/brushengine.h \
-    cpp/openraster.h \
-    cpp/imageprocessor.h \
     cpp/corelib.h \
     cpp/pointereater.h
 
