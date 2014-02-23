@@ -37,7 +37,7 @@ ListView {
             ctx.fillRect(0, 0, width, height)
             ctx.restore();
             requestPaint()
-            pageManager.pageView.currentItem.paintThumbnail()
+            pageManager.pageView.currentItem.canvas.paintThumbnail()
         }
     }
 
@@ -72,7 +72,7 @@ ListView {
             points.push(point)
         }
         onReleased: {
-            pageManager.pageView.currentItem.paintThumbnail()
+            pageManager.pageView.currentItem.canvas.paintThumbnail()
             if (layerModel.count > 0) {
                 layerManager.layerView.currentItem.thumbnail.paintThumbnail()
             }

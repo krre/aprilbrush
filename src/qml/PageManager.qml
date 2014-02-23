@@ -64,33 +64,44 @@ Item {
         Component {
             id: pageDelegate
 
-            Canvas {
+            Rectangle {
+                property alias canvas: canvas
                 width: 100
                 height: ListView.view.height
                 opacity: ListView.isCurrentItem ? 1.0 : 0.6
+                color: "transparent"
+                border.color: "gray"
 
-                function paintThumbnail() {
-                    var ctx = getContext("2d")
-                    ctx.clearRect(0, 0, width, height)
-//                    var thumbnail = canvasView.currentItem.getContext("2d").getImageData(0, 0, imageSize.width, imageSize.height)
-//                    ctx.drawImage(thumbnail, 0, 0, width, height)
-                    requestPaint()
-                }
+                Canvas {
+                    id: canvas
+                    width: parent.width - 2
+                    height: parent.height - 2
+                    anchors.centerIn: parent
 
-                MouseArea {
-                    anchors.fill: parent
-                    onClicked: {
-                        parent.ListView.view.currentIndex = index
+                    function paintThumbnail() {
+                        var ctx = getContext("2d")
+                        ctx.clearRect(0, 0, width, height)
+                        var thumbnail = canvasView.currentItem.currentItem.getContext("2d").getImageData(0, 0, imageSize.width, imageSize.height)
+                        ctx.drawImage(thumbnail, 0, 0, width, height)
+                        requestPaint()
+                    }
+
+                    MouseArea {
+                        anchors.fill: parent
+                        onClicked: {
+                            pageView.currentIndex = index
+                        }
+                    }
+
+                    CloseButton {
+                        anchors.top: parent.top
+                        anchors.topMargin: 5
+                        anchors.right: parent.right
+                        anchors.rightMargin: 5
+                        onClicked: mainModel.remove(index)
                     }
                 }
 
-                CloseButton {
-                    anchors.top: parent.top
-                    anchors.topMargin: 5
-                    anchors.right: parent.right
-                    anchors.rightMargin: 5
-                    onClicked: mainModel.remove(index)
-                }
             }
         }
     }
