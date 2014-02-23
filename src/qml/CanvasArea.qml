@@ -28,6 +28,7 @@ ListView {
         height: imageSize.height
     //        antialiasing: true
         smooth: false
+        visible: visibled
         onAvailableChanged: clear()
 
         function clear() {
@@ -65,6 +66,8 @@ ListView {
         }
 
         onPressed: {
+            if (layerModel.get(currentLayerIndex).blocked) { return }
+
             var point = Qt.point(mouseX, mouseY)
             lastDrawPoint = point
             drawDab(point)
@@ -72,6 +75,8 @@ ListView {
             points.push(point)
         }
         onReleased: {
+            if (layerModel.get(currentLayerIndex).blocked) { return }
+
             pageManager.pageView.currentItem.canvas.paintThumbnail()
             if (layerModel.count > 0) {
                 layerManager.layerView.currentItem.thumbnail.paintThumbnail()
@@ -79,6 +84,8 @@ ListView {
         }
 
         onPositionChanged: {
+            if (layerModel.get(currentLayerIndex).blocked) { return }
+
             var currentPoint = Qt.point(mouseX, mouseY)
             var startPoint = lastDrawPoint
             var currentSpacing = Math.sqrt(Math.pow(currentPoint.x - startPoint.x, 2) + Math.pow(currentPoint.y - startPoint.y, 2))

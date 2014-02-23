@@ -28,7 +28,7 @@ ToolWindow {
 
     function addLayer(name, color) {
         var insertIndex = layerView.currentIndex < 0 ? 0 : layerView.currentIndex
-        layerModel.insert(insertIndex, { name: name, color: color })
+        layerModel.insert(insertIndex, { name: name, color: color, visibled: true, blocked: false })
         layerView.currentIndex = insertIndex
     }
 
@@ -78,11 +78,12 @@ ToolWindow {
                             radius: width / 2
                             antialiasing: true
                             color: "white"
+                            visible: visibled
                         }
 
                         MouseArea {
                             anchors.fill: parent
-                            onClicked: layerVisible.visible = !layerVisible.visible
+                            onClicked: layerModel.setProperty(index, "visibled", !visibled)
                         }
                     }
 
@@ -98,12 +99,12 @@ ToolWindow {
                             height: 7
                             anchors.centerIn: parent
                             color: "white"
-                            visible: false
+                            visible: blocked
                         }
 
                         MouseArea {
                             anchors.fill: parent
-                            onClicked: layerBlocked.visible = !layerBlocked.visible
+                            onClicked: layerModel.setProperty(index, "blocked", !blocked)
                         }
                     }
                 }
