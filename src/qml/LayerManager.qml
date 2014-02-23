@@ -54,7 +54,58 @@ ToolWindow {
                 width: ListView.view.width
                 height: 50
                 opacity: ListView.isCurrentItem ? 1.0 : 0.6
-                spacing: 10
+                spacing: 5
+
+                Column {
+                    width: 20
+                    height: parent.height
+                    spacing: 3
+                    anchors.verticalCenter: parent.verticalCenter
+
+                    Rectangle {
+                        width: 15
+                        height: 15
+                        radius: width / 2
+                        antialiasing: true
+                        color: "transparent"
+                        border.color: "gray"
+
+                        Rectangle {
+                            id: layerVisible
+                            width: 7
+                            height: 7
+                            anchors.centerIn: parent
+                            radius: width / 2
+                            antialiasing: true
+                            color: "white"
+                        }
+
+                        MouseArea {
+                            anchors.fill: parent
+                            onClicked: layerVisible.visible = !layerVisible.visible
+                        }
+                    }
+
+                    Rectangle {
+                        width: 15
+                        height: 15
+                        color: "transparent"
+                        border.color: "gray"
+
+                        Rectangle {
+                            id: layerBlocked
+                            width: 7
+                            height: 7
+                            anchors.centerIn: parent
+                            color: "white"
+                        }
+
+                        MouseArea {
+                            anchors.fill: parent
+                            onClicked: layerBlocked.visible = !layerBlocked.visible
+                        }
+                    }
+                }
 
                 Canvas {
                     id: thumbnail
@@ -69,17 +120,22 @@ ToolWindow {
                         ctx.drawImage(thumbnail, 0, 0, width, height)
                         requestPaint()
                     }
+
+                    MouseArea {
+                        anchors.fill: parent
+                        onClicked: parent.parent.ListView.view.currentIndex = index
+                    }
                 }
 
                 Text {
                     text: name
                     Layout.fillWidth: true
                     color: "white"
-                }
 
-                MouseArea {
-                    anchors.fill: parent
-                    onClicked: parent.ListView.view.currentIndex = index
+                    MouseArea {
+                        anchors.fill: parent
+                        onClicked: parent.parent.ListView.view.currentIndex = index
+                    }
                 }
 
                 CloseButton {
