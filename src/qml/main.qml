@@ -29,6 +29,7 @@ Rectangle {
     property var palette: Style.defaultStyle()
     property size imageSize: Qt.size(Screen.width, Screen.height)
     property int currentPageIndex: pageManager.pageView.currentIndex
+    property int currentLayerIndex: layerManager.layerView.currentIndex
     property var layerModel: currentPageIndex >= 0 ? mainModel.get(currentPageIndex).layerModel : []
 
     width: 1000
@@ -66,7 +67,7 @@ Rectangle {
         id: canvasView
         anchors.fill: parent
         model: mainModel
-        currentIndex: pageManager.pageView.currentIndex
+        currentIndex: currentPageIndex
         spacing: -imageSize.width
         orientation: ListView.Horizontal
         interactive: false

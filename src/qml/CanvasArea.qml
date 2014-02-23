@@ -13,40 +13,40 @@
 
 import QtQuick 2.2
 
-Canvas {
-    id: canvas
-    property point lastDrawPoint
+ListView {
     width: imageSize.width
     height: imageSize.height
-//        antialiasing: true
-    smooth: false
+    model: layerModel
     visible: ListView.isCurrentItem
+    spacing: -imageSize.width
+    orientation: ListView.Horizontal
+    currentIndex: layerManager.layerView.currentIndex
+    interactive: false
+    delegate: Canvas {
+        z: 1000 - index
+        width: imageSize.width
+        height: imageSize.height
+    //        antialiasing: true
+        smooth: false
+        onAvailableChanged: clear()
 
-    property real diameter: brushSettings.brushModel.children[0].value
-    property real opaque: brushSettings.brushModel.children[1].value / 100
-    property real hardness: brushSettings.brushModel.children[2].value / 100
-    property real spacing: brushSettings.brushModel.children[3].value / 100
-
-    property color fillStyle: "#ffffff"
-
-    onAvailableChanged: clear()
-
-    function clear() {
-        var ctx = canvas.getContext("2d")
-        ctx.save()
-        ctx.fillStyle = canvas.fillStyle
-        ctx.fillRect(0, 0, width, height)
-        ctx.restore();
-        canvas.requestPaint()
-        pageManager.pageView.currentItem.paintThumbnail()
+        function clear() {
+            var ctx = getContext("2d")
+            ctx.save()
+            ctx.fillStyle = color
+            ctx.fillRect(0, 0, width, height)
+            ctx.restore();
+            requestPaint()
+            pageManager.pageView.currentItem.paintThumbnail()
+        }
     }
 
     MouseArea {
-        property real deltaDab: Math.max(canvas.spacing * canvas.diameter, 1)
+        property real deltaDab: Math.max(brushSettings.spacing / 100 * brushSettings.diameter, 1)
         property var points: []
         property bool linearMode: false
+        property point lastDrawPoint
         anchors.fill: parent
-        propagateComposedEvents: true
 
         function bezierCurve(start, control, end, t) {
             var x, y
@@ -66,8 +66,8 @@ Canvas {
 
         onPressed: {
             var point = Qt.point(mouseX, mouseY)
-            canvas.lastDrawPoint = point
-            canvas.drawDab(point)
+            lastDrawPoint = point
+            drawDab(point)
             points = []
             points.push(point)
         }
@@ -80,7 +80,7 @@ Canvas {
 
         onPositionChanged: {
             var currentPoint = Qt.point(mouseX, mouseY)
-            var startPoint = canvas.lastDrawPoint
+            var startPoint = lastDrawPoint
             var currentSpacing = Math.sqrt(Math.pow(currentPoint.x - startPoint.x, 2) + Math.pow(currentPoint.y - startPoint.y, 2))
             var numDabs = Math.floor(currentSpacing / deltaDab)
             if (numDabs >= 1) {
@@ -103,7 +103,7 @@ Canvas {
                     if (diff && Math.abs(deltaPoint - deltaDab) > Math.abs(diff)) { break; }
                     diff = deltaPoint - deltaDab
                     if (Math.abs(diff <= 0.5)) {
-                        canvas.drawDab(point)
+                        drawDab(point)
                         diff = undefined
                         betweenPoint = point
                         t += deltaT
@@ -112,7 +112,7 @@ Canvas {
                     }
                 }
                 points.push(currentPoint)
-                canvas.lastDrawPoint = betweenPoint
+                lastDrawPoint = betweenPoint
             }
         }
     }
@@ -120,7 +120,7 @@ Canvas {
     function drawDab(point) {
 //            console.log(point)
         var dabCanvas = brushSettings.dab.getContext("2d").getImageData(0, 0, brushSettings.dab.width, brushSettings.dab.height)
-        var ctx = canvas.getContext("2d")
+        var ctx = currentItem.getContext("2d")
         ctx.save()
         var x = point.x - brushSettings.dab.width / 2
         var y = point.y - brushSettings.dab.height / 2
@@ -141,10 +141,10 @@ Canvas {
         ctx.drawImage(dabCanvas, Math.floor(x + 1), Math.floor(y))
 //            console.log(ctx.globalAlpha, Math.floor(x + 1), Math.floor(y))
 
-
 //            ctx.drawImage(dabCanvas, point.x - dab.width / 2, point.y - dab.height / 2)
         ctx.restore()
-        markDirty(point.x - brushSettings.dab.width / 2, point.y - brushSettings.dab.height / 2, brushSettings.dab.width, brushSettings.dab.height)
+        currentItem.markDirty(point.x - brushSettings.dab.width / 2, point.y - brushSettings.dab.height / 2, brushSettings.dab.width, brushSettings.dab.height)
     }
+
 }
 

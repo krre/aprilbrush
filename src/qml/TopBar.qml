@@ -42,7 +42,7 @@ Rectangle {
         Button {
             text: qsTr("Clear")
             style: ButtonStyle {}
-            onClicked: canvasView.currentItem.clear()
+            onClicked: canvasView.currentItem.currentItem.clear()
         }
     }
 

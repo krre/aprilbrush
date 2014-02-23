@@ -72,8 +72,8 @@ Item {
                 function paintThumbnail() {
                     var ctx = getContext("2d")
                     ctx.clearRect(0, 0, width, height)
-                    var thumbnail = canvasView.currentItem.getContext("2d").getImageData(0, 0, imageSize.width, imageSize.height)
-                    ctx.drawImage(thumbnail, 0, 0, width, height)
+//                    var thumbnail = canvasView.currentItem.getContext("2d").getImageData(0, 0, imageSize.width, imageSize.height)
+//                    ctx.drawImage(thumbnail, 0, 0, width, height)
                     requestPaint()
                 }
 

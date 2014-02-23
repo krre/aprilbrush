@@ -22,15 +22,14 @@ import "undo.js" as Undo
 ToolWindow {
     id: root
     property alias layerView: layerView
-    property alias currentRow: layerView.currentIndex
-
     title: "Layers"
     objectName: "layerManager"
     storage: { var list = defaultStorage(); return list }
 
     function addLayer(name, color) {
-        layerModel.insert(0, { name: name, color: color })
-        layerView.currentIndex = 0
+        var insertIndex = layerView.currentIndex < 0 ? 0 : layerView.currentIndex
+        layerModel.insert(insertIndex, { name: name, color: color })
+        layerView.currentIndex = insertIndex
     }
 
     ColumnLayout {
@@ -38,12 +37,13 @@ ToolWindow {
 
         ListView {
             id: layerView
-            model: layerModel
-            delegate: layerDelegate
             Layout.fillHeight: true
             Layout.fillWidth: true
+            model: layerModel
+            delegate: layerDelegate
             spacing: 5
             clip: true
+            focus: true
         }
 
         Component {
@@ -98,6 +98,7 @@ ToolWindow {
                             height: 7
                             anchors.centerIn: parent
                             color: "white"
+                            visible: false
                         }
 
                         MouseArea {
@@ -107,39 +108,78 @@ ToolWindow {
                     }
                 }
 
-                Canvas {
-                    id: thumbnail
+                Rectangle {
                     Layout.preferredWidth: 80
                     Layout.preferredHeight: parent.height
-                    onAvailableChanged: if (true) { paintThumbnail() }
+                    color: "transparent"
+                    border.color: "gray"
 
-                    function paintThumbnail() {
-                        var ctx = getContext("2d")
-                        ctx.clearRect(0, 0, width, height)
-                        var thumbnail = canvasView.currentItem.getContext("2d").getImageData(0, 0, imageSize.width, imageSize.height)
-                        ctx.drawImage(thumbnail, 0, 0, width, height)
-                        requestPaint()
+                    Canvas {
+                        id: thumbnail
+                        width: parent.width - 2
+                        height: parent.height - 2
+                        anchors.centerIn: parent
+
+                        onAvailableChanged: if (true) { paintThumbnail() }
+
+                        function paintThumbnail() {
+                            var ctx = getContext("2d")
+                            ctx.clearRect(0, 0, width, height)
+                            var thumbnail = canvasView.currentItem.currentItem.getContext("2d").getImageData(0, 0, imageSize.width, imageSize.height)
+                            ctx.drawImage(thumbnail, 0, 0, width, height)
+                            requestPaint()
+                        }
+
+                        MouseArea {
+                            anchors.fill: parent
+                            onClicked: {
+                                layerTextEdit.focus = false
+                                layerView.currentIndex = index
+                            }
+                        }
                     }
 
-                    MouseArea {
-                        anchors.fill: parent
-                        onClicked: parent.parent.ListView.view.currentIndex = index
-                    }
+
                 }
 
-                Text {
-                    text: name
+
+                Item {
                     Layout.fillWidth: true
-                    color: "white"
+                    Layout.preferredHeight: parent.height
+
+                    Text {
+                        text: name
+                        width: parent.width
+                        color: "white"
+                        anchors.verticalCenter: parent.verticalCenter
+                        visible: !layerTextEdit.focus
+                    }
 
                     MouseArea {
                         anchors.fill: parent
-                        onClicked: parent.parent.ListView.view.currentIndex = index
+                        onClicked: layerView.currentIndex = index
+                        onDoubleClicked: layerTextEdit.focus = true
+                    }
+
+                    TextEdit {
+                        id: layerTextEdit
+                        width: parent.width
+                        anchors.verticalCenter: parent.verticalCenter
+                        text: name
+                        color: "white"
+                        cursorPosition: text.length
+                        visible: focus
+                        onTextChanged: if (text[text.length - 1] === "\n") {
+                                           text = text.replace("\n", "")
+                                           focus = false
+                                       }
+                        onFocusChanged: if (!focus) { layerModel.setProperty(index, "name", text) }
                     }
                 }
 
                 CloseButton {
-                    anchors.verticalCenter: parent.verticalCenter
+                    anchors.top: parent.top
+                    anchors.topMargin: 2
                     anchors.right: parent.right
                     anchors.rightMargin: 5
                     onClicked: layerModel.remove(index)
@@ -154,7 +194,7 @@ ToolWindow {
                 Layout.fillWidth: true
                 text: qsTr("New")
                 onClicked: {
-                    addLayer()
+                    addLayer("Layer", "transparent")
 //                    undoManager.add(new Undo.addLayer())
                 }
                 enabled: mainModel.count > 0
@@ -166,8 +206,8 @@ ToolWindow {
                 Layout.fillWidth: true
                 text: qsTr("Up")
                 onClicked: {
-                    if (layerView.currentIndex > 0) {
-                        layerModel.move(layerView.currentIndex, layerView.currentIndex - 1, 1)
+                    if (currentLayerIndex > 0) {
+                        layerModel.move(currentLayerIndex, currentLayerIndex - 1, 1)
 //                        undoManager.add(new Undo.raiseLayer())
                     }
                 }
@@ -178,8 +218,8 @@ ToolWindow {
                 Layout.fillWidth: true
                 text: qsTr("Down")
                 onClicked: {
-                    if (layerView.currentIndex < layerView.count - 1) {
-                        layerModel.move(layerView.currentIndex, layerView.currentIndex + 1, 1)
+                    if (currentLayerIndex < layerView.count - 1) {
+                        layerModel.move(currentLayerIndex, currentLayerIndex + 1, 1)
 //                        undoManager.add(new Undo.lowerLayer())
                     }
                 }
@@ -190,7 +230,7 @@ ToolWindow {
                 Layout.fillWidth: true
                 text: qsTr("Merge")
                 onClicked: {
-                    if ((layerView.count > 1) && (layerView.currentIndex < layerView.count - 1)) {
+                    if ((layerView.count > 1) && (currentLayerIndex < layerView.count - 1)) {
 //                        undoManager.add(new Undo.mergeLayer())
                     }
                 }
