@@ -64,7 +64,7 @@ Rectangle {
     }
 
     ListView {
-        id: canvasView
+        id: pageCanvasView
         anchors.fill: parent
         model: mainModel
         currentIndex: currentPageIndex
