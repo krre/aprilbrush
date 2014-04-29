@@ -48,6 +48,8 @@ ApplicationWindow {
         x = (Screen.width - mainRoot.width) / 2
         y = (Screen.height - mainRoot.height) / 2
 //        Settings.loadSettings()
+        newAction.trigger()
+
     }
 
 
@@ -82,6 +84,10 @@ ApplicationWindow {
             MenuItem { action: openAction }
             MenuItem { action: saveAction }
             MenuItem { action: saveAsAction }
+            MenuSeparator {}
+            MenuItem { action: closeAction }
+            MenuItem { action: closeAllAction }
+            MenuItem { action: closeOthersAction }
             MenuSeparator {}
             MenuItem { action: quitAction }
         }
@@ -136,7 +142,7 @@ ApplicationWindow {
         id: newAction
         text: qsTr("New")
         shortcut: StandardKey.New
-        onTriggered: print("new")
+        onTriggered: tabView.addTab("Untitled " + (tabView.count + 1))
         tooltip: "New an Image"
     }
 
@@ -165,6 +171,46 @@ ApplicationWindow {
     }
 
     Action {
+        id: closeAction
+        text: qsTr("Close")
+        shortcut: StandardKey.Close
+        onTriggered: tabView.removeTab(tabView.currentIndex)
+        tooltip: "Close as an Image"
+        enabled: tabView.count > 0
+    }
+
+    Action {
+        id: closeAllAction
+        text: qsTr("Close All")
+        onTriggered: {
+            while (tabView.count) {
+                tabView.removeTab(0)
+            }
+        }
+        tooltip: "Close all Images"
+        enabled: tabView.count > 0
+    }
+
+    Action {
+        id: closeOthersAction
+        text: qsTr("Close Others")
+        onTriggered: {
+            var currentTab = tabView.getTab(tabView.currentIndex)
+            var i = 0
+            while (tabView.count > 1) {
+                var tab = tabView.getTab(i)
+                if (tab !== currentTab) {
+                    tabView.removeTab(i)
+                } else {
+                    i++
+                }
+            }
+        }
+        tooltip: "Close others Images"
+        enabled: tabView.count > 1
+    }
+
+    Action {
         id: quitAction
         text: qsTr("Quit")
         shortcut: StandardKey.Quit
@@ -174,6 +220,11 @@ ApplicationWindow {
 
     FileDialog {
         id: fileDialog
+    }
+
+    TabView {
+        id: tabView
+        anchors.fill: parent
     }
 
     /*
