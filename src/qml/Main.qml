@@ -16,8 +16,10 @@ import QtQuick.Dialogs 1.1
 import QtQuick.Controls 1.1
 import QtQuick.Layouts 1.1
 import QtQuick.Window 2.0
-/*
+import QtQuick.Controls.Styles 1.1
 import ABLib 1.0
+import "settings.js" as Settings
+/*
 import "components"
 import "settings.js" as Settings
 import "utils.js" as Utils
@@ -47,13 +49,13 @@ ApplicationWindow {
     Component.onCompleted: {
         x = (Screen.width - mainRoot.width) / 2
         y = (Screen.height - mainRoot.height) / 2
-//        Settings.loadSettings()
+        Settings.loadSettings()
         newAction.trigger()
 
     }
 
 
-//    Component.onDestruction: Settings.saveSettings()
+    Component.onDestruction: Settings.saveSettings()
 
     /*
     Connections {
@@ -111,6 +113,13 @@ ApplicationWindow {
                 checkable: true
                 checked: true
                 onTriggered: statusBar.visible = !statusBar.visible
+            }
+
+            MenuItem {
+                text: colorPicker.title
+                checkable: true
+                checked: colorPicker.visible
+                onTriggered: colorPicker.visible = !colorPicker.visible
             }
         }
 
@@ -218,6 +227,10 @@ ApplicationWindow {
         tooltip: "Quit"
     }
 
+    CoreLib {
+        id: coreLib
+    }
+
     FileDialog {
         id: fileDialog
     }
@@ -225,6 +238,15 @@ ApplicationWindow {
     TabView {
         id: tabView
         anchors.fill: parent
+    }
+
+    ColorPicker {
+        id: colorPicker
+//        onColorChanged: brushSettings.dab.requestPaint()
+        Component.onCompleted: {
+            x = mainRoot.x + 25
+            y = mainRoot.y + 120
+        }
     }
 
     /*
@@ -262,13 +284,6 @@ ApplicationWindow {
 
     }
 
-    ColorPicker {
-        id: colorPicker
-        x: 25
-        y: 120
-        onColorChanged: brushSettings.dab.requestPaint()
-    }
-
     BrushSettings {
         id: brushSettings
         x: 772
@@ -295,8 +310,6 @@ ApplicationWindow {
         objectName: "commonStorage"
     }
 
-    CoreLib {
-        id: coreLib
-    }
+
     */
 }

@@ -11,15 +11,15 @@
  * GNU General Public License for more details.
  */
 
-import QtQuick 2.1
-import QtQuick.Layouts 1.0
+import QtQuick 2.2
+import QtQuick.Layouts 1.1
 import QtGraphicalEffects 1.0
 import "utils.js" as Utils
 import "components"
 
 ToolWindow {
     id: root
-    title: qsTr("Color")
+    title: qsTr("Color Picker")
     property real h
     property real s
     property real v
