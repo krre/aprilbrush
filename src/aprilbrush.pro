@@ -22,7 +22,6 @@ HEADERS += \
     cpp/pointereater.h
 
 OTHER_FILES += \
-    qml/main.qml \
     qml/ColorPicker.qml \
     qml/BrushSettings.qml \
     qml/About.qml \
@@ -40,6 +39,7 @@ OTHER_FILES += \
     qml/FileDialog.qml \
     qml/components/SliderText.qml \
     qml/TopBar.qml \
-    qml/style/ButtonStyle.qml
+    qml/style/ButtonStyle.qml \
+    qml/Main.qml
 
 RESOURCES +=
