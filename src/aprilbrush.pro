@@ -1,16 +1,6 @@
-folder_01.source = images
-folder_02.source = presets
-folder_03.source = qml
-folder_01.target =
-folder_02.target =
-folder_03.target =
-DEPLOYMENTFOLDERS = folder_01 folder_02 folder_03
-
-# Please do not modify the following two lines. Required for deployment.
-include(cpp/qtquick2applicationviewer/qtquick2applicationviewer.pri)
-qtcAddDeployment()
-
 TARGET = aprilbrush
+
+QT += qml quick widgets
 
 SOURCES += \
     main.cpp \
@@ -42,4 +32,5 @@ OTHER_FILES += \
     qml/style/ButtonStyle.qml \
     qml/Main.qml
 
-RESOURCES +=
+RESOURCES += \
+    resources.qrc

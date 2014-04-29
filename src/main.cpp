@@ -11,30 +11,36 @@
  * GNU General Public License for more details.
  */
 
-#include "cpp/qtquick2applicationviewer/qtquick2applicationviewer.h"
 #include "cpp/corelib.h"
 #include "cpp/pointereater.h"
 
-#include <QtQuick>
-#include <QtQml>
+//#include <QtQuick>
+//#include <QtQml>
+#include <QApplication>
+#include <QQmlApplicationEngine>
 
 int main(int argc, char *argv[])
 {
-    QGuiApplication app(argc, argv);
-
+    QApplication app(argc, argv);
+/*
     qmlRegisterType<CoreLib>("ABLib", 1, 0, "CoreLib");
 
     PointerEater *pointerEater = new PointerEater();
     app.installEventFilter(pointerEater);
+    */
 
-    QtQuick2ApplicationViewer viewer;
-
+//    QtQuick2ApplicationViewer viewer;
+/*
     QQmlContext *context = viewer.engine()->rootContext();
     context->setContextProperty("PointerEater", pointerEater);
 
-    viewer.setMainQmlFile(QStringLiteral("qml/main.qml"));
+    viewer.setMainQmlFile(QStringLiteral("qml/Main.qml"));
     viewer.setTitle("AprilBrush");
     viewer.showExpanded();
+    */
+
+    QQmlApplicationEngine engine;
+    engine.load(QUrl("qrc:///qml/Main.qml"));
 
     return app.exec();
 }

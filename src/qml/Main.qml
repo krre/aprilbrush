@@ -11,43 +11,57 @@
  * GNU General Public License for more details.
  */
 
-import QtQuick 2.1
-import QtQuick.Dialogs 1.0
-import QtQuick.Controls 1.0
+import QtQuick 2.2
+import QtQuick.Dialogs 1.1
+import QtQuick.Controls 1.1
 import QtQuick.Layouts 1.1
 import QtQuick.Window 2.0
+/*
 import ABLib 1.0
 import "components"
 import "settings.js" as Settings
 import "utils.js" as Utils
 import "undo.js" as Undo
 import "style.js" as Style
+*/
 
-Rectangle {
+ApplicationWindow {
     id: mainRoot
+    title: "AprilBrush"
+
+    /*
     property real pressure: 0
     property var palette: Style.defaultStyle()
     property size imageSize: Qt.size(Screen.width, Screen.height)
     property int currentPageIndex: pageManager.pageView.currentIndex
     property int currentLayerIndex: layerManager.layerView.currentIndex
     property var layerModel: currentPageIndex >= 0 ? mainModel.get(currentPageIndex).layerModel : []
+*/
 
     width: 1000
     height: 600
-    color: "lightgray"
+    visible: true
+//    color: "lightgray"
+
 
     Component.onCompleted: {
-        Settings.loadSettings()
+        x = (Screen.width - mainRoot.width) / 2
+        y = (Screen.height - mainRoot.height) / 2
+//        Settings.loadSettings()
     }
 
-    Component.onDestruction: Settings.saveSettings()
 
+//    Component.onDestruction: Settings.saveSettings()
+
+    /*
     Connections {
         target: PointerEater
         onPressure: mainRoot.pressure = pressure
         onPressed: type == 0 ? mainRoot.pressure = 1 : mainRoot.pressure = 0
     }
+    */
 
+    /*
     Keys.onSpacePressed: flickable.interactive = !flickable.interactive
     Keys.onPressed: {
         if (event.key === Qt.Key_Plus) {
@@ -58,6 +72,111 @@ Rectangle {
             canvas.scale = 1
         }
     }
+    */
+
+    menuBar: MenuBar {
+        Menu {
+            title: qsTr("File")
+
+            MenuItem { action: newAction }
+            MenuItem { action: openAction }
+            MenuItem { action: saveAction }
+            MenuItem { action: saveAsAction }
+            MenuSeparator {}
+            MenuItem { action: quitAction }
+        }
+
+        Menu {
+            title: qsTr("Edit")
+        }
+
+        Menu {
+            title: qsTr("View")
+
+            MenuItem {
+                text: qsTr("Tool Bar")
+                checkable: true
+                checked: true
+                onTriggered: toolBar.visible = !toolBar.visible
+            }
+
+            MenuItem {
+                text: qsTr("Status Bar")
+                checkable: true
+                checked: true
+                onTriggered: statusBar.visible = !statusBar.visible
+            }
+        }
+
+        Menu {
+            title: qsTr("Help")
+
+            MenuItem {
+                text: qsTr("About...")
+                onTriggered: print("about")
+            }
+        }
+    }
+
+    toolBar: ToolBar {
+        id: toolBar
+
+        RowLayout {
+            ToolButton { action: newAction }
+            ToolButton { action: openAction }
+            ToolButton { action: saveAction }
+        }
+    }
+
+    statusBar: StatusBar {
+        id: statusBar
+    }
+
+    Action {
+        id: newAction
+        text: qsTr("New")
+        shortcut: StandardKey.New
+        onTriggered: print("new")
+        tooltip: "New an Image"
+    }
+
+    Action {
+        id: openAction
+        text: qsTr("Open")
+        shortcut: StandardKey.Open
+        onTriggered: fileDialog.open()
+        tooltip: "Open an Image"
+    }
+
+    Action {
+        id: saveAction
+        text: qsTr("Save")
+        shortcut: StandardKey.Save
+        onTriggered: print("save")
+        tooltip: "Save an Image"
+    }
+
+    Action {
+        id: saveAsAction
+        text: qsTr("Save As...")
+        shortcut: StandardKey.SaveAs
+        onTriggered: print("save as")
+        tooltip: "Save as an Image"
+    }
+
+    Action {
+        id: quitAction
+        text: qsTr("Quit")
+        shortcut: StandardKey.Quit
+        onTriggered: Qt.quit()
+        tooltip: "Quit"
+    }
+
+    FileDialog {
+        id: fileDialog
+    }
+
+    /*
 
     ListModel {
         id: mainModel
@@ -128,4 +247,5 @@ Rectangle {
     CoreLib {
         id: coreLib
     }
+    */
 }
