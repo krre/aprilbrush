@@ -11,24 +11,24 @@
  * GNU General Public License for more details.
  */
 
-function loadSettings() {
+function loadSettings(parent) {
     var settings = coreLib.loadSettings()
     if (settings) {
         settings = JSON.parse(settings)
         for (var i = 0; i < settings.length; i++) {
             var objName = settings[i].name
-            for (var j = 0; j < children.length; j++) {
-                if (objName === children[j].objectName) {
+            for (var j = 0; j < parent.data.length; j++) {
+                if (objName === parent.data[j].objectName) {
                     var properties = settings[i].properties
                     for (var prop in properties) {
-                        if (typeof children[j][prop] !== undefined) {
+                        if (typeof parent.data[j][prop] !== undefined) {
                             var value = properties[prop]
                             if (value === "true") {
-                                children[j][prop] = true
+                                parent.data[j][prop] = true
                             } else if (value === "false") {
-                                children[j][prop] = false
+                                parent.data[j][prop] = false
                             } else {
-                                children[j][prop] = value.toString()
+                                parent.data[j][prop] = value.toString()
                             }
                         }
                     }
@@ -39,16 +39,16 @@ function loadSettings() {
     }
 }
 
-function saveSettings() {
+function saveSettings(parent) {
     var settings = []
-    for (var i = 0; i < children.length; i++) {
-        var storage = children[i].storage
+    for (var i = 0; i < parent.data.length; i++) {
+        var storage = parent.data[i].storage
         if (storage) {
             var obj = {}
-            obj.name = children[i].objectName
+            obj.name = parent.data[i].objectName
             obj.properties = {}
             for (var j = 0; j < storage.length; j++) {
-                obj.properties[storage[j]] = children[i][storage[j]].toString()
+                obj.properties[storage[j]] = parent.data[i][storage[j]].toString()
             }
             settings.push(obj)
         }

@@ -34,7 +34,7 @@ Window {
     }
 
     function defaultStorage() {
-        return ["x", "y", "z", "width", "height", "currentHeight", "collapse", "visible"]
+        return ["x", "y", "width", "height", "visible"]
     }
 
     SystemPalette {

@@ -49,13 +49,13 @@ ApplicationWindow {
     Component.onCompleted: {
         x = (Screen.width - mainRoot.width) / 2
         y = (Screen.height - mainRoot.height) / 2
-        Settings.loadSettings()
+        Settings.loadSettings(mainRoot)
         newAction.trigger()
 
     }
 
 
-    Component.onDestruction: Settings.saveSettings()
+    Component.onDestruction: Settings.saveSettings(mainRoot)
 
     /*
     Connections {
@@ -238,6 +238,7 @@ ApplicationWindow {
     TabView {
         id: tabView
         anchors.fill: parent
+//        frameVisible: false
     }
 
     ColorPicker {
