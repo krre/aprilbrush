@@ -19,6 +19,7 @@ import QtQuick.Window 2.0
 import QtQuick.Controls.Styles 1.1
 import ABLib 1.0
 import "settings.js" as Settings
+import "main"
 /*
 import "components"
 import "settings.js" as Settings
@@ -44,11 +45,15 @@ ApplicationWindow {
     height: 600
     visible: true
 
+    menuBar: MenuBarContent {}
+    toolBar: ToolBarContent { id: toolBar }
+    statusBar: StatusBarContent { id: statusBar }
+
     Component.onCompleted: {
         x = (Screen.width - mainRoot.width) / 2
         y = (Screen.height - mainRoot.height) / 2
         Settings.loadSettings(mainRoot)
-        newAction.trigger()
+        actions.newAction.trigger()
     }
 
     Component.onDestruction: Settings.saveSettings(mainRoot)
@@ -74,165 +79,9 @@ ApplicationWindow {
     }
     */
 
-    menuBar: MenuBar {
-        Menu {
-            title: qsTr("File")
-
-            MenuItem { action: newAction }
-            MenuItem { action: openAction }
-            MenuItem { action: saveAction }
-            MenuItem { action: saveAsAction }
-            MenuSeparator {}
-            MenuItem { action: closeAction }
-            MenuItem { action: closeAllAction }
-            MenuItem { action: closeOthersAction }
-            MenuSeparator {}
-            MenuItem { action: quitAction }
-        }
-
-        Menu {
-            title: qsTr("Edit")
-        }
-
-        Menu {
-            title: qsTr("View")
-
-            MenuItem {
-                text: qsTr("Tool Bar")
-                checkable: true
-                checked: true
-                onTriggered: toolBar.visible = !toolBar.visible
-            }
-
-            MenuItem {
-                text: qsTr("Status Bar")
-                checkable: true
-                checked: true
-                onTriggered: statusBar.visible = !statusBar.visible
-            }
-
-            MenuItem {
-                text: colorPicker.title
-                checkable: true
-                checked: colorPicker.visible
-                onTriggered: colorPicker.visible = !colorPicker.visible
-            }
-        }
-
-        Menu {
-            title: qsTr("Help")
-
-            MenuItem {
-                text: qsTr("About...")
-                onTriggered: print("about")
-            }
-        }
-    }
-
-    toolBar: ToolBar {
-        id: toolBar
-
-        RowLayout {
-            ToolButton { action: newAction }
-            ToolButton { action: openAction }
-            ToolButton { action: saveAction }
-        }
-    }
-
-    statusBar: StatusBar {
-        id: statusBar
-    }
-
-    Action {
-        id: newAction
-        text: qsTr("New")
-        shortcut: StandardKey.New
-        onTriggered: {
-            tabView.addTab("Untitled " + (tabView.count + 1))
-            tabView.currentIndex = tabView.count - 1
-        }
-        tooltip: "New an Image"
-    }
-
-    Action {
-        id: openAction
-        text: qsTr("Open")
-        shortcut: StandardKey.Open
-        onTriggered: fileDialog.open()
-        tooltip: "Open an Image"
-    }
-
-    Action {
-        id: saveAction
-        text: qsTr("Save")
-        shortcut: StandardKey.Save
-        onTriggered: print("save")
-        tooltip: "Save an Image"
-    }
-
-    Action {
-        id: saveAsAction
-        text: qsTr("Save As...")
-        shortcut: StandardKey.SaveAs
-        onTriggered: print("save as")
-        tooltip: "Save as an Image"
-    }
-
-    Action {
-        id: closeAction
-        text: qsTr("Close")
-        shortcut: StandardKey.Close
-        onTriggered: tabView.removeTab(tabView.currentIndex)
-        tooltip: "Close as an Image"
-        enabled: tabView.count > 0
-    }
-
-    Action {
-        id: closeAllAction
-        text: qsTr("Close All")
-        onTriggered: {
-            while (tabView.count) {
-                tabView.removeTab(0)
-            }
-        }
-        tooltip: "Close all Images"
-        enabled: tabView.count > 0
-    }
-
-    Action {
-        id: closeOthersAction
-        text: qsTr("Close Others")
-        onTriggered: {
-            var currentTab = tabView.getTab(tabView.currentIndex)
-            var i = 0
-            while (tabView.count > 1) {
-                var tab = tabView.getTab(i)
-                if (tab !== currentTab) {
-                    tabView.removeTab(i)
-                } else {
-                    i++
-                }
-            }
-        }
-        tooltip: "Close others Images"
-        enabled: tabView.count > 1
-    }
-
-    Action {
-        id: quitAction
-        text: qsTr("Quit")
-        shortcut: StandardKey.Quit
-        onTriggered: Qt.quit()
-        tooltip: "Quit"
-    }
-
-    CoreLib {
-        id: coreLib
-    }
-
-    FileDialog {
-        id: fileDialog
-    }
+    Actions { id: actions}
+    CoreLib { id: coreLib }
+    FileDialog { id: fileDialog }
 
     TabView {
         id: tabView
