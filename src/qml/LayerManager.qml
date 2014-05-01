@@ -21,7 +21,7 @@ import "undo.js" as Undo
 ToolWindow {
     id: root
     property alias layerView: layerView
-    title: "Layers"
+    title: qsTr("Layers")
     objectName: "layerManager"
     storage: { var list = defaultStorage(); return list }
 
@@ -150,7 +150,6 @@ ToolWindow {
 
 
                 }
-
 
                 Item {
                     Layout.fillWidth: true
