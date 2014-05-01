@@ -43,17 +43,13 @@ ApplicationWindow {
     width: 1000
     height: 600
     visible: true
-//    color: "lightgray"
-
 
     Component.onCompleted: {
         x = (Screen.width - mainRoot.width) / 2
         y = (Screen.height - mainRoot.height) / 2
         Settings.loadSettings(mainRoot)
         newAction.trigger()
-
     }
-
 
     Component.onDestruction: Settings.saveSettings(mainRoot)
 
@@ -151,7 +147,10 @@ ApplicationWindow {
         id: newAction
         text: qsTr("New")
         shortcut: StandardKey.New
-        onTriggered: tabView.addTab("Untitled " + (tabView.count + 1))
+        onTriggered: {
+            tabView.addTab("Untitled " + (tabView.count + 1))
+            tabView.currentIndex = tabView.count - 1
+        }
         tooltip: "New an Image"
     }
 
