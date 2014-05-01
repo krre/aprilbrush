@@ -90,28 +90,28 @@ ApplicationWindow {
 
     ColorPicker {
         id: colorPicker
-        x: { return 20 + mainRoot.x }
-        y: { return 100 + mainRoot.y }
+        relativeX: 20
+        relativeY: 100
         onColorChanged: brushSettings.dab.requestPaint()
     }
 
     LayerManager {
         id: layerManager
-        x: { return 20 + mainRoot.x }
-        y: { return 340 + mainRoot.y }
+        relativeX: 20
+        relativeY: 340
     }
 
     BrushSettings {
         id: brushSettings
-        x: { return mainRoot.width - width - 20 }
-        y: { return 100 + mainRoot.y }
+        relativeX: mainRoot.width - width - 30
+        relativeY: 100
         onSettingsChanged: dab.requestPaint()
     }
 
     BrushLibrary {
         id: brushLibrary
-        x: { return mainRoot.width - width - 20 }
-        y: { return 340 + mainRoot.y }
+        relativeX: mainRoot.width - width - 30
+        relativeY: 340
     }
 
     Component {
