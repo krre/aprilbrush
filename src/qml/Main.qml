@@ -50,8 +50,6 @@ ApplicationWindow {
     statusBar: StatusBarContent { id: statusBar }
 
     Component.onCompleted: {
-        x = (Screen.width - mainRoot.width) / 2
-        y = (Screen.height - mainRoot.height) / 2
         Settings.loadSettings(mainRoot)
         actions.newAction.trigger()
     }
@@ -96,6 +94,15 @@ ApplicationWindow {
             x = mainRoot.x + 25
             y = mainRoot.y + 120
         }
+    }
+
+    Item {
+        property alias mainX: mainRoot.x
+        property alias mainY: mainRoot.y
+        property alias mainWidth: mainRoot.width
+        property alias mainHeight: mainRoot.height
+        property var storage: ["mainWidth", "mainHeight", "mainX", "mainY"]
+        objectName: "commonStorage"
     }
 
     /*
@@ -151,14 +158,5 @@ ApplicationWindow {
         x: 780
         y: 375
     }
-
-    Item {
-        property alias mainWidth: mainRoot.width
-        property alias mainHeight: mainRoot.height
-        property var storage: ["mainWidth", "mainHeight"]
-        objectName: "commonStorage"
-    }
-
-
     */
 }
