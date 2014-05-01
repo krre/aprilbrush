@@ -22,7 +22,6 @@ OTHER_FILES += \
     qml/BrushLibrary.qml \
     qml/CanvasArea.qml \
     qml/LayerManager.qml \
-    qml/components/CloseButton.qml \
     qml/UndoManager.qml \
     qml/components/ToolWindow.qml \
     qml/style.js \
