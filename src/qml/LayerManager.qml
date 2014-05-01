@@ -169,18 +169,31 @@ ToolWindow {
                         onDoubleClicked: layerTextEdit.focus = true
                     }
 
-                    TextEdit {
+                    TextField {
                         id: layerTextEdit
+                        property string lastText
+
                         width: parent.width
                         anchors.verticalCenter: parent.verticalCenter
                         text: name
-                        cursorPosition: text.length
                         visible: focus
-                        onTextChanged: if (text[text.length - 1] === "\n") {
-                                           text = text.replace("\n", "")
-                                           focus = false
-                                       }
-                        onFocusChanged: if (!focus) { layerModel.setProperty(index, "name", text) }
+
+                        onFocusChanged: {
+                            if (focus){
+                                lastText = text
+                                selectAll()
+                            }
+                        }
+
+                        onEditingFinished: {
+                            layerModel.setProperty(index, "name", text)
+                            parent.forceActiveFocus()
+                        }
+
+                        Keys.onEscapePressed: {
+                            text = lastText
+                            parent.forceActiveFocus()
+                        }
                     }
                 }
             }
