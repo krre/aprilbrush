@@ -34,15 +34,16 @@ ToolWindow {
     ColumnLayout {
         anchors.fill: parent
 
-        ListView {
-            id: layerView
-            Layout.fillHeight: true
+        ScrollView {
             Layout.fillWidth: true
-            model: currentTab ? currentTab.layerModel : []
-            delegate: layerDelegate
-            spacing: 5
-            clip: true
-            focus: true
+            Layout.fillHeight: true
+
+            ListView {
+                id: layerView
+                model: currentTab ? currentTab.layerModel : []
+                delegate: layerDelegate
+                spacing: 5
+            }
         }
 
         Component {
@@ -120,7 +121,7 @@ ToolWindow {
                         height: parent.height - 2
                         anchors.centerIn: parent
 
-                        onAvailableChanged: if (true) { paintThumbnail() }
+//                        onAvailableChanged: if (true) { paintThumbnail() }
 
                         function paintThumbnail() {
                             var ctx = getContext("2d")
@@ -150,7 +151,6 @@ ToolWindow {
                     Text {
                         text: name
                         width: parent.width
-                        color: "white"
                         anchors.verticalCenter: parent.verticalCenter
                         visible: !layerTextEdit.focus
                     }
@@ -166,7 +166,6 @@ ToolWindow {
                         width: parent.width
                         anchors.verticalCenter: parent.verticalCenter
                         text: name
-                        color: "white"
                         cursorPosition: text.length
                         visible: focus
                         onTextChanged: if (text[text.length - 1] === "\n") {
@@ -202,6 +201,7 @@ ToolWindow {
 //                        undoManager.add(new Undo.raiseLayer())
                     }
                 }
+                enabled: tabView.count > 0
             }
 
             Button {
@@ -213,6 +213,7 @@ ToolWindow {
 //                        undoManager.add(new Undo.lowerLayer())
                     }
                 }
+                enabled: tabView.count > 0
             }
 
             Button {
@@ -223,6 +224,7 @@ ToolWindow {
 //                        undoManager.add(new Undo.mergeLayer())
                     }
                 }
+                enabled: tabView.count > 0
             }
 
             Button {
@@ -231,6 +233,7 @@ ToolWindow {
                 onClicked: {
 //                    undoManager.add(new Undo.cloneLayer())
                 }
+                enabled: tabView.count > 0
             }
         }
     }

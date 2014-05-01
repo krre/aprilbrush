@@ -26,7 +26,8 @@ ApplicationWindow {
     title: "AprilBrush"
     property string version: "0.2"
     property size imageSize: Qt.size(Screen.width, Screen.height)
-    property Tab currentTab: tabView.count > 0 ? tabView.getTab(tabView.currentIndex) : null
+    property CanvasArea currentTab: tabView.count > 0 ? tabView.getTab(tabView.currentIndex).item : null
+    property ListModel layerModel: currentTab ? currentTab.layerModel : null
     property real pressure: 0
     property alias sysPalette: sysPalette
 

@@ -16,6 +16,7 @@ import QtQuick.Controls 1.1
 import "components"
 
 ScrollView {
+    property alias layerModel: layerModel
     Item {
 //        property alias layerCanvasView: layerCanvasView
         width: imageSize.width
@@ -28,7 +29,7 @@ ScrollView {
 
         ListModel { id: layerModel }
 
-      /*
+
         ListView {
             id: layerCanvasView
             anchors.fill: parent
@@ -54,7 +55,6 @@ ScrollView {
                     ctx.fillRect(0, 0, width, height)
                     ctx.restore();
                     requestPaint()
-                    pageManager.pageView.currentItem.canvas.paintThumbnail()
                 }
             }
 
@@ -169,6 +169,5 @@ ScrollView {
                 }
             }
         }
-    */
     }
 }
