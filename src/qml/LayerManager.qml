@@ -31,6 +31,14 @@ ToolWindow {
         layerView.currentIndex = insertIndex
     }
 
+    function deleteLayer(index) {
+        if (index) {
+            layerModel.remove(index)
+        } else {
+            layerModel.remove(layerView.currentIndex)
+        }
+    }
+
     ColumnLayout {
         anchors.fill: parent
 
@@ -183,57 +191,22 @@ ToolWindow {
 
             Button {
                 Layout.fillWidth: true
-                text: qsTr("New")
-                onClicked: {
-                    addLayer("Layer", "transparent")
-//                    undoManager.add(new Undo.addLayer())
-                }
-                enabled: tabView.count > 0
-
+                action: actions.newLayerAction
             }
 
             Button {
                 Layout.fillWidth: true
-                text: qsTr("Up")
-                onClicked: {
-                    if (currentLayerIndex > 0) {
-                        layerModel.move(currentLayerIndex, currentLayerIndex - 1, 1)
-//                        undoManager.add(new Undo.raiseLayer())
-                    }
-                }
-                enabled: tabView.count > 0
+                action: actions.upLayerAction
             }
 
             Button {
                 Layout.fillWidth: true
-                text: qsTr("Down")
-                onClicked: {
-                    if (currentLayerIndex < layerView.count - 1) {
-                        layerModel.move(currentLayerIndex, currentLayerIndex + 1, 1)
-//                        undoManager.add(new Undo.lowerLayer())
-                    }
-                }
-                enabled: tabView.count > 0
+                action: actions.downLayerAction
             }
 
             Button {
                 Layout.fillWidth: true
-                text: qsTr("Merge")
-                onClicked: {
-                    if ((layerView.count > 1) && (currentLayerIndex < layerView.count - 1)) {
-//                        undoManager.add(new Undo.mergeLayer())
-                    }
-                }
-                enabled: tabView.count > 0
-            }
-
-            Button {
-                Layout.fillWidth: true
-                text: qsTr("Clone")
-                onClicked: {
-//                    undoManager.add(new Undo.cloneLayer())
-                }
-                enabled: tabView.count > 0
+                action: actions.deleteLayerAction
             }
         }
     }

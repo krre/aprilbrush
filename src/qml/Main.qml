@@ -41,7 +41,7 @@ ApplicationWindow {
 
     Component.onCompleted: {
         Settings.loadSettings(mainRoot)
-        actions.newAction.trigger()
+        actions.newImageAction.trigger()
     }
 
     onClosing: Settings.saveSettings(mainRoot)

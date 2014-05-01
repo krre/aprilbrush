@@ -2,7 +2,7 @@ import QtQuick 2.2
 import QtQuick.Controls 1.1
 
 Item {
-    property alias newAction: newAction
+    property alias newImageAction: newImageAction
     property alias openAction: openAction
     property alias saveAction: saveAction
     property alias saveAsAction: saveAsAction
@@ -11,15 +11,24 @@ Item {
     property alias closeOthersAction: closeOthersAction
     property alias quitAction: quitAction
 
+    property alias newLayerAction: newLayerAction
+    property alias deleteLayerAction: deleteLayerAction
+    property alias mergeLayerAction: mergeLayerAction
+    property alias duplicateLayerAction: duplicateLayerAction
+    property alias upLayerAction: upLayerAction
+    property alias downLayerAction: downLayerAction
+
+    // image management
+
     Action {
-        id: newAction
+        id: newImageAction
         text: qsTr("New")
         shortcut: StandardKey.New
         onTriggered: {
-            tabView.addTab("Untitled " + (tabView.count + 1), canvasArea)
+            tabView.addTab(qsTr("Untitled ") + (tabView.count + 1), canvasArea)
             tabView.currentIndex = tabView.count - 1
         }
-        tooltip: "New an Image"
+        tooltip: qsTr("New an Image")
     }
 
     Action {
@@ -27,7 +36,7 @@ Item {
         text: qsTr("Open")
         shortcut: StandardKey.Open
         onTriggered: fileDialog.open()
-        tooltip: "Open an Image"
+        tooltip: qsTr("Open an Image")
     }
 
     Action {
@@ -35,7 +44,7 @@ Item {
         text: qsTr("Save")
         shortcut: StandardKey.Save
         onTriggered: print("save")
-        tooltip: "Save an Image"
+        tooltip: qsTr("Save an Image")
     }
 
     Action {
@@ -43,7 +52,7 @@ Item {
         text: qsTr("Save As...")
         shortcut: StandardKey.SaveAs
         onTriggered: print("save as")
-        tooltip: "Save as an Image"
+        tooltip: qsTr("Save as an Image")
     }
 
     Action {
@@ -51,7 +60,7 @@ Item {
         text: qsTr("Close")
         shortcut: StandardKey.Close
         onTriggered: tabView.removeTab(tabView.currentIndex)
-        tooltip: "Close as an Image"
+        tooltip: qsTr("Close as an Image")
         enabled: tabView.count > 0
     }
 
@@ -63,7 +72,7 @@ Item {
                 tabView.removeTab(0)
             }
         }
-        tooltip: "Close all Images"
+        tooltip: qsTr("Close all Images")
         enabled: tabView.count > 0
     }
 
@@ -82,7 +91,7 @@ Item {
                 }
             }
         }
-        tooltip: "Close others Images"
+        tooltip: qsTr("Close others Images")
         enabled: tabView.count > 1
     }
 
@@ -91,7 +100,52 @@ Item {
         text: qsTr("Quit")
         shortcut: StandardKey.Quit
         onTriggered: Qt.quit()
-        tooltip: "Quit"
+        tooltip: text
+    }
+
+    // layer management
+
+    Action {
+        id: newLayerAction
+        text: qsTr("New")
+        shortcut: "Shift+Ctrl+N"
+        onTriggered: layerManager.addLayer("Layer", "transparent")
+        tooltip: qsTr("New Layer")
+        enabled: tabView.count > 0
+    }
+
+    Action {
+        id: deleteLayerAction
+        text: qsTr("Delete")
+        onTriggered: layerManager.deleteLayer()
+        tooltip: qsTr("Delete Layer")
+        enabled: layerManager.layerView.count > 0
+    }
+
+    Action {
+        id: mergeLayerAction
+        text: qsTr("Merge Down")
+        enabled: layerManager.layerView.currentIndex < layerManager.layerView.count - 1
+    }
+
+    Action {
+        id: duplicateLayerAction
+        text: qsTr("Duplicate")
+        enabled: layerManager.layerView.count > 0
+    }
+
+    Action {
+        id: upLayerAction
+        text: qsTr("Up")
+        enabled: layerManager.layerView.currentIndex > 0
+        onTriggered: layerModel.move(layerManager.layerView.currentIndex, layerManager.layerView.currentIndex - 1, 1)
+    }
+
+    Action {
+        id: downLayerAction
+        text: qsTr("Down")
+        enabled: layerManager.layerView.currentIndex < layerManager.layerView.count - 1
+        onTriggered: layerModel.move(layerManager.layerView.currentIndex, layerManager.layerView.currentIndex + 1, 1)
     }
 }
 

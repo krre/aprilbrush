@@ -5,7 +5,7 @@ MenuBar {
     Menu {
         title: qsTr("File")
 
-        MenuItem { action: actions.newAction }
+        MenuItem { action: actions.newImageAction }
         MenuItem { action: actions.openAction }
         MenuItem { action: actions.saveAction }
         MenuItem { action: actions.saveAsAction }
@@ -19,6 +19,17 @@ MenuBar {
 
     Menu {
         title: qsTr("Edit")
+    }
+
+    Menu {
+        title: qsTr("Layer")
+
+        MenuItem { action: actions.newLayerAction }
+        MenuItem { action: actions.deleteLayerAction }
+        MenuItem { action: actions.mergeLayerAction }
+        MenuItem { action: actions.duplicateLayerAction }
+        MenuItem { action: actions.upLayerAction }
+        MenuItem { action: actions.downLayerAction }
     }
 
     Menu {
