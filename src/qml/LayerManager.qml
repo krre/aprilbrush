@@ -147,8 +147,6 @@ ToolWindow {
                             }
                         }
                     }
-
-
                 }
 
                 Item {
