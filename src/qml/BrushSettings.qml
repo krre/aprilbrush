@@ -35,18 +35,23 @@ ToolWindow {
 
     signal settingsChanged()
 
-    ListView {
+    ScrollView {
+        id: scrollView
         anchors.fill: parent
-        model: brushModel
-        clip: true
-        spacing: 2
 
-        VisualItemModel {
-            id: brushModel
-            SliderText { id: diameter; title: qsTr("Diameter"); width: parent.width; minimumValue: 1; maximumValue: 100; value: 20; onValueChanged: root.settingsChanged() }
-            SliderText { id: opaque; title: qsTr("Opaque"); width: parent.width; value: 85; onValueChanged: root.settingsChanged() }
-            SliderText { id: hardness; title: qsTr("Hardness"); width: parent.width; minimumValue: 1; value: 95; onValueChanged: root.settingsChanged() }
-            SliderText { id: spacing; title: qsTr("Spacing"); width: parent.width; minimumValue: 5; maximumValue: 200; value: 25; onValueChanged: root.settingsChanged() }
+        ListView {
+            model: brushModel
+            clip: true
+            spacing: 2
+
+            VisualItemModel {
+                id: brushModel
+                property real sliderWidth: scrollView.width !== scrollView.viewport.width ? scrollView.viewport.width - 5 : scrollView.width
+                SliderText { id: diameter; title: qsTr("Diameter"); width: brushModel.sliderWidth; minimumValue: 1; maximumValue: 100; value: 20; onValueChanged: root.settingsChanged() }
+                SliderText { id: opaque; title: qsTr("Opaque"); width: brushModel.sliderWidth; value: 85; onValueChanged: root.settingsChanged() }
+                SliderText { id: hardness; title: qsTr("Hardness"); width: brushModel.sliderWidth; minimumValue: 1; value: 95; onValueChanged: root.settingsChanged() }
+                SliderText { id: spacing; title: qsTr("Spacing"); width: brushModel.sliderWidth; minimumValue: 5; maximumValue: 200; value: 25; onValueChanged: root.settingsChanged() }
+            }
         }
     }
 

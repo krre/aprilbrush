@@ -23,9 +23,8 @@ ScrollView {
 
         CheckerBoard {
             anchors.fill: parent
-            cellSide: 20
+            cellSide: 30
         }
-
 
         ListModel { id: layerModel }
 
