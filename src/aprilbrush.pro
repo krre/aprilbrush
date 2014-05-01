@@ -28,7 +28,6 @@ OTHER_FILES += \
     qml/style.js \
     qml/FileDialog.qml \
     qml/components/SliderText.qml \
-    qml/TopBar.qml \
     qml/style/ButtonStyle.qml \
     qml/Main.qml \
     qml/main/MenuBarContent.qml \

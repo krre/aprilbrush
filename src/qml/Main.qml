@@ -130,14 +130,6 @@ ApplicationWindow {
             id: pageManager
             width: parent.width
         }
-
-        TopBar {
-            id: topBar
-            property var storage: ["visible"]
-            objectName: "topBar"
-            width: parent.width
-        }
-
     }
 
     BrushSettings {
