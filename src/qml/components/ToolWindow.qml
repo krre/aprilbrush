@@ -12,7 +12,7 @@
  */
 
 import QtQuick 2.2
-import QtQuick.Window 2.1
+import QtQuick.Window 2.0
 
 Window {
     default property alias content: stack.children
@@ -22,7 +22,6 @@ Window {
     flags: Qt.Tool
     width: 200
     height: 200
-    visible: true
     color: sysPalette.window
     minimumWidth: 100
     minimumHeight: 100
