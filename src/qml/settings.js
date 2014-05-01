@@ -48,7 +48,12 @@ function saveSettings(parent) {
             obj.name = parent.data[i].objectName
             obj.properties = {}
             for (var j = 0; j < storage.length; j++) {
-                obj.properties[storage[j]] = parent.data[i][storage[j]].toString()
+                var prop = storage[j]
+                obj.properties[prop] = parent.data[i][prop].toString()
+                // temporary hack for disabling External WM_DESTROY error
+                if (prop === "visible") {
+                    parent.data[i].close()
+                }
             }
             settings.push(obj)
         }

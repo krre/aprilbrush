@@ -43,7 +43,7 @@ ApplicationWindow {
         actions.newAction.trigger()
     }
 
-    Component.onDestruction: Settings.saveSettings(mainRoot)
+    onClosing: Settings.saveSettings(mainRoot)
 
     SystemPalette {
         id: sysPalette
