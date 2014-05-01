@@ -31,11 +31,12 @@ import "style.js" as Style
 ApplicationWindow {
     id: mainRoot
     title: "AprilBrush"
+    property size imageSize: Qt.size(Screen.width, Screen.height)
+    property Tab currentTab: tabView.count > 0 ? tabView.getTab(tabView.currentIndex) : null
 
     /*
     property real pressure: 0
     property var palette: Style.defaultStyle()
-    property size imageSize: Qt.size(Screen.width, Screen.height)
     property int currentPageIndex: pageManager.pageView.currentIndex
     property int currentLayerIndex: layerManager.layerView.currentIndex
     property var layerModel: currentPageIndex >= 0 ? mainModel.get(currentPageIndex).layerModel : []
@@ -89,11 +90,33 @@ ApplicationWindow {
 
     ColorPicker {
         id: colorPicker
-//        onColorChanged: brushSettings.dab.requestPaint()
-        Component.onCompleted: {
-            x = mainRoot.x + 25
-            y = mainRoot.y + 120
-        }
+        x: { return 20 + mainRoot.x }
+        y: { return 100 + mainRoot.y }
+        onColorChanged: brushSettings.dab.requestPaint()
+    }
+
+    LayerManager {
+        id: layerManager
+        x: { return 20 + mainRoot.x }
+        y: { return 340 + mainRoot.y }
+    }
+
+    BrushSettings {
+        id: brushSettings
+        x: { return mainRoot.width - width - 20 }
+        y: { return 100 + mainRoot.y }
+        onSettingsChanged: dab.requestPaint()
+    }
+
+    BrushLibrary {
+        id: brushLibrary
+        x: { return mainRoot.width - width - 20 }
+        y: { return 340 + mainRoot.y }
+    }
+
+    Component {
+        id: canvasArea
+        CanvasArea {}
     }
 
     Item {
@@ -104,51 +127,4 @@ ApplicationWindow {
         property var storage: ["mainWidth", "mainHeight", "mainX", "mainY"]
         objectName: "commonStorage"
     }
-
-    /*
-
-    ListModel {
-        id: mainModel
-    }
-
-    ListView {
-        id: pageCanvasView
-        anchors.fill: parent
-        model: mainModel
-        currentIndex: currentPageIndex
-        spacing: -imageSize.width
-        orientation: ListView.Horizontal
-        interactive: false
-        delegate: CanvasArea {}
-    }
-
-    Column {
-        width: parent.width
-        spacing: 0
-
-        PageManager {
-            id: pageManager
-            width: parent.width
-        }
-    }
-
-    BrushSettings {
-        id: brushSettings
-        x: 772
-        y: 120
-        onSettingsChanged: dab.requestPaint()
-    }
-
-    LayerManager {
-        id: layerManager
-        x: 25
-        y: 375
-    }
-
-    BrushLibrary {
-        id: brushLibrary
-        x: 780
-        y: 375
-    }
-    */
 }

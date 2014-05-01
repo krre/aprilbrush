@@ -44,6 +44,27 @@ MenuBar {
             checked: colorPicker.visible
             onTriggered: colorPicker.visible = !colorPicker.visible
         }
+
+        MenuItem {
+            text: layerManager.title
+            checkable: true
+            checked: layerManager.visible
+            onTriggered: layerManager.visible = !layerManager.visible
+        }
+
+        MenuItem {
+            text: brushSettings.title
+            checkable: true
+            checked: brushSettings.visible
+            onTriggered: brushSettings.visible = !brushSettings.visible
+        }
+
+        MenuItem {
+            text: brushLibrary.title
+            checkable: true
+            checked: brushLibrary.visible
+            onTriggered: brushLibrary.visible = !brushLibrary.visible
+        }
     }
 
     Menu {

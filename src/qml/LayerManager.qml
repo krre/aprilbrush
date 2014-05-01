@@ -15,7 +15,6 @@ import QtQuick 2.1
 import QtQuick.Controls 1.0
 import QtQuick.Layouts 1.0
 import "components"
-import "style"
 import "utils.js" as Utils
 import "undo.js" as Undo
 
@@ -39,7 +38,7 @@ ToolWindow {
             id: layerView
             Layout.fillHeight: true
             Layout.fillWidth: true
-            model: layerModel
+            model: currentTab ? currentTab.layerModel : []
             delegate: layerDelegate
             spacing: 5
             clip: true
@@ -177,14 +176,6 @@ ToolWindow {
                         onFocusChanged: if (!focus) { layerModel.setProperty(index, "name", text) }
                     }
                 }
-
-                CloseButton {
-                    anchors.top: parent.top
-                    anchors.topMargin: 2
-                    anchors.right: parent.right
-                    anchors.rightMargin: 5
-                    onClicked: layerModel.remove(index)
-                }
             }
         }
 
@@ -198,8 +189,7 @@ ToolWindow {
                     addLayer("Layer", "transparent")
 //                    undoManager.add(new Undo.addLayer())
                 }
-                enabled: mainModel.count > 0
-                style: ButtonStyle {}
+                enabled: tabView.count > 0
 
             }
 
@@ -212,7 +202,6 @@ ToolWindow {
 //                        undoManager.add(new Undo.raiseLayer())
                     }
                 }
-                style: ButtonStyle {}
             }
 
             Button {
@@ -224,7 +213,6 @@ ToolWindow {
 //                        undoManager.add(new Undo.lowerLayer())
                     }
                 }
-                style: ButtonStyle {}
             }
 
             Button {
@@ -235,7 +223,6 @@ ToolWindow {
 //                        undoManager.add(new Undo.mergeLayer())
                     }
                 }
-                style: ButtonStyle {}
             }
 
             Button {
@@ -244,7 +231,6 @@ ToolWindow {
                 onClicked: {
 //                    undoManager.add(new Undo.cloneLayer())
                 }
-                style: ButtonStyle {}
             }
         }
     }

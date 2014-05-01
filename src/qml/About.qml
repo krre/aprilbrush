@@ -16,7 +16,7 @@ import QtQuick.Window 2.0
 import QtQuick.Layouts 1.1
 
 Window {
-    title: qsTr("About " + mainRoot.appName)
+    title: qsTr("About " + mainRoot.title)
     width: 450
     height: 500
     visible: true

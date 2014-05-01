@@ -16,7 +16,7 @@ Item {
         text: qsTr("New")
         shortcut: StandardKey.New
         onTriggered: {
-            tabView.addTab("Untitled " + (tabView.count + 1))
+            tabView.addTab("Untitled " + (tabView.count + 1), canvasArea)
             tabView.currentIndex = tabView.count - 1
         }
         tooltip: "New an Image"

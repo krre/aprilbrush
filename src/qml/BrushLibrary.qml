@@ -15,7 +15,6 @@ import QtQuick 2.1
 import QtQuick.Controls 1.1
 import QtQuick.Layouts 1.1
 import "components"
-import "style"
 import "settings.js" as Settings
 
 ToolWindow {
@@ -52,7 +51,6 @@ ToolWindow {
                 width: 50
                 height: 50
                 text: name
-                style: ButtonStyle {}
                 onClicked: changeBrushSettings(index)
             }
 
