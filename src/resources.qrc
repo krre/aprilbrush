@@ -16,5 +16,6 @@
         <file>qml/BrushSettings.qml</file>
         <file>qml/LayerManager.qml</file>
         <file>qml/components/SliderText.qml</file>
+        <file>qml/About.qml</file>
     </qresource>
 </RCC>

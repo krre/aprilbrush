@@ -72,7 +72,7 @@ MenuBar {
 
         MenuItem {
             text: qsTr("About...")
-            onTriggered: print("about")
+            onTriggered: about.show()
         }
     }
 }

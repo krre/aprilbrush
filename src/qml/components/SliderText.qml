@@ -7,6 +7,8 @@ Column {
     property real value: slider.value
     property real minimumValue: slider.maximumValue
     property real maximumValue: slider.maximumValue
+    spacing: 5
+
     RowLayout {
         width: parent.width
         Text {

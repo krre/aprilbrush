@@ -19,21 +19,15 @@ Window {
     title: qsTr("About " + mainRoot.title)
     width: 450
     height: 500
-    visible: true
-
-    Component.onCompleted: {
-        x = (Screen.width - width) / 2
-        y = (Screen.height - height) / 2
-    }
-
-    onVisibleChanged: if (!visible) { destroy() }
+    flags: Qt.Dialog
+    color: mainRoot.sysPalette.window
 
     Text {
         anchors.centerIn: parent
         font.pointSize: 10
         textFormat: Text.RichText
         onLinkActivated: console.log(link)
-        text: "<h3>" + mainRoot.appName + " " + mainRoot.version + "</h3><br>
+        text: "<h3>" + mainRoot.title + " " + mainRoot.version + "</h3><br>
               Build date: " + coreLib.buildDate() + "<br>
               Copyright (c) 2012-2014, Vladimir Zarypov<br>
               <a href=\"http://sourceforge.net/projects/aprilbrush\">http://sourceforge.net/projects/aprilbrush</a><br><br>

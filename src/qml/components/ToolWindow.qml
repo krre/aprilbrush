@@ -26,7 +26,7 @@ Window {
     y: mainRoot.y + relativeY
     width: 200
     height: 200
-    color: sysPalette.window
+    color: mainRoot.sysPalette.window
     minimumWidth: 100
     minimumHeight: 100
 
@@ -40,11 +40,6 @@ Window {
 
     function defaultStorage() {
         return ["relativeX", "relativeY", "width", "height", "visible"]
-    }
-
-    SystemPalette {
-        id: sysPalette
-        colorGroup: SystemPalette.Active
     }
 
     Item {

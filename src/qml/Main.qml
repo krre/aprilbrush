@@ -20,27 +20,15 @@ import QtQuick.Controls.Styles 1.1
 import ABLib 1.0
 import "settings.js" as Settings
 import "main"
-/*
-import "components"
-import "settings.js" as Settings
-import "utils.js" as Utils
-import "undo.js" as Undo
-import "style.js" as Style
-*/
 
 ApplicationWindow {
     id: mainRoot
     title: "AprilBrush"
+    property string version: "0.2"
     property size imageSize: Qt.size(Screen.width, Screen.height)
     property Tab currentTab: tabView.count > 0 ? tabView.getTab(tabView.currentIndex) : null
-
-    /*
     property real pressure: 0
-    property var palette: Style.defaultStyle()
-    property int currentPageIndex: pageManager.pageView.currentIndex
-    property int currentLayerIndex: layerManager.layerView.currentIndex
-    property var layerModel: currentPageIndex >= 0 ? mainModel.get(currentPageIndex).layerModel : []
-*/
+    property alias sysPalette: sysPalette
 
     width: 1000
     height: 600
@@ -57,35 +45,25 @@ ApplicationWindow {
 
     Component.onDestruction: Settings.saveSettings(mainRoot)
 
-    /*
+    SystemPalette {
+        id: sysPalette
+        colorGroup: SystemPalette.Active
+    }
+
     Connections {
         target: PointerEater
         onPressure: mainRoot.pressure = pressure
         onPressed: type == 0 ? mainRoot.pressure = 1 : mainRoot.pressure = 0
     }
-    */
-
-    /*
-    Keys.onSpacePressed: flickable.interactive = !flickable.interactive
-    Keys.onPressed: {
-        if (event.key === Qt.Key_Plus) {
-            canvas.scale *= 1.1
-        } else if (event.key === Qt.Key_Minus) {
-            canvas.scale /= 1.1
-        } else if (event.key === Qt.Key_0) {
-            canvas.scale = 1
-        }
-    }
-    */
 
     Actions { id: actions}
     CoreLib { id: coreLib }
     FileDialog { id: fileDialog }
+    About { id: about }
 
     TabView {
         id: tabView
         anchors.fill: parent
-//        frameVisible: false
     }
 
     ColorPicker {
