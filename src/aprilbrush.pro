@@ -32,7 +32,8 @@ OTHER_FILES += \
     qml/main/MenuBarContent.qml \
     qml/main/Actions.qml \
     qml/main/ToolBarContent.qml \
-    qml/main/StatusBarContent.qml
+    qml/main/StatusBarContent.qml \
+    qml/style/MainTabViewStyle.qml
 
 RESOURCES += \
     resources.qrc

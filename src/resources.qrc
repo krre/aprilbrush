@@ -17,5 +17,6 @@
         <file>qml/LayerManager.qml</file>
         <file>qml/components/SliderText.qml</file>
         <file>qml/About.qml</file>
+        <file>qml/style/MainTabViewStyle.qml</file>
     </qresource>
 </RCC>
