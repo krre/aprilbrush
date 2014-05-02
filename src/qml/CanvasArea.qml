@@ -17,9 +17,9 @@ import "components"
 
 ScrollView {
     property alias layerModel: layerModel
+    property Canvas canvas: layerCanvasView.currentItem
 
     Item {
-//        property alias layerCanvasView: layerCanvasView
         width: imageSize.width
         height: imageSize.height
 
@@ -28,10 +28,7 @@ ScrollView {
             cellSide: 30
         }
 
-        ListModel {
-            id: layerModel
-        }
-
+        ListModel { id: layerModel }
 
         ListView {
             id: layerCanvasView
@@ -51,12 +48,18 @@ ScrollView {
                 onAvailableChanged: clear()
 
                 function clear() {
+//                    print("clear", color, width, height)
                     var ctx = getContext("2d")
                     ctx.save()
-                    ctx.fillStyle = color
-                    ctx.fillRect(0, 0, width, height)
+                    if (color === "transparent") {
+                        ctx.clearRect(0, 0, width, height)
+                    } else {
+                        ctx.fillStyle = color
+                        ctx.fillRect(0, 0, width, height)
+                    }
                     ctx.restore();
                     requestPaint()
+                    layerManager.layerView.currentItem.thumbnail.paintThumbnail()
                 }
             }
 
@@ -66,6 +69,8 @@ ScrollView {
                 property bool linearMode: false
                 property point lastDrawPoint
                 anchors.fill: parent
+//                enabled: currentLayerIndex >= 0 && !layerModel.get(currentLayerIndex).blocked
+                enabled: currentLayerIndex >= 0
 
                 function bezierCurve(start, control, end, t) {
                     var x, y
@@ -84,8 +89,6 @@ ScrollView {
                 }
 
                 onPressed: {
-                    if (layerModel.get(currentLayerIndex).blocked) { return }
-
                     var point = Qt.point(mouseX, mouseY)
                     lastDrawPoint = point
                     drawDab(point)
@@ -93,15 +96,10 @@ ScrollView {
                     points.push(point)
                 }
                 onReleased: {
-                    if (layerModel.get(currentLayerIndex).blocked) { return }
-                    if (layerModel.count > 0) {
-//                        layerManager.layerView.currentItem.thumbnail.paintThumbnail()
-                    }
+                    layerManager.layerView.currentItem.thumbnail.paintThumbnail()
                 }
 
                 onPositionChanged: {
-                    if (layerModel.get(currentLayerIndex).blocked) { return }
-
                     var currentPoint = Qt.point(mouseX, mouseY)
                     var startPoint = lastDrawPoint
                     var currentSpacing = Math.sqrt(Math.pow(currentPoint.x - startPoint.x, 2) + Math.pow(currentPoint.y - startPoint.y, 2))
@@ -142,7 +140,7 @@ ScrollView {
                 function drawDab(point) {
             //            console.log(point)
                     var dabCanvas = brushSettings.dab.getContext("2d").getImageData(0, 0, brushSettings.dab.width, brushSettings.dab.height)
-                    var ctx = layerCanvasView.currentItem.getContext("2d")
+                    var ctx = canvas.getContext("2d")
                     ctx.save()
                     var x = point.x - brushSettings.dab.width / 2
                     var y = point.y - brushSettings.dab.height / 2
@@ -165,7 +163,7 @@ ScrollView {
 
             //            ctx.drawImage(dabCanvas, point.x - dab.width / 2, point.y - dab.height / 2)
                     ctx.restore()
-                    layerCanvasView.currentItem.markDirty(point.x - brushSettings.dab.width / 2, point.y - brushSettings.dab.height / 2, brushSettings.dab.width, brushSettings.dab.height)
+                    canvas.markDirty(point.x - brushSettings.dab.width / 2, point.y - brushSettings.dab.height / 2, brushSettings.dab.width, brushSettings.dab.height)
                 }
             }
         }

@@ -19,6 +19,8 @@ MenuBar {
 
     Menu {
         title: qsTr("Edit")
+
+        MenuItem { action: actions.clearAction }
     }
 
     Menu {

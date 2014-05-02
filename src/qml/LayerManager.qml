@@ -39,6 +39,13 @@ ToolWindow {
         }
     }
 
+    function repaintThumbnails() {
+        for (var i = 0; i < layerModel.count; i++) {
+//            print(layerModel.get(i).item)
+            layerModel.get(i).item.thumbnail.paintThumbnail()
+        }
+    }
+
     ColumnLayout {
         anchors.fill: parent
 
@@ -63,6 +70,8 @@ ToolWindow {
                 height: 50
                 opacity: ListView.isCurrentItem ? 1.0 : 0.6
                 spacing: 5
+
+                Component.onCompleted: layerModel.set(index, { "item": this })
 
                 Column {
                     width: 20
@@ -129,13 +138,11 @@ ToolWindow {
                         height: parent.height - 2
                         anchors.centerIn: parent
 
-//                        onAvailableChanged: if (true) { paintThumbnail() }
-
                         function paintThumbnail() {
                             var ctx = getContext("2d")
-                            ctx.clearRect(0, 0, width, height)
-                            var thumbnail = pageCanvasView.currentItem.layerCanvasView.currentItem.getContext("2d").getImageData(0, 0, imageSize.width, imageSize.height)
+                            var thumbnail = currentTab.canvas.getContext("2d").getImageData(0, 0, imageSize.width, imageSize.height)
                             ctx.drawImage(thumbnail, 0, 0, width, height)
+//                            print("paintThumbnail", currentLayerIndex)
                             requestPaint()
                         }
 

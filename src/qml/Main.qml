@@ -31,7 +31,7 @@ ApplicationWindow {
     property ListModel layerModel: currentTab ? currentTab.layerModel : null
     property real pressure: 0
     property alias sysPalette: sysPalette
-    readonly property int currentLayerIndex: layerManager.layerView.currentIndex
+    readonly property int currentLayerIndex: currentTab ? layerManager.layerView.currentIndex : -1
 
     width: 1000
     height: 600
@@ -68,6 +68,9 @@ ApplicationWindow {
         id: tabView
         anchors.fill: parent
         style: MainTabViewStyle {}
+        onCurrentIndexChanged: {
+//            layerManager.repaintThumbnails()
+        }
     }
 
     ColorPicker {

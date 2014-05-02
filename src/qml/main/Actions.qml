@@ -11,6 +11,8 @@ Item {
     property alias closeOthersAction: closeOthersAction
     property alias quitAction: quitAction
 
+    property alias clearAction: clearAction
+
     property alias newLayerAction: newLayerAction
     property alias deleteLayerAction: deleteLayerAction
     property alias mergeLayerAction: mergeLayerAction
@@ -103,6 +105,16 @@ Item {
         shortcut: StandardKey.Quit
         onTriggered: Qt.quit()
         tooltip: text
+    }
+
+    // edit management
+
+    Action {
+        id: clearAction
+        text: qsTr("Clear")
+        shortcut: "Delete"
+        onTriggered: currentTab.canvas.clear()
+        enabled: currentLayerIndex >= 0
     }
 
     // layer management

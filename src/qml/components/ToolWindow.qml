@@ -13,6 +13,7 @@
 
 import QtQuick 2.2
 import QtQuick.Window 2.0
+import "../main"
 
 Window {
     default property alias content: stack.children
@@ -41,6 +42,8 @@ Window {
     function defaultStorage() {
         return ["relativeX", "relativeY", "width", "height", "visible"]
     }
+
+    Actions { id: actions}
 
     Item {
         id: stack
