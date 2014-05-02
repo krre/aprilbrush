@@ -27,6 +27,8 @@ Item {
         onTriggered: {
             tabView.addTab(qsTr("Untitled ") + (tabView.count + 1), canvasArea)
             tabView.currentIndex = tabView.count - 1
+            layerManager.addLayer(qsTr("Background"), "white")
+            layerManager.addLayer(qsTr("Layer"), "transparent")
         }
         tooltip: qsTr("New an Image")
     }

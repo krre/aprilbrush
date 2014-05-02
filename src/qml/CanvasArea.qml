@@ -17,6 +17,7 @@ import "components"
 
 ScrollView {
     property alias layerModel: layerModel
+
     Item {
 //        property alias layerCanvasView: layerCanvasView
         width: imageSize.width
@@ -27,7 +28,9 @@ ScrollView {
             cellSide: 30
         }
 
-        ListModel { id: layerModel }
+        ListModel {
+            id: layerModel
+        }
 
 
         ListView {
