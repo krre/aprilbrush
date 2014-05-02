@@ -4,7 +4,7 @@ import QtQuick.Layouts 1.1
 import QtQuick.Controls 1.1
 
 TabViewStyle {
-    frameOverlap: 1
+    tabsMovable: true
     tab: Rectangle {
         border.color: styleData.selected ? "black" : "gray"
         implicitWidth: styleData.selected ? Math.max(text.text.length * text.font.pixelSize / 1.5, 80) : Math.min(control.width / tabView.count, 80)
