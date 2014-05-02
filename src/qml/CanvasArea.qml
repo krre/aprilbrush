@@ -69,8 +69,7 @@ ScrollView {
                 property bool linearMode: false
                 property point lastDrawPoint
                 anchors.fill: parent
-//                enabled: currentLayerIndex >= 0 && !layerModel.get(currentLayerIndex).blocked
-                enabled: currentLayerIndex >= 0
+                enabled: currentLayerIndex >= 0 && typeof layerModel.get(currentLayerIndex) !== "undefined" && !layerModel.get(currentLayerIndex).blocked
 
                 function bezierCurve(start, control, end, t) {
                     var x, y

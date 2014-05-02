@@ -85,7 +85,7 @@ ToolWindow {
                         radius: width / 2
                         antialiasing: true
                         color: "transparent"
-                        border.color: "gray"
+                        border.color: "#474747"
 
                         Rectangle {
                             id: layerVisible
@@ -94,7 +94,7 @@ ToolWindow {
                             anchors.centerIn: parent
                             radius: width / 2
                             antialiasing: true
-                            color: "white"
+                            color: "#474747"
                             visible: visibled
                         }
 
@@ -108,14 +108,14 @@ ToolWindow {
                         width: 15
                         height: 15
                         color: "transparent"
-                        border.color: "gray"
+                        border.color: "#474747"
 
                         Rectangle {
                             id: layerBlocked
                             width: 7
                             height: 7
                             anchors.centerIn: parent
-                            color: "white"
+                            color: "#474747"
                             visible: blocked
                         }
 
@@ -130,7 +130,7 @@ ToolWindow {
                     Layout.preferredWidth: 80
                     Layout.preferredHeight: parent.height
                     color: "transparent"
-                    border.color: "gray"
+                    border.color: "#474747"
 
                     Canvas {
                         id: thumbnail
