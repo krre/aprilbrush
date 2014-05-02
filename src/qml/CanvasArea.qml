@@ -37,7 +37,6 @@ ScrollView {
             id: layerCanvasView
             anchors.fill: parent
             model: layerModel
-            visible: parent.ListView.isCurrentItem
             spacing: -width
             orientation: ListView.Horizontal
             currentIndex: layerManager.layerView.currentIndex
@@ -95,10 +94,8 @@ ScrollView {
                 }
                 onReleased: {
                     if (layerModel.get(currentLayerIndex).blocked) { return }
-
-                    pageManager.pageView.currentItem.canvas.paintThumbnail()
                     if (layerModel.count > 0) {
-                        layerManager.layerView.currentItem.thumbnail.paintThumbnail()
+//                        layerManager.layerView.currentItem.thumbnail.paintThumbnail()
                     }
                 }
 

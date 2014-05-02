@@ -127,7 +127,7 @@ Item {
     Action {
         id: mergeLayerAction
         text: qsTr("Merge Down")
-        enabled: layerManager.layerView.currentIndex < layerManager.layerView.count - 1
+        enabled: currentLayerIndex < layerManager.layerView.count - 1
     }
 
     Action {
@@ -140,14 +140,14 @@ Item {
         id: upLayerAction
         text: qsTr("Up")
         enabled: layerManager.layerView.currentIndex > 0
-        onTriggered: layerModel.move(layerManager.layerView.currentIndex, layerManager.layerView.currentIndex - 1, 1)
+        onTriggered: layerModel.move(currentLayerIndex, currentLayerIndex - 1, 1)
     }
 
     Action {
         id: downLayerAction
         text: qsTr("Down")
-        enabled: layerManager.layerView.currentIndex < layerManager.layerView.count - 1
-        onTriggered: layerModel.move(layerManager.layerView.currentIndex, layerManager.layerView.currentIndex + 1, 1)
+        enabled: currentLayerIndex < layerManager.layerView.count - 1
+        onTriggered: layerModel.move(currentLayerIndex, currentLayerIndex + 1, 1)
     }
 }
 

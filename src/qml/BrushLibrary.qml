@@ -29,6 +29,7 @@ ToolWindow {
         for (var i = 0; i < jsonBrushPack.length; i++) {
             libraryModel.append(jsonBrushPack[i])
         }
+        changeBrushSettings(0)
     }
 
     function changeBrushSettings(row) {

@@ -4,9 +4,9 @@ import QtQuick.Layouts 1.1
 
 Column {
     property string title
-    property real value: slider.value
-    property real minimumValue: slider.maximumValue
-    property real maximumValue: slider.maximumValue
+    property alias value: slider.value
+    property alias minimumValue: slider.minimumValue
+    property alias maximumValue: slider.maximumValue
     spacing: 5
 
     RowLayout {

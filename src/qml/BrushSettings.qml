@@ -20,7 +20,6 @@ ToolWindow {
     id: root
     title: qsTr("Brush Settings")
     property alias dab: dab
-    property alias brushModel: brushModel
     property alias diameter: diameter.value
     property alias opaque: opaque.value
     property alias hardness: hardness.value
@@ -40,11 +39,10 @@ ToolWindow {
         anchors.fill: parent
 
         ListView {
-            model: brushModel
             clip: true
             spacing: 2
 
-            VisualItemModel {
+            model: VisualItemModel {
                 id: brushModel
                 property real sliderWidth: scrollView.width !== scrollView.viewport.width ? scrollView.viewport.width - 5 : scrollView.width
                 SliderText { id: diameter; title: qsTr("Diameter"); width: brushModel.sliderWidth; minimumValue: 1; maximumValue: 100; value: 20; onValueChanged: root.settingsChanged() }
