@@ -11,7 +11,7 @@
  * GNU General Public License for more details.
  */
 
-import QtQuick 2.1
+import QtQuick 2.3
 import QtQuick.Controls 1.0
 import QtQuick.Layouts 1.0
 import "components"

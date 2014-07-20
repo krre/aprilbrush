@@ -11,7 +11,7 @@
  * GNU General Public License for more details.
  */
 
-import QtQuick 2.2
+import QtQuick 2.3
 import QtQuick.Window 2.0
 import "../main"
 

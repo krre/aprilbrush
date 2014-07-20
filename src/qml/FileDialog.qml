@@ -1,4 +1,4 @@
-import QtQuick 2.0
+import QtQuick 2.3
 import QtQuick.Dialogs 1.1
 import "utils.js" as Utils
 
