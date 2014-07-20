@@ -29,10 +29,10 @@ OTHER_FILES += \
     qml/components/SliderText.qml \
     qml/Main.qml \
     qml/main/Actions.qml \
-    qml/main/StatusBarContent.qml \
     qml/style/MainTabViewStyle.qml \
     qml/main/MainToolBar.qml \
-    qml/main/MainMenu.qml
+    qml/main/MainMenu.qml \
+    qml/main/MainStatusBar.qml
 
 RESOURCES += \
     resources.qrc
