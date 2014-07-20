@@ -32,7 +32,7 @@ TabViewStyle {
                 anchors.verticalCenter: parent.verticalCenter
                 anchors.right: parent.right
                 anchors.rightMargin: 2
-                onClicked: tabView.removeTab(styleData.index)
+                onClicked: control.removeTab(styleData.index)
             }
         }
     }
