@@ -143,6 +143,9 @@ ScrollView {
                     ctx.save()
                     var x = point.x - brushSettings.dab.width / 2
                     var y = point.y - brushSettings.dab.height / 2
+
+                    // antialiasing
+                    /*
             //            console.log(x, y)
                     ctx.globalAlpha = (x - Math.floor(x) + y - Math.floor(y)) / 2
                     ctx.drawImage(dabCanvas, Math.floor(x), Math.floor(y))
@@ -159,10 +162,11 @@ ScrollView {
                     ctx.globalAlpha = (Math.floor(x + 1) - x + y - Math.floor(y)) / 2
                     ctx.drawImage(dabCanvas, Math.floor(x + 1), Math.floor(y))
             //            console.log(ctx.globalAlpha, Math.floor(x + 1), Math.floor(y))
+            */
 
-            //            ctx.drawImage(dabCanvas, point.x - dab.width / 2, point.y - dab.height / 2)
+                    ctx.drawImage(dabCanvas, x, y)
                     ctx.restore()
-                    canvas.markDirty(point.x - brushSettings.dab.width / 2, point.y - brushSettings.dab.height / 2, brushSettings.dab.width, brushSettings.dab.height)
+                    canvas.markDirty(x, y, brushSettings.dab.width, brushSettings.dab.height)
                 }
             }
         }
