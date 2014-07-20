@@ -38,7 +38,7 @@ ApplicationWindow {
     visible: true
 
     menuBar: MenuBarContent {}
-    toolBar: ToolBarContent { id: toolBar }
+    toolBar: MainToolBar { id: toolBar }
     statusBar: StatusBarContent { id: statusBar }
 
     Component.onCompleted: {
