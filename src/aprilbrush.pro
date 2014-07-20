@@ -28,11 +28,11 @@ OTHER_FILES += \
     qml/FileDialog.qml \
     qml/components/SliderText.qml \
     qml/Main.qml \
-    qml/main/MenuBarContent.qml \
     qml/main/Actions.qml \
     qml/main/StatusBarContent.qml \
     qml/style/MainTabViewStyle.qml \
-    qml/main/MainToolBar
+    qml/main/MainToolBar.qml \
+    qml/main/MainMenu.qml
 
 RESOURCES += \
     resources.qrc

@@ -37,7 +37,7 @@ ApplicationWindow {
     height: 600
     visible: true
 
-    menuBar: MenuBarContent {}
+    menuBar: MainMenu {}
     toolBar: MainToolBar { id: toolBar }
     statusBar: StatusBarContent { id: statusBar }
 
