@@ -42,7 +42,7 @@ ToolWindow {
     ColumnLayout {
         anchors.fill: parent
 
-        TableView {
+        TableViewBase {
             id: tableView
             Layout.fillWidth: true
             Layout.fillHeight: true

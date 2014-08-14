@@ -18,5 +18,6 @@
         <file>qml/style/MainTabViewStyle.qml</file>
         <file>qml/main/MainMenu.qml</file>
         <file>qml/main/MainStatusBar.qml</file>
+        <file>qml/components/TableViewBase.qml</file>
     </qresource>
 </RCC>
