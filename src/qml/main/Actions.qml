@@ -133,32 +133,32 @@ Item {
         text: qsTr("Delete")
         onTriggered: layerManager.deleteLayer()
         tooltip: qsTr("Delete Layer")
-        enabled: layerManager.layerView.count > 0
+        enabled: layerManager.tableView.rowCount > 0
     }
 
     Action {
         id: mergeLayerAction
         text: qsTr("Merge Down")
-        enabled: currentLayerIndex < layerManager.layerView.count - 1
+        enabled: currentLayerIndex < layerManager.tableView.rowCount - 1
     }
 
     Action {
         id: duplicateLayerAction
         text: qsTr("Duplicate")
-        enabled: layerManager.layerView.count > 0
+        enabled: layerManager.tableView.rowCount > 0
     }
 
     Action {
         id: upLayerAction
         text: qsTr("Up")
-        enabled: layerManager.layerView.currentIndex > 0
+        enabled: layerManager.tableView.currentRow > 0
         onTriggered: layerModel.move(currentLayerIndex, currentLayerIndex - 1, 1)
     }
 
     Action {
         id: downLayerAction
         text: qsTr("Down")
-        enabled: currentLayerIndex < layerManager.layerView.count - 1
+        enabled: currentLayerIndex < layerManager.tableView.rowCount - 1
         onTriggered: layerModel.move(currentLayerIndex, currentLayerIndex + 1, 1)
     }
 }

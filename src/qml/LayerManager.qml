@@ -20,142 +20,100 @@ import "undo.js" as Undo
 
 ToolWindow {
     id: root
-    property alias layerView: layerView
+    property alias tableView: tableView
     title: qsTr("Layers")
     objectName: "layerManager"
     storage: { var list = defaultStorage(); return list }
 
     function addLayer(name, color) {
-        var insertIndex = layerView.currentIndex < 0 ? 0 : layerView.currentIndex
+        var insertIndex = tableView.currentRow < 0 ? 0 : tableView.currentRow
         layerModel.insert(insertIndex, { name: name, color: color, visibled: true, blocked: false })
-        layerView.currentIndex = insertIndex
+        tableView.currentRow = insertIndex
     }
 
     function deleteLayer(index) {
         if (index) {
             layerModel.remove(index)
         } else {
-            layerModel.remove(layerView.currentIndex)
-        }
-    }
-
-    function repaintThumbnails() {
-        for (var i = 0; i < layerModel.count; i++) {
-//            print(layerModel.get(i).item)
-            layerModel.get(i).item.thumbnail.paintThumbnail()
+            layerModel.remove(tableView.currentRow)
         }
     }
 
     ColumnLayout {
         anchors.fill: parent
 
-        ScrollView {
+        TableView {
+            id: tableView
             Layout.fillWidth: true
             Layout.fillHeight: true
+            model: currentTab ? currentTab.layerModel : []
+//            itemDelegate: layerDelegate
+            headerVisible: false
 
-            ListView {
-                id: layerView
-                model: currentTab ? currentTab.layerModel : []
-                delegate: layerDelegate
-                spacing: 0
+            TableViewColumn {
+                role: "name"
             }
         }
 
-        Component {
-            id: layerDelegate
+//        Component {
+//            id: layerDelegate
+
+            /*
 
             Rectangle {
-                property alias thumbnail: thumbnail
-                width: ListView.view.width
-                height: 60
-                color: ListView.isCurrentItem ? "#d3a3ee" : "transparent"
-                Component.onCompleted: layerModel.set(index, { "item": this })
+                //                width: ListView.view.width
+//                height: 60
+                color: styleData.selected ? "#7d91f5" : "transparent"
+//                Component.onCompleted: layerModel.set(styleData.row, { "item": this })
 
                 RowLayout {
                     anchors.fill: parent
                     anchors.margins: 5
                     spacing: 5
 
-                    Column {
-                        width: 20
-                        height: parent.height
-                        spacing: 3
-                        anchors.verticalCenter: parent.verticalCenter
+                    Rectangle {
+                        width: 15
+                        height: 15
+                        radius: width / 2
+                        antialiasing: true
+                        color: "transparent"
+                        border.color: "#474747"
 
                         Rectangle {
-                            width: 15
-                            height: 15
+                            id: layerVisible
+                            width: 7
+                            height: 7
+                            anchors.centerIn: parent
                             radius: width / 2
                             antialiasing: true
-                            color: "transparent"
-                            border.color: "#474747"
-
-                            Rectangle {
-                                id: layerVisible
-                                width: 7
-                                height: 7
-                                anchors.centerIn: parent
-                                radius: width / 2
-                                antialiasing: true
-                                color: "#474747"
-                                visible: visibled
-                            }
-
-                            MouseArea {
-                                anchors.fill: parent
-                                onClicked: layerModel.setProperty(index, "visibled", !visibled)
-                            }
+                            color: "#474747"
+                            visible: model.visibled
                         }
 
-                        Rectangle {
-                            width: 15
-                            height: 15
-                            color: "transparent"
-                            border.color: "#474747"
-
-                            Rectangle {
-                                id: layerBlocked
-                                width: 7
-                                height: 7
-                                anchors.centerIn: parent
-                                color: "#474747"
-                                visible: blocked
-                            }
-
-                            MouseArea {
-                                anchors.fill: parent
-                                onClicked: layerModel.setProperty(index, "blocked", !blocked)
-                            }
+                        MouseArea {
+                            anchors.fill: parent
+                            onClicked: layerModel.setProperty(styleData.row, "visibled", !model.visibled)
                         }
                     }
 
                     Rectangle {
-                        Layout.preferredWidth: 80
-                        Layout.preferredHeight: parent.height
+                        width: 15
+                        height: 15
                         color: "transparent"
                         border.color: "#474747"
 
-                        Canvas {
-                            id: thumbnail
-                            width: parent.width - 2
-                            height: parent.height - 2
+                        Rectangle {
+                            id: layerBlocked
+                            width: 7
+                            height: 7
                             anchors.centerIn: parent
+                            color: "#474747"
+                            visible: model.blocked
+                        }
 
-                            function paintThumbnail() {
-                                var ctx = getContext("2d")
-                                var thumbnail = currentTab.canvas.getContext("2d").getImageData(0, 0, imageSize.width, imageSize.height)
-                                ctx.drawImage(thumbnail, 0, 0, width, height)
-    //                            print("paintThumbnail", currentLayerIndex)
-                                requestPaint()
-                            }
-
-                            MouseArea {
-                                anchors.fill: parent
-                                onClicked: {
-                                    layerTextEdit.focus = false
-                                    layerView.currentIndex = index
-                                }
-                            }
+                        MouseArea {
+                            anchors.fill: parent
+                            onClicked: layerModel.setProperty(styleData.row, "blocked", !model.blocked)
                         }
                     }
 
@@ -164,7 +122,7 @@ ToolWindow {
                         Layout.preferredHeight: parent.height
 
                         Text {
-                            text: name
+                            text: model.name
                             width: parent.width
                             anchors.verticalCenter: parent.verticalCenter
                             visible: !layerTextEdit.focus
@@ -172,7 +130,7 @@ ToolWindow {
 
                         MouseArea {
                             anchors.fill: parent
-                            onClicked: layerView.currentIndex = index
+                            onClicked: tableView.currentRow = styleData.row
                             onDoubleClicked: layerTextEdit.focus = true
                         }
 
@@ -182,7 +140,7 @@ ToolWindow {
 
                             width: parent.width
                             anchors.verticalCenter: parent.verticalCenter
-                            text: name
+                            text: model.name
                             visible: focus
 
                             onFocusChanged: {
@@ -193,7 +151,7 @@ ToolWindow {
                             }
 
                             onEditingFinished: {
-                                layerModel.setProperty(index, "name", text)
+                                layerModel.setProperty(styleData.row, "name", text)
                                 parent.forceActiveFocus()
                             }
 
@@ -204,8 +162,8 @@ ToolWindow {
                         }
                     }
                 }
-            }
-        }
+            }*/
+//        }
 
         RowLayout {
             spacing: 2

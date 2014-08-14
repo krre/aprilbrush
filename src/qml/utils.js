@@ -47,9 +47,9 @@ function addLayer(layerName, color) {
 
     imgProcessor.addPixmap(newLayerId, imageSize, newColor)
 
-    var insertPos = layerManager.layerView.currentIndex < 0 ? 0 : layerManager.layerView.currentIndex
+    var insertPos = layerManager.tableView.currentRow < 0 ? 0 : layerManager.tableView.currentRow
     layerModel.insert(insertPos, { name: newLayerName, colorImage: newColor, enable: true, layerId: newLayerId })
-    layerManager.layerView.currentIndex = insertPos
+    layerManager.tableView.currentRow = insertPos
 }
 
 // Delete layer

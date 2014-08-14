@@ -36,7 +36,7 @@ ScrollView {
             model: layerModel
             spacing: -width
             orientation: ListView.Horizontal
-            currentIndex: layerManager.layerView.currentIndex
+            currentIndex: layerManager.tableView.currentRow
             interactive: false
             delegate: Canvas {
                 z: 1000 - index
@@ -59,7 +59,6 @@ ScrollView {
                     }
                     ctx.restore();
                     requestPaint()
-                    layerManager.layerView.currentItem.thumbnail.paintThumbnail()
                 }
             }
 
@@ -93,9 +92,6 @@ ScrollView {
                     drawDab(point)
                     points = []
                     points.push(point)
-                }
-                onReleased: {
-                    layerManager.layerView.currentItem.thumbnail.paintThumbnail()
                 }
 
                 onPositionChanged: {

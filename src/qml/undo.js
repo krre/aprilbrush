@@ -78,16 +78,16 @@ function changeLayer(prevLayerIndex, newLayerIndex) {
     return {
         name: "Change Layer",
         undo: function() {
-            layerManager.layerView.currentIndex = undoLayerIndex
+            layerManager.tableView.currentRow = undoLayerIndex
         },
         redo: function() {
-            layerManager.layerView.currentIndex = redoLayerIndex
+            layerManager.tableView.currentRow = redoLayerIndex
         }
     }
 }
 
 function addLayer() {
-    var redoLayerIndex = layerManager.layerView.currentIndex
+    var redoLayerIndex = layerManager.tableView.currentRow
     var layerName = layerModel.get(redoLayerIndex).name
     return {
         name: "Add Layer",
@@ -96,7 +96,7 @@ function addLayer() {
         },
         redo: function() {
             Utils.addLayer(layerName)
-            layerManager.layerView.currentIndex = redoLayerIndex
+            layerManager.tableView.currentRow = redoLayerIndex
         }
     }
 }
@@ -104,16 +104,16 @@ function addLayer() {
 function deleteLayer(layerIndex) {
     var redoLayerIndex = layerIndex
     var layerName = layerModel.get(layerIndex).name
-    var currentIndexBackUp = layerView.currentIndex
-    layerView.currentIndex = layerIndex
+    var currentIndexBackUp = tableView.currentRow
+    tableView.currentRow = layerIndex
     var undoArea = brushEngine.currentArea()
-    layerView.currentIndex = currentIndexBackUp
+    tableView.currentRow = currentIndexBackUp
     delete currentIndexBackUp
 
     return {
         name: "Delete Layer",
         undo: function() {
-            var currentLayerIndex = layerView.currentIndex
+            var currentLayerIndex = tableView.currentRow
             var currentIndexBackUp = currentLayerIndex
             var startPos = Qt.point(0, 0)
             Utils.addLayer(layerName)
@@ -122,7 +122,7 @@ function deleteLayer(layerIndex) {
             imgProcessor.setPixmapArea(startPos, undoArea, layerId)
             if (currentIndexBackUp >= 0) {
                 layerModel.move(currentLayerIndex, redoLayerIndex, 1)
-                layerView.currentIndex = currentIndexBackUp
+                tableView.currentRow = currentIndexBackUp
             }
         },
         redo: function() {
@@ -135,10 +135,10 @@ function raiseLayer() {
     return {
         name: "Raise Layer",
         undo: function() {
-            layerModel.move(layerView.currentIndex, layerView.currentIndex + 1, 1)
+            layerModel.move(tableView.currentRow, tableView.currentRow + 1, 1)
         },
         redo: function() {
-            layerModel.move(layerView.currentIndex, layerView.currentIndex - 1, 1)
+            layerModel.move(tableView.currentRow, tableView.currentRow - 1, 1)
         }
     }
 }
@@ -147,33 +147,33 @@ function lowerLayer() {
     return {
         name: "Lower Layer",
         undo: function() {
-            layerModel.move(layerView.currentIndex, layerView.currentIndex - 1, 1)
+            layerModel.move(tableView.currentRow, tableView.currentRow - 1, 1)
         },
         redo: function() {
-            layerModel.move(layerView.currentIndex, layerView.currentIndex + 1, 1)
+            layerModel.move(tableView.currentRow, tableView.currentRow + 1, 1)
         }
     }
 }
 
 function mergeLayer() {
-    var currentLayerIndex = layerView.currentIndex
+    var currentLayerIndex = tableView.currentRow
     var layerId1 = currentLayerId
-    var layerId2 = layerModel.get(layerView.currentIndex + 1).layerId
+    var layerId2 = layerModel.get(tableView.currentRow + 1).layerId
     var layerIdList = [layerId1, layerId2]
     var pixmapList = imgProcessor.mergePixmap(layerIdList)
     var mergeLayerIndex = currentLayerIndex
     var layerName = layerModel.get(mergeLayerIndex).name
-    layerView.currentIndex++
+    tableView.currentRow++
     tabContent.canvasArea.pathView.currentItem.update()
-    layerView.currentIndex--
-    Utils.deleteLayer(layerView.currentIndex)
+    tableView.currentRow--
+    Utils.deleteLayer(tableView.currentRow)
     return {
         name: "Merge Layer",
         undo: function() {
             var startPos = Qt.point(0, 0)
             imgProcessor.setPixmapArea(startPos, pixmapList[1], currentLayerId)
             Utils.addLayer(layerName)
-            if (layerView.currentIndex < 0) layerView.currentIndex = 0
+            if (tableView.currentRow < 0) tableView.currentRow = 0
             var layerId = layerModel.get(currentLayerIndex).layerId
             imgProcessor.setPixmapArea(startPos, pixmapList[0], currentLayerId)
             if (mergeLayerIndex >= 0) {
