@@ -39,24 +39,33 @@ Item {
         id: openAction
         text: qsTr("Open")
         shortcut: StandardKey.Open
-        onTriggered: fileDialog.open()
         tooltip: qsTr("Open an Image")
+        onTriggered: {
+            fileDialog.mode = 0
+            fileDialog.open()
+        }
     }
 
     Action {
         id: saveAction
         text: qsTr("Save")
         shortcut: StandardKey.Save
-        onTriggered: print("save")
         tooltip: qsTr("Save an Image")
+        onTriggered: {
+            fileDialog.mode = 1
+            fileDialog.open()
+        }
     }
 
     Action {
         id: saveAsAction
         text: qsTr("Save As...")
         shortcut: StandardKey.SaveAs
-        onTriggered: print("save as")
         tooltip: qsTr("Save as an Image")
+        onTriggered: {
+            fileDialog.mode = 1
+            fileDialog.open()
+        }
     }
 
     Action {

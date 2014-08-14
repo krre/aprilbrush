@@ -25,7 +25,6 @@ OTHER_FILES += \
     qml/UndoManager.qml \
     qml/components/ToolWindow.qml \
     qml/style.js \
-    qml/FileDialog.qml \
     qml/components/SliderText.qml \
     qml/Main.qml \
     qml/main/Actions.qml \
@@ -33,7 +32,8 @@ OTHER_FILES += \
     qml/main/MainToolBar.qml \
     qml/main/MainMenu.qml \
     qml/main/MainStatusBar.qml \
-    qml/components/TableViewBase.qml
+    qml/components/TableViewBase.qml \
+    qml/FileDialogBase.qml
 
 RESOURCES += \
     qml.qrc

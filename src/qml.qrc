@@ -19,5 +19,6 @@
         <file>qml/main/MainMenu.qml</file>
         <file>qml/main/MainStatusBar.qml</file>
         <file>qml/components/TableViewBase.qml</file>
+        <file>qml/FileDialogBase.qml</file>
     </qresource>
 </RCC>

@@ -61,7 +61,7 @@ ApplicationWindow {
 
     Actions { id: actions}
     CoreLib { id: coreLib }
-    FileDialog { id: fileDialog }
+    FileDialogBase { id: fileDialog }
     About { id: about }
 
     TabView {
