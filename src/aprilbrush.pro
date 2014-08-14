@@ -35,4 +35,4 @@ OTHER_FILES += \
     qml/main/MainStatusBar.qml
 
 RESOURCES += \
-    resources.qrc
+    qml.qrc
