@@ -9,6 +9,7 @@ MenuBar {
         MenuItem { action: actions.openAction }
         MenuItem { action: actions.saveAction }
         MenuItem { action: actions.saveAsAction }
+        MenuItem { action: actions.exportAction }
         MenuSeparator {}
         MenuItem { action: actions.closeAction }
         MenuItem { action: actions.closeAllAction }

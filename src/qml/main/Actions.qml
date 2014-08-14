@@ -6,6 +6,7 @@ Item {
     property alias openAction: openAction
     property alias saveAction: saveAction
     property alias saveAsAction: saveAsAction
+    property alias exportAction: exportAction
     property alias closeAction: closeAction
     property alias closeAllAction: closeAllAction
     property alias closeOthersAction: closeOthersAction
@@ -64,6 +65,17 @@ Item {
         tooltip: qsTr("Save as an Image")
         onTriggered: {
             fileDialog.mode = 1
+            fileDialog.open()
+        }
+    }
+
+    Action {
+        id: exportAction
+        text: qsTr("Export...")
+        shortcut: "Ctrl+E"
+        tooltip: qsTr("Export an Imageto PNG")
+        onTriggered: {
+            fileDialog.mode = 2
             fileDialog.open()
         }
     }
