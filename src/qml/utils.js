@@ -13,63 +13,6 @@
 
 .import "undo.js" as Undo
 
-// Add new tab
-function addTab(tabName) {
-    var newTabName = tabName ? tabName : qsTr("Untitled-") + (++newTabCounter)
-    tabView.addTab(newTabName, tabView.tabComponent)
-    tabView.currentIndex = tabView.count - 1
-
-    if (!tabName) {
-        addLayer("Background", "white")
-        addLayer()
-    }
-
-    undoManager.add(new Undo.start())
-}
-
-// Delete page
-function deletePage(index) {
-    var layerModel = pageModel.get(index).layerModel
-    if (layerModel.count > 0)
-        for (var i = 0; i < layerModel.count; i++) {
-            var layerId = layerModel.get(i).layerId
-            imgProcessor.deletePixmap(layerId)
-        }
-    pageModel.remove(index)
-}
-
-
-// Add new layer
-function addLayer(layerName, color) {
-    var newLayerName = layerName ? layerName : qsTr("Layer-") + (++tabContent.newLayerCounter)
-    var newColor = color ? color : "transparent"
-    var newLayerId = (layerIdCounter++).toString()
-
-    imgProcessor.addPixmap(newLayerId, imageSize, newColor)
-
-    var insertPos = layerManager.tableView.currentRow < 0 ? 0 : layerManager.tableView.currentRow
-    layerModel.insert(insertPos, { name: newLayerName, colorImage: newColor, enable: true, layerId: newLayerId })
-    layerManager.tableView.currentRow = insertPos
-}
-
-// Delete layer
-function deleteLayer(index) {
-    var layerId = layerModel.get(index).layerId
-    layerModel.remove(index)
-    imgProcessor.deletePixmap(layerId)
-}
-
-function polishPath(path) {
-    var re = new RegExp("\/{2,}", "g")
-    path = path.replace(re, "/")
-    path = path.replace("file:", "")
-    re = new RegExp("^\/.:")
-    if (re.test(path))
-        path = path.substring(1)
-
-    return path
-}
-
 // Open OpenRaster file
 function openOra(filePath) {
     //var layerModel = pageModel.get(currentPageIndex).layerModel
@@ -91,27 +34,29 @@ function openOra(filePath) {
 // Save OpenRaster file with new name
 function saveAsOra(filePath) {
     var path = filePath.toString()
-    if (path.substr(-4) !== ".ora")
+    if (path.substr(-4) !== ".ora") {
         path += ".ora"
-
+    }
     path = polishPath(path)
-
-    currentPageItem.canvasArea.oraPath = path
-    saveOra(path)
-    pageModel.get(currentPageIndex).name = fileFromPath(path)
+    currentTab.oraPath = path
+    tabView.getTab(tabView.currentIndex).title = fileFromPath(path)
+    saveOra()
 }
 
 // Save OpenRaster file
 function saveOra() {
-    var path = currentPageItem.canvasArea.oraPath
-    var layerModel = pageModel.get(currentPageIndex).layerModel
+    var path = currentTab.oraPath
     var layerList = []
     for (var i = 0; i < layerModel.count; i++) {
+        var image = layerModel.get(i).canvas.toDataURL()
+        image = image.substring(22, image.length) // cutting first block "data:image/png;base64,"
+        var visible = layerModel.get(i).layerVisible
         layerList.push({ "name": layerModel.get(i).name,
-                         "layerId": layerModel.get(i).layerId,
-                         "enable": layerModel.get(i).enable})
+                         "visible": visible,
+                         "image": image
+                       })
     }
-    openRaster.write(path, imageSize, layerList)
+    coreLib.writeOra(path, imageSize, layerList)
     console.log("save: " + path)
 }
 
@@ -201,6 +146,17 @@ function hsvToRgb(h, s, v) {
         case 5: r = v; g = p; b = q; break;
     }
     return Qt.rgba(r, g, b, 1)
+}
+
+function polishPath(path) {
+    var re = new RegExp("\/{2,}", "g")
+    path = path.replace(re, "/")
+    path = path.replace("file:", "")
+    re = new RegExp("^\/.:")
+    if (re.test(path))
+        path = path.substring(1)
+
+    return path
 }
 
 // Get filename from path

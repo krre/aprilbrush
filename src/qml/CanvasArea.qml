@@ -18,6 +18,7 @@ import "components"
 ScrollView {
     property alias layerModel: layerModel
     property Canvas canvas: layerCanvasView.currentItem
+    property string oraPath
 
     Item {
         width: imageSize.width
@@ -44,8 +45,10 @@ ScrollView {
                 height: ListView.view.height
             //        antialiasing: true
                 smooth: false
-                visible: visibled
+                visible: layerVisible
                 onAvailableChanged: clear()
+
+                Component.onCompleted: layerModel.set(index, { "canvas": this })
 
                 function clear() {
 //                    print("clear", color, width, height)

@@ -27,7 +27,7 @@ ToolWindow {
 
     function addLayer(name, color) {
         var insertIndex = tableView.currentRow < 0 ? 0 : tableView.currentRow
-        layerModel.insert(insertIndex, { name: name, color: color, visibled: true, blocked: false })
+        layerModel.insert(insertIndex, { name: name, color: color, layerVisible: true, blocked: false })
         tableView.currentRow = insertIndex
     }
 

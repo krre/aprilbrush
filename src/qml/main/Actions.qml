@@ -1,5 +1,6 @@
 import QtQuick 2.3
 import QtQuick.Controls 1.2
+import "../utils.js" as Utils
 
 Item {
     property alias newImageAction: newImageAction
@@ -53,8 +54,12 @@ Item {
         shortcut: StandardKey.Save
         tooltip: qsTr("Save an Image")
         onTriggered: {
-            fileDialog.mode = 1
-            fileDialog.open()
+            if (currentTab.oraPath === "") {
+                fileDialog.mode = 1; // Save mode
+                fileDialog.open()
+            } else {
+                Utils.saveOra()
+            }
         }
     }
 
