@@ -63,17 +63,6 @@ void CoreLib::saveSettings(QVariant settings)
     file.close();
 }
 
-QString CoreLib::rootFolder()
-{
-#ifdef Q_OS_WIN
-    return "file:/c:/";
-#endif
-
-#ifdef Q_OS_UNIX
-    return "file:/";
-#endif
-}
-
 void CoreLib::writeOra(const QString oraPath, const QSize imageSize, const QVariantList layerList)
 {
     QZipWriter zipWriter(oraPath);
