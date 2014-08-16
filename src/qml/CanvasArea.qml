@@ -21,32 +21,27 @@ ScrollView {
     property string oraPath
 
     property real zoom: 1.0
-    property bool panMode: false
+    property bool isPan: false
     property point pan: Qt.point(0, 0)
     property int mirror: 1
     property real rotation: 0
 
-/*
     Keys.onPressed: {
-        switch (event.key) {
-            case Qt.Key_0: zoom = 1; pan = Qt.point(0, 0); mirror = 1; rotation = 0; break
-            case Qt.Key_Space: if (!event.isAutoRepeat) panMode = true; break
-            case Qt.Key_F: undoManager.add(new Undo.fillColor()); break
-            case Qt.Key_Z: undoManager.undoView.decrementCurrentIndex(); break
-            case Qt.Key_X: undoManager.undoView.incrementCurrentIndex(); break
-        }
-
-        if (event.modifiers & Qt.ControlModifier)
-            ctrlMode = true
+        if (event.key === Qt.Key_Space && !event.isAutoRepeat) { isPan = true }
+//            case Qt.Key_F: undoManager.add(new Undo.fillColor()); break
+//            case Qt.Key_Z: undoManager.undoView.decrementCurrentIndex(); break
+//            case Qt.Key_X: undoManager.undoView.incrementCurrentIndex(); break
+//        if (event.modifiers & Qt.ControlModifier)
+//            ctrlMode = true
     }
 
     Keys.onReleased: {
-        if (Qt.ControlModifier)
-            ctrlMode = false
-        if (event.key === Qt.Key_Space) { if (!event.isAutoRepeat) panMode = false }
+//        if (Qt.ControlModifier)
+//            ctrlMode = false
+        if (event.key === Qt.Key_Space && !event.isAutoRepeat) { isPan = false }
     }
 
-    */
+    Component.onCompleted: forceActiveFocus()
 
     function resetTransform() {
           zoom = 1
@@ -56,6 +51,8 @@ ScrollView {
     }
 
     Item {
+        x: pan.x
+        y: pan.y
         width: imageSize.width
         height: imageSize.height
 
@@ -109,6 +106,7 @@ ScrollView {
                 property var points: []
                 property bool linearMode: false
                 property point lastDrawPoint
+                property point grabPoint
                 anchors.fill: parent
                 enabled: currentLayerIndex >= 0 && typeof layerModel.get(currentLayerIndex) !== "undefined" && !layerModel.get(currentLayerIndex).blocked
 
@@ -130,47 +128,56 @@ ScrollView {
 
                 onPressed: {
                     var point = Qt.point(mouseX, mouseY)
-                    lastDrawPoint = point
-                    drawDab(point)
-                    points = []
-                    points.push(point)
+                    if (isPan) {
+                        grabPoint = point
+                    } else {
+                        lastDrawPoint = point
+                        drawDab(point)
+                        points = []
+                        points.push(point)
+                    }
                 }
 
                 onPositionChanged: {
-                    var currentPoint = Qt.point(mouseX, mouseY)
-                    var startPoint = lastDrawPoint
-                    var currentSpacing = Math.sqrt(Math.pow(currentPoint.x - startPoint.x, 2) + Math.pow(currentPoint.y - startPoint.y, 2))
-                    var numDabs = Math.floor(currentSpacing / deltaDab)
-                    if (numDabs >= 1) {
+                    if (isPan) {
+                        pan.x += (mouseX - grabPoint.x) * zoom * mirror
+                        pan.y += (mouseY - grabPoint.y) * zoom
+                    } else {
+                        var currentPoint = Qt.point(mouseX, mouseY)
+                        var startPoint = lastDrawPoint
+                        var currentSpacing = Math.sqrt(Math.pow(currentPoint.x - startPoint.x, 2) + Math.pow(currentPoint.y - startPoint.y, 2))
+                        var numDabs = Math.floor(currentSpacing / deltaDab)
+                        if (numDabs >= 1) {
 
-                        if (points.length == 1 || numDabs < 3 || linearMode) {
-                            var endPoint = currentPoint
-                        } else {
-                            var controlPoint = points[points.length - 1]
-                            endPoint = Qt.point((controlPoint.x + currentPoint.x) / 2, (controlPoint.y + currentPoint.y) / 2)
-                        }
-
-                        var deltaT = 1 / numDabs
-                        var betweenPoint = startPoint
-                        var t = deltaT
-                        var diff
-                        while (t > 0 && t <= 1) {
-                            var point = bezierCurve(startPoint, controlPoint, endPoint, t)
-                            var deltaPoint = Math.sqrt(Math.pow(point.x - betweenPoint.x, 2) + Math.pow(point.y - betweenPoint.y, 2))
-                            // check on bezier loop
-                            if (diff && Math.abs(deltaPoint - deltaDab) > Math.abs(diff)) { break; }
-                            diff = deltaPoint - deltaDab
-                            if (Math.abs(diff <= 0.5)) {
-                                drawDab(point)
-                                diff = undefined
-                                betweenPoint = point
-                                t += deltaT
+                            if (points.length == 1 || numDabs < 3 || linearMode) {
+                                var endPoint = currentPoint
                             } else {
-                                t -= diff / deltaDab * deltaT
+                                var controlPoint = points[points.length - 1]
+                                endPoint = Qt.point((controlPoint.x + currentPoint.x) / 2, (controlPoint.y + currentPoint.y) / 2)
                             }
+
+                            var deltaT = 1 / numDabs
+                            var betweenPoint = startPoint
+                            var t = deltaT
+                            var diff
+                            while (t > 0 && t <= 1) {
+                                var point = bezierCurve(startPoint, controlPoint, endPoint, t)
+                                var deltaPoint = Math.sqrt(Math.pow(point.x - betweenPoint.x, 2) + Math.pow(point.y - betweenPoint.y, 2))
+                                // check on bezier loop
+                                if (diff && Math.abs(deltaPoint - deltaDab) > Math.abs(diff)) { break; }
+                                diff = deltaPoint - deltaDab
+                                if (Math.abs(diff <= 0.5)) {
+                                    drawDab(point)
+                                    diff = undefined
+                                    betweenPoint = point
+                                    t += deltaT
+                                } else {
+                                    t -= diff / deltaDab * deltaT
+                                }
+                            }
+                            points.push(currentPoint)
+                            lastDrawPoint = betweenPoint
                         }
-                        points.push(currentPoint)
-                        lastDrawPoint = betweenPoint
                     }
                 }
 
