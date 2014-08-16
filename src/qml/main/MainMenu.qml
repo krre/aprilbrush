@@ -85,6 +85,7 @@ MenuBar {
         title: qsTr("View")
         MenuItem {action: actions.zoomInAction }
         MenuItem {action: actions.zoomOutAction }
+        MenuItem {action: actions.rotationAction }
         MenuItem {action: actions.resetAction }
     }
 

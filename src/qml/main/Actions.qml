@@ -26,6 +26,7 @@ Item {
 
     property alias zoomInAction: zoomInAction
     property alias zoomOutAction: zoomOutAction
+    property alias rotationAction: rotationAction
     property alias resetAction: resetAction
 
     // image management
@@ -234,11 +235,19 @@ Item {
     }
 
     Action {
+        id: rotationAction
+        text: qsTr("Rotation")
+        shortcut: "R"
+        enabled: tabView.count > 0
+        onTriggered: currentTab.rotation += 90
+    }
+
+    Action {
         id: resetAction
         text: qsTr("Reset")
         shortcut: "0"
         enabled: tabView.count > 0
-        onTriggered: currentTab.zoom = 1.0
+        onTriggered: currentTab.resetTransform()
     }
 }
 

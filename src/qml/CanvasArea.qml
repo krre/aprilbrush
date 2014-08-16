@@ -19,14 +19,14 @@ ScrollView {
     property alias layerModel: layerModel
     property Canvas canvas: layerCanvasView.currentItem
     property string oraPath
-    property real zoom: 1.0
+    property alias zoom: container.scale
+    property alias rotation: container.rotation
 /*
     Keys.onPressed: {
         switch (event.key) {
             case Qt.Key_0: zoom = 1; pan = Qt.point(0, 0); mirror = 1; rotation = 0; break
             case Qt.Key_Space: if (!event.isAutoRepeat) panMode = true; break
             case Qt.Key_M: mirror *= -1; break
-            case Qt.Key_R: rotation += 90; break
             case Qt.Key_F: undoManager.add(new Undo.fillColor()); break
             case Qt.Key_Z: undoManager.undoView.decrementCurrentIndex(); break
             case Qt.Key_X: undoManager.undoView.incrementCurrentIndex(); break
@@ -44,10 +44,15 @@ ScrollView {
 
     */
 
+    function resetTransform() {
+        zoom = 1.0
+        rotation = 0
+    }
+
     Item {
+        id: container
         width: imageSize.width
         height: imageSize.height
-        scale: zoom
 
         CheckerBoard {
             anchors.fill: parent
