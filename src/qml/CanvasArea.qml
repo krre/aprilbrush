@@ -19,10 +19,35 @@ ScrollView {
     property alias layerModel: layerModel
     property Canvas canvas: layerCanvasView.currentItem
     property string oraPath
+    property real zoom: 1.0
+/*
+    Keys.onPressed: {
+        switch (event.key) {
+            case Qt.Key_0: zoom = 1; pan = Qt.point(0, 0); mirror = 1; rotation = 0; break
+            case Qt.Key_Space: if (!event.isAutoRepeat) panMode = true; break
+            case Qt.Key_M: mirror *= -1; break
+            case Qt.Key_R: rotation += 90; break
+            case Qt.Key_F: undoManager.add(new Undo.fillColor()); break
+            case Qt.Key_Z: undoManager.undoView.decrementCurrentIndex(); break
+            case Qt.Key_X: undoManager.undoView.incrementCurrentIndex(); break
+        }
+
+        if (event.modifiers & Qt.ControlModifier)
+            ctrlMode = true
+    }
+
+    Keys.onReleased: {
+        if (Qt.ControlModifier)
+            ctrlMode = false
+        if (event.key === Qt.Key_Space) { if (!event.isAutoRepeat) panMode = false }
+    }
+
+    */
 
     Item {
         width: imageSize.width
         height: imageSize.height
+        scale: zoom
 
         CheckerBoard {
             anchors.fill: parent
@@ -135,9 +160,10 @@ ScrollView {
                 }
 
                 function drawDab(point) {
-                    var dabCanvas = brushSettings.dab.getContext("2d").getImageData(0, 0, brushSettings.dab.width, brushSettings.dab.height)
+                    var dabCanvas = brushSettings.dab
                     var ctx = canvas.getContext("2d")
                     ctx.save()
+                    ctx.globalCompositeOperation = isEraser ? "destination-out" : "source-over"
                     var x = point.x - brushSettings.dab.width / 2
                     var y = point.y - brushSettings.dab.height / 2
                     ctx.drawImage(dabCanvas, x, y)

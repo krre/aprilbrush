@@ -36,7 +36,7 @@ MenuBar {
     }
 
     Menu {
-        title: qsTr("View")
+        title: qsTr("Window")
 
         MenuItem {
             text: qsTr("Tool Bar")
@@ -82,8 +82,14 @@ MenuBar {
     }
 
     Menu {
-        title: qsTr("Help")
+        title: qsTr("View")
+        MenuItem {action: actions.zoomInAction }
+        MenuItem {action: actions.zoomOutAction }
+        MenuItem {action: actions.resetAction }
+    }
 
+    Menu {
+        title: qsTr("Help")
         MenuItem {
             text: qsTr("About...")
             onTriggered: about.show()

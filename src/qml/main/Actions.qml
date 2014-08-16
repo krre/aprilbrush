@@ -24,6 +24,10 @@ Item {
     property alias upLayerAction: upLayerAction
     property alias downLayerAction: downLayerAction
 
+    property alias zoomInAction: zoomInAction
+    property alias zoomOutAction: zoomOutAction
+    property alias resetAction: resetAction
+
     // image management
 
     Action {
@@ -209,6 +213,32 @@ Item {
         text: qsTr("Down")
         enabled: currentLayerIndex < layerManager.tableView.rowCount - 1
         onTriggered: layerModel.move(currentLayerIndex, currentLayerIndex + 1, 1)
+    }
+
+    // canvas transform
+
+    Action {
+        id: zoomInAction
+        text: qsTr("ZoomIn")
+        shortcut: StandardKey.ZoomIn
+        enabled: tabView.count > 0
+        onTriggered: currentTab.zoom *= 1.5
+    }
+
+    Action {
+        id: zoomOutAction
+        text: qsTr("ZoomOut")
+        shortcut: StandardKey.ZoomOut
+        enabled: tabView.count > 0
+        onTriggered: currentTab.zoom /= 1.5
+    }
+
+    Action {
+        id: resetAction
+        text: qsTr("Reset")
+        shortcut: "0"
+        enabled: tabView.count > 0
+        onTriggered: currentTab.zoom = 1.0
     }
 }
 
