@@ -43,7 +43,7 @@ ScrollView {
                 z: 1000 - index
                 width: ListView.view.width
                 height: ListView.view.height
-            //        antialiasing: true
+                antialiasing: true
                 smooth: false
                 visible: layerVisible
                 onAvailableChanged: clear()
@@ -51,7 +51,6 @@ ScrollView {
                 Component.onCompleted: layerModel.set(index, { "canvas": this })
 
                 function clear() {
-//                    print("clear", color, width, height)
                     var ctx = getContext("2d")
                     ctx.save()
                     if (color === "transparent") {
@@ -136,33 +135,11 @@ ScrollView {
                 }
 
                 function drawDab(point) {
-            //            console.log(point)
                     var dabCanvas = brushSettings.dab.getContext("2d").getImageData(0, 0, brushSettings.dab.width, brushSettings.dab.height)
                     var ctx = canvas.getContext("2d")
                     ctx.save()
                     var x = point.x - brushSettings.dab.width / 2
                     var y = point.y - brushSettings.dab.height / 2
-
-                    // antialiasing
-                    /*
-            //            console.log(x, y)
-                    ctx.globalAlpha = (x - Math.floor(x) + y - Math.floor(y)) / 2
-                    ctx.drawImage(dabCanvas, Math.floor(x), Math.floor(y))
-            //            console.log(ctx.globalAlpha, Math.floor(x), Math.floor(y))
-
-                    ctx.globalAlpha = (Math.floor(x + 1) - x + Math.floor(y + 1) - y) / 2
-                    ctx.drawImage(dabCanvas, Math.floor(x + 1), Math.floor(y + 1))
-            //            console.log(ctx.globalAlpha, Math.floor(x + 1), Math.floor(y + 1))
-
-                    ctx.globalAlpha = (x - Math.floor(x) + Math.floor(y + 1) - y) / 2
-                    ctx.drawImage(dabCanvas, Math.floor(x), Math.floor(y + 1))
-            //            console.log(ctx.globalAlpha, Math.floor(x), Math.floor(y + 1))
-
-                    ctx.globalAlpha = (Math.floor(x + 1) - x + y - Math.floor(y)) / 2
-                    ctx.drawImage(dabCanvas, Math.floor(x + 1), Math.floor(y))
-            //            console.log(ctx.globalAlpha, Math.floor(x + 1), Math.floor(y))
-            */
-
                     ctx.drawImage(dabCanvas, x, y)
                     ctx.restore()
                     canvas.markDirty(x, y, brushSettings.dab.width, brushSettings.dab.height)
