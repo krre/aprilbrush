@@ -39,7 +39,7 @@ Item {
 
     Action {
         id: openAction
-        text: qsTr("Open")
+        text: qsTr("Open...")
         shortcut: StandardKey.Open
         tooltip: qsTr("Open an Image")
         onTriggered: {
@@ -61,6 +61,7 @@ Item {
                 Utils.saveOra()
             }
         }
+        enabled: tabView.count > 0
     }
 
     Action {
@@ -72,17 +73,19 @@ Item {
             fileDialog.mode = 1
             fileDialog.open()
         }
+        enabled: tabView.count > 0
     }
 
     Action {
         id: exportAction
         text: qsTr("Export...")
         shortcut: "Ctrl+E"
-        tooltip: qsTr("Export an Imageto PNG")
+        tooltip: qsTr("Export an Image to PNG")
         onTriggered: {
             fileDialog.mode = 2
             fileDialog.open()
         }
+        enabled: tabView.count > 0 && layerModel && layerModel.count > 0
     }
 
     Action {
