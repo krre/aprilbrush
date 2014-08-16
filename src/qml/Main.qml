@@ -101,6 +101,23 @@ ApplicationWindow {
         CanvasArea {}
     }
 
+    Component {
+        id: exportCanvas
+        Canvas {
+            signal finished()
+            width: imageSize.width
+            height: imageSize.height
+            onAvailableChanged: {
+                for (var i = layerModel.count - 1; i > -1; i--) {
+                    var canvas = layerModel.get(i).canvas
+                    var image = canvas.getContext("2d").getImageData(0, 0, width, height)
+                    getContext("2d").drawImage(canvas, 0, 0)
+                }
+                finished()
+            }
+        }
+    }
+
     Item {
         property alias mainX: mainRoot.x
         property alias mainY: mainRoot.y

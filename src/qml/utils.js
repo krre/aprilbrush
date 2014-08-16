@@ -76,16 +76,18 @@ function saveOra() {
 
 // Export PNG file
 function exportPng(filePath) {
-    var layerModel = pageModel.get(currentPageIndex).layerModel
     var path = filePath.toString()
-    if (path.substr(-4) !== ".png")
+    if (path.substr(-4) !== ".png") {
         path += ".png"
-    var layerIdList = []
-    for (var i = 0; i < layerModel.count; i++)
-        layerIdList.push(layerModel.get(i).layerId)
+    }
     path = polishPath(path)
-    imgProcessor.makePng(path, layerIdList)
-    console.log("export: " + path)
+
+    var finalCanvas = exportCanvas.createObject(currentTab)
+    finalCanvas.onFinished.connect(function() {
+        finalCanvas.save(path)
+        finalCanvas.destroy()
+        console.log("export: " + path)
+    })
 }
 
 // Pick color from canvas
