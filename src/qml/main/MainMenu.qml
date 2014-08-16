@@ -86,6 +86,7 @@ MenuBar {
         MenuItem {action: actions.zoomInAction }
         MenuItem {action: actions.zoomOutAction }
         MenuItem {action: actions.rotationAction }
+        MenuItem {action: actions.mirrorAction }
         MenuItem {action: actions.resetAction }
     }
 

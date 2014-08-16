@@ -27,6 +27,7 @@ Item {
     property alias zoomInAction: zoomInAction
     property alias zoomOutAction: zoomOutAction
     property alias rotationAction: rotationAction
+    property alias mirrorAction: mirrorAction
     property alias resetAction: resetAction
 
     // image management
@@ -240,6 +241,14 @@ Item {
         shortcut: "R"
         enabled: tabView.count > 0
         onTriggered: currentTab.rotation += 90
+    }
+
+    Action {
+        id: mirrorAction
+        text: qsTr("Mirror")
+        shortcut: "M"
+        enabled: tabView.count > 0
+        onTriggered: currentTab.mirror *= -1
     }
 
     Action {
