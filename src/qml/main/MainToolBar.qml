@@ -7,6 +7,8 @@ ToolBar {
         ToolButton { action: actions.newImageAction }
         ToolButton { action: actions.openAction }
         ToolButton { action: actions.saveAction }
+        ToolButton { action: actions.brushAction }
+        ToolButton { action: actions.eraserAction }
         ToolButton { action: actions.clearAction }
     }
 }

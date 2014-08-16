@@ -13,6 +13,8 @@ Item {
     property alias closeOthersAction: closeOthersAction
     property alias quitAction: quitAction
 
+    property alias brushAction: brushAction
+    property alias eraserAction: eraserAction
     property alias clearAction: clearAction
 
     property alias newLayerAction: newLayerAction
@@ -137,6 +139,24 @@ Item {
     }
 
     // edit management
+    ExclusiveGroup {
+        Action {
+            id: brushAction
+            text: qsTr("Brush")
+            shortcut: "B"
+            checkable: true
+            checked: true
+            onTriggered: isEraser = false
+        }
+
+        Action {
+            id: eraserAction
+            text: qsTr("Eraser")
+            shortcut: "E"
+            checkable: true
+            onTriggered: isEraser = true
+        }
+    }
 
     Action {
         id: clearAction

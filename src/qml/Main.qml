@@ -31,6 +31,7 @@ ApplicationWindow {
     property ListModel layerModel: currentTab ? currentTab.layerModel : null
     property real pressure: 0
     property alias sysPalette: sysPalette
+    property bool isEraser: false
     readonly property int currentLayerIndex: currentTab ? layerManager.tableView.currentRow : -1
 
     width: 1000
