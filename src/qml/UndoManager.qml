@@ -12,47 +12,45 @@
  */
 
 import QtQuick 2.3
+import QtQuick.Controls 1.2
 import "components"
 import "undo.js" as Undo
 
 ToolWindow {
     id: root
-    text: "Undo History"
-    property alias currentUndo: undoView.currentIndex
+    title: qsTr("Undo History")
+    property alias currentUndo: undoView.currentRow
     property alias undoView: undoView
     property int undoDeep: 50
     property int prevIndex: -1
     property var commandArray: [] // array for saving undo/redo command (they don't work from ListModel)
-    property bool endList: false
-    property bool newUndo: false
+
+    objectName: "undoManager"
+    storage: { var list = defaultStorage(); return list }
 
     function add(commandUndo) {
-        if (undoView.currentIndex < undoModel.count - 1) {
-            undoModel.remove(undoView.currentIndex + 1, undoModel.count - undoView.currentIndex - 1)
-            commandArray.length = undoView.currentIndex + 1
+        if (undoView.currentRow < undoModel.count - 1) {
+            undoModel.remove(undoView.currentRow + 1, undoModel.count - undoView.currentRow - 1)
+            commandArray.length = undoView.currentRow + 1
         }
         if (undoModel.count === undoDeep) {
-            endList = true
             undoModel.remove(0)
             commandArray.shift()
         }
 
-        newUndo = true
         undoModel.append({ name: commandUndo.name })
         commandArray.push(commandUndo)
-        undoView.currentIndex = undoModel.count - 1
-        endList = false
-        newUndo = false
+        undoView.currentRow = undoModel.count - 1
     }
 
     function run(index) {
-        if ((index < prevIndex) && !endList) {
+        if (index < prevIndex) {
             for (var i = prevIndex; i > index; i--) {
                 commandArray[i].undo()
             }
         }
 
-        if ((index > prevIndex) && !newUndo) {
+        if (index > prevIndex) {
             for (i = prevIndex; i < index; i++) {
                 commandArray[i + 1].redo()
             }
@@ -60,15 +58,14 @@ ToolWindow {
         prevIndex = index
     }
 
-    Item {
+    TableViewBase {
+        id: undoView
         anchors.fill: parent
-        visible: tabView.count > 0
+        model: undoModel
+        onCurrentRowChanged: run(currentRow)
 
-        VerticalList {
-            id: undoView
-            anchors.fill: parent
-            model: undoModel
-            onCurrentIndexChanged: run(currentIndex)
+        TableViewColumn {
+            role: "name"
         }
     }
 }

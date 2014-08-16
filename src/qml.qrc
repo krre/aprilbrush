@@ -20,5 +20,6 @@
         <file>qml/main/MainStatusBar.qml</file>
         <file>qml/components/TableViewBase.qml</file>
         <file>qml/FileDialogBase.qml</file>
+        <file>qml/UndoManager.qml</file>
     </qresource>
 </RCC>

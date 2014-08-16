@@ -14,9 +14,11 @@
 import QtQuick 2.3
 import QtQuick.Controls 1.2
 import "components"
+import "undo.js" as Undo
 
 ScrollView {
     property alias layerModel: layerModel
+    property alias undoModel: undoModel
     property Canvas canvas: layerCanvasView.currentItem
     property string oraPath
 
@@ -56,6 +58,9 @@ ScrollView {
         width: imageSize.width
         height: imageSize.height
 
+        ListModel { id: layerModel }
+        ListModel { id: undoModel }
+
         transform: [
             Scale { origin.x: width / 2; origin.y: height / 2; xScale: zoom * mirror; yScale: zoom },
             Rotation { origin.x: width / 2; origin.y: height / 2; angle: rotation }
@@ -65,8 +70,6 @@ ScrollView {
             anchors.fill: parent
             cellSide: 30
         }
-
-        ListModel { id: layerModel }
 
         ListView {
             id: layerCanvasView
@@ -96,8 +99,9 @@ ScrollView {
                         ctx.fillStyle = color
                         ctx.fillRect(0, 0, width, height)
                     }
-                    ctx.restore();
+                    ctx.restore()
                     requestPaint()
+                    undoManager.add(new Undo.clear())
                 }
             }
 
@@ -136,6 +140,10 @@ ScrollView {
                         points = []
                         points.push(point)
                     }
+                }
+
+                onReleased: {
+                    undoManager.add(new Undo.paint())
                 }
 
                 onPositionChanged: {

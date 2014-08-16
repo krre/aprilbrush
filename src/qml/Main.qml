@@ -29,6 +29,7 @@ ApplicationWindow {
     property size imageSize: Qt.size(Screen.width, Screen.height)
     property CanvasArea currentTab: tabView.count > 0 ? tabView.getTab(tabView.currentIndex).item : null
     property ListModel layerModel: currentTab ? currentTab.layerModel : null
+    property ListModel undoModel: currentTab ? currentTab.undoModel : null
     property real pressure: 0
     property alias sysPalette: sysPalette
     property bool isEraser: false
@@ -93,6 +94,12 @@ ApplicationWindow {
 
     BrushLibrary {
         id: brushLibrary
+        relativeX: mainRoot.width - width - 30
+        relativeY: 340
+    }
+
+    UndoManager {
+        id: undoManager
         relativeX: mainRoot.width - width - 30
         relativeY: 340
     }

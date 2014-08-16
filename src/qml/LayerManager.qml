@@ -46,9 +46,8 @@ ToolWindow {
             id: tableView
             Layout.fillWidth: true
             Layout.fillHeight: true
-            model: currentTab ? currentTab.layerModel : []
+            model: layerModel
 //            itemDelegate: layerDelegate
-            headerVisible: false
 
             TableViewColumn {
                 role: "name"

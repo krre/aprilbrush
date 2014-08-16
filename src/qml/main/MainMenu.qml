@@ -4,7 +4,6 @@ import QtQuick.Controls 1.2
 MenuBar {
     Menu {
         title: qsTr("File")
-
         MenuItem { action: actions.newImageAction }
         MenuItem { action: actions.openAction }
         MenuItem { action: actions.saveAction }
@@ -20,13 +19,13 @@ MenuBar {
 
     Menu {
         title: qsTr("Edit")
-
+        MenuItem { action: actions.undoAction }
+        MenuItem { action: actions.redoAction }
         MenuItem { action: actions.clearAction }
     }
 
     Menu {
         title: qsTr("Layer")
-
         MenuItem { action: actions.newLayerAction }
         MenuItem { action: actions.deleteLayerAction }
         MenuItem { action: actions.mergeLayerAction }
@@ -37,7 +36,6 @@ MenuBar {
 
     Menu {
         title: qsTr("Window")
-
         MenuItem {
             text: qsTr("Tool Bar")
             checkable: true
@@ -78,6 +76,13 @@ MenuBar {
             checkable: true
             checked: brushLibrary.visible
             onTriggered: brushLibrary.visible = !brushLibrary.visible
+        }
+
+        MenuItem {
+            text: undoManager.title
+            checkable: true
+            checked: undoManager.visible
+            onTriggered: undoManager.visible = !undoManager.visible
         }
     }
 

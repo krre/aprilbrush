@@ -13,41 +13,41 @@
 
 function start() {
     return {
-        name: "Start",
+        name: qsTr("Start"),
         undo: function() {},
         redo: function() {}
     }
 }
 
 function paint() {
-    var startPos = brushEngine.startPos()
-    var undoArea = brushEngine.undoArea()
-    var redoArea = brushEngine.redoArea()
+//    var startPos = brushEngine.startPos()
+//    var undoArea = brushEngine.undoArea()
+//    var redoArea = brushEngine.redoArea()
     return {
-        name: "Paint",
+        name: qsTr("Paint"),
         undo: function() {
-            imgProcessor.setPixmapArea(startPos, undoArea, currentLayerId)
-            pathView.currentItem.update()
+//            imgProcessor.setPixmapArea(startPos, undoArea, currentLayerId)
+//            pathView.currentItem.update()
         },
         redo: function() {
-            imgProcessor.setPixmapArea(startPos, redoArea, currentLayerId)
-            pathView.currentItem.update()
+//            imgProcessor.setPixmapArea(startPos, redoArea, currentLayerId)
+//            pathView.currentItem.update()
         }
     }
 }
 
 function clear() {
     var startPos = Qt.point(0, 0)
-    var undoArea = brushEngine.currentArea()
+//    var undoArea = brushEngine.currentArea()
     return {
-        name: "Clear",
+        name: qsTr("Clear"),
         undo: function() {
-            imgProcessor.setPixmapArea(startPos, undoArea, currentLayerId)
-            tabContent.canvasArea.pathView.currentItem.update()
+//            imgProcessor.setPixmapArea(startPos, undoArea, currentLayerId)
+//            tabContent.canvasArea.pathView.currentItem.update()
         },
         redo: function() {
-            brushEngine.clear()
-            tabContent.canvasArea.pathView.currentItem.update()
+//            brushEngine.clear()
+//            tabContent.canvasArea.pathView.currentItem.update()
         }
     }
 }

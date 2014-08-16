@@ -1,6 +1,7 @@
 import QtQuick 2.3
 import QtQuick.Controls 1.2
 import "../utils.js" as Utils
+import "../undo.js" as Undo
 
 Item {
     property alias newImageAction: newImageAction
@@ -15,6 +16,8 @@ Item {
 
     property alias brushAction: brushAction
     property alias eraserAction: eraserAction
+    property alias undoAction: undoAction
+    property alias redoAction: redoAction
     property alias clearAction: clearAction
 
     property alias newLayerAction: newLayerAction
@@ -41,6 +44,7 @@ Item {
             tabView.currentIndex = tabView.count - 1
             layerManager.addLayer(qsTr("Background"), "white")
             layerManager.addLayer(qsTr("Layer"), "transparent")
+            undoManager.add(new Undo.start())
         }
         tooltip: qsTr("New an Image")
     }
@@ -165,6 +169,22 @@ Item {
     }
 
     Action {
+        id: undoAction
+        text: qsTr("Undo")
+        shortcut: StandardKey.Undo
+        onTriggered: undoManager.undoView.__decrementCurrentIndex()
+        enabled: undoModel.count > 1
+    }
+
+    Action {
+        id: redoAction
+        text: qsTr("Redo")
+        shortcut: StandardKey.Redo
+        onTriggered: undoManager.undoView.__incrementCurrentIndex()
+        enabled: undoManager.undoView.currentRow < undoModel.count
+    }
+
+    Action {
         id: clearAction
         text: qsTr("Clear")
         shortcut: "Delete"
@@ -221,7 +241,7 @@ Item {
 
     Action {
         id: zoomInAction
-        text: qsTr("ZoomIn")
+        text: qsTr("Zoom In")
         shortcut: StandardKey.ZoomIn
         enabled: tabView.count > 0
         onTriggered: currentTab.zoom *= 1.5
@@ -229,7 +249,7 @@ Item {
 
     Action {
         id: zoomOutAction
-        text: qsTr("ZoomOut")
+        text: qsTr("Zoom Out")
         shortcut: StandardKey.ZoomOut
         enabled: tabView.count > 0
         onTriggered: currentTab.zoom /= 1.5
