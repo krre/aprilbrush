@@ -15,19 +15,33 @@
 
 // Open OpenRaster file
 function openOra(filePath) {
-    //var layerModel = pageModel.get(currentPageIndex).layerModel
     var path = filePath.toString()
     path = polishPath(path)
-    var layersList = openRaster.readAttributes(path)
 
-    addPage(fileFromPath(path))
+    tabView.addTab(fileFromPath(path), canvasArea)
+    tabView.currentIndex = tabView.count - 1
+    var layersList = coreLib.readOra(path)
+
     for (var i = layersList.length - 1; i > -1; i-- ) {
-        addLayer(layersList[i].name)
-        var src = layersList[i].src
-        var layerId = pageModel.get(currentPageIndex).layerModel.get(0).layerId
-        openRaster.readPixmap(path, src, layerId)
+        layerManager.addLayer(layersList[i].name, "transparent")
+        var image = layersList[i].image
+        var canvas = layerModel.get(0).canvas
+        canvas.loadImage(image)
+
+        var j = layersList.length - 1
+        canvas.onImageLoaded.connect(function() {
+            if (j > -1) {
+                var canvas = layerModel.get(j).canvas
+                var image = layersList[j].image
+                var context = canvas.getContext("2d")
+                context.drawImage(image, 0, 0)
+                canvas.requestPaint()
+                j--
+            }
+        })
     }
-    currentPageItem.canvasArea.oraPath = path
+    currentTab.oraPath = path
+
     console.log("open: " + path)
 }
 

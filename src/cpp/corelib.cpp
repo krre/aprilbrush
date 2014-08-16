@@ -112,3 +112,34 @@ void CoreLib::writeOra(const QString oraPath, const QSize imageSize, const QVari
 
     zipWriter.close();
 }
+
+QVariantList CoreLib::readOra(const QString oraPath) {
+    QZipReader zipReader(oraPath, QIODevice::ReadOnly);
+
+    QByteArray xmlByteArray = zipReader.fileData("stack.xml");
+    QXmlStreamReader stream(xmlByteArray);
+    QVariantMap map;
+    QVariantList list;
+
+    while (!stream.atEnd()) {
+        if (stream.isStartElement()) {
+            if (stream.name() == "layer") {
+                map["name"] = stream.attributes().value("name").toString();
+                map["composite-op"] = stream.attributes().value("composite-op").toString();
+                map["visibility"] = stream.attributes().value("visibility").toString();
+                map["src"] = stream.attributes().value("src").toString();
+                map["x"] = stream.attributes().value("x").toString();
+                map["y"] = stream.attributes().value("y").toString();
+                map["opacity"] = stream.attributes().value("opacity").toString();
+                QByteArray byteArray = zipReader.fileData(stream.attributes().value("src").toString());
+                QString dataURL = QString("data:image/png;base64," + byteArray.toBase64());
+                map["image"] = dataURL;
+                list.append(map);
+            }
+        }
+        stream.readNextStartElement();
+    }
+    zipReader.close();
+
+    return list;
+}
