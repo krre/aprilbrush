@@ -21,6 +21,7 @@ ScrollView {
     property alias undoModel: undoModel
     property Canvas canvas: layerCanvasView.currentItem
     property string oraPath
+    property bool isCtrlPressed: false
 
     property real zoom: 1.0
     property bool isPan: false
@@ -31,25 +32,21 @@ ScrollView {
     Keys.onPressed: {
         if (event.key === Qt.Key_Space && !event.isAutoRepeat) { isPan = true }
 //            case Qt.Key_F: undoManager.add(new Undo.fillColor()); break
-//            case Qt.Key_Z: undoManager.undoView.decrementCurrentIndex(); break
-//            case Qt.Key_X: undoManager.undoView.incrementCurrentIndex(); break
-//        if (event.modifiers & Qt.ControlModifier)
-//            ctrlMode = true
+        if (event.modifiers & Qt.ControlModifier) { isCtrlPressed = true }
     }
 
     Keys.onReleased: {
-//        if (Qt.ControlModifier)
-//            ctrlMode = false
+        if (Qt.ControlModifier) { isCtrlPressed = false }
         if (event.key === Qt.Key_Space && !event.isAutoRepeat) { isPan = false }
     }
 
     Component.onCompleted: forceActiveFocus()
 
     function resetTransform() {
-          zoom = 1
-          pan = Qt.point(0, 0)
-          mirror = 1
-          rotation = 0
+        zoom = 1
+        pan = Qt.point(0, 0)
+        mirror = 1
+        rotation = 0
     }
 
     Item {
