@@ -92,11 +92,14 @@ function exportPng(filePath) {
 
 // Pick color from canvas
 function pickColor(pos) {
-    var layerIdList = []
-    for (var i = 0; i < layerModel.count; i++)
-        layerIdList.push(layerModel.get(i).layerId)
-
-    return imgProcessor.pickColor(pos, layerIdList)
+    var finalCanvas = exportCanvas.createObject(currentTab)
+    finalCanvas.onFinished.connect(function() {
+        var ctx = finalCanvas.getContext("2d")
+        var p = ctx.getImageData(pos.x, pos.y, 1, 1).data
+        var hex = "#" + ("000000" + rgbToHex(p[0], p[1], p[2])).slice(-6);
+        colorPicker.color = hex
+        finalCanvas.destroy()
+    })
 }
 
 // Add prefix zero to number
@@ -140,6 +143,13 @@ function rgbToHsv(color) {
      computedV = maxRGB
 
      return { h: computedH, s: computedS, v: computedV }
+}
+
+// Convert RGB to HEX
+function rgbToHex(r, g, b) {
+    if (r > 255 || g > 255 || b > 255)
+        throw "Invalid color component";
+    return ((r << 16) | (g << 8) | b).toString(16);
 }
 
 // Convert HSV to RGB

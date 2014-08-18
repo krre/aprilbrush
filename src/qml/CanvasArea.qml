@@ -15,6 +15,7 @@ import QtQuick 2.3
 import QtQuick.Controls 1.2
 import "components"
 import "undo.js" as Undo
+import "utils.js" as Utils
 
 ScrollView {
     property alias layerModel: layerModel
@@ -133,6 +134,8 @@ ScrollView {
                     var point = Qt.point(mouseX, mouseY)
                     if (isPan) {
                         grabPoint = point
+                    } if (isCtrlPressed) {
+                        Utils.pickColor(point)
                     } else {
                         lastDrawPoint = point
                         drawDab(point)
@@ -142,13 +145,17 @@ ScrollView {
                 }
 
                 onReleased: {
-                    undoManager.add(new Undo.paint())
+                    if (!isCtrlPressed) {
+                        undoManager.add(new Undo.paint())
+                    }
                 }
 
                 onPositionChanged: {
                     if (isPan) {
                         pan.x += (mouseX - grabPoint.x) * zoom * mirror
                         pan.y += (mouseY - grabPoint.y) * zoom
+                    } else if (isCtrlPressed) {
+                        Utils.pickColor(Qt.point(mouseX, mouseY))
                     } else {
                         var currentPoint = Qt.point(mouseX, mouseY)
                         var startPoint = lastDrawPoint
