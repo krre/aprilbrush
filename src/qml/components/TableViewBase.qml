@@ -11,5 +11,16 @@ TableView {
             selection.select(currentRow)
         }
     }
-}
 
+    function decrementCurrentRow() {
+        if (currentRow > 0) {
+            currentRow = currentRow - 1
+        }
+    }
+
+    function incrementCurrentRow() {
+        if (currentRow < rowCount - 1) {
+            currentRow = currentRow + 1
+        }
+    }
+}

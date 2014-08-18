@@ -172,7 +172,7 @@ Item {
         id: undoAction
         text: qsTr("Undo")
         shortcut: StandardKey.Undo
-        onTriggered: undoManager.undoView.__decrementCurrentIndex()
+        onTriggered: undoManager.undoView.decrementCurrentRow()
         enabled: undoModel.count > 1
     }
 
@@ -180,7 +180,7 @@ Item {
         id: redoAction
         text: qsTr("Redo")
         shortcut: StandardKey.Redo
-        onTriggered: undoManager.undoView.__incrementCurrentIndex()
+        onTriggered: undoManager.undoView.incrementCurrentRow()
         enabled: undoManager.undoView.currentRow < undoModel.count
     }
 
