@@ -86,11 +86,11 @@ ScrollView {
                 antialiasing: true
                 smooth: false
                 visible: layerVisible
-                onAvailableChanged: clear()
+                onAvailableChanged: clear(true)
 
                 Component.onCompleted: layerModel.set(index, { "canvas": this })
 
-                function clear() {
+                function clear(init) {
                     var ctx = getContext("2d")
                     ctx.save()
                     if (color === "transparent") {
@@ -101,7 +101,9 @@ ScrollView {
                     }
                     ctx.restore()
                     requestPaint()
-                    undoManager.add(new Undo.clear())
+                    if (!init) {
+                        undoManager.add(new Undo.clear())
+                    }
                 }
             }
 
