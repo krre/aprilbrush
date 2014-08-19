@@ -111,6 +111,8 @@ ScrollView {
                 property bool linearMode: false
                 property point lastDrawPoint
                 property point grabPoint
+                property point startPos
+                property point finalPos
                 anchors.fill: parent
                 enabled: currentLayerIndex >= 0 && typeof layerModel.get(currentLayerIndex) !== "undefined" && !layerModel.get(currentLayerIndex).blocked
 
@@ -137,6 +139,8 @@ ScrollView {
                     } if (isCtrlPressed) {
                         Utils.pickColor(point)
                     } else {
+                        startPos = point
+                        finalPos = point
                         lastDrawPoint = point
                         drawDab(point)
                         points = []
@@ -146,7 +150,7 @@ ScrollView {
 
                 onReleased: {
                     if (!isCtrlPressed) {
-                        undoManager.add(new Undo.paint())
+                        undoManager.add(new Undo.paint(startPos, finalPos, layerCanvasView.currentItem))
                     }
                 }
 
@@ -182,6 +186,10 @@ ScrollView {
                                 diff = deltaPoint - deltaDab
                                 if (Math.abs(diff <= 0.5)) {
                                     drawDab(point)
+                                    if (point.x < startPos.x) { startPos.x = point.x }
+                                    if (point.y < startPos.y) { startPos.y = point.y }
+                                    if (point.x > finalPos.x) { finalPos.x = point.x }
+                                    if (point.y > finalPos.y) { finalPos.y = point.y }
                                     diff = undefined
                                     betweenPoint = point
                                     t += deltaT

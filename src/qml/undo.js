@@ -19,17 +19,23 @@ function start() {
     }
 }
 
-function paint() {
-//    var startPos = brushEngine.startPos()
+function paint(startPos, finalPos, canvas) {
+//    var startPaintPos = startPos
+//        print(startPos, finalPos, canvas)
+//    var bufferArea = canvas.getContext("2d").getImageData(startPos.x, startPos.y, finalPos.x - startPos.x, finalPos.y - startPos.y)
 //    var undoArea = brushEngine.undoArea()
 //    var redoArea = brushEngine.redoArea()
     return {
         name: qsTr("Paint"),
         undo: function() {
+//            print("undo", startPaintPos)
+//            canvas.getContext("2d").putImageData(bufferArea, startPos.x, startPos.y)
+            canvas.requestPaint()
 //            imgProcessor.setPixmapArea(startPos, undoArea, currentLayerId)
 //            pathView.currentItem.update()
         },
         redo: function() {
+//            print("redo", startPaintPos)
 //            imgProcessor.setPixmapArea(startPos, redoArea, currentLayerId)
 //            pathView.currentItem.update()
         }
