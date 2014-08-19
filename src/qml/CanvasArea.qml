@@ -20,7 +20,7 @@ import "utils.js" as Utils
 ScrollView {
     property alias layerModel: layerModel
     property alias undoModel: undoModel
-    property Canvas canvas: layerCanvasView.currentItem
+    property Canvas canvas: layerCanvasView.currentItem.canvas
     property string oraPath
     property bool isCtrlPressed: false
 
@@ -69,41 +69,11 @@ ScrollView {
             cellSide: 30
         }
 
-        ListView {
-            id: layerCanvasView
+        Canvas {
+            id: buffer
+            z: 1001
             anchors.fill: parent
-            model: layerModel
-            spacing: -width
-            orientation: ListView.Horizontal
-            currentIndex: layerManager.tableView.currentRow
-            interactive: false
-            delegate: Canvas {
-                z: 1000 - index
-                width: ListView.view.width
-                height: ListView.view.height
-                antialiasing: true
-                smooth: false
-                visible: layerVisible
-                onAvailableChanged: clear(true)
-
-                Component.onCompleted: layerModel.set(index, { "canvas": this })
-
-                function clear(init) {
-                    var ctx = getContext("2d")
-                    ctx.save()
-                    if (color === "transparent") {
-                        ctx.clearRect(0, 0, width, height)
-                    } else {
-                        ctx.fillStyle = color
-                        ctx.fillRect(0, 0, width, height)
-                    }
-                    ctx.restore()
-                    requestPaint()
-                    if (!init) {
-                        undoManager.add(new Undo.clear())
-                    }
-                }
-            }
+            parent: layerCanvasView.currentItem
 
             MouseArea {
                 property real deltaDab: Math.max(brushSettings.spacing / 100 * brushSettings.diameter, 1)
@@ -150,6 +120,13 @@ ScrollView {
 
                 onReleased: {
                     if (!isCtrlPressed) {
+                        var bufferCtx = parent.getContext("2d")
+                        var bufferArea = bufferCtx.getImageData(startPos.x, startPos.y, finalPos.x - startPos.x, finalPos.y - startPos.y)
+                        canvas.getContext("2d").putImageData(bufferArea, startPos.x, startPos.y)
+                        bufferCtx.clearRect(0, 0, width, height)
+                        parent.requestPaint()
+                        canvas.requestPaint()
+
                         undoManager.add(new Undo.paint(startPos, finalPos, layerCanvasView.currentItem))
                     }
                 }
@@ -186,10 +163,10 @@ ScrollView {
                                 diff = deltaPoint - deltaDab
                                 if (Math.abs(diff <= 0.5)) {
                                     drawDab(point)
-                                    if (point.x < startPos.x) { startPos.x = point.x }
-                                    if (point.y < startPos.y) { startPos.y = point.y }
-                                    if (point.x > finalPos.x) { finalPos.x = point.x }
-                                    if (point.y > finalPos.y) { finalPos.y = point.y }
+                                    if (point.x < startPos.x) { startPos.x = point.x - brushSettings.dab.width * 2 }
+                                    if (point.y < startPos.y) { startPos.y = point.y - brushSettings.dab.height * 2 }
+                                    if (point.x > finalPos.x) { finalPos.x = point.x + brushSettings.dab.width * 2 }
+                                    if (point.y > finalPos.y) { finalPos.y = point.y + brushSettings.dab.height * 2 }
                                     diff = undefined
                                     betweenPoint = point
                                     t += deltaT
@@ -205,14 +182,63 @@ ScrollView {
 
                 function drawDab(point) {
                     var dabCanvas = brushSettings.dab
-                    var ctx = canvas.getContext("2d")
+                    var ctx = buffer.getContext("2d")
                     ctx.save()
+                    ctx.globalAlpha = 1.0
                     ctx.globalCompositeOperation = isEraser ? "destination-out" : "source-over"
                     var x = point.x - brushSettings.dab.width / 2
                     var y = point.y - brushSettings.dab.height / 2
                     ctx.drawImage(dabCanvas, x, y)
                     ctx.restore()
-                    canvas.markDirty(x, y, brushSettings.dab.width, brushSettings.dab.height)
+                    buffer.markDirty(x, y, brushSettings.dab.width, brushSettings.dab.height)
+                }
+            }
+        }
+
+        ListView {
+            id: layerCanvasView
+            anchors.fill: parent
+            model: layerModel
+            spacing: -width
+            orientation: ListView.Horizontal
+            currentIndex: layerManager.tableView.currentRow
+            interactive: false
+            delegate: canvasDelegate
+        }
+
+        Component {
+            id: canvasDelegate
+            Item {
+                property alias canvas: canvas
+                width: ListView.view.width
+                height: ListView.view.height
+
+                Canvas {
+                    id: canvas
+                    anchors.fill: parent
+                    z: 1000 - index
+                    antialiasing: true
+                    smooth: false
+                    visible: layerVisible
+                    onAvailableChanged: clear(true)
+
+                    Component.onCompleted: layerModel.set(index, { "canvas": this })
+
+                    function clear(init) {
+                        var ctx = getContext("2d")
+                        ctx.save()
+                        if (color === "transparent") {
+                            ctx.clearRect(0, 0, width, height)
+                        } else {
+                            ctx.fillStyle = color
+                            ctx.fillRect(0, 0, width, height)
+                        }
+                        ctx.restore()
+                        requestPaint()
+                        if (!init) {
+                            undoManager.add(new Undo.clear())
+                        }
+                    }
                 }
             }
         }
