@@ -30,7 +30,7 @@ function paint(startPos, finalPos, canvas) {
         undo: function() {
 //            print("undo", startPaintPos)
 //            canvas.getContext("2d").putImageData(bufferArea, startPos.x, startPos.y)
-            canvas.requestPaint()
+//            canvas.requestPaint()
 //            imgProcessor.setPixmapArea(startPos, undoArea, currentLayerId)
 //            pathView.currentItem.update()
         },

@@ -74,6 +74,7 @@ ScrollView {
             z: 1001
             anchors.fill: parent
             parent: layerCanvasView.currentItem
+            opacity: brushSettings.opaque / 100
 
             MouseArea {
                 property real deltaDab: Math.max(brushSettings.spacing / 100 * brushSettings.diameter, 1)
@@ -122,8 +123,12 @@ ScrollView {
                     if (!isCtrlPressed) {
                         var bufferCtx = parent.getContext("2d")
                         var bufferArea = bufferCtx.getImageData(startPos.x, startPos.y, finalPos.x - startPos.x, finalPos.y - startPos.y)
-                        canvas.getContext("2d").putImageData(bufferArea, startPos.x, startPos.y)
+                        var canvasCtx = canvas.getContext("2d")
+                        canvasCtx.save()
+                        canvasCtx.globalAlpha = brushSettings.opaque / 100
+                        canvasCtx.drawImage(bufferArea, startPos.x, startPos.y)
                         bufferCtx.clearRect(0, 0, width, height)
+                        canvasCtx.restore()
                         parent.requestPaint()
                         canvas.requestPaint()
 
@@ -184,7 +189,6 @@ ScrollView {
                     var dabCanvas = brushSettings.dab
                     var ctx = buffer.getContext("2d")
                     ctx.save()
-                    ctx.globalAlpha = 1.0
                     ctx.globalCompositeOperation = isEraser ? "destination-out" : "source-over"
                     var x = point.x - brushSettings.dab.width / 2
                     var y = point.y - brushSettings.dab.height / 2
