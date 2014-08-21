@@ -14,7 +14,9 @@
 function start() {
     return {
         name: qsTr("Start"),
-        undo: function() {},
+        undo: function() {
+            currentTab.canvas.clear(true)
+        },
         redo: function() {}
     }
 }

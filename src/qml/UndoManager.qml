@@ -46,7 +46,7 @@ ToolWindow {
     function run(index) {
         if (index < prevIndex) {
             for (var i = prevIndex; i > index; i--) {
-                commandArray[i].undo()
+                commandArray[i - 1].undo()
             }
         }
 
