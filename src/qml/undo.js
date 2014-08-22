@@ -14,9 +14,7 @@
 function start() {
     return {
         name: qsTr("Start"),
-        undo: function() {
-            currentTab.canvas.clear(true)
-        },
+        undo: function() {},
         redo: function() {}
     }
 }
@@ -30,12 +28,11 @@ function paint(startPos, undoArea, redoArea, alpha) {
     return {
         name: qsTr("Paint"),
         undo: function() {
-            print("paint undo", _startPos)
+            canvas.getContext("2d").clearRect(_startPos.x, _startPos.y,  _undoArea.width, _undoArea.height)
             canvas.getContext("2d").drawImage(_undoArea, _startPos.x, _startPos.y)
             canvas.requestPaint()
         },
         redo: function() {
-            print("paint redo", _startPos)
             var ctx = canvas.getContext("2d")
             ctx.save()
             ctx.globalAlpha = _alpha

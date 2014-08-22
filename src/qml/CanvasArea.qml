@@ -20,7 +20,7 @@ import "utils.js" as Utils
 ScrollView {
     property alias layerModel: layerModel
     property alias undoModel: undoModel
-    property Canvas canvas: layerCanvasView.currentItem.canvas
+    property Canvas canvas: layerCanvasView.currentItem ? layerCanvasView.currentItem.canvas : null
     property string oraPath
     property bool isCtrlPressed: false
 
@@ -130,6 +130,7 @@ ScrollView {
                         var bufferArea = bufferCtx.getImageData(startPos.x, startPos.y, finalPos.x - startPos.x, finalPos.y - startPos.y)
 
                         var canvasCtx = canvas.getContext("2d")
+//                        var undoArea = canvasCtx.createImageData(bufferArea)
                         var undoArea = canvasCtx.getImageData(startPos.x, startPos.y, finalPos.x - startPos.x, finalPos.y - startPos.y)
                         undoManager.add(new Undo.paint(startPos, undoArea, bufferArea, brushSettings.opaque / 100))
 
