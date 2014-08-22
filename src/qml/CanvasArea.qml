@@ -110,8 +110,8 @@ ScrollView {
                     } if (isCtrlPressed) {
                         Utils.pickColor(point)
                     } else {
-                        startPos = point
-                        finalPos = point
+                        startPos = Qt.point(point.x, point.y)
+                        finalPos = Qt.point(point.x, point.y)
                         lastDrawPoint = point
                         drawDab(point)
                         points = []
@@ -121,18 +121,23 @@ ScrollView {
 
                 onReleased: {
                     if (!isCtrlPressed) {
+                        startPos.x -= brushSettings.dab.width
+                        startPos.y -= brushSettings.dab.width
+                        finalPos.x += brushSettings.dab.width
+                        finalPos.y += brushSettings.dab.width
+
                         var bufferCtx = parent.getContext("2d")
                         var bufferArea = bufferCtx.getImageData(startPos.x, startPos.y, finalPos.x - startPos.x, finalPos.y - startPos.y)
-                        var canvasCtx = canvas.getContext("2d")
-                        canvasCtx.save()
-                        canvasCtx.globalAlpha = brushSettings.opaque / 100
-                        canvasCtx.drawImage(bufferArea, startPos.x, startPos.y)
-                        bufferCtx.clearRect(0, 0, width, height)
-                        canvasCtx.restore()
-                        parent.requestPaint()
-                        canvas.requestPaint()
 
-                        undoManager.add(new Undo.paint(startPos, finalPos, layerCanvasView.currentItem))
+                        var canvasCtx = canvas.getContext("2d")
+                        var undoArea = canvasCtx.getImageData(startPos.x, startPos.y, finalPos.x - startPos.x, finalPos.y - startPos.y)
+                        undoManager.add(new Undo.paint(startPos, undoArea, bufferArea, brushSettings.opaque / 100))
+
+//                        canvasCtx.fillStyle = "#ff00ff"
+//                        canvasCtx.fillRect(startPos.x, startPos.y, finalPos.x - startPos.x, finalPos.y - startPos.y)
+
+                        bufferCtx.clearRect(0, 0, width, height)
+                        parent.requestPaint()
                     }
                 }
 
@@ -168,10 +173,10 @@ ScrollView {
                                 diff = deltaPoint - deltaDab
                                 if (Math.abs(diff <= 0.5)) {
                                     drawDab(point)
-                                    if (point.x < startPos.x) { startPos.x = point.x - brushSettings.dab.width * 2 }
-                                    if (point.y < startPos.y) { startPos.y = point.y - brushSettings.dab.height * 2 }
-                                    if (point.x > finalPos.x) { finalPos.x = point.x + brushSettings.dab.width * 2 }
-                                    if (point.y > finalPos.y) { finalPos.y = point.y + brushSettings.dab.height * 2 }
+                                    if (point.x < startPos.x) { startPos.x = point.x }
+                                    if (point.y < startPos.y) { startPos.y = point.y }
+                                    if (point.x > finalPos.x) { finalPos.x = point.x }
+                                    if (point.y > finalPos.y) { finalPos.y = point.y }
                                     diff = undefined
                                     betweenPoint = point
                                     t += deltaT

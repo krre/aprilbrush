@@ -21,25 +21,27 @@ function start() {
     }
 }
 
-function paint(startPos, finalPos, canvas) {
-//    var startPaintPos = startPos
-//        print(startPos, finalPos, canvas)
-//    var bufferArea = canvas.getContext("2d").getImageData(startPos.x, startPos.y, finalPos.x - startPos.x, finalPos.y - startPos.y)
-//    var undoArea = brushEngine.undoArea()
-//    var redoArea = brushEngine.redoArea()
+function paint(startPos, undoArea, redoArea, alpha) {
+    var _startPos = Qt.point(startPos.x, startPos.y)
+    var _undoArea = undoArea
+    var _redoArea = redoArea
+    var _alpha = alpha
+
     return {
         name: qsTr("Paint"),
         undo: function() {
-//            print("undo", startPaintPos)
-//            canvas.getContext("2d").putImageData(bufferArea, startPos.x, startPos.y)
-//            canvas.requestPaint()
-//            imgProcessor.setPixmapArea(startPos, undoArea, currentLayerId)
-//            pathView.currentItem.update()
+            print("paint undo", _startPos)
+            canvas.getContext("2d").drawImage(_undoArea, _startPos.x, _startPos.y)
+            canvas.requestPaint()
         },
         redo: function() {
-//            print("redo", startPaintPos)
-//            imgProcessor.setPixmapArea(startPos, redoArea, currentLayerId)
-//            pathView.currentItem.update()
+            print("paint redo", _startPos)
+            var ctx = canvas.getContext("2d")
+            ctx.save()
+            ctx.globalAlpha = _alpha
+            ctx.drawImage(_redoArea, _startPos.x, _startPos.y)
+            ctx.restore()
+            canvas.requestPaint()
         }
     }
 }
@@ -50,12 +52,13 @@ function clear() {
     return {
         name: qsTr("Clear"),
         undo: function() {
+            print("clear undo")
 //            imgProcessor.setPixmapArea(startPos, undoArea, currentLayerId)
 //            tabContent.canvasArea.pathView.currentItem.update()
         },
         redo: function() {
-//            brushEngine.clear()
-//            tabContent.canvasArea.pathView.currentItem.update()
+            print("clear redo")
+            canvas.clear(true)
         }
     }
 }
