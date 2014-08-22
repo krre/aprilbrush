@@ -237,6 +237,7 @@ ScrollView {
                     function clear(init) {
                         var ctx = getContext("2d")
                         ctx.save()
+                        var undoArea = ctx.getImageData(0, 0, imageSize.width, imageSize.height)
                         if (color === "transparent") {
                             ctx.clearRect(0, 0, width, height)
                         } else {
@@ -246,7 +247,7 @@ ScrollView {
                         ctx.restore()
                         requestPaint()
                         if (!init) {
-                            undoManager.add(new Undo.clear())
+                            undoManager.add(new Undo.clear(undoArea))
                         }
                     }
                 }

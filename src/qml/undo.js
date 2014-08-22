@@ -43,18 +43,15 @@ function paint(startPos, undoArea, redoArea, alpha) {
     }
 }
 
-function clear() {
-    var startPos = Qt.point(0, 0)
-//    var undoArea = brushEngine.currentArea()
+function clear(undoArea) {
+    var _undoArea = undoArea
     return {
         name: qsTr("Clear"),
         undo: function() {
-            print("clear undo")
-//            imgProcessor.setPixmapArea(startPos, undoArea, currentLayerId)
-//            tabContent.canvasArea.pathView.currentItem.update()
+            canvas.getContext("2d").drawImage(_undoArea, 0, 0)
+            canvas.requestPaint()
         },
         redo: function() {
-            print("clear redo")
             canvas.clear(true)
         }
     }
