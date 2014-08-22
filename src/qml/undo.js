@@ -57,26 +57,6 @@ function clear(undoArea) {
     }
 }
 
-function fillColor() {
-    var startPos = Qt.point(0, 0)
-    var redoColor = colorPicker.color
-    var undoArea = brushEngine.currentArea()
-    imgProcessor.fillColor(currentLayerId, redoColor)
-    tabContent.canvasArea.pathView.currentItem.update()
-    var redoArea = brushEngine.currentArea()
-    return {
-        name: "Fill Color",
-        undo: function() {
-            imgProcessor.setPixmapArea(startPos, undoArea, currentLayerId)
-            tabContent.canvasArea.pathView.currentItem.update()
-        },
-        redo: function() {
-            imgProcessor.setPixmapArea(startPos, redoArea, currentLayerId)
-            tabContent.canvasArea.pathView.currentItem.update()
-        }
-    }
-}
-
 function changeLayer(prevLayerIndex, newLayerIndex) {
     var undoLayerIndex = prevLayerIndex
     var redoLayerIndex = newLayerIndex

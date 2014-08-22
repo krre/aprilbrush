@@ -32,7 +32,6 @@ ScrollView {
 
     Keys.onPressed: {
         if (event.key === Qt.Key_Space && !event.isAutoRepeat) { isPan = true }
-//            case Qt.Key_F: undoManager.add(new Undo.fillColor()); break
         if (event.modifiers & Qt.ControlModifier) { isCtrlPressed = true }
     }
 
@@ -128,15 +127,9 @@ ScrollView {
 
                         var bufferCtx = parent.getContext("2d")
                         var bufferArea = bufferCtx.getImageData(startPos.x, startPos.y, finalPos.x - startPos.x, finalPos.y - startPos.y)
-
                         var canvasCtx = canvas.getContext("2d")
-//                        var undoArea = canvasCtx.createImageData(bufferArea)
                         var undoArea = canvasCtx.getImageData(startPos.x, startPos.y, finalPos.x - startPos.x, finalPos.y - startPos.y)
                         undoManager.add(new Undo.paint(startPos, undoArea, bufferArea, brushSettings.opaque / 100))
-
-//                        canvasCtx.fillStyle = "#ff00ff"
-//                        canvasCtx.fillRect(startPos.x, startPos.y, finalPos.x - startPos.x, finalPos.y - startPos.y)
-
                         bufferCtx.clearRect(0, 0, width, height)
                         parent.requestPaint()
                     }

@@ -43,7 +43,6 @@ Window {
                   <tr><td>0</td><td>Reset Transformations</td></tr>
                   <tr><td>M</td><td>Mirror Canvas</td></tr>
                   <tr><td>R</td><td>Rotate Canvas</td></tr>
-                  <tr><td>F</td><td>Fill Color</td></tr>
                   <tr><td>Z</td><td>Undo Command</td></tr>
                   <tr><td>X</td><td>Redo Command</td></tr>
                   <tr><td>Ctrl+O</td><td>Open File</td></tr>
