@@ -20,31 +20,39 @@ import "undo.js" as Undo
 
 ToolWindow {
     id: root
-    property alias tableView: tableView
+    property alias layerView: layerView
     property bool isHistory: false
     title: qsTr("Layers")
     objectName: "layerManager"
     storage: { var list = defaultStorage(); return list }
 
     function addLayer(name, color) {
-        var insertIndex = tableView.currentRow < 0 ? 0 : tableView.currentRow
+        var insertIndex = layerView.currentRow < 0 ? 0 : layerView.currentRow
         layerModel.insert(insertIndex, { name: name, color: color, layerVisible: true, blocked: false })
-        tableView.currentRow = insertIndex
+        layerView.currentRow = insertIndex
     }
 
     function deleteLayer(index) {
         if (index) {
             layerModel.remove(index)
         } else {
-            layerModel.remove(tableView.currentRow)
+            layerModel.remove(layerView.currentRow)
         }
+    }
+
+    function moveUpLayer() {
+        undoManager.add(Undo.raiseLayer())
+    }
+
+    function moveDownLayer() {
+        undoManager.add(Undo.lowerLayer())
     }
 
     ColumnLayout {
         anchors.fill: parent
 
         TableViewBase {
-            id: tableView
+            id: layerView
             property int prevCurrentRow: -1
             Layout.fillWidth: true
             Layout.fillHeight: true
@@ -138,7 +146,7 @@ ToolWindow {
 
                         MouseArea {
                             anchors.fill: parent
-                            onClicked: tableView.currentRow = styleData.row
+                            onClicked: layerView.currentRow = styleData.row
                             onDoubleClicked: layerTextEdit.focus = true
                         }
 

@@ -34,7 +34,7 @@ ApplicationWindow {
     property alias sysPalette: sysPalette
     property bool isEraser: false
     property bool isWork: true
-    readonly property int currentLayerIndex: currentTab ? layerManager.tableView.currentRow : -1
+    readonly property int currentLayerIndex: currentTab ? layerManager.layerView.currentRow : -1
 
     width: 1000
     height: 600

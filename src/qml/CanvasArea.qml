@@ -204,7 +204,7 @@ ScrollView {
             model: layerModel
             spacing: -width
             orientation: ListView.Horizontal
-            currentIndex: layerManager.tableView.currentRow
+            currentIndex: layerManager.layerView.currentRow
             interactive: false
             delegate: canvasDelegate
         }

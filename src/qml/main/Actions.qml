@@ -210,33 +210,33 @@ Item {
         text: qsTr("Delete")
         onTriggered: layerManager.deleteLayer()
         tooltip: qsTr("Delete Layer")
-        enabled: layerManager.tableView.rowCount > 0
+        enabled: layerManager.layerView.rowCount > 0
     }
 
     Action {
         id: mergeLayerAction
         text: qsTr("Merge Down")
-        enabled: currentLayerIndex < layerManager.tableView.rowCount - 1
+        enabled: currentLayerIndex < layerManager.layerView.rowCount - 1
     }
 
     Action {
         id: duplicateLayerAction
         text: qsTr("Duplicate")
-        enabled: layerManager.tableView.rowCount > 0
+        enabled: layerManager.layerView.rowCount > 0
     }
 
     Action {
         id: upLayerAction
         text: qsTr("Up")
-        enabled: layerManager.tableView.currentRow > 0
-        onTriggered: layerModel.move(currentLayerIndex, currentLayerIndex - 1, 1)
+        enabled: layerManager.layerView.currentRow > 0
+        onTriggered: layerManager.moveUpLayer()
     }
 
     Action {
         id: downLayerAction
         text: qsTr("Down")
-        enabled: currentLayerIndex < layerManager.tableView.rowCount - 1
-        onTriggered: layerModel.move(currentLayerIndex, currentLayerIndex + 1, 1)
+        enabled: currentLayerIndex < layerManager.layerView.rowCount - 1
+        onTriggered: layerManager.moveDownLayer()
     }
 
     // canvas transform
