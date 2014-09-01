@@ -65,10 +65,12 @@ function changeLayer(undoIndex, redoIndex) {
         undo: function() {
             layerManager.isHistory = true
             layerManager.layerView.currentRow = _undoIndex
+            layerManager.isHistory = false
         },
         redo: function() {
             layerManager.isHistory = true
             layerManager.layerView.currentRow = _redoIndex
+            layerManager.isHistory = true
         }
     }
 }
