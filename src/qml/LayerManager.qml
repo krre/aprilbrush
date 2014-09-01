@@ -21,6 +21,7 @@ import "undo.js" as Undo
 ToolWindow {
     id: root
     property alias tableView: tableView
+    property bool isHistory: false
     title: qsTr("Layers")
     objectName: "layerManager"
     storage: { var list = defaultStorage(); return list }
@@ -44,9 +45,17 @@ ToolWindow {
 
         TableViewBase {
             id: tableView
+            property int prevCurrentRow: -1
             Layout.fillWidth: true
             Layout.fillHeight: true
             model: layerModel
+            onCurrentRowChanged: {
+                if (isWork && !isHistory) {
+                    undoManager.add(Undo.changeLayer(prevCurrentRow, currentRow))
+                    isHistory = false
+                }
+                prevCurrentRow = currentRow
+            }
 //            itemDelegate: layerDelegate
 
             TableViewColumn {

@@ -129,7 +129,7 @@ ScrollView {
                         var bufferArea = bufferCtx.getImageData(startPos.x, startPos.y, finalPos.x - startPos.x, finalPos.y - startPos.y)
                         var canvasCtx = canvas.getContext("2d")
                         var undoArea = canvasCtx.getImageData(startPos.x, startPos.y, finalPos.x - startPos.x, finalPos.y - startPos.y)
-                        undoManager.add(new Undo.paint(startPos, undoArea, bufferArea, brushSettings.opaque / 100))
+                        undoManager.add(Undo.paint(startPos, undoArea, bufferArea, brushSettings.opaque / 100))
                         bufferCtx.clearRect(0, 0, width, height)
                         parent.requestPaint()
                     }
@@ -240,7 +240,7 @@ ScrollView {
                         ctx.restore()
                         requestPaint()
                         if (!init) {
-                            undoManager.add(new Undo.clear(undoArea))
+                            undoManager.add(Undo.clear(undoArea))
                         }
                     }
                 }

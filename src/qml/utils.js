@@ -41,7 +41,7 @@ function openOra(filePath) {
         })
     }
     currentTab.oraPath = path
-    undoManager.add(new Undo.start())
+    undoManager.add(Undo.start())
     console.log("open: " + path)
 }
 

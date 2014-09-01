@@ -57,16 +57,18 @@ function clear(undoArea) {
     }
 }
 
-function changeLayer(prevLayerIndex, newLayerIndex) {
-    var undoLayerIndex = prevLayerIndex
-    var redoLayerIndex = newLayerIndex
+function changeLayer(undoIndex, redoIndex) {
+    var _undoIndex = undoIndex
+    var _redoIndex = redoIndex
     return {
-        name: "Change Layer",
+        name: qsTr("Change Layer"),
         undo: function() {
-            layerManager.tableView.currentRow = undoLayerIndex
+            layerManager.isHistory = true
+            layerManager.tableView.currentRow = _undoIndex
         },
         redo: function() {
-            layerManager.tableView.currentRow = redoLayerIndex
+            layerManager.isHistory = true
+            layerManager.tableView.currentRow = _redoIndex
         }
     }
 }
