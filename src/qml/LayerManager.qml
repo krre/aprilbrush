@@ -27,9 +27,7 @@ ToolWindow {
     storage: { var list = defaultStorage(); return list }
 
     function addLayer(name, color) {
-        var insertIndex = layerView.currentRow < 0 ? 0 : layerView.currentRow
-        layerModel.insert(insertIndex, { name: name, color: color, layerVisible: true, blocked: false })
-        layerView.currentRow = insertIndex
+        undoManager.add(Undo.addLayer(name, color))
     }
 
     function deleteLayer(index) {
@@ -57,12 +55,11 @@ ToolWindow {
             Layout.fillWidth: true
             Layout.fillHeight: true
             model: layerModel
-            onCurrentRowChanged: {
-                if (isWork && !isHistory) {
+            onActivated: {
+                if (currentRow !== prevCurrentRow) {
                     undoManager.add(Undo.changeLayer(prevCurrentRow, currentRow))
-                    isHistory = false
+                    prevCurrentRow = currentRow
                 }
-                prevCurrentRow = currentRow
             }
 //            itemDelegate: layerDelegate
 

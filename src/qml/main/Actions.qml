@@ -40,13 +40,12 @@ Item {
         text: qsTr("New")
         shortcut: StandardKey.New
         onTriggered: {
-            isWork = false
             tabView.addTab(qsTr("Untitled ") + (tabView.count + 1), canvasArea)
             tabView.currentIndex = tabView.count - 1
             layerManager.addLayer(qsTr("Background"), "white")
             layerManager.addLayer(qsTr("Layer"), "transparent")
-            undoManager.add(Undo.start())
-            isWork = true
+            layerManager.layerView.prevCurrentRow = layerManager.layerView.currentRow
+            undoManager.clear()
         }
         tooltip: qsTr("New an Image")
     }

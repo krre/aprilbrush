@@ -43,6 +43,13 @@ ToolWindow {
         undoView.currentRow = undoModel.count - 1
     }
 
+    function clear() {
+        commandArray = []
+        undoModel.clear()
+        prevIndex = -1
+        add(Undo.start())
+    }
+
     function run(index) {
         if (index < prevIndex) {
             for (var i = prevIndex; i > index; i--) {

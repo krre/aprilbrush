@@ -75,17 +75,23 @@ function changeLayer(undoIndex, redoIndex) {
     }
 }
 
-function addLayer() {
+function addLayer(name, color) {
+    var _name = name
+    var _color = color
     var redoLayerIndex = layerManager.layerView.currentRow
-    var layerName = layerModel.get(redoLayerIndex).name
     return {
-        name: "Add Layer",
+        name: qsTr("Add Layer"),
         undo: function() {
-            Utils.deleteLayer(redoLayerIndex)
+            layerManager.isHistory = false
+            layerManager.deleteLayer(redoLayerIndex)
+            layerManager.isHistory = true
         },
         redo: function() {
-            Utils.addLayer(layerName)
-            layerManager.layerView.currentRow = redoLayerIndex
+            layerManager.isHistory = false
+            var insertIndex = layerView.currentRow < 0 ? 0 : layerView.currentRow
+            layerModel.insert(insertIndex, { name: _name, color: _color, layerVisible: true, blocked: false })
+            layerManager.layerView.currentRow = insertIndex
+            layerManager.isHistory = true
         }
     }
 }
