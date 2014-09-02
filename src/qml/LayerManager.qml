@@ -21,7 +21,6 @@ import "undo.js" as Undo
 ToolWindow {
     id: root
     property alias layerView: layerView
-    property bool isHistory: false
     title: qsTr("Layers")
     objectName: "layerManager"
     storage: { var list = defaultStorage(); return list }

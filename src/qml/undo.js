@@ -63,14 +63,10 @@ function changeLayer(undoIndex, redoIndex) {
     return {
         name: qsTr("Change Layer"),
         undo: function() {
-            layerManager.isHistory = true
             layerManager.layerView.currentRow = _undoIndex
-            layerManager.isHistory = false
         },
         redo: function() {
-            layerManager.isHistory = true
             layerManager.layerView.currentRow = _redoIndex
-            layerManager.isHistory = true
         }
     }
 }
@@ -82,16 +78,12 @@ function addLayer(name, color) {
     return {
         name: qsTr("Add Layer"),
         undo: function() {
-            layerManager.isHistory = false
             layerManager.deleteLayer(redoLayerIndex)
-            layerManager.isHistory = true
         },
         redo: function() {
-            layerManager.isHistory = false
             var insertIndex = layerView.currentRow < 0 ? 0 : layerView.currentRow
             layerModel.insert(insertIndex, { name: _name, color: _color, layerVisible: true, blocked: false })
             layerManager.layerView.currentRow = insertIndex
-            layerManager.isHistory = true
         }
     }
 }
@@ -130,14 +122,10 @@ function raiseLayer() {
     return {
         name: qsTr("Raise Layer"),
         undo: function() {
-            layerManager.isHistory = false
             layerModel.move(layerManager.layerView.currentRow, layerManager.layerView.currentRow + 1, 1)
-            layerManager.isHistory = true
         },
         redo: function() {
-            layerManager.isHistory = false
             layerModel.move(layerManager.layerView.currentRow, layerManager.layerView.currentRow - 1, 1)
-            layerManager.isHistory = true
         }
     }
 }
@@ -146,14 +134,10 @@ function lowerLayer() {
     return {
         name: qsTr("Lower Layer"),
         undo: function() {
-            layerManager.isHistory = false
             layerModel.move(layerManager.layerView.currentRow, layerManager.layerView.currentRow - 1, 1)
-            layerManager.isHistory = true
         },
         redo: function() {
-            layerManager.isHistory = false
             layerModel.move(layerManager.layerView.currentRow, layerManager.layerView.currentRow + 1, 1)
-            layerManager.isHistory = true
         }
     }
 }
