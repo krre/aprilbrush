@@ -167,10 +167,6 @@ ScrollView {
                                 diff = deltaPoint - deltaDab
                                 if (Math.abs(diff <= 0.5)) {
                                     drawDab(point)
-                                    if (point.x < startPos.x) { startPos.x = point.x }
-                                    if (point.y < startPos.y) { startPos.y = point.y }
-                                    if (point.x > finalPos.x) { finalPos.x = point.x }
-                                    if (point.y > finalPos.y) { finalPos.y = point.y }
                                     diff = undefined
                                     betweenPoint = point
                                     t += deltaT
@@ -189,8 +185,15 @@ ScrollView {
                     var ctx = buffer.getContext("2d")
                     ctx.save()
                     ctx.globalCompositeOperation = isEraser ? "destination-out" : "source-over"
-                    var x = point.x - brushSettings.dab.width / 2
-                    var y = point.y - brushSettings.dab.height / 2
+                    var size = brushSettings.diameter
+                    var x = point.x - size / 2 + size * brushSettings.jitter / 100 * (1 - 2 * Math.random())
+                    var y = point.y - size / 2 + size * brushSettings.jitter / 100 * (1 - 2 * Math.random())
+
+                    if (x < startPos.x) { startPos.x = Math.min(0, x) }
+                    if (y < startPos.y) { startPos.y = Math.min(0, y) }
+                    if (x > finalPos.x) { finalPos.x = Math.max(x, imageSize.width) }
+                    if (y > finalPos.y) { finalPos.y = Math.max(y, imageSize.height) }
+
                     ctx.drawImage(dabCanvas, x, y)
                     ctx.restore()
                     buffer.markDirty(x, y, brushSettings.dab.width, brushSettings.dab.height)

@@ -27,11 +27,12 @@ ToolWindow {
     property alias spacing: spacing.value
     property alias roundness: roundness.value
     property alias angle: angle.value
+    property alias jitter: jitter.value
 
     objectName: "brushSettings"
     storage: {
         var list = defaultStorage()
-        list.push("diameter", "opaque", "flow", "hardness", "spacing", "roundness", "angle")
+        list.push("diameter", "opaque", "flow", "hardness", "spacing", "roundness", "angle", "jitter")
         return list
     }
 
@@ -55,6 +56,7 @@ ToolWindow {
                 SliderText { id: spacing; title: qsTr("Spacing"); width: brushModel.sliderWidth; minimumValue: 5; maximumValue: 200; value: 25; onValueChanged: root.settingsChanged() }
                 SliderText { id: roundness; title: qsTr("Roundness"); width: brushModel.sliderWidth; minimumValue: 1; maximumValue: 100; value: 100; onValueChanged: root.settingsChanged() }
                 SliderText { id: angle; title: qsTr("Angle"); width: brushModel.sliderWidth; minimumValue: 0; maximumValue: 180; value: 0; onValueChanged: root.settingsChanged() }
+                SliderText { id: jitter; title: qsTr("Jitter"); width: brushModel.sliderWidth; minimumValue: 0; maximumValue: 500; value: 0; onValueChanged: root.settingsChanged() }
             }
         }
     }

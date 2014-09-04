@@ -39,7 +39,7 @@ ToolWindow {
         brushSettings.hardness = libraryModel.get(row).hardness
         brushSettings.roundness = libraryModel.get(row).roundness
         brushSettings.angle = libraryModel.get(row).angle
-//        brushSettings.jitter = libraryModel.get(row).jitter
+        brushSettings.jitter = libraryModel.get(row).jitter
     }
 
     Flow {
