@@ -20,5 +20,5 @@ MessageDialog {
     text: "<h3>" + mainRoot.title + " " + mainRoot.version + "</h3>
           Build date: " + coreLib.buildDate() + "<br>
           Copyright (c) 2012-2014, Vladimir Zarypov<br>
-          <a href=\"http://sourceforge.net/projects/aprilbrush\">http://sourceforge.net/projects/aprilbrush</a><br><br>"
+          <a href=\"http://sourceforge.net/projects/aprilbrush\">http://sourceforge.net/projects/aprilbrush</a>"
 }
