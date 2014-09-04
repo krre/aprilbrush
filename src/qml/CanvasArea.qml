@@ -30,6 +30,8 @@ ScrollView {
     property int mirror: 1
     property real rotation: 0
 
+    onIsPanChanged: coreLib.setCursorShape(isPan ? "OpenHand" : "Paint", brushSettings.diameter)
+
     Keys.onPressed: {
         if (event.key === Qt.Key_Space && !event.isAutoRepeat) { isPan = true }
         if (event.modifiers & Qt.ControlModifier) { isCtrlPressed = true }

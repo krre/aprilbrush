@@ -62,7 +62,10 @@ ApplicationWindow {
     }
 
     Actions { id: actions}
-    CoreLib { id: coreLib }
+    CoreLib {
+        id: coreLib
+        window: mainRoot
+    }
     FileDialogBase { id: fileDialog }
     About { id: about }
 

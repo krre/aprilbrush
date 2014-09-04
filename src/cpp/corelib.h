@@ -15,10 +15,12 @@
 #define CORELIB_H
 
 #include <QtCore>
+#include <QtGui>
 
 class CoreLib : public QObject
 {
     Q_OBJECT
+    Q_PROPERTY(QWindow *window READ getWindow WRITE setWindow)
 
 public:
     explicit CoreLib(QObject *parent = 0);
@@ -29,10 +31,12 @@ public:
     Q_INVOKABLE QString buildDate() { return QString(__DATE__); }
     Q_INVOKABLE void writeOra(const QString oraPath, const QSize imageSize, const QVariantList layerList);
     Q_INVOKABLE QVariantList readOra(const QString oraPath);
+    Q_INVOKABLE void setCursorShape(QString type, int size);
+    void setWindow(QWindow *window) { this->window = window; }
+    QWindow * getWindow() { return this->window; }
 
-signals:
-
-public slots:
+private:
+    QPointer<QWindow> window;
 
 };
 

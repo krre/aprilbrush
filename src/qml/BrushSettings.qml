@@ -38,6 +38,8 @@ ToolWindow {
 
     signal settingsChanged()
 
+    onDiameterChanged: coreLib.setCursorShape("Paint", diameter.value)
+
     ScrollView {
         id: scrollView
         anchors.fill: parent
