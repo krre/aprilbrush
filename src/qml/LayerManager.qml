@@ -41,6 +41,10 @@ ToolWindow {
         undoManager.add(Undo.lowerLayer())
     }
 
+    function mergeLayer() {
+        undoManager.add(Undo.mergeLayer())
+    }
+
     ColumnLayout {
         anchors.fill: parent
 

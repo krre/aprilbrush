@@ -134,41 +134,28 @@ function lowerLayer() {
 }
 
 function mergeLayer() {
-    var currentLayerIndex = layerView.currentRow
-    var layerId1 = currentLayerId
-    var layerId2 = layerModel.get(layerView.currentRow + 1).layerId
-    var layerIdList = [layerId1, layerId2]
-    var pixmapList = imgProcessor.mergePixmap(layerIdList)
-    var mergeLayerIndex = currentLayerIndex
-    var layerName = layerModel.get(mergeLayerIndex).name
-    layerView.currentRow++
-    tabContent.canvasArea.pathView.currentItem.update()
-    layerView.currentRow--
-    Utils.deleteLayer(layerView.currentRow)
+    var _undoAreaUp = currentTab.canvas.getContext("2d").getImageData(0, 0, imageSize.width, imageSize.height)
+    var layerDown = layerModel.get(currentLayerIndex + 1)
+    var _undoAreaDown = layerDown.canvas.getContext("2d").getImageData(0, 0, imageSize.width, imageSize.height)
+    var _nameUp = layerModel.get(currentLayerIndex).name
+    var _colorUp = layerModel.get(currentLayerIndex).color
+    var _indexUp = currentLayerIndex
     return {
-        name: "Merge Layer",
+        name: qsTr("Merge Layer"),
         undo: function() {
-            var startPos = Qt.point(0, 0)
-            imgProcessor.setPixmapArea(startPos, pixmapList[1], currentLayerId)
-            Utils.addLayer(layerName)
-            if (layerView.currentRow < 0) layerView.currentRow = 0
-            var layerId = layerModel.get(currentLayerIndex).layerId
-            imgProcessor.setPixmapArea(startPos, pixmapList[0], currentLayerId)
-            if (mergeLayerIndex >= 0) {
-                layerModel.move(currentLayerIndex, mergeLayerIndex, 1)
-                currentLayerIndex = mergeLayerIndex
-            }
-            currentLayerIndex++
-            tabContent.canvasArea.pathView.currentItem.update()
-            currentLayerIndex--
+            currentTab.canvas.getContext("2d").drawImage(_undoAreaDown, 0, 0)
+            currentTab.canvas.requestPaint()
+            layerModel.insert(currentLayerIndex, { name: _nameUp, color: _colorUp, layerVisible: true, blocked: false })
+            layerManager.layerView.currentRow = _indexUp
+            layerModel.get(_indexUp).canvas.onReady.connect(function() {
+                layerModel.get(_indexUp).canvas.getContext("2d").drawImage(_undoAreaUp, 0, 0)
+                layerModel.get(_indexUp).canvas.requestPaint()
+            })
         },
         redo: function() {
-            layerIdList = [currentLayerId, layerModel.get(currentLayerIndex + 1).layerId]
-            imgProcessor.mergePixmap(layerIdList)
-            currentLayerIndex++
-            tabContent.canvasArea.pathView.currentItem.update()
-            currentLayerIndex--
-            Utils.deleteLayer(mergeLayerIndex)
+            layerDown.canvas.getContext("2d").drawImage(_undoAreaUp, 0, 0)
+            layerDown.canvas.requestPaint()
+            layerModel.remove(currentLayerIndex)
         }
     }
 }

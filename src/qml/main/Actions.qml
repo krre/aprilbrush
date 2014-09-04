@@ -216,6 +216,7 @@ Item {
         id: mergeLayerAction
         text: qsTr("Merge Down")
         enabled: currentLayerIndex < layerManager.layerView.rowCount - 1
+        onTriggered: layerManager.mergeLayer()
     }
 
     Action {
