@@ -160,20 +160,22 @@ function mergeLayer() {
     }
 }
 
-function cloneLayer() {
-    var layerName = layerModel.get(currentLayerIndex).name
-    var cloneArea = brushEngine.currentArea()
-    Utils.addLayer(layerName)
-    imgProcessor.setPixmapArea(Qt.point(0, 0), cloneArea, currentLayerId)
+function duplicateLayer() {
     return {
-        name: "Clone Layer",
+        name: qsTr("Duplicate Layer"),
         undo: function() {
-            Utils.deleteLayer(currentLayerIndex)
+            layerModel.remove(currentLayerIndex)
         },
         redo: function() {
-            var cloneArea = brushEngine.currentArea()
-            Utils.addLayer(layerName)
-            imgProcessor.setPixmapArea(Qt.point(0, 0), cloneArea, currentLayerId)
+            var _name = layerModel.get(currentLayerIndex).name
+            var _color = layerModel.get(currentLayerIndex).color
+            var _duplicateArea = currentTab.canvas.getContext("2d").getImageData(0, 0, imageSize.width, imageSize.height)
+            layerModel.insert(currentLayerIndex, { name: _name, color: _color, layerVisible: true, blocked: false })
+            layerManager.layerView.currentRow = currentLayerIndex
+            layerModel.get(currentLayerIndex).canvas.onReady.connect(function() {
+                layerModel.get(currentLayerIndex).canvas.getContext("2d").drawImage(_duplicateArea, 0, 0)
+                layerModel.get(currentLayerIndex).canvas.requestPaint()
+            })
         }
     }
 }

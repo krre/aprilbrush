@@ -223,6 +223,7 @@ Item {
         id: duplicateLayerAction
         text: qsTr("Duplicate")
         enabled: layerManager.layerView.rowCount > 0
+        onTriggered: layerManager.duplicateLayer()
     }
 
     Action {
