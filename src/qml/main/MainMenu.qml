@@ -99,7 +99,7 @@ MenuBar {
         title: qsTr("Help")
         MenuItem {
             text: qsTr("About...")
-            onTriggered: about.show()
+            onTriggered: about.open()
         }
     }
 }

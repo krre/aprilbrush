@@ -12,43 +12,13 @@
  */
 
 import QtQuick 2.3
-import QtQuick.Window 2.0
-import QtQuick.Layouts 1.1
+import QtQuick.Dialogs 1.2
 
-Window {
+MessageDialog {
     title: qsTr("About " + mainRoot.title)
-    width: 450
-    height: 500
-    flags: Qt.Dialog
-    color: mainRoot.sysPalette.window
-
-    Text {
-        anchors.centerIn: parent
-        font.pointSize: 10
-        textFormat: Text.RichText
-        onLinkActivated: console.log(link)
-        text: "<h3>" + mainRoot.title + " " + mainRoot.version + "</h3><br>
-              Build date: " + coreLib.buildDate() + "<br>
-              Copyright (c) 2012-2014, Vladimir Zarypov<br>
-              <a href=\"http://sourceforge.net/projects/aprilbrush\">http://sourceforge.net/projects/aprilbrush</a><br><br>
-              <b>Hotkeys:</b><br>
-              <table>
-                  <tr><td>Space+Drag</td><td>Pan Canvas</td></tr>
-                  <tr><td>Ctrl+Click</td><td>Pick Color</td></tr>
-                  <tr><td>B</td><td>Brush</td></tr>
-                  <tr><td>E</td><td>Eraser</td></tr>
-                  <tr><td>Delete</td><td>Clear Canvas</td></tr>
-                  <tr><td>+</td><td>Zoom In</td></tr>
-                  <tr><td>-</td><td>Zoom Out</td></tr>
-                  <tr><td>0</td><td>Reset Transformations</td></tr>
-                  <tr><td>M</td><td>Mirror Canvas</td></tr>
-                  <tr><td>R</td><td>Rotate Canvas</td></tr>
-                  <tr><td>Z</td><td>Undo Command</td></tr>
-                  <tr><td>X</td><td>Redo Command</td></tr>
-                  <tr><td>Ctrl+O</td><td>Open File</td></tr>
-                  <tr><td>Ctrl+S</td><td>Save File</td></tr>
-                  <tr><td>Ctrl+Shift+S\n</td><td>Save As File</td></tr>
-                  <tr><td>Ctrl+E</td><td>Export File</td></tr>
-              </table>"
-    }
+    standardButtons: StandardButton.Ok
+    text: "<h3>" + mainRoot.title + " " + mainRoot.version + "</h3>
+          Build date: " + coreLib.buildDate() + "<br>
+          Copyright (c) 2012-2014, Vladimir Zarypov<br>
+          <a href=\"http://sourceforge.net/projects/aprilbrush\">http://sourceforge.net/projects/aprilbrush</a><br><br>"
 }
