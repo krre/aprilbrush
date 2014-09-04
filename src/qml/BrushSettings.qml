@@ -26,11 +26,12 @@ ToolWindow {
     property alias hardness: hardness.value
     property alias spacing: spacing.value
     property alias roundness: roundness.value
+    property alias angle: angle.value
 
     objectName: "brushSettings"
     storage: {
         var list = defaultStorage()
-        list.push("diameter", "opaque", "flow", "hardness", "spacing", "roundness")
+        list.push("diameter", "opaque", "flow", "hardness", "spacing", "roundness", "angle")
         return list
     }
 
@@ -53,6 +54,7 @@ ToolWindow {
                 SliderText { id: hardness; title: qsTr("Hardness"); width: brushModel.sliderWidth; minimumValue: 1; value: 95; onValueChanged: root.settingsChanged() }
                 SliderText { id: spacing; title: qsTr("Spacing"); width: brushModel.sliderWidth; minimumValue: 5; maximumValue: 200; value: 25; onValueChanged: root.settingsChanged() }
                 SliderText { id: roundness; title: qsTr("Roundness"); width: brushModel.sliderWidth; minimumValue: 1; maximumValue: 100; value: 100; onValueChanged: root.settingsChanged() }
+                SliderText { id: angle; title: qsTr("Angle"); width: brushModel.sliderWidth; minimumValue: 0; maximumValue: 180; value: 0; onValueChanged: root.settingsChanged() }
             }
         }
     }
@@ -66,22 +68,28 @@ ToolWindow {
 
         onPaint: {
             var ctx = dab.getContext("2d")
+            ctx.save()
             ctx.clearRect(0, 0, width, height)
+
+            var originX = width / 2
+            var originY = width / 2
+
+            ctx.translate(originX, originY)
+            ctx.scale(1.0, roundness.value / 100)
+            ctx.rotate(angle.value / 180 * Math.PI)
+            ctx.translate(-originX, -originY)
+
             var color = Qt.rgba(colorPicker.color.r, colorPicker.color.g, colorPicker.color.b, flow.value / 100)
             var gradient = ctx.createRadialGradient(width / 2, height / 2, 0, width / 2, height / 2, width / 2)
             gradient.addColorStop(0, color);
             gradient.addColorStop(hardness.value / 100, color);
             gradient.addColorStop(1, Qt.rgba(colorPicker.color.r, colorPicker.color.g, colorPicker.color.b, hardness.value / 100 < 1 ? 0 : flow.value / 100));
 
-            ctx.save()
-
-            ctx.scale(1.0, roundness.value / 100)
             ctx.ellipse(0, 0, width, width)
             ctx.fillStyle = gradient
             ctx.fill()
 
             ctx.restore();
-            markDirty(0, 0, width, height)
         }
     }
 }
