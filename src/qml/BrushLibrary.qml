@@ -19,7 +19,7 @@ import "settings.js" as Settings
 
 ToolWindow {
     id: root
-    title: "Brush Library"
+    title: qsTr("Brush Library")
     objectName: "brushLibrary"
     storage: defaultStorage()
 
@@ -37,7 +37,7 @@ ToolWindow {
         brushSettings.opaque = libraryModel.get(row).opaque
         brushSettings.spacing = libraryModel.get(row).spacing
         brushSettings.hardness = libraryModel.get(row).hardness
-//        brushSettings.roundness = libraryModel.get(row).roundness
+        brushSettings.roundness = libraryModel.get(row).roundness
 //        brushSettings.angle = libraryModel.get(row).angle
 //        brushSettings.jitter = libraryModel.get(row).jitter
     }
@@ -54,7 +54,6 @@ ToolWindow {
                 text: name
                 onClicked: changeBrushSettings(index)
             }
-
         }
 
         ListModel {

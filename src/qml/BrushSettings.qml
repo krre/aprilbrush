@@ -25,11 +25,12 @@ ToolWindow {
     property alias flow: flow.value
     property alias hardness: hardness.value
     property alias spacing: spacing.value
+    property alias roundness: roundness.value
 
     objectName: "brushSettings"
     storage: {
         var list = defaultStorage()
-        list.push("diameter", "opaque", "flow", "hardness", "spacing")
+        list.push("diameter", "opaque", "flow", "hardness", "spacing", "roundness")
         return list
     }
 
@@ -51,6 +52,7 @@ ToolWindow {
                 SliderText { id: flow; title: qsTr("Flow"); width: brushModel.sliderWidth; value: 50; onValueChanged: root.settingsChanged() }
                 SliderText { id: hardness; title: qsTr("Hardness"); width: brushModel.sliderWidth; minimumValue: 1; value: 95; onValueChanged: root.settingsChanged() }
                 SliderText { id: spacing; title: qsTr("Spacing"); width: brushModel.sliderWidth; minimumValue: 5; maximumValue: 200; value: 25; onValueChanged: root.settingsChanged() }
+                SliderText { id: roundness; title: qsTr("Roundness"); width: brushModel.sliderWidth; minimumValue: 1; maximumValue: 100; value: 100; onValueChanged: root.settingsChanged() }
             }
         }
     }
@@ -71,7 +73,10 @@ ToolWindow {
             gradient.addColorStop(hardness.value / 100, color);
             gradient.addColorStop(1, Qt.rgba(colorPicker.color.r, colorPicker.color.g, colorPicker.color.b, hardness.value / 100 < 1 ? 0 : flow.value / 100));
 
-            ctx.ellipse(0, 0, width, height)
+            ctx.save()
+
+            ctx.scale(1.0, roundness.value / 100)
+            ctx.ellipse(0, 0, width, width)
             ctx.fillStyle = gradient
             ctx.fill()
 
