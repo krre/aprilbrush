@@ -106,7 +106,7 @@ ScrollView {
                     var point = Qt.point(mouseX, mouseY)
                     if (isPan) {
                         grabPoint = point
-                    } if (isCtrlPressed) {
+                    } else if (isCtrlPressed) {
                         Utils.pickColor(point)
                     } else {
                         startPos = Qt.point(point.x, point.y)
@@ -119,7 +119,7 @@ ScrollView {
                 }
 
                 onReleased: {
-                    if (!isCtrlPressed) {
+                    if (!isCtrlPressed && !isPan) {
                         startPos.x -= brushSettings.dab.width
                         startPos.y -= brushSettings.dab.width
                         finalPos.x += brushSettings.dab.width
