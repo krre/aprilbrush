@@ -29,12 +29,8 @@ ToolWindow {
         undoManager.add(Undo.addLayer(name, color))
     }
 
-    function deleteLayer(index) {
-        if (index) {
-            layerModel.remove(index)
-        } else {
-            layerModel.remove(layerView.currentRow)
-        }
+    function deleteLayer() {
+        undoManager.add(Undo.deleteLayer(layerView.currentRow))
     }
 
     function moveUpLayer() {

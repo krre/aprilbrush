@@ -223,7 +223,13 @@ ScrollView {
                     antialiasing: true
                     smooth: false
                     visible: layerVisible
-                    onAvailableChanged: clear(true)
+
+                    signal ready
+
+                    onAvailableChanged: {
+                        clear(true)
+                        ready()
+                    }
 
                     Component.onCompleted: layerModel.set(index, { "canvas": this })
 

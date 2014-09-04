@@ -88,32 +88,23 @@ function addLayer(name, color) {
     }
 }
 
-function deleteLayer(layerIndex) {
-    var redoLayerIndex = layerIndex
-    var layerName = layerModel.get(layerIndex).name
-    var currentIndexBackUp = layerView.currentRow
-    layerView.currentRow = layerIndex
-    var undoArea = brushEngine.currentArea()
-    layerView.currentRow = currentIndexBackUp
-    delete currentIndexBackUp
-
+function deleteLayer(index) {
+    var _index = index
+    var _name = layerModel.get(index).name
+    var _color = layerModel.get(index).color
+    var _undoArea = currentTab.canvas.getContext("2d").getImageData(0, 0, imageSize.width, imageSize.height)
     return {
-        name: "Delete Layer",
+        name: qsTr("Delete Layer"),
         undo: function() {
-            var currentLayerIndex = layerView.currentRow
-            var currentIndexBackUp = currentLayerIndex
-            var startPos = Qt.point(0, 0)
-            Utils.addLayer(layerName)
-            if (currentLayerIndex < 0) currentLayerIndex = 0
-            var layerId = layerModel.get(currentLayerIndex).layerId
-            imgProcessor.setPixmapArea(startPos, undoArea, layerId)
-            if (currentIndexBackUp >= 0) {
-                layerModel.move(currentLayerIndex, redoLayerIndex, 1)
-                layerView.currentRow = currentIndexBackUp
-            }
+            layerModel.insert(_index, { name: _name, color: _color, layerVisible: true, blocked: false })
+            layerManager.layerView.currentRow = _index
+            currentTab.canvas.onReady.connect(function() {
+                currentTab.canvas.getContext("2d").drawImage(_undoArea, 0, 0)
+                currentTab.canvas.requestPaint()
+            })
         },
         redo: function() {
-            Utils.deleteLayer(redoLayerIndex)
+            layerModel.remove(_index)
         }
     }
 }
