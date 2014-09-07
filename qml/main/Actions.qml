@@ -208,7 +208,7 @@ Item {
         text: qsTr("Delete")
         onTriggered: layerManager.deleteLayer()
         tooltip: qsTr("Delete Layer")
-        enabled: layerManager.layerView.currentIndex >= 0
+        enabled: layerManager.layerView.currentIndex < layerManager.layerView.count - 1
     }
 
     Action {
