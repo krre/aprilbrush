@@ -89,7 +89,7 @@ ScrollView {
                 property point finalPos
                 anchors.fill: parent
                 enabled: currentLayerIndex >= 0 && typeof layerModel.get(currentLayerIndex) !== "undefined" && !layerModel.get(currentLayerIndex).blocked
-//                hoverEnabled: true
+                hoverEnabled: true
 
                 function bezierCurve(start, control, end, t) {
                     var x, y
@@ -107,15 +107,14 @@ ScrollView {
                     return Qt.point(x, y)
                 }
 
-
-//                onHoveredChanged: coreLib.setCursorShape(containsMouse ? cursorName : "Arrow", brushSettings.diameter * zoom)
-
+                onHoveredChanged: coreLib.setCursorShape(containsMouse ? cursorName : "Arrow", brushSettings.diameter * zoom)
 
                 onPressed: {
                     var point = Qt.point(mouseX, mouseY)
                     if (isPan) {
                         grabPoint = point
-                        coreLib.setCursorShape("CloseHand", 0)
+                        cursorName = "CloseHand"
+                        coreLib.setCursorShape(cursorName, 0)
                     } else if (isCtrlPressed) {
                         Utils.pickColor(point)
                     } else {
@@ -143,11 +142,13 @@ ScrollView {
                         bufferCtx.clearRect(0, 0, width, height)
                         parent.requestPaint()
                     } else if (isPan) {
-                        coreLib.setCursorShape("OpenHand", 0)
+                        cursorName = "OpenHand"
+                        coreLib.setCursorShape(cursorName, 0)
                     }
                 }
 
                 onPositionChanged: {
+                    if (!pressed) { return; }
                     if (isPan) {
                         pan.x += (mouseX - grabPoint.x) * zoom * mirror
                         pan.y += (mouseY - grabPoint.y) * zoom
