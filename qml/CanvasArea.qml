@@ -236,8 +236,6 @@ ScrollView {
                     id: canvas
                     anchors.fill: parent
                     z: 1000 - index
-                    antialiasing: true
-                    smooth: false
                     visible: layerVisible
 
                     signal ready
