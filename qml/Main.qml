@@ -12,7 +12,7 @@
  */
 
 import QtQuick 2.3
-import QtQuick.Dialogs 1.1
+import QtQuick.Dialogs 1.2
 import QtQuick.Controls 1.2
 import QtQuick.Layouts 1.1
 import QtQuick.Window 2.0
@@ -62,11 +62,13 @@ ApplicationWindow {
     }
 
     Actions { id: actions}
+
     CoreLib {
         id: coreLib
         window: mainRoot
     }
     FileDialogBase { id: fileDialog }
+
     About { id: about }
 
     TabView {
@@ -80,6 +82,11 @@ ApplicationWindow {
         relativeX: 20
         relativeY: 100
         onColorChanged: brushSettings.dab.requestPaint()
+    }
+
+    ColorDialog {
+        id: colorDialog
+        onAccepted: currentTab.bgColor = color
     }
 
     LayerManager {

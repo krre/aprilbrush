@@ -24,6 +24,7 @@ ScrollView {
     property string oraPath
     property bool isCtrlPressed: false
     property string cursorName: "Paint"
+    property color bgColor: "white"
 
     property real zoom: 1.0
     property bool isPan: false
@@ -33,6 +34,7 @@ ScrollView {
 
     onIsPanChanged: coreLib.setCursorShape(isPan ? "OpenHand" : "Paint", brushSettings.diameter * zoom)
     onZoomChanged: coreLib.setCursorShape(isPan ? "OpenHand" : "Paint", brushSettings.diameter * zoom)
+    onBgColorChanged: layerModel.get(layerModel.count - 1).canvas.clear(bgColor)
 
     Keys.onPressed: {
         if (event.key === Qt.Key_Space && !event.isAutoRepeat) { isPan = true }
@@ -88,7 +90,7 @@ ScrollView {
                 property point startPos
                 property point finalPos
                 anchors.fill: parent
-                enabled: currentLayerIndex >= 0 && typeof layerModel.get(currentLayerIndex) !== "undefined" && !layerModel.get(currentLayerIndex).blocked
+                enabled: currentLayerIndex >= 0 && typeof layerModel.get(currentLayerIndex) !== "undefined" && !layerModel.get(currentLayerIndex).isBlocked
                 hoverEnabled: true
 
                 function bezierCurve(start, control, end, t) {
@@ -231,7 +233,7 @@ ScrollView {
                 signal ready
 
                 onAvailableChanged: {
-                    clear(color)
+                    clear(isBackground ? bgColor : null)
                     ready()
                 }
 
@@ -240,7 +242,7 @@ ScrollView {
                 function clear(color) {
                     var ctx = getContext("2d")
                     ctx.clearRect(0, 0, width, height)
-                    if (color) {
+                    if (isBackground) {
                         ctx.fillStyle = color
                         ctx.fillRect(0, 0, width, height)
                     }

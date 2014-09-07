@@ -35,12 +35,12 @@ ToolWindow {
     function addBackground() {
         var layerObj = defaultLayer()
         layerObj.name = qsTr("Background")
-        layerObj.color = "white"
+        layerObj.isBackground = true
         layerModel.append(layerObj)
     }
 
     function defaultLayer() {
-        return { name: "None", isVisible: true, isBlocked: false, color: "transparent" }
+        return { name: "None", isVisible: true, isBlocked: false, isBackground: false }
     }
 
     ColumnLayout {
@@ -113,7 +113,7 @@ ToolWindow {
                         Rectangle {
                             width: 15
                             height: 15
-                            color: "transparent"
+                            color: isBackground ? currentTab.bgColor : "transparent"
                             border.color: "#474747"
 
                             Rectangle {
@@ -122,12 +122,19 @@ ToolWindow {
                                 height: 7
                                 anchors.centerIn: parent
                                 color: "#474747"
-                                visible: isBlocked
+                                visible: isBlocked && !isBackground
                             }
 
                             MouseArea {
                                 anchors.fill: parent
-                                onClicked: layerModel.setProperty(index, "isBlocked", !isBlocked)
+                                onClicked: {
+                                    if (isBackground) {
+                                        colorDialog.open()
+
+                                    } else {
+                                        layerModel.setProperty(index, "isBlocked", !isBlocked)
+                                    }
+                                }
                             }
                         }
 
