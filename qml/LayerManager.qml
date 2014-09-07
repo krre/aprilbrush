@@ -40,7 +40,7 @@ ToolWindow {
     }
 
     function defaultLayer() {
-        return { name: "None", isVisible: true, isBlocked: false, isBackground: false }
+        return { name: "None", isVisible: true, isLock: false, isBackground: false }
     }
 
     ColumnLayout {
@@ -106,7 +106,7 @@ ToolWindow {
 
                             MouseArea {
                                 anchors.fill: parent
-                                onClicked: layerModel.setProperty(index, "isVisible", !isVisible)
+                                onClicked: undoManager.add(Undo.changeIsVisibileLayer(index))
                             }
                         }
 
@@ -122,7 +122,7 @@ ToolWindow {
                                 height: 7
                                 anchors.centerIn: parent
                                 color: "#474747"
-                                visible: isBlocked && !isBackground
+                                visible: isLock && !isBackground
                             }
 
                             MouseArea {
@@ -132,7 +132,7 @@ ToolWindow {
                                         colorDialog.open()
 
                                     } else {
-                                        layerModel.setProperty(index, "isBlocked", !isBlocked)
+                                        onClicked: undoManager.add(Undo.changeIsLockLayer(index))
                                     }
                                 }
                             }

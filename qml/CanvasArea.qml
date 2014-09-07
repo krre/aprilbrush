@@ -90,7 +90,7 @@ ScrollView {
                 property point startPos
                 property point finalPos
                 anchors.fill: parent
-                enabled: currentLayerIndex >= 0 && typeof layerModel.get(currentLayerIndex) !== "undefined" && !layerModel.get(currentLayerIndex).isBlocked
+                enabled: currentLayerIndex >= 0 && typeof layerModel.get(currentLayerIndex) !== "undefined" && !layerModel.get(currentLayerIndex).isLock
                 hoverEnabled: true
 
                 function bezierCurve(start, control, end, t) {

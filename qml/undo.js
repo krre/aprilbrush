@@ -196,3 +196,33 @@ function renameLayer(undoName, redoName) {
         }
     }
 }
+
+function changeIsVisibileLayer(index) {
+    var _index = index
+    return {
+        name: qsTr("Change Layer Visible"),
+        undo: function() {
+            var isVisible = layerModel.get(_index).isVisible
+            layerModel.setProperty(_index, "isVisible", !isVisible)
+        },
+        redo: function() {
+            var isVisible = layerModel.get(_index).isVisible
+            layerModel.setProperty(_index, "isVisible", !isVisible)
+        }
+    }
+}
+
+function changeIsLockLayer(index) {
+    var _index = index
+    return {
+        name: qsTr("Change Layer Lock"),
+        undo: function() {
+            var isLock = layerModel.get(_index).isLock
+            layerModel.setProperty(_index, "isLock", !isLock)
+        },
+        redo: function() {
+            var isLock = layerModel.get(_index).isLock
+            layerModel.setProperty(_index, "isLock", !isLock)
+        }
+    }
+}
