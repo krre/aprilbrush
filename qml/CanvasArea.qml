@@ -20,7 +20,8 @@ import "utils.js" as Utils
 ScrollView {
     property alias layerModel: layerModel
     property alias undoModel: undoModel
-    property Canvas canvas: layerCanvasView.currentItem
+    property alias canvas: canvasView.currentItem
+    property alias canvasView: canvasView
     property string oraPath
     property bool isCtrlPressed: false
     property string cursorName: "Paint"
@@ -78,7 +79,7 @@ ScrollView {
             id: buffer
             z: 1001
             anchors.fill: parent
-            parent: layerCanvasView.currentItem
+            parent: canvasView.currentItem
             opacity: brushSettings.opaque / 100
 
             MouseArea {
@@ -217,13 +218,14 @@ ScrollView {
         }
 
         ListView {
-            id: layerCanvasView
+            id: canvasView
             anchors.fill: parent
             model: layerModel
             spacing: -width
             orientation: ListView.Horizontal
             currentIndex: layerManager.layerView.currentIndex
             interactive: false
+            signal created(var index, var canvas)
             delegate: Canvas {
                 width: ListView.view.width
                 height: ListView.view.height
@@ -237,7 +239,10 @@ ScrollView {
                     ready()
                 }
 
-                Component.onCompleted: layerModel.set(index, { "canvas": this })
+                Component.onCompleted: {
+                    layerModel.set(index, { "canvas": this })
+                    canvasView.created(index, this)
+                }
 
                 function clear(color) {
                     var ctx = getContext("2d")

@@ -89,7 +89,10 @@ void CoreLib::writeOra(const QString oraPath, const QSize imageSize, const QVari
     for (int i = 0; i < layerList.count(); i++) {
         QMap<QString, QVariant> map = layerList.at(i).toMap();
         QString name = map.value("name").toString();
-        QString visible = map.value("visible").toString();
+        QString isVisible = map.value("isVisible").toString();
+        QString isLock = map.value("isLock").toString();
+        QString isBackground = map.value("isBackground").toString();
+        QString isSelected = map.value("isSelected").toString();
         QByteArray imageByteArray = QByteArray::fromBase64(map.value("image").toByteArray());
         QString src = "data/" + name + ".png";
         zipWriter.addFile(src, imageByteArray);
@@ -98,7 +101,10 @@ void CoreLib::writeOra(const QString oraPath, const QSize imageSize, const QVari
         stream.writeStartElement("layer");
         stream.writeAttribute("name", name);
         stream.writeAttribute("composite-op", "svg:src-over");
-        stream.writeAttribute("visibility", visible);
+        stream.writeAttribute("visibility", isVisible == "true" ? "visible" : "hidden");
+        stream.writeAttribute("edit-locked", isLock);
+        stream.writeAttribute("selected", isSelected);
+        stream.writeAttribute("aprilbrush_background", isBackground);
         stream.writeAttribute("src", src);
         stream.writeAttribute("x", "0");
         stream.writeAttribute("y", "0");
@@ -125,13 +131,9 @@ QVariantList CoreLib::readOra(const QString oraPath) {
     while (!stream.atEnd()) {
         if (stream.isStartElement()) {
             if (stream.name() == "layer") {
-                map["name"] = stream.attributes().value("name").toString();
-                map["composite-op"] = stream.attributes().value("composite-op").toString();
-                map["visibility"] = stream.attributes().value("visibility").toString();
-                map["src"] = stream.attributes().value("src").toString();
-                map["x"] = stream.attributes().value("x").toString();
-                map["y"] = stream.attributes().value("y").toString();
-                map["opacity"] = stream.attributes().value("opacity").toString();
+                for (int i = 0; i < stream.attributes().size(); i++) {
+                    map[stream.attributes().at(i).name().toString()] = stream.attributes().at(i).value().toString();
+                }
                 QByteArray byteArray = zipReader.fileData(stream.attributes().value("src").toString());
                 QString dataURL = QString("data:image/png;base64," + byteArray.toBase64());
                 map["image"] = dataURL;

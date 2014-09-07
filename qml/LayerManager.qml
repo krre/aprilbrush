@@ -26,10 +26,8 @@ ToolWindow {
     objectName: "layerManager"
     storage: { var list = defaultStorage(); return list }
 
-    function addLayer() {
-        var name = qsTr("Layer") + " " + nameIndexCounter
-        undoManager.add(Undo.addLayer(name))
-        nameIndexCounter++
+    function addLayer(name) {
+        undoManager.add(Undo.addLayer(name ? name : qsTr("Layer") + " " + nameIndexCounter++))
     }
 
     function addBackground() {
@@ -74,7 +72,7 @@ ToolWindow {
                color: "#e6e6e6"
                border.width: 1
                border.color: ListView.isCurrentItem ? "#7d91f5" : "transparent"
-               Component.onCompleted: layerModel.set(index, { "item": this })
+//               Component.onCompleted: layerModel.set(index, { "item": this })
 
                RowLayout {
                     anchors.fill: parent

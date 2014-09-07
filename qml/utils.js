@@ -21,25 +21,32 @@ function openOra(filePath) {
     tabView.addTab(fileFromPath(path), canvasArea)
     tabView.currentIndex = tabView.count - 1
     var layersList = coreLib.readOra(path)
+    var selectedIndex = 0
 
-    for (var i = layersList.length - 1; i > -1; i-- ) {
-        layerManager.addLayer(layersList[i].name, "transparent")
-        var image = layersList[i].image
-        var canvas = layerModel.get(0).canvas
-        canvas.loadImage(image)
-
-        var j = layersList.length - 1
-        canvas.onImageLoaded.connect(function() {
-            if (j > -1) {
-                var canvas = layerModel.get(j).canvas
-                var image = layersList[j].image
-                var context = canvas.getContext("2d")
-                context.drawImage(image, 0, 0)
-                canvas.requestPaint()
-                j--
-            }
-        })
+    for (var i = 0; i < layersList.length; i++) {
+        var layerMap = layersList[i]
+        if (layerMap.selected === "true") {
+            selectedIndex = i
+        }
+        layerModel.append({ name: layerMap.name,
+                              isVisible: layerMap.visibility === "visible",
+                              isLock: layerMap["edit-locked"] === "true",
+                              isBackground: layerMap.aprilbrush_background === "true"
+                          })
     }
+
+    currentTab.canvasView.onCreated.connect(function(index, canvas) {
+        var image = layersList[index].image
+        canvas.loadImage(image)
+        canvas.onImageLoaded.connect(function() {
+            var context = canvas.getContext("2d")
+            context.drawImage(image, 0, 0)
+            canvas.requestPaint()
+        })
+    })
+
+    layerManager.layerView.currentIndex = selectedIndex
+
     currentTab.oraPath = path
     undoManager.add(Undo.start())
     console.log("open: " + path)
@@ -62,13 +69,16 @@ function saveOra() {
     var path = currentTab.oraPath
     var layerList = []
     for (var i = 0; i < layerModel.count; i++) {
+        var layerMap = {}
+        var attributes = layerModel.get(i)
+        for (var prop in attributes) {
+            layerMap[prop] = attributes[prop]
+        }
+        layerMap.isSelected = (currentLayerIndex == i)
         var image = layerModel.get(i).canvas.toDataURL()
         image = image.substring(22, image.length) // cutting first block "data:image/png;base64,"
-        var visible = layerModel.get(i).layerVisible
-        layerList.push({ "name": layerModel.get(i).name,
-                         "visible": visible,
-                         "image": image
-                       })
+        layerMap.image = image
+        layerList.push(layerMap)
     }
     coreLib.writeOra(path, imageSize, layerList)
     console.log("save: " + path)
