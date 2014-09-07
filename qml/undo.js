@@ -28,9 +28,9 @@ function paint(startPos, undoArea, redoArea, alpha) {
     return {
         name: qsTr("Paint"),
         undo: function() {
-            canvas.getContext("2d").clearRect(_startPos.x, _startPos.y,  _undoArea.width, _undoArea.height)
-            canvas.getContext("2d").drawImage(_undoArea, _startPos.x, _startPos.y)
-            canvas.requestPaint()
+            currentTab.canvas.getContext("2d").clearRect(_startPos.x, _startPos.y,  _undoArea.width, _undoArea.height)
+            currentTab.canvas.getContext("2d").drawImage(_undoArea, _startPos.x, _startPos.y)
+            currentTab.canvas.requestPaint()
         },
         redo: function() {
             var ctx = canvas.getContext("2d")
@@ -38,21 +38,21 @@ function paint(startPos, undoArea, redoArea, alpha) {
             ctx.globalAlpha = _alpha
             ctx.drawImage(_redoArea, _startPos.x, _startPos.y)
             ctx.restore()
-            canvas.requestPaint()
+            currentTab.canvas.requestPaint()
         }
     }
 }
 
-function clear(undoArea) {
-    var _undoArea = undoArea
+function clearLayer() {
+    var _undoArea = currentTab.canvas.getContext("2d").getImageData(0, 0, imageSize.width, imageSize.height)
     return {
         name: qsTr("Clear"),
         undo: function() {
-            canvas.getContext("2d").drawImage(_undoArea, 0, 0)
-            canvas.requestPaint()
+            currentTab.canvas.getContext("2d").drawImage(_undoArea, 0, 0)
+            currentTab.canvas.requestPaint()
         },
         redo: function() {
-            canvas.clear(true)
+            currentTab.canvas.clear()
         }
     }
 }
@@ -63,27 +63,28 @@ function changeLayer(undoIndex, redoIndex) {
     return {
         name: qsTr("Change Layer"),
         undo: function() {
-            layerManager.layerView.currentRow = _undoIndex
+            layerManager.layerView.currentIndex = _undoIndex
         },
         redo: function() {
-            layerManager.layerView.currentRow = _redoIndex
+            layerManager.layerView.currentIndex = _redoIndex
         }
     }
 }
 
-function addLayer(name, color) {
+function addLayer(name) {
     var _name = name
-    var _color = color
-    var redoLayerIndex = layerManager.layerView.currentRow
+    var redoLayerIndex = layerManager.layerView.currentIndex
     return {
         name: qsTr("Add Layer"),
         undo: function() {
             layerManager.deleteLayer(redoLayerIndex)
         },
         redo: function() {
-            var insertIndex = layerView.currentRow < 0 ? 0 : layerView.currentRow
-            layerModel.insert(insertIndex, { name: _name, color: _color, layerVisible: true, blocked: false })
-            layerManager.layerView.currentRow = insertIndex
+            var insertIndex = layerView.currentIndex < 0 ? 0 : layerView.currentIndex
+            var layerObj = layerManager.defaultLayer()
+            layerObj.name = name
+            layerModel.insert(insertIndex, layerObj)
+            layerManager.layerView.currentIndex = insertIndex
         }
     }
 }
@@ -91,13 +92,12 @@ function addLayer(name, color) {
 function deleteLayer(index) {
     var _index = index
     var _name = layerModel.get(index).name
-    var _color = layerModel.get(index).color
     var _undoArea = currentTab.canvas.getContext("2d").getImageData(0, 0, imageSize.width, imageSize.height)
     return {
         name: qsTr("Delete Layer"),
         undo: function() {
-            layerModel.insert(_index, { name: _name, color: _color, layerVisible: true, blocked: false })
-            layerManager.layerView.currentRow = _index
+            layerModel.insert(_index, { name: _name, isVisible: true, isBlocked: false })
+            layerManager.layerView.currentIndex = _index
             currentTab.canvas.onReady.connect(function() {
                 currentTab.canvas.getContext("2d").drawImage(_undoArea, 0, 0)
                 currentTab.canvas.requestPaint()
@@ -113,10 +113,10 @@ function raiseLayer() {
     return {
         name: qsTr("Raise Layer"),
         undo: function() {
-            layerModel.move(layerManager.layerView.currentRow, layerManager.layerView.currentRow + 1, 1)
+            layerModel.move(layerManager.layerView.currentIndex, layerManager.layerView.currentIndex + 1, 1)
         },
         redo: function() {
-            layerModel.move(layerManager.layerView.currentRow, layerManager.layerView.currentRow - 1, 1)
+            layerModel.move(layerManager.layerView.currentIndex, layerManager.layerView.currentIndex - 1, 1)
         }
     }
 }
@@ -125,10 +125,10 @@ function lowerLayer() {
     return {
         name: qsTr("Lower Layer"),
         undo: function() {
-            layerModel.move(layerManager.layerView.currentRow, layerManager.layerView.currentRow - 1, 1)
+            layerModel.move(layerManager.layerView.currentIndex, layerManager.layerView.currentIndex - 1, 1)
         },
         redo: function() {
-            layerModel.move(layerManager.layerView.currentRow, layerManager.layerView.currentRow + 1, 1)
+            layerModel.move(layerManager.layerView.currentIndex, layerManager.layerView.currentIndex + 1, 1)
         }
     }
 }
@@ -138,15 +138,14 @@ function mergeLayer() {
     var layerDown = layerModel.get(currentLayerIndex + 1)
     var _undoAreaDown = layerDown.canvas.getContext("2d").getImageData(0, 0, imageSize.width, imageSize.height)
     var _nameUp = layerModel.get(currentLayerIndex).name
-    var _colorUp = layerModel.get(currentLayerIndex).color
     var _indexUp = currentLayerIndex
     return {
         name: qsTr("Merge Layer"),
         undo: function() {
             currentTab.canvas.getContext("2d").drawImage(_undoAreaDown, 0, 0)
             currentTab.canvas.requestPaint()
-            layerModel.insert(currentLayerIndex, { name: _nameUp, color: _colorUp, layerVisible: true, blocked: false })
-            layerManager.layerView.currentRow = _indexUp
+            layerModel.insert(currentLayerIndex, { name: _nameUp, isVisible: true, isBlocked: false })
+            layerManager.layerView.currentIndex = _indexUp
             layerModel.get(_indexUp).canvas.onReady.connect(function() {
                 layerModel.get(_indexUp).canvas.getContext("2d").drawImage(_undoAreaUp, 0, 0)
                 layerModel.get(_indexUp).canvas.requestPaint()
@@ -168,10 +167,9 @@ function duplicateLayer() {
         },
         redo: function() {
             var _name = layerModel.get(currentLayerIndex).name
-            var _color = layerModel.get(currentLayerIndex).color
             var _duplicateArea = currentTab.canvas.getContext("2d").getImageData(0, 0, imageSize.width, imageSize.height)
-            layerModel.insert(currentLayerIndex, { name: _name, color: _color, layerVisible: true, blocked: false })
-            layerManager.layerView.currentRow = currentLayerIndex
+            layerModel.insert(currentLayerIndex, { name: _name, isVisible: true, isBlocked: false })
+            layerManager.layerView.currentIndex = currentLayerIndex
             layerModel.get(currentLayerIndex).canvas.onReady.connect(function() {
                 layerModel.get(currentLayerIndex).canvas.getContext("2d").drawImage(_duplicateArea, 0, 0)
                 layerModel.get(currentLayerIndex).canvas.requestPaint()

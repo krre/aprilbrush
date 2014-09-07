@@ -20,13 +20,27 @@ import "undo.js" as Undo
 
 ToolWindow {
     id: root
-    property alias layerView: layerView
     title: qsTr("Layers")
+    property alias layerView: layerView
+    property int nameIndexCounter: 1
     objectName: "layerManager"
     storage: { var list = defaultStorage(); return list }
 
-    function addLayer(name, color) {
-        undoManager.add(Undo.addLayer(name, color))
+    function addLayer() {
+        var name = qsTr("Layer") + " " + nameIndexCounter
+        undoManager.add(Undo.addLayer(name))
+        nameIndexCounter++
+    }
+
+    function addBackground() {
+        var layerObj = defaultLayer()
+        layerObj.name = qsTr("Background")
+        layerObj.color = "white"
+        layerModel.append(layerObj)
+    }
+
+    function clearLayer() {
+        undoManager.add(Undo.clearLayer())
     }
 
     function deleteLayer() {
@@ -49,96 +63,98 @@ ToolWindow {
         undoManager.add(Undo.duplicateLayer())
     }
 
+    function defaultLayer() {
+        return { name: "None", isVisible: true, isBlocked: false, color: "transparent" }
+    }
+
     ColumnLayout {
         anchors.fill: parent
 
-        TableViewBase {
-            id: layerView
-            property int prevCurrentRow: -1
+        ScrollView {
             Layout.fillWidth: true
             Layout.fillHeight: true
-            model: layerModel
-            onActivated: {
-                if (currentRow !== prevCurrentRow) {
-                    undoManager.add(Undo.changeLayer(prevCurrentRow, currentRow))
-                    prevCurrentRow = currentRow
-                }
-            }
-//            itemDelegate: layerDelegate
 
-            TableViewColumn {
-                role: "name"
+            ListView {
+                id: layerView
+                model: layerModel
+                delegate: layerDelegate
+                spacing: 5
             }
         }
 
-//        Component {
-//            id: layerDelegate
-
-            /*
+        Component {
+            id: layerDelegate
 
             Rectangle {
-                //                width: ListView.view.width
-//                height: 60
-                color: styleData.selected ? "#7d91f5" : "transparent"
-//                Component.onCompleted: layerModel.set(styleData.row, { "item": this })
+               width: ListView.view.width
+               height: 60
+               color: "#e6e6e6"
+               border.width: 1
+               border.color: ListView.isCurrentItem ? "#7d91f5" : "transparent"
+               Component.onCompleted: layerModel.set(index, { "item": this })
 
-                RowLayout {
+               RowLayout {
                     anchors.fill: parent
                     anchors.margins: 5
                     spacing: 5
 
-                    Rectangle {
-                        width: 15
-                        height: 15
-                        radius: width / 2
-                        antialiasing: true
-                        color: "transparent"
-                        border.color: "#474747"
+                    ColumnLayout {
+                        Layout.preferredWidth: 20
+                        Layout.fillHeight: true
 
                         Rectangle {
-                            id: layerVisible
-                            width: 7
-                            height: 7
-                            anchors.centerIn: parent
+                            width: 15
+                            height: 15
                             radius: width / 2
                             antialiasing: true
-                            color: "#474747"
-                            visible: model.visibled
-                        }
+                            color: "transparent"
+                            border.color: "#474747"
 
-                        MouseArea {
-                            anchors.fill: parent
-                            onClicked: layerModel.setProperty(styleData.row, "visibled", !model.visibled)
-                        }
-                    }
+                            Rectangle {
+                                id: layerVisible
+                                width: 7
+                                height: 7
+                                anchors.centerIn: parent
+                                radius: width / 2
+                                antialiasing: true
+                                color: "#474747"
+                                visible: isVisible
+                            }
 
-                    Rectangle {
-                        width: 15
-                        height: 15
-                        color: "transparent"
-                        border.color: "#474747"
+                            MouseArea {
+                                anchors.fill: parent
+                                onClicked: layerModel.setProperty(index, "isVisible", !isVisible)
+                            }
+                        }
 
                         Rectangle {
-                            id: layerBlocked
-                            width: 7
-                            height: 7
-                            anchors.centerIn: parent
-                            color: "#474747"
-                            visible: model.blocked
+                            width: 15
+                            height: 15
+                            color: "transparent"
+                            border.color: "#474747"
+
+                            Rectangle {
+                                id: layerBlocked
+                                width: 7
+                                height: 7
+                                anchors.centerIn: parent
+                                color: "#474747"
+                                visible: isBlocked
+                            }
+
+                            MouseArea {
+                                anchors.fill: parent
+                                onClicked: layerModel.setProperty(index, "isBlocked", !isBlocked)
+                            }
                         }
 
-                        MouseArea {
-                            anchors.fill: parent
-                            onClicked: layerModel.setProperty(styleData.row, "blocked", !model.blocked)
-                        }
                     }
-
                     Item {
                         Layout.fillWidth: true
                         Layout.preferredHeight: parent.height
 
                         Text {
-                            text: model.name
+                            text: name
                             width: parent.width
                             anchors.verticalCenter: parent.verticalCenter
                             visible: !layerTextEdit.focus
@@ -146,8 +162,17 @@ ToolWindow {
 
                         MouseArea {
                             anchors.fill: parent
-                            onClicked: layerView.currentRow = styleData.row
-                            onDoubleClicked: layerTextEdit.focus = true
+                            onClicked: {
+                                if (layerView.currentIndex !== index && index !== layerView.count - 1) {
+                                    undoManager.add(Undo.changeLayer(layerView.currentIndex, index))
+                                    layerView.currentIndex = index
+                                }
+                            }
+                            onDoubleClicked: {
+                                if (index !== layerView.count - 1) {
+                                    layerTextEdit.focus = true
+                                }
+                            }
                         }
 
                         TextField {
@@ -156,7 +181,7 @@ ToolWindow {
 
                             width: parent.width
                             anchors.verticalCenter: parent.verticalCenter
-                            text: model.name
+                            text: name
                             visible: focus
 
                             onFocusChanged: {
@@ -167,7 +192,7 @@ ToolWindow {
                             }
 
                             onEditingFinished: {
-                                layerModel.setProperty(styleData.row, "name", text)
+                                layerModel.setProperty(index, "name", text)
                                 parent.forceActiveFocus()
                             }
 
@@ -178,11 +203,12 @@ ToolWindow {
                         }
                     }
                 }
-            }*/
-//        }
+            }
+        }
 
         RowLayout {
             spacing: 2
+            Layout.preferredWidth: parent.width
 
             Button {
                 Layout.fillWidth: true

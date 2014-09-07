@@ -42,9 +42,8 @@ Item {
         onTriggered: {
             tabView.addTab(qsTr("Untitled ") + (tabView.count + 1), canvasArea)
             tabView.currentIndex = tabView.count - 1
-            layerManager.addLayer(qsTr("Background"), "white")
-            layerManager.addLayer(qsTr("Layer"), "transparent")
-            layerManager.layerView.prevCurrentRow = layerManager.layerView.currentRow
+            layerManager.addBackground()
+            layerManager.addLayer()
             undoManager.clear()
         }
         tooltip: qsTr("New an Image")
@@ -189,7 +188,7 @@ Item {
         id: clearAction
         text: qsTr("Clear")
         shortcut: "Delete"
-        onTriggered: currentTab.canvas.clear()
+        onTriggered: layerManager.clearLayer()
         enabled: currentLayerIndex >= 0
     }
 
@@ -199,7 +198,7 @@ Item {
         id: newLayerAction
         text: qsTr("New")
         shortcut: "Shift+Ctrl+N"
-        onTriggered: layerManager.addLayer("Layer", "transparent")
+        onTriggered: layerManager.addLayer()
         tooltip: qsTr("New Layer")
         enabled: tabView.count > 0
     }
@@ -209,34 +208,34 @@ Item {
         text: qsTr("Delete")
         onTriggered: layerManager.deleteLayer()
         tooltip: qsTr("Delete Layer")
-        enabled: layerManager.layerView.rowCount > 0
+        enabled: layerManager.layerView.currentIndex >= 0
     }
 
     Action {
         id: mergeLayerAction
         text: qsTr("Merge Down")
-        enabled: currentLayerIndex < layerManager.layerView.rowCount - 1
+        enabled: currentLayerIndex < layerManager.layerView.currentIndex - 1
         onTriggered: layerManager.mergeLayer()
     }
 
     Action {
         id: duplicateLayerAction
         text: qsTr("Duplicate")
-        enabled: layerManager.layerView.rowCount > 0
+        enabled: layerManager.layerView.currentIndex > 0
         onTriggered: layerManager.duplicateLayer()
     }
 
     Action {
         id: upLayerAction
         text: qsTr("Up")
-        enabled: layerManager.layerView.currentRow > 0
+        enabled: layerManager.layerView.currentIndex > 0
         onTriggered: layerManager.moveUpLayer()
     }
 
     Action {
         id: downLayerAction
         text: qsTr("Down")
-        enabled: currentLayerIndex < layerManager.layerView.rowCount - 1
+        enabled: currentLayerIndex < layerManager.layerView.count - 1
         onTriggered: layerManager.moveDownLayer()
     }
 

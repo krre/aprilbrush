@@ -20,7 +20,7 @@ import "utils.js" as Utils
 ScrollView {
     property alias layerModel: layerModel
     property alias undoModel: undoModel
-    property Canvas canvas: layerCanvasView.currentItem ? layerCanvasView.currentItem.canvas : null
+    property Canvas canvas: layerCanvasView.currentItem
     property string oraPath
     property bool isCtrlPressed: false
     property string cursorName: "Paint"
@@ -220,49 +220,31 @@ ScrollView {
             model: layerModel
             spacing: -width
             orientation: ListView.Horizontal
-            currentIndex: layerManager.layerView.currentRow
+            currentIndex: layerManager.layerView.currentIndex
             interactive: false
-            delegate: canvasDelegate
-        }
-
-        Component {
-            id: canvasDelegate
-            Item {
-                property alias canvas: canvas
+            delegate: Canvas {
                 width: ListView.view.width
                 height: ListView.view.height
+                z: 1000 - index
+                visible: isVisible
 
-                Canvas {
-                    id: canvas
-                    anchors.fill: parent
-                    z: 1000 - index
-                    visible: layerVisible
+                signal ready
 
-                    signal ready
+                onAvailableChanged: {
+                    clear(color)
+                    ready()
+                }
 
-                    onAvailableChanged: {
-                        clear(true)
-                        ready()
+                Component.onCompleted: layerModel.set(index, { "canvas": this })
+
+                function clear(color) {
+                    var ctx = getContext("2d")
+                    ctx.clearRect(0, 0, width, height)
+                    if (color) {
+                        ctx.fillStyle = color
+                        ctx.fillRect(0, 0, width, height)
                     }
-
-                    Component.onCompleted: layerModel.set(index, { "canvas": this })
-
-                    function clear(init) {
-                        var ctx = getContext("2d")
-                        ctx.save()
-                        var undoArea = ctx.getImageData(0, 0, imageSize.width, imageSize.height)
-                        if (color === "transparent") {
-                            ctx.clearRect(0, 0, width, height)
-                        } else {
-                            ctx.fillStyle = color
-                            ctx.fillRect(0, 0, width, height)
-                        }
-                        ctx.restore()
-                        requestPaint()
-                        if (!init) {
-                            undoManager.add(Undo.clear(undoArea))
-                        }
-                    }
+                    requestPaint()
                 }
             }
         }

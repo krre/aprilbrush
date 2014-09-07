@@ -33,7 +33,7 @@ ApplicationWindow {
     property real pressure: 0
     property alias sysPalette: sysPalette
     property bool isEraser: false
-    readonly property int currentLayerIndex: currentTab ? layerManager.layerView.currentRow : -1
+    readonly property int currentLayerIndex: currentTab ? layerManager.layerView.currentIndex : -1
 
     width: 1000
     height: 600
