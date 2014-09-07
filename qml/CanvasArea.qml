@@ -23,6 +23,7 @@ ScrollView {
     property Canvas canvas: layerCanvasView.currentItem ? layerCanvasView.currentItem.canvas : null
     property string oraPath
     property bool isCtrlPressed: false
+    property string cursorName: "Paint"
 
     property real zoom: 1.0
     property bool isPan: false
@@ -30,7 +31,8 @@ ScrollView {
     property int mirror: 1
     property real rotation: 0
 
-    onIsPanChanged: coreLib.setCursorShape(isPan ? "OpenHand" : "Paint", brushSettings.diameter)
+    onIsPanChanged: coreLib.setCursorShape(isPan ? "OpenHand" : "Paint", brushSettings.diameter * zoom)
+    onZoomChanged: coreLib.setCursorShape(isPan ? "OpenHand" : "Paint", brushSettings.diameter * zoom)
 
     Keys.onPressed: {
         if (event.key === Qt.Key_Space && !event.isAutoRepeat) { isPan = true }
@@ -87,6 +89,7 @@ ScrollView {
                 property point finalPos
                 anchors.fill: parent
                 enabled: currentLayerIndex >= 0 && typeof layerModel.get(currentLayerIndex) !== "undefined" && !layerModel.get(currentLayerIndex).blocked
+//                hoverEnabled: true
 
                 function bezierCurve(start, control, end, t) {
                     var x, y
@@ -104,10 +107,15 @@ ScrollView {
                     return Qt.point(x, y)
                 }
 
+
+//                onHoveredChanged: coreLib.setCursorShape(containsMouse ? cursorName : "Arrow", brushSettings.diameter * zoom)
+
+
                 onPressed: {
                     var point = Qt.point(mouseX, mouseY)
                     if (isPan) {
                         grabPoint = point
+                        coreLib.setCursorShape("CloseHand", 0)
                     } else if (isCtrlPressed) {
                         Utils.pickColor(point)
                     } else {
@@ -134,6 +142,8 @@ ScrollView {
                         undoManager.add(Undo.paint(startPos, undoArea, bufferArea, brushSettings.opaque / 100))
                         bufferCtx.clearRect(0, 0, width, height)
                         parent.requestPaint()
+                    } else if (isPan) {
+                        coreLib.setCursorShape("OpenHand", 0)
                     }
                 }
 
