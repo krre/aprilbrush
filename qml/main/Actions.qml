@@ -214,14 +214,13 @@ Item {
     Action {
         id: mergeLayerAction
         text: qsTr("Merge Down")
-        enabled: currentLayerIndex < layerManager.layerView.currentIndex - 1
+        enabled: currentLayerIndex < layerManager.layerView.currentIndex - 2
         onTriggered: layerManager.mergeLayer()
     }
 
     Action {
         id: duplicateLayerAction
         text: qsTr("Duplicate")
-        enabled: layerManager.layerView.currentIndex > 0
         onTriggered: layerManager.duplicateLayer()
     }
 
@@ -235,7 +234,7 @@ Item {
     Action {
         id: downLayerAction
         text: qsTr("Down")
-        enabled: currentLayerIndex < layerManager.layerView.count - 1
+        enabled: currentLayerIndex < layerManager.layerView.count - 2
         onTriggered: layerManager.moveDownLayer()
     }
 
