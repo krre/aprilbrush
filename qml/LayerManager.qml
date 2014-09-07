@@ -63,6 +63,10 @@ ToolWindow {
         undoManager.add(Undo.duplicateLayer())
     }
 
+    function renameLayer(oldName, newName) {
+        undoManager.add(Undo.renameLayer(oldName, newName))
+    }
+
     function defaultLayer() {
         return { name: "None", isVisible: true, isBlocked: false, color: "transparent" }
     }
@@ -178,6 +182,7 @@ ToolWindow {
                         TextField {
                             id: layerTextEdit
                             property string lastText
+                            property int finishedCounter: 0 // TODO: hack to disable double emiting editingFinished() signal
 
                             width: parent.width
                             anchors.verticalCenter: parent.verticalCenter
@@ -192,7 +197,15 @@ ToolWindow {
                             }
 
                             onEditingFinished: {
-                                layerModel.setProperty(index, "name", text)
+                                if (!finishedCounter) {
+                                    if (lastText !== text) {
+                                        renameLayer(lastText, text)
+                                    }
+                                    finishedCounter++
+                                } else {
+                                    finishedCounter = 0
+                                }
+
                                 parent.forceActiveFocus()
                             }
 

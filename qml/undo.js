@@ -178,14 +178,16 @@ function duplicateLayer() {
     }
 }
 
-function renameLayer() {
+function renameLayer(undoName, redoName) {
+    var _undoName = undoName
+    var _redoName = redoName
     return {
-        name: "Rename Layer",
+        name: qsTr("Rename Layer"),
         undo: function() {
-            console.log("undo-rename-layer");
+            layerModel.setProperty(currentLayerIndex, "name", _undoName)
         },
         redo: function() {
-            console.log("redo-rename-layer");
+            layerModel.setProperty(currentLayerIndex, "name", _redoName)
         }
     }
 }
