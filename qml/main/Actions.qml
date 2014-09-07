@@ -188,7 +188,7 @@ Item {
         id: clearAction
         text: qsTr("Clear")
         shortcut: "Delete"
-        onTriggered: layerManager.clearLayer()
+        onTriggered: undoManager.add(Undo.clearLayer())
         enabled: currentLayerIndex >= 0
     }
 
@@ -206,36 +206,36 @@ Item {
     Action {
         id: deleteLayerAction
         text: qsTr("Delete")
-        onTriggered: layerManager.deleteLayer()
+        onTriggered: undoManager.add(Undo.deleteLayer())
         tooltip: qsTr("Delete Layer")
-        enabled: layerManager.layerView.currentIndex < layerManager.layerView.count - 1
+        enabled: layerManager.layerView.count > 1
     }
 
     Action {
         id: mergeLayerAction
         text: qsTr("Merge Down")
         enabled: currentLayerIndex < layerManager.layerView.count - 2
-        onTriggered: layerManager.mergeLayer()
+        onTriggered: undoManager.add(Undo.mergeLayer())
     }
 
     Action {
         id: duplicateLayerAction
         text: qsTr("Duplicate")
-        onTriggered: layerManager.duplicateLayer()
+        onTriggered: undoManager.add(Undo.duplicateLayer())
     }
 
     Action {
         id: upLayerAction
         text: qsTr("Up")
-        enabled: layerManager.layerView.currentIndex > 0
-        onTriggered: layerManager.moveUpLayer()
+        enabled: currentLayerIndex > 0
+        onTriggered: undoManager.add(Undo.raiseLayer())
     }
 
     Action {
         id: downLayerAction
         text: qsTr("Down")
         enabled: currentLayerIndex < layerManager.layerView.count - 2
-        onTriggered: layerManager.moveDownLayer()
+        onTriggered: undoManager.add(Undo.lowerLayer())
     }
 
     // canvas transform

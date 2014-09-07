@@ -88,14 +88,16 @@ function addLayer(name) {
     }
 }
 
-function deleteLayer(index) {
-    var _index = index
-    var _name = layerModel.get(index).name
+function deleteLayer() {
+    var _index = currentLayerIndex
+    var _name = layerModel.get(_index).name
     var _undoArea = currentTab.canvas.getContext("2d").getImageData(0, 0, imageSize.width, imageSize.height)
     return {
         name: qsTr("Delete Layer"),
         undo: function() {
-            layerModel.insert(_index, { name: _name, isVisible: true, isBlocked: false })
+            var layerObj = layerManager.defaultLayer()
+            layerObj.name = _name
+            layerModel.insert(_index, layerObj)
             layerManager.layerView.currentIndex = _index
             currentTab.canvas.onReady.connect(function() {
                 currentTab.canvas.getContext("2d").drawImage(_undoArea, 0, 0)
@@ -143,7 +145,9 @@ function mergeLayer() {
         undo: function() {
             currentTab.canvas.getContext("2d").drawImage(_undoAreaDown, 0, 0)
             currentTab.canvas.requestPaint()
-            layerModel.insert(currentLayerIndex, { name: _nameUp, isVisible: true, isBlocked: false })
+            var layerObj = layerManager.defaultLayer()
+            layerObj.name = _nameUp
+            layerModel.insert(currentLayerIndex, layerObj)
             layerManager.layerView.currentIndex = _indexUp
             layerModel.get(_indexUp).canvas.onReady.connect(function() {
                 layerModel.get(_indexUp).canvas.getContext("2d").drawImage(_undoAreaUp, 0, 0)
@@ -167,7 +171,9 @@ function duplicateLayer() {
         redo: function() {
             var _name = layerModel.get(currentLayerIndex).name
             var _duplicateArea = currentTab.canvas.getContext("2d").getImageData(0, 0, imageSize.width, imageSize.height)
-            layerModel.insert(currentLayerIndex, { name: _name, isVisible: true, isBlocked: false })
+            var layerObj = layerManager.defaultLayer()
+            layerObj.name = _name
+            layerModel.insert(currentLayerIndex, layerObj)
             layerManager.layerView.currentIndex = currentLayerIndex
             layerModel.get(currentLayerIndex).canvas.onReady.connect(function() {
                 layerModel.get(currentLayerIndex).canvas.getContext("2d").drawImage(_duplicateArea, 0, 0)

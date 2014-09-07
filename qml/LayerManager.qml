@@ -39,34 +39,6 @@ ToolWindow {
         layerModel.append(layerObj)
     }
 
-    function clearLayer() {
-        undoManager.add(Undo.clearLayer())
-    }
-
-    function deleteLayer() {
-        undoManager.add(Undo.deleteLayer(layerView.currentIndex))
-    }
-
-    function moveUpLayer() {
-        undoManager.add(Undo.raiseLayer())
-    }
-
-    function moveDownLayer() {
-        undoManager.add(Undo.lowerLayer())
-    }
-
-    function mergeLayer() {
-        undoManager.add(Undo.mergeLayer())
-    }
-
-    function duplicateLayer() {
-        undoManager.add(Undo.duplicateLayer())
-    }
-
-    function renameLayer(oldName, newName) {
-        undoManager.add(Undo.renameLayer(oldName, newName))
-    }
-
     function defaultLayer() {
         return { name: "None", isVisible: true, isBlocked: false, color: "transparent" }
     }
@@ -75,6 +47,7 @@ ToolWindow {
         anchors.fill: parent
 
         ScrollView {
+            id: scrollView
             Layout.fillWidth: true
             Layout.fillHeight: true
 
@@ -96,7 +69,7 @@ ToolWindow {
             id: layerDelegate
 
             Rectangle {
-               width: ListView.view.width
+               width: scrollView.width !== scrollView.viewport.width ? scrollView.viewport.width - 5 : scrollView.width
                height: 60
                color: "#e6e6e6"
                border.width: 1
@@ -159,6 +132,7 @@ ToolWindow {
                         }
 
                     }
+
                     Item {
                         Layout.fillWidth: true
                         Layout.preferredHeight: parent.height
@@ -205,7 +179,7 @@ ToolWindow {
                             onEditingFinished: {
                                 if (!finishedCounter) {
                                     if (lastText !== text) {
-                                        renameLayer(lastText, text)
+                                        undoManager.add(Undo.renameLayer(lastText, text))
                                     }
                                     finishedCounter++
                                 } else {
