@@ -73,11 +73,10 @@ function changeLayer(undoIndex, redoIndex) {
 
 function addLayer(name) {
     var _name = name
-    var redoLayerIndex = layerManager.layerView.currentIndex
     return {
         name: qsTr("Add Layer"),
         undo: function() {
-            layerManager.deleteLayer(redoLayerIndex)
+            layerModel.remove(currentLayerIndex)
         },
         redo: function() {
             var insertIndex = layerView.currentIndex < 0 ? 0 : layerView.currentIndex

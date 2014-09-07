@@ -44,7 +44,7 @@ ToolWindow {
     }
 
     function deleteLayer() {
-        undoManager.add(Undo.deleteLayer(layerView.currentRow))
+        undoManager.add(Undo.deleteLayer(layerView.currentIndex))
     }
 
     function moveUpLayer() {
@@ -83,6 +83,12 @@ ToolWindow {
                 model: layerModel
                 delegate: layerDelegate
                 spacing: 5
+                onCurrentItemChanged: {
+                    if (currentIndex == count - 1) {
+                        // avoid selecting background layer
+                        currentIndex = currentIndex - 1
+                    }
+                }
             }
         }
 
