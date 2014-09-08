@@ -42,6 +42,11 @@ function openOra(filePath) {
             var context = canvas.getContext("2d")
             context.drawImage(image, 0, 0)
             canvas.requestPaint()
+            if (layerModel.get(index).isBackground) {
+                var p = context.getImageData(0, 0, 1, 1).data
+                var hex = "#" + ("000000" + rgbToHex(p[0], p[1], p[2])).slice(-6)
+                currentTab.bgColor = hex
+            }
         })
     })
 
@@ -106,7 +111,7 @@ function pickColor(pos) {
     finalCanvas.onFinished.connect(function() {
         var ctx = finalCanvas.getContext("2d")
         var p = ctx.getImageData(pos.x, pos.y, 1, 1).data
-        var hex = "#" + ("000000" + rgbToHex(p[0], p[1], p[2])).slice(-6);
+        var hex = "#" + ("000000" + rgbToHex(p[0], p[1], p[2])).slice(-6)
         colorPicker.color = hex
         finalCanvas.destroy()
     })
