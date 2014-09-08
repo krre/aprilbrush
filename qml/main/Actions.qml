@@ -14,8 +14,6 @@ Item {
     property alias closeOthersAction: closeOthersAction
     property alias quitAction: quitAction
 
-    property alias brushAction: brushAction
-    property alias eraserAction: eraserAction
     property alias undoAction: undoAction
     property alias redoAction: redoAction
     property alias clearAction: clearAction
@@ -146,26 +144,6 @@ Item {
         shortcut: StandardKey.Quit
         onTriggered: Qt.quit()
         tooltip: text
-    }
-
-    // edit management
-    ExclusiveGroup {
-        Action {
-            id: brushAction
-            text: qsTr("Brush")
-            shortcut: "B"
-            checkable: true
-            checked: true
-            onTriggered: isEraser = false
-        }
-
-        Action {
-            id: eraserAction
-            text: qsTr("Eraser")
-            shortcut: "E"
-            checkable: true
-            onTriggered: isEraser = true
-        }
     }
 
     Action {

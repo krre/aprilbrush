@@ -14,6 +14,7 @@
 import QtQuick 2.3
 import QtQuick.Controls 1.2
 import QtQuick.Layouts 1.1
+import QtQuick.Controls.Styles 1.2
 import "components"
 import "settings.js" as Settings
 
@@ -40,6 +41,7 @@ ToolWindow {
         brushSettings.roundness = libraryModel.get(row).roundness
         brushSettings.angle = libraryModel.get(row).angle
         brushSettings.jitter = libraryModel.get(row).jitter
+        brushSettings.eraser = libraryModel.get(row).eraser
     }
 
     Flow {
@@ -53,6 +55,15 @@ ToolWindow {
                 height: 50
                 text: name
                 onClicked: changeBrushSettings(index)
+                style: ButtonStyle {
+                    label: Text {
+                        text: control.text
+                        horizontalAlignment: Text.AlignHCenter
+                        verticalAlignment: Text.AlignVCenter
+                        wrapMode: Text.WordWrap
+                        elide: Text.ElideRight
+                    }
+                }
             }
         }
 

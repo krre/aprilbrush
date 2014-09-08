@@ -28,11 +28,12 @@ ToolWindow {
     property alias roundness: roundness.value
     property alias angle: angle.value
     property alias jitter: jitter.value
+    property alias eraser: eraser.value
 
     objectName: "brushSettings"
     storage: {
         var list = defaultStorage()
-        list.push("diameter", "opaque", "flow", "hardness", "spacing", "roundness", "angle", "jitter")
+        list.push("diameter", "opaque", "flow", "hardness", "spacing", "roundness", "angle", "jitter", "eraser")
         return list
     }
 
@@ -59,6 +60,7 @@ ToolWindow {
                 SliderText { id: roundness; title: qsTr("Roundness"); width: brushModel.sliderWidth; minimumValue: 1; maximumValue: 100; value: 100; onValueChanged: root.settingsChanged() }
                 SliderText { id: angle; title: qsTr("Angle"); width: brushModel.sliderWidth; minimumValue: 0; maximumValue: 180; value: 0; onValueChanged: root.settingsChanged() }
                 SliderText { id: jitter; title: qsTr("Jitter"); width: brushModel.sliderWidth; minimumValue: 0; maximumValue: 500; value: 0; onValueChanged: root.settingsChanged() }
+                SliderText { id: eraser; title: qsTr("Eraser"); width: brushModel.sliderWidth; minimumValue: 0; maximumValue: 100; value: 0; onValueChanged: root.settingsChanged() }
             }
         }
     }

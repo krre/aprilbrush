@@ -32,7 +32,7 @@ ApplicationWindow {
     property ListModel undoModel: currentTab ? currentTab.undoModel : null
     property real pressure: 0
     property alias sysPalette: sysPalette
-    property bool isEraser: false
+    property bool isEraser: brushSettings.eraser > 50
     readonly property int currentLayerIndex: currentTab ? layerManager.layerView.currentIndex : -1
 
     width: 1000

@@ -21,8 +21,6 @@ MenuBar {
         title: qsTr("Edit")
         MenuItem { action: actions.undoAction }
         MenuItem { action: actions.redoAction }
-        MenuItem { action: actions.brushAction }
-        MenuItem { action: actions.eraserAction }
         MenuItem { action: actions.clearAction }
     }
 
