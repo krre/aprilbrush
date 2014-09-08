@@ -79,8 +79,8 @@ ToolWindow {
             var originY = width / 2
 
             ctx.translate(originX, originY)
-            ctx.scale(1.0, roundness.value / 100)
             ctx.rotate(angle.value / 180 * Math.PI)
+            ctx.scale(1.0, roundness.value / 100)
             ctx.translate(-originX, -originY)
 
             var color = Qt.rgba(colorPicker.color.r, colorPicker.color.g, colorPicker.color.b, flow.value / 100)
