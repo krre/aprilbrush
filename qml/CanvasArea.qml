@@ -251,7 +251,7 @@ ScrollView {
                 function clear(color) {
                     var ctx = getContext("2d")
                     ctx.clearRect(0, 0, width, height)
-                    if (isBackground) {
+                    if (color) {
                         ctx.fillStyle = color
                         ctx.fillRect(0, 0, width, height)
                     }
