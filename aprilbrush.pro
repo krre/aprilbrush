@@ -32,7 +32,6 @@ OTHER_FILES += \
     qml/main/MainToolBar.qml \
     qml/main/MainMenu.qml \
     qml/main/MainStatusBar.qml \
-    qml/components/TableViewBase.qml \
     qml/FileDialogBase.qml
 
 RESOURCES += \
