@@ -150,16 +150,22 @@ Item {
         id: undoAction
         text: qsTr("Undo")
         shortcut: StandardKey.Undo
-        onTriggered: undoManager.undoView.decrementCurrentRow()
-        enabled: undoModel.count > 1
+        onTriggered: {
+            undoManager.undoView.decrementCurrentIndex()
+            undoManager.run(undoManager.undoView.currentIndex)
+        }
+        enabled: undoManager.undoView.currentIndex > 0
     }
 
     Action {
         id: redoAction
         text: qsTr("Redo")
         shortcut: StandardKey.Redo
-        onTriggered: undoManager.undoView.incrementCurrentRow()
-        enabled: undoManager.undoView.currentRow < undoModel.count
+        onTriggered: {
+            undoManager.undoView.incrementCurrentIndex()
+            undoManager.run(undoManager.undoView.currentIndex)
+        }
+        enabled: undoModel ? undoManager.undoView.currentIndex < undoModel.count - 1 : false
     }
 
     Action {
@@ -200,6 +206,7 @@ Item {
         id: duplicateLayerAction
         text: qsTr("Duplicate")
         onTriggered: undoManager.add(Undo.duplicateLayer())
+        enabled: layerManager.layerView.count > 1
     }
 
     Action {

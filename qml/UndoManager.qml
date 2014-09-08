@@ -19,60 +19,82 @@ import "undo.js" as Undo
 ToolWindow {
     id: root
     title: qsTr("Undo History")
-    property alias currentUndo: undoView.currentRow
     property alias undoView: undoView
     property int undoDeep: 50
-    property int prevIndex: -1
-    property var commandArray: [] // array for saving undo/redo command (they don't work from ListModel)
 
     objectName: "undoManager"
     storage: { var list = defaultStorage(); return list }
 
     function add(commandUndo) {
-        if (undoView.currentRow < undoModel.count - 1) {
-            undoModel.remove(undoView.currentRow + 1, undoModel.count - undoView.currentRow - 1)
-            commandArray.length = undoView.currentRow + 1
+        if (undoView.currentIndex < undoModel.count - 1) {
+            undoModel.remove(undoView.currentIndex + 1, undoModel.count - undoView.currentIndex - 1)
+            currentTab.commandArray.length = undoView.currentIndex + 1
         }
         if (undoModel.count === undoDeep) {
             undoModel.remove(0)
-            commandArray.shift()
+            currentTab.commandArray.shift()
         }
 
         undoModel.append({ name: commandUndo.name })
-        commandArray.push(commandUndo)
-        undoView.currentRow = undoModel.count - 1
+        currentTab.commandArray.push(commandUndo)
+        undoView.currentIndex = undoModel.count - 1
+        run(undoView.currentIndex)
     }
 
     function clear() {
-        commandArray = []
+        currentTab.commandArray = []
         undoModel.clear()
-        prevIndex = -1
+        currentTab.prevUndoIndex = -1
         add(Undo.start())
     }
 
     function run(index) {
-        if (index < prevIndex) {
-            for (var i = prevIndex; i > index; i--) {
-                commandArray[i].undo()
+        if (index < currentTab.prevUndoIndex) {
+            for (var i = currentTab.prevUndoIndex; i > index; i--) {
+                currentTab.commandArray[i].undo()
             }
         }
 
-        if (index > prevIndex) {
-            for (i = prevIndex; i < index; i++) {
-                commandArray[i + 1].redo()
+        if (index > currentTab.prevUndoIndex) {
+            for (i = currentTab.prevUndoIndex; i < index; i++) {
+                currentTab.commandArray[i + 1].redo()
             }
         }
-        prevIndex = index
+        currentTab.prevUndoIndex = index
     }
 
-    TableViewBase {
-        id: undoView
+    ScrollView {
+        id: scrollView
         anchors.fill: parent
-        model: undoModel
-        onCurrentRowChanged: run(currentRow)
 
-        TableViewColumn {
-            role: "name"
+        ListView {
+            id: undoView
+            model: undoModel
+            spacing: 5
+            onModelChanged: currentIndex = currentTab ? currentTab.savedUndoIndex : -1
+            delegate: Rectangle {
+                width: scrollView.width !== scrollView.viewport.width ? scrollView.viewport.width - 5 : scrollView.width
+                height: 30
+                color: "#e6e6e6"
+                border.width: 1
+                border.color: ListView.isCurrentItem ? "#7d91f5" : "transparent"
+
+                Text {
+                    text: name
+                    width: parent.width - 10
+                    anchors.centerIn: parent
+                }
+
+                MouseArea {
+                    anchors.fill: parent
+                    onClicked: {
+                        if (undoView.currentIndex !== index) {
+                            undoView.currentIndex = index
+                            run(index)
+                        }
+                    }
+                }
+            }
         }
     }
 }

@@ -20,6 +20,12 @@ import "utils.js" as Utils
 ScrollView {
     property alias layerModel: layerModel
     property alias undoModel: undoModel
+    property int prevUndoIndex: -1
+    property var commandArray: [] // array for saving undo/redo command (they don't work from ListModel)
+    property int layerNameIndexCounter: 1
+    property int savedLayerIndex: 0
+    property int savedUndoIndex: 0
+
     property alias canvas: canvasView.currentItem
     property alias canvasView: canvasView
     property string oraPath

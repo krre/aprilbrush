@@ -73,8 +73,15 @@ ApplicationWindow {
 
     TabView {
         id: tabView
+        property int prevIndex: 0
         anchors.fill: parent
         style: MainTabViewStyle {}
+        onCurrentIndexChanged: {
+            var prevTab = tabView.getTab(prevIndex).item
+            prevTab.savedLayerIndex = layerManager.layerView.currentIndex
+            prevTab.savedUndoIndex = undoManager.undoView.currentIndex
+            prevIndex = currentIndex
+        }
     }
 
     ColorPicker {
