@@ -19,14 +19,14 @@ function start() {
     }
 }
 
-function paint(startPos, undoArea, redoArea, alpha) {
+function paint(startPos, undoArea, redoArea, alpha, isEraser) {
     var _startPos = Qt.point(startPos.x, startPos.y)
     var _undoArea = undoArea
     var _redoArea = redoArea
     var _alpha = alpha
 
     return {
-        name: qsTr("Paint"),
+        name: isEraser ? qsTr("Eraser") : qsTr("Paint"),
         undo: function() {
             currentTab.canvas.getContext("2d").clearRect(_startPos.x, _startPos.y,  _undoArea.width, _undoArea.height)
             currentTab.canvas.getContext("2d").drawImage(_undoArea, _startPos.x, _startPos.y)

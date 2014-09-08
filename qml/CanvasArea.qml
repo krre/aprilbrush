@@ -141,7 +141,7 @@ ScrollView {
                         var bufferArea = bufferCtx.getImageData(startPos.x, startPos.y, finalPos.x - startPos.x, finalPos.y - startPos.y)
                         var canvasCtx = canvas.getContext("2d")
                         var undoArea = canvasCtx.getImageData(startPos.x, startPos.y, finalPos.x - startPos.x, finalPos.y - startPos.y)
-                        undoManager.add(Undo.paint(startPos, undoArea, bufferArea, brushSettings.opaque / 100))
+                        undoManager.add(Undo.paint(startPos, undoArea, bufferArea, brushSettings.opaque / 100, isEraser))
                         bufferCtx.clearRect(0, 0, width, height)
                         parent.requestPaint()
                     } else if (isPan) {
@@ -198,7 +198,7 @@ ScrollView {
 
                 function drawDab(point) {
                     var dabCanvas = brushSettings.dab
-                    var ctx = buffer.getContext("2d")
+                    var ctx = isEraser ? canvas.getContext("2d") : buffer.getContext("2d")
                     ctx.save()
                     ctx.globalCompositeOperation = isEraser ? "destination-out" : "source-over"
                     var size = brushSettings.diameter
@@ -212,7 +212,11 @@ ScrollView {
 
                     ctx.drawImage(dabCanvas, x, y)
                     ctx.restore()
-                    buffer.markDirty(x, y, brushSettings.dab.width, brushSettings.dab.height)
+                    if (isEraser) {
+                        canvas.markDirty(x, y, brushSettings.dab.width, brushSettings.dab.height)
+                    } else {
+                        buffer.markDirty(x, y, brushSettings.dab.width, brushSettings.dab.height)
+                    }
                 }
             }
         }
