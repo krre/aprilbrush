@@ -210,6 +210,7 @@ ScrollView {
                     var ctx = isEraser ? canvas.getContext("2d") : buffer.getContext("2d")
                     ctx.save()
                     ctx.globalCompositeOperation = isEraser ? "destination-out" : "source-over"
+                    ctx.globalAlpha = mainRoot.pressure
                     var size = brushSettings.diameter
                     var x = point.x - size / 2 + size * brushSettings.jitter / 100 * (1 - 2 * Math.random())
                     var y = point.y - size / 2 + size * brushSettings.jitter / 100 * (1 - 2 * Math.random())
