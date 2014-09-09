@@ -19,7 +19,6 @@ import "settings.js" as Settings
 ToolWindow {
     id: root
     title: qsTr("Brush Settings")
-    property alias dab: dab
     property alias diameter: diameter.value
     property alias opaque: opaque.value
     property alias flow: flow.value
@@ -40,6 +39,11 @@ ToolWindow {
     signal settingsChanged()
 
     onDiameterChanged: coreLib.setCursorShape("Paint", diameter.value)
+    onSettingsChanged: {
+        if (dab) {
+            dab.requestPaint()
+        }
+    }
 
     ScrollView {
         id: scrollView
@@ -62,40 +66,6 @@ ToolWindow {
                 SliderText { id: jitter; title: qsTr("Jitter"); width: brushModel.sliderWidth; minimumValue: 0; maximumValue: 500; value: 0; onValueChanged: root.settingsChanged() }
                 SliderText { id: eraser; title: qsTr("Eraser"); width: brushModel.sliderWidth; minimumValue: 0; maximumValue: 100; value: 0; onValueChanged: root.settingsChanged() }
             }
-        }
-    }
-
-    Canvas {
-        id: dab
-        width: diameter.value
-        height: diameter.value
-        visible: false
-        antialiasing: true
-
-        onPaint: {
-            var ctx = dab.getContext("2d")
-            ctx.save()
-            ctx.clearRect(0, 0, width, height)
-
-            var originX = width / 2
-            var originY = width / 2
-
-            ctx.translate(originX, originY)
-            ctx.rotate(angle.value / 180 * Math.PI)
-            ctx.scale(1.0, roundness.value / 100)
-            ctx.translate(-originX, -originY)
-
-            var color = Qt.rgba(colorPicker.color.r, colorPicker.color.g, colorPicker.color.b, flow.value / 100)
-            var gradient = ctx.createRadialGradient(width / 2, height / 2, 0, width / 2, height / 2, width / 2)
-            gradient.addColorStop(0, color);
-            gradient.addColorStop(hardness.value / 100, color);
-            gradient.addColorStop(1, Qt.rgba(colorPicker.color.r, colorPicker.color.g, colorPicker.color.b, hardness.value / 100 < 1 ? 0 : flow.value / 100));
-
-            ctx.ellipse(0, 0, width, width)
-            ctx.fillStyle = gradient
-            ctx.fill()
-
-            ctx.restore();
         }
     }
 }

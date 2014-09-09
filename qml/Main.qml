@@ -87,7 +87,7 @@ ApplicationWindow {
         id: colorPicker
         relativeX: 20
         relativeY: 100
-        onColorChanged: brushSettings.dab.requestPaint()
+        onColorChanged: dab.requestPaint()
     }
 
     ColorDialog {
@@ -105,7 +105,6 @@ ApplicationWindow {
         id: brushSettings
         relativeX: mainRoot.width - width - 30
         relativeY: 100
-        onSettingsChanged: dab.requestPaint()
     }
 
     BrushLibrary {
@@ -141,6 +140,43 @@ ApplicationWindow {
             }
         }
     }
+
+    Canvas {
+        id: dab
+        width: brushSettings.diameter
+        height: brushSettings.diameter
+        visible: false
+        antialiasing: true
+
+        onAvailableChanged: requestPaint()
+
+        onPaint: {
+            var ctx = getContext("2d")
+            ctx.save()
+            ctx.clearRect(0, 0, width, height)
+
+            var originX = width / 2
+            var originY = width / 2
+
+            ctx.translate(originX, originY)
+            ctx.rotate(brushSettings.angle / 180 * Math.PI)
+            ctx.scale(1.0, brushSettings.roundness / 100)
+            ctx.translate(-originX, -originY)
+
+            var color = Qt.rgba(colorPicker.color.r, colorPicker.color.g, colorPicker.color.b, brushSettings.flow / 100)
+            var gradient = ctx.createRadialGradient(width / 2, height / 2, 0, width / 2, height / 2, width / 2)
+            gradient.addColorStop(0, color);
+            gradient.addColorStop(brushSettings.hardness / 100, color);
+            gradient.addColorStop(1, Qt.rgba(colorPicker.color.r, colorPicker.color.g, colorPicker.color.b, brushSettings.hardness / 100 < 1 ? 0 : brushSettings.flow / 100));
+
+            ctx.ellipse(0, 0, width, width)
+            ctx.fillStyle = gradient
+            ctx.fill()
+
+            ctx.restore();
+        }
+    }
+
 
     Item {
         property alias mainX: mainRoot.x

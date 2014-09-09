@@ -140,10 +140,10 @@ ScrollView {
                 onReleased: {
                     mainRoot.pressure = 1
                     if (!isCtrlPressed && !isPan) {
-                        startPos.x -= brushSettings.dab.width
-                        startPos.y -= brushSettings.dab.width
-                        finalPos.x += brushSettings.dab.width
-                        finalPos.y += brushSettings.dab.width
+                        startPos.x -= dab.width
+                        startPos.y -= dab.width
+                        finalPos.x += dab.width
+                        finalPos.y += dab.width
 
                         var bufferCtx = parent.getContext("2d")
                         var bufferArea = bufferCtx.getImageData(startPos.x, startPos.y, finalPos.x - startPos.x, finalPos.y - startPos.y)
@@ -206,7 +206,6 @@ ScrollView {
                 }
 
                 function drawDab(point) {
-                    var dabCanvas = brushSettings.dab
                     var ctx = isEraser ? canvas.getContext("2d") : buffer.getContext("2d")
                     ctx.save()
                     ctx.globalCompositeOperation = isEraser ? "destination-out" : "source-over"
@@ -220,12 +219,12 @@ ScrollView {
                     if (x > finalPos.x) { finalPos.x = Math.max(x, imageSize.width) }
                     if (y > finalPos.y) { finalPos.y = Math.max(y, imageSize.height) }
 
-                    ctx.drawImage(dabCanvas, x, y)
+                    ctx.drawImage(dab, x, y)
                     ctx.restore()
                     if (isEraser) {
-                        canvas.markDirty(x, y, brushSettings.dab.width, brushSettings.dab.height)
+                        canvas.markDirty(x, y, dab.width, dab.height)
                     } else {
-                        buffer.markDirty(x, y, brushSettings.dab.width, brushSettings.dab.height)
+                        buffer.markDirty(x, y, dab.width, dab.height)
                     }
                 }
             }
