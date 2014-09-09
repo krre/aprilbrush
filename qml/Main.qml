@@ -30,7 +30,7 @@ ApplicationWindow {
     property CanvasArea currentTab: tabView.count > 0 ? tabView.getTab(tabView.currentIndex).item : null
     property ListModel layerModel: currentTab ? currentTab.layerModel : null
     property ListModel undoModel: currentTab ? currentTab.undoModel : null
-    property real pressure: 0
+    property real pressure: 1
     property alias sysPalette: sysPalette
     property bool isEraser: brushSettings.eraser > 50
     readonly property int currentLayerIndex: currentTab ? layerManager.layerView.currentIndex : -1
@@ -58,7 +58,6 @@ ApplicationWindow {
     Connections {
         target: PointerEater
         onPressure: mainRoot.pressure = pressure
-        onPressed: type == 0 ? mainRoot.pressure = 1 : mainRoot.pressure = 0
     }
 
     Actions { id: actions}
