@@ -5,11 +5,13 @@ import QtQuick.Controls 1.2
 
 TabViewStyle {
     tabsMovable: true
+    tabOverlap: -5
     tab: Rectangle {
-        border.color: styleData.selected ? "black" : "gray"
         implicitWidth: styleData.selected ? Math.max(text.text.length * text.font.pixelSize / 1.5, 80) : Math.min(control.width / tabView.count, 80)
         implicitHeight: 25
-        color: styleData.selected ? "white" : "lightgray"
+        color: "#e6e6e6"
+        border.width: 1
+        border.color: styleData.selected ? "#7d91f5" : "transparent"
 
         RowLayout {
             anchors.fill: parent
