@@ -28,7 +28,7 @@ function paint(startPos, undoArea, redoArea, alpha, isEraser) {
     var _isEraser = isEraser
 
     return {
-        name: isEraser ? qsTr("Eraser") : qsTr("Paint"),
+        name: isEraser ? qsTr("Eraser") : qsTr("Brush"),
         undo: function() {
             currentTab.canvas.getContext("2d").clearRect(_startPos.x, _startPos.y,  _undoArea.width, _undoArea.height)
             currentTab.canvas.getContext("2d").drawImage(_undoArea, _startPos.x, _startPos.y)
@@ -208,30 +208,29 @@ function renameLayer(undoName, redoName) {
 
 function changeIsVisibileLayer(index) {
     var _index = index
+    var _isVisible = layerModel.get(_index).isVisible
     return {
-        name: qsTr("Change Layer Visible"),
+        name: _isVisible ? qsTr("Layer Unvisible") : qsTr("Layer Visible"),
         undo: function() {
-            var isVisible = layerModel.get(_index).isVisible
-            layerModel.setProperty(_index, "isVisible", !isVisible)
+            layerModel.setProperty(_index, "isVisible", _isVisible)
         },
         redo: function() {
-            var isVisible = layerModel.get(_index).isVisible
-            layerModel.setProperty(_index, "isVisible", !isVisible)
+            layerModel.setProperty(_index, "isVisible", !_isVisible)
         }
     }
 }
 
 function changeIsLockLayer(index) {
     var _index = index
+    var _isLock = layerModel.get(_index).isLock
     return {
-        name: qsTr("Change Layer Lock"),
+        name: _isLock ? qsTr("Layer Unlock") : qsTr("Layer Lock"),
         undo: function() {
-            var isLock = layerModel.get(_index).isLock
-            layerModel.setProperty(_index, "isLock", !isLock)
+
+            layerModel.setProperty(_index, "isLock", _isLock)
         },
         redo: function() {
-            var isLock = layerModel.get(_index).isLock
-            layerModel.setProperty(_index, "isLock", !isLock)
+            layerModel.setProperty(_index, "isLock", !_isLock)
         }
     }
 }
