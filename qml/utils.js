@@ -35,10 +35,13 @@ function openOra(filePath) {
                           })
     }
 
-    currentTab.canvasView.onCreated.connect(function(index, canvas) {
+    var loadCounter = 0
+    var drawCounter = 0
+
+    currentTab.canvasView.onCreated.connect(function load(index, canvas) {
         var image = layersList[index].image
         canvas.loadImage(image)
-        canvas.onImageLoaded.connect(function() {
+        canvas.onImageLoaded.connect(function draw() {
             var context = canvas.getContext("2d")
             context.drawImage(image, 0, 0)
             canvas.requestPaint()
@@ -47,7 +50,13 @@ function openOra(filePath) {
                 var hex = "#" + ("000000" + rgbToHex(p[0], p[1], p[2])).slice(-6)
                 currentTab.bgColor = hex
             }
+            if (++drawCounter === layersList.length) {
+                canvas.onImageLoaded.disconnect(draw)
+            }
         })
+        if (++loadCounter === layersList.length) {
+            currentTab.canvasView.onCreated.disconnect(load)
+        }
     })
 
     layerManager.layerView.currentIndex = selectedIndex
