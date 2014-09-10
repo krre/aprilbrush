@@ -24,6 +24,8 @@ function paint(startPos, undoArea, redoArea, alpha, isEraser) {
     var _undoArea = undoArea
     var _redoArea = redoArea
     var _alpha = alpha
+    var _isHistory = false
+    var _isEraser = isEraser
 
     return {
         name: isEraser ? qsTr("Eraser") : qsTr("Paint"),
@@ -33,12 +35,19 @@ function paint(startPos, undoArea, redoArea, alpha, isEraser) {
             currentTab.canvas.requestPaint()
         },
         redo: function() {
-            var ctx = canvas.getContext("2d")
-            ctx.save()
-            ctx.globalAlpha = _alpha
-            ctx.drawImage(_redoArea, _startPos.x, _startPos.y)
-            ctx.restore()
-            currentTab.canvas.requestPaint()
+            if (_isEraser && !_isHistory) {
+                _isHistory = true
+            } else {
+                var ctx = canvas.getContext("2d")
+                ctx.save()
+                if (_isEraser) {
+                    ctx.clearRect(_startPos.x, _startPos.y,  _redoArea.width, _redoArea.height)
+                }
+                ctx.globalAlpha = _isEraser ? 1.0 : _alpha
+                ctx.drawImage(_redoArea, _startPos.x, _startPos.y)
+                ctx.restore()
+                currentTab.canvas.requestPaint()
+            }
         }
     }
 }

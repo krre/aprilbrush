@@ -81,6 +81,13 @@ ScrollView {
             cellSide: 30
         }
 
+        // temporary dirty hack for undo eraser brush
+        Canvas {
+            id: undoEraserBuffer
+            anchors.fill: parent
+            visible: false
+        }
+
         Canvas {
             id: buffer
             z: 1001
@@ -127,6 +134,13 @@ ScrollView {
                     } else if (isCtrlPressed) {
                         Utils.pickColor(point)
                     } else {
+                        if (isEraser) {
+                            var undoEraserCtx = undoEraserBuffer.getContext("2d")
+                            undoEraserCtx.clearRect(0, 0, width, height)
+                            undoEraserCtx.drawImage(canvas, 0, 0)
+                            undoEraserBuffer.requestPaint()
+                        }
+
 //                        print(mouseX, mouseX, mainRoot.pressure)
                         startPos = Qt.point(point.x, point.y)
                         finalPos = Qt.point(point.x, point.y)
@@ -146,10 +160,15 @@ ScrollView {
                         finalPos.y += dab.width
 
                         var bufferCtx = parent.getContext("2d")
-                        var bufferArea = bufferCtx.getImageData(startPos.x, startPos.y, finalPos.x - startPos.x, finalPos.y - startPos.y)
                         var canvasCtx = canvas.getContext("2d")
-                        var undoArea = canvasCtx.getImageData(startPos.x, startPos.y, finalPos.x - startPos.x, finalPos.y - startPos.y)
-                        undoManager.add(Undo.paint(startPos, undoArea, bufferArea, brushSettings.opaque / 100, isEraser))
+                        if (!isEraser) {
+                            var undoArea = canvasCtx.getImageData(startPos.x, startPos.y, finalPos.x - startPos.x, finalPos.y - startPos.y)
+                            var redoArea = bufferCtx.getImageData(startPos.x, startPos.y, finalPos.x - startPos.x, finalPos.y - startPos.y)
+                        } else {
+                            undoArea = undoEraserBuffer.getContext("2d").getImageData(startPos.x, startPos.y, finalPos.x - startPos.x, finalPos.y - startPos.y)
+                            redoArea = canvasCtx.getImageData(startPos.x, startPos.y, finalPos.x - startPos.x, finalPos.y - startPos.y)
+                        }
+                        undoManager.add(Undo.paint(startPos, undoArea, redoArea, brushSettings.opaque / 100, isEraser))
                         bufferCtx.clearRect(0, 0, width, height)
                         parent.requestPaint()
                     } else if (isPan) {
