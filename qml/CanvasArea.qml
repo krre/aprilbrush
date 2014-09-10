@@ -97,7 +97,7 @@ ScrollView {
                 property point startPos
                 property point finalPos
                 anchors.fill: parent
-                enabled: currentLayerIndex >= 0 && typeof layerModel.get(currentLayerIndex) !== "undefined" && !layerModel.get(currentLayerIndex).isLock
+                enabled: buffer.parent ? buffer.parent.enabled : false
                 hoverEnabled: true
 
                 function bezierCurve(start, control, end, t) {
@@ -244,6 +244,7 @@ ScrollView {
                 height: ListView.view.height
                 z: 1000 - index
                 visible: isVisible
+                enabled: !isLock
 
                 signal ready
 

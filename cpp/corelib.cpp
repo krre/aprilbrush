@@ -138,6 +138,7 @@ QVariantList CoreLib::readOra(const QString oraPath) {
                 QString dataURL = QString("data:image/png;base64," + byteArray.toBase64());
                 map["image"] = dataURL;
                 list.append(map);
+                map.clear();
             }
         }
         stream.readNextStartElement();
