@@ -98,7 +98,7 @@ ApplicationWindow {
     LayerManager {
         id: layerManager
         relativeX: 20
-        relativeY: 340
+        relativeY: 350
     }
 
     BrushSettings {
@@ -110,13 +110,13 @@ ApplicationWindow {
     BrushLibrary {
         id: brushLibrary
         relativeX: mainRoot.width - width - 30
-        relativeY: 340
+        relativeY: 350
     }
 
     UndoManager {
         id: undoManager
-        relativeX: mainRoot.width - width - 30
-        relativeY: 340
+        relativeX: mainRoot.width - (width + 30) * 2
+        relativeY: 100
     }
 
     Component {

@@ -23,7 +23,7 @@ ToolWindow {
     property real h
     property real s
     property real v
-    property color color: "blue"
+    property color color: "black"
     property bool changeColorByPicker: false
 
     property int minWindowSize: Math.min(columnLayout.width, columnLayout.height)
