@@ -41,7 +41,7 @@ ApplicationWindow {
 
     menuBar: MainMenu {}
     toolBar: MainToolBar { id: toolBar }
-    statusBar: MainStatusBar { id: statusBar }
+//    statusBar: MainStatusBar { id: statusBar }
 
     Component.onCompleted: {
         Settings.loadSettings(mainRoot)
