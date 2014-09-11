@@ -43,12 +43,12 @@ MenuBar {
             onTriggered: toolBar.visible = !toolBar.visible
         }
 
-        MenuItem {
-            text: qsTr("Status Bar")
-            checkable: true
-            checked: true
-            onTriggered: statusBar.visible = !statusBar.visible
-        }
+//        MenuItem {
+//            text: qsTr("Status Bar")
+//            checkable: true
+//            checked: true
+//            onTriggered: statusBar.visible = !statusBar.visible
+//        }
 
         MenuItem {
             text: colorPicker.title
