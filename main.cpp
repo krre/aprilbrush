@@ -14,7 +14,6 @@
 #include "cpp/corelib.h"
 #include "cpp/pointereater.h"
 
-//#include <QtQuick>
 #include <QtQml>
 #include <QApplication>
 #include <QQmlApplicationEngine>
