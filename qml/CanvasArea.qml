@@ -78,8 +78,8 @@ ScrollView {
         ListModel { id: undoModel }
 
         transform: [
-            Scale { origin.x: width / 2; origin.y: height / 2; xScale: zoom * mirror; yScale: zoom },
-            Rotation { origin.x: width / 2; origin.y: height / 2; angle: rotation }
+            Scale { origin.x: contentItem.width / 2; origin.y: contentItem.height / 2; xScale: zoom * mirror; yScale: zoom },
+            Rotation { origin.x: contentItem.width / 2; origin.y: contentItem.height / 2; angle: rotation }
         ]
 
         CheckerBoard {
