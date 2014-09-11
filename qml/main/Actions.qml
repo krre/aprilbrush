@@ -43,7 +43,11 @@ Item {
             layerManager.addBackground()
             layerManager.addLayer()
             undoManager.clear()
-            currentTab.resetTransform()
+            currentTab.resetTransform() // after adding new tab on runnging application
+            currentTab.onWidthChanged.connect(function resTransform() {
+                currentTab.resetTransform() // after adding new tab on start application
+                currentTab.onWidthChanged.disconnect(resTransform)
+            })
         }
         tooltip: qsTr("New an Image")
     }

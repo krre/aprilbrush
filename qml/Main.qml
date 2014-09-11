@@ -46,6 +46,10 @@ ApplicationWindow {
     Component.onCompleted: {
         Settings.loadSettings(mainRoot)
         actions.newImageAction.trigger()
+        mainRoot.onWidthChanged.connect(function resTransform() {
+            currentTab.resetTransform() // after changing window on load settings
+            mainRoot.onWidthChanged.disconnect(resTransform)
+        })
     }
 
     onClosing: Settings.saveSettings(mainRoot)
