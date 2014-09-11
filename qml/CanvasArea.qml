@@ -35,9 +35,14 @@ ScrollView {
 
     property real zoom: 1.0
     property bool isPan: false
-    property point pan: Qt.point(0, 0)
     property int mirror: 1
     property real rotation: 0
+
+    flickableItem.interactive: isPan
+    flickableItem.leftMargin: contentItem.width / 2
+    flickableItem.rightMargin: contentItem.width / 2
+    flickableItem.topMargin: contentItem.height / 2
+    flickableItem.bottomMargin: contentItem.height / 2
 
     onIsPanChanged: coreLib.setCursorShape(isPan ? "OpenHand" : "Paint", brushSettings.diameter * zoom)
     onZoomChanged: coreLib.setCursorShape(isPan ? "OpenHand" : "Paint", brushSettings.diameter * zoom)
@@ -53,18 +58,19 @@ ScrollView {
         if (event.key === Qt.Key_Space && !event.isAutoRepeat) { isPan = false }
     }
 
-    Component.onCompleted: forceActiveFocus()
+    Component.onCompleted: {
+        forceActiveFocus()
+    }
 
     function resetTransform() {
         zoom = 1
-        pan = Qt.point(0, 0)
         mirror = 1
         rotation = 0
+        flickableItem.contentX = (contentItem.width - width) / 2
+        flickableItem.contentY = (contentItem.height - height) / 2
     }
 
     Item {
-        x: pan.x
-        y: pan.y
         width: imageSize.width
         height: imageSize.height
 
@@ -179,12 +185,9 @@ ScrollView {
 
                 onPositionChanged: {
                     if (!pressed) { return; }
-                    if (isPan) {
-                        pan.x += (mouseX - grabPoint.x) * zoom * mirror
-                        pan.y += (mouseY - grabPoint.y) * zoom
-                    } else if (isCtrlPressed) {
+                    if (isCtrlPressed) {
                         Utils.pickColor(Qt.point(mouseX, mouseY))
-                    } else {
+                    } else if (!isPan){
                         var currentPoint = Qt.point(mouseX, mouseY)
 //                        print(mouseX, mouseX, mainRoot.pressure)
                         var startPoint = lastDrawPoint
