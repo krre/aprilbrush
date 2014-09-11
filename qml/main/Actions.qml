@@ -43,6 +43,7 @@ Item {
             layerManager.addBackground()
             layerManager.addLayer()
             undoManager.clear()
+            currentTab.resetTransform()
         }
         tooltip: qsTr("New an Image")
     }

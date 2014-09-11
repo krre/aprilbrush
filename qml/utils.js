@@ -59,6 +59,7 @@ function openOra(filePath) {
     layerManager.layerView.currentIndex = selectedIndex
 
     currentTab.oraPath = path
+    currentTab.resetTransform()
     undoManager.add(Undo.start())
     console.log("open: " + path)
 }
