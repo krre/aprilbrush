@@ -235,7 +235,7 @@ Item {
         text: qsTr("Zoom In")
         shortcut: StandardKey.ZoomIn
         enabled: tabView.count > 0
-        onTriggered: currentTab.zoom *= 1.5
+        onTriggered: if (currentTab.zoom < 30) currentTab.zoom *= 1.5
     }
 
     Action {
@@ -243,7 +243,7 @@ Item {
         text: qsTr("Zoom Out")
         shortcut: StandardKey.ZoomOut
         enabled: tabView.count > 0
-        onTriggered: currentTab.zoom /= 1.5
+        onTriggered: if (currentTab.zoom > 0.01) currentTab.zoom /= 1.5
     }
 
     Action {
