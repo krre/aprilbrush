@@ -1,4 +1,15 @@
-Version 0.1.0 - 20 April 2013
+Version 0.2.0 - 2014-09-11
+------------------------------
+- Interface ported to desktop controls
+- Added Flow parameter to brush engine
+- Added Eraser parameter to brush engine
+- Added eraser presets to brush library
+- Layer name is changeable
+- Added Visible property to layers
+- Added Lock property to layers
+- Removed Dock
+
+Version 0.1.0 - 2013-04-20
 ------------------------------
 - First public release
 - Multi-page
