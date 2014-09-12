@@ -186,10 +186,10 @@ ScrollView {
                 }
 
                 onPositionChanged: {
-                    if (!pressed) { return; }
+                    if (!pressed || isPan) { return; }
                     if (isCtrlPressed) {
                         Utils.pickColor(Qt.point(mouseX, mouseY))
-                    } else if (!isPan){
+                    } else {
                         var currentPoint = Qt.point(mouseX, mouseY)
 //                        print(mouseX, mouseX, mainRoot.pressure)
                         var startPoint = lastDrawPoint

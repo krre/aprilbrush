@@ -182,6 +182,12 @@ ApplicationWindow {
         }
     }
 
+    Canvas {
+        id: pickCanvas
+        width: 1
+        height: 1
+        visible: false
+    }
 
     Item {
         property alias mainX: mainRoot.x

@@ -114,14 +114,24 @@ function exportPng(filePath) {
 
 // Pick color from canvas
 function pickColor(pos) {
-    var finalCanvas = exportCanvas.createObject(currentTab)
-    finalCanvas.onFinished.connect(function() {
-        var ctx = finalCanvas.getContext("2d")
-        var p = ctx.getImageData(pos.x, pos.y, 1, 1).data
+    var ctx = pickCanvas.getContext("2d")
+    ctx.clearRect(0, 0, 1, 1)
+    var isColor = false
+    for (var i = layerModel.count - 1; i > -1; i--) {
+        var layer = layerModel.get(i)
+        if (layer.isVisible) {
+            var canvas = layer.canvas
+            var image = canvas.getContext("2d").getImageData(pos.x, pos.y, 1, 1)
+            ctx.drawImage(image, 0, 0)
+            isColor = true
+        }
+    }
+
+    if (isColor) {
+        var p = ctx.getImageData(0, 0, 1, 1).data
         var hex = "#" + ("000000" + rgbToHex(p[0], p[1], p[2])).slice(-6)
         colorPicker.color = hex
-        finalCanvas.destroy()
-    })
+    }
 }
 
 // Add prefix zero to number
