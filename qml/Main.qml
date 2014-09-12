@@ -147,10 +147,11 @@ ApplicationWindow {
 
     Canvas {
         id: dab
-        width: brushSettings.diameter
-        height: brushSettings.diameter
+        width: brushSettings.size
+        height: brushSettings.size
         visible: false
         antialiasing: true
+        smooth: false
 
         onAvailableChanged: requestPaint()
 

@@ -44,8 +44,8 @@ ScrollView {
     flickableItem.topMargin: contentItem.height / 2
     flickableItem.bottomMargin: contentItem.height / 2
 
-    onIsPanChanged: coreLib.setCursorShape(isPan ? "OpenHand" : "Paint", brushSettings.diameter * zoom)
-    onZoomChanged: coreLib.setCursorShape(isPan ? "OpenHand" : "Paint", brushSettings.diameter * zoom)
+    onIsPanChanged: coreLib.setCursorShape(isPan ? "OpenHand" : "Paint", brushSettings.size * zoom)
+    onZoomChanged: coreLib.setCursorShape(isPan ? "OpenHand" : "Paint", brushSettings.size * zoom)
     onBgColorChanged: layerModel.get(layerModel.count - 1).canvas.clear(bgColor)
 
     Keys.onPressed: {
@@ -92,6 +92,7 @@ ScrollView {
             id: undoEraserBuffer
             anchors.fill: parent
             visible: false
+            smooth: false
         }
 
         Canvas {
@@ -100,9 +101,10 @@ ScrollView {
             anchors.fill: parent
             parent: canvasView.currentItem
             opacity: brushSettings.opaque / 100
+            smooth: false
 
             MouseArea {
-                property real deltaDab: Math.max(brushSettings.spacing / 100 * brushSettings.diameter, 1)
+                property real deltaDab: Math.max(brushSettings.spacing / 100 * brushSettings.size, 1)
                 property var points: []
                 property bool linearMode: false
                 property point lastDrawPoint
@@ -129,7 +131,7 @@ ScrollView {
                     return Qt.point(x, y)
                 }
 
-                onHoveredChanged: coreLib.setCursorShape(containsMouse ? cursorName : "Arrow", brushSettings.diameter * zoom)
+                onHoveredChanged: coreLib.setCursorShape(containsMouse ? cursorName : "Arrow", brushSettings.size * zoom)
 
                 onPressed: {
                     var point = Qt.point(mouseX, mouseY)
@@ -232,7 +234,7 @@ ScrollView {
                     ctx.save()
                     ctx.globalCompositeOperation = isEraser ? "destination-out" : "source-over"
                     ctx.globalAlpha = mainRoot.pressure
-                    var size = brushSettings.diameter
+                    var size = brushSettings.size
                     var x = point.x - size / 2 + size * brushSettings.jitter / 100 * (1 - 2 * Math.random())
                     var y = point.y - size / 2 + size * brushSettings.jitter / 100 * (1 - 2 * Math.random())
 
@@ -267,6 +269,7 @@ ScrollView {
                 z: 1000 - index
                 visible: isVisible
                 enabled: !isLock
+                smooth: false
 
                 signal ready
 

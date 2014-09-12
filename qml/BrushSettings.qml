@@ -19,7 +19,7 @@ import "settings.js" as Settings
 ToolWindow {
     id: root
     title: qsTr("Brush Settings")
-    property alias diameter: diameter.value
+    property alias size: size.value
     property alias opaque: opaque.value
     property alias flow: flow.value
     property alias hardness: hardness.value
@@ -32,13 +32,13 @@ ToolWindow {
     objectName: "brushSettings"
     storage: {
         var list = defaultStorage()
-        list.push("diameter", "opaque", "flow", "hardness", "spacing", "roundness", "angle", "jitter", "eraser")
+        list.push("size", "opaque", "flow", "hardness", "spacing", "roundness", "angle", "jitter", "eraser")
         return list
     }
 
     signal settingsChanged()
 
-    onDiameterChanged: coreLib.setCursorShape("Paint", diameter.value)
+    onSizeChanged: coreLib.setCursorShape("Paint", size.value)
     onSettingsChanged: {
         if (dab) {
             dab.requestPaint()
@@ -56,7 +56,7 @@ ToolWindow {
             model: VisualItemModel {
                 id: brushModel
                 property real sliderWidth: scrollView.width !== scrollView.viewport.width ? scrollView.viewport.width - 5 : scrollView.width
-                SliderText { id: diameter; title: qsTr("Diameter"); width: brushModel.sliderWidth; minimumValue: 1; maximumValue: 100; value: 20; onValueChanged: root.settingsChanged() }
+                SliderText { id: size; title: qsTr("Size"); width: brushModel.sliderWidth; minimumValue: 1; maximumValue: 100; value: 20; onValueChanged: root.settingsChanged() }
                 SliderText { id: opaque; title: qsTr("Opaque"); width: brushModel.sliderWidth; value: 85; onValueChanged: root.settingsChanged() }
                 SliderText { id: flow; title: qsTr("Flow"); width: brushModel.sliderWidth; value: 50; onValueChanged: root.settingsChanged() }
                 SliderText { id: hardness; title: qsTr("Hardness"); width: brushModel.sliderWidth; minimumValue: 1; value: 95; onValueChanged: root.settingsChanged() }
