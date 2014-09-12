@@ -35,7 +35,7 @@ ToolWindow {
 
     function changeBrushSettings(row) {
         brushSettings.size = libraryModel.get(row).size
-        brushSettings.opaque = libraryModel.get(row).opaque
+        brushSettings.opacity = libraryModel.get(row).opacity
         brushSettings.flow = libraryModel.get(row).flow
         brushSettings.spacing = libraryModel.get(row).spacing
         brushSettings.hardness = libraryModel.get(row).hardness

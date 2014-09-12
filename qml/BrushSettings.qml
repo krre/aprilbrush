@@ -20,7 +20,7 @@ ToolWindow {
     id: root
     title: qsTr("Brush Settings")
     property alias size: size.value
-    property alias opaque: opaque.value
+    property alias opacity: opacity.value
     property alias flow: flow.value
     property alias hardness: hardness.value
     property alias spacing: spacing.value
@@ -32,7 +32,7 @@ ToolWindow {
     objectName: "brushSettings"
     storage: {
         var list = defaultStorage()
-        list.push("size", "opaque", "flow", "hardness", "spacing", "roundness", "angle", "jitter", "eraser")
+        list.push("size", "opacity", "flow", "hardness", "spacing", "roundness", "angle", "jitter", "eraser")
         return list
     }
 
@@ -57,7 +57,7 @@ ToolWindow {
                 id: brushModel
                 property real sliderWidth: scrollView.width !== scrollView.viewport.width ? scrollView.viewport.width - 5 : scrollView.width
                 SliderText { id: size; title: qsTr("Size"); width: brushModel.sliderWidth; minimumValue: 1; maximumValue: 100; value: 20; onValueChanged: root.settingsChanged() }
-                SliderText { id: opaque; title: qsTr("Opaque"); width: brushModel.sliderWidth; value: 85; onValueChanged: root.settingsChanged() }
+                SliderText { id: opacity; title: qsTr("Opacity"); width: brushModel.sliderWidth; value: 85; onValueChanged: root.settingsChanged() }
                 SliderText { id: flow; title: qsTr("Flow"); width: brushModel.sliderWidth; value: 50; onValueChanged: root.settingsChanged() }
                 SliderText { id: hardness; title: qsTr("Hardness"); width: brushModel.sliderWidth; minimumValue: 1; value: 95; onValueChanged: root.settingsChanged() }
                 SliderText { id: spacing; title: qsTr("Spacing"); width: brushModel.sliderWidth; minimumValue: 5; maximumValue: 200; value: 25; onValueChanged: root.settingsChanged() }

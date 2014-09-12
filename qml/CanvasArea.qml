@@ -100,7 +100,7 @@ ScrollView {
             z: 1001
             anchors.fill: parent
             parent: canvasView.currentItem
-            opacity: brushSettings.opaque / 100
+            opacity: brushSettings.opacity / 100
             smooth: false
 
             MouseArea {
@@ -176,7 +176,7 @@ ScrollView {
                             undoArea = undoEraserBuffer.getContext("2d").getImageData(startPos.x, startPos.y, finalPos.x - startPos.x, finalPos.y - startPos.y)
                             redoArea = canvasCtx.getImageData(startPos.x, startPos.y, finalPos.x - startPos.x, finalPos.y - startPos.y)
                         }
-                        undoManager.add(Undo.paint(startPos, undoArea, redoArea, brushSettings.opaque / 100, isEraser))
+                        undoManager.add(Undo.paint(startPos, undoArea, redoArea, brushSettings.opacity / 100, isEraser))
                         bufferCtx.clearRect(0, 0, width, height)
                         parent.requestPaint()
                     } else if (isPan) {
