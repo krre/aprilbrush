@@ -47,6 +47,7 @@ ScrollView {
     onIsPanChanged: coreLib.setCursorShape(isPan ? "OpenHand" : "Paint", brushSettings.size * zoom)
     onZoomChanged: coreLib.setCursorShape(isPan ? "OpenHand" : "Paint", brushSettings.size * zoom)
     onBgColorChanged: layerModel.get(layerModel.count - 1).canvas.clear(bgColor)
+    onIsCtrlPressedChanged: coreLib.setCursorShape(isCtrlPressed ? "PickColor" : "Paint", brushSettings.size * zoom)
 
     Keys.onPressed: {
         if (event.key === Qt.Key_Space && !event.isAutoRepeat) { isPan = true }
