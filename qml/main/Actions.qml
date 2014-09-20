@@ -36,7 +36,7 @@ Item {
     Action {
         id: newImageAction
         text: qsTr("New")
-        shortcut: StandardKey.New
+        shortcut: "Ctrl+N"
         onTriggered: {
             tabView.addTab(qsTr("Untitled ") + (tabView.count + 1), canvasArea)
             tabView.currentIndex = tabView.count - 1
@@ -55,7 +55,7 @@ Item {
     Action {
         id: openAction
         text: qsTr("Open...")
-        shortcut: StandardKey.Open
+        shortcut: "Ctrl+O"
         tooltip: qsTr("Open an Image")
         onTriggered: {
             fileDialog.mode = 0
@@ -66,7 +66,7 @@ Item {
     Action {
         id: saveAction
         text: qsTr("Save")
-        shortcut: StandardKey.Save
+        shortcut: "Ctrl+S"
         tooltip: qsTr("Save an Image")
         onTriggered: {
             if (currentTab.oraPath === "") {
@@ -82,7 +82,7 @@ Item {
     Action {
         id: saveAsAction
         text: qsTr("Save As...")
-        shortcut: StandardKey.SaveAs
+        shortcut: "Ctrl+Shift+S"
         tooltip: qsTr("Save as an Image")
         onTriggered: {
             fileDialog.mode = 1
@@ -106,7 +106,7 @@ Item {
     Action {
         id: closeAction
         text: qsTr("Close")
-        shortcut: StandardKey.Close
+        shortcut: "Ctrl+W"
         onTriggered: tabView.removeTab(tabView.currentIndex)
         tooltip: qsTr("Close as an Image")
         enabled: tabView.count > 0
@@ -115,6 +115,7 @@ Item {
     Action {
         id: closeAllAction
         text: qsTr("Close All")
+        shortcut: "Ctrl+Shift+W"
         onTriggered: {
             while (tabView.count) {
                 tabView.removeTab(0)
@@ -146,15 +147,15 @@ Item {
     Action {
         id: quitAction
         text: qsTr("Quit")
-        shortcut: StandardKey.Quit
-        onTriggered: Qt.quit()
+        shortcut: "Ctrl+Q"
+        onTriggered: mainRoot.close()
         tooltip: text
     }
 
     Action {
         id: undoAction
         text: qsTr("Undo")
-        shortcut: StandardKey.Undo
+        shortcut: "Ctrl+Z"
         onTriggered: {
             undoManager.undoView.decrementCurrentIndex()
             undoManager.run(undoManager.undoView.currentIndex)
@@ -165,7 +166,7 @@ Item {
     Action {
         id: redoAction
         text: qsTr("Redo")
-        shortcut: StandardKey.Redo
+        shortcut: "Ctrl+Shift+Z"
         onTriggered: {
             undoManager.undoView.incrementCurrentIndex()
             undoManager.run(undoManager.undoView.currentIndex)
@@ -233,7 +234,7 @@ Item {
     Action {
         id: zoomInAction
         text: qsTr("Zoom In")
-        shortcut: StandardKey.ZoomIn
+        shortcut: "+"
         enabled: tabView.count > 0
         onTriggered: if (currentTab.zoom < 30) currentTab.zoom *= 1.5
     }
@@ -241,7 +242,7 @@ Item {
     Action {
         id: zoomOutAction
         text: qsTr("Zoom Out")
-        shortcut: StandardKey.ZoomOut
+        shortcut: "-"
         enabled: tabView.count > 0
         onTriggered: if (currentTab.zoom > 0.01) currentTab.zoom /= 1.5
     }
