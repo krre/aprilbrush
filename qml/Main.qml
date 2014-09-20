@@ -34,7 +34,8 @@ ApplicationWindow {
     property alias sysPalette: sysPalette
     property bool isEraser: brushSettings.eraser > 50
     readonly property int currentLayerIndex: currentTab ? layerManager.layerView.currentIndex : -1
-
+    x: 50
+    y: 50
     width: 1000
     height: 600
     visible: true
@@ -44,7 +45,14 @@ ApplicationWindow {
 //    statusBar: MainStatusBar { id: statusBar }
 
     Component.onCompleted: {
-        Settings.loadSettings(mainRoot)
+        if (!Settings.loadSettings(mainRoot)) {
+            colorPicker.visible = true
+            layerManager.visible = true
+            brushSettings.visible = true
+            brushLibrary.visible = true
+            undoManager.visible = true
+        }
+
         actions.newImageAction.trigger()
         mainRoot.onWidthChanged.connect(function resTransform() {
             currentTab.resetTransform() // after changing window on load settings
@@ -89,38 +97,38 @@ ApplicationWindow {
 
     ColorPicker {
         id: colorPicker
-        relativeX: 20
-        relativeY: 100
+        x: 75
+        y: 160
         onColorChanged: dab.requestPaint()
+    }
+
+    LayerManager {
+        id: layerManager
+        x: 75
+        y: 415
+    }
+
+    BrushSettings {
+        id: brushSettings
+        x: 800
+        y: 160
+    }
+
+    BrushLibrary {
+        id: brushLibrary
+        x: 800
+        y: 415
+    }
+
+    UndoManager {
+        id: undoManager
+        x: 575
+        y: 160
     }
 
     ColorDialog {
         id: colorDialog
         onAccepted: currentTab.bgColor = color
-    }
-
-    LayerManager {
-        id: layerManager
-        relativeX: 20
-        relativeY: 350
-    }
-
-    BrushSettings {
-        id: brushSettings
-        relativeX: mainRoot.width - width - 30
-        relativeY: 100
-    }
-
-    BrushLibrary {
-        id: brushLibrary
-        relativeX: mainRoot.width - width - 30
-        relativeY: 350
-    }
-
-    UndoManager {
-        id: undoManager
-        relativeX: mainRoot.width - (width + 30) * 2
-        relativeY: 100
     }
 
     Component {

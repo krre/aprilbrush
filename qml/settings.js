@@ -36,6 +36,9 @@ function loadSettings(parent) {
                 }
             }
         }
+        return true
+    } else {
+        return false
     }
 }
 
