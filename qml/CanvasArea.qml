@@ -111,15 +111,14 @@ ScrollView {
                     return Qt.point(x, y)
                 }
 
-                onHoveredChanged: coreLib.setCursorShape(containsMouse ? cursorName : "Arrow", brushSettings.size * zoom)
+                onHoveredChanged: coreLib.setCursorShape(containsMouse ? "Paint" : "Arrow", brushSettings.size * zoom)
 
                 onPressed: {
                     var point = Qt.point(mouseX, mouseY)
                     if (isPan) {
                         grabPoint = point
-                        cursorName = "CloseHand"
-                        coreLib.setCursorShape(cursorName, 0)
                     } else if (isCtrlPressed) {
+                        coreLib.setCursorShape("PickColor", 0)
                         Utils.pickColor(point)
                     } else {
                         if (isEraser) {
@@ -129,7 +128,6 @@ ScrollView {
                             undoEraserBuffer.requestPaint()
                         }
 
-//                        print(mouseX, mouseX, mainRoot.pressure)
                         startPos = Qt.point(point.x, point.y)
                         finalPos = Qt.point(point.x, point.y)
                         lastDrawPoint = point
@@ -141,7 +139,11 @@ ScrollView {
 
                 onReleased: {
                     mainRoot.pressure = 1
-                    if (!isCtrlPressed && !isPan) {
+                    if (isPan) {
+                        coreLib.setCursorShape("OpenHand", 0)
+                    } else if (isCtrlPressed) {
+                        coreLib.setCursorShape("Paint", brushSettings.size * zoom)
+                    } else {
                         startPos.x -= dab.width
                         startPos.y -= dab.width
                         finalPos.x += dab.width
@@ -159,9 +161,6 @@ ScrollView {
                         undoManager.add(Undo.paint(startPos, undoArea, redoArea, brushSettings.opacity / 100, isEraser))
                         bufferCtx.clearRect(0, 0, width, height)
                         parent.requestPaint()
-                    } else if (isPan) {
-                        cursorName = "OpenHand"
-                        coreLib.setCursorShape(cursorName, 0)
                     }
                 }
 

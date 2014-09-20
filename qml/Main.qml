@@ -35,7 +35,6 @@ ApplicationWindow {
 
     property string oraPath
     property bool isCtrlPressed: false
-    property string cursorName: "Paint"
 
     property real zoom: 1.0
     property bool isPan: false
@@ -52,7 +51,6 @@ ApplicationWindow {
 
     onIsPanChanged: coreLib.setCursorShape(isPan ? "OpenHand" : "Paint", brushSettings.size * zoom)
     onZoomChanged: coreLib.setCursorShape(isPan ? "OpenHand" : "Paint", brushSettings.size * zoom)
-    onIsCtrlPressedChanged: coreLib.setCursorShape(isCtrlPressed ? "PickColor" : "Paint", brushSettings.size * zoom)
 
     Component.onCompleted: {
         if (!Settings.loadSettings(mainRoot)) {
