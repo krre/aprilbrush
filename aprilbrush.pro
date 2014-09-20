@@ -28,7 +28,6 @@ OTHER_FILES += \
     qml/components/SliderText.qml \
     qml/Main.qml \
     qml/main/Actions.qml \
-    qml/main/MainToolBar.qml \
     qml/main/MainMenu.qml \
     qml/FileDialogBase.qml
 

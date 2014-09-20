@@ -43,14 +43,12 @@ Item {
                 canvasArea.onWidthChanged.disconnect(resTransform)
             })
         }
-        tooltip: qsTr("New an Image")
     }
 
     Action {
         id: openAction
         text: qsTr("Open...")
         shortcut: "Ctrl+O"
-        tooltip: qsTr("Open an Image")
         onTriggered: {
             fileDialog.mode = 0
             fileDialog.open()
@@ -61,7 +59,6 @@ Item {
         id: saveAction
         text: qsTr("Save")
         shortcut: "Ctrl+S"
-        tooltip: qsTr("Save an Image")
         onTriggered: {
             if (oraPath === "") {
                 fileDialog.mode = 1; // Save mode
@@ -76,7 +73,6 @@ Item {
         id: saveAsAction
         text: qsTr("Save As...")
         shortcut: "Ctrl+Shift+S"
-        tooltip: qsTr("Save as an Image")
         onTriggered: {
             fileDialog.mode = 1
             fileDialog.open()
@@ -87,7 +83,6 @@ Item {
         id: exportAction
         text: qsTr("Export...")
         shortcut: "Ctrl+E"
-        tooltip: qsTr("Export an Image to PNG")
         onTriggered: {
             fileDialog.mode = 2
             fileDialog.open()
@@ -100,7 +95,6 @@ Item {
         text: qsTr("Quit")
         shortcut: "Ctrl+Q"
         onTriggered: mainRoot.close()
-        tooltip: text
     }
 
     Action {
@@ -140,14 +134,12 @@ Item {
         text: qsTr("New")
         shortcut: "Shift+Ctrl+N"
         onTriggered: layerManager.addLayer()
-        tooltip: qsTr("New Layer")
     }
 
     Action {
         id: deleteLayerAction
         text: qsTr("Delete")
         onTriggered: undoManager.add(Undo.deleteLayer())
-        tooltip: qsTr("Delete Layer")
         enabled: layerManager.layerView.count > 1
     }
 

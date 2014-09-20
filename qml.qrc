@@ -7,7 +7,6 @@
         <file>qml/components/ToolWindow.qml</file>
         <file>qml/settings.js</file>
         <file>qml/main/Actions.qml</file>
-        <file>qml/main/MainToolBar.qml</file>
         <file>qml/CanvasArea.qml</file>
         <file>qml/components/CheckerBoard.qml</file>
         <file>qml/BrushLibrary.qml</file>

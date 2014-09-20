@@ -31,20 +31,16 @@ MenuBar {
     }
 
     Menu {
-        title: qsTr("Window")
-        MenuItem {
-            text: qsTr("Tool Bar")
-            checkable: true
-            checked: true
-            onTriggered: toolBar.visible = !toolBar.visible
-        }
+        title: qsTr("View")
+        MenuItem {action: actions.zoomInAction }
+        MenuItem {action: actions.zoomOutAction }
+        MenuItem {action: actions.rotationAction }
+        MenuItem {action: actions.mirrorAction }
+        MenuItem {action: actions.resetAction }
+    }
 
-//        MenuItem {
-//            text: qsTr("Status Bar")
-//            checkable: true
-//            checked: true
-//            onTriggered: statusBar.visible = !statusBar.visible
-//        }
+    Menu {
+        title: qsTr("Window")
 
         MenuItem {
             text: colorPicker.title
@@ -80,15 +76,6 @@ MenuBar {
             checked: undoManager.visible
             onTriggered: undoManager.visible = !undoManager.visible
         }
-    }
-
-    Menu {
-        title: qsTr("View")
-        MenuItem {action: actions.zoomInAction }
-        MenuItem {action: actions.zoomOutAction }
-        MenuItem {action: actions.rotationAction }
-        MenuItem {action: actions.mirrorAction }
-        MenuItem {action: actions.resetAction }
     }
 
     Menu {

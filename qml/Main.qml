@@ -25,7 +25,7 @@ ApplicationWindow {
     id: mainRoot
     title: "AprilBrush"
 
-    property string version: "0.2"
+    property string version: "0.3"
     property size imageSize: Qt.size(Screen.width, Screen.height)
     property real pressure: 1
     property alias sysPalette: sysPalette
@@ -49,7 +49,6 @@ ApplicationWindow {
     visible: true
 
     menuBar: MainMenu {}
-    toolBar: MainToolBar { id: toolBar }
 
     onIsPanChanged: coreLib.setCursorShape(isPan ? "OpenHand" : "Paint", brushSettings.size * zoom)
     onZoomChanged: coreLib.setCursorShape(isPan ? "OpenHand" : "Paint", brushSettings.size * zoom)
@@ -92,6 +91,7 @@ ApplicationWindow {
         id: coreLib
         window: mainRoot
     }
+
     FileDialogBase { id: fileDialog }
 
     About { id: about }
@@ -99,38 +99,37 @@ ApplicationWindow {
     CanvasArea {
         id: canvasArea
         anchors.fill: parent
-
     }
 
     ColorPicker {
         id: colorPicker
         x: 75
-        y: 160
+        y: 110
         onColorChanged: dab.requestPaint()
     }
 
     LayerManager {
         id: layerManager
         x: 75
-        y: 415
+        y: 365
     }
 
     BrushSettings {
         id: brushSettings
-        x: 800
-        y: 160
+        x: 810
+        y: 110
     }
 
     BrushLibrary {
         id: brushLibrary
-        x: 800
-        y: 415
+        x: 810
+        y: 365
     }
 
     UndoManager {
         id: undoManager
-        x: 575
-        y: 160
+        x: 580
+        y: 110
     }
 
     ColorDialog {
