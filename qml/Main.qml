@@ -20,20 +20,28 @@ import QtQuick.Controls.Styles 1.2
 import ABLib 1.0
 import "settings.js" as Settings
 import "main"
-import "style"
 
 ApplicationWindow {
     id: mainRoot
     title: "AprilBrush"
+
     property string version: "0.2"
     property size imageSize: Qt.size(Screen.width, Screen.height)
-    property CanvasArea currentTab: tabView.count > 0 ? tabView.getTab(tabView.currentIndex).item : null
-    property ListModel layerModel: currentTab ? currentTab.layerModel : null
-    property ListModel undoModel: currentTab ? currentTab.undoModel : null
     property real pressure: 1
     property alias sysPalette: sysPalette
     property bool isEraser: brushSettings.eraser > 50
-    readonly property int currentLayerIndex: currentTab ? layerManager.layerView.currentIndex : -1
+    readonly property int currentLayerIndex: layerManager.layerView.currentIndex
+    property int layerNameIndexCounter: 1
+
+    property string oraPath
+    property bool isCtrlPressed: false
+    property string cursorName: "Paint"
+
+    property real zoom: 1.0
+    property bool isPan: false
+    property int mirror: 1
+    property real rotation: 0
+
     x: 50
     y: 50
     width: 1000
@@ -42,7 +50,10 @@ ApplicationWindow {
 
     menuBar: MainMenu {}
     toolBar: MainToolBar { id: toolBar }
-//    statusBar: MainStatusBar { id: statusBar }
+
+    onIsPanChanged: coreLib.setCursorShape(isPan ? "OpenHand" : "Paint", brushSettings.size * zoom)
+    onZoomChanged: coreLib.setCursorShape(isPan ? "OpenHand" : "Paint", brushSettings.size * zoom)
+    onIsCtrlPressedChanged: coreLib.setCursorShape(isCtrlPressed ? "PickColor" : "Paint", brushSettings.size * zoom)
 
     Component.onCompleted: {
         if (!Settings.loadSettings(mainRoot)) {
@@ -53,9 +64,9 @@ ApplicationWindow {
             undoManager.visible = true
         }
 
-        actions.newImageAction.trigger()
+        actions.newAction.trigger()
         mainRoot.onWidthChanged.connect(function resTransform() {
-            currentTab.resetTransform() // after changing window on load settings
+            canvasArea.resetTransform() // after changing window on load settings
             mainRoot.onWidthChanged.disconnect(resTransform)
         })
     }
@@ -66,6 +77,9 @@ ApplicationWindow {
         id: sysPalette
         colorGroup: SystemPalette.Active
     }
+
+    ListModel { id: layerModel }
+    ListModel { id: undoModel }
 
     Connections {
         target: PointerEater
@@ -82,17 +96,10 @@ ApplicationWindow {
 
     About { id: about }
 
-    TabView {
-        id: tabView
-        property int prevIndex: 0
+    CanvasArea {
+        id: canvasArea
         anchors.fill: parent
-        style: MainTabViewStyle {}
-        onCurrentIndexChanged: {
-            var prevTab = tabView.getTab(prevIndex).item
-            prevTab.savedLayerIndex = layerManager.layerView.currentIndex
-            prevTab.savedUndoIndex = undoManager.undoView.currentIndex
-            prevIndex = currentIndex
-        }
+
     }
 
     ColorPicker {
@@ -128,12 +135,7 @@ ApplicationWindow {
 
     ColorDialog {
         id: colorDialog
-        onAccepted: currentTab.bgColor = color
-    }
-
-    Component {
-        id: canvasArea
-        CanvasArea {}
+        onAccepted: canvasArea.bgColor = color
     }
 
     Component {

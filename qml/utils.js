@@ -18,8 +18,8 @@ function openOra(filePath) {
     var path = filePath.toString()
     path = polishPath(path)
 
-    tabView.addTab(fileFromPath(path), canvasArea)
-    tabView.currentIndex = tabView.count - 1
+    layerModel.clear()
+    undoModel.clear()
     var layersList = coreLib.readOra(path)
     var selectedIndex = 0
 
@@ -37,7 +37,7 @@ function openOra(filePath) {
 
     var loadCounter = 0
 
-    currentTab.canvasView.onCreated.connect(function load(index, canvas) {
+    canvasArea.canvasView.onCreated.connect(function load(index, canvas) {
         var image = layersList[index].image
         canvas.loadImage(image)
         canvas.onImageLoaded.connect(function draw() {
@@ -48,18 +48,18 @@ function openOra(filePath) {
             if (layerModel.get(index).isBackground) {
                 var p = context.getImageData(0, 0, 1, 1).data
                 var hex = "#" + ("000000" + rgbToHex(p[0], p[1], p[2])).slice(-6)
-                currentTab.bgColor = hex
+                canvasArea.bgColor = hex
             }
         })
         if (++loadCounter === layersList.length) {
-            currentTab.canvasView.onCreated.disconnect(load)
+            canvasArea.canvasView.onCreated.disconnect(load)
         }
     })
 
     layerManager.layerView.currentIndex = selectedIndex
 
-    currentTab.oraPath = path
-    currentTab.resetTransform()
+    oraPath = path
+    canvasArea.resetTransform()
     undoManager.add(Undo.start())
     console.log("open: " + path)
 }
@@ -71,14 +71,13 @@ function saveAsOra(filePath) {
         path += ".ora"
     }
     path = polishPath(path)
-    currentTab.oraPath = path
-    tabView.getTab(tabView.currentIndex).title = fileFromPath(path)
+    oraPath = path
     saveOra()
 }
 
 // Save OpenRaster file
 function saveOra() {
-    var path = currentTab.oraPath
+    var path = oraPath
     var layerList = []
     for (var i = 0; i < layerModel.count; i++) {
         var layerMap = {}
@@ -104,7 +103,7 @@ function exportPng(filePath) {
     }
     path = polishPath(path)
 
-    var finalCanvas = exportCanvas.createObject(currentTab)
+    var finalCanvas = exportCanvas.createObject(canvasArea)
     finalCanvas.onFinished.connect(function() {
         finalCanvas.save(path)
         finalCanvas.destroy()

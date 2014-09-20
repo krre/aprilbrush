@@ -18,25 +18,10 @@ import "undo.js" as Undo
 import "utils.js" as Utils
 
 ScrollView {
-    property alias layerModel: layerModel
-    property alias undoModel: undoModel
-    property int prevUndoIndex: -1
-    property var commandArray: [] // array for saving undo/redo command (they don't work from ListModel)
-    property int layerNameIndexCounter: 1
-    property int savedLayerIndex: 0
-    property int savedUndoIndex: 0
 
     property alias canvas: canvasView.currentItem
     property alias canvasView: canvasView
-    property string oraPath
-    property bool isCtrlPressed: false
-    property string cursorName: "Paint"
     property color bgColor: "white"
-
-    property real zoom: 1.0
-    property bool isPan: false
-    property int mirror: 1
-    property real rotation: 0
 
     flickableItem.interactive: isPan
     flickableItem.leftMargin: contentItem.width / 2
@@ -44,10 +29,7 @@ ScrollView {
     flickableItem.topMargin: contentItem.height / 2
     flickableItem.bottomMargin: contentItem.height / 2
 
-    onIsPanChanged: coreLib.setCursorShape(isPan ? "OpenHand" : "Paint", brushSettings.size * zoom)
-    onZoomChanged: coreLib.setCursorShape(isPan ? "OpenHand" : "Paint", brushSettings.size * zoom)
     onBgColorChanged: layerModel.get(layerModel.count - 1).canvas.clear(bgColor)
-    onIsCtrlPressedChanged: coreLib.setCursorShape(isCtrlPressed ? "PickColor" : "Paint", brushSettings.size * zoom)
 
     Keys.onPressed: {
         if (event.key === Qt.Key_Space && !event.isAutoRepeat) { isPan = true }
@@ -74,9 +56,6 @@ ScrollView {
     Item {
         width: imageSize.width
         height: imageSize.height
-
-        ListModel { id: layerModel }
-        ListModel { id: undoModel }
 
         transform: [
             Scale { origin.x: contentItem.width / 2; origin.y: contentItem.height / 2; xScale: zoom * mirror; yScale: zoom },

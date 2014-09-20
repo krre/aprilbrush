@@ -4,15 +4,11 @@ import QtQuick.Controls 1.2
 MenuBar {
     Menu {
         title: qsTr("File")
-        MenuItem { action: actions.newImageAction }
+        MenuItem { action: actions.newAction }
         MenuItem { action: actions.openAction }
         MenuItem { action: actions.saveAction }
         MenuItem { action: actions.saveAsAction }
         MenuItem { action: actions.exportAction }
-        MenuSeparator {}
-        MenuItem { action: actions.closeAction }
-        MenuItem { action: actions.closeAllAction }
-        MenuItem { action: actions.closeOthersAction }
         MenuSeparator {}
         MenuItem { action: actions.quitAction }
     }

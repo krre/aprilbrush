@@ -26,7 +26,7 @@ ToolWindow {
     storage: { var list = defaultStorage(); return list }
 
     function addLayer(name) {
-        undoManager.add(Undo.addLayer(name ? name : qsTr("Layer") + " " + currentTab.layerNameIndexCounter++))
+        undoManager.add(Undo.addLayer(name ? name : qsTr("Layer") + " " + layerNameIndexCounter++))
     }
 
     function addBackground() {
@@ -59,7 +59,6 @@ ToolWindow {
                         currentIndex = currentIndex - 1
                     }
                 }
-                onModelChanged: currentIndex = currentTab ? currentTab.savedLayerIndex : -1
             }
         }
 
@@ -110,7 +109,7 @@ ToolWindow {
                         Rectangle {
                             width: 15
                             height: 15
-                            color: isBackground ? currentTab.bgColor : "transparent"
+                            color: isBackground ? canvasArea.bgColor : "transparent"
                             border.color: "#474747"
 
                             Rectangle {
