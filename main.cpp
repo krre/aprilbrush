@@ -12,6 +12,7 @@
  */
 
 #include "cpp/corelib.h"
+#include "cpp/canvasitem.h"
 #include "cpp/pointereater.h"
 
 #include <QtQml>
@@ -23,6 +24,7 @@ int main(int argc, char *argv[])
     QApplication app(argc, argv);
 
     qmlRegisterType<CoreLib>("ABLib", 1, 0, "CoreLib");
+    qmlRegisterType<CanvasItem>("ABLib", 1, 0, "CanvasItem");
 
     PointerEater *pointerEater = new PointerEater();
     app.installEventFilter(pointerEater);

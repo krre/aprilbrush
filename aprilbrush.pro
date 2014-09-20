@@ -5,11 +5,13 @@ QT += qml quick widgets
 SOURCES += \
     main.cpp \
     cpp/corelib.cpp \
-    cpp/pointereater.cpp
+    cpp/pointereater.cpp \
+    cpp/canvasitem.cpp
 
 HEADERS += \
     cpp/corelib.h \
-    cpp/pointereater.h
+    cpp/pointereater.h \
+    cpp/canvasitem.h
 
 OTHER_FILES += \
     qml/ColorPicker.qml \

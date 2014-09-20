@@ -13,6 +13,7 @@
 
 import QtQuick 2.3
 import QtQuick.Controls 1.2
+import ABLib 1.0
 import "components"
 import "undo.js" as Undo
 import "utils.js" as Utils
@@ -150,7 +151,6 @@ ScrollView {
                             undoEraserBuffer.requestPaint()
                         }
 
-//                        print(mouseX, mouseX, mainRoot.pressure)
                         startPos = Qt.point(point.x, point.y)
                         finalPos = Qt.point(point.x, point.y)
                         lastDrawPoint = point
@@ -192,7 +192,6 @@ ScrollView {
                         Utils.pickColor(Qt.point(mouseX, mouseY))
                     } else {
                         var currentPoint = Qt.point(mouseX, mouseY)
-//                        print(mouseX, mouseX, mainRoot.pressure)
                         var startPoint = lastDrawPoint
                         var currentSpacing = Math.sqrt(Math.pow(currentPoint.x - startPoint.x, 2) + Math.pow(currentPoint.y - startPoint.y, 2))
                         var numDabs = Math.floor(currentSpacing / deltaDab)
@@ -294,6 +293,11 @@ ScrollView {
                     requestPaint()
                 }
             }
+        }
+
+        CanvasItem {
+            anchors.fill: parent
+            Component.onCompleted: clear("green")
         }
     }
 }
