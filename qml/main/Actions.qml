@@ -177,28 +177,28 @@ Item {
         id: zoomInAction
         text: qsTr("Zoom In")
         shortcut: "+"
-        onTriggered: if (zoom < 30) zoom *= 1.5
+        onTriggered: if (canvasArea.zoom < 30) canvasArea.zoom *= 1.5
     }
 
     Action {
         id: zoomOutAction
         text: qsTr("Zoom Out")
         shortcut: "-"
-        onTriggered: if (zoom > 0.01) zoom /= 1.5
+        onTriggered: if (canvasArea.zoom > 0.01) canvasArea.zoom /= 1.5
     }
 
     Action {
         id: rotationAction
         text: qsTr("Rotation")
         shortcut: "R"
-        onTriggered: rotation += 90
+        onTriggered: canvasArea.rotation += 90
     }
 
     Action {
         id: mirrorAction
         text: qsTr("Mirror")
         shortcut: "M"
-        onTriggered: mirror *= -1
+        onTriggered: canvasArea.mirror *= -1
     }
 
     Action {

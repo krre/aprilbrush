@@ -17,19 +17,21 @@ import "components"
 import "undo.js" as Undo
 import "utils.js" as Utils
 
-ScrollView {
-
+Item {
+    id: root
     property alias canvas: canvasView.currentItem
     property alias canvasView: canvasView
     property color bgColor: "white"
+    property bool isCtrlPressed: false
 
-    flickableItem.interactive: isPan
-    flickableItem.leftMargin: contentItem.width / 2
-    flickableItem.rightMargin: contentItem.width / 2
-    flickableItem.topMargin: contentItem.height / 2
-    flickableItem.bottomMargin: contentItem.height / 2
+    property real zoom: 1.0
+    property bool isPan: false
+    property int mirror: 1
+    property real rotation: 0
 
     onBgColorChanged: layerModel.get(layerModel.count - 1).canvas.clear(bgColor)
+    onIsPanChanged: coreLib.setCursorShape(isPan ? "OpenHand" : "Paint", brushSettings.size * zoom)
+    onZoomChanged: coreLib.setCursorShape(isPan ? "OpenHand" : "Paint", brushSettings.size * zoom)
 
     Keys.onPressed: {
         if (event.key === Qt.Key_Space && !event.isAutoRepeat) { isPan = true }
@@ -41,6 +43,11 @@ ScrollView {
         if (event.key === Qt.Key_Space && !event.isAutoRepeat) { isPan = false }
     }
 
+    transform: [
+        Scale { origin.x: width / 2; origin.y: height / 2; xScale: zoom * mirror; yScale: zoom },
+        Rotation { origin.x: width / 2; origin.y: height / 2; angle: rotation }
+    ]
+
     Component.onCompleted: {
         forceActiveFocus()
     }
@@ -49,18 +56,14 @@ ScrollView {
         zoom = 1
         mirror = 1
         rotation = 0
-        flickableItem.contentX = (contentItem.width - width) / 2
-        flickableItem.contentY = (contentItem.height - height) / 2
+        content.x = (width - content.width) / 2
+        content.y = (height - content.height) / 2
     }
 
     Item {
+        id: content
         width: imageSize.width
         height: imageSize.height
-
-        transform: [
-            Scale { origin.x: contentItem.width / 2; origin.y: contentItem.height / 2; xScale: zoom * mirror; yScale: zoom },
-            Rotation { origin.x: contentItem.width / 2; origin.y: contentItem.height / 2; angle: rotation }
-        ]
 
         CheckerBoard {
             anchors.fill: parent
@@ -165,12 +168,14 @@ ScrollView {
                 }
 
                 onPositionChanged: {
-                    if (!pressed || isPan) { return; }
-                    if (isCtrlPressed) {
+                    if (!pressed) { return; }
+                    if (isPan) {
+                        content.x += (mouseX - grabPoint.x)
+                        content.y += (mouseY - grabPoint.y)
+                    } else if (isCtrlPressed) {
                         Utils.pickColor(Qt.point(mouseX, mouseY))
                     } else {
                         var currentPoint = Qt.point(mouseX, mouseY)
-//                        print(mouseX, mouseX, mainRoot.pressure)
                         var startPoint = lastDrawPoint
                         var currentSpacing = Math.sqrt(Math.pow(currentPoint.x - startPoint.x, 2) + Math.pow(currentPoint.y - startPoint.y, 2))
                         var numDabs = Math.floor(currentSpacing / deltaDab)

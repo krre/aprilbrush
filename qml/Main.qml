@@ -31,15 +31,8 @@ ApplicationWindow {
     property alias sysPalette: sysPalette
     property bool isEraser: brushSettings.eraser > 50
     readonly property int currentLayerIndex: layerManager.layerView.currentIndex
-    property int layerNameIndexCounter: 1
-
     property string oraPath
     property bool isCtrlPressed: false
-
-    property real zoom: 1.0
-    property bool isPan: false
-    property int mirror: 1
-    property real rotation: 0
 
     x: 50
     y: 50
@@ -48,9 +41,6 @@ ApplicationWindow {
     visible: true
 
     menuBar: MainMenu {}
-
-    onIsPanChanged: coreLib.setCursorShape(isPan ? "OpenHand" : "Paint", brushSettings.size * zoom)
-    onZoomChanged: coreLib.setCursorShape(isPan ? "OpenHand" : "Paint", brushSettings.size * zoom)
 
     Component.onCompleted: {
         if (!Settings.loadSettings(mainRoot)) {

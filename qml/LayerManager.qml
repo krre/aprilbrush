@@ -22,6 +22,7 @@ ToolWindow {
     id: root
     title: qsTr("Layers")
     property alias layerView: layerView
+    property int layerNameIndexCounter: 1
     objectName: "layerManager"
     storage: {
         var list = defaultStorage()
