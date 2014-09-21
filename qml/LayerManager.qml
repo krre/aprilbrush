@@ -38,6 +38,7 @@ ToolWindow {
         layerObj.name = qsTr("Background")
         layerObj.isBackground = true
         layerModel.append(layerObj)
+        canvasArea.bgColor = "white"
     }
 
     function defaultLayer() {

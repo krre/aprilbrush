@@ -15,9 +15,9 @@ import QtQuick 2.3
 import QtQuick.Dialogs 1.2
 
 MessageDialog {
-    title: qsTr("About " + mainRoot.title)
+    title: qsTr("About AprilBrush")
     standardButtons: StandardButton.Ok
-    text: "<h3>" + mainRoot.title + " " + mainRoot.version + "</h3>
+    text: "<h3>AprilBrush " + mainRoot.version + "</h3>
           Build date: " + coreLib.buildDate() + "<br>
           Copyright (c) 2012-2014, Vladimir Zarypov<br>
           <a href=\"http://sourceforge.net/projects/aprilbrush\">http://sourceforge.net/projects/aprilbrush</a>"

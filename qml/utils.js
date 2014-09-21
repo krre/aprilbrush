@@ -59,8 +59,10 @@ function openOra(filePath) {
     layerManager.layerView.currentIndex = selectedIndex
 
     oraPath = path
+    fileName = fileFromPath(oraPath)
     canvasArea.resetTransform()
     undoManager.add(Undo.start())
+    isDirty = false
     console.log("open: " + path)
 }
 
@@ -72,6 +74,7 @@ function saveAsOra(filePath) {
     }
     path = polishPath(path)
     oraPath = path
+    fileName = fileFromPath(oraPath)
     saveOra()
 }
 
@@ -92,6 +95,7 @@ function saveOra() {
         layerList.push(layerMap)
     }
     coreLib.writeOra(path, imageSize, layerList)
+    isDirty = false
     console.log("save: " + path)
 }
 

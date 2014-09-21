@@ -23,14 +23,16 @@ import "main"
 
 ApplicationWindow {
     id: mainRoot
-    title: "AprilBrush"
+    title: "AprilBrush - " + fileName + (isDirty ? " [*]" : "") + " @ " + Math.round(canvasArea.zoom * 100) + "%"
 
     property string version: "0.3"
     property size imageSize: Qt.size(Screen.width, Screen.height)
     property real pressure: 1
     property alias sysPalette: sysPalette
+    property bool isDirty: false
     property bool isEraser: brushSettings.eraser > 50
     readonly property int currentLayerIndex: layerManager.layerView.currentIndex
+    property string fileName
     property string oraPath
     property bool isCtrlPressed: false
 
@@ -51,7 +53,7 @@ ApplicationWindow {
             undoManager.visible = true
         }
 
-        actions.newAction.trigger()
+        newImage()
         mainRoot.onWidthChanged.connect(function resTransform() {
             canvasArea.resetTransform() // after changing window on load settings
             mainRoot.onWidthChanged.disconnect(resTransform)
@@ -59,6 +61,21 @@ ApplicationWindow {
     }
 
     onClosing: Settings.saveSettings(mainRoot)
+
+    function newImage() {
+        fileName = "Untitled"
+        oraPath = ""
+        layerManager.layerNameIndexCounter = 1
+        layerModel.clear()
+        layerManager.addBackground()
+        layerManager.addLayer()
+        undoManager.clear()
+        canvasArea.resetTransform() // after adding new tab on runnging application
+        mainRoot.onWidthChanged.connect(function resTransform() {
+            canvasArea.resetTransform() // after adding new tab on start application
+            canvasArea.onWidthChanged.disconnect(resTransform)
+        })
+    }
 
     SystemPalette {
         id: sysPalette
@@ -122,7 +139,10 @@ ApplicationWindow {
 
     ColorDialog {
         id: colorDialog
-        onAccepted: canvasArea.bgColor = color
+        onAccepted: {
+            canvasArea.bgColor = color
+            isDirty = true
+        }
     }
 
     Component {

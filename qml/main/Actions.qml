@@ -32,17 +32,7 @@ Item {
         id: newAction
         text: qsTr("New")
         shortcut: "Ctrl+N"
-        onTriggered: {
-            layerModel.clear()
-            layerManager.addBackground()
-            layerManager.addLayer()
-            undoManager.clear()
-            canvasArea.resetTransform() // after adding new tab on runnging application
-            mainRoot.onWidthChanged.connect(function resTransform() {
-                canvasArea.resetTransform() // after adding new tab on start application
-                canvasArea.onWidthChanged.disconnect(resTransform)
-            })
-        }
+        onTriggered: newImage()
     }
 
     Action {
@@ -67,6 +57,7 @@ Item {
                 Utils.saveOra()
             }
         }
+        enabled: isDirty
     }
 
     Action {
