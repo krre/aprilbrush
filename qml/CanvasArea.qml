@@ -279,10 +279,11 @@ Item {
                 }
             }
         }
-
+/*
         CanvasItem {
             anchors.fill: parent
             Component.onCompleted: clear("green")
         }
+        */
     }
 }
