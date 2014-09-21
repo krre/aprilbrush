@@ -18,13 +18,9 @@ import "../main"
 Window {
     default property alias content: stack.children
     property var storage
-    property real relativeX: 0
-    property real relativeY: 0
 
-    title: "Untitled"
+    title: qsTr("Untitled")
     flags: Qt.Tool
-    x: mainRoot.x + relativeX
-    y: mainRoot.y + relativeY
     width: 200
     height: 200
     color: mainRoot.sysPalette.window
@@ -36,11 +32,9 @@ Window {
             requestActivate()
         }
     }
-    onXChanged: relativeX = x - mainRoot.x
-    onYChanged: relativeY = y - mainRoot.y
 
     function defaultStorage() {
-        return ["relativeX", "relativeY", "width", "height", "visible"]
+        return ["x", "y", "width", "height", "visible"]
     }
 
     Actions { id: actions}
@@ -51,4 +45,3 @@ Window {
         anchors.margins: 5
     }
 }
-

@@ -21,6 +21,8 @@ ToolWindow {
     title: qsTr("Undo History")
     property alias undoView: undoView
     property int undoDeep: 50
+    property var commandArray: [] // array for saving undo/redo command (they don't work from ListModel)
+    property int prevUndoIndex: -1
 
     objectName: "undoManager"
     storage: { var list = defaultStorage(); return list }
@@ -28,39 +30,40 @@ ToolWindow {
     function add(commandUndo) {
         if (undoView.currentIndex < undoModel.count - 1) {
             undoModel.remove(undoView.currentIndex + 1, undoModel.count - undoView.currentIndex - 1)
-            currentTab.commandArray.length = undoView.currentIndex + 1
+            commandArray.length = undoView.currentIndex + 1
         }
         if (undoModel.count === undoDeep) {
             undoModel.remove(0)
-            currentTab.commandArray.shift()
+            commandArray.shift()
         }
 
         undoModel.append({ name: commandUndo.name })
-        currentTab.commandArray.push(commandUndo)
+        commandArray.push(commandUndo)
         undoView.currentIndex = undoModel.count - 1
         run(undoView.currentIndex)
+        isDirty = true
     }
 
     function clear() {
-        currentTab.commandArray = []
+        commandArray = []
         undoModel.clear()
-        currentTab.prevUndoIndex = -1
+        prevUndoIndex = -1
         add(Undo.start())
     }
 
     function run(index) {
-        if (index < currentTab.prevUndoIndex) {
-            for (var i = currentTab.prevUndoIndex; i > index; i--) {
-                currentTab.commandArray[i].undo()
+        if (index < prevUndoIndex) {
+            for (var i = prevUndoIndex; i > index; i--) {
+                commandArray[i].undo()
             }
         }
 
-        if (index > currentTab.prevUndoIndex) {
-            for (i = currentTab.prevUndoIndex; i < index; i++) {
-                currentTab.commandArray[i + 1].redo()
+        if (index > prevUndoIndex) {
+            for (i = prevUndoIndex; i < index; i++) {
+                commandArray[i + 1].redo()
             }
         }
-        currentTab.prevUndoIndex = index
+        prevUndoIndex = index
     }
 
     ScrollView {
@@ -71,7 +74,6 @@ ToolWindow {
             id: undoView
             model: undoModel
             spacing: 5
-            onModelChanged: currentIndex = currentTab ? currentTab.savedUndoIndex : -1
             delegate: Rectangle {
                 width: scrollView.width !== scrollView.viewport.width ? scrollView.viewport.width - 5 : scrollView.width
                 height: 30

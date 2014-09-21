@@ -30,9 +30,9 @@ function paint(startPos, undoArea, redoArea, alpha, isEraser) {
     return {
         name: isEraser ? qsTr("Eraser") : qsTr("Brush"),
         undo: function() {
-            currentTab.canvas.getContext("2d").clearRect(_startPos.x, _startPos.y,  _undoArea.width, _undoArea.height)
-            currentTab.canvas.getContext("2d").drawImage(_undoArea, _startPos.x, _startPos.y)
-            currentTab.canvas.requestPaint()
+            canvasArea.canvas.getContext("2d").clearRect(_startPos.x, _startPos.y,  _undoArea.width, _undoArea.height)
+            canvasArea.canvas.getContext("2d").drawImage(_undoArea, _startPos.x, _startPos.y)
+            canvasArea.canvas.requestPaint()
         },
         redo: function() {
             if (_isEraser && !_isHistory) {
@@ -46,22 +46,22 @@ function paint(startPos, undoArea, redoArea, alpha, isEraser) {
                 ctx.globalAlpha = _isEraser ? 1.0 : _alpha
                 ctx.drawImage(_redoArea, _startPos.x, _startPos.y)
                 ctx.restore()
-                currentTab.canvas.requestPaint()
+                canvasArea.canvas.requestPaint()
             }
         }
     }
 }
 
 function clearLayer() {
-    var _undoArea = currentTab.canvas.getContext("2d").getImageData(0, 0, imageSize.width, imageSize.height)
+    var _undoArea = canvasArea.canvas.getContext("2d").getImageData(0, 0, imageSize.width, imageSize.height)
     return {
         name: qsTr("Clear"),
         undo: function() {
-            currentTab.canvas.getContext("2d").drawImage(_undoArea, 0, 0)
-            currentTab.canvas.requestPaint()
+            canvasArea.canvas.getContext("2d").drawImage(_undoArea, 0, 0)
+            canvasArea.canvas.requestPaint()
         },
         redo: function() {
-            currentTab.canvas.clear()
+            canvasArea.canvas.clear()
         }
     }
 }
@@ -100,7 +100,7 @@ function addLayer(name) {
 function deleteLayer() {
     var _index = currentLayerIndex
     var _name = layerModel.get(_index).name
-    var _undoArea = currentTab.canvas.getContext("2d").getImageData(0, 0, imageSize.width, imageSize.height)
+    var _undoArea = canvasArea.canvas.getContext("2d").getImageData(0, 0, imageSize.width, imageSize.height)
     return {
         name: qsTr("Delete Layer"),
         undo: function() {
@@ -108,9 +108,9 @@ function deleteLayer() {
             layerObj.name = _name
             layerModel.insert(_index, layerObj)
             layerManager.layerView.currentIndex = _index
-            currentTab.canvas.onReady.connect(function() {
-                currentTab.canvas.getContext("2d").drawImage(_undoArea, 0, 0)
-                currentTab.canvas.requestPaint()
+            canvasArea.canvas.onReady.connect(function() {
+                canvasArea.canvas.getContext("2d").drawImage(_undoArea, 0, 0)
+                canvasArea.canvas.requestPaint()
             })
         },
         redo: function() {
@@ -144,7 +144,7 @@ function lowerLayer() {
 }
 
 function mergeLayer() {
-    var _undoAreaUp = currentTab.canvas.getContext("2d").getImageData(0, 0, imageSize.width, imageSize.height)
+    var _undoAreaUp = canvasArea.canvas.getContext("2d").getImageData(0, 0, imageSize.width, imageSize.height)
     var layerDown = layerModel.get(currentLayerIndex + 1)
     var _undoAreaDown = layerDown.canvas.getContext("2d").getImageData(0, 0, imageSize.width, imageSize.height)
     var _nameUp = layerModel.get(currentLayerIndex).name
@@ -152,8 +152,8 @@ function mergeLayer() {
     return {
         name: qsTr("Merge Layer"),
         undo: function() {
-            currentTab.canvas.getContext("2d").drawImage(_undoAreaDown, 0, 0)
-            currentTab.canvas.requestPaint()
+            canvasArea.canvas.getContext("2d").drawImage(_undoAreaDown, 0, 0)
+            canvasArea.canvas.requestPaint()
             var layerObj = layerManager.defaultLayer()
             layerObj.name = _nameUp
             layerModel.insert(currentLayerIndex, layerObj)
@@ -179,7 +179,7 @@ function duplicateLayer() {
         },
         redo: function() {
             var _name = layerModel.get(currentLayerIndex).name
-            var _duplicateArea = currentTab.canvas.getContext("2d").getImageData(0, 0, imageSize.width, imageSize.height)
+            var _duplicateArea = canvasArea.canvas.getContext("2d").getImageData(0, 0, imageSize.width, imageSize.height)
             var layerObj = layerManager.defaultLayer()
             layerObj.name = _name
             layerModel.insert(currentLayerIndex, layerObj)

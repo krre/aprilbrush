@@ -20,44 +20,70 @@ import QtQuick.Controls.Styles 1.2
 import ABLib 1.0
 import "settings.js" as Settings
 import "main"
-import "style"
 
 ApplicationWindow {
     id: mainRoot
-    title: "AprilBrush"
-    property string version: "0.2"
+    title: "AprilBrush - " + fileName + (isDirty ? " [*]" : "") + " @ " + Math.round(canvasArea.zoom * 100) + "%"
+
+    property string version: "0.3"
     property size imageSize: Qt.size(Screen.width, Screen.height)
-    property CanvasArea currentTab: tabView.count > 0 ? tabView.getTab(tabView.currentIndex).item : null
-    property ListModel layerModel: currentTab ? currentTab.layerModel : null
-    property ListModel undoModel: currentTab ? currentTab.undoModel : null
     property real pressure: 1
     property alias sysPalette: sysPalette
+    property bool isDirty: false
     property bool isEraser: brushSettings.eraser > 50
-    readonly property int currentLayerIndex: currentTab ? layerManager.layerView.currentIndex : -1
+    readonly property int currentLayerIndex: layerManager.layerView.currentIndex
+    property string fileName
+    property string oraPath
+    property bool isCtrlPressed: false
 
+    x: 50
+    y: 50
     width: 1000
     height: 600
     visible: true
 
     menuBar: MainMenu {}
-    toolBar: MainToolBar { id: toolBar }
-//    statusBar: MainStatusBar { id: statusBar }
 
     Component.onCompleted: {
-        Settings.loadSettings(mainRoot)
-        actions.newImageAction.trigger()
+        if (!Settings.loadSettings(mainRoot)) {
+            colorPicker.visible = true
+            layerManager.visible = true
+            brushSettings.visible = true
+            brushLibrary.visible = true
+            undoManager.visible = true
+        }
+
+        newImage()
         mainRoot.onWidthChanged.connect(function resTransform() {
-            currentTab.resetTransform() // after changing window on load settings
+            canvasArea.resetTransform() // after changing window on load settings
             mainRoot.onWidthChanged.disconnect(resTransform)
         })
     }
 
     onClosing: Settings.saveSettings(mainRoot)
 
+    function newImage() {
+        fileName = "Untitled"
+        oraPath = ""
+        layerManager.layerNameIndexCounter = 1
+        layerModel.clear()
+        layerManager.addBackground()
+        layerManager.addLayer()
+        undoManager.clear()
+        canvasArea.resetTransform() // after adding new tab on runnging application
+        mainRoot.onWidthChanged.connect(function resTransform() {
+            canvasArea.resetTransform() // after adding new tab on start application
+            canvasArea.onWidthChanged.disconnect(resTransform)
+        })
+    }
+
     SystemPalette {
         id: sysPalette
         colorGroup: SystemPalette.Active
     }
+
+    ListModel { id: layerModel }
+    ListModel { id: undoModel }
 
     Connections {
         target: PointerEater
@@ -70,62 +96,53 @@ ApplicationWindow {
         id: coreLib
         window: mainRoot
     }
+
     FileDialogBase { id: fileDialog }
 
     About { id: about }
 
-    TabView {
-        id: tabView
-        property int prevIndex: 0
+    CanvasArea {
+        id: canvasArea
         anchors.fill: parent
-        style: MainTabViewStyle {}
-        onCurrentIndexChanged: {
-            var prevTab = tabView.getTab(prevIndex).item
-            prevTab.savedLayerIndex = layerManager.layerView.currentIndex
-            prevTab.savedUndoIndex = undoManager.undoView.currentIndex
-            prevIndex = currentIndex
-        }
     }
 
     ColorPicker {
         id: colorPicker
-        relativeX: 20
-        relativeY: 100
+        x: 75
+        y: 110
         onColorChanged: dab.requestPaint()
-    }
-
-    ColorDialog {
-        id: colorDialog
-        onAccepted: currentTab.bgColor = color
     }
 
     LayerManager {
         id: layerManager
-        relativeX: 20
-        relativeY: 350
+        x: 75
+        y: 365
     }
 
     BrushSettings {
         id: brushSettings
-        relativeX: mainRoot.width - width - 30
-        relativeY: 100
+        x: 810
+        y: 110
     }
 
     BrushLibrary {
         id: brushLibrary
-        relativeX: mainRoot.width - width - 30
-        relativeY: 350
+        x: 810
+        y: 365
     }
 
     UndoManager {
         id: undoManager
-        relativeX: mainRoot.width - (width + 30) * 2
-        relativeY: 100
+        x: 580
+        y: 110
     }
 
-    Component {
-        id: canvasArea
-        CanvasArea {}
+    ColorDialog {
+        id: colorDialog
+        onAccepted: {
+            canvasArea.bgColor = color
+            isDirty = true
+        }
     }
 
     Component {

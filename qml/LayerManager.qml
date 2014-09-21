@@ -22,11 +22,15 @@ ToolWindow {
     id: root
     title: qsTr("Layers")
     property alias layerView: layerView
+    property int layerNameIndexCounter: 1
     objectName: "layerManager"
-    storage: { var list = defaultStorage(); return list }
+    storage: {
+        var list = defaultStorage()
+        return list
+    }
 
     function addLayer(name) {
-        undoManager.add(Undo.addLayer(name ? name : qsTr("Layer") + " " + currentTab.layerNameIndexCounter++))
+        undoManager.add(Undo.addLayer(name ? name : qsTr("Layer") + " " + layerNameIndexCounter++))
     }
 
     function addBackground() {
@@ -34,10 +38,16 @@ ToolWindow {
         layerObj.name = qsTr("Background")
         layerObj.isBackground = true
         layerModel.append(layerObj)
+        canvasArea.bgColor = "white"
     }
 
     function defaultLayer() {
-        return { name: "None", isVisible: true, isLock: false, isBackground: false }
+        return {
+            name: "None",
+            isVisible: true,
+            isLock: false,
+            isBackground: false
+        }
     }
 
     ColumnLayout {
@@ -59,7 +69,6 @@ ToolWindow {
                         currentIndex = currentIndex - 1
                     }
                 }
-                onModelChanged: currentIndex = currentTab ? currentTab.savedLayerIndex : -1
             }
         }
 
@@ -67,100 +76,41 @@ ToolWindow {
             id: layerDelegate
 
             Rectangle {
-               width: scrollView.width !== scrollView.viewport.width ? scrollView.viewport.width - 5 : scrollView.width
-               height: 60
-               color: "#e6e6e6"
-               border.width: 1
-               border.color: ListView.isCurrentItem ? "#7d91f5" : "transparent"
+                width: scrollView.width !== scrollView.viewport.width ? scrollView.viewport.width - 5 : scrollView.width
+                height: 60
+                color: "#e6e6e6"
+                border.width: 1
+                border.color: ListView.isCurrentItem ? "#7d91f5" : "transparent"
 
-               RowLayout {
+                MouseArea {
                     anchors.fill: parent
-                    anchors.margins: 5
-                    spacing: 5
-
-                    ColumnLayout {
-                        Layout.preferredWidth: 20
-                        Layout.fillHeight: true
-
-                        Rectangle {
-                            width: 15
-                            height: 15
-                            radius: width / 2
-                            antialiasing: true
-                            color: "transparent"
-                            border.color: "#474747"
-
-                            Rectangle {
-                                id: layerVisible
-                                width: 7
-                                height: 7
-                                anchors.centerIn: parent
-                                radius: width / 2
-                                antialiasing: true
-                                color: "#474747"
-                                visible: isVisible
-                            }
-
-                            MouseArea {
-                                anchors.fill: parent
-                                onClicked: undoManager.add(Undo.changeIsVisibileLayer(index))
-                            }
+                    onClicked: {
+                        if (layerView.currentIndex !== index && index !== layerView.count - 1) {
+                            undoManager.add(Undo.changeLayer(layerView.currentIndex, index))
+                            layerView.currentIndex = index
                         }
-
-                        Rectangle {
-                            width: 15
-                            height: 15
-                            color: isBackground ? currentTab.bgColor : "transparent"
-                            border.color: "#474747"
-
-                            Rectangle {
-                                id: layerBlocked
-                                width: 7
-                                height: 7
-                                anchors.centerIn: parent
-                                color: "#474747"
-                                visible: isLock && !isBackground
-                            }
-
-                            MouseArea {
-                                anchors.fill: parent
-                                onClicked: {
-                                    if (isBackground) {
-                                        colorDialog.open()
-
-                                    } else {
-                                        onClicked: undoManager.add(Undo.changeIsLockLayer(index))
-                                    }
-                                }
-                            }
-                        }
-
                     }
+                    onDoubleClicked: {
+                        if (index !== layerView.count - 1) {
+                            layerTextEdit.forceActiveFocus()
+                        }
+                    }
+                }
+
+                ColumnLayout {
+                    anchors.fill: parent
+                    anchors.margins: 10
+                    spacing: 5
 
                     Item {
                         Layout.fillWidth: true
-                        Layout.preferredHeight: parent.height
+                        Layout.fillHeight: true
 
                         Text {
                             text: name
                             width: parent.width
                             anchors.verticalCenter: parent.verticalCenter
                             visible: !layerTextEdit.focus
-                        }
-
-                        MouseArea {
-                            anchors.fill: parent
-                            onClicked: {
-                                if (layerView.currentIndex !== index && index !== layerView.count - 1) {
-                                    undoManager.add(Undo.changeLayer(layerView.currentIndex, index))
-                                    layerView.currentIndex = index
-                                }
-                            }
-                            onDoubleClicked: {
-                                if (index !== layerView.count - 1) {
-                                    layerTextEdit.focus = true
-                                }
-                            }
                         }
 
                         TextField {
@@ -174,7 +124,7 @@ ToolWindow {
                             visible: focus
 
                             onFocusChanged: {
-                                if (focus){
+                                if (focus) {
                                     lastText = text
                                     selectAll()
                                 }
@@ -196,6 +146,42 @@ ToolWindow {
                             Keys.onEscapePressed: {
                                 text = lastText
                                 parent.forceActiveFocus()
+                            }
+                        }
+                    }
+
+                    Row {
+
+                        CheckBox {
+                            text: qsTr("Visible")
+                            checked: isVisible
+                            onClicked: undoManager.add(Undo.changeIsVisibileLayer(index))
+                        }
+
+                        CheckBox {
+                            text: qsTr("Lock")
+                            checked: isLock
+                            onClicked: undoManager.add(Undo.changeIsLockLayer(index))
+                            visible: !isBackground
+                        }
+
+                        RowLayout {
+                            visible: isBackground
+                            spacing: 5
+
+                            Rectangle {
+                                width: 15
+                                height: 15
+                                radius: width / 2
+                                color: canvasArea.bgColor
+                                border.color: "#474747"
+                            }
+
+                            Label { text: qsTr("Color") }
+
+                            MouseArea {
+                                anchors.fill: parent
+                                onClicked: colorDialog.open()
                             }
                         }
                     }

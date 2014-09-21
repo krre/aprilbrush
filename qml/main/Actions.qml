@@ -4,14 +4,11 @@ import "../utils.js" as Utils
 import "../undo.js" as Undo
 
 Item {
-    property alias newImageAction: newImageAction
+    property alias newAction: newAction
     property alias openAction: openAction
     property alias saveAction: saveAction
     property alias saveAsAction: saveAsAction
     property alias exportAction: exportAction
-    property alias closeAction: closeAction
-    property alias closeAllAction: closeAllAction
-    property alias closeOthersAction: closeOthersAction
     property alias quitAction: quitAction
 
     property alias undoAction: undoAction
@@ -31,32 +28,17 @@ Item {
     property alias mirrorAction: mirrorAction
     property alias resetAction: resetAction
 
-    // image management
-
     Action {
-        id: newImageAction
+        id: newAction
         text: qsTr("New")
-        shortcut: StandardKey.New
-        onTriggered: {
-            tabView.addTab(qsTr("Untitled ") + (tabView.count + 1), canvasArea)
-            tabView.currentIndex = tabView.count - 1
-            layerManager.addBackground()
-            layerManager.addLayer()
-            undoManager.clear()
-            currentTab.resetTransform() // after adding new tab on runnging application
-            currentTab.onWidthChanged.connect(function resTransform() {
-                currentTab.resetTransform() // after adding new tab on start application
-                currentTab.onWidthChanged.disconnect(resTransform)
-            })
-        }
-        tooltip: qsTr("New an Image")
+        shortcut: "Ctrl+N"
+        onTriggered: newImage()
     }
 
     Action {
         id: openAction
         text: qsTr("Open...")
-        shortcut: StandardKey.Open
-        tooltip: qsTr("Open an Image")
+        shortcut: "Ctrl+O"
         onTriggered: {
             fileDialog.mode = 0
             fileDialog.open()
@@ -66,95 +48,50 @@ Item {
     Action {
         id: saveAction
         text: qsTr("Save")
-        shortcut: StandardKey.Save
-        tooltip: qsTr("Save an Image")
+        shortcut: "Ctrl+S"
         onTriggered: {
-            if (currentTab.oraPath === "") {
+            if (oraPath === "") {
                 fileDialog.mode = 1; // Save mode
                 fileDialog.open()
             } else {
                 Utils.saveOra()
             }
         }
-        enabled: tabView.count > 0
+        enabled: isDirty
     }
 
     Action {
         id: saveAsAction
         text: qsTr("Save As...")
-        shortcut: StandardKey.SaveAs
-        tooltip: qsTr("Save as an Image")
+        shortcut: "Ctrl+Shift+S"
         onTriggered: {
             fileDialog.mode = 1
             fileDialog.open()
         }
-        enabled: tabView.count > 0
     }
 
     Action {
         id: exportAction
         text: qsTr("Export...")
         shortcut: "Ctrl+E"
-        tooltip: qsTr("Export an Image to PNG")
         onTriggered: {
             fileDialog.mode = 2
             fileDialog.open()
         }
-        enabled: tabView.count > 0 && layerModel && layerModel.count > 0
-    }
-
-    Action {
-        id: closeAction
-        text: qsTr("Close")
-        shortcut: StandardKey.Close
-        onTriggered: tabView.removeTab(tabView.currentIndex)
-        tooltip: qsTr("Close as an Image")
-        enabled: tabView.count > 0
-    }
-
-    Action {
-        id: closeAllAction
-        text: qsTr("Close All")
-        onTriggered: {
-            while (tabView.count) {
-                tabView.removeTab(0)
-            }
-        }
-        tooltip: qsTr("Close all Images")
-        enabled: tabView.count > 0
-    }
-
-    Action {
-        id: closeOthersAction
-        text: qsTr("Close Others")
-        onTriggered: {
-            var currentTab = tabView.getTab(tabView.currentIndex)
-            var i = 0
-            while (tabView.count > 1) {
-                var tab = tabView.getTab(i)
-                if (tab !== currentTab) {
-                    tabView.removeTab(i)
-                } else {
-                    i++
-                }
-            }
-        }
-        tooltip: qsTr("Close others Images")
-        enabled: tabView.count > 1
+        enabled: layerModel && layerModel.count > 0
     }
 
     Action {
         id: quitAction
         text: qsTr("Quit")
-        shortcut: StandardKey.Quit
-        onTriggered: Qt.quit()
-        tooltip: text
+        shortcut: "Ctrl+Q"
+        onTriggered: mainRoot.close()
     }
 
     Action {
         id: undoAction
         text: qsTr("Undo")
-        shortcut: StandardKey.Undo
+        shortcut: "Ctrl+Z"
         onTriggered: {
             undoManager.undoView.decrementCurrentIndex()
             undoManager.run(undoManager.undoView.currentIndex)
@@ -165,7 +102,7 @@ Item {
     Action {
         id: redoAction
         text: qsTr("Redo")
-        shortcut: StandardKey.Redo
+        shortcut: "Ctrl+Shift+Z"
         onTriggered: {
             undoManager.undoView.incrementCurrentIndex()
             undoManager.run(undoManager.undoView.currentIndex)
@@ -188,15 +125,12 @@ Item {
         text: qsTr("New")
         shortcut: "Shift+Ctrl+N"
         onTriggered: layerManager.addLayer()
-        tooltip: qsTr("New Layer")
-        enabled: tabView.count > 0
     }
 
     Action {
         id: deleteLayerAction
         text: qsTr("Delete")
         onTriggered: undoManager.add(Undo.deleteLayer())
-        tooltip: qsTr("Delete Layer")
         enabled: layerManager.layerView.count > 1
     }
 
@@ -233,41 +167,36 @@ Item {
     Action {
         id: zoomInAction
         text: qsTr("Zoom In")
-        shortcut: StandardKey.ZoomIn
-        enabled: tabView.count > 0
-        onTriggered: if (currentTab.zoom < 30) currentTab.zoom *= 1.5
+        shortcut: "+"
+        onTriggered: if (canvasArea.zoom < 30) canvasArea.zoom *= 1.5
     }
 
     Action {
         id: zoomOutAction
         text: qsTr("Zoom Out")
-        shortcut: StandardKey.ZoomOut
-        enabled: tabView.count > 0
-        onTriggered: if (currentTab.zoom > 0.01) currentTab.zoom /= 1.5
+        shortcut: "-"
+        onTriggered: if (canvasArea.zoom > 0.01) canvasArea.zoom /= 1.5
     }
 
     Action {
         id: rotationAction
         text: qsTr("Rotation")
         shortcut: "R"
-        enabled: tabView.count > 0
-        onTriggered: currentTab.rotation += 90
+        onTriggered: canvasArea.rotation += 90
     }
 
     Action {
         id: mirrorAction
         text: qsTr("Mirror")
         shortcut: "M"
-        enabled: tabView.count > 0
-        onTriggered: currentTab.mirror *= -1
+        onTriggered: canvasArea.mirror *= -1
     }
 
     Action {
         id: resetAction
         text: qsTr("Reset")
         shortcut: "0"
-        enabled: tabView.count > 0
-        onTriggered: currentTab.resetTransform()
+        onTriggered: canvasArea.resetTransform()
     }
 }
 

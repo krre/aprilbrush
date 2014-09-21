@@ -170,9 +170,6 @@ void CoreLib::setCursorShape(QString type, int size=0)
     } else if (type == "OpenHand") {
         QCursor cursor = QCursor(Qt::OpenHandCursor);
         window->setCursor(cursor);
-    } else  if (type == "CloseHand") {
-        QCursor cursor = QCursor(Qt::ClosedHandCursor);
-        window->setCursor(cursor);
     } else if (type == "PickColor") {
         QCursor cursor = QCursor(Qt::CrossCursor);
         window->setCursor(cursor);

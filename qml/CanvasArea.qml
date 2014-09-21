@@ -18,37 +18,21 @@ import "components"
 import "undo.js" as Undo
 import "utils.js" as Utils
 
-ScrollView {
-    property alias layerModel: layerModel
-    property alias undoModel: undoModel
-    property int prevUndoIndex: -1
-    property var commandArray: [] // array for saving undo/redo command (they don't work from ListModel)
-    property int layerNameIndexCounter: 1
-    property int savedLayerIndex: 0
-    property int savedUndoIndex: 0
-
+Item {
+    id: root
     property alias canvas: canvasView.currentItem
     property alias canvasView: canvasView
-    property string oraPath
-    property bool isCtrlPressed: false
-    property string cursorName: "Paint"
     property color bgColor: "white"
+    property bool isCtrlPressed: false
 
     property real zoom: 1.0
     property bool isPan: false
     property int mirror: 1
     property real rotation: 0
 
-    flickableItem.interactive: isPan
-    flickableItem.leftMargin: contentItem.width / 2
-    flickableItem.rightMargin: contentItem.width / 2
-    flickableItem.topMargin: contentItem.height / 2
-    flickableItem.bottomMargin: contentItem.height / 2
-
+    onBgColorChanged: layerModel.get(layerModel.count - 1).canvas.clear(bgColor)
     onIsPanChanged: coreLib.setCursorShape(isPan ? "OpenHand" : "Paint", brushSettings.size * zoom)
     onZoomChanged: coreLib.setCursorShape(isPan ? "OpenHand" : "Paint", brushSettings.size * zoom)
-    onBgColorChanged: layerModel.get(layerModel.count - 1).canvas.clear(bgColor)
-    onIsCtrlPressedChanged: coreLib.setCursorShape(isCtrlPressed ? "PickColor" : "Paint", brushSettings.size * zoom)
 
     Keys.onPressed: {
         if (event.key === Qt.Key_Space && !event.isAutoRepeat) { isPan = true }
@@ -60,6 +44,11 @@ ScrollView {
         if (event.key === Qt.Key_Space && !event.isAutoRepeat) { isPan = false }
     }
 
+    transform: [
+        Scale { origin.x: width / 2; origin.y: height / 2; xScale: zoom * mirror; yScale: zoom },
+        Rotation { origin.x: width / 2; origin.y: height / 2; angle: rotation }
+    ]
+
     Component.onCompleted: {
         forceActiveFocus()
     }
@@ -68,21 +57,14 @@ ScrollView {
         zoom = 1
         mirror = 1
         rotation = 0
-        flickableItem.contentX = (contentItem.width - width) / 2
-        flickableItem.contentY = (contentItem.height - height) / 2
+        content.x = (width - content.width) / 2
+        content.y = (height - content.height) / 2
     }
 
     Item {
+        id: content
         width: imageSize.width
         height: imageSize.height
-
-        ListModel { id: layerModel }
-        ListModel { id: undoModel }
-
-        transform: [
-            Scale { origin.x: contentItem.width / 2; origin.y: contentItem.height / 2; xScale: zoom * mirror; yScale: zoom },
-            Rotation { origin.x: contentItem.width / 2; origin.y: contentItem.height / 2; angle: rotation }
-        ]
 
         CheckerBoard {
             anchors.fill: parent
@@ -133,15 +115,14 @@ ScrollView {
                     return Qt.point(x, y)
                 }
 
-                onHoveredChanged: coreLib.setCursorShape(containsMouse ? cursorName : "Arrow", brushSettings.size * zoom)
+                onHoveredChanged: coreLib.setCursorShape(containsMouse ? "Paint" : "Arrow", brushSettings.size * zoom)
 
                 onPressed: {
                     var point = Qt.point(mouseX, mouseY)
                     if (isPan) {
                         grabPoint = point
-                        cursorName = "CloseHand"
-                        coreLib.setCursorShape(cursorName, 0)
                     } else if (isCtrlPressed) {
+                        coreLib.setCursorShape("PickColor", 0)
                         Utils.pickColor(point)
                     } else {
                         if (isEraser) {
@@ -162,7 +143,11 @@ ScrollView {
 
                 onReleased: {
                     mainRoot.pressure = 1
-                    if (!isCtrlPressed && !isPan) {
+                    if (isPan) {
+                        coreLib.setCursorShape("OpenHand", 0)
+                    } else if (isCtrlPressed) {
+                        coreLib.setCursorShape("Paint", brushSettings.size * zoom)
+                    } else {
                         startPos.x -= dab.width
                         startPos.y -= dab.width
                         finalPos.x += dab.width
@@ -180,15 +165,15 @@ ScrollView {
                         undoManager.add(Undo.paint(startPos, undoArea, redoArea, brushSettings.opacity / 100, isEraser))
                         bufferCtx.clearRect(0, 0, width, height)
                         parent.requestPaint()
-                    } else if (isPan) {
-                        cursorName = "OpenHand"
-                        coreLib.setCursorShape(cursorName, 0)
                     }
                 }
 
                 onPositionChanged: {
-                    if (!pressed || isPan) { return; }
-                    if (isCtrlPressed) {
+                    if (!pressed) { return; }
+                    if (isPan) {
+                        content.x += (mouseX - grabPoint.x)
+                        content.y += (mouseY - grabPoint.y)
+                    } else if (isCtrlPressed) {
                         Utils.pickColor(Qt.point(mouseX, mouseY))
                     } else {
                         var currentPoint = Qt.point(mouseX, mouseY)
