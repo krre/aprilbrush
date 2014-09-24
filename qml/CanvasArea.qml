@@ -23,11 +23,11 @@ Item {
     property alias canvas: canvasView.currentItem
     property alias canvasView: canvasView
     property color bgColor: "white"
-    property bool isCtrlPressed: false
+    property bool isPan: false
+    property bool isPick: false
     property point grabPoint
 
     property real zoom: 1.0
-    property bool isPan: false
     property int mirror: 1
     property real rotation: 0
 
@@ -40,11 +40,11 @@ Item {
             grabPoint = Qt.point(mouseArea.mouseX, mouseArea.mouseY)
             isPan = true
         }
-        if (event.modifiers & Qt.ControlModifier) { isCtrlPressed = true }
+        if (event.modifiers & Qt.ControlModifier) { isPick = true }
     }
 
     Keys.onReleased: {
-        if (Qt.ControlModifier) { isCtrlPressed = false }
+        if (Qt.ControlModifier) { isPick = false }
         if (event.key === Qt.Key_Space && !event.isAutoRepeat) { isPan = false }
     }
 
@@ -123,7 +123,7 @@ Item {
 
                 onPressed: {
                     var point = Qt.point(mouseX, mouseY)
-                    if (isCtrlPressed) {
+                    if (isPick) {
                         coreLib.setCursorShape("PickColor", 0)
                         Utils.pickColor(point)
                     } else if (!isPan) {
@@ -147,7 +147,7 @@ Item {
                     mainRoot.pressure = 1
                     if (isPan) {
                         coreLib.setCursorShape("OpenHand", 0)
-                    } else if (isCtrlPressed) {
+                    } else if (isPick) {
                         coreLib.setCursorShape("Paint", brushSettings.size * zoom)
                     } else {
                         startPos.x -= dab.width
@@ -176,7 +176,7 @@ Item {
                         content.y += (mouseY - grabPoint.y)
                     }
                     if (!pressed) { return; }
-                    if (isCtrlPressed) {
+                    if (isPick) {
                         Utils.pickColor(Qt.point(mouseX, mouseY))
                     } else if (!isPan) {
                         var currentPoint = Qt.point(mouseX, mouseY)
