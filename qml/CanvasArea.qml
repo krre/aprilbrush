@@ -24,6 +24,7 @@ Item {
     property alias canvasView: canvasView
     property color bgColor: "white"
     property bool isCtrlPressed: false
+    property point grabPoint
 
     property real zoom: 1.0
     property bool isPan: false
@@ -35,7 +36,10 @@ Item {
     onZoomChanged: coreLib.setCursorShape(isPan ? "OpenHand" : "Paint", brushSettings.size * zoom)
 
     Keys.onPressed: {
-        if (event.key === Qt.Key_Space && !event.isAutoRepeat) { isPan = true }
+        if (event.key === Qt.Key_Space && !event.isAutoRepeat) {
+            grabPoint = Qt.point(mouseArea.mouseX, mouseArea.mouseY)
+            isPan = true
+        }
         if (event.modifiers & Qt.ControlModifier) { isCtrlPressed = true }
     }
 
@@ -88,11 +92,11 @@ Item {
             smooth: false
 
             MouseArea {
+                id: mouseArea
                 property real deltaDab: Math.max(brushSettings.spacing / 100 * brushSettings.size, 1)
                 property var points: []
                 property bool linearMode: false
                 property point lastDrawPoint
-                property point grabPoint
                 property point startPos
                 property point finalPos
                 anchors.fill: parent
@@ -119,12 +123,10 @@ Item {
 
                 onPressed: {
                     var point = Qt.point(mouseX, mouseY)
-                    if (isPan) {
-                        grabPoint = point
-                    } else if (isCtrlPressed) {
+                    if (isCtrlPressed) {
                         coreLib.setCursorShape("PickColor", 0)
                         Utils.pickColor(point)
-                    } else {
+                    } else if (!isPan) {
                         if (isEraser) {
                             var undoEraserCtx = undoEraserBuffer.getContext("2d")
                             undoEraserCtx.clearRect(0, 0, width, height)
@@ -169,13 +171,14 @@ Item {
                 }
 
                 onPositionChanged: {
-                    if (!pressed) { return; }
                     if (isPan) {
                         content.x += (mouseX - grabPoint.x)
                         content.y += (mouseY - grabPoint.y)
-                    } else if (isCtrlPressed) {
+                    }
+                    if (!pressed) { return; }
+                    if (isCtrlPressed) {
                         Utils.pickColor(Qt.point(mouseX, mouseY))
-                    } else {
+                    } else if (!isPan) {
                         var currentPoint = Qt.point(mouseX, mouseY)
                         var startPoint = lastDrawPoint
                         var currentSpacing = Math.sqrt(Math.pow(currentPoint.x - startPoint.x, 2) + Math.pow(currentPoint.y - startPoint.y, 2))
