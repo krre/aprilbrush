@@ -20,5 +20,10 @@ void BrushEngine::paint(QPointF point, CanvasItem *canvas)
     painter.setRenderHint(QPainter::Antialiasing, true);
     painter.setPen(Qt::NoPen);
     painter.setBrush(QBrush(m_color));
-    painter.drawEllipse(point, m_size / 2, m_size / 2);
+    if (m_size > 1) {
+        painter.drawEllipse(point, m_size / 2, m_size / 2);
+    } else {
+        painter.drawRect(QRectF(point.x() - 0.5, point.y() - 0.5, 1, 1));
+    }
+    painted();
 }

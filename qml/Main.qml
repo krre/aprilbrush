@@ -34,7 +34,6 @@ ApplicationWindow {
     readonly property int currentLayerIndex: layerManager.layerView.currentIndex
     property string fileName
     property string oraPath
-    property bool isCtrlPressed: false
 
     x: 50
     y: 50
@@ -109,6 +108,7 @@ ApplicationWindow {
         angle: brushSettings.angle
         jitter: brushSettings.jitter
         eraser: brushSettings.eraser
+        onPainted: canvasArea.canvasItem.update()
     }
 
     FileDialogBase { id: fileDialog }

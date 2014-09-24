@@ -24,6 +24,7 @@ public:
 
 
 signals:
+    void painted();
 
 public slots:
 

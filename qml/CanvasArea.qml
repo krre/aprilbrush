@@ -123,6 +123,10 @@ Item {
                 onHoveredChanged: coreLib.setCursorShape(containsMouse ? "Paint" : "Arrow", brushSettings.size * zoom)
 
                 onPressed: {
+                    brushEngine.paint(Qt.point(mouse.x, mouse.y), canvasItem)
+                    return
+
+
                     var point = Qt.point(mouseX, mouseY)
                     if (isPick) {
                         coreLib.setCursorShape("PickColor", 0)
@@ -172,6 +176,11 @@ Item {
                 }
 
                 onPositionChanged: {
+                    if (pressed) {
+                        brushEngine.paint(Qt.point(mouse.x, mouse.y), canvasItem)
+                        return
+                    }
+
                     if (isPan) {
                         content.x += (mouseX - grabPoint.x)
                         content.y += (mouseY - grabPoint.y)
@@ -219,8 +228,6 @@ Item {
                 }
 
                 function drawDab(point) {
-                    brushEngine.paint(point, canvasItem)
-                    canvasItem.update()
                     var ctx = isEraser ? canvas.getContext("2d") : buffer.getContext("2d")
                     ctx.save()
                     ctx.globalCompositeOperation = isEraser ? "destination-out" : "source-over"
@@ -290,6 +297,7 @@ Item {
             id: canvasItem
             anchors.fill: parent
 //            visible: false
+            smooth: false
             Component.onCompleted: clear("white")
         }
 
