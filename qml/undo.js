@@ -62,6 +62,7 @@ function clearLayer() {
         },
         redo: function() {
             canvasArea.canvas.clear()
+            canvasArea.canvasItem.clear()
         }
     }
 }

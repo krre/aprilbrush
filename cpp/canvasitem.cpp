@@ -16,6 +16,7 @@ CanvasItem::~CanvasItem()
 void CanvasItem::clear(QColor color)
 {
     m_pixmap->fill(color);
+    update();
 }
 
 void CanvasItem::paint(QPainter *painter)

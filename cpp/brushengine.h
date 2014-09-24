@@ -59,8 +59,6 @@ private:
     int m_jitter;
     QColor m_color;
     int m_eraser;
-
-
 };
 
 #endif // BRUSHENGINE_H

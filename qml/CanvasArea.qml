@@ -22,6 +22,7 @@ Item {
     id: root
     property alias canvas: canvasView.currentItem
     property alias canvasView: canvasView
+    property alias canvasItem: canvasItem
     property color bgColor: "white"
     property bool isPan: false
     property bool isPick: false
@@ -219,6 +220,7 @@ Item {
 
                 function drawDab(point) {
                     brushEngine.paint(point, canvasItem)
+                    canvasItem.update()
                     var ctx = isEraser ? canvas.getContext("2d") : buffer.getContext("2d")
                     ctx.save()
                     ctx.globalCompositeOperation = isEraser ? "destination-out" : "source-over"
@@ -287,8 +289,8 @@ Item {
         CanvasItem {
             id: canvasItem
             anchors.fill: parent
-            visible: false
-            Component.onCompleted: clear("green")
+//            visible: false
+            Component.onCompleted: clear("white")
         }
 
     }

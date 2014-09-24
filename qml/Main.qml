@@ -99,6 +99,7 @@ ApplicationWindow {
 
     BrushEngine {
         id: brushEngine
+        color: colorPicker.color
         size: brushSettings.size
         opacity: brushSettings.opacity
         flow: brushSettings.flow
