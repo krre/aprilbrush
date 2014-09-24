@@ -218,6 +218,7 @@ Item {
                 }
 
                 function drawDab(point) {
+                    brushEngine.paint(point, canvasItem)
                     var ctx = isEraser ? canvas.getContext("2d") : buffer.getContext("2d")
                     ctx.save()
                     ctx.globalCompositeOperation = isEraser ? "destination-out" : "source-over"
@@ -282,11 +283,13 @@ Item {
                 }
             }
         }
-/*
+
         CanvasItem {
+            id: canvasItem
             anchors.fill: parent
+            visible: false
             Component.onCompleted: clear("green")
         }
-        */
+
     }
 }

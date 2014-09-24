@@ -6,12 +6,14 @@ SOURCES += \
     main.cpp \
     cpp/corelib.cpp \
     cpp/pointereater.cpp \
-    cpp/canvasitem.cpp
+    cpp/canvasitem.cpp \
+    cpp/brushengine.cpp
 
 HEADERS += \
     cpp/corelib.h \
     cpp/pointereater.h \
-    cpp/canvasitem.h
+    cpp/canvasitem.h \
+    cpp/brushengine.h
 
 OTHER_FILES += \
     qml/ColorPicker.qml \

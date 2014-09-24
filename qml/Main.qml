@@ -97,6 +97,10 @@ ApplicationWindow {
         window: mainRoot
     }
 
+    BrushEngine {
+        id: brushEngine
+    }
+
     FileDialogBase { id: fileDialog }
 
     About { id: about }
