@@ -123,6 +123,7 @@ Item {
                 onHoveredChanged: coreLib.setCursorShape(containsMouse ? "Paint" : "Arrow", brushSettings.size * zoom)
 
                 onPressed: {
+                    brushEngine.setTouch(true, Qt.point(mouse.x, mouse.y))
                     brushEngine.paint(Qt.point(mouse.x, mouse.y), canvasItem)
                     return
 
@@ -149,6 +150,7 @@ Item {
                 }
 
                 onReleased: {
+                    brushEngine.setTouch(false, Qt.point(mouse.x, mouse.y))
                     mainRoot.pressure = 1
                     if (isPan) {
                         coreLib.setCursorShape("OpenHand", 0)

@@ -5,21 +5,33 @@ BrushEngine::BrushEngine(QObject *parent) :
 {
 }
 
-void BrushEngine::paint(QPointF point, CanvasItem *canvas)
+void BrushEngine::paint(QPointF point, CanvasItem *canvas, qreal pressure)
+{
+    this->canvas = canvas;
+    paintDab(point, pressure);
+}
+
+void BrushEngine::setTouch(bool isTouch, QPointF point)
+{
+    this->isTouch = isTouch;
+    if (isTouch) {
+        path = new QPainterPath(point);
+        prevPoint = point;
+    } else {
+        delete path;
+    }
+}
+
+void BrushEngine::paintDab(QPointF point, qreal pressure)
 {
     QPixmap *pixmap = canvas->pixmap();
-
-    m_color.setAlpha(qRound(255 * m_opacity / 100.0));
-//    QColor pressureColor = m_color;
-//    qreal pressure = wacom.pressure();
-//    pressureColor.setAlpha(qRound(m_color.alpha() * pressure));
-//    QColor alphaColor =  m_color;
-//    alphaColor.setAlpha(0);
 
     QPainter painter(pixmap);
     painter.setRenderHint(QPainter::Antialiasing, true);
     painter.setPen(Qt::NoPen);
     painter.setBrush(QBrush(m_color));
+    painter.setOpacity(m_opacity / 100.0 * pressure);
+
     if (m_size > 1) {
         painter.drawEllipse(point, m_size / 2, m_size / 2);
     } else {

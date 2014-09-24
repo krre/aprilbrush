@@ -20,7 +20,8 @@ class BrushEngine : public QObject
 
 public:
     explicit BrushEngine(QObject *parent = 0);
-    Q_INVOKABLE void paint(QPointF point, CanvasItem *canvas);
+    Q_INVOKABLE void paint(QPointF point, CanvasItem *canvas, qreal pressure=1);
+    Q_INVOKABLE void setTouch(bool isTouch, QPointF point);
 
 
 signals:
@@ -50,6 +51,8 @@ private:
     int eraser() { return m_eraser; }
     void setEraser(int eraser) { m_eraser = eraser; }
 
+    void paintDab(QPointF point, qreal pressure);
+
     int m_size;
     int m_opacity;
     int m_flow;
@@ -60,6 +63,11 @@ private:
     int m_jitter;
     QColor m_color;
     int m_eraser;
+
+    bool isTouch;
+    QPainterPath *path;
+    QPointF prevPoint;
+    CanvasItem *canvas;
 };
 
 #endif // BRUSHENGINE_H
