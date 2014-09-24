@@ -10,21 +10,21 @@ CanvasItem::CanvasItem(QQuickPaintedItem *parent) :
 
 CanvasItem::~CanvasItem()
 {
-    delete pixmap;
+    delete m_pixmap;
 }
 
 void CanvasItem::clear(QColor color)
 {
-    pixmap->fill(color);
+    m_pixmap->fill(color);
 }
 
 void CanvasItem::paint(QPainter *painter)
 {
-    painter->drawPixmap(0, 0, *pixmap);
+    painter->drawPixmap(0, 0, *m_pixmap);
 }
 
 void CanvasItem::changeCanvasSize()
 {
-    pixmap = new QPixmap(width(), height());
+    m_pixmap = new QPixmap(width(), height());
     clear();
 }

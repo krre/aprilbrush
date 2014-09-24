@@ -10,6 +10,7 @@ public:
     explicit CanvasItem(QQuickPaintedItem *parent = 0);
     ~CanvasItem();
     Q_INVOKABLE void clear(QColor color=Qt::transparent);
+    QPixmap* pixmap() { return m_pixmap; }
 
 protected:
     void paint(QPainter * painter);
@@ -20,7 +21,7 @@ private slots:
     void changeCanvasSize();
 
 private:
-    QPixmap *pixmap;
+    QPixmap *m_pixmap;
 
 };
 

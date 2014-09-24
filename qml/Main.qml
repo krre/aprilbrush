@@ -99,6 +99,15 @@ ApplicationWindow {
 
     BrushEngine {
         id: brushEngine
+        size: brushSettings.size
+        opacity: brushSettings.opacity
+        flow: brushSettings.flow
+        hardness: brushSettings.hardness
+        spacing: brushSettings.spacing
+        roundness: brushSettings.roundness
+        angle: brushSettings.angle
+        jitter: brushSettings.jitter
+        eraser: brushSettings.eraser
     }
 
     FileDialogBase { id: fileDialog }

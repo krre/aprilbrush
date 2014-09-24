@@ -7,5 +7,5 @@ BrushEngine::BrushEngine(QObject *parent) :
 
 void BrushEngine::paint(QPointF point, CanvasItem *canvas)
 {
-//    qDebug() << point << canvas;
+    QPixmap *pixmap = canvas->pixmap();
 }
