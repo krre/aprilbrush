@@ -5,44 +5,50 @@ BrushEngine::BrushEngine(QObject *parent) :
 {
 }
 
-void BrushEngine::setTouch(bool isTouch, QPointF point)
+void BrushEngine::setTouch(bool isTouch, CanvasItem *canvas)
 {
-    this->isTouch = isTouch;
     if (isTouch) {
-        path = new QPainterPath(point);
-        prevPoint = point;
-        strokeLength = 0;
+        this->canvas = canvas;
     } else {
-        delete path;
+        path = QPainterPath();
     }
 }
 
-void BrushEngine::paint(QPointF point, CanvasItem *canvas, qreal pressure)
+void BrushEngine::paint(QPointF point, qreal pressure)
 {
-    this->canvas = canvas;
-    qreal deltaPoint = qSqrt(qPow(prevPoint.x() - point.x(), 2) + qPow(prevPoint.y() - point.y(), 2));
-    qreal deltaDab = m_size * m_spacing / 100.0;
-    if (deltaPoint >= deltaDab) {
-        path->quadTo(prevPoint.x(), prevPoint.y(), (prevPoint.x() + point.x()) / 2.0, (prevPoint.y() + point.y()) / 2.0);
+    if (!path.elementCount()) {
+        path.moveTo(point);
+        prevPoint = point;
+        strokeLength = 0;
+        paintDab(point, pressure);
     } else {
-        path->lineTo(point);
-    }
+        qreal deltaPoint = qSqrt(qPow(prevPoint.x() - point.x(), 2) + qPow(prevPoint.y() - point.y(), 2));
+        qreal deltaDab = m_size * m_spacing / 100.0;
+        int numDabs = qFloor(deltaPoint / deltaDab);
+        if (numDabs >= 1) {
+            if (deltaPoint >= deltaDab && isBezier) {
+                path.quadTo(prevPoint.x(), prevPoint.y(), (prevPoint.x() + point.x()) / 2.0, (prevPoint.y() + point.y()) / 2.0);
+            } else {
+                path.lineTo(point);
+            }
 
-    qreal pathLength = path->length();
-    while(pathLength >= strokeLength) {
-        if (pathLength > 0) {
-            paintDab(path->pointAtPercent(strokeLength / pathLength), pressure);
+            qreal pathLength = path.length();
+            while(pathLength >= strokeLength) {
+                if (pathLength > 0) {
+                    paintDab(path.pointAtPercent(strokeLength / pathLength), pressure);
+                }
+                strokeLength += deltaDab;
+            }
+
+            prevPoint = point;
         }
-        strokeLength += deltaDab;
     }
-
-    prevPoint = point;
 }
 
 void BrushEngine::paintDab(QPointF point, qreal pressure)
 {
     QPixmap *pixmap = canvas->pixmap();
-
+    qDebug() << "paint" << point;
     QPainter painter(pixmap);
     painter.setRenderHint(QPainter::Antialiasing, true);
     painter.setPen(Qt::NoPen);

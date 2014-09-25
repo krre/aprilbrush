@@ -20,8 +20,8 @@ class BrushEngine : public QObject
 
 public:
     explicit BrushEngine(QObject *parent = 0);
-    Q_INVOKABLE void paint(QPointF point, CanvasItem *canvas, qreal pressure=1);
-    Q_INVOKABLE void setTouch(bool isTouch, QPointF point);
+    Q_INVOKABLE void paint(QPointF point, qreal pressure=1);
+    Q_INVOKABLE void setTouch(bool isTouch, CanvasItem *canvas=0);
 
 
 signals:
@@ -64,8 +64,8 @@ private:
     QColor m_color;
     int m_eraser;
 
-    bool isTouch;
-    QPainterPath *path;
+    bool isBezier = true;
+    QPainterPath path = QPainterPath();
     QPointF prevPoint;
     CanvasItem *canvas;
     qreal strokeLength;
