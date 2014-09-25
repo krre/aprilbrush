@@ -31,13 +31,13 @@ public slots:
 
 private:
     int size() {return m_size;}
-    void setSize(int size) { m_size = size; }
+    void setSize(int size) { m_size = size; setDeltaDab(); }
     int opacity() { return m_opacity; }
     void setOpacity(int opacity) { m_opacity = opacity; }
     int flow() { return m_flow; }
     void setFlow(int flow) { m_flow = flow; }
     int spacing() { return m_spacing; }
-    void setSpacing(int spacing) { m_spacing = spacing; }
+    void setSpacing(int spacing) { m_spacing = spacing; setDeltaDab(); }
     int hardness() { return m_hardness; }
     void setHardness(int hardness) { m_hardness = hardness; }
     QColor color() { return m_color; }
@@ -52,6 +52,9 @@ private:
     void setEraser(int eraser) { m_eraser = eraser; }
 
     void paintDab(QPointF point, qreal pressure);
+    void setDeltaDab();
+    QPointF linearCurve(QPointF start, QPointF end, qreal t);
+    QPointF bezierCurve(QPointF start, QPointF end, QPointF control, qreal t);
 
     int m_size;
     int m_opacity;
@@ -65,10 +68,14 @@ private:
     int m_eraser;
 
     bool isBezier = true;
-    QPainterPath path = QPainterPath();
-    QPointF prevPoint;
+    bool isFirstPoint;
+    qreal deltaDab;
     CanvasItem *canvas;
-    qreal strokeLength;
+
+    QPointF startPoint;
+    QPointF endPoint;
+    QPointF controlPoint;
+    QPointF betweenPoint;
 };
 
 #endif // BRUSHENGINE_H

@@ -9,38 +9,49 @@ void BrushEngine::setTouch(bool isTouch, CanvasItem *canvas)
 {
     if (isTouch) {
         this->canvas = canvas;
-    } else {
-        path = QPainterPath();
+        isFirstPoint = true;
     }
 }
 
 void BrushEngine::paint(QPointF point, qreal pressure)
 {
-    if (!path.elementCount()) {
-        path.moveTo(point);
-        prevPoint = point;
-        strokeLength = 0;
+    if (isFirstPoint) {
         paintDab(point, pressure);
+        startPoint = point;
+        controlPoint = QPointF();
+        isFirstPoint = false;
     } else {
-        qreal deltaPoint = qSqrt(qPow(prevPoint.x() - point.x(), 2) + qPow(prevPoint.y() - point.y(), 2));
-        qreal deltaDab = m_size * m_spacing / 100.0;
+        qreal deltaPoint = qSqrt(qPow(startPoint.x() - point.x(), 2) + qPow(startPoint.y() - point.y(), 2));
         int numDabs = qFloor(deltaPoint / deltaDab);
         if (numDabs >= 1) {
-            if (deltaPoint >= deltaDab && isBezier) {
-                path.quadTo(prevPoint.x(), prevPoint.y(), (prevPoint.x() + point.x()) / 2.0, (prevPoint.y() + point.y()) / 2.0);
+            if (numDabs < 3 || !isBezier) {
+                endPoint = point;
             } else {
-                path.lineTo(point);
+                controlPoint = startPoint;
+                endPoint = (controlPoint + point) / 2;
             }
 
-            qreal pathLength = path.length();
-            while(pathLength >= strokeLength) {
-                if (pathLength > 0) {
-                    paintDab(path.pointAtPercent(strokeLength / pathLength), pressure);
+            qreal deltaT = 1.0 / numDabs;
+            betweenPoint = startPoint;
+            qreal t = deltaT;
+            qreal diff = 0;
+            QPointF curvePoint;
+            while (t > 0 && t <= 1) {
+                curvePoint = controlPoint.isNull() ? linearCurve(startPoint, endPoint, t) : bezierCurve(startPoint, endPoint, controlPoint, t);
+                deltaPoint = qSqrt(qPow(curvePoint.x() - betweenPoint.x(), 2) + qPow(curvePoint.y() - betweenPoint.y(), 2));
+                if (diff && qAbs(deltaPoint - deltaDab) > qAbs(diff)) { break; } // check on bezier loop
+                diff = deltaPoint - deltaDab;
+                if (qAbs(diff) <= 0.5) {
+                    paintDab(curvePoint, pressure);
+                    diff = 0;
+                    betweenPoint = curvePoint;
+                    t += deltaT;
+                } else {
+                    t -= diff / deltaDab * deltaT;
                 }
-                strokeLength += deltaDab;
             }
 
-            prevPoint = point;
+            startPoint = betweenPoint;
         }
     }
 }
@@ -48,7 +59,6 @@ void BrushEngine::paint(QPointF point, qreal pressure)
 void BrushEngine::paintDab(QPointF point, qreal pressure)
 {
     QPixmap *pixmap = canvas->pixmap();
-    qDebug() << "paint" << point;
     QPainter painter(pixmap);
     painter.setRenderHint(QPainter::Antialiasing, true);
     painter.setPen(Qt::NoPen);
@@ -61,4 +71,23 @@ void BrushEngine::paintDab(QPointF point, qreal pressure)
         painter.drawRect(QRectF(point.x() - 0.5, point.y() - 0.5, 1, 1));
     }
     painted();
+}
+
+void BrushEngine::setDeltaDab()
+{
+    deltaDab = qMax(m_spacing / 100.0 * m_size, 1.0);
+}
+
+QPointF BrushEngine::linearCurve(QPointF start, QPointF end, qreal t)
+{
+    qreal x = (1 - t) * start.x() + t * end.x();
+    qreal y = (1 - t) * start.y() + t * end.y();
+    return QPointF(x, y);
+}
+
+QPointF BrushEngine::bezierCurve(QPointF start, QPointF end, QPointF control, qreal t)
+{
+    qreal x = qPow((1 - t), 2) * start.x() + 2 * t * (1 - t) * control.x() + t * t * end.x();
+    qreal y = qPow((1 - t), 2) * start.y() + 2 * t * (1 - t) * control.y() + t * t * end.y();
+    return QPointF(x, y);
 }
