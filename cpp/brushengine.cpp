@@ -11,7 +11,7 @@ void BrushEngine::setTouch(bool isTouch, QPointF point)
     if (isTouch) {
         path = new QPainterPath(point);
         prevPoint = point;
-        actualLength = 0;
+        strokeLength = 0;
     } else {
         delete path;
     }
@@ -29,11 +29,11 @@ void BrushEngine::paint(QPointF point, CanvasItem *canvas, qreal pressure)
     }
 
     qreal pathLength = path->length();
-    while(pathLength >= actualLength) {
+    while(pathLength >= strokeLength) {
         if (pathLength > 0) {
-            paintDab(path->pointAtPercent(actualLength / pathLength), pressure);
+            paintDab(path->pointAtPercent(strokeLength / pathLength), pressure);
         }
-        actualLength += deltaDab;
+        strokeLength += deltaDab;
     }
 
     prevPoint = point;

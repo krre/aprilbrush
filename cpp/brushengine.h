@@ -68,7 +68,7 @@ private:
     QPainterPath *path;
     QPointF prevPoint;
     CanvasItem *canvas;
-    qreal actualLength;
+    qreal strokeLength;
 };
 
 #endif // BRUSHENGINE_H
