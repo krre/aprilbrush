@@ -62,6 +62,7 @@ void BrushEngine::paint(QPointF point, qreal pressure)
 
 void BrushEngine::paintDab(QPointF point, qreal pressure)
 {
+    /*
     QPixmap *pixmap = canvas->pixmap();
     QPainter painter(pixmap);
     painter.setRenderHint(QPainter::Antialiasing, true);
@@ -75,6 +76,27 @@ void BrushEngine::paintDab(QPointF point, qreal pressure)
         painter.drawRect(QRectF(point.x() - 0.5, point.y() - 0.5, 1, 1));
     }
     painted();
+    */
+
+
+    QPixmap dabPixmap = QPixmap(m_size, m_size);
+    dabPixmap.fill(Qt::transparent);
+    QPainter dabPainter(&dabPixmap);
+    dabPainter.setRenderHint(QPainter::Antialiasing, false);
+    dabPainter.setPen(Qt::NoPen);
+    dabPainter.setBrush(QBrush(m_color));
+    if (m_size > 1) {
+        dabPainter.drawEllipse(0, 0, m_size / 2, m_size / 2);
+    } else {
+        dabPainter.drawRect(0, 0, 1, 1);
+    }
+
+    QPixmap *pixmap = canvas->pixmap();
+    QPainter painter(pixmap);
+    painter.setRenderHint(QPainter::Antialiasing, true);
+    painter.setPen(Qt::NoPen);
+    painter.setBrush(dabPixmap);
+    painter.drawPixmap(point, dabPixmap);
 }
 
 void BrushEngine::setDeltaDab()
