@@ -102,31 +102,9 @@ Item {
 
             MouseArea {
                 id: mouseArea
-                property real deltaDab: Math.max(brushSettings.spacing / 100 * brushSettings.size, 1)
-                property var points: []
-                property bool linearMode: false
-                property point lastDrawPoint
-                property point startPos
-                property point finalPos
                 anchors.fill: parent
                 enabled: buffer.parent ? buffer.parent.enabled : false
                 hoverEnabled: true
-
-                function bezierCurve(start, control, end, t) {
-                    var x, y
-                    // linear bezier curve
-                    if (!control) {
-                        x = (1 - t) * start.x + t * end.x
-                        y = (1 - t) * start.y + t * end.y
-                    }
-                    // quad bezier curve
-                    else {
-                        x = Math.pow((1 - t), 2) * start.x + 2 * t * (1 - t) * control.x + t * t * end.x
-                        y = Math.pow((1 - t), 2) * start.y + 2 * t * (1 - t) * control.y + t * t * end.y
-                    }
-
-                    return Qt.point(x, y)
-                }
 
                 onHoveredChanged: coreLib.setCursorShape(containsMouse ? "Paint" : "Arrow", brushSettings.size * zoom)
 
@@ -141,11 +119,6 @@ Item {
                 }
 
                 onPressed: {
-                    brushEngine.setTouch(true, canvasItem)
-                    brushEngine.paint(Qt.point(mouse.x, mouse.y))
-                    return
-
-
                     var point = Qt.point(mouseX, mouseY)
                     if (isPick) {
                         coreLib.setCursorShape("PickColor", 0)
@@ -156,14 +129,10 @@ Item {
                             undoEraserCtx.clearRect(0, 0, width, height)
                             undoEraserCtx.drawImage(canvas, 0, 0)
                             undoEraserBuffer.requestPaint()
+                        } else {
+                            brushEngine.setTouch(true, canvasItem)
+                            brushEngine.paint(Qt.point(mouse.x, mouse.y))
                         }
-
-                        startPos = Qt.point(point.x, point.y)
-                        finalPos = Qt.point(point.x, point.y)
-                        lastDrawPoint = point
-                        drawDab(point)
-                        points = []
-                        points.push(point)
                     }
                 }
 
@@ -175,6 +144,7 @@ Item {
                     } else if (isPick) {
                         coreLib.setCursorShape("Paint", brushSettings.size * zoom)
                     } else {
+                        /*
                         startPos.x -= dab.width
                         startPos.y -= dab.width
                         finalPos.x += dab.width
@@ -192,58 +162,20 @@ Item {
                         undoManager.add(Undo.paint(startPos, undoArea, redoArea, brushSettings.opacity / 100, isEraser))
                         bufferCtx.clearRect(0, 0, width, height)
                         parent.requestPaint()
+                        */
                     }
                 }
 
                 onPositionChanged: {
                     if (pressed) {
-                        brushEngine.paint(Qt.point(mouse.x, mouse.y))
-                        return
-                    }
-
-                    if (isPan) {
+                        if (isPick) {
+                            Utils.pickColor(Qt.point(mouseX, mouseY))
+                        } else if (!isPan) {
+                            brushEngine.paint(Qt.point(mouse.x, mouse.y))
+                        }
+                    } else if (isPan) {
                         content.x += (mouseX - grabPoint.x)
                         content.y += (mouseY - grabPoint.y)
-                    }
-                    if (!pressed) { return; }
-                    if (isPick) {
-                        Utils.pickColor(Qt.point(mouseX, mouseY))
-                    } else if (!isPan) {
-                        var currentPoint = Qt.point(mouseX, mouseY)
-                        var startPoint = lastDrawPoint
-                        var currentSpacing = Math.sqrt(Math.pow(currentPoint.x - startPoint.x, 2) + Math.pow(currentPoint.y - startPoint.y, 2))
-                        var numDabs = Math.floor(currentSpacing / deltaDab)
-                        if (numDabs >= 1) {
-
-                            if (points.length == 1 || numDabs < 3 || linearMode) {
-                                var endPoint = currentPoint
-                            } else {
-                                var controlPoint = points[points.length - 1]
-                                endPoint = Qt.point((controlPoint.x + currentPoint.x) / 2, (controlPoint.y + currentPoint.y) / 2)
-                            }
-
-                            var deltaT = 1 / numDabs
-                            var betweenPoint = startPoint
-                            var t = deltaT
-                            var diff
-                            while (t > 0 && t <= 1) {
-                                var point = bezierCurve(startPoint, controlPoint, endPoint, t)
-                                var deltaPoint = Math.sqrt(Math.pow(point.x - betweenPoint.x, 2) + Math.pow(point.y - betweenPoint.y, 2))
-                                // check on bezier loop
-                                if (diff && Math.abs(deltaPoint - deltaDab) > Math.abs(diff)) { break; }
-                                diff = deltaPoint - deltaDab
-                                if (Math.abs(diff <= 0.5)) {
-                                    drawDab(point)
-                                    diff = undefined
-                                    betweenPoint = point
-                                    t += deltaT
-                                } else {
-                                    t -= diff / deltaDab * deltaT
-                                }
-                            }
-                            points.push(currentPoint)
-                            lastDrawPoint = betweenPoint
-                        }
                     }
                 }
 
