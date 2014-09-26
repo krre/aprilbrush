@@ -66,6 +66,14 @@ Item {
         content.y = (height - content.height) / 2
     }
 
+    function zoomIn() {
+        if (zoom < 30) zoom *= 1.5
+    }
+
+    function zoomOut() {
+        if (zoom > 0.01) zoom /= 1.5
+    }
+
     Item {
         id: content
         width: imageSize.width
@@ -121,6 +129,16 @@ Item {
                 }
 
                 onHoveredChanged: coreLib.setCursorShape(containsMouse ? "Paint" : "Arrow", brushSettings.size * zoom)
+
+                onWheel: {
+                    if (wheel.modifiers & Qt.ControlModifier) {
+                        if (wheel.angleDelta.y > 0) {
+                            zoomIn()
+                        } else {
+                            zoomOut()
+                        }
+                    }
+                }
 
                 onPressed: {
                     brushEngine.setTouch(true, canvasItem)

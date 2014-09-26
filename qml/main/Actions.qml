@@ -168,14 +168,14 @@ Item {
         id: zoomInAction
         text: qsTr("Zoom In")
         shortcut: "+"
-        onTriggered: if (canvasArea.zoom < 30) canvasArea.zoom *= 1.5
+        onTriggered: canvasArea.zoomIn()
     }
 
     Action {
         id: zoomOutAction
         text: qsTr("Zoom Out")
         shortcut: "-"
-        onTriggered: if (canvasArea.zoom > 0.01) canvasArea.zoom /= 1.5
+        onTriggered: canvasArea.zoomOut()
     }
 
     Action {
