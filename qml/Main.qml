@@ -108,7 +108,7 @@ ApplicationWindow {
         angle: brushSettings.angle
         jitter: brushSettings.jitter
         eraser: brushSettings.eraser
-        onPainted: canvasArea.canvasItem.update()
+        onPainted: canvasArea.canvas.update()
     }
 
     FileDialogBase { id: fileDialog }

@@ -5,7 +5,6 @@
 CanvasItem::CanvasItem(QQuickPaintedItem *parent) :
     QQuickPaintedItem(parent)
 {
-    connect(this, SIGNAL(widthChanged()), this, SLOT(changeCanvasSize()));
 }
 
 CanvasItem::~CanvasItem()
@@ -24,8 +23,10 @@ void CanvasItem::paint(QPainter *painter)
     painter->drawPixmap(0, 0, *m_pixmap);
 }
 
-void CanvasItem::changeCanvasSize()
+void CanvasItem::geometryChanged(const QRectF &newGeometry, const QRectF &oldGeometry)
 {
-    m_pixmap = new QPixmap(width(), height());
-    clear();
+    if (newGeometry.width() && newGeometry.height()) {
+        m_pixmap = new QPixmap(width(), height());
+        clear();
+    }
 }

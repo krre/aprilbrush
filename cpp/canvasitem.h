@@ -14,11 +14,9 @@ public:
 
 protected:
     void paint(QPainter * painter);
+    void geometryChanged(const QRectF & newGeometry, const QRectF & oldGeometry);
 
 signals:
-
-private slots:
-    void changeCanvasSize();
 
 private:
     QPixmap *m_pixmap;

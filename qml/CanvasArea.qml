@@ -22,7 +22,6 @@ Item {
     id: root
     property alias canvas: canvasView.currentItem
     property alias canvasView: canvasView
-    property alias canvasItem: canvasItem
     property color bgColor: "white"
     property bool isPan: false
     property bool isPick: false
@@ -130,7 +129,7 @@ Item {
                             undoEraserCtx.drawImage(canvas, 0, 0)
                             undoEraserBuffer.requestPaint()
                         } else {
-                            brushEngine.setTouch(true, canvasItem)
+                            brushEngine.setTouch(true, canvas)
                             brushEngine.paint(Qt.point(mouse.x, mouse.y))
                         }
                     }
@@ -144,25 +143,6 @@ Item {
                     } else if (isPick) {
                         coreLib.setCursorShape("Paint", brushSettings.size * zoom)
                     } else {
-                        /*
-                        startPos.x -= dab.width
-                        startPos.y -= dab.width
-                        finalPos.x += dab.width
-                        finalPos.y += dab.width
-
-                        var bufferCtx = parent.getContext("2d")
-                        var canvasCtx = canvas.getContext("2d")
-                        if (!isEraser) {
-                            var undoArea = canvasCtx.getImageData(startPos.x, startPos.y, finalPos.x - startPos.x, finalPos.y - startPos.y)
-                            var redoArea = bufferCtx.getImageData(startPos.x, startPos.y, finalPos.x - startPos.x, finalPos.y - startPos.y)
-                        } else {
-                            undoArea = undoEraserBuffer.getContext("2d").getImageData(startPos.x, startPos.y, finalPos.x - startPos.x, finalPos.y - startPos.y)
-                            redoArea = canvasCtx.getImageData(startPos.x, startPos.y, finalPos.x - startPos.x, finalPos.y - startPos.y)
-                        }
-                        undoManager.add(Undo.paint(startPos, undoArea, redoArea, brushSettings.opacity / 100, isEraser))
-                        bufferCtx.clearRect(0, 0, width, height)
-                        parent.requestPaint()
-                        */
                     }
                 }
 
@@ -212,8 +192,7 @@ Item {
             orientation: ListView.Horizontal
             currentIndex: layerManager.layerView.currentIndex
             interactive: false
-            signal created(var index, var canvas)
-            delegate: Canvas {
+            delegate: CanvasItem {
                 width: ListView.view.width
                 height: ListView.view.height
                 z: 1000 - index
@@ -221,37 +200,13 @@ Item {
                 enabled: !isLock
                 smooth: false
 
-                signal ready
-
-                onAvailableChanged: {
-                    clear(isBackground ? bgColor : null)
-                    ready()
-                }
-
                 Component.onCompleted: {
                     layerModel.set(index, { "canvas": this })
-                    canvasView.created(index, this)
-                }
-
-                function clear(color) {
-                    var ctx = getContext("2d")
-                    ctx.clearRect(0, 0, width, height)
-                    if (color) {
-                        ctx.fillStyle = color
-                        ctx.fillRect(0, 0, width, height)
+                    if (isBackground) {
+                        clear(bgColor)
                     }
-                    requestPaint()
                 }
             }
         }
-
-        CanvasItem {
-            id: canvasItem
-            anchors.fill: parent
-//            visible: false
-            smooth: false
-            Component.onCompleted: clear("white")
-        }
-
     }
 }
