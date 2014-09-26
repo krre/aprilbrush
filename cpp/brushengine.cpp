@@ -52,6 +52,7 @@ void BrushEngine::paint(QPointF point, qreal pressure)
             }
 
             startPoint = betweenPoint;
+            controlPoint = QPointF();
         }
     }
 }
