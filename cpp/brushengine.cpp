@@ -17,20 +17,22 @@ void BrushEngine::paint(QPointF point, qreal pressure)
 {
     if (isFirstPoint) {
         paintDab(point, pressure);
-        startPoint = point;
+        points.clear();
+        points.append(point);
+        lastDrawPoint = point;
         controlPoint = QPointF();
         isFirstPoint = false;
     } else {
+        startPoint = lastDrawPoint;
         qreal deltaPoint = qSqrt(qPow(startPoint.x() - point.x(), 2) + qPow(startPoint.y() - point.y(), 2));
         int numDabs = qFloor(deltaPoint / deltaDab);
         if (numDabs >= 1) {
-            if (numDabs < 3 || !isBezier) {
+            if (points.length() == 1 || numDabs < 3 || !isBezier) {
                 endPoint = point;
             } else {
-                controlPoint = startPoint;
+                controlPoint = points.at(points.length() - 1);
                 endPoint = (controlPoint + point) / 2;
             }
-
             qreal deltaT = 1.0 / numDabs;
             betweenPoint = startPoint;
             qreal t = deltaT;
@@ -51,7 +53,8 @@ void BrushEngine::paint(QPointF point, qreal pressure)
                 }
             }
 
-            startPoint = betweenPoint;
+            points.append(point);
+            lastDrawPoint = betweenPoint;
             controlPoint = QPointF();
         }
     }

@@ -76,6 +76,8 @@ private:
     QPointF endPoint;
     QPointF controlPoint;
     QPointF betweenPoint;
+    QPointF lastDrawPoint;
+    QList<QPointF> points;
 };
 
 #endif // BRUSHENGINE_H
