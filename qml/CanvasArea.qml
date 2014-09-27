@@ -130,7 +130,7 @@ Item {
                             undoEraserBuffer.requestPaint()
                         } else {
                             brushEngine.setTouch(true, canvas)
-                            brushEngine.paint(Qt.point(mouse.x, mouse.y))
+                            brushEngine.paint(Qt.point(mouse.x, mouse.y), mainRoot.pressure)
                         }
                     }
                 }
@@ -151,7 +151,7 @@ Item {
                         if (isPick) {
                             Utils.pickColor(Qt.point(mouseX, mouseY))
                         } else if (!isPan) {
-                            brushEngine.paint(Qt.point(mouse.x, mouse.y))
+                            brushEngine.paint(Qt.point(mouse.x, mouse.y), mainRoot.pressure )
                         }
                     } else if (isPan) {
                         content.x += (mouseX - grabPoint.x)

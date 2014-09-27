@@ -31,7 +31,7 @@ public slots:
 
 private:
     int size() {return m_size;}
-    void setSize(int size) { m_size = size; setDeltaDab(); }
+    void setSize(int size);
     int opacity() { return m_opacity; }
     void setOpacity(int opacity) { m_opacity = opacity; }
     int flow() { return m_flow; }
@@ -78,6 +78,8 @@ private:
     QPointF betweenPoint;
     QPointF lastDrawPoint;
     QList<QPointF> points;
+
+    QImage dabImage;
 };
 
 #endif // BRUSHENGINE_H

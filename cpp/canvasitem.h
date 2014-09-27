@@ -10,7 +10,7 @@ public:
     explicit CanvasItem(QQuickPaintedItem *parent = 0);
     ~CanvasItem();
     Q_INVOKABLE void clear(QColor color=Qt::transparent);
-    QPixmap* pixmap() { return m_pixmap; }
+    QImage* image() { return m_image; }
 
 protected:
     void paint(QPainter * painter);
@@ -19,7 +19,7 @@ protected:
 signals:
 
 private:
-    QPixmap *m_pixmap;
+    QImage *m_image;
 
 };
 

@@ -9,24 +9,25 @@ CanvasItem::CanvasItem(QQuickPaintedItem *parent) :
 
 CanvasItem::~CanvasItem()
 {
-    delete m_pixmap;
+    delete m_image;
 }
 
 void CanvasItem::clear(QColor color)
 {
-    m_pixmap->fill(color);
+    m_image->fill(color);
     update();
 }
 
 void CanvasItem::paint(QPainter *painter)
 {
-    painter->drawPixmap(0, 0, *m_pixmap);
+    painter->drawImage(0, 0, *m_image);
 }
 
 void CanvasItem::geometryChanged(const QRectF &newGeometry, const QRectF &oldGeometry)
 {
+    Q_UNUSED(oldGeometry)
     if (newGeometry.width() && newGeometry.height()) {
-        m_pixmap = new QPixmap(width(), height());
+        m_image = new QImage(width(), height(), QImage::Format_ARGB32);
         clear();
     }
 }

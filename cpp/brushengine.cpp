@@ -1,4 +1,5 @@
 #include "brushengine.h"
+#include"blend.h"
 
 BrushEngine::BrushEngine(QObject *parent) :
     QObject(parent)
@@ -11,6 +12,13 @@ void BrushEngine::setTouch(bool isTouch, CanvasItem *canvas)
         this->canvas = canvas;
         isFirstPoint = true;
     }
+}
+
+void BrushEngine::setSize(int size)
+{
+     m_size = size;
+     setDeltaDab();
+     dabImage = QImage(size, size, QImage::Format_ARGB32);
 }
 
 void BrushEngine::paint(QPointF point, qreal pressure)
@@ -62,9 +70,9 @@ void BrushEngine::paint(QPointF point, qreal pressure)
 
 void BrushEngine::paintDab(QPointF point, qreal pressure)
 {
-
-    QPixmap *pixmap = canvas->pixmap();
-    QPainter painter(pixmap);
+//    qDebug() << pressure;
+//    QPainter painter(&dabPixmap);
+    QPainter painter(canvas->image());
     painter.setRenderHint(QPainter::Antialiasing, true);
     painter.setPen(Qt::NoPen);
     painter.setBrush(QBrush(m_color));
@@ -75,21 +83,25 @@ void BrushEngine::paintDab(QPointF point, qreal pressure)
     } else {
         painter.drawRect(QRectF(point.x() - 0.5, point.y() - 0.5, 1, 1));
     }
+//    Blend::alphaMax(dabPixmap, *canvas->pixmap(), 1.0);
     painted();
 
 
 /*
-    QPixmap dabPixmap = QPixmap(m_size, m_size);
+
+//    QPixmap dabPixmap = QPixmap(m_size, m_size);
     dabPixmap.fill(Qt::transparent);
     QPainter dabPainter(&dabPixmap);
-    dabPainter.setRenderHint(QPainter::Antialiasing, false);
+    dabPainter.setRenderHint(QPainter::Antialiasing, true);
     dabPainter.setPen(Qt::NoPen);
     dabPainter.setBrush(QBrush(m_color));
     if (m_size > 1) {
-        dabPainter.drawEllipse(0, 0, m_size / 2, m_size / 2);
+        dabPainter.drawEllipse(0, 0, m_size, m_size);
     } else {
         dabPainter.drawRect(0, 0, 1, 1);
     }
+    Blend::alphaMax(dabPixmap.toImage(), canvas->pixmap()->toImage(), point, 1.0);
+    painted();
 
     QPixmap *pixmap = canvas->pixmap();
     QPainter painter(pixmap);
@@ -98,6 +110,7 @@ void BrushEngine::paintDab(QPointF point, qreal pressure)
     painter.setBrush(dabPixmap);
     painter.drawPixmap(point, dabPixmap);
     */
+
 }
 
 void BrushEngine::setDeltaDab()

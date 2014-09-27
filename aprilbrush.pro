@@ -7,13 +7,15 @@ SOURCES += \
     cpp/corelib.cpp \
     cpp/pointereater.cpp \
     cpp/canvasitem.cpp \
-    cpp/brushengine.cpp
+    cpp/brushengine.cpp \
+    cpp/blend.cpp
 
 HEADERS += \
     cpp/corelib.h \
     cpp/pointereater.h \
     cpp/canvasitem.h \
-    cpp/brushengine.h
+    cpp/brushengine.h \
+    cpp/blend.h
 
 OTHER_FILES += \
     qml/ColorPicker.qml \
