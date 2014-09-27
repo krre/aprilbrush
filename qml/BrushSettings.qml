@@ -51,7 +51,7 @@ ToolWindow {
 
         ListView {
             clip: true
-            spacing: 2
+            spacing: 10
 
             model: VisualItemModel {
                 id: brushModel

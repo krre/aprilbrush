@@ -7,17 +7,22 @@ Column {
     property alias value: slider.value
     property alias minimumValue: slider.minimumValue
     property alias maximumValue: slider.maximumValue
-    spacing: 5
+    spacing: 2
 
     RowLayout {
         width: parent.width
-        Text {
+        Label {
             text: title
         }
 
-        Text {
+        SpinBox {
             anchors.right: parent.right
-            text: slider.value
+            Layout.preferredWidth: 45
+            horizontalAlignment: Qt.AlignRight
+            value: slider.value
+            minimumValue: slider.minimumValue
+            maximumValue: slider.maximumValue
+            onValueChanged: slider.value = value
         }
     }
 
