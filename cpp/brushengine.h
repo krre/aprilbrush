@@ -25,7 +25,7 @@ public:
 
 
 signals:
-    void painted();
+    void painted(QRectF rect);
 
 public slots:
 

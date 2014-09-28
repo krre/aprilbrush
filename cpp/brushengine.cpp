@@ -19,6 +19,16 @@ void BrushEngine::setSize(int size)
      m_size = size;
      setDeltaDab();
      dabImage = QImage(size, size, QImage::Format_ARGB32);
+     dabImage.fill(Qt::transparent);
+     QPainter dabPainter(&dabImage);
+     dabPainter.setRenderHint(QPainter::Antialiasing, true);
+     dabPainter.setPen(Qt::NoPen);
+     dabPainter.setBrush(QBrush(m_color));
+     if (m_size > 1) {
+         dabPainter.drawEllipse(0, 0, m_size, m_size);
+     } else {
+         dabPainter.drawRect(0, 0, 1, 1);
+     }
 }
 
 void BrushEngine::paint(QPointF point, qreal pressure)
@@ -70,45 +80,37 @@ void BrushEngine::paint(QPointF point, qreal pressure)
 
 void BrushEngine::paintDab(QPointF point, qreal pressure)
 {
+
 //    qDebug() << pressure;
-//    QPainter painter(&dabPixmap);
     QPainter painter(canvas->image());
     painter.setRenderHint(QPainter::Antialiasing, true);
     painter.setPen(Qt::NoPen);
     painter.setBrush(QBrush(m_color));
     painter.setOpacity(m_opacity / 100.0 * pressure);
-
+    QRectF rect;
     if (m_size > 1) {
-        painter.drawEllipse(point, m_size / 2, m_size / 2);
+        rect = QRectF(QPointF(point.x() - m_size / 2.0, point.y() - m_size / 2.0), QSizeF(m_size, m_size));
+        painter.drawEllipse(rect);
     } else {
-        painter.drawRect(QRectF(point.x() - 0.5, point.y() - 0.5, 1, 1));
+        rect = QRectF(point.x() - 0.5, point.y() - 0.5, 1, 1);
+        painter.drawRect(rect);
     }
 //    Blend::alphaMax(dabPixmap, *canvas->pixmap(), 1.0);
-    painted();
+    painted(rect);
 
 
-/*
 
-//    QPixmap dabPixmap = QPixmap(m_size, m_size);
-    dabPixmap.fill(Qt::transparent);
-    QPainter dabPainter(&dabPixmap);
-    dabPainter.setRenderHint(QPainter::Antialiasing, true);
-    dabPainter.setPen(Qt::NoPen);
-    dabPainter.setBrush(QBrush(m_color));
-    if (m_size > 1) {
-        dabPainter.drawEllipse(0, 0, m_size, m_size);
-    } else {
-        dabPainter.drawRect(0, 0, 1, 1);
-    }
-    Blend::alphaMax(dabPixmap.toImage(), canvas->pixmap()->toImage(), point, 1.0);
-    painted();
 
-    QPixmap *pixmap = canvas->pixmap();
-    QPainter painter(pixmap);
+    /*
+//    Blend::alphaMax(dabImage, *(canvas->image()), point, m_flow / 100.0);
+
+    QPainter painter(canvas->image());
     painter.setRenderHint(QPainter::Antialiasing, true);
     painter.setPen(Qt::NoPen);
-    painter.setBrush(dabPixmap);
-    painter.drawPixmap(point, dabPixmap);
+//    painter.setBrush(dabPixmap);
+    painter.drawImage(point.x() - m_size / 2.0, point.y() - m_size / 2.0, dabImage);
+
+    painted();
     */
 
 }
