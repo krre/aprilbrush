@@ -167,14 +167,14 @@ Item {
     Action {
         id: zoomInAction
         text: qsTr("Zoom In")
-        shortcut: "+"
+        shortcut: "."
         onTriggered: canvasArea.zoomIn()
     }
 
     Action {
         id: zoomOutAction
         text: qsTr("Zoom Out")
-        shortcut: "-"
+        shortcut: ","
         onTriggered: canvasArea.zoomOut()
     }
 
@@ -195,7 +195,7 @@ Item {
     Action {
         id: resetAction
         text: qsTr("Reset")
-        shortcut: "0"
+        shortcut: "F12"
         onTriggered: canvasArea.resetTransform()
     }
 }
