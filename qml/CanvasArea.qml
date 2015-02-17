@@ -12,7 +12,7 @@
  */
 
 import QtQuick 2.4
-import QtQuick.Controls 1.2
+import QtQuick.Controls 1.3
 import ABLib 1.0
 import "components"
 import "undo.js" as Undo
