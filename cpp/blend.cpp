@@ -9,7 +9,7 @@ void Blend::alphaMax(const QImage& src, QImage& dst, const QPointF& coord, qreal
 {
     QColor srcColor;
     QColor dstColor;
-    qreal alpha;
+//    qreal alpha;
     qreal x = qMax(0.0, qMin(coord.x() - src.width() / 2.0, dst.width() * 1.0));
     qreal y = qMax(0.0, qMin(coord.y() - src.height() / 2.0, dst.height() * 1.0));
     for (int i = 0; i < src.width(); i++) {
