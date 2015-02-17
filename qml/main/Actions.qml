@@ -2,6 +2,7 @@ import QtQuick 2.4
 import QtQuick.Controls 1.3
 import "../utils.js" as Utils
 import "../undo.js" as Undo
+import "../enums.js" as Enums
 
 Item {
     property alias newAction: newAction
@@ -40,7 +41,7 @@ Item {
         text: qsTr("Open...")
         shortcut: "Ctrl+O"
         onTriggered: {
-            fileDialog.mode = 0
+            fileDialog.mode = Enums.FileOpen
             fileDialog.open()
         }
     }
@@ -51,7 +52,7 @@ Item {
         shortcut: "Ctrl+S"
         onTriggered: {
             if (oraPath === "") {
-                fileDialog.mode = 1; // Save mode
+                fileDialog.mode = Enums.FileSave
                 fileDialog.open()
             } else {
                 Utils.saveOra()
@@ -65,7 +66,7 @@ Item {
         text: qsTr("Save As...")
         shortcut: "Ctrl+Shift+S"
         onTriggered: {
-            fileDialog.mode = 1
+            fileDialog.mode = Enums.FileSave
             fileDialog.open()
         }
     }
@@ -75,7 +76,7 @@ Item {
         text: qsTr("Export...")
         shortcut: "Ctrl+E"
         onTriggered: {
-            fileDialog.mode = 2
+            fileDialog.mode = Enums.FileExport
             fileDialog.open()
         }
         enabled: layerModel && layerModel.count > 0

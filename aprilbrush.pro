@@ -40,3 +40,6 @@ OTHER_FILES += \
 
 RESOURCES += \
     qml.qrc
+
+DISTFILES += \
+    qml/enums.js
