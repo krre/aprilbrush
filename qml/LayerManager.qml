@@ -33,20 +33,11 @@ ToolWindow {
         undoManager.add(Undo.addLayer(name ? name : qsTr("Layer") + " " + layerNameIndexCounter++))
     }
 
-    function addBackground() {
-        var layerObj = defaultLayer()
-        layerObj.name = qsTr("Background")
-        layerObj.isBackground = true
-        layerModel.append(layerObj)
-        canvasArea.bgColor = "white"
-    }
-
     function defaultLayer() {
         return {
             name: "None",
             isVisible: true,
             isLock: false,
-            isBackground: false
         }
     }
 
@@ -63,12 +54,6 @@ ToolWindow {
                 model: layerModel
                 delegate: layerDelegate
                 spacing: 5
-                onCurrentItemChanged: {
-                    if (currentIndex == count - 1) {
-                        // avoid selecting background layer
-                        currentIndex = currentIndex - 1
-                    }
-                }
             }
         }
 
@@ -162,27 +147,6 @@ ToolWindow {
                             text: qsTr("Lock")
                             checked: isLock
                             onClicked: undoManager.add(Undo.changeIsLockLayer(index))
-                            visible: !isBackground
-                        }
-
-                        RowLayout {
-                            visible: isBackground
-                            spacing: 5
-
-                            Rectangle {
-                                width: 15
-                                height: 15
-                                radius: width / 2
-                                color: canvasArea.bgColor
-                                border.color: "#474747"
-                            }
-
-                            Label { text: qsTr("Color") }
-
-                            MouseArea {
-                                anchors.fill: parent
-                                onClicked: colorDialog.open()
-                            }
                         }
                     }
                 }

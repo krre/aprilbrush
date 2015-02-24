@@ -66,7 +66,7 @@ ApplicationWindow {
         oraPath = ""
         layerManager.layerNameIndexCounter = 1
         layerModel.clear()
-        layerManager.addBackground()
+//        layerManager.addBackground()
         layerManager.addLayer()
         undoManager.clear()
         canvasArea.resetTransform() // after adding new tab on runnging application

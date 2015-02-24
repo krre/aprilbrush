@@ -132,7 +132,7 @@ Item {
         id: deleteLayerAction
         text: qsTr("Delete")
         onTriggered: undoManager.add(Undo.deleteLayer())
-        enabled: layerManager.layerView.count > 1
+        enabled: layerManager.layerView.count > 0
     }
 
     Action {

@@ -73,116 +73,11 @@ Item {
         if (zoom > 0.01) zoom /= 1.5
     }
 
-    Item {
+    Rectangle {
         id: content
         width: imageSize.width
         height: imageSize.height
-
-        CheckerBoard {
-            anchors.fill: parent
-            cellSide: 30
-        }
-
-        // temporary dirty hack for undo eraser brush
-        Canvas {
-            id: undoEraserBuffer
-            anchors.fill: parent
-            visible: false
-            smooth: false
-        }
-
-        Canvas {
-            id: buffer
-            z: 1001
-            anchors.fill: parent
-            parent: canvasView.currentItem
-            opacity: brushSettings.opacity / 100
-            smooth: false
-
-            MouseArea {
-                id: mouseArea
-                anchors.fill: parent
-                enabled: buffer.parent ? buffer.parent.enabled : false
-                hoverEnabled: true
-
-                onHoveredChanged: coreLib.setCursorShape(containsMouse ? "Paint" : "Arrow", brushSettings.size * zoom)
-
-                onWheel: {
-                    if (wheel.modifiers & Qt.ControlModifier) {
-                        if (wheel.angleDelta.y > 0) {
-                            zoomIn()
-                        } else {
-                            zoomOut()
-                        }
-                    }
-                }
-
-                onPressed: {
-                    var point = Qt.point(mouseX, mouseY)
-                    if (isPick) {
-                        coreLib.setCursorShape("PickColor", 0)
-                        Utils.pickColor(point)
-                    } else if (!isPan) {
-                        if (isEraser) {
-                            var undoEraserCtx = undoEraserBuffer.getContext("2d")
-                            undoEraserCtx.clearRect(0, 0, width, height)
-                            undoEraserCtx.drawImage(canvas, 0, 0)
-                            undoEraserBuffer.requestPaint()
-                        } else {
-                            brushEngine.setTouch(true, canvas)
-                            brushEngine.paint(Qt.point(mouse.x, mouse.y), mainRoot.pressure)
-                        }
-                    }
-                }
-
-                onReleased: {
-                    brushEngine.setTouch(false)
-                    mainRoot.pressure = 1
-                    if (isPan) {
-                        coreLib.setCursorShape("OpenHand", 0)
-                    } else if (isPick) {
-                        coreLib.setCursorShape("Paint", brushSettings.size * zoom)
-                    } else {
-                    }
-                }
-
-                onPositionChanged: {
-                    if (pressed) {
-                        if (isPick) {
-                            Utils.pickColor(Qt.point(mouseX, mouseY))
-                        } else if (!isPan) {
-                            brushEngine.paint(Qt.point(mouse.x, mouse.y), mainRoot.pressure )
-                        }
-                    } else if (isPan) {
-                        content.x += (mouseX - grabPoint.x)
-                        content.y += (mouseY - grabPoint.y)
-                    }
-                }
-
-                function drawDab(point) {
-                    var ctx = isEraser ? canvas.getContext("2d") : buffer.getContext("2d")
-                    ctx.save()
-                    ctx.globalCompositeOperation = isEraser ? "destination-out" : "source-over"
-                    ctx.globalAlpha = mainRoot.pressure
-                    var size = brushSettings.size
-                    var x = point.x - size / 2 + size * brushSettings.jitter / 100 * (1 - 2 * Math.random())
-                    var y = point.y - size / 2 + size * brushSettings.jitter / 100 * (1 - 2 * Math.random())
-
-                    if (x < startPos.x) { startPos.x = Math.min(0, x) }
-                    if (y < startPos.y) { startPos.y = Math.min(0, y) }
-                    if (x > finalPos.x) { finalPos.x = Math.max(x, imageSize.width) }
-                    if (y > finalPos.y) { finalPos.y = Math.max(y, imageSize.height) }
-
-                    ctx.drawImage(dab, x, y)
-                    ctx.restore()
-                    if (isEraser) {
-                        canvas.markDirty(x, y, dab.width, dab.height)
-                    } else {
-                        buffer.markDirty(x, y, dab.width, dab.height)
-                    }
-                }
-            }
-        }
+        color: bgColor
 
         ListView {
             id: canvasView
@@ -202,9 +97,67 @@ Item {
 
                 Component.onCompleted: {
                     layerModel.set(index, { "canvas": this })
-                    if (isBackground) {
-                        clear(bgColor)
+                }
+            }
+        }
+
+        MouseArea {
+            id: mouseArea
+            anchors.fill: parent
+//            enabled: buffer.parent ? buffer.parent.enabled : false
+            hoverEnabled: true
+
+            onHoveredChanged: coreLib.setCursorShape(containsMouse ? "Paint" : "Arrow", brushSettings.size * zoom)
+
+            onWheel: {
+                if (wheel.modifiers & Qt.ControlModifier) {
+                    if (wheel.angleDelta.y > 0) {
+                        zoomIn()
+                    } else {
+                        zoomOut()
                     }
+                }
+            }
+
+            onPressed: {
+                var point = Qt.point(mouseX, mouseY)
+                if (isPick) {
+                    coreLib.setCursorShape("PickColor", 0)
+                    Utils.pickColor(point)
+                } else if (!isPan) {
+                    if (isEraser) {
+//                        var undoEraserCtx = undoEraserBuffer.getContext("2d")
+//                        undoEraserCtx.clearRect(0, 0, width, height)
+//                        undoEraserCtx.drawImage(canvas, 0, 0)
+//                        undoEraserBuffer.requestPaint()
+                    } else {
+                        brushEngine.setTouch(true, canvas)
+                        brushEngine.paint(Qt.point(mouse.x, mouse.y), mainRoot.pressure)
+                    }
+                }
+            }
+
+            onReleased: {
+                brushEngine.setTouch(false)
+                mainRoot.pressure = 1
+                if (isPan) {
+                    coreLib.setCursorShape("OpenHand", 0)
+                } else if (isPick) {
+                    coreLib.setCursorShape("Paint", brushSettings.size * zoom)
+                } else {
+                }
+            }
+
+            onPositionChanged: {
+                if (pressed) {
+                    if (isPick) {
+                        Utils.pickColor(Qt.point(mouseX, mouseY))
+                    } else if (!isPan) {
+                        brushEngine.paint(Qt.point(mouse.x, mouse.y), mainRoot.pressure )
+                    }
+                } else if (isPan) {
+                    content.x += (mouseX - grabPoint.x)
+                    content.y += (mouseY - grabPoint.y)
                 }
             }
         }
