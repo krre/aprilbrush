@@ -18,7 +18,7 @@ MessageDialog {
     title: qsTr("About AprilBrush")
     standardButtons: StandardButton.Ok
     text: "<h3>AprilBrush " + mainRoot.version + "</h3>
-          Build date: " + coreLib.buildDate() + "<br>
+          Build date: " + coreLib.buildDate + "<br>
           Copyright (c) 2012-2014, Vladimir Zarypov<br>
           <a href=\"http://sourceforge.net/projects/aprilbrush\">http://sourceforge.net/projects/aprilbrush</a>"
     Component.onCompleted: open()
