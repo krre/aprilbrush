@@ -111,8 +111,6 @@ ApplicationWindow {
         onPainted: canvasArea.canvas.update(rect)
     }
 
-    FileDialogBase { id: fileDialog }
-
     CanvasArea {
         id: canvasArea
         anchors.fill: parent

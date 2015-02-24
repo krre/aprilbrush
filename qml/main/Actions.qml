@@ -40,10 +40,7 @@ Item {
         id: openAction
         text: qsTr("Open...")
         shortcut: "Ctrl+O"
-        onTriggered: {
-            fileDialog.mode = Enums.FileOpen
-            fileDialog.open()
-        }
+        onTriggered: Utils.createDynamicObject(mainRoot, "qrc:/qml/FileDialogBase.qml", { mode: Enums.FileOpen })
     }
 
     Action {
@@ -52,8 +49,7 @@ Item {
         shortcut: "Ctrl+S"
         onTriggered: {
             if (oraPath === "") {
-                fileDialog.mode = Enums.FileSave
-                fileDialog.open()
+                Utils.createDynamicObject(mainRoot, "qrc:/qml/FileDialogBase.qml", { mode: Enums.FileSave })
             } else {
                 Utils.saveOra()
             }
@@ -65,20 +61,14 @@ Item {
         id: saveAsAction
         text: qsTr("Save As...")
         shortcut: "Ctrl+Shift+S"
-        onTriggered: {
-            fileDialog.mode = Enums.FileSave
-            fileDialog.open()
-        }
+        onTriggered: Utils.createDynamicObject(mainRoot, "qrc:/qml/FileDialogBase.qml", { mode: Enums.FileSave })
     }
 
     Action {
         id: exportAction
         text: qsTr("Export...")
         shortcut: "Ctrl+E"
-        onTriggered: {
-            fileDialog.mode = Enums.FileExport
-            fileDialog.open()
-        }
+        onTriggered: Utils.createDynamicObject(mainRoot, "qrc:/qml/FileDialogBase.qml", { mode: Enums.FileExport })
         enabled: layerModel && layerModel.count > 0
     }
 
