@@ -113,8 +113,6 @@ ApplicationWindow {
 
     FileDialogBase { id: fileDialog }
 
-    About { id: about }
-
     CanvasArea {
         id: canvasArea
         anchors.fill: parent

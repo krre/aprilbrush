@@ -21,4 +21,5 @@ MessageDialog {
           Build date: " + coreLib.buildDate() + "<br>
           Copyright (c) 2012-2014, Vladimir Zarypov<br>
           <a href=\"http://sourceforge.net/projects/aprilbrush\">http://sourceforge.net/projects/aprilbrush</a>"
+    Component.onCompleted: open()
 }

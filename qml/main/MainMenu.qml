@@ -1,5 +1,6 @@
 import QtQuick 2.4
 import QtQuick.Controls 1.3
+import "../utils.js" as Utils
 
 MenuBar {
     Menu {
@@ -82,7 +83,9 @@ MenuBar {
         title: qsTr("Help")
         MenuItem {
             text: qsTr("About...")
-            onTriggered: about.open()
+            onTriggered: {
+                Utils.createDynamicObject(mainRoot, "qrc:/qml/About.qml")
+            }
         }
     }
 }
