@@ -44,19 +44,17 @@ ApplicationWindow {
     menuBar: MainMenu {}
 
     Component.onCompleted: {
-        if (!Settings.loadSettings(mainRoot)) {
-            colorPicker.visible = true
-            layerManager.visible = true
-            brushSettings.visible = true
-            brushLibrary.visible = true
-            undoManager.visible = true
-        }
-
         newImage()
         mainRoot.onWidthChanged.connect(function resTransform() {
             canvasArea.resetTransform() // after changing window on load settings
             mainRoot.onWidthChanged.disconnect(resTransform)
         })
+    }
+
+    Timer {
+        interval: 1
+        running: true
+        onTriggered: Settings.loadSettings(mainRoot)
     }
 
     onClosing: Settings.saveSettings(mainRoot)

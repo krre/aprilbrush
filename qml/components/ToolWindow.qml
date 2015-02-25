@@ -26,6 +26,7 @@ Window {
     color: mainRoot.sysPalette.window
     minimumWidth: 100
     minimumHeight: 100
+    visible: true
 
     onVisibleChanged: {
         if (visible) {
