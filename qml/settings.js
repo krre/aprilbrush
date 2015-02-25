@@ -21,7 +21,7 @@ function loadSettings(parent) {
                 if (objName === parent.data[j].objectName) {
                     var properties = settings[i].properties
                     for (var prop in properties) {
-                        if (typeof parent.data[j][prop] !== undefined) {
+                        if (parent.data[j].hasOwnProperty(prop)) {
                             var value = properties[prop]
                             if (value === "true") {
                                 parent.data[j][prop] = true
