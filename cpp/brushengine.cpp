@@ -1,4 +1,4 @@
-#include "brushengine.h"
+#include "brushEngine.h"
 #include"blend.h"
 
 BrushEngine::BrushEngine(QObject *parent) :

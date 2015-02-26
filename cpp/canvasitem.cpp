@@ -1,4 +1,4 @@
-#include "canvasitem.h"
+#include "canvasItem.h"
 #include <QtCore>
 #include <QtGui>
 

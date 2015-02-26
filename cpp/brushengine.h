@@ -2,7 +2,7 @@
 #define BRUSHENGINE_H
 
 #include <QtCore>
-#include "canvasitem.h"
+#include "canvasItem.h"
 
 class BrushEngine : public QObject
 {
