@@ -1,7 +1,7 @@
 #ifndef TabletEventFilter_H
 #define TabletEventFilter_H
 
-#include <QObject>
+#include <QtCore>
 
 class TabletEventFilter : public QObject
 {
@@ -10,8 +10,7 @@ public:
     explicit TabletEventFilter(QObject *parent = 0);
 
 signals:
-    void pressure(qreal pressure);
-    void pressed(int type); // 0 - mouse, 1 - tablet
+    void action(QVariantMap event);
 
 public slots:
 
