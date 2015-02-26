@@ -1,12 +1,12 @@
-#include "pointereater.h"
+#include "tabletEventFilter.h"
 #include <QtGui>
 
-PointerEater::PointerEater(QObject *parent) :
+TabletEventFilter::TabletEventFilter(QObject *parent) :
     QObject(parent)
 {
 }
 
-bool PointerEater::eventFilter(QObject *obj, QEvent *event)
+bool TabletEventFilter::eventFilter(QObject *obj, QEvent *event)
 {
     if (event->type() == QEvent::TabletPress) {
         QTabletEvent *tabletEvent = static_cast<QTabletEvent *>(event);

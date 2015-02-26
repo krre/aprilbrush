@@ -83,7 +83,7 @@ ApplicationWindow {
     ListModel { id: undoModel }
 
     Connections {
-        target: PointerEater
+        target: TabletEventFilter
         onPressure: mainRoot.pressure = pressure
     }
 

@@ -1,13 +1,13 @@
-#ifndef POINTEREATER_H
-#define POINTEREATER_H
+#ifndef TabletEventFilter_H
+#define TabletEventFilter_H
 
 #include <QObject>
 
-class PointerEater : public QObject
+class TabletEventFilter : public QObject
 {
     Q_OBJECT
 public:
-    explicit PointerEater(QObject *parent = 0);
+    explicit TabletEventFilter(QObject *parent = 0);
 
 signals:
     void pressure(qreal pressure);
@@ -20,4 +20,4 @@ protected:
 
 };
 
-#endif // POINTEREATER_H
+#endif // TabletEventFilter_H

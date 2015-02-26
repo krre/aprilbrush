@@ -14,7 +14,7 @@
 #include "cpp/corelib.h"
 #include "cpp/brushengine.h"
 #include "cpp/canvasitem.h"
-#include "cpp/pointereater.h"
+#include "cpp/tabletEventFilter.h"
 
 #include <QtQml>
 #include <QApplication>
@@ -28,11 +28,11 @@ int main(int argc, char *argv[])
     qmlRegisterType<BrushEngine>("ABLib", 1, 0, "BrushEngine");
     qmlRegisterType<CanvasItem>("ABLib", 1, 0, "CanvasItem");
 
-    PointerEater *pointerEater = new PointerEater();
-    app.installEventFilter(pointerEater);
+    TabletEventFilter tabletEventFilter;
+    app.installEventFilter(&tabletEventFilter);
 
     QQmlApplicationEngine engine;
-    engine.rootContext()->setContextProperty("PointerEater", pointerEater);
+    engine.rootContext()->setContextProperty("TabletEventFilter", &tabletEventFilter);
     engine.load(QUrl("qrc:///qml/Main.qml"));
 
     return app.exec();
