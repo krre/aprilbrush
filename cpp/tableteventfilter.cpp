@@ -24,6 +24,10 @@ bool TabletEventFilter::eventFilter(QObject *obj, QEvent *event)
         eventMap["leave"] = event->type() == QEvent::TabletLeaveProximity;
         emit action(eventMap);
         return true;
+    } else if (event->type() == QEvent::MouseMove) {
+//        QMouseEvent *mouseEvent = static_cast<QMouseEvent *>(event);
+//        qDebug() << mouseEvent->pos() << mouseEvent->globalPos();
+        return QObject::eventFilter(obj, event);
     } else {
         // standard event processing
         return QObject::eventFilter(obj, event);

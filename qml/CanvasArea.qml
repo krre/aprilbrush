@@ -54,6 +54,7 @@ Item {
     ]
 
     Component.onCompleted: {
+        coreLib.addEventFilter(mouseArea)
         forceActiveFocus()
     }
 
@@ -99,6 +100,10 @@ Item {
                     layerModel.set(index, { "canvas": this })
                 }
             }
+        }
+
+        Connections {
+            target: TabletEventFilter
         }
 
         MouseArea {

@@ -12,14 +12,18 @@
  */
 
 #include "corelib.h"
+#include "tableteventfilter.h"
 #include "qzip/qzipreader_p.h"
 #include "qzip/qzipwriter_p.h"
 
 #include <QtGui>
+#include <QtQuick>
 #include <QDir>
 #include <QCursor>
 #include <QXmlStreamReader>
 #include <QXmlStreamWriter>
+
+extern QPointer<TabletEventFilter> tabletEventFilter;
 
 CoreLib::CoreLib(QObject *parent) : QObject(parent)
 {
@@ -177,4 +181,11 @@ void CoreLib::setCursorShape(QString type, int size=0)
         QCursor cursor = QCursor(Qt::ArrowCursor);
         window->setCursor(cursor);
     }
+}
+
+void CoreLib::addEventFilter(QVariant item)
+{
+    QObject *obj = qvariant_cast<QObject *>(item);
+    QQuickItem *it = qobject_cast<QQuickItem *>(obj);
+    it->installEventFilter(tabletEventFilter);
 }

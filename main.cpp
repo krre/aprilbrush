@@ -20,6 +20,8 @@
 #include <QApplication>
 #include <QQmlApplicationEngine>
 
+QPointer<TabletEventFilter> tabletEventFilter;
+
 int main(int argc, char *argv[])
 {
     QApplication app(argc, argv);
@@ -28,11 +30,11 @@ int main(int argc, char *argv[])
     qmlRegisterType<BrushEngine>("ABLib", 1, 0, "BrushEngine");
     qmlRegisterType<CanvasItem>("ABLib", 1, 0, "CanvasItem");
 
-    TabletEventFilter tabletEventFilter;
-    app.installEventFilter(&tabletEventFilter);
+    ::tabletEventFilter = new TabletEventFilter;
+//    app.installEventFilter(&tabletEventFilter);
 
     QQmlApplicationEngine engine;
-    engine.rootContext()->setContextProperty("TabletEventFilter", &tabletEventFilter);
+    engine.rootContext()->setContextProperty("TabletEventFilter", tabletEventFilter);
     engine.load(QUrl("qrc:///qml/Main.qml"));
 
     return app.exec();

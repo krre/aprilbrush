@@ -82,11 +82,6 @@ ApplicationWindow {
     ListModel { id: layerModel }
     ListModel { id: undoModel }
 
-    Connections {
-        target: TabletEventFilter
-        onPressure: mainRoot.pressure = pressure
-    }
-
     Actions { id: actions}
 
     CoreLib {
