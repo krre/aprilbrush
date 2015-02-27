@@ -1,4 +1,4 @@
-#include "tabletEventFilter.h"
+#include "tableteventfilter.h"
 #include <QtGui>
 
 TabletEventFilter::TabletEventFilter(QObject *parent) :

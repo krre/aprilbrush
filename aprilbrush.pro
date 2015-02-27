@@ -6,17 +6,17 @@ CONFIG += c++11
 SOURCES += \
     main.cpp \
     cpp/blend.cpp \
-    cpp/tabletEventFilter.cpp \
-    cpp/brushEngine.cpp \
-    cpp/canvasItem.cpp \
-    cpp/coreLib.cpp
+    cpp/tableteventfilter.cpp \
+    cpp/brushengine.cpp \
+    cpp/canvasitem.cpp \
+    cpp/corelib.cpp
 
 HEADERS += \
     cpp/blend.h \
-    cpp/tabletEventFilter.h \
-    cpp/brushEngine.h \
-    cpp/canvasItem.h \
-    cpp/coreLib.h
+    cpp/tableteventfilter.h \
+    cpp/brushengine.h \
+    cpp/canvasitem.h \
+    cpp/corelib.h
 
 OTHER_FILES += \
     qml/ColorPicker.qml \

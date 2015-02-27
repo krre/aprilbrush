@@ -11,7 +11,7 @@
  * GNU General Public License for more details.
  */
 
-#include "coreLib.h"
+#include "corelib.h"
 #include "qzip/qzipreader_p.h"
 #include "qzip/qzipwriter_p.h"
 

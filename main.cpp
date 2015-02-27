@@ -14,7 +14,7 @@
 #include "cpp/corelib.h"
 #include "cpp/brushengine.h"
 #include "cpp/canvasitem.h"
-#include "cpp/tabletEventFilter.h"
+#include "cpp/tableteventfilter.h"
 
 #include <QtQml>
 #include <QApplication>
