@@ -41,6 +41,8 @@ void BrushEngine::paint(QPointF point, qreal pressure)
         controlPoint = QPointF();
         isFirstPoint = false;
     } else {
+        paintDab(point, pressure);
+        return;
         startPoint = lastDrawPoint;
         qreal deltaPoint = qSqrt(qPow(startPoint.x() - point.x(), 2) + qPow(startPoint.y() - point.y(), 2));
         int numDabs = qFloor(deltaPoint / deltaDab);

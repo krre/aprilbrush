@@ -27,7 +27,6 @@ ApplicationWindow {
 
     property string version: "0.3"
     property size imageSize: Qt.size(Screen.width, Screen.height)
-    property real pressure: 1
     property alias sysPalette: sysPalette
     property bool isDirty: false
     property bool isEraser: brushSettings.eraser > 50
@@ -41,7 +40,7 @@ ApplicationWindow {
     height: 600
     visible: true
 
-    menuBar: MainMenu {}
+    menuBar: MainMenu { id: mainMenu }
 
     Component.onCompleted: {
         newImage()

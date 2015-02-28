@@ -186,6 +186,6 @@ void CoreLib::setCursorShape(QString type, int size=0)
 void CoreLib::addEventFilter(QVariant item)
 {
     QObject *obj = qvariant_cast<QObject *>(item);
-    QQuickItem *it = qobject_cast<QQuickItem *>(obj);
-    it->installEventFilter(tabletEventFilter);
+    QQuickWindow *wnd = qobject_cast<QQuickWindow *>(obj);
+    wnd->installEventFilter(tabletEventFilter);
 }
