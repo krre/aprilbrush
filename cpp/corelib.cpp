@@ -57,8 +57,7 @@ QVariant CoreLib::loadSettings()
 void CoreLib::saveSettings(QVariant settings)
 {
     QString settingsDirPath = QDir::currentPath() + "/profile";
-    if (!QDir(settingsDirPath).exists())
-        QDir().mkdir(settingsDirPath);
+    QDir().mkdir(settingsDirPath);
     QString settingsPath = settingsDirPath + "/settings.json";
 
     QFile file(settingsPath);
