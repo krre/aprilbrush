@@ -41,7 +41,7 @@ QByteArray CoreLib::loadBrushPack()
 
 QVariant CoreLib::loadSettings()
 {
-    QString settingsPath = QDir::currentPath() + "/.aprilbrush/settings.json";
+    QString settingsPath = QDir::currentPath() + "/profile/settings.json";
     if (!QFile::exists(settingsPath))
         return 0;
 
@@ -56,7 +56,7 @@ QVariant CoreLib::loadSettings()
 
 void CoreLib::saveSettings(QVariant settings)
 {
-    QString settingsDirPath = QDir::currentPath() + "/.aprilbrush";
+    QString settingsDirPath = QDir::currentPath() + "/profile";
     if (!QDir(settingsDirPath).exists())
         QDir().mkdir(settingsDirPath);
     QString settingsPath = settingsDirPath + "/settings.json";
