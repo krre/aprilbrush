@@ -1,24 +1,78 @@
 import QtQuick 2.4
 import QtQuick.Controls 1.3
 import "../utils.js" as Utils
+import "../enums.js" as Enums
 
 MenuBar {
     Menu {
         title: qsTr("File")
-        MenuItem { action: actions.newAction }
-        MenuItem { action: actions.openAction }
-        MenuItem { action: actions.saveAction }
-        MenuItem { action: actions.saveAsAction }
-        MenuItem { action: actions.exportAction }
+        MenuItem {
+            text: qsTr("New")
+            shortcut: "Ctrl+N"
+            onTriggered: newImage()
+        }
+        MenuItem {
+            text: qsTr("Open...")
+            shortcut: "Ctrl+O"
+            onTriggered: Utils.createDynamicObject(mainRoot, "qrc:/qml/FileDialogBase.qml", { mode: Enums.FileOpen })
+        }
+        MenuItem {
+            text: qsTr("Save")
+            shortcut: "Ctrl+S"
+            onTriggered: {
+                if (oraPath === "") {
+                    Utils.createDynamicObject(mainRoot, "qrc:/qml/FileDialogBase.qml", { mode: Enums.FileSave })
+                } else {
+                    Utils.saveOra()
+                }
+            }
+            enabled: isDirty
+        }
+        MenuItem {
+            text: qsTr("Save As...")
+            shortcut: "Ctrl+Shift+S"
+            onTriggered: Utils.createDynamicObject(mainRoot, "qrc:/qml/FileDialogBase.qml", { mode: Enums.FileSave })
+        }
+        MenuItem {
+            text: qsTr("Export...")
+            shortcut: "Ctrl+E"
+            onTriggered: Utils.createDynamicObject(mainRoot, "qrc:/qml/FileDialogBase.qml", { mode: Enums.FileExport })
+            enabled: layerModel && layerModel.count > 0
+        }
         MenuSeparator {}
-        MenuItem { action: actions.quitAction }
+        MenuItem {
+            text: qsTr("Exit")
+            shortcut: "Ctrl+Q"
+            onTriggered: mainRoot.close()
+        }
     }
 
     Menu {
         title: qsTr("Edit")
-        MenuItem { action: actions.undoAction }
-        MenuItem { action: actions.redoAction }
-        MenuItem { action: actions.clearAction }
+        MenuItem {
+            text: qsTr("Undo")
+            shortcut: "Ctrl+Z"
+            onTriggered: {
+                undoManager.undoView.decrementCurrentIndex()
+                undoManager.run(undoManager.undoView.currentIndex)
+            }
+            enabled: undoManager.undoView.currentIndex > 0
+        }
+        MenuItem {
+            text: qsTr("Redo")
+            shortcut: "Ctrl+Shift+Z"
+            onTriggered: {
+                undoManager.undoView.incrementCurrentIndex()
+                undoManager.run(undoManager.undoView.currentIndex)
+            }
+            enabled: undoModel ? undoManager.undoView.currentIndex < undoModel.count - 1 : false
+        }
+        MenuItem {
+            text: qsTr("Clear")
+            shortcut: "Delete"
+            onTriggered: undoManager.add(Undo.clearLayer())
+            enabled: currentLayerIndex >= 0
+        }
     }
 
     Menu {
@@ -33,11 +87,31 @@ MenuBar {
 
     Menu {
         title: qsTr("View")
-        MenuItem {action: actions.zoomInAction }
-        MenuItem {action: actions.zoomOutAction }
-        MenuItem {action: actions.rotationAction }
-        MenuItem {action: actions.mirrorAction }
-        MenuItem {action: actions.resetAction }
+        MenuItem {
+            text: qsTr("Zoom In")
+            shortcut: "."
+            onTriggered: canvasArea.zoomIn()
+        }
+        MenuItem {
+            text: qsTr("Zoom Out")
+            shortcut: ","
+            onTriggered: canvasArea.zoomOut()
+        }
+        MenuItem {
+            text: qsTr("Rotation")
+            shortcut: "R"
+            onTriggered: canvasArea.rotation += 90
+        }
+        MenuItem {
+            text: qsTr("Mirror")
+            shortcut: "M"
+            onTriggered: canvasArea.mirror *= -1
+        }
+        MenuItem {
+            text: qsTr("Reset")
+            shortcut: "F12"
+            onTriggered: canvasArea.resetTransform()
+        }
     }
 
     Menu {

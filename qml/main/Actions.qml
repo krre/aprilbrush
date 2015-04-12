@@ -5,16 +5,6 @@ import "../undo.js" as Undo
 import "../enums.js" as Enums
 
 Item {
-    property alias newAction: newAction
-    property alias openAction: openAction
-    property alias saveAction: saveAction
-    property alias saveAsAction: saveAsAction
-    property alias exportAction: exportAction
-    property alias quitAction: quitAction
-
-    property alias undoAction: undoAction
-    property alias redoAction: redoAction
-    property alias clearAction: clearAction
 
     property alias newLayerAction: newLayerAction
     property alias deleteLayerAction: deleteLayerAction
@@ -22,92 +12,6 @@ Item {
     property alias duplicateLayerAction: duplicateLayerAction
     property alias upLayerAction: upLayerAction
     property alias downLayerAction: downLayerAction
-
-    property alias zoomInAction: zoomInAction
-    property alias zoomOutAction: zoomOutAction
-    property alias rotationAction: rotationAction
-    property alias mirrorAction: mirrorAction
-    property alias resetAction: resetAction
-
-    Action {
-        id: newAction
-        text: qsTr("New")
-        shortcut: "Ctrl+N"
-        onTriggered: newImage()
-    }
-
-    Action {
-        id: openAction
-        text: qsTr("Open...")
-        shortcut: "Ctrl+O"
-        onTriggered: Utils.createDynamicObject(mainRoot, "qrc:/qml/FileDialogBase.qml", { mode: Enums.FileOpen })
-    }
-
-    Action {
-        id: saveAction
-        text: qsTr("Save")
-        shortcut: "Ctrl+S"
-        onTriggered: {
-            if (oraPath === "") {
-                Utils.createDynamicObject(mainRoot, "qrc:/qml/FileDialogBase.qml", { mode: Enums.FileSave })
-            } else {
-                Utils.saveOra()
-            }
-        }
-        enabled: isDirty
-    }
-
-    Action {
-        id: saveAsAction
-        text: qsTr("Save As...")
-        shortcut: "Ctrl+Shift+S"
-        onTriggered: Utils.createDynamicObject(mainRoot, "qrc:/qml/FileDialogBase.qml", { mode: Enums.FileSave })
-    }
-
-    Action {
-        id: exportAction
-        text: qsTr("Export...")
-        shortcut: "Ctrl+E"
-        onTriggered: Utils.createDynamicObject(mainRoot, "qrc:/qml/FileDialogBase.qml", { mode: Enums.FileExport })
-        enabled: layerModel && layerModel.count > 0
-    }
-
-    Action {
-        id: quitAction
-        text: qsTr("Quit")
-        shortcut: "Ctrl+Q"
-        onTriggered: mainRoot.close()
-    }
-
-    Action {
-        id: undoAction
-        text: qsTr("Undo")
-        shortcut: "Ctrl+Z"
-        onTriggered: {
-            undoManager.undoView.decrementCurrentIndex()
-            undoManager.run(undoManager.undoView.currentIndex)
-        }
-        enabled: undoManager.undoView.currentIndex > 0
-    }
-
-    Action {
-        id: redoAction
-        text: qsTr("Redo")
-        shortcut: "Ctrl+Shift+Z"
-        onTriggered: {
-            undoManager.undoView.incrementCurrentIndex()
-            undoManager.run(undoManager.undoView.currentIndex)
-        }
-        enabled: undoModel ? undoManager.undoView.currentIndex < undoModel.count - 1 : false
-    }
-
-    Action {
-        id: clearAction
-        text: qsTr("Clear")
-        shortcut: "Delete"
-        onTriggered: undoManager.add(Undo.clearLayer())
-        enabled: currentLayerIndex >= 0
-    }
 
     // layer management
 
@@ -151,43 +55,6 @@ Item {
         text: qsTr("Down")
         enabled: currentLayerIndex < layerManager.layerView.count - 2
         onTriggered: undoManager.add(Undo.lowerLayer())
-    }
-
-    // canvas transform
-
-    Action {
-        id: zoomInAction
-        text: qsTr("Zoom In")
-        shortcut: "."
-        onTriggered: canvasArea.zoomIn()
-    }
-
-    Action {
-        id: zoomOutAction
-        text: qsTr("Zoom Out")
-        shortcut: ","
-        onTriggered: canvasArea.zoomOut()
-    }
-
-    Action {
-        id: rotationAction
-        text: qsTr("Rotation")
-        shortcut: "R"
-        onTriggered: canvasArea.rotation += 90
-    }
-
-    Action {
-        id: mirrorAction
-        text: qsTr("Mirror")
-        shortcut: "M"
-        onTriggered: canvasArea.mirror *= -1
-    }
-
-    Action {
-        id: resetAction
-        text: qsTr("Reset")
-        shortcut: "F12"
-        onTriggered: canvasArea.resetTransform()
     }
 }
 
