@@ -230,14 +230,12 @@ function folderFromPath(path) {
     return path.replace(/^.*[\\\/]/, '')
 }
 
-function createDynamicObject(parent, url, item) {
-    var component = Qt.createComponent(url);
+function createDynamicObject(parent, url, properties) {
+    var component = Qt.createComponent(url)
     var errorMessage = component.errorString()
-    if (errorMessage !== "") {
-        console.log("Error loading component " + url + ":", errorMessage);
-    } else if (item) {
-        return component.createObject(parent, item)
+    if (errorMessage) {
+        print("Error loading component " + url + ":", errorMessage)
     } else {
-        return component.createObject(parent)
+        return component.createObject(parent, properties ? properties : {})
     }
 }
