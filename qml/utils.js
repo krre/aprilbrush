@@ -15,12 +15,9 @@
 
 // Open OpenRaster file
 function openOra(filePath) {
-    var path = filePath.toString()
-    path = polishPath(path)
-
     layerModel.clear()
     undoModel.clear()
-    var layersList = coreLib.readOra(path)
+    var layersList = coreLib.readOra(filePath)
     var selectedIndex = 0
 
     for (var i = 0; i < layersList.length; i++) {
@@ -58,7 +55,7 @@ function openOra(filePath) {
 
     layerManager.layerView.currentIndex = selectedIndex
 
-    oraPath = path
+    oraPath = filePath
     fileName = fileFromPath(oraPath)
     canvasArea.resetTransform()
     undoManager.add(Undo.start())
@@ -72,8 +69,7 @@ function saveAsOra(filePath) {
     if (path.substr(-4) !== ".ora") {
         path += ".ora"
     }
-    path = polishPath(path)
-    oraPath = path
+    oraPath = filePath
     fileName = fileFromPath(oraPath)
     saveOra()
 }
@@ -101,11 +97,10 @@ function saveOra() {
 
 // Export PNG file
 function exportPng(filePath) {
-    var path = filePath.toString()
+    var path = filePath
     if (path.substr(-4) !== ".png") {
         path += ".png"
     }
-    path = polishPath(path)
 
     var finalCanvas = exportCanvas.createObject(canvasArea)
     finalCanvas.onFinished.connect(function() {
@@ -207,17 +202,6 @@ function hsvToRgb(h, s, v) {
         case 5: r = v; g = p; b = q; break;
     }
     return Qt.rgba(r, g, b, 1)
-}
-
-function polishPath(path) {
-    var re = new RegExp("\/{2,}", "g")
-    path = path.replace(re, "/")
-    path = path.replace("file:", "")
-    re = new RegExp("^\/.:")
-    if (re.test(path))
-        path = path.substring(1)
-
-    return path
 }
 
 // Get filename from path

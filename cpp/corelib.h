@@ -29,8 +29,8 @@ public:
     Q_INVOKABLE QVariant loadSettings();
     Q_INVOKABLE void saveSettings(QVariant settings);
     //Q_INVOKABLE void buildDate() { qDebug() << QLocale(QLocale::C).toDate(QString(__DATE__).simplified(), QLatin1String("MMM d yyyy")); }
-    Q_INVOKABLE void writeOra(const QString oraPath, const QSize imageSize, const QVariantList layerList);
-    Q_INVOKABLE QVariantList readOra(const QString oraPath);
+    Q_INVOKABLE void writeOra(const QUrl oraPath, const QSize imageSize, const QVariantList layerList);
+    Q_INVOKABLE QVariantList readOra(const QUrl oraPath);
     Q_INVOKABLE void setCursorShape(QString type, int size);
     Q_INVOKABLE void addEventFilter(QVariant item);
     void setWindow(QWindow *window) { this->window = window; }
