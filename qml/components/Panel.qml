@@ -4,6 +4,7 @@ import QtQuick.Layouts 1.1
 import QtQuick.Controls.Private 1.0
 
 Rectangle {
+    id: root
     property alias title: title.text
     default property alias content: contentArea.children
     width: 200
@@ -13,8 +14,23 @@ Rectangle {
     radius: 5
     antialiasing: true
     Drag.active: mouseArea.drag.active
-    Drag.hotSpot.x: 10
-    Drag.hotSpot.y: 10
+
+    MouseArea {
+        property point pressedPos
+        anchors.right: parent.right
+        anchors.bottom: parent.bottom
+        width: 30
+        height: 30
+        hoverEnabled: true
+
+        onPressed: pressedPos = Qt.point(mouseX, mouseY)
+        onPositionChanged: {
+            if (pressed) {
+                root.width += mouse.x - pressedPos.x
+                root.height += mouse.y - pressedPos.y
+            }
+        }
+    }
 
     ColumnLayout {
         anchors.fill: parent
@@ -29,6 +45,13 @@ Rectangle {
                 anchors.centerIn: parent
                 text: "Title"
             }
+
+            MouseArea {
+                id: mouseArea
+                anchors.fill: parent
+                drag.target: root
+                drag.threshold: 1
+            }
         }
 
         Item {
@@ -36,12 +59,6 @@ Rectangle {
             Layout.fillHeight: true
             Layout.fillWidth: true
         }
-    }
-
-    MouseArea {
-        id: mouseArea
-        anchors.fill: parent
-        drag.target: parent
     }
 }
 
