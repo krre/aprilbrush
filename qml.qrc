@@ -18,5 +18,6 @@
         <file>qml/FileDialogBase.qml</file>
         <file>qml/UndoManager.qml</file>
         <file>qml/enums.js</file>
+        <file>qml/components/Panel.qml</file>
     </qresource>
 </RCC>

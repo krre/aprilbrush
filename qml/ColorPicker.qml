@@ -17,7 +17,7 @@ import QtGraphicalEffects 1.0
 import "utils.js" as Utils
 import "components"
 
-ToolWindow {
+Panel {
     id: root
     title: qsTr("Color Picker")
     property real h
@@ -30,7 +30,7 @@ ToolWindow {
     property real ringRatio: 0.75
 
     objectName: "colorPicker"
-    storage: { var list = defaultStorage(); list.push("color"); return list }
+//    storage: { var list = defaultStorage(); list.push("color"); return list }
 
     onColorChanged: if (!changeColorByPicker) { setHsv(color) }
 

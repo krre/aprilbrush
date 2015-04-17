@@ -42,4 +42,5 @@ RESOURCES += \
     qml.qrc
 
 DISTFILES += \
-    qml/enums.js
+    qml/enums.js \
+    qml/components/Panel.qml
