@@ -148,8 +148,6 @@ ApplicationWindow {
         }
     }
 
-    Panel {}
-
     Component {
         id: exportCanvas
         Canvas {

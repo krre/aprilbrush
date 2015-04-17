@@ -115,7 +115,7 @@ MenuBar {
     }
 
     Menu {
-        title: qsTr("Window")
+        title: qsTr("Panel")
 
         MenuItem {
             text: colorPicker.title
