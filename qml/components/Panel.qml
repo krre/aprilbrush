@@ -13,11 +13,28 @@ Rectangle {
     implicitHeight: 200
     color: mainRoot.sysPalette.window
     border.color: "#5d5d5d"
-    Drag.active: dragMouseArea.drag.active
+    Drag.active: backgroundMouseArea.drag.active
     visible: false
 
     function defaultStorage() {
         return ["x", "y", "z", "width", "height", "visible"]
+    }
+
+    MouseArea {
+        id: backgroundMouseArea
+        anchors.fill: parent
+        preventStealing: true
+        hoverEnabled: true
+        drag.target: root
+        drag.threshold: 1
+        onPressed: {
+            // moving item on top of scene
+            var maxZ = 0
+            for (var i = 0; i < mainRoot.contentItem.children.length; i++) {
+                maxZ = Math.max(mainRoot.contentItem.children[i].z, maxZ)
+            }
+            root.z = ++maxZ
+        }
     }
 
     ColumnLayout {
@@ -36,23 +53,6 @@ Rectangle {
                 anchors.centerIn: parent
                 text: "Title"
                 font.pixelSize: 13
-            }
-
-            MouseArea {
-                id: dragMouseArea
-                anchors.fill: parent
-                drag.target: root
-                drag.threshold: 1
-                hoverEnabled: true
-                onPressed: {
-                    // moving item on top of scene
-                    var maxZ = 0
-                    for (var i = 0; i < mainRoot.contentItem.children.length; i++) {
-                        maxZ = Math.max(mainRoot.contentItem.children[i].z, maxZ)
-                    }
-                    root.z = ++maxZ
-                }
-
             }
 
             ToolButton {
