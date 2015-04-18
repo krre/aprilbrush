@@ -19,7 +19,7 @@ import QtQuick.LocalStorage 2.0
 import "components"
 import "settings.js" as Settings
 
-ToolWindow {
+Panel {
     id: root
     title: qsTr("Brush Library")
     objectName: "brushLibrary"

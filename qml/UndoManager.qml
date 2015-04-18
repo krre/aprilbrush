@@ -16,7 +16,7 @@ import QtQuick.Controls 1.3
 import "components"
 import "undo.js" as Undo
 
-ToolWindow {
+Panel {
     id: root
     title: qsTr("Undo History")
     property alias undoView: undoView

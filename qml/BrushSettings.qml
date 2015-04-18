@@ -16,11 +16,11 @@ import QtQuick.Controls 1.3
 import "components"
 import "settings.js" as Settings
 
-ToolWindow {
+Panel {
     id: root
     title: qsTr("Brush Settings")
     property alias size: size.value
-    property alias opacity: opacity.value
+//    property alias opacity: opacity.value
     property alias flow: flow.value
     property alias hardness: hardness.value
     property alias spacing: spacing.value
