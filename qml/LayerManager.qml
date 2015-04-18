@@ -18,7 +18,7 @@ import "components"
 import "utils.js" as Utils
 import "undo.js" as Undo
 
-ToolWindow {
+Panel {
     id: root
     title: qsTr("Layers")
     property alias layerView: layerView
