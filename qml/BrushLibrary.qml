@@ -23,7 +23,6 @@ Panel {
     id: root
     title: qsTr("Brush Library")
     objectName: "brushLibrary"
-    storage: defaultStorage()
 
     Component.onCompleted: {
 //        loadBrushes()

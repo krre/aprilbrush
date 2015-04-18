@@ -30,7 +30,7 @@ Panel {
     property real ringRatio: 0.75
 
     objectName: "colorPicker"
-    storage: { var list = defaultStorage(); list.push("color"); return list }
+    storage: ["color"]
 
     onColorChanged: if (!changeColorByPicker) { setHsv(color) }
 

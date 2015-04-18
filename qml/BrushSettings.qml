@@ -28,13 +28,8 @@ Panel {
     property alias angle: angle.value
     property alias jitter: jitter.value
     property alias eraser: eraser.value
-
     objectName: "brushSettings"
-    storage: {
-        var list = defaultStorage()
-        list.push("size", "opacity", "flow", "hardness", "spacing", "roundness", "angle", "jitter", "eraser")
-        return list
-    }
+    storage: ["size", "opacity", "flow", "hardness", "spacing", "roundness", "angle", "jitter", "eraser"]
 
     signal settingsChanged()
 
