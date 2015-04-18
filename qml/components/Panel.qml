@@ -13,7 +13,6 @@ Rectangle {
     implicitHeight: 200
     color: mainRoot.sysPalette.window
     border.color: "#5d5d5d"
-    Drag.active: backgroundMouseArea.drag.active
     visible: false
 
     Component.onCompleted: {
@@ -23,10 +22,10 @@ Rectangle {
         }
     }
 
+    // dragging and selecting
     MouseArea {
-        id: backgroundMouseArea
         anchors.fill: parent
-        hoverEnabled: true // need for correct changin cursor shape
+        hoverEnabled: true // need for correct changing cursor shape
         drag.target: root
         drag.threshold: 1
         onPressed: {
