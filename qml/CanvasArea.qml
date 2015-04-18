@@ -127,7 +127,7 @@ Item {
             anchors.fill: parent
             hoverEnabled: true
 
-            onHoveredChanged: coreLib.setCursorShape(containsMouse ? "Paint" : "Arrow", brushSettings.size * zoom)
+            onContainsMouseChanged: coreLib.setCursorShape(containsMouse ? "Paint" : "Arrow", brushSettings.size * zoom)
 
             onWheel: {
                 if (wheel.modifiers & Qt.ControlModifier) {
