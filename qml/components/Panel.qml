@@ -14,9 +14,10 @@ Rectangle {
     color: mainRoot.sysPalette.window
     border.color: "#5d5d5d"
     Drag.active: dragMouseArea.drag.active
+    visible: false
 
     function defaultStorage() {
-        return ["x", "y", "width", "height", "visible"]
+        return ["x", "y", "z", "width", "height", "visible"]
     }
 
     ColumnLayout {
@@ -43,6 +44,15 @@ Rectangle {
                 drag.target: root
                 drag.threshold: 1
                 hoverEnabled: true
+                onPressed: {
+                    // moving item on top of scene
+                    var maxZ = 0
+                    for (var i = 0; i < mainRoot.contentItem.children.length; i++) {
+                        maxZ = Math.max(mainRoot.contentItem.children[i].z, maxZ)
+                    }
+                    root.z = ++maxZ
+                }
+
             }
 
             ToolButton {
