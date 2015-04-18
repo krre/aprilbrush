@@ -26,6 +26,7 @@ Rectangle {
     MouseArea {
         id: backgroundMouseArea
         anchors.fill: parent
+        hoverEnabled: true // need for correct changin cursor shape
         drag.target: root
         drag.threshold: 1
         onPressed: {
