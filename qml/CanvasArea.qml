@@ -25,7 +25,6 @@ Item {
     property color bgColor: "white"
     property bool isPan: false
     property bool isPick: false
-    property point grabPoint
 
     property real zoom: 1.0
     property int mirror: 1
@@ -37,7 +36,6 @@ Item {
 
     Keys.onPressed: {
         if (event.key === Qt.Key_Space && !event.isAutoRepeat) {
-            grabPoint = Qt.point(mouseArea.mouseX, mouseArea.mouseY)
             isPan = true
         }
         if (event.modifiers & Qt.ControlModifier) { isPick = true }
@@ -126,6 +124,8 @@ Item {
             id: mouseArea
             anchors.fill: parent
             hoverEnabled: true
+            drag.target: isPan ? content : null
+            drag.threshold: 1
 
             onContainsMouseChanged: coreLib.setCursorShape(containsMouse ? "Paint" : "Arrow", brushSettings.size * zoom)
 
@@ -171,9 +171,6 @@ Item {
                     } else if (!isPan) {
                         brushEngine.paint(Qt.point(mouse.x, mouse.y), 1)
                     }
-                } else if (isPan) {
-                    content.x += (mouseX - grabPoint.x)
-                    content.y += (mouseY - grabPoint.y)
                 }
             }
         }
