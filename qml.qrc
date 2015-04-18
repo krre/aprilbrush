@@ -4,7 +4,6 @@
         <file>qml/ColorPicker.qml</file>
         <file>qml/utils.js</file>
         <file>qml/undo.js</file>
-        <file>qml/components/ToolWindow.qml</file>
         <file>qml/settings.js</file>
         <file>qml/main/Actions.qml</file>
         <file>qml/CanvasArea.qml</file>

@@ -29,7 +29,6 @@ OTHER_FILES += \
     qml/CanvasArea.qml \
     qml/LayerManager.qml \
     qml/UndoManager.qml \
-    qml/components/ToolWindow.qml \
     qml/style.js \
     qml/components/SliderText.qml \
     qml/Main.qml \
