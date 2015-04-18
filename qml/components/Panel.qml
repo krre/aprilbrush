@@ -23,6 +23,7 @@ Rectangle {
         anchors.fill: parent
         spacing: 0
 
+        // header
         Rectangle {
             Layout.fillWidth: true
             Layout.preferredHeight: 25
@@ -43,8 +44,18 @@ Rectangle {
                 drag.threshold: 1
                 hoverEnabled: true
             }
+
+            ToolButton {
+                anchors.top: parent.top
+                anchors.right: parent.right
+                text: "x"
+                width: 20
+                height: 20
+                onClicked: root.visible = false
+            }
         }
 
+        // content container
         Item {
             Layout.fillHeight: true
             Layout.fillWidth: true
@@ -57,11 +68,12 @@ Rectangle {
         }
     }
 
+    // resize handler
     Rectangle {
         anchors.right: parent.right
         anchors.bottom: parent.bottom
-        width: 10
-        height: 10
+        width: 15
+        height: 15
         color: sizeMouseArea.containsMouse ? mouseAreaColor : "transparent"
         border.color: sizeMouseArea.containsMouse ? root.border.color : "transparent"
 
