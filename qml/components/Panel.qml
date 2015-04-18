@@ -7,12 +7,10 @@ Rectangle {
     id: root
     property alias title: title.text
     default property alias content: contentArea.children
-    width: 200
-    height: 200
+    implicitWidth: 200
+    implicitHeight: 200
     color: mainRoot.sysPalette.window
     border.color: "#5d5d5d"
-    radius: 5
-    antialiasing: true
     Drag.active: mouseArea.drag.active
 
     MouseArea {
@@ -26,8 +24,8 @@ Rectangle {
         onPressed: pressedPos = Qt.point(mouseX, mouseY)
         onPositionChanged: {
             if (pressed) {
-                root.width += mouse.x - pressedPos.x
-                root.height += mouse.y - pressedPos.y
+                root.width = Math.max(root.implicitWidth, root.width + mouse.x - pressedPos.x)
+                root.height = Math.max(root.implicitHeight, root.height + mouse.y - pressedPos.y)
             }
         }
     }
