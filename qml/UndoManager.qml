@@ -23,9 +23,7 @@ Panel {
     property int undoDeep: 50
     property var commandArray: [] // array for saving undo/redo command (they don't work from ListModel)
     property int prevUndoIndex: -1
-
     objectName: "undoManager"
-    storage: { var list = defaultStorage(); return list }
 
     function add(commandUndo) {
         if (undoView.currentIndex < undoModel.count - 1) {

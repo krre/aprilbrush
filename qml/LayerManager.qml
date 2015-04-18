@@ -24,10 +24,6 @@ Panel {
     property alias layerView: layerView
     property int layerNameIndexCounter: 1
     objectName: "layerManager"
-    storage: {
-        var list = defaultStorage()
-        return list
-    }
 
     function addLayer(name) {
         undoManager.add(Undo.addLayer(name ? name : qsTr("Layer") + " " + layerNameIndexCounter++))

@@ -7,7 +7,7 @@ Rectangle {
     id: root
     property alias title: title.text
     default property alias content: contentArea.children
-    property var storage
+    property var storage: []
     property color mouseAreaColor: Qt.darker(root.color, 1.2)
     implicitWidth: 200
     implicitHeight: 200
@@ -16,15 +16,16 @@ Rectangle {
     Drag.active: backgroundMouseArea.drag.active
     visible: false
 
-    function defaultStorage() {
-        return ["x", "y", "z", "width", "height", "visible"]
+    Component.onCompleted: {
+        var defaultStorage = ["x", "y", "z", "width", "height", "visible"]
+        for (var i = 0; i < defaultStorage.length; i++) {
+            storage.push(defaultStorage[i])
+        }
     }
 
     MouseArea {
         id: backgroundMouseArea
         anchors.fill: parent
-        preventStealing: true
-        hoverEnabled: true
         drag.target: root
         drag.threshold: 1
         onPressed: {
