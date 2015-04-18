@@ -47,10 +47,6 @@ ApplicationWindow {
 
         visible = true
         newImage()
-        mainRoot.onWidthChanged.connect(function resTransform() {
-            canvasArea.resetTransform() // after changing window on load settings
-            mainRoot.onWidthChanged.disconnect(resTransform)
-        })
     }
 
     onClosing: Settings.saveSettings(mainRoot)
@@ -63,11 +59,6 @@ ApplicationWindow {
 //        layerManager.addBackground()
         layerManager.addLayer()
         undoManager.clear()
-        canvasArea.resetTransform() // after adding new tab on runnging application
-        mainRoot.onWidthChanged.connect(function resTransform() {
-            canvasArea.resetTransform() // after adding new tab on start application
-            canvasArea.onWidthChanged.disconnect(resTransform)
-        })
     }
 
     SystemPalette {
@@ -109,7 +100,6 @@ ApplicationWindow {
         id: colorPicker
         x: 10
         y: 10
-        onColorChanged: dab.requestPaint()
     }
 
     LayerManager {
@@ -142,67 +132,6 @@ ApplicationWindow {
             canvasArea.bgColor = color
             isDirty = true
         }
-    }
-
-    Component {
-        id: exportCanvas
-        Canvas {
-            signal finished()
-            width: imageSize.width
-            height: imageSize.height
-            onAvailableChanged: {
-                for (var i = layerModel.count - 1; i > -1; i--) {
-                    var canvas = layerModel.get(i).canvas
-                    var image = canvas.getContext("2d").getImageData(0, 0, width, height)
-                    getContext("2d").drawImage(canvas, 0, 0)
-                }
-                finished()
-            }
-        }
-    }
-
-    Canvas {
-        id: dab
-        width: brushSettings.size
-        height: brushSettings.size
-        visible: false
-        antialiasing: true
-        smooth: false
-
-        onAvailableChanged: requestPaint()
-
-        onPaint: {
-            var ctx = getContext("2d")
-            ctx.save()
-            ctx.clearRect(0, 0, width, height)
-
-            var originX = width / 2
-            var originY = width / 2
-
-            ctx.translate(originX, originY)
-            ctx.rotate(brushSettings.angle / 180 * Math.PI)
-            ctx.scale(1.0, brushSettings.roundness / 100)
-            ctx.translate(-originX, -originY)
-
-            var color = Qt.rgba(colorPicker.color.r, colorPicker.color.g, colorPicker.color.b, brushSettings.flow / 100)
-            var gradient = ctx.createRadialGradient(width / 2, height / 2, 0, width / 2, height / 2, width / 2)
-            gradient.addColorStop(0, color);
-            gradient.addColorStop(brushSettings.hardness / 100, color);
-            gradient.addColorStop(1, Qt.rgba(colorPicker.color.r, colorPicker.color.g, colorPicker.color.b, brushSettings.hardness / 100 < 1 ? 0 : brushSettings.flow / 100));
-
-            ctx.ellipse(0, 0, width, width)
-            ctx.fillStyle = gradient
-            ctx.fill()
-
-            ctx.restore();
-        }
-    }
-
-    Canvas {
-        id: pickCanvas
-        width: 1
-        height: 1
-        visible: false
     }
 
     Item {

@@ -125,7 +125,6 @@ Item {
         MouseArea {
             id: mouseArea
             anchors.fill: parent
-//            enabled: buffer.parent ? buffer.parent.enabled : false
             hoverEnabled: true
 
             onHoveredChanged: coreLib.setCursorShape(containsMouse ? "Paint" : "Arrow", brushSettings.size * zoom)
@@ -147,10 +146,7 @@ Item {
                     Utils.pickColor(point)
                 } else if (!isPan) {
                     if (isEraser) {
-//                        var undoEraserCtx = undoEraserBuffer.getContext("2d")
-//                        undoEraserCtx.clearRect(0, 0, width, height)
-//                        undoEraserCtx.drawImage(canvas, 0, 0)
-//                        undoEraserBuffer.requestPaint()
+
                     } else {
                         brushEngine.setTouch(true, canvas)
                         brushEngine.paint(Qt.point(mouse.x, mouse.y), 1)
