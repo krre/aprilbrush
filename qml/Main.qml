@@ -89,7 +89,7 @@ ApplicationWindow {
         id: brushEngine
         color: colorPicker.color
         size: brushSettings.size
-        opacity: brushSettings.opacity
+        opacity: brushSettings.opaque
         flow: brushSettings.flow
         hardness: brushSettings.hardness
         spacing: brushSettings.spacing
