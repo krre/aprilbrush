@@ -34,27 +34,23 @@ ApplicationWindow {
     readonly property int currentLayerIndex: layerManager.layerView.currentIndex
     property string fileName
     property string oraPath
-
-    x: 50
-    y: 50
-    width: 1000
-    height: 600
-    visible: true
+    width: 1230
+    height: 655
 
     menuBar: MainMenu { id: mainMenu }
 
     Component.onCompleted: {
+        if (!Settings.loadSettings(mainRoot)) {
+            x = (Screen.width - width) / 2
+            y = (Screen.height - height) / 2
+        }
+
+        visible = true
         newImage()
         mainRoot.onWidthChanged.connect(function resTransform() {
             canvasArea.resetTransform() // after changing window on load settings
             mainRoot.onWidthChanged.disconnect(resTransform)
         })
-    }
-
-    Timer {
-        interval: 1
-        running: true
-        onTriggered: Settings.loadSettings(mainRoot)
     }
 
     onClosing: Settings.saveSettings(mainRoot)
@@ -111,33 +107,33 @@ ApplicationWindow {
 
     ColorPicker {
         id: colorPicker
-        x: 75
-        y: 110
+        x: 10
+        y: 10
         onColorChanged: dab.requestPaint()
     }
 
     LayerManager {
         id: layerManager
-        x: 75
-        y: 365
+        x: 10
+        y: 215
     }
 
     BrushSettings {
         id: brushSettings
-        x: 810
-        y: 110
+        x: 1020
+        y: 10
     }
 
     BrushLibrary {
         id: brushLibrary
-        x: 810
-        y: 365
+        x: 1020
+        y: 215
     }
 
     UndoManager {
         id: undoManager
-        x: 580
-        y: 110
+        x: 1020
+        y: 425
     }
 
     ColorDialog {
