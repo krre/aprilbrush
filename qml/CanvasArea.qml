@@ -17,6 +17,7 @@ import ABLib 1.0
 import "components"
 import "undo.js" as Undo
 import "utils.js" as Utils
+import "enums.js" as Enums
 
 Item {
     id: root
@@ -31,8 +32,8 @@ Item {
     property real rotation: 0
 
     onBgColorChanged: layerModel.get(layerModel.count - 1).canvas.clear(bgColor)
-    onIsPanChanged: coreLib.setCursorShape(isPan ? "OpenHand" : "Paint", brushSettings.size * zoom)
-    onZoomChanged: coreLib.setCursorShape(isPan ? "OpenHand" : "Paint", brushSettings.size * zoom)
+    onIsPanChanged: coreLib.setCursorShape(isPan ? Enums.CursorHand : Enums.CursorPaint, brushSettings.size * zoom)
+    onZoomChanged: coreLib.setCursorShape(isPan ? Enums.CursorHand : Enums.CursorPaint, brushSettings.size * zoom)
 
     Keys.onPressed: {
         if (event.key === Qt.Key_Space && !event.isAutoRepeat) {
@@ -127,7 +128,7 @@ Item {
             drag.target: isPan ? content : null
             drag.threshold: 1
 
-            onContainsMouseChanged: coreLib.setCursorShape(containsMouse ? "Paint" : "Arrow", brushSettings.size * zoom)
+            onContainsMouseChanged: coreLib.setCursorShape(containsMouse ? Enums.CursorPaint : Enums.CursorArrow, brushSettings.size * zoom)
 
             onWheel: {
                 if (wheel.modifiers & Qt.ControlModifier) {
@@ -142,7 +143,7 @@ Item {
             onPressed: {
                 var point = Qt.point(mouseX, mouseY)
                 if (isPick) {
-                    coreLib.setCursorShape("PickColor", 0)
+                    coreLib.setCursorShape(Enums.CursorPick)
                     Utils.pickColor(point)
                 } else if (!isPan) {
                     if (isEraser) {
@@ -157,9 +158,9 @@ Item {
             onReleased: {
                 brushEngine.setTouch(false)
                 if (isPan) {
-                    coreLib.setCursorShape("OpenHand", 0)
+                    coreLib.setCursorShape(Enums.CursorHand)
                 } else if (isPick) {
-                    coreLib.setCursorShape("Paint", brushSettings.size * zoom)
+                    coreLib.setCursorShape(Enums.CursorPaint, brushSettings.size * zoom)
                 } else {
                 }
             }

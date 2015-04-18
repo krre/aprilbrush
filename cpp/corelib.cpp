@@ -151,12 +151,12 @@ QVariantList CoreLib::readOra(const QUrl oraPath) {
     return list;
 }
 
-void CoreLib::setCursorShape(QString type, int size=0)
+void CoreLib::setCursorShape(QString type, int size)
 {
     if (!window) {
         return;
     }
-    if (type == "Paint") {
+    if (type == "paint") {
          // size of the cursor should not be very small
         int sizeBrush = qMax(size, 3);
 
@@ -170,15 +170,12 @@ void CoreLib::setCursorShape(QString type, int size=0)
         painter.setPen(QColor(255, 255, 255, 200));
         painter.drawEllipse(1, 1, sizeBrush - 2, sizeBrush - 2);
         window->setCursor(pixmap);
-    } else if (type == "OpenHand") {
-        QCursor cursor = QCursor(Qt::OpenHandCursor);
-        window->setCursor(cursor);
-    } else if (type == "PickColor") {
-        QCursor cursor = QCursor(Qt::CrossCursor);
-        window->setCursor(cursor);
-    } else if (type == "Arrow") {
-        QCursor cursor = QCursor(Qt::ArrowCursor);
-        window->setCursor(cursor);
+    } else if (type == "hand") {
+        window->setCursor(QCursor(Qt::OpenHandCursor));
+    } else if (type == "pick") {
+        window->setCursor(QCursor(Qt::CrossCursor));
+    } else if (type == "arrow") {
+        window->setCursor(QCursor(Qt::ArrowCursor));
     }
 }
 

@@ -31,7 +31,7 @@ public:
     //Q_INVOKABLE void buildDate() { qDebug() << QLocale(QLocale::C).toDate(QString(__DATE__).simplified(), QLatin1String("MMM d yyyy")); }
     Q_INVOKABLE void writeOra(const QUrl oraPath, const QSize imageSize, const QVariantList layerList);
     Q_INVOKABLE QVariantList readOra(const QUrl oraPath);
-    Q_INVOKABLE void setCursorShape(QString type, int size);
+    Q_INVOKABLE void setCursorShape(QString type, int size=0);
     Q_INVOKABLE void addEventFilter(QVariant item);
     void setWindow(QWindow *window) { this->window = window; }
     QWindow * getWindow() { return this->window; }
