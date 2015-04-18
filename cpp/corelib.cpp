@@ -159,7 +159,6 @@ void CoreLib::setCursorShape(QString type, int size)
     if (type == "paint") {
          // size of the cursor should not be very small
         int sizeBrush = qMax(size, 3);
-
         QPixmap pixmap(sizeBrush, sizeBrush);
         pixmap.fill(QColor(255, 255, 255, 0));
         QPainter painter(&pixmap);
@@ -170,11 +169,11 @@ void CoreLib::setCursorShape(QString type, int size)
         painter.setPen(QColor(255, 255, 255, 200));
         painter.drawEllipse(1, 1, sizeBrush - 2, sizeBrush - 2);
         window->setCursor(pixmap);
-    } else if (type == "hand") {
+    } else if (type == "pan") {
         window->setCursor(QCursor(Qt::OpenHandCursor));
     } else if (type == "pick") {
         window->setCursor(QCursor(Qt::CrossCursor));
-    } else if (type == "arrow") {
+    } else if (type == "free") {
         window->setCursor(QCursor(Qt::ArrowCursor));
     }
 }
