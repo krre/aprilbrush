@@ -8,7 +8,6 @@
         <file>qml/settings.js</file>
         <file>qml/main/Actions.qml</file>
         <file>qml/CanvasArea.qml</file>
-        <file>qml/components/CheckerBoard.qml</file>
         <file>qml/BrushLibrary.qml</file>
         <file>qml/BrushSettings.qml</file>
         <file>qml/LayerManager.qml</file>
