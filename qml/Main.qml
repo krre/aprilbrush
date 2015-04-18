@@ -37,7 +37,15 @@ ApplicationWindow {
     width: 1230
     height: 655
 
-    menuBar: MainMenu { id: mainMenu }
+    menuBar: MainMenu {
+        id: mainMenu
+        Component.onCompleted: {
+            // ОСТОРОЖНО! Используется зависимость от внутреннего кода QtQuick.Controls!
+            // при открытом меню нажатие клавиш принимается только там, поэтому нужно передать их оттуда дальше
+            __contentItem.Keys.forwardTo = [mainRoot]
+        }
+    }
+
 
     Component.onCompleted: {
         if (!Settings.loadSettings(mainRoot)) {
