@@ -2,6 +2,7 @@ import QtQuick 2.4
 import QtQuick.Controls 1.3
 import "../utils.js" as Utils
 import "../enums.js" as Enums
+import "../undo.js" as Undo
 
 MenuBar {
     Menu {
