@@ -17,35 +17,44 @@ import ABLib 1.0
 import "components"
 import "undo.js" as Undo
 import "utils.js" as Utils
+import "enums.js" as Enums
 
 Item {
     id: root
     property alias canvas: canvasView.currentItem
     property alias canvasView: canvasView
     property color bgColor: "white"
-    property bool isPan: false
-    property bool isPick: false
-    property point grabPoint
+    property string canvasMode: Enums.CanvasFree
 
     property real zoom: 1.0
     property int mirror: 1
     property real rotation: 0
 
+    onCanvasModeChanged: {
+        coreLib.setCursorShape(canvasMode === Enums.CanvasFree && mouseArea.containsMouse || canvas === Enums.CanvasPaint ?
+                                   "paint" : canvasMode, brushSettings.size * zoom)
+    }
     onBgColorChanged: layerModel.get(layerModel.count - 1).canvas.clear(bgColor)
-    onIsPanChanged: coreLib.setCursorShape(isPan ? "OpenHand" : "Paint", brushSettings.size * zoom)
-    onZoomChanged: coreLib.setCursorShape(isPan ? "OpenHand" : "Paint", brushSettings.size * zoom)
+    onZoomChanged: {
+        if (mouseArea.containsMouse) {
+            coreLib.setCursorShape("paint", brushSettings.size * zoom)
+        }
+    }
 
     Keys.onPressed: {
-        if (event.key === Qt.Key_Space && !event.isAutoRepeat) {
-            grabPoint = Qt.point(mouseArea.mouseX, mouseArea.mouseY)
-            isPan = true
+        if (!event.isAutoRepeat) {
+            if (event.key === Qt.Key_Space) {
+                canvasMode = Enums.CanvasPan
+            } else if (event.modifiers & Qt.AltModifier) {
+                canvasMode = Enums.CanvasPick
+            }
         }
-        if (event.modifiers & Qt.ControlModifier) { isPick = true }
     }
 
     Keys.onReleased: {
-        if (Qt.ControlModifier) { isPick = false }
-        if (event.key === Qt.Key_Space && !event.isAutoRepeat) { isPan = false }
+        if (!event.isAutoRepeat) {
+            canvasMode = Enums.CanvasFree
+        }
     }
 
     transform: [
@@ -125,10 +134,14 @@ Item {
         MouseArea {
             id: mouseArea
             anchors.fill: parent
-//            enabled: buffer.parent ? buffer.parent.enabled : false
             hoverEnabled: true
+            drag.target: canvasMode === Enums.CanvasPan ? content : null
+            drag.threshold: 1
+            onCursorShapeChanged: print(cursorShape)
 
-            onHoveredChanged: coreLib.setCursorShape(containsMouse ? "Paint" : "Arrow", brushSettings.size * zoom)
+            onContainsMouseChanged: {
+                    coreLib.setCursorShape(containsMouse && canvasMode === Enums.CanvasFree ? "paint" : canvasMode, brushSettings.size * zoom)
+            }
 
             onWheel: {
                 if (wheel.modifiers & Qt.ControlModifier) {
@@ -141,43 +154,29 @@ Item {
             }
 
             onPressed: {
-                var point = Qt.point(mouseX, mouseY)
-                if (isPick) {
-                    coreLib.setCursorShape("PickColor", 0)
-                    Utils.pickColor(point)
-                } else if (!isPan) {
-                    if (isEraser) {
-//                        var undoEraserCtx = undoEraserBuffer.getContext("2d")
-//                        undoEraserCtx.clearRect(0, 0, width, height)
-//                        undoEraserCtx.drawImage(canvas, 0, 0)
-//                        undoEraserBuffer.requestPaint()
-                    } else {
-                        brushEngine.setTouch(true, canvas)
-                        brushEngine.paint(Qt.point(mouse.x, mouse.y), 1)
-                    }
+                if (canvasMode === Enums.CanvasFree) {
+                    brushEngine.setTouch(true, canvas)
+                    brushEngine.paint(Qt.point(mouse.x, mouse.y), 1)
+                    canvasMode = Enums.CanvasPaint
+                } else if (canvasMode === Enums.CanvasPick) {
+                    Utils.pickColor(Qt.point(mouseX, mouseY))
                 }
             }
 
             onReleased: {
                 brushEngine.setTouch(false)
-                if (isPan) {
-                    coreLib.setCursorShape("OpenHand", 0)
-                } else if (isPick) {
-                    coreLib.setCursorShape("Paint", brushSettings.size * zoom)
-                } else {
+                if (canvasMode === Enums.CanvasPaint) {
+                    canvasMode = Enums.CanvasFree
                 }
             }
 
             onPositionChanged: {
                 if (pressed) {
-                    if (isPick) {
-                        Utils.pickColor(Qt.point(mouseX, mouseY))
-                    } else if (!isPan) {
+                    if (canvasMode === Enums.CanvasPaint) {
                         brushEngine.paint(Qt.point(mouse.x, mouse.y), 1)
+                    } else if (canvasMode === Enums.CanvasPick){
+                        Utils.pickColor(Qt.point(mouseX, mouseY))
                     }
-                } else if (isPan) {
-                    content.x += (mouseX - grabPoint.x)
-                    content.y += (mouseY - grabPoint.y)
                 }
             }
         }

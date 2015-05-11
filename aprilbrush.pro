@@ -25,12 +25,10 @@ OTHER_FILES += \
     qml/utils.js \
     qml/undo.js \
     qml/settings.js \
-    qml/components/CheckerBoard.qml \
     qml/BrushLibrary.qml \
     qml/CanvasArea.qml \
     qml/LayerManager.qml \
     qml/UndoManager.qml \
-    qml/components/ToolWindow.qml \
     qml/style.js \
     qml/components/SliderText.qml \
     qml/Main.qml \
