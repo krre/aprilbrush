@@ -11,5 +11,3 @@ https://github.com/krre/aprilbrush-desktop/releases
 
 ![Screenshot](/images/screenshot.png?raw=true)
 
-
-
