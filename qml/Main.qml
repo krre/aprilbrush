@@ -19,7 +19,7 @@ ApplicationWindow {
     property bool isDirty: false
     property bool isEraser: brushSettings.eraser > 50
     readonly property int currentLayerIndex: layerManager.layerView.currentIndex
-    property string fileName
+    property string fileName: qsTr("Untitled")
     property string oraPath
     width: 1230
     height: 655
@@ -33,7 +33,6 @@ ApplicationWindow {
         }
     }
 
-
     Component.onCompleted: {
         if (!Settings.loadSettings(mainRoot)) {
             x = (Screen.width - width) / 2
@@ -41,19 +40,10 @@ ApplicationWindow {
         }
 
         visible = true
-        newImage()
+        layerManager.addLayer()
     }
 
     onClosing: Settings.saveSettings(mainRoot)
-
-    function newImage() {
-        fileName = "Untitled"
-        oraPath = ""
-        layerManager.layerNameIndexCounter = 1
-        layerModel.clear()
-        layerManager.addLayer()
-        undoManager.clear()
-    }
 
     SystemPalette {
         id: sysPalette
