@@ -17,5 +17,6 @@
         <file>qml/UndoManager.qml</file>
         <file>qml/enums.js</file>
         <file>qml/components/Panel.qml</file>
+        <file>qml/BrushEngine.qml</file>
     </qresource>
 </RCC>

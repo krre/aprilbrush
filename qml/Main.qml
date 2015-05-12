@@ -73,17 +73,6 @@ ApplicationWindow {
 
     BrushEngine {
         id: brushEngine
-        color: colorPicker.color
-        size: brushSettings.size
-        opacity: brushSettings.opaque
-        flow: brushSettings.flow
-        hardness: brushSettings.hardness
-        spacing: brushSettings.spacing
-        roundness: brushSettings.roundness
-        angle: brushSettings.angle
-        jitter: brushSettings.jitter
-        eraser: brushSettings.eraser
-        onPainted: canvasArea.canvas.update(rect)
     }
 
     CanvasArea {

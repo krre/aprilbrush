@@ -39,4 +39,5 @@ RESOURCES += \
 
 DISTFILES += \
     qml/enums.js \
-    qml/components/Panel.qml
+    qml/components/Panel.qml \
+    qml/BrushEngine.qml
