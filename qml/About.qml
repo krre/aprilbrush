@@ -20,6 +20,6 @@ MessageDialog {
     text: "<h3>AprilBrush " + mainRoot.version + "</h3>
           Build date: " + coreLib.buildDate + "<br>
           Copyright (c) 2012-2015, Vladimir Zarypov<br>
-          <a href=\"http://sourceforge.net/projects/aprilbrush\">http://sourceforge.net/projects/aprilbrush</a>"
+          <a href=\"https://github.com/krre/aprilbrush-desktop\">https://github.com/krre/aprilbrush-desktop</a>"
     Component.onCompleted: open()
 }
