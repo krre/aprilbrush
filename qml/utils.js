@@ -100,7 +100,8 @@ function exportPng(filePath) {
 // Pick color from canvas
 function pickColor(pos) {
     var ctx = pickCanvas.getContext("2d")
-    ctx.clearRect(0, 0, 1, 1)
+    ctx.fillStyle = bgColor
+    ctx.fillRect(0, 0, 1, 1)
     var isColor = false
     for (var i = layerModel.count - 1; i > -1; i--) {
         var layer = layerModel.get(i)
