@@ -2,6 +2,7 @@ import QtQuick 2.4
 import QtQuick.Controls 1.3
 import "components"
 import "settings.js" as Settings
+import "enums.js" as Enums
 
 Panel {
     id: root
@@ -18,9 +19,7 @@ Panel {
     objectName: "brushSettings"
     storage: ["size", "opaque", "flow", "hardness", "spacing", "roundness", "angle", "jitter", "eraser"]
 
-    signal settingsChanged()
-
-    onSizeChanged: coreLib.setCursorShape("Paint", size.value)
+    onSizeChanged: coreLib.setCursorShape(Enums.CanvasPaint, size.value)
 
     ScrollView {
         id: scrollView
