@@ -6,14 +6,14 @@ Item {
     property Canvas canvas
     property real deltaDab: Math.max(brushSettings.spacing / 100 * brushSettings.size, 1)
     property var points: []
-    property bool linearMode: false
     property bool isBezier: true // change only for testing
     property point lastDrawPoint
     property point controlPoint
-    property point grabPoint
     property point startPoint
     property point endPoint
     property point betweenPoint
+    property point maxPoint: Qt.point(0, 0)
+    property point minPoint: Qt.point(imageSize.width, imageSize.height)
 
     function setTouch(isTouch, canvas) {
         if (isTouch) {
@@ -71,21 +71,6 @@ Item {
     }
 
     function paintDab(point, pressure) {
-//        QPainter painter(canvas->image());
-//        painter.setRenderHint(QPainter::Antialiasing, true);
-//        painter.setPen(Qt::NoPen);
-//        painter.setBrush(QBrush(m_color));
-//        painter.setOpacity(m_opacity / 100.0 * pressure);
-//        QRectF rect;
-//        if (m_size > 1) {
-//            rect = QRectF(QPointF(point.x() - m_size / 2.0, point.y() - m_size / 2.0), QSizeF(m_size, m_size));
-//            painter.drawEllipse(rect);
-//        } else {
-//            rect = QRectF(point.x() - 0.5, point.y() - 0.5, 1, 1);
-//            painter.drawRect(rect);
-//        }
-//        painted(rect);
-
         var ctx = canvas.getContext("2d")
         ctx.save()
         ctx.globalAlpha = pressure
@@ -93,10 +78,10 @@ Item {
         var x = point.x - size / 2 + size * brushSettings.jitter / 100 * (1 - 2 * Math.random())
         var y = point.y - size / 2 + size * brushSettings.jitter / 100 * (1 - 2 * Math.random())
 
-//        if (x < startPos.x) { startPos.x = Math.min(0, x) }
-//        if (y < startPos.y) { startPos.y = Math.min(0, y) }
-//        if (x > finalPos.x) { finalPos.x = Math.max(x, imageSize.width) }
-//        if (y > finalPos.y) { finalPos.y = Math.max(y, imageSize.height) }
+        if (x < minPoint.x) minPoint.x = Math.min(0, x)
+        if (y < minPoint.y) minPoint.y = Math.min(0, y)
+        if (x > maxPoint.x) maxPoint.x = Math.max(x, imageSize.width)
+        if (y > maxPoint.y) maxPoint.y = Math.max(x, imageSize.height)
 
         ctx.drawImage(dab, x, y)
         ctx.restore()
