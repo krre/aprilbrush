@@ -102,13 +102,15 @@ Item {
 
     Canvas {
         id: dab
-        width: brushSettings.size
-        height: brushSettings.size
+        property int size: brushSettings.size
+        width: size
+        height: size
         visible: false
         antialiasing: true
         smooth: false
 
         onAvailableChanged: requestPaint()
+        onSizeChanged: requestPaint()
 
         onPaint: {
             var ctx = getContext("2d")
