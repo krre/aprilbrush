@@ -16,16 +16,6 @@ CoreLib::CoreLib(QObject *parent) : QObject(parent)
 {
 }
 
-QByteArray CoreLib::loadBrushPack()
-{
-    QString brushPresetsPath = QDir::currentPath() + "/presets/brushes";
-    QString defaultBrushPackPath = brushPresetsPath + "/default.abb";
-    QZipReader zipReader(defaultBrushPackPath, QIODevice::ReadOnly);
-    QByteArray jsonArray = zipReader.fileData("default.json");
-    zipReader.close();
-    return jsonArray;
-}
-
 QVariant CoreLib::loadSettings()
 {
     QString settingsPath = QDir::currentPath() + "/profile/settings.json";
