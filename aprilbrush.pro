@@ -6,13 +6,11 @@ CONFIG += c++11
 SOURCES += \
     main.cpp \
     cpp/tableteventfilter.cpp \
-    cpp/brushengine.cpp \
     cpp/canvasitem.cpp \
     cpp/corelib.cpp
 
 HEADERS += \
     cpp/tableteventfilter.h \
-    cpp/brushengine.h \
     cpp/canvasitem.h \
     cpp/corelib.h
 
