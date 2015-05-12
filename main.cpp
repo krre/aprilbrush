@@ -1,5 +1,4 @@
 #include "cpp/corelib.h"
-#include "cpp/canvasitem.h"
 #include "cpp/tableteventfilter.h"
 
 #include <QtQml>
