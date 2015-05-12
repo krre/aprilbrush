@@ -191,10 +191,14 @@ Item {
             width: imageSize.width
             height: imageSize.height
             onAvailableChanged: {
+                var ctx = getContext("2d")
+                ctx.fillStyle = bgColor
+                ctx.fillRect(0, 0, width, height)
+
                 for (var i = layerModel.count - 1; i > -1; i--) {
                     var canvas = layerModel.get(i).canvas
                     var image = canvas.getContext("2d").getImageData(0, 0, width, height)
-                    getContext("2d").drawImage(canvas, 0, 0)
+                    ctx.drawImage(canvas, 0, 0)
                 }
                 finished()
             }
