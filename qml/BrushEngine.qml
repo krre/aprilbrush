@@ -4,7 +4,7 @@ Item {
     id: root
     property bool isFirstPoint: false
     property Canvas canvas
-    property real deltaDab: Math.max(brushSettings.spacing / 100 * brushSettings.size, 1)
+    property real deltaDab: Math.max(spacing / 100 * size, 1)
     property var points: []
     property bool isBezier: true // change only for testing
     property point lastDrawPoint
@@ -14,6 +14,27 @@ Item {
     property point betweenPoint
     property point maxPoint: Qt.point(0, 0)
     property point minPoint: Qt.point(imageSize.width, imageSize.height)
+
+    property color color: colorPicker.color
+    property int size: brushSettings.size
+    property int opaque: brushSettings.opaque
+    property int flow: brushSettings.flow
+    property int hardness: brushSettings.hardness
+    property int spacing: brushSettings.spacing
+    property int roundness: brushSettings.roundness
+    property int angle: brushSettings.angle
+    property int jitter: brushSettings.jitter
+    property int eraser: brushSettings.eraser
+
+    onColorChanged: dab.requestPaint()
+    onSizeChanged: dab.requestPaint()
+    onOpacityChanged: dab.requestPaint()
+    onFlowChanged: dab.requestPaint()
+    onHardnessChanged: dab.requestPaint()
+    onSpacingChanged: dab.requestPaint()
+    onAngleChanged: dab.requestPaint()
+    onJitterChanged: dab.requestPaint()
+    onEraserChanged: dab.requestPaint()
 
     function setTouch(isTouch, canvas) {
         if (isTouch) {
@@ -74,9 +95,8 @@ Item {
         var ctx = canvas.getContext("2d")
         ctx.save()
         ctx.globalAlpha = pressure
-        var size = brushSettings.size
-        var x = point.x - size / 2 + size * brushSettings.jitter / 100 * (1 - 2 * Math.random())
-        var y = point.y - size / 2 + size * brushSettings.jitter / 100 * (1 - 2 * Math.random())
+        var x = point.x - size / 2 + size * jitter / 100 * (1 - 2 * Math.random())
+        var y = point.y - size / 2 + size * jitter / 100 * (1 - 2 * Math.random())
 
         if (x < minPoint.x) minPoint.x = Math.min(0, x)
         if (y < minPoint.y) minPoint.y = Math.min(0, y)
@@ -102,7 +122,6 @@ Item {
 
     Canvas {
         id: dab
-        property int size: brushSettings.size
         width: size
         height: size
         visible: false
@@ -110,7 +129,6 @@ Item {
         smooth: false
 
         onAvailableChanged: requestPaint()
-        onSizeChanged: requestPaint()
 
         onPaint: {
             var ctx = getContext("2d")
@@ -121,15 +139,15 @@ Item {
             var originY = width / 2
 
             ctx.translate(originX, originY)
-            ctx.rotate(brushSettings.angle / 180 * Math.PI)
-            ctx.scale(1.0, brushSettings.roundness / 100)
+            ctx.rotate(angle / 180 * Math.PI)
+            ctx.scale(1.0, roundness / 100)
             ctx.translate(-originX, -originY)
 
-            var color = Qt.rgba(colorPicker.color.r, colorPicker.color.g, colorPicker.color.b, brushSettings.flow / 100)
+            var color = Qt.rgba(root.color.r, root.color.g, root.color.b, flow / 100)
             var gradient = ctx.createRadialGradient(width / 2, height / 2, 0, width / 2, height / 2, width / 2)
             gradient.addColorStop(0, color)
-            gradient.addColorStop(brushSettings.hardness / 100, color)
-            gradient.addColorStop(1, Qt.rgba(colorPicker.color.r, colorPicker.color.g, colorPicker.color.b, brushSettings.hardness / 100 < 1 ? 0 : brushSettings.flow / 100))
+            gradient.addColorStop(hardness / 100, color)
+            gradient.addColorStop(1, Qt.rgba(root.color.r, root.color.g, root.color.b, hardness / 100 < 1 ? 0 : flow / 100))
 
             ctx.ellipse(0, 0, width, width)
             ctx.fillStyle = gradient
