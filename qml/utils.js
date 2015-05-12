@@ -84,12 +84,12 @@ function saveOra() {
 
 // Export PNG file
 function exportPng(filePath) {
-    var path = filePath
+    var path = coreLib.urlToPath(filePath)
     if (path.substr(-4) !== ".png") {
         path += ".png"
     }
 
-    var finalCanvas = exportCanvas.createObject(canvasArea)
+    var finalCanvas = canvasArea.exportCanvas.createObject(canvasArea)
     finalCanvas.onFinished.connect(function() {
         finalCanvas.save(path)
         finalCanvas.destroy()

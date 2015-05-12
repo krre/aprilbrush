@@ -10,6 +10,7 @@ Item {
     id: root
     property alias canvas: canvasView.currentItem
     property alias canvasView: canvasView
+    property alias exportCanvas: exportCanvas
     property color bgColor: "white"
     property string canvasMode: Enums.CanvasFree
 
