@@ -1,5 +1,4 @@
 #include "brushengine.h"
-#include"blend.h"
 
 BrushEngine::BrushEngine(QObject *parent) :
     QObject(parent)
@@ -97,24 +96,7 @@ void BrushEngine::paintDab(QPointF point, qreal pressure)
         rect = QRectF(point.x() - 0.5, point.y() - 0.5, 1, 1);
         painter.drawRect(rect);
     }
-//    Blend::alphaMax(dabPixmap, *canvas->pixmap(), 1.0);
     painted(rect);
-
-
-
-
-    /*
-//    Blend::alphaMax(dabImage, *(canvas->image()), point, m_flow / 100.0);
-
-    QPainter painter(canvas->image());
-    painter.setRenderHint(QPainter::Antialiasing, true);
-    painter.setPen(Qt::NoPen);
-//    painter.setBrush(dabPixmap);
-    painter.drawImage(point.x() - m_size / 2.0, point.y() - m_size / 2.0, dabImage);
-
-    painted();
-    */
-
 }
 
 void BrushEngine::setDeltaDab()

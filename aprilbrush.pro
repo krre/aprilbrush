@@ -5,14 +5,12 @@ CONFIG += c++11
 
 SOURCES += \
     main.cpp \
-    cpp/blend.cpp \
     cpp/tableteventfilter.cpp \
     cpp/brushengine.cpp \
     cpp/canvasitem.cpp \
     cpp/corelib.cpp
 
 HEADERS += \
-    cpp/blend.h \
     cpp/tableteventfilter.h \
     cpp/brushengine.h \
     cpp/canvasitem.h \
