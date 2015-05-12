@@ -105,7 +105,7 @@ Item {
                     canvasView.created(index, this)
                 }
 
-                function clear(color) {
+                function clear() {
                     var ctx = getContext("2d")
                     ctx.clearRect(0, 0, width, height)
                     requestPaint()
@@ -139,7 +139,6 @@ Item {
             hoverEnabled: true
             drag.target: canvasMode === Enums.CanvasPan ? content : null
             drag.threshold: 1
-            onCursorShapeChanged: print(cursorShape)
 
             onContainsMouseChanged: {
                 coreLib.setCursorShape(containsMouse && canvasMode === Enums.CanvasFree ? "paint" : canvasMode, brushSettings.size * zoom)
@@ -157,8 +156,7 @@ Item {
 
             onPressed: {
                 if (canvasMode === Enums.CanvasFree) {
-                    brushEngine.isTouch = true
-                    brushEngine.canvas = canvas
+                    brushEngine.setTouch(true, canvas)
                     brushEngine.paint(Qt.point(mouse.x, mouse.y), 1)
                     canvasMode = Enums.CanvasPaint
                 } else if (canvasMode === Enums.CanvasPick) {
@@ -167,7 +165,7 @@ Item {
             }
 
             onReleased: {
-                brushEngine.isTouch = false
+                brushEngine.setTouch(false)
                 if (canvasMode === Enums.CanvasPaint) {
                     canvasMode = Enums.CanvasFree
                 }
@@ -184,15 +182,33 @@ Item {
             }
         }
     }
+
+    Component {
+        id: exportCanvas
+        Canvas {
+            signal finished()
+            width: imageSize.width
+            height: imageSize.height
+            onAvailableChanged: {
+                for (var i = layerModel.count - 1; i > -1; i--) {
+                    var canvas = layerModel.get(i).canvas
+                    var image = canvas.getContext("2d").getImageData(0, 0, width, height)
+                    getContext("2d").drawImage(canvas, 0, 0)
+                }
+                finished()
+            }
+        }
+    }
+
+    Canvas {
+        id: pickCanvas
+        width: 1
+        height: 1
+        visible: false
+    }
 }
 
 /*
-
-import QtQuick 2.3
-import QtQuick.Controls 1.2
-import "components"
-import "undo.js" as Undo
-import "utils.js" as Utils
 
 ScrollView {
     property alias layerModel: layerModel
@@ -210,59 +226,12 @@ ScrollView {
     property string cursorName: "Paint"
     property color bgColor: "white"
 
-    property real zoom: 1.0
-    property bool isPan: false
-    property int mirror: 1
-    property real rotation: 0
-
-    flickableItem.interactive: isPan
-    flickableItem.leftMargin: contentItem.width / 2
-    flickableItem.rightMargin: contentItem.width / 2
-    flickableItem.topMargin: contentItem.height / 2
-    flickableItem.bottomMargin: contentItem.height / 2
-
-    onIsPanChanged: coreLib.setCursorShape(isPan ? "OpenHand" : "Paint", brushSettings.size * zoom)
-    onZoomChanged: coreLib.setCursorShape(isPan ? "OpenHand" : "Paint", brushSettings.size * zoom)
-    onBgColorChanged: layerModel.get(layerModel.count - 1).canvas.clear(bgColor)
-
-    Keys.onPressed: {
-        if (event.key === Qt.Key_Space && !event.isAutoRepeat) { isPan = true }
-        if (event.modifiers & Qt.ControlModifier) { isCtrlPressed = true }
-    }
-
-    Keys.onReleased: {
-        if (Qt.ControlModifier) { isCtrlPressed = false }
-        if (event.key === Qt.Key_Space && !event.isAutoRepeat) { isPan = false }
-    }
-
-    Component.onCompleted: {
-        forceActiveFocus()
-    }
-
-    function resetTransform() {
-        zoom = 1
-        mirror = 1
-        rotation = 0
-        flickableItem.contentX = (contentItem.width - width) / 2
-        flickableItem.contentY = (contentItem.height - height) / 2
-    }
-
     Item {
         width: imageSize.width
         height: imageSize.height
 
         ListModel { id: layerModel }
         ListModel { id: undoModel }
-
-        transform: [
-            Scale { origin.x: contentItem.width / 2; origin.y: contentItem.height / 2; xScale: zoom * mirror; yScale: zoom },
-            Rotation { origin.x: contentItem.width / 2; origin.y: contentItem.height / 2; angle: rotation }
-        ]
-
-        CheckerBoard {
-            anchors.fill: parent
-            cellSide: 30
-        }
 
         // temporary dirty hack for undo eraser brush
         Canvas {
@@ -281,32 +250,10 @@ ScrollView {
             smooth: false
 
             MouseArea {
-                property real deltaDab: Math.max(brushSettings.spacing / 100 * brushSettings.size, 1)
-                property var points: []
-                property bool linearMode: false
-                property point lastDrawPoint
-                property point grabPoint
-                property point startPos
-                property point finalPos
+
                 anchors.fill: parent
                 enabled: buffer.parent ? buffer.parent.enabled : false
                 hoverEnabled: true
-
-                function bezierCurve(start, control, end, t) {
-                    var x, y
-                    // linear bezier curve
-                    if (!control) {
-                        x = (1 - t) * start.x + t * end.x
-                        y = (1 - t) * start.y + t * end.y
-                    }
-                    // quad bezier curve
-                    else {
-                        x = Math.pow((1 - t), 2) * start.x + 2 * t * (1 - t) * control.x + t * t * end.x
-                        y = Math.pow((1 - t), 2) * start.y + 2 * t * (1 - t) * control.y + t * t * end.y
-                    }
-
-                    return Qt.point(x, y)
-                }
 
                 onHoveredChanged: coreLib.setCursorShape(containsMouse ? cursorName : "Arrow", brushSettings.size * zoom)
 
@@ -407,71 +354,11 @@ ScrollView {
                 }
 
                 function drawDab(point) {
-                    var ctx = isEraser ? canvas.getContext("2d") : buffer.getContext("2d")
-                    ctx.save()
-                    ctx.globalCompositeOperation = isEraser ? "destination-out" : "source-over"
-                    ctx.globalAlpha = mainRoot.pressure
-                    var size = brushSettings.size
-                    var x = point.x - size / 2 + size * brushSettings.jitter / 100 * (1 - 2 * Math.random())
-                    var y = point.y - size / 2 + size * brushSettings.jitter / 100 * (1 - 2 * Math.random())
 
-                    if (x < startPos.x) { startPos.x = Math.min(0, x) }
-                    if (y < startPos.y) { startPos.y = Math.min(0, y) }
-                    if (x > finalPos.x) { finalPos.x = Math.max(x, imageSize.width) }
-                    if (y > finalPos.y) { finalPos.y = Math.max(y, imageSize.height) }
-
-                    ctx.drawImage(dab, x, y)
-                    ctx.restore()
-                    if (isEraser) {
-                        canvas.markDirty(x, y, dab.width, dab.height)
-                    } else {
-                        buffer.markDirty(x, y, dab.width, dab.height)
-                    }
                 }
             }
         }
 
-        ListView {
-            id: canvasView
-            anchors.fill: parent
-            model: layerModel
-            spacing: -width
-            orientation: ListView.Horizontal
-            currentIndex: layerManager.layerView.currentIndex
-            interactive: false
-            signal created(var index, var canvas)
-            delegate: Canvas {
-                width: ListView.view.width
-                height: ListView.view.height
-                z: 1000 - index
-                visible: isVisible
-                enabled: !isLock
-                smooth: false
-
-                signal ready
-
-                onAvailableChanged: {
-                    clear(isBackground ? bgColor : null)
-                    ready()
-                }
-
-                Component.onCompleted: {
-                    layerModel.set(index, { "canvas": this })
-                    canvasView.created(index, this)
-                }
-
-                function clear(color) {
-                    var ctx = getContext("2d")
-                    ctx.clearRect(0, 0, width, height)
-                    if (color) {
-                        ctx.fillStyle = color
-                        ctx.fillRect(0, 0, width, height)
-                    }
-                    requestPaint()
-                }
-            }
-        }
-    }
 }
 
 
