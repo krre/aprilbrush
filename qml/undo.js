@@ -40,7 +40,7 @@ function paint(startPos, undoArea, redoArea, alpha, isEraser) {
 }
 
 function clearLayer() {
-//    var _undoArea = canvasArea.canvas.getContext("2d").getImageData(0, 0, imageSize.width, imageSize.height)
+    var _undoArea = canvasArea.canvas.getContext("2d").getImageData(0, 0, imageSize.width, imageSize.height)
     return {
         name: qsTr("Clear"),
         undo: function() {
@@ -87,7 +87,7 @@ function addLayer(name) {
 function deleteLayer() {
     var _index = currentLayerIndex
     var _name = layerModel.get(_index).name
-//    var _undoArea = canvasArea.canvas.getContext("2d").getImageData(0, 0, imageSize.width, imageSize.height)
+    var _undoArea = canvasArea.canvas.getContext("2d").getImageData(0, 0, imageSize.width, imageSize.height)
     return {
         name: qsTr("Delete Layer"),
         undo: function() {
