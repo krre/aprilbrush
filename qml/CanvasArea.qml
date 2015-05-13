@@ -123,7 +123,7 @@ Item {
                 var pressure = event.pressure
                 if (event.press === true) {
                     isTouch = true
-                    brushEngine.setTouch(true, canvas)
+                    brushEngine.setTouch(true)
                     brushEngine.paint(Qt.point(x, y), pressure)
                 } else if (event.release === true) {
                     isTouch = false
@@ -157,7 +157,7 @@ Item {
 
             onPressed: {
                 if (canvasMode === Enums.CanvasFree) {
-                    brushEngine.setTouch(true, canvas)
+                    brushEngine.setTouch(true)
                     brushEngine.paint(Qt.point(mouse.x, mouse.y), 1)
                     canvasMode = Enums.CanvasPaint
                 } else if (canvasMode === Enums.CanvasPick) {
