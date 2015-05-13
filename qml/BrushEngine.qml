@@ -43,6 +43,7 @@ Item {
     }
 
     function paint(point, pressure) {
+        if (!canvas.enabled) return
         if (isFirstPoint) {
             paintDab(point, pressure)
             points = []
