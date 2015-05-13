@@ -47,14 +47,13 @@ function openOra(filePath) {
     canvasArea.resetTransform()
     undoManager.add(Undo.start())
     isDirty = false
-    console.log("open: " + path)
+    console.log("open: " + filePath)
 }
 
 // Save OpenRaster file with new name
 function saveAsOra(filePath) {
-    var path = filePath.toString()
-    if (path.substr(-4) !== ".ora") {
-        path += ".ora"
+    if (filePath.substr(-4) !== ".ora") {
+        filePath += ".ora"
     }
     oraPath = filePath
     fileName = fileFromPath(oraPath)
@@ -84,16 +83,15 @@ function saveOra() {
 
 // Export PNG file
 function exportPng(filePath) {
-    var path = coreLib.urlToPath(filePath)
-    if (path.substr(-4) !== ".png") {
-        path += ".png"
+    if (filePath.substr(-4) !== ".png") {
+        filePath += ".png"
     }
 
     var finalCanvas = canvasArea.exportCanvas.createObject(canvasArea)
     finalCanvas.onFinished.connect(function() {
-        finalCanvas.save(path)
+        finalCanvas.save(filePath)
         finalCanvas.destroy()
-        console.log("export: " + path)
+        console.log("export: " + filePath)
     })
 }
 

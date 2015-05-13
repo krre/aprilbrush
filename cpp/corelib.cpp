@@ -44,9 +44,9 @@ void CoreLib::saveSettings(QVariant settings)
     file.close();
 }
 
-void CoreLib::writeOra(const QUrl oraPath, const QSize imageSize, const QVariantList layerList)
+void CoreLib::writeOra(QString oraPath, const QSize imageSize, const QVariantList layerList)
 {
-    QZipWriter zipWriter(oraPath.toLocalFile());
+    QZipWriter zipWriter(oraPath);
     zipWriter.setCompressionPolicy(QZipWriter::AutoCompress);
 
     QByteArray xmlByteArray;
@@ -100,8 +100,8 @@ void CoreLib::writeOra(const QUrl oraPath, const QSize imageSize, const QVariant
     zipWriter.close();
 }
 
-QVariantList CoreLib::readOra(const QUrl oraPath) {
-    QZipReader zipReader(oraPath.toLocalFile(), QIODevice::ReadOnly);
+QVariantList CoreLib::readOra(QString oraPath) {
+    QZipReader zipReader(oraPath, QIODevice::ReadOnly);
 
     QByteArray xmlByteArray = zipReader.fileData("stack.xml");
     QXmlStreamReader stream(xmlByteArray);

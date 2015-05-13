@@ -15,9 +15,9 @@ FileDialog {
 
     onAccepted: {
         switch (mode) {
-            case Enums.FileOpen: Utils.openOra(fileUrl); break
-            case Enums.FileSave: Utils.saveAsOra(fileUrl); break
-            case Enums.FileExport: Utils.exportPng(fileUrl); break
+            case Enums.FileOpen: Utils.openOra(coreLib.urlToPath(fileUrl)); break
+            case Enums.FileSave: Utils.saveAsOra(coreLib.urlToPath(fileUrl)); break
+            case Enums.FileExport: Utils.exportPng(coreLib.urlToPath(fileUrl)); break
         }
     }
 }
