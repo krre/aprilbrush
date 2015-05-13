@@ -115,6 +115,7 @@ Panel {
                     }
 
                     Row {
+                        spacing: 10
 
                         CheckBox {
                             text: qsTr("Visible")
