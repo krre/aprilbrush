@@ -54,21 +54,18 @@ function clearLayer() {
 }
 
 function changeLayer(undoIndex, redoIndex) {
-    var _undoIndex = undoIndex
-    var _redoIndex = redoIndex
     return {
         name: qsTr("Change Layer"),
         undo: function() {
-            layerManager.layerView.currentIndex = _undoIndex
+            layerManager.layerView.currentIndex = undoIndex
         },
         redo: function() {
-            layerManager.layerView.currentIndex = _redoIndex
+            layerManager.layerView.currentIndex = redoIndex
         }
     }
 }
 
 function addLayer(name) {
-    var _name = name
     return {
         name: qsTr("Add Layer"),
         undo: function() {
