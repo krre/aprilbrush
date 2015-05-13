@@ -53,7 +53,7 @@ Panel {
                 MouseArea {
                     anchors.fill: parent
                     onClicked: {
-                        if (layerView.currentIndex !== index && index !== layerView.count - 1) {
+                        if (layerView.currentIndex !== index) {
                             undoManager.add(Undo.changeLayer(layerView.currentIndex, index))
                             layerView.currentIndex = index
                         }
