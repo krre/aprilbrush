@@ -43,7 +43,7 @@ Item {
     }
 
     function paint(point, pressure) {
-        if (!canvas.enabled) return
+        if (!canvas.enabled) return // layer is locked
         if (isFirstPoint) {
             paintDab(point, pressure)
             points = []
@@ -70,7 +70,7 @@ Item {
                 var diff = 0
                 var curvePoint
                 while (t > 0 && t <= 1) {
-                    curvePoint = !(controlPoint.x === -1 && controlPoint.y === -1)? linearCurve(startPoint, endPoint, t) : bezierCurve(startPoint, endPoint, controlPoint, t)
+                    curvePoint = !(controlPoint.x === -1 && controlPoint.y === -1) ? linearCurve(startPoint, endPoint, t) : bezierCurve(startPoint, endPoint, controlPoint, t)
                     deltaPoint = Math.sqrt(Math.pow(curvePoint.x - betweenPoint.x, 2) + Math.pow(curvePoint.y - betweenPoint.y, 2))
                     if (diff && Math.abs(deltaPoint - deltaDab) > Math.abs(diff)) { break; } // check on bezier loop
                     diff = deltaPoint - deltaDab
