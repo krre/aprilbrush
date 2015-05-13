@@ -41,6 +41,7 @@ ApplicationWindow {
 
         visible = true
         layerManager.addLayer()
+        undoManager.clear()
     }
 
     onClosing: Settings.saveSettings(mainRoot)
