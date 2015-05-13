@@ -58,11 +58,7 @@ Panel {
                             layerView.currentIndex = index
                         }
                     }
-                    onDoubleClicked: {
-                        if (index !== layerView.count - 1) {
-                            layerTextEdit.forceActiveFocus()
-                        }
-                    }
+                    onDoubleClicked: layerTextEdit.forceActiveFocus()
                 }
 
                 ColumnLayout {

@@ -180,15 +180,13 @@ function duplicateLayer() {
 }
 
 function renameLayer(undoName, redoName) {
-    var _undoName = undoName
-    var _redoName = redoName
     return {
         name: qsTr("Rename Layer"),
         undo: function() {
-            layerModel.setProperty(currentLayerIndex, "name", _undoName)
+            layerModel.setProperty(currentLayerIndex, "name", undoName)
         },
         redo: function() {
-            layerModel.setProperty(currentLayerIndex, "name", _redoName)
+            layerModel.setProperty(currentLayerIndex, "name", redoName)
         }
     }
 }
