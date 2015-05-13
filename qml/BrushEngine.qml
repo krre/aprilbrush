@@ -52,7 +52,6 @@ Item {
             controlPoint = Qt.point(-1, -1)
             isFirstPoint = false
         } else {
-            paintDab(point, pressure)
             startPoint = lastDrawPoint
             var deltaPoint = Math.sqrt(Math.pow(startPoint.x - point.x, 2) + Math.pow(startPoint.y - point.y, 2))
             var numDabs = Math.floor(deltaPoint / deltaDab)
@@ -64,7 +63,7 @@ Item {
                     endPoint.x = (controlPoint.x + point.x) / 2
                     endPoint.y = (controlPoint.y + point.y) / 2
                 }
-                var deltaT = 1.0 / numDabs
+                var deltaT = 1 / numDabs
                 betweenPoint = startPoint
                 var t = deltaT
                 var diff = 0
