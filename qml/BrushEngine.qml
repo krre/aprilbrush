@@ -3,7 +3,7 @@ import QtQuick 2.4
 Item {
     id: root
     property bool isFirstPoint: false
-    property Canvas canvas: canvasArea.canvas
+//    property Canvas canvas: canvasArea.canvas
     property real deltaDab: Math.max(spacing / 100 * size, 1)
     property var points: []
     property bool isBezier: true // change only for testing
@@ -43,7 +43,7 @@ Item {
     }
 
     function paint(point, pressure) {
-        if (!canvas.enabled) return // layer is locked
+//        if (!canvas.enabled) return // layer is locked
         if (isFirstPoint) {
             paintDab(point, pressure)
             points = []
@@ -91,6 +91,7 @@ Item {
     }
 
     function paintDab(point, pressure) {
+        /*
         var ctx = canvas.getContext("2d")
         ctx.save()
         ctx.globalAlpha = pressure
@@ -105,6 +106,7 @@ Item {
         ctx.drawImage(dab, x, y)
         ctx.restore()
         canvas.markDirty(x, y, dab.width, dab.height)
+        */
     }
 
     function linearCurve(start, end, t) {

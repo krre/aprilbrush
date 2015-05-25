@@ -18,5 +18,6 @@
         <file>qml/enums.js</file>
         <file>qml/components/Panel.qml</file>
         <file>qml/BrushEngine.qml</file>
+        <file>qml/Canvas3DArea.qml</file>
     </qresource>
 </RCC>
