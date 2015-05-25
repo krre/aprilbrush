@@ -6,6 +6,7 @@ import ABLib 1.0
 import "undo.js" as Undo
 import "utils.js" as Utils
 import "enums.js" as Enums
+import "glcode.js" as GLCode
 
 Item {
     id: root
@@ -76,7 +77,10 @@ Item {
         color: bgColor
 
         Canvas3D {
+            id: canvas3d
             anchors.fill: parent
+            onInitializeGL: GLCode.initializeGL(canvas3d)
+            onPaintGL: GLCode.paintGL(canvas3d)
         }
 
         Connections {

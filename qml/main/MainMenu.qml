@@ -91,27 +91,27 @@ MenuBar {
         MenuItem {
             text: qsTr("Zoom In")
             shortcut: "."
-            onTriggered: canvasArea.zoomIn()
+            onTriggered: canvas3DArea.zoomIn()
         }
         MenuItem {
             text: qsTr("Zoom Out")
             shortcut: ","
-            onTriggered: canvasArea.zoomOut()
+            onTriggered: canvas3DArea.zoomOut()
         }
         MenuItem {
             text: qsTr("Rotation")
             shortcut: "R"
-            onTriggered: canvasArea.rotation += 90
+            onTriggered: canvas3DArea.rotation += 90
         }
         MenuItem {
             text: qsTr("Mirror")
             shortcut: "M"
-            onTriggered: canvasArea.mirror *= -1
+            onTriggered: canvas3DArea.mirror *= -1
         }
         MenuItem {
             text: qsTr("Reset")
             shortcut: "F12"
-            onTriggered: canvasArea.resetTransform()
+            onTriggered: canvas3DArea.resetTransform()
         }
     }
 
