@@ -37,4 +37,5 @@ DISTFILES += \
     qml/enums.js \
     qml/components/Panel.qml \
     qml/BrushEngine.qml \
-    qml/Canvas3DArea.qml
+    qml/Canvas3DArea.qml \
+    qml/glcode.js

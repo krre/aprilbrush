@@ -19,5 +19,6 @@
         <file>qml/components/Panel.qml</file>
         <file>qml/BrushEngine.qml</file>
         <file>qml/Canvas3DArea.qml</file>
+        <file>qml/glcode.js</file>
     </qresource>
 </RCC>
