@@ -39,7 +39,13 @@ Item {
     function setTouch(isTouch) {
         if (isTouch) {
             isFirstPoint = true
+            createDab()
         }
+    }
+
+    function createDab() {
+        var gl = canvas3DArea.canvas3d.gl
+        print(gl)
     }
 
     function paint(point, pressure) {

@@ -10,6 +10,7 @@ import "glcode.js" as GLCode
 
 Item {
     id: root
+    property alias canvas3d: canvas3d
     property color bgColor: "white"
     property string canvasMode: Enums.CanvasFree
 
@@ -78,8 +79,12 @@ Item {
 
         Canvas3D {
             id: canvas3d
+            property var gl
             anchors.fill: parent
-            onInitializeGL: GLCode.initializeGL(canvas3d)
+            onInitializeGL: {
+                GLCode.initializeGL(canvas3d)
+                gl = GLCode.gl
+            }
             onPaintGL: GLCode.paintGL(canvas3d)
         }
 
