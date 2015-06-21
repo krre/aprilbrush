@@ -1,7 +1,7 @@
 import QtQuick 2.5
 import QtQuick.Layouts 1.1
 import QtGraphicalEffects 1.0
-import "utils.js" as Utils
+import "../js/utils.js" as Utils
 import "components"
 
 Panel {

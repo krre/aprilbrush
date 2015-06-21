@@ -1,7 +1,7 @@
 import QtQuick 2.5
 import QtQuick.Controls 1.3
 import "components"
-import "undo.js" as Undo
+import "../js/undo.js" as Undo
 
 Panel {
     id: root

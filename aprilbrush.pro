@@ -16,9 +16,6 @@ OTHER_FILES += \
     qml/ColorPicker.qml \
     qml/BrushSettings.qml \
     qml/About.qml \
-    qml/utils.js \
-    qml/undo.js \
-    qml/settings.js \
     qml/BrushLibrary.qml \
     qml/CanvasArea.qml \
     qml/LayerManager.qml \
@@ -31,11 +28,15 @@ OTHER_FILES += \
     qml/FileDialogBase.qml
 
 RESOURCES += \
-    qml.qrc
+    qml.qrc \
+    js.qrc
 
 DISTFILES += \
-    qml/enums.js \
     qml/components/Panel.qml \
     qml/BrushEngine.qml \
     qml/Canvas3DArea.qml \
-    qml/glcode.js
+    js/utils.js \
+    js/undo.js \
+    js/settings.js \
+    js/glcode.js \
+    js/enums.js

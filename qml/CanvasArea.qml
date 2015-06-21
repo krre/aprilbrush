@@ -2,9 +2,9 @@ import QtQuick 2.5
 import QtQuick.Controls 1.3
 import ABLib 1.0
 import "components"
-import "undo.js" as Undo
-import "utils.js" as Utils
-import "enums.js" as Enums
+import "../js/undo.js" as Undo
+import "../js/utils.js" as Utils
+import "../js/enums.js" as Enums
 
 Item {
     id: root

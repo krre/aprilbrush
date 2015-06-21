@@ -5,7 +5,7 @@ import QtQuick.Layouts 1.1
 import QtQuick.Window 2.2
 import QtQuick.Controls.Styles 1.3
 import ABLib 1.0
-import "settings.js" as Settings
+import "../js/settings.js" as Settings
 import "main"
 import "components"
 

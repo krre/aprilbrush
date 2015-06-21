@@ -1,8 +1,8 @@
 import QtQuick 2.5
 import QtQuick.Controls 1.3
 import "components"
-import "settings.js" as Settings
-import "enums.js" as Enums
+import "../js/settings.js" as Settings
+import "../js/enums.js" as Enums
 
 Panel {
     id: root
