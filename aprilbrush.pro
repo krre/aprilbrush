@@ -4,9 +4,9 @@ QT += qml quick widgets
 CONFIG += c++11
 
 SOURCES += \
-    main.cpp \
     cpp/tableteventfilter.cpp \
-    cpp/corelib.cpp
+    cpp/corelib.cpp \
+    cpp/main.cpp
 
 HEADERS += \
     cpp/tableteventfilter.h \
