@@ -11,7 +11,7 @@ import "components"
 
 ApplicationWindow {
     id: mainRoot
-    title: "AprilBrush - " + fileName + (isDirty ? " [*]" : "") + " @ " + Math.round(canvas3DArea.zoom * 100) + "%"
+//    title: "AprilBrush - " + fileName + (isDirty ? " [*]" : "") + " @ " + Math.round(canvas3DArea.zoom * 100) + "%"
 
     property string version: "0.3"
     property size imageSize: Qt.size(Screen.width, Screen.height)
@@ -65,10 +65,10 @@ ApplicationWindow {
         id: brushEngine
     }
 
-    Canvas3DArea {
-        id: canvas3DArea
-        anchors.fill: parent
-    }
+//    Canvas3DArea {
+//        id: canvas3DArea
+//        anchors.fill: parent
+//    }
 
 //    CanvasArea {
 //        id: canvasArea
