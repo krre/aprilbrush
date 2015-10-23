@@ -65,6 +65,11 @@ ApplicationWindow {
         id: brushEngine
     }
 
+    CanvasItem {
+        id: canvasItem
+        anchors.fill: parent
+    }
+
 //    Canvas3DArea {
 //        id: canvas3DArea
 //        anchors.fill: parent

@@ -1,3 +1,4 @@
+#include "cpp/canvasitem.h"
 #include "cpp/corelib.h"
 #include "cpp/tableteventfilter.h"
 
@@ -11,6 +12,7 @@ int main(int argc, char *argv[])
 {
     QApplication app(argc, argv);
 
+    qmlRegisterType<CanvasItem>("AprilBrush", 1, 0, "CanvasItem");
     qmlRegisterType<CoreLib>("AprilBrush", 1, 0, "CoreLib");
 
     ::tabletEventFilter = new TabletEventFilter;
