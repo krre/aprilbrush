@@ -1,6 +1,4 @@
-#ifndef CORELIB_H
-#define CORELIB_H
-
+#pragma once
 #include <QtCore>
 #include <QtGui>
 
@@ -28,5 +26,3 @@ private:
     QPointer<QWindow> window;
 
 };
-
-#endif // CORELIB_H

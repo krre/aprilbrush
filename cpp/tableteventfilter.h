@@ -1,6 +1,4 @@
-#ifndef TabletEventFilter_H
-#define TabletEventFilter_H
-
+#pragma once
 #include <QtCore>
 
 class TabletEventFilter : public QObject
@@ -18,5 +16,3 @@ protected:
     bool eventFilter(QObject *obj, QEvent *event);
 
 };
-
-#endif // TabletEventFilter_H
