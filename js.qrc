@@ -1,7 +1,6 @@
 <RCC>
     <qresource prefix="/">
         <file>js/enums.js</file>
-        <file>js/glcode.js</file>
         <file>js/settings.js</file>
         <file>js/undo.js</file>
         <file>js/utils.js</file>

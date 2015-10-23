@@ -38,5 +38,4 @@ DISTFILES += \
     js/utils.js \
     js/undo.js \
     js/settings.js \
-    js/glcode.js \
     js/enums.js
