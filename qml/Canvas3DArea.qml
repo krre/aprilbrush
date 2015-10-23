@@ -1,6 +1,6 @@
 import QtQuick 2.5
 import QtCanvas3D 1.0
-import ABLib 1.0
+import AprilBrush 1.0
 import "../js/undo.js" as Undo
 import "../js/utils.js" as Utils
 import "../js/enums.js" as Enums

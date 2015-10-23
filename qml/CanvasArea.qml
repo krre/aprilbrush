@@ -1,6 +1,6 @@
 import QtQuick 2.5
 import QtQuick.Controls 1.3
-import ABLib 1.0
+import AprilBrush 1.0
 import "components"
 import "../js/undo.js" as Undo
 import "../js/utils.js" as Utils

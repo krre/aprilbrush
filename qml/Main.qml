@@ -4,7 +4,7 @@ import QtQuick.Controls 1.3
 import QtQuick.Layouts 1.1
 import QtQuick.Window 2.2
 import QtQuick.Controls.Styles 1.3
-import ABLib 1.0
+import AprilBrush 1.0
 import "../js/settings.js" as Settings
 import "main"
 import "components"

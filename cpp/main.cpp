@@ -11,7 +11,7 @@ int main(int argc, char *argv[])
 {
     QApplication app(argc, argv);
 
-    qmlRegisterType<CoreLib>("ABLib", 1, 0, "CoreLib");
+    qmlRegisterType<CoreLib>("AprilBrush", 1, 0, "CoreLib");
 
     ::tabletEventFilter = new TabletEventFilter;
 //    app.installEventFilter(&tabletEventFilter);
