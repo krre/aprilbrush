@@ -6,11 +6,13 @@ CONFIG += c++11
 SOURCES += \
     cpp/tableteventfilter.cpp \
     cpp/corelib.cpp \
-    cpp/main.cpp
+    cpp/main.cpp \
+    cpp/canvasitem.cpp
 
 HEADERS += \
     cpp/tableteventfilter.h \
-    cpp/corelib.h
+    cpp/corelib.h \
+    cpp/canvasitem.h
 
 OTHER_FILES += \
     qml/ColorPicker.qml \
