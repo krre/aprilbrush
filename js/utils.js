@@ -206,6 +206,6 @@ function createDynamicObject(parent, url, properties) {
     if (errorMessage) {
         print("Error loading component " + url + ":", errorMessage)
     } else {
-        return component.createObject(parent, properties ? properties : {})
+        return component.createObject(parent, properties || {})
     }
 }
