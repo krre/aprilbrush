@@ -6,7 +6,7 @@ class CoreLib : public QObject
 {
     Q_OBJECT
     Q_PROPERTY(QWindow *window READ getWindow WRITE setWindow)
-    Q_PROPERTY(QString buildDate READ getBuildDate CONSTANT)
+    Q_PROPERTY(QString buildDate READ buildDate CONSTANT)
 
 public:
     explicit CoreLib(QObject *parent = 0);
@@ -20,7 +20,7 @@ public:
     Q_INVOKABLE QString urlToPath(QUrl url) { return url.toLocalFile(); }
     void setWindow(QWindow *window) { this->window = window; }
     QWindow * getWindow() { return this->window; }
-    QString getBuildDate() { return QString(__DATE__); }
+    QString buildDate() { return QString(__DATE__); }
 
 private:
     QPointer<QWindow> window;
