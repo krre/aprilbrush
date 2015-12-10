@@ -12,10 +12,6 @@
 
 extern QPointer<TabletEventFilter> tabletEventFilter;
 
-CoreLib::CoreLib(QObject *parent) : QObject(parent)
-{
-}
-
 QVariant CoreLib::loadSettings()
 {
     QString settingsPath = QDir::currentPath() + "/profile/settings.json";

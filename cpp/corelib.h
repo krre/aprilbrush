@@ -5,11 +5,11 @@
 class CoreLib : public QObject
 {
     Q_OBJECT
-    Q_PROPERTY(QWindow *window READ getWindow WRITE setWindow)
+    Q_PROPERTY(QWindow* window READ getWindow WRITE setWindow)
     Q_PROPERTY(QString buildDate READ buildDate CONSTANT)
 
 public:
-    explicit CoreLib(QObject *parent = 0);
+    explicit CoreLib() {}
     Q_INVOKABLE QVariant loadSettings();
     Q_INVOKABLE void saveSettings(QVariant settings);
     //Q_INVOKABLE void buildDate() { qDebug() << QLocale(QLocale::C).toDate(QString(__DATE__).simplified(), QLatin1String("MMM d yyyy")); }
@@ -17,9 +17,9 @@ public:
     Q_INVOKABLE QVariantList readOra(QString oraPath);
     Q_INVOKABLE void setCursorShape(QString type, int size=0);
     Q_INVOKABLE void addEventFilter(QVariant item);
-    Q_INVOKABLE QString urlToPath(QUrl url) { return url.toLocalFile(); }
-    void setWindow(QWindow *window) { this->window = window; }
-    QWindow * getWindow() { return this->window; }
+    Q_INVOKABLE QString urlToPath(const QUrl& url) { return url.toLocalFile(); }
+    void setWindow(QWindow* window) { this->window = window; }
+    QWindow* getWindow() { return this->window; }
     QString buildDate() { return QString(__DATE__); }
 
 private:
