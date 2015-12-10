@@ -1,19 +1,14 @@
 #include "tableteventfilter.h"
 #include <QtGui>
 
-TabletEventFilter::TabletEventFilter(QObject *parent) :
-    QObject(parent)
-{
-}
-
-bool TabletEventFilter::eventFilter(QObject *obj, QEvent *event)
+bool TabletEventFilter::eventFilter(QObject* obj, QEvent* event)
 {
     if (event->type() == QEvent::TabletPress ||
             event->type() == QEvent::TabletMove ||
             event->type() == QEvent::TabletRelease ||
             event->type() == QEvent::TabletEnterProximity ||
             event->type() == QEvent::TabletLeaveProximity) {
-        QTabletEvent *tabletEvent = static_cast<QTabletEvent *>(event);
+        QTabletEvent* tabletEvent = static_cast<QTabletEvent*>(event);
         QVariantMap eventMap;
         eventMap["globalX"] = tabletEvent->hiResGlobalX();
         eventMap["globalY"] = tabletEvent->hiResGlobalY();
@@ -23,7 +18,7 @@ bool TabletEventFilter::eventFilter(QObject *obj, QEvent *event)
         emit action(eventMap);
         return true;
     } else if (event->type() == QEvent::MouseMove) {
-//        QMouseEvent *mouseEvent = static_cast<QMouseEvent *>(event);
+//        QMouseEvent* mouseEvent = static_cast<QMouseEvent*>(event);
         return QObject::eventFilter(obj, event);
     } else {
         // standard event processing

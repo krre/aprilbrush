@@ -5,7 +5,7 @@ class TabletEventFilter : public QObject
 {
     Q_OBJECT
 public:
-    explicit TabletEventFilter(QObject *parent = 0);
+    explicit TabletEventFilter() {}
 
 signals:
     void action(QVariantMap event);
@@ -13,6 +13,6 @@ signals:
 public slots:
 
 protected:
-    bool eventFilter(QObject *obj, QEvent *event);
+    bool eventFilter(QObject* obj, QEvent* event);
 
 };
