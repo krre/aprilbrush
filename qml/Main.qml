@@ -27,8 +27,8 @@ ApplicationWindow {
     menuBar: MainMenu {
         id: mainMenu
         Component.onCompleted: {
-            // ОСТОРОЖНО! Используется зависимость от внутреннего кода QtQuick.Controls!
-            // при открытом меню нажатие клавиш принимается только там, поэтому нужно передать их оттуда дальше
+            // ATTENTION! Uses dependencies from private code of QtQuick.Controls!
+            // Hack needs to prevent focus catching by MenuBar when Alt pressed
             __contentItem.Keys.forwardTo = [mainRoot]
         }
     }
