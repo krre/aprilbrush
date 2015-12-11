@@ -178,45 +178,6 @@ MenuBar {
     }
 
     Menu {
-        title: qsTr("Panel")
-
-        MenuItem {
-            text: colorPicker.title
-            checkable: true
-            checked: colorPicker.visible
-            onTriggered: colorPicker.visible = !colorPicker.visible
-        }
-
-        MenuItem {
-            text: layerManager.title
-            checkable: true
-            checked: layerManager.visible
-            onTriggered: layerManager.visible = !layerManager.visible
-        }
-
-        MenuItem {
-            text: brushSettings.title
-            checkable: true
-            checked: brushSettings.visible
-            onTriggered: brushSettings.visible = !brushSettings.visible
-        }
-
-        MenuItem {
-            text: brushLibrary.title
-            checkable: true
-            checked: brushLibrary.visible
-            onTriggered: brushLibrary.visible = !brushLibrary.visible
-        }
-
-        MenuItem {
-            text: undoManager.title
-            checkable: true
-            checked: undoManager.visible
-            onTriggered: undoManager.visible = !undoManager.visible
-        }
-    }
-
-    Menu {
         title: qsTr("Help")
 
         MenuItem {
