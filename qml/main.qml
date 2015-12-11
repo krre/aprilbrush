@@ -12,6 +12,7 @@ import "../js/utils.js" as Utils
 
 ApplicationWindow {
     id: mainRoot
+    title: "AprilBrush"
 //    title: "AprilBrush - " + fileName + (isDirty ? " [*]" : "") + " @ " + Math.round(canvas3DArea.zoom * 100) + "%"
 
     property string version: "0.3"
@@ -22,8 +23,8 @@ ApplicationWindow {
     readonly property int currentLayerIndex: layerManager.layerView.currentIndex
     property string fileName: qsTr("Untitled")
     property string oraPath
-    width: 1230
-    height: 655
+    width: Settings.value("Main", "width", 800)
+    height: Settings.value("Main", "height", 600)
 
     menuBar: MainMenu {
         id: mainMenu
@@ -35,8 +36,8 @@ ApplicationWindow {
     }
 
     Component.onCompleted: {
-        x = (Screen.width - width) / 2
-        y = (Screen.height - height) / 2
+        x = Settings.value("Main", "x", (Screen.width - width) / 2)
+        y = Settings.value("Main", "y", (Screen.height - height) / 2)
 
         visible = true
         layerManager.addLayer()
@@ -51,6 +52,10 @@ ApplicationWindow {
     }
 
     onClosing: {
+        Settings.setValue("Main", "x", x)
+        Settings.setValue("Main", "y", y)
+        Settings.setValue("Main", "width", width)
+        Settings.setValue("Main", "height", height)
     }
 
     SystemPalette {
