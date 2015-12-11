@@ -1,5 +1,15 @@
 .import "undo.js" as Undo
 
+function movePanelToDocker(panel, dock) {
+    var tab = dock.addTab(panel.title)
+    tab.active = true
+    tab.setSource("qrc:/qml/components/Dummy.qml")
+    var index = dock.count - 1
+    panel.parent = dock.getTab(index).item
+    panel.anchors.fill = dock.getTab(index).item
+    panel.visible = true
+}
+
 // Open OpenRaster file
 function openOra(filePath) {
     layerModel.clear()

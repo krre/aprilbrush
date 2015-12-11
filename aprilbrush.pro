@@ -42,4 +42,5 @@ DISTFILES += \
     qml/dockers/ColorPicker.qml \
     qml/dockers/LayerManager.qml \
     qml/dockers/UndoManager.qml \
-    qml/main/WorkArea.qml
+    qml/main/WorkArea.qml \
+    qml/components/Dummy.qml

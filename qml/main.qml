@@ -8,8 +8,8 @@ import AprilBrush 1.0
 import "main"
 import "components"
 import "dockers"
+import "../js/utils.js" as Utils
 import "../js/settings.js" as Settings
-import "../3rdparty/font-awesome/fontawesome.js" as FontAwesome
 
 ApplicationWindow {
     id: mainRoot
@@ -44,6 +44,13 @@ ApplicationWindow {
         visible = true
         layerManager.addLayer()
         undoManager.clear()
+
+        Utils.movePanelToDocker(colorPicker, topDock)
+        Utils.movePanelToDocker(undoManager, topDock)
+        Utils.movePanelToDocker(layerManager, bottomDock)
+        Utils.movePanelToDocker(brushSettings, bottomDock)
+        Utils.movePanelToDocker(brushLibrary, bottomDock)
+
     }
 
     onClosing: Settings.saveSettings(mainRoot)
@@ -87,18 +94,25 @@ ApplicationWindow {
             Layout.minimumWidth: 150
             orientation: Qt.Vertical
 
-            Label {
-                font.pointSize: 15
-                font.family: "FontAwesome"
-                text: FontAwesome.Icon.Plus
+            TabView {
+                id: topDock
+                height: 300
+                Layout.minimumHeight: 200
+                frameVisible: false
+            }
+
+            TabView {
+                id: bottomDock
+                Layout.minimumHeight: 200
+                frameVisible: false
             }
         }
     }
 
-    CanvasItem {
-        id: canvasItem
+//    CanvasItem {
+//        id: canvasItem
 //        anchors.fill: parent
-    }
+//    }
 
 //    Canvas3DArea {
 //        id: canvas3DArea
@@ -114,6 +128,12 @@ ApplicationWindow {
         id: colorPicker
         x: 10
         y: 10
+    }
+
+    UndoManager {
+        id: undoManager
+        x: 1020
+        y: 425
     }
 
     LayerManager {
@@ -134,11 +154,6 @@ ApplicationWindow {
         y: 215
     }
 
-    UndoManager {
-        id: undoManager
-        x: 1020
-        y: 425
-    }
 
     ColorDialog {
         id: colorDialog
