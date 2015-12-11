@@ -10,7 +10,7 @@
         <file>qml/components/SliderText.qml</file>
         <file>qml/main/About.qml</file>
         <file>qml/main/MainMenu.qml</file>
-        <file>qml/FileDialogBase.qml</file>
+        <file>qml/components/FileDialogBase.qml</file>
         <file>qml/UndoManager.qml</file>
         <file>qml/components/Panel.qml</file>
         <file>qml/BrushEngine.qml</file>

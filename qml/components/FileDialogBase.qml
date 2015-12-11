@@ -1,7 +1,7 @@
 import QtQuick 2.5
 import QtQuick.Dialogs 1.1
-import "../js/utils.js" as Utils
-import "../js/enums.js" as Enums
+import "../../js/utils.js" as Utils
+import "../../js/enums.js" as Enums
 
 FileDialog {
     property int mode: Enums.FileOpen
