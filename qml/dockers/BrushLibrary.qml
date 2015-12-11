@@ -3,8 +3,8 @@ import QtQuick.Controls 1.3
 import QtQuick.Layouts 1.1
 import QtQuick.Controls.Styles 1.3
 import QtQuick.LocalStorage 2.0
-import "components"
-import "../js/settings.js" as Settings
+import "../components"
+import "../../js/settings.js" as Settings
 
 Panel {
     id: root

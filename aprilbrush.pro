@@ -15,12 +15,7 @@ HEADERS += \
     cpp/canvasitem.h
 
 OTHER_FILES += \
-    qml/ColorPicker.qml \
-    qml/BrushSettings.qml \
-    qml/BrushLibrary.qml \
     qml/CanvasArea.qml \
-    qml/LayerManager.qml \
-    qml/UndoManager.qml \
     qml/style.js \
     qml/components/SliderText.qml \
     qml/main/Actions.qml \
@@ -40,4 +35,9 @@ DISTFILES += \
     js/enums.js \
     qml/main/About.qml \
     qml/components/filedialog/FileDialogBase.qml \
-    qml/main.qml
+    qml/main.qml \
+    qml/dockers/BrushLibrary.qml \
+    qml/dockers/BrushSettings.qml \
+    qml/dockers/ColorPicker.qml \
+    qml/dockers/LayerManager.qml \
+    qml/dockers/UndoManager.qml

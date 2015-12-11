@@ -1,9 +1,9 @@
 import QtQuick 2.5
 import QtQuick.Controls 1.3
 import QtQuick.Layouts 1.1
-import "components"
-import "../js/utils.js" as Utils
-import "../js/undo.js" as Undo
+import "../components"
+import "../../js/utils.js" as Utils
+import "../../js/undo.js" as Undo
 
 Panel {
     id: root

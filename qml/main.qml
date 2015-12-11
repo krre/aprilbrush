@@ -8,6 +8,7 @@ import AprilBrush 1.0
 import "../js/settings.js" as Settings
 import "main"
 import "components"
+import "dockers"
 
 ApplicationWindow {
     id: mainRoot
