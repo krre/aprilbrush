@@ -1,6 +1,7 @@
 #include "cpp/canvasitem.h"
 #include "cpp/corelib.h"
 #include "cpp/tableteventfilter.h"
+#include "cpp/settings.h"
 
 #include <QtQml>
 #include <QApplication>
@@ -18,11 +19,15 @@ int main(int argc, char* argv[])
     ::tabletEventFilter = new TabletEventFilter;
 //    app.installEventFilter(&tabletEventFilter);
 
+    QString filePath = qApp->applicationDirPath() + "/aprilbrush.ini";
+    Settings settings(filePath);
+
     QQmlApplicationEngine engine;
     QString storageDirPath = QDir::currentPath() + "/storage";
     QDir().mkdir(storageDirPath);
     engine.setOfflineStoragePath(storageDirPath);
     engine.rootContext()->setContextProperty("TabletEventFilter", tabletEventFilter);
+    engine.rootContext()->setContextProperty("Settings", &settings);
     engine.load(QUrl("qrc:/qml/main.qml"));
 
     return app.exec();

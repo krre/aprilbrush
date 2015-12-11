@@ -7,12 +7,14 @@ SOURCES += \
     cpp/tableteventfilter.cpp \
     cpp/corelib.cpp \
     cpp/main.cpp \
-    cpp/canvasitem.cpp
+    cpp/canvasitem.cpp \
+    cpp/settings.cpp
 
 HEADERS += \
     cpp/tableteventfilter.h \
     cpp/corelib.h \
-    cpp/canvasitem.h
+    cpp/canvasitem.h \
+    cpp/settings.h
 
 OTHER_FILES += \
     qml/CanvasArea.qml \
