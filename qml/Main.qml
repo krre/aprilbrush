@@ -65,9 +65,27 @@ ApplicationWindow {
         id: brushEngine
     }
 
+    SplitView {
+        anchors.fill: parent
+
+        TabView {
+            id: tabView
+            Layout.fillWidth: true
+            Layout.margins: 5
+            height: parent.height
+        }
+
+        SplitView {
+            width: 200
+            height: parent.height
+            Layout.minimumWidth: 150
+            orientation: Qt.Vertical
+        }
+    }
+
     CanvasItem {
         id: canvasItem
-        anchors.fill: parent
+//        anchors.fill: parent
     }
 
 //    Canvas3DArea {

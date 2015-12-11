@@ -12,7 +12,7 @@ MenuBar {
         MenuItem {
             text: qsTr("New")
             shortcut: "Ctrl+N"
-            onTriggered: newImage()
+            onTriggered: tabView.addTab(qsTr("Unnamed"))
         }
 
         MenuItem {
