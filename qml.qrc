@@ -17,5 +17,8 @@
         <file>qml/Canvas3DArea.qml</file>
         <file>qml/main/WorkArea.qml</file>
         <file>qml/components/Dummy.qml</file>
+        <file>qml/components/filedialog/FileDialogOpen.qml</file>
+        <file>qml/components/filedialog/FileDialogExport.qml</file>
+        <file>qml/components/filedialog/FileDialogSave.qml</file>
     </qresource>
 </RCC>

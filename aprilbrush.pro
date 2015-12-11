@@ -44,4 +44,7 @@ DISTFILES += \
     qml/dockers/LayerManager.qml \
     qml/dockers/UndoManager.qml \
     qml/main/WorkArea.qml \
-    qml/components/Dummy.qml
+    qml/components/Dummy.qml \
+    qml/components/filedialog/FileDialogOpen.qml \
+    qml/components/filedialog/FileDialogSave.qml \
+    qml/components/filedialog/FileDialogExport.qml

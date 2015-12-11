@@ -23,15 +23,15 @@ MenuBar {
         MenuItem {
             text: qsTr("Open...")
             shortcut: "Ctrl+O"
-            onTriggered: Utils.createDynamicObject(mainRoot, "qrc:/qml/components/filedialog/FileDialogBase.qml", { mode: Enums.FileOpen })
+            onTriggered: Utils.createDynamicObject(mainRoot, "qrc:/qml/components/filedialog/FileDialogOpen.qml")
         }
 
         MenuItem {
             text: qsTr("Save")
             shortcut: "Ctrl+S"
             onTriggered: {
-                if (oraPath === "") {
-                    Utils.createDynamicObject(mainRoot, "qrc:/qml/components/filedialog/FileDialogBase.qml", { mode: Enums.FileSave })
+                if (!oraPath) {
+                    Utils.createDynamicObject(mainRoot, "qrc:/qml/components/filedialog/FileDialogSave.qml")
                 } else {
                     Utils.saveOra()
                 }
@@ -42,13 +42,13 @@ MenuBar {
         MenuItem {
             text: qsTr("Save As...")
             shortcut: "Ctrl+Shift+S"
-            onTriggered: Utils.createDynamicObject(mainRoot, "qrc:/qml/components/filedialog/FileDialogBase.qml", { mode: Enums.FileSave })
+            onTriggered: Utils.createDynamicObject(mainRoot, "qrc:/qml/components/filedialog/FileDialogSave.qml")
         }
 
         MenuItem {
             text: qsTr("Export...")
             shortcut: "Ctrl+E"
-            onTriggered: Utils.createDynamicObject(mainRoot, "qrc:/qml/components/filedialog/FileDialogBase.qml", { mode: Enums.FileExport })
+            onTriggered: Utils.createDynamicObject(mainRoot, "qrc:/qml/components/filedialog/FileDialogExport.qml")
             enabled: layerModel && layerModel.count > 0
         }
 
