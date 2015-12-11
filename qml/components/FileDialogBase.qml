@@ -4,6 +4,7 @@ import "../../js/utils.js" as Utils
 import "../../js/enums.js" as Enums
 
 FileDialog {
+    id: root
     property int mode: Enums.FileOpen
     title: mode == Enums.FileOpen ? qsTr("Open OpenRaster file") : mode == Enums.FileSave ? qsTr("Save OpenRaster file") :
         mode == Enums.FileExport ? qsTr("Export image to PNG") : qsTr("Select folder")
@@ -12,6 +13,12 @@ FileDialog {
     nameFilters: mode == Enums.FileExport ? qsTr("Images (*.png)") : qsTr("OpenRaster (*.ora)")
 
     Component.onCompleted: open()
+
+    onVisibleChanged: {
+        if (!visible) {
+            root.destroy()
+        }
+    }
 
     onAccepted: {
         switch (mode) {
