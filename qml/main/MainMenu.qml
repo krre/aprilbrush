@@ -5,18 +5,22 @@ import "../../js/enums.js" as Enums
 import "../../js/undo.js" as Undo
 
 MenuBar {
+
     Menu {
         title: qsTr("File")
+
         MenuItem {
             text: qsTr("New")
             shortcut: "Ctrl+N"
             onTriggered: newImage()
         }
+
         MenuItem {
             text: qsTr("Open...")
             shortcut: "Ctrl+O"
             onTriggered: Utils.createDynamicObject(mainRoot, "qrc:/qml/FileDialogBase.qml", { mode: Enums.FileOpen })
         }
+
         MenuItem {
             text: qsTr("Save")
             shortcut: "Ctrl+S"
@@ -29,18 +33,22 @@ MenuBar {
             }
             enabled: isDirty
         }
+
         MenuItem {
             text: qsTr("Save As...")
             shortcut: "Ctrl+Shift+S"
             onTriggered: Utils.createDynamicObject(mainRoot, "qrc:/qml/FileDialogBase.qml", { mode: Enums.FileSave })
         }
+
         MenuItem {
             text: qsTr("Export...")
             shortcut: "Ctrl+E"
             onTriggered: Utils.createDynamicObject(mainRoot, "qrc:/qml/FileDialogBase.qml", { mode: Enums.FileExport })
             enabled: layerModel && layerModel.count > 0
         }
+
         MenuSeparator {}
+
         MenuItem {
             text: qsTr("Exit")
             shortcut: "Ctrl+Q"
@@ -50,6 +58,7 @@ MenuBar {
 
     Menu {
         title: qsTr("Edit")
+
         MenuItem {
             text: qsTr("Undo")
             shortcut: "Ctrl+Z"
@@ -59,6 +68,7 @@ MenuBar {
             }
             enabled: undoManager.undoView.currentIndex > 0
         }
+
         MenuItem {
             text: qsTr("Redo")
             shortcut: "Ctrl+Shift+Z"
@@ -68,6 +78,7 @@ MenuBar {
             }
             enabled: undoModel ? undoManager.undoView.currentIndex < undoModel.count - 1 : false
         }
+
         MenuItem {
             text: qsTr("Clear")
             shortcut: "Delete"
@@ -78,36 +89,47 @@ MenuBar {
 
     Menu {
         title: qsTr("Layer")
+
         MenuItem { action: actions.newLayerAction }
+
         MenuItem { action: actions.deleteLayerAction }
+
         MenuItem { action: actions.mergeLayerAction }
+
         MenuItem { action: actions.duplicateLayerAction }
+
         MenuItem { action: actions.upLayerAction }
+
         MenuItem { action: actions.downLayerAction }
     }
 
     Menu {
         title: qsTr("View")
+
         MenuItem {
             text: qsTr("Zoom In")
             shortcut: "."
             onTriggered: canvas3DArea.zoomIn()
         }
+
         MenuItem {
             text: qsTr("Zoom Out")
             shortcut: ","
             onTriggered: canvas3DArea.zoomOut()
         }
+
         MenuItem {
             text: qsTr("Rotation")
             shortcut: "R"
             onTriggered: canvas3DArea.rotation += 90
         }
+
         MenuItem {
             text: qsTr("Mirror")
             shortcut: "M"
             onTriggered: canvas3DArea.mirror *= -1
         }
+
         MenuItem {
             text: qsTr("Reset")
             shortcut: "F12"
@@ -156,6 +178,7 @@ MenuBar {
 
     Menu {
         title: qsTr("Help")
+
         MenuItem {
             text: qsTr("About...")
             onTriggered: {
