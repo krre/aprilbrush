@@ -9,4 +9,5 @@ MessageDialog {
           Copyright (c) 2012-2015, Vladimir Zarypov<br>
           <a href=\"https://github.com/krre/aprilbrush-desktop\">https://github.com/krre/aprilbrush-desktop</a>"
     Component.onCompleted: open()
+    onVisibilityChanged: if (!visible) destroy()
 }
