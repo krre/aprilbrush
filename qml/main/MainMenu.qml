@@ -12,7 +12,12 @@ MenuBar {
         MenuItem {
             text: qsTr("New")
             shortcut: "Ctrl+N"
-            onTriggered: tabView.addTab(qsTr("Unnamed"))
+            onTriggered: {
+                var title = qsTr("Unnamed")
+                var tab = tabView.addTab(title)
+                tab.setSource("qrc:/qml/main/WorkArea.qml", { title: title })
+                tabView.currentIndex = tabView.count - 1
+            }
         }
 
         MenuItem {
