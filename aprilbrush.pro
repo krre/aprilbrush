@@ -40,4 +40,4 @@ DISTFILES += \
     js/settings.js \
     js/enums.js \
     qml/main/About.qml \
-    qml/components/FileDialogBase.qml
+    qml/components/filedialog/FileDialogBase.qml
