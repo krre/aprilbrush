@@ -23,7 +23,6 @@ OTHER_FILES += \
     qml/UndoManager.qml \
     qml/style.js \
     qml/components/SliderText.qml \
-    qml/Main.qml \
     qml/main/Actions.qml \
     qml/main/MainMenu.qml
 
@@ -40,4 +39,5 @@ DISTFILES += \
     js/settings.js \
     js/enums.js \
     qml/main/About.qml \
-    qml/components/filedialog/FileDialogBase.qml
+    qml/components/filedialog/FileDialogBase.qml \
+    qml/main.qml

@@ -23,7 +23,7 @@ int main(int argc, char* argv[])
     QDir().mkdir(storageDirPath);
     engine.setOfflineStoragePath(storageDirPath);
     engine.rootContext()->setContextProperty("TabletEventFilter", tabletEventFilter);
-    engine.load(QUrl("qrc:///qml/Main.qml"));
+    engine.load(QUrl("qrc:/qml/main.qml"));
 
     return app.exec();
 }

@@ -1,6 +1,6 @@
 <RCC>
     <qresource prefix="/">
-        <file>qml/Main.qml</file>
+        <file>qml/main.qml</file>
         <file>qml/ColorPicker.qml</file>
         <file>qml/main/Actions.qml</file>
         <file>qml/CanvasArea.qml</file>
