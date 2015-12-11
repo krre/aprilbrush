@@ -154,7 +154,6 @@ ApplicationWindow {
         y: 215
     }
 
-
     ColorDialog {
         id: colorDialog
         onAccepted: {
