@@ -56,6 +56,9 @@ ApplicationWindow {
         Settings.setValue("Main", "y", y)
         Settings.setValue("Main", "width", width)
         Settings.setValue("Main", "height", height)
+
+        Settings.setValue("Main", "dockerSplit.width", dockerSplit.width)
+        Settings.setValue("Main", "topDock.height", topDock.height)
     }
 
     SystemPalette {
@@ -92,14 +95,15 @@ ApplicationWindow {
         }
 
         SplitView {
-            width: 200
+            id: dockerSplit
+            width: Settings.value("Main", "dockerSplit.width", 200)
             height: parent.height
             Layout.minimumWidth: 150
             orientation: Qt.Vertical
 
             TabView {
                 id: topDock
-                height: 300
+                height: Settings.value("Main", "topDock.height", 300)
                 Layout.minimumHeight: 200
                 frameVisible: false
             }
