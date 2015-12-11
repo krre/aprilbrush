@@ -221,9 +221,7 @@ MenuBar {
 
         MenuItem {
             text: qsTr("About...")
-            onTriggered: {
-                Utils.createDynamicObject(mainRoot, "qrc:/qml/main/About.qml")
-            }
+            onTriggered: Utils.createDynamicObject(mainRoot, "qrc:/qml/main/About.qml")
         }
     }
 }
