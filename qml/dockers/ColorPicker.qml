@@ -10,13 +10,13 @@ Panel {
     property real h
     property real s
     property real v
-    property color color: "black"
+    property color color: Settings.value(objectName, "color", "#000000")
     property bool changeColorByPicker: false
 
     property int minWindowSize: Math.min(columnLayout.width, columnLayout.height)
     property real ringRatio: 0.75
 
-    objectName: "colorPicker"
+    objectName: "ColorPicker"
 
     onColorChanged: if (!changeColorByPicker) { setHsv(color) }
 
@@ -28,6 +28,7 @@ Panel {
     }
 
     Component.onCompleted: setHsv(color)
+    Component.onDestruction: Settings.setValue(objectName, "color", String(color))
 
     ColumnLayout {
         id: columnLayout
