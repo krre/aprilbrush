@@ -17,7 +17,6 @@ HEADERS += \
 OTHER_FILES += \
     qml/ColorPicker.qml \
     qml/BrushSettings.qml \
-    qml/About.qml \
     qml/BrushLibrary.qml \
     qml/CanvasArea.qml \
     qml/LayerManager.qml \
@@ -40,4 +39,5 @@ DISTFILES += \
     js/utils.js \
     js/undo.js \
     js/settings.js \
-    js/enums.js
+    js/enums.js \
+    qml/main/About.qml
