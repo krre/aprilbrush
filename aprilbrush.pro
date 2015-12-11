@@ -23,7 +23,8 @@ OTHER_FILES += \
 
 RESOURCES += \
     qml.qrc \
-    js.qrc
+    js.qrc \
+    media.qrc
 
 DISTFILES += \
     qml/components/Panel.qml \

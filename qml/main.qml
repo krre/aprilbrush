@@ -5,10 +5,11 @@ import QtQuick.Layouts 1.1
 import QtQuick.Window 2.2
 import QtQuick.Controls.Styles 1.3
 import AprilBrush 1.0
-import "../js/settings.js" as Settings
 import "main"
 import "components"
 import "dockers"
+import "../js/settings.js" as Settings
+import "../3rdparty/font-awesome/fontawesome.js" as FontAwesome
 
 ApplicationWindow {
     id: mainRoot
@@ -52,6 +53,10 @@ ApplicationWindow {
         colorGroup: SystemPalette.Active
     }
 
+    FontLoader {
+        source: "qrc:/3rdparty/font-awesome/fontawesome-webfont.ttf"
+    }
+
     ListModel { id: layerModel }
     ListModel { id: undoModel }
 
@@ -81,6 +86,12 @@ ApplicationWindow {
             height: parent.height
             Layout.minimumWidth: 150
             orientation: Qt.Vertical
+
+            Label {
+                font.pointSize: 15
+                font.family: "FontAwesome"
+                text: FontAwesome.Icon.Plus
+            }
         }
     }
 
