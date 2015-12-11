@@ -5,7 +5,6 @@ import QtQuick.Layouts 1.1
 Item {
     id: root
     property string title
-    property var storage: []
     anchors.fill: parent
     anchors.margins: 7
 }

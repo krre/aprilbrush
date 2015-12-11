@@ -34,7 +34,6 @@ DISTFILES += \
     qml/Canvas3DArea.qml \
     js/utils.js \
     js/undo.js \
-    js/settings.js \
     js/enums.js \
     qml/main/About.qml \
     qml/components/filedialog/FileDialogBase.qml \

@@ -9,7 +9,6 @@ import "main"
 import "components"
 import "dockers"
 import "../js/utils.js" as Utils
-import "../js/settings.js" as Settings
 
 ApplicationWindow {
     id: mainRoot
@@ -36,10 +35,8 @@ ApplicationWindow {
     }
 
     Component.onCompleted: {
-        if (!Settings.loadSettings(mainRoot)) {
-            x = (Screen.width - width) / 2
-            y = (Screen.height - height) / 2
-        }
+        x = (Screen.width - width) / 2
+        y = (Screen.height - height) / 2
 
         visible = true
         layerManager.addLayer()
@@ -53,7 +50,8 @@ ApplicationWindow {
 
     }
 
-    onClosing: Settings.saveSettings(mainRoot)
+    onClosing: {
+    }
 
     SystemPalette {
         id: sysPalette
@@ -160,14 +158,5 @@ ApplicationWindow {
             canvasArea.bgColor = color
             isDirty = true
         }
-    }
-
-    Item {
-        property alias mainX: mainRoot.x
-        property alias mainY: mainRoot.y
-        property alias mainWidth: mainRoot.width
-        property alias mainHeight: mainRoot.height
-        property var storage: ["mainWidth", "mainHeight", "mainX", "mainY"]
-        objectName: "commonStorage"
     }
 }

@@ -1,7 +1,6 @@
 import QtQuick 2.5
 import QtQuick.Controls 1.3
 import "../components"
-import "../../js/settings.js" as Settings
 import "../../js/enums.js" as Enums
 
 Panel {
@@ -17,7 +16,6 @@ Panel {
     property alias jitter: jitter.value
     property alias eraser: eraser.value
     objectName: "brushSettings"
-    storage: ["size", "opaque", "flow", "hardness", "spacing", "roundness", "angle", "jitter", "eraser"]
 
     onSizeChanged: coreLib.setCursorShape(Enums.CanvasPaint, size.value)
 
