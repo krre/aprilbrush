@@ -6,7 +6,16 @@ import "../../3rdparty/font-awesome/fontawesome.js" as FontAwesome
 Item {
     id: root
     property bool isCurrentTab: mainRoot.currentTab === root
-    property string title: qsTr("Unnamed")
+    property int currentLayerIndex: -1
+    property int currentUndoIndex: -1
+    property alias layerModel: layerModel
+    property alias undoModel: undoModel
+    property string oraPath
+    property bool isDirty: false
+
+    ListModel { id: layerModel }
+
+    ListModel { id: undoModel }
 
     Rectangle {
         anchors.fill: parent

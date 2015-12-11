@@ -18,11 +18,10 @@ ApplicationWindow {
     property string version: "0.3"
     property size imageSize: Qt.size(Screen.width, Screen.height)
     property alias sysPalette: sysPalette
-    property bool isDirty: false
     property bool isEraser: brushSettings.eraser > 50
-    readonly property int currentLayerIndex: layerManager.layerView.currentIndex
-    property string fileName: qsTr("Untitled")
-    property string oraPath
+    property WorkArea currentTab: tabView.count > 0 ? tabView.getTab(tabView.currentIndex).item : null
+    property ListModel layerModel: currentTab ? currentTab.layerModel : null
+    property ListModel undoModel: currentTab ? currentTab.undoModel : null
     width: Settings.value("Main", "width", 800)
     height: Settings.value("Main", "height", 600)
 
@@ -40,8 +39,8 @@ ApplicationWindow {
         y = Settings.value("Main", "y", (Screen.height - height) / 2)
 
         visible = true
-        layerManager.addLayer()
-        undoManager.clear()
+//        layerManager.addLayer()
+//        undoManager.clear()
 
         Utils.movePanelToDocker(colorPicker, topDock)
         Utils.movePanelToDocker(undoManager, topDock)
@@ -61,6 +60,12 @@ ApplicationWindow {
         Settings.setValue("Main", "topDock.height", topDock.height)
     }
 
+    onCurrentTabChanged: {
+        if (currentTab) {
+            layerManager.currentIndex = currentTab.currentLayerIndex
+        }
+    }
+
     SystemPalette {
         id: sysPalette
         colorGroup: SystemPalette.Active
@@ -69,9 +74,6 @@ ApplicationWindow {
     FontLoader {
         source: "qrc:/3rdparty/font-awesome/fontawesome-webfont.ttf"
     }
-
-    ListModel { id: layerModel }
-    ListModel { id: undoModel }
 
     Actions { id: actions}
 
@@ -141,12 +143,17 @@ ApplicationWindow {
         id: undoManager
         x: 1020
         y: 425
+        enabled: currentTab
     }
 
     LayerManager {
         id: layerManager
         x: 10
         y: 215
+        onCurrentIndexChanged: {
+            currentTab.currentLayerIndex = currentIndex
+        }
+        enabled: currentTab
     }
 
     BrushSettings {

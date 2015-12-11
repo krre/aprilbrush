@@ -36,7 +36,7 @@ MenuBar {
                     Utils.saveOra()
                 }
             }
-            enabled: isDirty
+            enabled: currentTab && currentTab.isDirty
         }
 
         MenuItem {
@@ -123,7 +123,7 @@ MenuBar {
             text: qsTr("Clear")
             shortcut: "Delete"
             onTriggered: undoManager.add(Undo.clearLayer())
-            enabled: currentLayerIndex >= 0
+            enabled: layerManager.currentIndex >= 0
         }
     }
 

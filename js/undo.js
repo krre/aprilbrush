@@ -69,7 +69,7 @@ function addLayer(name) {
     return {
         name: qsTr("Add Layer"),
         undo: function() {
-            layerModel.remove(currentLayerIndex)
+            layerModel.remove(layerView.currentIndex)
         },
         redo: function() {
             var insertIndex = layerView.currentIndex < 0 ? 0 : layerView.currentIndex
@@ -82,7 +82,7 @@ function addLayer(name) {
 }
 
 function deleteLayer() {
-    var _index = currentLayerIndex
+    var _index = layerView.currentIndex
     var _name = layerModel.get(_index).name
     var _undoArea = canvasArea.canvas.getContext("2d").getImageData(0, 0, imageSize.width, imageSize.height)
     return {
@@ -107,10 +107,10 @@ function raiseLayer() {
     return {
         name: qsTr("Raise Layer"),
         undo: function() {
-            layerModel.move(layerManager.layerView.currentIndex, layerManager.layerView.currentIndex + 1, 1)
+            layerModel.move(layerManager.currentIndex, layerManager.currentIndex + 1, 1)
         },
         redo: function() {
-            layerModel.move(layerManager.layerView.currentIndex, layerManager.layerView.currentIndex - 1, 1)
+            layerModel.move(layerManager.currentIndex, layerManager.currentIndex - 1, 1)
         }
     }
 }
@@ -119,10 +119,10 @@ function lowerLayer() {
     return {
         name: qsTr("Lower Layer"),
         undo: function() {
-            layerModel.move(layerManager.layerView.currentIndex, layerManager.layerView.currentIndex - 1, 1)
+            layerModel.move(layerManager.currentIndex, layerManager.currentIndex - 1, 1)
         },
         redo: function() {
-            layerModel.move(layerManager.layerView.currentIndex, layerManager.layerView.currentIndex + 1, 1)
+            layerModel.move(layerManager.currentIndex, layerManager.currentIndex + 1, 1)
         }
     }
 }
@@ -132,7 +132,7 @@ function mergeLayer() {
     var layerDown = layerModel.get(currentLayerIndex + 1)
     var _undoAreaDown = layerDown.canvas.getContext("2d").getImageData(0, 0, imageSize.width, imageSize.height)
     var _nameUp = layerModel.get(currentLayerIndex).name
-    var _indexUp = currentLayerIndex
+    var _indexUp = layerView.currentIndex
     return {
         name: qsTr("Merge Layer"),
         undo: function() {
@@ -159,10 +159,10 @@ function duplicateLayer() {
     return {
         name: qsTr("Duplicate Layer"),
         undo: function() {
-            layerModel.remove(currentLayerIndex)
+            layerModel.remove(layerView.currentIndex)
         },
         redo: function() {
-            var _name = layerModel.get(currentLayerIndex).name
+            var _name = layerModel.get(layerView.currentIndex).name
             var _duplicateArea = canvasArea.canvas.getContext("2d").getImageData(0, 0, imageSize.width, imageSize.height)
             var layerObj = layerManager.defaultLayer()
             layerObj.name = _name
@@ -180,10 +180,10 @@ function renameLayer(undoName, redoName) {
     return {
         name: qsTr("Rename Layer"),
         undo: function() {
-            layerModel.setProperty(currentLayerIndex, "name", undoName)
+            layerModel.setProperty(layerView.currentIndex, "name", undoName)
         },
         redo: function() {
-            layerModel.setProperty(currentLayerIndex, "name", redoName)
+            layerModel.setProperty(layerView.currentIndex, "name", redoName)
         }
     }
 }

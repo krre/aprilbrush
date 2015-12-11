@@ -26,7 +26,7 @@ Panel {
         commandArray.push(commandUndo)
         undoView.currentIndex = undoModel.count - 1
         run(undoView.currentIndex)
-        isDirty = true
+        currentTab.isDirty = true
     }
 
     function clear() {

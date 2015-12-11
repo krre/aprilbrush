@@ -32,7 +32,7 @@ Item {
     Action {
         id: mergeLayerAction
         text: qsTr("Merge Down")
-        enabled: currentLayerIndex < layerManager.layerView.count - 2
+        enabled: layerManager.currentIndex < layerManager.layerView.count - 2
         onTriggered: undoManager.add(Undo.mergeLayer())
     }
 
@@ -46,14 +46,14 @@ Item {
     Action {
         id: upLayerAction
         text: qsTr("Up")
-        enabled: currentLayerIndex > 0
+        enabled: layerManager.currentIndex > 0
         onTriggered: undoManager.add(Undo.raiseLayer())
     }
 
     Action {
         id: downLayerAction
         text: qsTr("Down")
-        enabled: currentLayerIndex < layerManager.layerView.count - 2
+        enabled: layerManager.currentIndex < layerManager.layerView.count - 2
         onTriggered: undoManager.add(Undo.lowerLayer())
     }
 }
