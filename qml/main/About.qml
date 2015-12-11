@@ -4,10 +4,12 @@ import QtQuick.Dialogs 1.2
 MessageDialog {
     title: qsTr("About AprilBrush")
     standardButtons: StandardButton.Ok
-    text: "<h3>AprilBrush " + mainRoot.version + "</h3>
-          Build date: " + coreLib.buildDate + "<br>
+    text: String("<h3>AprilBrush %1</h3>
+          Based on Qt %2<br>
+          Build on %3<br><br>
           Copyright (c) 2012-2015, Vladimir Zarypov<br>
-          <a href=\"https://github.com/krre/aprilbrush-desktop\">https://github.com/krre/aprilbrush-desktop</a>"
+          <a href=\"https://github.com/krre/aprilbrush-desktop\">
+          https://github.com/krre/aprilbrush-desktop</a>").arg(mainRoot.version).arg(coreLib.qtVersion).arg(coreLib.buildDate)
     Component.onCompleted: open()
     onVisibilityChanged: if (!visible) destroy()
 }
