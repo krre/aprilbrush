@@ -9,6 +9,7 @@ class CanvasItem : public QQuickItem
     Q_PROPERTY(QSize size READ size WRITE setSize NOTIFY sizeChanged)
 public:
     CanvasItem();
+    ~CanvasItem();
     QSize size() const { return m_size; }
 
 public slots:

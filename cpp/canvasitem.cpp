@@ -6,12 +6,18 @@ CanvasItem::CanvasItem()
     setAcceptedMouseButtons(Qt::AllButtons);
 }
 
+CanvasItem::~CanvasItem()
+{
+    delete image;
+}
+
 void CanvasItem::setSize(QSize size)
 {
     if (m_size == size) return;
 
     m_size = size;
-    qDebug() << size;
+    image = new QImage(size, QImage::Format_RGBA8888);
+    image->fill(Qt::gray);
     emit sizeChanged(size);
 }
 
@@ -19,11 +25,11 @@ QSGNode* CanvasItem::updatePaintNode(QSGNode* node, QQuickItem::UpdatePaintNodeD
 {
     QSGSimpleTextureNode* n = static_cast<QSGSimpleTextureNode*>(node);
     if (!n) {
-//        n = new QSGSimpleTextureNode();
-//        n->setOwnsTexture(true);
+        n = new QSGSimpleTextureNode();
+        n->setOwnsTexture(true);
     }
-//    n->setTexture(window()->createTextureFromImage(m_buffer));
-//    n->setRect(boundingRect());
+    n->setTexture(window()->createTextureFromImage(*image));
+    n->setRect(boundingRect());
     return n;
 }
 
