@@ -8,7 +8,7 @@ CanvasItem::CanvasItem()
 
 CanvasItem::~CanvasItem()
 {
-    delete image;
+    delete m_image;
 }
 
 void CanvasItem::setSize(QSize size)
@@ -16,8 +16,8 @@ void CanvasItem::setSize(QSize size)
     if (m_size == size) return;
 
     m_size = size;
-    image = new QImage(size, QImage::Format_RGBA8888);
-    image->fill(Qt::gray);
+    m_image = new QImage(size, QImage::Format_RGBA8888);
+    m_image->fill(Qt::gray);
     emit sizeChanged(size);
 }
 
@@ -28,7 +28,7 @@ QSGNode* CanvasItem::updatePaintNode(QSGNode* node, QQuickItem::UpdatePaintNodeD
         n = new QSGSimpleTextureNode();
         n->setOwnsTexture(true);
     }
-    n->setTexture(window()->createTextureFromImage(*image));
+    n->setTexture(window()->createTextureFromImage(*m_image));
     n->setRect(boundingRect());
     return n;
 }
