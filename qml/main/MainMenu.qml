@@ -12,12 +12,7 @@ MenuBar {
         MenuItem {
             text: qsTr("New")
             shortcut: "Ctrl+N"
-            onTriggered: {
-                var title = qsTr("Unnamed")
-                var tab = tabView.addTab(title)
-                tab.setSource("qrc:/qml/main/WorkArea.qml", { title: title })
-                tabView.currentIndex = tabView.count - 1
-            }
+            onTriggered: Utils.newTab()
         }
 
         MenuItem {
@@ -104,9 +99,9 @@ MenuBar {
             shortcut: "Ctrl+Z"
             onTriggered: {
                 undoManager.undoView.decrementCurrentIndex()
-                undoManager.run(undoManager.undoView.currentIndex)
+                undoManager.run(undoManager.currentIndex)
             }
-            enabled: undoManager.undoView.currentIndex > 0
+            enabled: undoManager.currentIndex > 0
         }
 
         MenuItem {
@@ -114,9 +109,9 @@ MenuBar {
             shortcut: "Ctrl+Shift+Z"
             onTriggered: {
                 undoManager.undoView.incrementCurrentIndex()
-                undoManager.run(undoManager.undoView.currentIndex)
+                undoManager.run(undoManager.currentIndex)
             }
-            enabled: undoModel ? undoManager.undoView.currentIndex < undoModel.count - 1 : false
+            enabled: undoModel ? undoManager.currentIndex < undoModel.count - 1 : false
         }
 
         MenuItem {
