@@ -1,6 +1,7 @@
 import QtQuick 2.5
 import QtQuick.Controls 1.4
 import QtQuick.Layouts 1.1
+import AprilBrush 1.0
 import "../../3rdparty/font-awesome/fontawesome.js" as FontAwesome
 
 Item {
@@ -21,6 +22,10 @@ Item {
 
     Rectangle {
         anchors.fill: parent
+
+        CanvasItem {
+            anchors.fill: parent
+        }
 
 //        Label {
 //            font.pointSize: 15
