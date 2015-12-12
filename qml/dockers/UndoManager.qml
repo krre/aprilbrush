@@ -7,48 +7,47 @@ Panel {
     id: root
     title: qsTr("Undo History")
     property alias undoView: undoView
+    property alias currentIndex: undoView.currentIndex
     property int undoDeep: 50
-    property var commandArray: [] // array for saving undo/redo command (they don't work from ListModel)
-    property int prevUndoIndex: -1
     objectName: "undoManager"
 
     function add(commandUndo) {
         if (undoView.currentIndex < undoModel.count - 1) {
             undoModel.remove(undoView.currentIndex + 1, undoModel.count - undoView.currentIndex - 1)
-            commandArray.length = undoView.currentIndex + 1
+            currentTab.commandArray.length = undoView.currentIndex + 1
         }
         if (undoModel.count === undoDeep) {
             undoModel.remove(0)
-            commandArray.shift()
+            currentTab.commandArray.shift()
         }
 
         undoModel.append({ name: commandUndo.name })
-        commandArray.push(commandUndo)
+        currentTab.commandArray.push(commandUndo)
         undoView.currentIndex = undoModel.count - 1
         run(undoView.currentIndex)
         currentTab.isDirty = true
     }
 
     function clear() {
-        commandArray = []
+        currentTab.commandArray = []
         undoModel.clear()
-        prevUndoIndex = -1
+        currentTab.prevUndoIndex = -1
         add(Undo.start())
     }
 
     function run(index) {
-        if (index < prevUndoIndex) {
-            for (var i = prevUndoIndex; i > index; i--) {
-                commandArray[i].undo()
+        if (index < currentTab.prevUndoIndex) {
+            for (var i = currentTab.prevUndoIndex; i > index; i--) {
+                currentTab.commandArray[i].undo()
             }
         }
 
-        if (index > prevUndoIndex) {
-            for (i = prevUndoIndex; i < index; i++) {
-                commandArray[i + 1].redo()
+        if (index > currentTab.prevUndoIndex) {
+            for (i = currentTab.prevUndoIndex; i < index; i++) {
+                currentTab.commandArray[i + 1].redo()
             }
         }
-        prevUndoIndex = index
+        currentTab.prevUndoIndex = index
     }
 
     ScrollView {

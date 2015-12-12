@@ -10,6 +10,8 @@ Item {
     property int currentUndoIndex: -1
     property alias layerModel: layerModel
     property alias undoModel: undoModel
+    property var commandArray: [] // array for saving undo/redo command (they don't work from ListModel)
+    property int prevUndoIndex: -1
     property string oraPath
     property bool isDirty: false
 
