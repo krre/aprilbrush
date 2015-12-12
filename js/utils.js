@@ -1,5 +1,15 @@
 .import "undo.js" as Undo
 
+function createDynamicObject(parent, url, properties) {
+    var component = Qt.createComponent(url)
+    var errorMessage = component.errorString()
+    if (errorMessage) {
+        print(errorMessage)
+    } else {
+        return component.createObject(parent, properties || {})
+    }
+}
+
 function movePanelToDocker(panel, dock) {
     var tab = dock.addTab(panel.title)
     tab.active = true
@@ -10,7 +20,15 @@ function movePanelToDocker(panel, dock) {
     panel.visible = true
 }
 
-// Open OpenRaster file
+function newTab() {
+    var title = qsTr("Unnamed")
+    var tab = tabView.addTab(title)
+    tab.setSource("qrc:/qml/main/WorkArea.qml", { title: title })
+    tabView.currentIndex = tabView.count - 1
+    layerManager.addLayer()
+    undoManager.clear()
+}
+
 function openOra(filePath) {
     layerModel.clear()
     undoModel.clear()
@@ -60,7 +78,6 @@ function openOra(filePath) {
     console.log("open: " + filePath)
 }
 
-// Save OpenRaster file with new name
 function saveAsOra(filePath) {
     if (filePath.substr(-4) !== ".ora") {
         filePath += ".ora"
@@ -70,7 +87,6 @@ function saveAsOra(filePath) {
     saveOra()
 }
 
-// Save OpenRaster file
 function saveOra() {
     var path = oraPath
     var layerList = []
@@ -91,7 +107,6 @@ function saveOra() {
     console.log("save: " + path)
 }
 
-// Export PNG file
 function exportPng(filePath) {
     if (filePath.substr(-4) !== ".png") {
         filePath += ".png"
@@ -105,7 +120,6 @@ function exportPng(filePath) {
     })
 }
 
-// Pick color from canvas
 function pickColor(pos) {
     var ctx = pickCanvas.getContext("2d")
     ctx.fillStyle = bgColor
@@ -128,7 +142,6 @@ function pickColor(pos) {
     }
 }
 
-// Add prefix zero to number
 function zeroFill(number, width)
 {
     width -= number.toString().length;
@@ -139,14 +152,12 @@ function zeroFill(number, width)
     return number + ""; // always return a string
 }
 
-// Convert HSV to HSL
 function hsvToHsl(h, s, v) {
     var l = (2 - s) * v / 2
     var computedS = s * v / (1 - Math.abs(2 * l - 1))
     return Qt.hsla(h, computedS, l, 1)
 }
 
-// Convert RGB to HSV
 function rgbToHsv(color) {
     var r = color.r
     var g = color.g
@@ -171,14 +182,12 @@ function rgbToHsv(color) {
      return { h: computedH, s: computedS, v: computedV }
 }
 
-// Convert RGB to HEX
 function rgbToHex(r, g, b) {
     if (r > 255 || g > 255 || b > 255)
         throw "Invalid color component";
     return ((r << 16) | (g << 8) | b).toString(16);
 }
 
-// Convert HSV to RGB
 function hsvToRgb(h, s, v) {
     var r, g, b, i, f, p, q, t;
     if (h && s === undefined && v === undefined) {
@@ -200,22 +209,11 @@ function hsvToRgb(h, s, v) {
     return Qt.rgba(r, g, b, 1)
 }
 
-// Get filename from path
 function fileFromPath(path) {
     return path.substr(path.lastIndexOf("/") + 1)
 }
 
-// Get folder from path
 function folderFromPath(path) {
     return path.replace(/^.*[\\\/]/, '')
 }
 
-function createDynamicObject(parent, url, properties) {
-    var component = Qt.createComponent(url)
-    var errorMessage = component.errorString()
-    if (errorMessage) {
-        print(errorMessage)
-    } else {
-        return component.createObject(parent, properties || {})
-    }
-}
