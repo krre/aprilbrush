@@ -22,10 +22,10 @@ Item {
     Rectangle {
         anchors.fill: parent
 
-        Label {
-            font.pointSize: 15
-            font.family: "FontAwesome"
-            text: FontAwesome.Icon.Plus
-        }
+//        Label {
+//            font.pointSize: 15
+//            font.family: "FontAwesome"
+//            text: FontAwesome.Icon.Plus
+//        }
     }
 }
