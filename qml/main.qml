@@ -116,15 +116,38 @@ ApplicationWindow {
     }
 
     UndoManager {
+        property bool isNewModel: false
         id: undoManager
         enabled: currentTab
+
+        onCurrentIndexChanged: {
+            if (!(isNewModel && currentIndex == 0)) {
+                currentTab.currentUndoIndex = currentIndex
+            } else { // tab is changed, need restore layer index
+                currentIndex = currentTab.currentUndoIndex
+                isNewModel = false
+            }
+        }
     }
 
+    onUndoModelChanged: undoManager.isNewModel = true
+
     LayerManager {
+        property bool isNewModel: false
         id: layerManager
-        layerView.currentIndex: currentTab ? currentTab.currentLayerIndex : -1
         enabled: currentTab
+
+        onCurrentIndexChanged: {
+            if (!(isNewModel && currentIndex == 0)) {
+                currentTab.currentLayerIndex = currentIndex
+            } else { // tab is changed, need restore layer index
+                currentIndex = currentTab.currentLayerIndex
+                isNewModel = false
+            }
+        }
     }
+
+    onLayerModelChanged: layerManager.isNewModel = true
 
     BrushSettings {
         id: brushSettings
