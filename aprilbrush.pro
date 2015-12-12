@@ -8,13 +8,15 @@ SOURCES += \
     cpp/corelib.cpp \
     cpp/main.cpp \
     cpp/canvasitem.cpp \
-    cpp/settings.cpp
+    cpp/settings.cpp \
+    cpp/brushengine.cpp
 
 HEADERS += \
     cpp/tableteventfilter.h \
     cpp/corelib.h \
     cpp/canvasitem.h \
-    cpp/settings.h
+    cpp/settings.h \
+    cpp/brushengine.h
 
 OTHER_FILES += \
     qml/CanvasArea.qml \

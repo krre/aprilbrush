@@ -1,4 +1,5 @@
 #include "cpp/canvasitem.h"
+#include "cpp/brushengine.h"
 #include "cpp/corelib.h"
 #include "cpp/tableteventfilter.h"
 #include "cpp/settings.h"
@@ -21,6 +22,7 @@ int main(int argc, char* argv[])
 
     QString filePath = qApp->applicationDirPath() + "/aprilbrush.ini";
     Settings settings(filePath);
+    BrushEngine brushEngine;
 
     QQmlApplicationEngine engine;
     QString storageDirPath = QDir::currentPath() + "/storage";
@@ -28,6 +30,7 @@ int main(int argc, char* argv[])
     engine.setOfflineStoragePath(storageDirPath);
     engine.rootContext()->setContextProperty("TabletEventFilter", tabletEventFilter);
     engine.rootContext()->setContextProperty("Settings", &settings);
+    engine.rootContext()->setContextProperty("BrushEngine", &brushEngine);
     engine.load(QUrl("qrc:/qml/main.qml"));
 
     return app.exec();
