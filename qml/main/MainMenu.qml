@@ -206,6 +206,15 @@ MenuBar {
     }
 
     Menu {
+        title: qsTr("Tools")
+
+        MenuItem {
+            text: qsTr("Options...")
+            onTriggered: Utils.createDynamicObject(mainRoot, "qrc:/qml/main/Options.qml")
+        }
+    }
+
+    Menu {
         title: qsTr("Help")
 
         MenuItem {
