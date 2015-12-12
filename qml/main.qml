@@ -156,12 +156,4 @@ ApplicationWindow {
     BrushLibrary {
         id: brushLibrary
     }
-
-    ColorDialog {
-        id: colorDialog
-        onAccepted: {
-            canvasArea.bgColor = color
-            isDirty = true
-        }
-    }
 }
