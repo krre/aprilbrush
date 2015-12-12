@@ -39,7 +39,7 @@ Item {
     Action {
         id: duplicateLayerAction
         text: qsTr("Duplicate")
-        enabled: layerManager.layerView.count > 1
+        enabled: layerManager.layerView.count > 0
         onTriggered: undoManager.add(Undo.duplicateLayer())
     }
 

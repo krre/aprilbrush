@@ -159,19 +159,19 @@ function duplicateLayer() {
     return {
         name: qsTr("Duplicate Layer"),
         undo: function() {
-            layerModel.remove(layerView.currentIndex)
+            layerModel.remove(layerManager.currentIndex)
         },
         redo: function() {
-            var _name = layerModel.get(layerView.currentIndex).name
-            var _duplicateArea = canvasArea.canvas.getContext("2d").getImageData(0, 0, imageSize.width, imageSize.height)
+            var _name = layerModel.get(layerManager.currentIndex).name
+//            var _duplicateArea = canvasArea.canvas.getContext("2d").getImageData(0, 0, imageSize.width, imageSize.height)
             var layerObj = layerManager.defaultLayer()
             layerObj.name = _name
-            layerModel.insert(currentLayerIndex, layerObj)
-            layerManager.layerView.currentIndex = currentLayerIndex
-            layerModel.get(currentLayerIndex).canvas.onReady.connect(function() {
-                layerModel.get(currentLayerIndex).canvas.getContext("2d").drawImage(_duplicateArea, 0, 0)
-                layerModel.get(currentLayerIndex).canvas.requestPaint()
-            })
+            layerModel.insert(layerManager.currentIndex, layerObj)
+//            layerManager.currentIndex = currentLayerIndex
+//            layerModel.get(currentLayerIndex).canvas.onReady.connect(function() {
+//                layerModel.get(currentLayerIndex).canvas.getContext("2d").drawImage(_duplicateArea, 0, 0)
+//                layerModel.get(currentLayerIndex).canvas.requestPaint()
+//            })
         }
     }
 }
