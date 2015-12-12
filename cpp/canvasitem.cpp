@@ -6,6 +6,15 @@ CanvasItem::CanvasItem()
     setAcceptedMouseButtons(Qt::AllButtons);
 }
 
+void CanvasItem::setSize(QSize size)
+{
+    if (m_size == size) return;
+
+    m_size = size;
+    qDebug() << size;
+    emit sizeChanged(size);
+}
+
 QSGNode* CanvasItem::updatePaintNode(QSGNode* node, QQuickItem::UpdatePaintNodeData*)
 {
     QSGSimpleTextureNode* n = static_cast<QSGSimpleTextureNode*>(node);
@@ -28,7 +37,8 @@ void CanvasItem::mousePressEvent(QMouseEvent* event)
     qDebug() << "press" << event;
 }
 
-void CanvasItem::mouseReleaseEvent(QMouseEvent *event)
+void CanvasItem::mouseReleaseEvent(QMouseEvent* event)
 {
     qDebug() << "release" << event;
 }
+

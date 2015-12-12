@@ -25,6 +25,7 @@ Item {
 
         CanvasItem {
             anchors.fill: parent
+            size: mainRoot.imageSize
         }
 
 //        Label {
