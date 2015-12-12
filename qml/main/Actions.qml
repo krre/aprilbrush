@@ -25,22 +25,22 @@ Item {
     Action {
         id: deleteLayerAction
         text: qsTr("Delete")
-        onTriggered: undoManager.add(Undo.deleteLayer())
         enabled: layerManager.layerView.count > 0
+        onTriggered: undoManager.add(Undo.deleteLayer())
     }
 
     Action {
         id: mergeLayerAction
         text: qsTr("Merge Down")
-        enabled: layerManager.currentIndex < layerManager.layerView.count - 2
+        enabled: layerManager.currentIndex <= layerManager.layerView.count - 2
         onTriggered: undoManager.add(Undo.mergeLayer())
     }
 
     Action {
         id: duplicateLayerAction
         text: qsTr("Duplicate")
-        onTriggered: undoManager.add(Undo.duplicateLayer())
         enabled: layerManager.layerView.count > 1
+        onTriggered: undoManager.add(Undo.duplicateLayer())
     }
 
     Action {
@@ -53,7 +53,7 @@ Item {
     Action {
         id: downLayerAction
         text: qsTr("Down")
-        enabled: layerManager.currentIndex < layerManager.layerView.count - 2
+        enabled: layerManager.currentIndex <= layerManager.layerView.count - 2
         onTriggered: undoManager.add(Undo.lowerLayer())
     }
 }

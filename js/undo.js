@@ -82,9 +82,9 @@ function addLayer(name) {
 }
 
 function deleteLayer() {
-    var _index = layerView.currentIndex
+    var _index = layerManager.currentIndex
     var _name = layerModel.get(_index).name
-    var _undoArea = canvasArea.canvas.getContext("2d").getImageData(0, 0, imageSize.width, imageSize.height)
+//    var _undoArea = canvasArea.canvas.getContext("2d").getImageData(0, 0, imageSize.width, imageSize.height)
     return {
         name: qsTr("Delete Layer"),
         undo: function() {
@@ -92,10 +92,10 @@ function deleteLayer() {
             layerObj.name = _name
             layerModel.insert(_index, layerObj)
             layerManager.layerView.currentIndex = _index
-            canvasArea.canvas.onReady.connect(function() {
-                canvasArea.canvas.getContext("2d").drawImage(_undoArea, 0, 0)
-                canvasArea.canvas.requestPaint()
-            })
+//            canvasArea.canvas.onReady.connect(function() {
+//                canvasArea.canvas.getContext("2d").drawImage(_undoArea, 0, 0)
+//                canvasArea.canvas.requestPaint()
+//            })
         },
         redo: function() {
             layerModel.remove(_index)
@@ -180,10 +180,10 @@ function renameLayer(undoName, redoName) {
     return {
         name: qsTr("Rename Layer"),
         undo: function() {
-            layerModel.setProperty(layerView.currentIndex, "name", undoName)
+            layerModel.setProperty(layerManager.currentIndex, "name", undoName)
         },
         redo: function() {
-            layerModel.setProperty(layerView.currentIndex, "name", redoName)
+            layerModel.setProperty(layerManager.currentIndex, "name", redoName)
         }
     }
 }
