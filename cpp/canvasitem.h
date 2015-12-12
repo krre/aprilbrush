@@ -21,9 +21,6 @@ signals:
 
 protected:
     QSGNode* updatePaintNode(QSGNode* node, UpdatePaintNodeData*) override;
-    void mouseMoveEvent(QMouseEvent* event) override;
-    void mousePressEvent(QMouseEvent* event) override;
-    void mouseReleaseEvent(QMouseEvent* event) override;
 
 private:
     QSize m_size;

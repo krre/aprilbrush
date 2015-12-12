@@ -32,19 +32,3 @@ QSGNode* CanvasItem::updatePaintNode(QSGNode* node, QQuickItem::UpdatePaintNodeD
     n->setRect(boundingRect());
     return n;
 }
-
-void CanvasItem::mouseMoveEvent(QMouseEvent* event)
-{
-    qDebug() << "move" << event;
-}
-
-void CanvasItem::mousePressEvent(QMouseEvent* event)
-{
-    qDebug() << "press" << event;
-}
-
-void CanvasItem::mouseReleaseEvent(QMouseEvent* event)
-{
-    qDebug() << "release" << event;
-}
-
