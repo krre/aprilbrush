@@ -45,7 +45,6 @@ Item {
 
     function createDab() {
         var gl = canvas3DArea.canvas3d.gl
-        print(gl)
     }
 
     function paint(point, pressure) {
