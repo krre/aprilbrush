@@ -21,6 +21,39 @@ MenuBar {
             onTriggered: Utils.createDynamicObject(mainRoot, "qrc:/qml/components/filedialog/FileDialogOpen.qml")
         }
 
+        Menu {
+            id: recentFilesMenu
+            title: qsTr("Recent Files")
+            enabled: recentFilesModel.count > 0
+
+            Instantiator {
+                model: recentFilesModel
+
+                MenuItem {
+                    text: model.filePath
+                    onTriggered: Utils.openOra(text)
+                }
+
+                onObjectAdded: recentFilesMenu.insertItem(index, object)
+                onObjectRemoved: recentFilesMenu.removeItem(object)
+            }
+
+            MenuSeparator {
+                visible: recentFilesModel.count > 0
+            }
+
+            MenuItem {
+                text: qsTr("Clear Menu")
+                onTriggered: recentFilesModel.clear()
+            }
+
+            ListModel {
+                id: recentFilesModel
+            }
+        }
+
+        MenuSeparator {}
+
         MenuItem {
             text: qsTr("Save")
             shortcut: "Ctrl+S"

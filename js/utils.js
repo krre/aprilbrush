@@ -20,6 +20,21 @@ function movePanelToDocker(panel, dock) {
     panel.visible = true
 }
 
+function addRecentFile(path) {
+    var model = mainMenu.recentFilesModel
+    // Prevention of duplication of filePath and raising it on top.
+    for (var i = 0; i < model.count; i++) {
+        if (model.get(i).filePath === path) {
+            model.remove(i)
+        }
+    }
+    model.insert(0, { filePath: path })
+    var maxRecentFiles = 10
+    if (model.count === maxRecentFiles + 1) {
+        model.remove(maxRecentFiles)
+    }
+}
+
 function newTab() {
     var title = qsTr("Unnamed")
     var tab = tabView.addTab(title)
@@ -75,6 +90,7 @@ function openOra(filePath) {
     canvasArea.resetTransform()
     undoManager.add(Undo.start())
     isDirty = false
+    addRecentFile(path)
     console.log("open: " + filePath)
 }
 
