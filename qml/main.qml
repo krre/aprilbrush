@@ -29,7 +29,7 @@ ApplicationWindow {
         id: mainMenu
         Component.onCompleted: {
             // ATTENTION! Uses dependencies from private code of QtQuick.Controls!
-            // Hack needs to prevent focus catching by MenuBar when Alt pressed
+            // Hack needs to prevent focus catching by MenuBar when Alt modifier is pressed
             __contentItem.Keys.forwardTo = [mainRoot]
         }
     }
@@ -38,16 +38,15 @@ ApplicationWindow {
         x = Settings.value("Main", "x", (Screen.width - width) / 2)
         y = Settings.value("Main", "y", (Screen.height - height) / 2)
 
-        visible = true
-//        layerManager.addLayer()
-//        undoManager.clear()
-
         Utils.movePanelToDocker(colorPicker, topDock)
         Utils.movePanelToDocker(undoManager, topDock)
         Utils.movePanelToDocker(layerManager, bottomDock)
         Utils.movePanelToDocker(brushSettings, bottomDock)
         Utils.movePanelToDocker(brushLibrary, bottomDock)
 
+        visible = true
+
+        Utils.newTab()
     }
 
     onClosing: {
@@ -58,12 +57,6 @@ ApplicationWindow {
 
         Settings.setValue("Main", "dockerSplit.width", dockerSplit.width)
         Settings.setValue("Main", "topDock.height", topDock.height)
-    }
-
-    onCurrentTabChanged: {
-        if (currentTab) {
-            layerManager.currentIndex = currentTab.currentLayerIndex
-        }
     }
 
     SystemPalette {
@@ -118,54 +111,27 @@ ApplicationWindow {
         }
     }
 
-//    CanvasItem {
-//        id: canvasItem
-//        anchors.fill: parent
-//    }
-
-//    Canvas3DArea {
-//        id: canvas3DArea
-//        anchors.fill: parent
-//    }
-
-//    CanvasArea {
-//        id: canvasArea
-//        anchors.fill: parent
-//    }
-
     ColorPicker {
         id: colorPicker
-        x: 10
-        y: 10
     }
 
     UndoManager {
         id: undoManager
-        x: 1020
-        y: 425
         enabled: currentTab
     }
 
     LayerManager {
         id: layerManager
-        x: 10
-        y: 215
-        onCurrentIndexChanged: {
-            currentTab.currentLayerIndex = currentIndex
-        }
+        layerView.currentIndex: currentTab ? currentTab.currentLayerIndex : -1
         enabled: currentTab
     }
 
     BrushSettings {
         id: brushSettings
-        x: 1020
-        y: 10
     }
 
     BrushLibrary {
         id: brushLibrary
-        x: 1020
-        y: 215
     }
 
     ColorDialog {
