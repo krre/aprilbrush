@@ -57,10 +57,10 @@ function changeLayer(undoIndex, redoIndex) {
     return {
         name: qsTr("Change Layer"),
         undo: function() {
-            layerManager.layerView.currentIndex = undoIndex
+            layerManager.currentIndex = undoIndex
         },
         redo: function() {
-            layerManager.layerView.currentIndex = redoIndex
+            layerManager.currentIndex = redoIndex
         }
     }
 }
@@ -69,14 +69,14 @@ function addLayer(name) {
     return {
         name: qsTr("Add Layer"),
         undo: function() {
-            layerModel.remove(layerView.currentIndex)
+            layerModel.remove(layerManager.currentIndex)
         },
         redo: function() {
-            var insertIndex = layerView.currentIndex < 0 ? 0 : layerView.currentIndex
+            var insertIndex = layerManager.currentIndex < 0 ? 0 : layerManager.currentIndex
             var layerObj = layerManager.defaultLayer()
             layerObj.name = name
             layerModel.insert(insertIndex, layerObj)
-            layerManager.layerView.currentIndex = insertIndex
+            layerManager.currentIndex = insertIndex
         }
     }
 }
@@ -91,7 +91,7 @@ function deleteLayer() {
             var layerObj = layerManager.defaultLayer()
             layerObj.name = _name
             layerModel.insert(_index, layerObj)
-            layerManager.layerView.currentIndex = _index
+            layerManager.currentIndex = _index
 //            canvasArea.canvas.onReady.connect(function() {
 //                canvasArea.canvas.getContext("2d").drawImage(_undoArea, 0, 0)
 //                canvasArea.canvas.requestPaint()
@@ -132,7 +132,7 @@ function mergeLayer() {
     var layerDown = layerModel.get(currentLayerIndex + 1)
     var _undoAreaDown = layerDown.canvas.getContext("2d").getImageData(0, 0, imageSize.width, imageSize.height)
     var _nameUp = layerModel.get(currentLayerIndex).name
-    var _indexUp = layerView.currentIndex
+    var _indexUp = layerManager.currentIndex
     return {
         name: qsTr("Merge Layer"),
         undo: function() {

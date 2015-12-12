@@ -9,8 +9,8 @@ Panel {
     id: root
     title: qsTr("Layers")
     property alias layerView: layerView
-    property int layerNameIndexCounter: 1
     property alias currentIndex: layerView.currentIndex
+    property int layerNameIndexCounter: 1
     objectName: "LayerManager"
 
     function addLayer(name) {
@@ -54,9 +54,9 @@ Panel {
                 MouseArea {
                     anchors.fill: parent
                     onClicked: {
-                        if (layerView.currentIndex !== index) {
-                            undoManager.add(Undo.changeLayer(layerView.currentIndex, index))
-                            layerView.currentIndex = index
+                        if (layerManager.currentIndex !== index) {
+                            undoManager.add(Undo.changeLayer(layerManager.currentIndex, index))
+                            layerManager.currentIndex = index
                         }
                     }
                     onDoubleClicked: layerTextEdit.forceActiveFocus()
