@@ -24,8 +24,19 @@ Item {
         anchors.fill: parent
 
         CanvasItem {
+            id: canvasItem
             anchors.fill: parent
             size: mainRoot.imageSize
+
+            MouseArea {
+                anchors.fill: parent
+
+                onPositionChanged: {
+                    if (pressed) {
+                        BrushEngine.paint(mouse.x, mouse.y, canvasItem)
+                    }
+                }
+            }
         }
 
 //        Label {

@@ -1,9 +1,11 @@
 #pragma once
-#include <QObject>
+#include <QtCore>
+#include "canvasitem.h"
 
 class BrushEngine : public QObject
 {
     Q_OBJECT
 public:
-    BrushEngine();
+    BrushEngine() {}
+    Q_INVOKABLE void paint(float x, float y, CanvasItem* canvasItem);
 };
