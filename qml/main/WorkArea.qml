@@ -27,9 +27,12 @@ Item {
             id: canvasItem
             anchors.fill: parent
             size: mainRoot.imageSize
+            antialiasing: false
 
             MouseArea {
                 anchors.fill: parent
+
+                onPressed: BrushEngine.paint(mouse.x, mouse.y, canvasItem)
 
                 onPositionChanged: {
                     if (pressed) {

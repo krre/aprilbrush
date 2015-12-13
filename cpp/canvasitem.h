@@ -11,7 +11,7 @@ public:
     CanvasItem();
     ~CanvasItem();
     QSize size() const { return m_size; }
-    QImage* image() const { return m_image; }
+    QPixmap* pixmap() const { return m_pixmap; }
 
 public slots:
     void setSize(QSize size);
@@ -24,5 +24,5 @@ protected:
 
 private:
     QSize m_size;
-    QImage* m_image;
+    QPixmap* m_pixmap;
 };
