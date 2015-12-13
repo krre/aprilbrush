@@ -22,6 +22,7 @@ Panel {
         coreLib.setCursorShape(Enums.CanvasPaint, size.value)
     }
 
+    onSpacingChanged: BrushEngine.spacing = spacing.value
     onHardnessChanged: BrushEngine.hardness = hardness.value
     onOpaqueChanged: BrushEngine.opacity = opaque.value
     onRoundnessChanged: BrushEngine.roundness = roundness.value

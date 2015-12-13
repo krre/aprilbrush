@@ -7,6 +7,7 @@ class BrushEngine : public QObject
     Q_OBJECT
     Q_PROPERTY(QColor color READ color WRITE setColor NOTIFY colorChanged)
     Q_PROPERTY(int size READ size WRITE setSize NOTIFY sizeChanged)
+    Q_PROPERTY(int spacing READ spacing WRITE setSpacing NOTIFY spacingChanged)
     Q_PROPERTY(int hardness READ hardness WRITE setHardness NOTIFY hardnessChanged)
     Q_PROPERTY(int opacity READ opacity WRITE setOpacity NOTIFY opacityChanged)
     Q_PROPERTY(int roundness READ roundness WRITE setRoundness NOTIFY roundnessChanged)
@@ -27,6 +28,8 @@ public:
     void setRoundness(int roundness);
     int angle() const { return m_angle; }
     void setAngle(int angle);
+    int spacing() const { return m_spacing; }
+    void setSpacing(int spacing);
 
 signals:
     void colorChanged(QColor color);
@@ -35,6 +38,7 @@ signals:
     void opacityChanged(int opacity);
     void roundnessChanged(int roundness);
     void angleChanged(int angle);
+    void spacingChanged(int spacing);
 
 private:
     QColor m_color = QColor(Qt::black);
@@ -43,4 +47,5 @@ private:
     int m_opacity = 80;
     int m_roundness = 100;
     int m_angle = 0;
+    int m_spacing;
 };

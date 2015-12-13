@@ -71,3 +71,10 @@ void BrushEngine::setAngle(int angle)
     m_angle = angle;
     emit angleChanged(angle);
 }
+
+void BrushEngine::setSpacing(int spacing)
+{
+    if (m_spacing == spacing) return;
+    m_spacing = spacing;
+    emit spacingChanged(spacing);
+}
