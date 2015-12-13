@@ -31,13 +31,9 @@ public:
 signals:
     void colorChanged(QColor color);
     void sizeChanged(int size);
-
     void hardnessChanged(int hardness);
-
     void opacityChanged(int opacity);
-
     void roundnessChanged(int roundness);
-
     void angleChanged(int angle);
 
 private:
