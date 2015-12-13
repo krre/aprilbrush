@@ -1,4 +1,7 @@
 #include "canvasitem.h"
+#include "tableteventfilter.h"
+
+extern QPointer<TabletEventFilter> tabletEventFilter;
 
 CanvasItem::CanvasItem()
 {
@@ -11,7 +14,7 @@ CanvasItem::~CanvasItem()
     delete m_pixmap;
 }
 
-CanvasItem::clear()
+void CanvasItem::clear()
 {
     m_pixmap->fill(Qt::transparent);
     update();
@@ -33,8 +36,8 @@ QSGNode* CanvasItem::updatePaintNode(QSGNode* node, QQuickItem::UpdatePaintNodeD
     if (!n) {
         n = new QSGSimpleTextureNode();
         n->setOwnsTexture(true);
+        n->setRect(m_pixmap->rect());
     }
     n->setTexture(window()->createTextureFromImage(m_pixmap->toImage()));
-    n->setRect(m_pixmap->rect());
     return n;
 }

@@ -30,7 +30,31 @@ Item {
             size: mainRoot.imageSize
             antialiasing: false
 
+            Connections {
+                property bool isTouch: false
+                target: TabletEventFilter
+                onAction: {
+                    var x = event.globalX - mainRoot.x
+                    var y = event.globalY - mainRoot.y
+                    var pos = canvasItem.itemPos(Qt.point(x, y))
+                    var pressure = event.pressure
+                    if (event.press === true) {
+                        mouseArea.enabled = false
+                        isTouch = true
+//                        brushEngine.setTouch(true)
+                        BrushEngine.paint(pos.x, pos.y, canvasItem, pressure)
+                    } else if (event.release === true) {
+                        mouseArea.enabled = true
+                        isTouch = false
+//                        brushEngine.setTouch(false)
+                    } else if (isTouch) {
+                        BrushEngine.paint(pos.x, pos.y, canvasItem, pressure)
+                    }
+                }
+            }
+
             MouseArea {
+                id: mouseArea
                 anchors.fill: parent
 
                 onPressed: BrushEngine.paint(mouse.x, mouse.y, canvasItem)

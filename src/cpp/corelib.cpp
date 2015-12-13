@@ -10,8 +10,6 @@
 #include <QXmlStreamReader>
 #include <QXmlStreamWriter>
 
-extern QPointer<TabletEventFilter> tabletEventFilter;
-
 void CoreLib::writeOra(QString oraPath, const QSize imageSize, const QVariantList layerList)
 {
     QZipWriter zipWriter(oraPath);
@@ -121,11 +119,4 @@ void CoreLib::setCursorShape(QString type, int size)
     } else if (type == "free") {
         window->setCursor(QCursor(Qt::ArrowCursor));
     }
-}
-
-void CoreLib::addEventFilter(QVariant item)
-{
-    QObject *obj = qvariant_cast<QObject *>(item);
-    QQuickWindow *wnd = qobject_cast<QQuickWindow *>(obj);
-    wnd->installEventFilter(tabletEventFilter);
 }

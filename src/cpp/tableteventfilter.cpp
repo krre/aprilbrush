@@ -10,6 +10,8 @@ bool TabletEventFilter::eventFilter(QObject* obj, QEvent* event)
             event->type() == QEvent::TabletLeaveProximity) {
         QTabletEvent* tabletEvent = static_cast<QTabletEvent*>(event);
         QVariantMap eventMap;
+        eventMap["posX"] = tabletEvent->posF().x();
+        eventMap["posY"] = tabletEvent->posF().y();
         eventMap["globalX"] = tabletEvent->hiResGlobalX();
         eventMap["globalY"] = tabletEvent->hiResGlobalY();
         eventMap["pressure"] = tabletEvent->pressure();

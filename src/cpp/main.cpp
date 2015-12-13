@@ -18,7 +18,7 @@ int main(int argc, char* argv[])
     qmlRegisterType<CoreLib>("AprilBrush", 1, 0, "CoreLib");
 
     ::tabletEventFilter = new TabletEventFilter;
-//    app.installEventFilter(&tabletEventFilter);
+    app.installEventFilter(tabletEventFilter);
 
     QString filePath = qApp->applicationDirPath() + "/aprilbrush.ini";
     Settings settings(filePath);

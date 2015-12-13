@@ -15,7 +15,6 @@ public:
     Q_INVOKABLE void writeOra(QString oraPath, const QSize imageSize, const QVariantList layerList);
     Q_INVOKABLE QVariantList readOra(QString oraPath);
     Q_INVOKABLE void setCursorShape(QString type, int size=0);
-    Q_INVOKABLE void addEventFilter(QVariant item);
     Q_INVOKABLE QString urlToPath(const QUrl& url) { return url.toLocalFile(); }
     void setWindow(QWindow* window) { this->window = window; }
     QWindow* getWindow() { return this->window; }

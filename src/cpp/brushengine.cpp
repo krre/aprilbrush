@@ -9,6 +9,7 @@ void BrushEngine::paint(float x, float y, CanvasItem* canvasItem, float pressure
 
     m_color.setAlpha(qRound(255 * m_opacity / 100.0));
     QColor pressureColor = m_color;
+    pressureColor.setAlpha(qRound(m_color.alpha() * pressure));
     QColor alphaColor = m_color;
     alphaColor.setAlpha(0);
 
