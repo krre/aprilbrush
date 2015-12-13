@@ -24,6 +24,7 @@ Panel {
 
     onHardnessChanged: BrushEngine.hardness = hardness.value
     onOpaqueChanged: BrushEngine.opacity = opaque.value
+    onRoundnessChanged: BrushEngine.roundness = roundness.value
 
     ScrollView {
         id: scrollView
