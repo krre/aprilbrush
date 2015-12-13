@@ -2,12 +2,11 @@
 
 void BrushEngine::paint(float x, float y, CanvasItem* canvasItem, float pressure)
 {
-    qDebug() << x << y << pressure;
+//    qDebug() << x << y << pressure;
     QPainter painter(canvasItem->pixmap());
     painter.setRenderHint(QPainter::Antialiasing, true);
     painter.setPen(Qt::NoPen);
 
-    int m_size = 30;
     int m_hardness = 80;
 
     QColor pressureColor = m_color;
@@ -36,4 +35,11 @@ void BrushEngine::setColor(QColor color)
     if (m_color == color) return;
     m_color = color;
     emit colorChanged(color);
+}
+
+void BrushEngine::setSize(int size)
+{
+    if (m_size == size) return;
+    m_size = size;
+    emit sizeChanged(size);
 }

@@ -17,7 +17,10 @@ Panel {
     property alias eraser: eraser.value
     objectName: "brushSettings"
 
-    onSizeChanged: coreLib.setCursorShape(Enums.CanvasPaint, size.value)
+    onSizeChanged: {
+        BrushEngine.size = size.value
+        coreLib.setCursorShape(Enums.CanvasPaint, size.value)
+    }
 
     ScrollView {
         id: scrollView
