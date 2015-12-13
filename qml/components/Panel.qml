@@ -2,9 +2,14 @@ import QtQuick 2.5
 import QtQuick.Controls 1.3
 import QtQuick.Layouts 1.1
 
-Item {
-    id: root
+Rectangle {
+    default property alias content: content.data
     property string title
-    anchors.fill: parent
-    anchors.margins: 7
+    color: sysPalette.window
+
+    Item {
+        id: content
+        anchors.fill: parent
+        anchors.margins: 7
+    }
 }
