@@ -41,6 +41,6 @@ private:
     int m_size = 30;
     int m_hardness = 80;
     int m_opacity = 80;
-    int m_roundness;
-    int m_angle;
+    int m_roundness = 100;
+    int m_angle = 0;
 };
