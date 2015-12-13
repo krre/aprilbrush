@@ -23,7 +23,7 @@ void BrushEngine::paint(const QPointF& point, CanvasItem* canvasItem, float pres
 //    QPointF betweenPoint = QPointF(x, y);
     painter.save();
     painter.translate(point);
-//    painter.rotate(m_angle);
+    painter.rotate(m_angle);
     painter.scale(1, m_roundness / 100.0);
     painter.drawEllipse(-m_size / 2.0, -m_size / 2.0, m_size, m_size);
     painter.restore();
@@ -63,4 +63,11 @@ void BrushEngine::setRoundness(int roundness)
     if (m_roundness == roundness) return;
     m_roundness = roundness;
     emit roundnessChanged(roundness);
+}
+
+void BrushEngine::setAngle(int angle)
+{
+    if (m_angle == angle) return;
+    m_angle = angle;
+    emit angleChanged(angle);
 }
