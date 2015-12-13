@@ -9,9 +9,8 @@ void BrushEngine::paint(float x, float y, CanvasItem* canvasItem, float pressure
 
     int m_size = 30;
     int m_hardness = 80;
-    QColor m_color = QColor(Qt::red);
 
-    QColor pressureColor = QColor(Qt::red);
+    QColor pressureColor = m_color;
     QColor alphaColor = m_color;
 
     QRadialGradient radialGradient;
@@ -30,4 +29,11 @@ void BrushEngine::paint(float x, float y, CanvasItem* canvasItem, float pressure
     painter.restore();
     canvasItem->update();
 
+}
+
+void BrushEngine::setColor(QColor color)
+{
+    if (m_color == color) return;
+    m_color = color;
+    emit colorChanged(color);
 }

@@ -75,10 +75,6 @@ ApplicationWindow {
         window: mainRoot
     }
 
-    BrushEngine {
-        id: brushEngine
-    }
-
     SplitView {
         anchors.fill: parent
 
@@ -113,6 +109,7 @@ ApplicationWindow {
 
     ColorPicker {
         id: colorPicker
+        onColorChanged: BrushEngine.color = color
     }
 
     UndoManager {
