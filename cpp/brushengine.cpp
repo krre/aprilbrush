@@ -7,6 +7,7 @@ void BrushEngine::paint(float x, float y, CanvasItem* canvasItem, float pressure
     painter.setRenderHint(QPainter::Antialiasing, true);
     painter.setPen(Qt::NoPen);
 
+    m_color.setAlpha(qRound(255 * m_opacity / 100.0));
     QColor pressureColor = m_color;
     QColor alphaColor = m_color;
     alphaColor.setAlpha(0);
@@ -47,4 +48,11 @@ void BrushEngine::setHardness(int hardness)
     if (m_hardness == hardness) return;
     m_hardness = hardness;
     emit hardnessChanged(hardness);
+}
+
+void BrushEngine::setOpacity(int opacity)
+{
+    if (m_opacity == opacity) return;
+    m_opacity = opacity;
+    emit opacityChanged(opacity);
 }
