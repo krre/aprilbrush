@@ -1,8 +1,8 @@
-#include "cpp/canvasitem.h"
-#include "cpp/brushengine.h"
-#include "cpp/corelib.h"
-#include "cpp/tableteventfilter.h"
-#include "cpp/settings.h"
+#include "canvasitem.h"
+#include "brushengine.h"
+#include "corelib.h"
+#include "tableteventfilter.h"
+#include "settings.h"
 
 #include <QtQml>
 #include <QApplication>
