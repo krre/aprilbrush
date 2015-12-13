@@ -7,6 +7,7 @@ import "../../3rdparty/font-awesome/fontawesome.js" as FontAwesome
 Item {
     id: root
     property bool isCurrentTab: mainRoot.currentTab === root
+    property alias canvasItem: canvasItem
     property int currentLayerIndex: -1
     property int currentUndoIndex: -1
     property alias layerModel: layerModel

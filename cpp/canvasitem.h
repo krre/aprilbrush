@@ -12,6 +12,7 @@ public:
     ~CanvasItem();
     QSize size() const { return m_size; }
     QPixmap* pixmap() const { return m_pixmap; }
+    Q_INVOKABLE clear();
 
 public slots:
     void setSize(QSize size);

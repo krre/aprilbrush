@@ -40,15 +40,15 @@ function paint(startPos, undoArea, redoArea, alpha, isEraser) {
 }
 
 function clearLayer() {
-    var _undoArea = canvasArea.canvas.getContext("2d").getImageData(0, 0, imageSize.width, imageSize.height)
+//    var _undoArea = canvasArea.canvas.getContext("2d").getImageData(0, 0, imageSize.width, imageSize.height)
     return {
         name: qsTr("Clear"),
         undo: function() {
-            canvasArea.canvas.getContext("2d").drawImage(_undoArea, 0, 0)
-            canvasArea.canvas.requestPaint()
+//            canvasArea.canvas.getContext("2d").drawImage(_undoArea, 0, 0)
+//            canvasArea.canvas.requestPaint()
         },
         redo: function() {
-            canvasArea.canvas.clear()
+            currentTab.canvasItem.clear()
         }
     }
 }

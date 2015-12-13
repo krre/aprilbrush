@@ -11,6 +11,12 @@ CanvasItem::~CanvasItem()
     delete m_pixmap;
 }
 
+CanvasItem::clear()
+{
+    m_pixmap->fill(Qt::transparent);
+    update();
+}
+
 void CanvasItem::setSize(QSize size)
 {
     if (m_size == size) return;
