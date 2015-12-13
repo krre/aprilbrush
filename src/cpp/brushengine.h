@@ -12,7 +12,7 @@ class BrushEngine : public QObject
 
 public:
     BrushEngine() {}
-    Q_INVOKABLE void paint(float x, float y, CanvasItem* canvasItem, float pressure=1.0);
+    Q_INVOKABLE void paint(const QPointF& point, CanvasItem* canvasItem, float pressure=1.0);
     QColor color() const { return m_color; }
     void setColor(QColor color);
     int size() const { return m_size; }

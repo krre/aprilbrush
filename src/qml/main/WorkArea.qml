@@ -42,13 +42,13 @@ Item {
                         mouseArea.enabled = false
                         isTouch = true
 //                        brushEngine.setTouch(true)
-                        BrushEngine.paint(pos.x, pos.y, canvasItem, pressure)
+                        BrushEngine.paint(pos, canvasItem, pressure)
                     } else if (event.release === true) {
                         mouseArea.enabled = true
                         isTouch = false
 //                        brushEngine.setTouch(false)
                     } else if (isTouch) {
-                        BrushEngine.paint(pos.x, pos.y, canvasItem, pressure)
+                        BrushEngine.paint(pos, canvasItem, pressure)
                     }
                 }
             }
@@ -57,11 +57,11 @@ Item {
                 id: mouseArea
                 anchors.fill: parent
 
-                onPressed: BrushEngine.paint(mouse.x, mouse.y, canvasItem)
+                onPressed: BrushEngine.paint(Qt.point(mouse.x, mouse.y), canvasItem)
 
                 onPositionChanged: {
                     if (pressed) {
-                        BrushEngine.paint(mouse.x, mouse.y, canvasItem)
+                        BrushEngine.paint(Qt.point(mouse.x, mouse.y), canvasItem)
                     }
                 }
             }
