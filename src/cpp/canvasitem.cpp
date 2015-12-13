@@ -1,17 +1,18 @@
 #include "canvasitem.h"
-#include "tableteventfilter.h"
-
-extern QPointer<TabletEventFilter> tabletEventFilter;
 
 CanvasItem::CanvasItem()
 {
-    setFlag(ItemHasContents, true);
-    setAcceptedMouseButtons(Qt::AllButtons);
+//    setRenderTarget(QQuickPaintedItem::FramebufferObject);
 }
 
 CanvasItem::~CanvasItem()
 {
     delete m_pixmap;
+}
+
+void CanvasItem::paint(QPainter* painter)
+{
+    painter->drawPixmap(0, 0, *m_pixmap);
 }
 
 void CanvasItem::clear()
@@ -23,21 +24,10 @@ void CanvasItem::clear()
 void CanvasItem::setSize(QSize size)
 {
     if (m_size == size) return;
-
     m_size = size;
+
     m_pixmap = new QPixmap(size);
     m_pixmap->fill(Qt::transparent);
-    emit sizeChanged(size);
-}
 
-QSGNode* CanvasItem::updatePaintNode(QSGNode* node, QQuickItem::UpdatePaintNodeData*)
-{
-    QSGSimpleTextureNode* n = static_cast<QSGSimpleTextureNode*>(node);
-    if (!n) {
-        n = new QSGSimpleTextureNode();
-        n->setOwnsTexture(true);
-        n->setRect(m_pixmap->rect());
-    }
-    n->setTexture(window()->createTextureFromImage(m_pixmap->toImage()));
-    return n;
+    emit sizeChanged(size);
 }
