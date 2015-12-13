@@ -7,10 +7,9 @@ void BrushEngine::paint(float x, float y, CanvasItem* canvasItem, float pressure
     painter.setRenderHint(QPainter::Antialiasing, true);
     painter.setPen(Qt::NoPen);
 
-    int m_hardness = 80;
-
     QColor pressureColor = m_color;
     QColor alphaColor = m_color;
+    alphaColor.setAlpha(0);
 
     QRadialGradient radialGradient;
     radialGradient.setRadius(m_size / 2.0);
@@ -27,7 +26,6 @@ void BrushEngine::paint(float x, float y, CanvasItem* canvasItem, float pressure
     painter.drawEllipse(-m_size / 2.0, -m_size / 2.0, m_size, m_size);
     painter.restore();
     canvasItem->update();
-
 }
 
 void BrushEngine::setColor(QColor color)
@@ -42,4 +40,11 @@ void BrushEngine::setSize(int size)
     if (m_size == size) return;
     m_size = size;
     emit sizeChanged(size);
+}
+
+void BrushEngine::setHardness(int hardness)
+{
+    if (m_hardness == hardness) return;
+    m_hardness = hardness;
+    emit hardnessChanged(hardness);
 }

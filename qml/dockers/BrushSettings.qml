@@ -22,6 +22,8 @@ Panel {
         coreLib.setCursorShape(Enums.CanvasPaint, size.value)
     }
 
+    onHardnessChanged: BrushEngine.hardness = hardness.value
+
     ScrollView {
         id: scrollView
         anchors.fill: parent
