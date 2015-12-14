@@ -7,7 +7,7 @@ import "../../3rdparty/font-awesome/fontawesome.js" as FontAwesome
 Item {
     id: root
     property bool isCurrentTab: mainRoot.currentTab === root
-    property alias canvasItem: canvasItem
+    property alias canvasItem: canvasView.currentItem
     property int currentLayerIndex: -1
     property int currentUndoIndex: -1
     property alias layerModel: layerModel
@@ -17,58 +17,74 @@ Item {
     property string oraPath
     property bool isDirty: false
 
+    Component.onCompleted: canvasView.forceActiveFocus()
+
     ListModel { id: layerModel }
 
     ListModel { id: undoModel }
 
     Rectangle {
-        anchors.fill: parent
+        width: imageSize.width
+        height: imageSize.height
 
-        CanvasItem {
-            id: canvasItem
+        ListView {
+            id: canvasView
             anchors.fill: parent
-            size: mainRoot.imageSize
-            antialiasing: false
+            model: layerModel
+            spacing: -width
+            orientation: ListView.Horizontal
+            currentIndex: layerManager.currentIndex
+            interactive: false
+            delegate: CanvasItem {
+                width: ListView.view.width
+                height: ListView.view.height
+                size: mainRoot.imageSize
+                antialiasing: false
+                z: 1000 - index
+                visible: isVisible
+                enabled: !isLock
+                smooth: false
+            }
+        }
 
-            Connections {
-                target: TabletEventFilter
-                onAction: {
-                    var x = event.globalX - mainRoot.x
-                    var y = event.globalY - mainRoot.y
-                    var pos = canvasItem.itemPos(Qt.point(x, y))
-                    var pressure = event.pressure
-                    if (event.press === true) {
-                        canvasItem.forceActiveFocus()
-                        mouseArea.enabled = false
-                        BrushEngine.isTouch = true
-                        BrushEngine.paint(pos, canvasItem, pressure)
-                    } else if (event.release === true) {
-                        mouseArea.enabled = true
-                        BrushEngine.isTouch = true
-                    } else if (BrushEngine.isTouch) {
-                        BrushEngine.paint(pos, canvasItem, pressure)
-                    }
+        Connections {
+            target: TabletEventFilter
+            onAction: {
+                var x = event.globalX - mainRoot.x
+                var y = event.globalY - mainRoot.y
+                var pos = canvasItem.itemPos(Qt.point(x, y))
+                var pressure = event.pressure
+                if (event.press === true) {
+                    canvasView.forceActiveFocus()
+                    mouseArea.enabled = false
+                    BrushEngine.isTouch = true
+                    BrushEngine.paint(pos, canvasItem, pressure)
+                } else if (event.release === true) {
+                    mouseArea.enabled = true
+                    BrushEngine.isTouch = true
+                } else if (BrushEngine.isTouch) {
+                    BrushEngine.paint(pos, canvasItem, pressure)
                 }
             }
+        }
 
-            MouseArea {
-                id: mouseArea
-                anchors.fill: parent
+        MouseArea {
+            id: mouseArea
+            anchors.fill: parent
 
-                onPressed: {
-                    canvasItem.forceActiveFocus()
-                    BrushEngine.isTouch = true
+            onPressed: {
+                canvasView.forceActiveFocus()
+                BrushEngine.isTouch = true
+                BrushEngine.paint(Qt.point(mouse.x, mouse.y), canvasItem)
+            }
+
+            onPositionChanged: {
+                if (pressed) {
                     BrushEngine.paint(Qt.point(mouse.x, mouse.y), canvasItem)
                 }
-
-                onPositionChanged: {
-                    if (pressed) {
-                        BrushEngine.paint(Qt.point(mouse.x, mouse.y), canvasItem)
-                    }
-                }
-
-                onReleased: BrushEngine.isTouch = false
             }
+
+            onReleased: BrushEngine.isTouch = false
         }
 
 //        Label {

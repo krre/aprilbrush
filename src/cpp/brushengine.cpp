@@ -2,7 +2,6 @@
 
 void BrushEngine::paint(const QPointF& point, CanvasItem* canvasItem, float pressure)
 {
-//    qDebug() << x << y << pressure;
     QPainter painter(canvasItem->pixmap());
     painter.setRenderHint(QPainter::Antialiasing, true);
     painter.setPen(Qt::NoPen);
