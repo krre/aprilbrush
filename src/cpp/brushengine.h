@@ -13,6 +13,7 @@ class BrushEngine : public QObject
     Q_PROPERTY(int opacity READ opacity WRITE setOpacity NOTIFY opacityChanged)
     Q_PROPERTY(int roundness READ roundness WRITE setRoundness NOTIFY roundnessChanged)
     Q_PROPERTY(int angle READ angle WRITE setAngle NOTIFY angleChanged)
+    Q_PROPERTY(int jitter READ jitter WRITE setJitter NOTIFY jitterChanged)
 
 public:
     BrushEngine() {}
@@ -32,6 +33,8 @@ public:
     void setAngle(int angle);
     int spacing() const { return m_spacing; }
     void setSpacing(int spacing);
+    int jitter() const { return m_jitter; }
+    void setJitter(int jitter);
 
     bool isTouch() const { return m_isTouch; }
     void setIsTouch(bool isTouch);
@@ -44,6 +47,7 @@ signals:
     void roundnessChanged(int roundness);
     void angleChanged(int angle);
     void spacingChanged(int spacing);
+    void jitterChanged(int jitter);
 
     void isTouchChanged(bool isTouch);
 
@@ -54,7 +58,9 @@ private:
     int m_opacity = 80;
     int m_roundness = 100;
     int m_angle = 0;
-    int m_spacing;
+    int m_spacing = 100;
+    int m_jitter = 0;
+
     bool m_isTouch = false;
 
     QPointF startPoint;

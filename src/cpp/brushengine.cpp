@@ -27,7 +27,6 @@ void BrushEngine::paint(const QPointF& point, CanvasItem* canvasItem, float pres
     } else {
         qreal length = qSqrt(qPow(lastPoint.x() - point.x(), 2) + qPow(lastPoint.y() - point.y(), 2));
         qreal delta = m_size * m_spacing / 2 / 100.0;
-        int m_jitter = 0;
 
         if (length >= delta) {
             int dabs = qRound(length / delta);
@@ -99,6 +98,13 @@ void BrushEngine::setSpacing(int spacing)
     if (m_spacing == spacing) return;
     m_spacing = spacing;
     emit spacingChanged(spacing);
+}
+
+void BrushEngine::setJitter(int jitter)
+{
+    if (m_jitter == jitter) return;
+    m_jitter = jitter;
+    emit jitterChanged(jitter);
 }
 
 void BrushEngine::setIsTouch(bool isTouch)

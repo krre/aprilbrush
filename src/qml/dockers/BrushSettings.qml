@@ -27,6 +27,7 @@ Panel {
     onOpaqueChanged: BrushEngine.opacity = opaque.value
     onRoundnessChanged: BrushEngine.roundness = roundness.value
     onAngleChanged: BrushEngine.angle = angle.value
+    onJitterChanged: BrushEngine.jitter = jitter.value
 
     ScrollView {
         id: scrollView
