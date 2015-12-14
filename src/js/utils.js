@@ -98,29 +98,25 @@ function saveAsOra(filePath) {
     if (filePath.substr(-4) !== ".ora") {
         filePath += ".ora"
     }
-    oraPath = filePath
-    fileName = fileFromPath(oraPath)
+    currentTab.oraPath = filePath
     saveOra()
 }
 
 function saveOra() {
-    var path = oraPath
     var layerList = []
     for (var i = 0; i < layerModel.count; i++) {
-        var layerMap = {}
+        var map = {}
         var attributes = layerModel.get(i)
         for (var prop in attributes) {
-            layerMap[prop] = attributes[prop]
+            map[prop] = attributes[prop]
         }
-        layerMap.isSelected = (currentLayerIndex == i)
-        var image = layerModel.get(i).canvas.toDataURL()
-        image = image.substring(22, image.length) // cutting first block "data:image/png;base64,"
-        layerMap.image = image
-        layerList.push(layerMap)
+        map.isSelected = (layerManager.currentIndex == i)
+        map.canvasItem = layerModel.get(i).canvasItem
+        layerList.push(map)
     }
-    coreLib.writeOra(path, imageSize, layerList)
-    isDirty = false
-    console.log("save: " + path)
+    coreLib.writeOra(currentTab.oraPath, imageSize, layerList)
+    currentTab.isDirty = false
+    console.log("save: " + currentTab.oraPath)
 }
 
 function exportPng(filePath) {

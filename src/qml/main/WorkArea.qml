@@ -92,6 +92,10 @@ Item {
                 visible: isVisible
                 enabled: !isLock
                 smooth: false
+
+                Component.onCompleted: {
+                    layerModel.set(index, { "canvasItem": this })
+                }
             }
 
             onCountChanged: {

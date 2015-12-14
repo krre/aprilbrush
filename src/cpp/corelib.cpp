@@ -1,5 +1,6 @@
 #include "corelib.h"
 #include "tableteventfilter.h"
+#include "canvasitem.h"
 #include "qzip/qzipreader_p.h"
 #include "qzip/qzipwriter_p.h"
 
@@ -32,6 +33,9 @@ void CoreLib::writeOra(QString oraPath, const QSize imageSize, const QVariantLis
     stream.writeAttribute("h",QString::number(imageSize.height()));
     stream.writeStartElement("stack");
 
+    QByteArray ba;
+    QBuffer buffer(&ba);
+
     for (int i = 0; i < layerList.count(); i++) {
         QMap<QString, QVariant> map = layerList.at(i).toMap();
         QString name = map.value("name").toString();
@@ -39,9 +43,16 @@ void CoreLib::writeOra(QString oraPath, const QSize imageSize, const QVariantLis
         QString isLock = map.value("isLock").toString();
         QString isBackground = map.value("isBackground").toString();
         QString isSelected = map.value("isSelected").toString();
-        QByteArray imageByteArray = QByteArray::fromBase64(map.value("image").toByteArray());
+
+        buffer.open(QIODevice::WriteOnly);
+        QObject* obj = qvariant_cast<QObject*>(map.value("canvasItem"));
+        CanvasItem* canvasItem = qobject_cast<CanvasItem*>(obj);
+        QPixmap* pixmap = canvasItem->pixmap();
+        pixmap->save(&buffer, "PNG");
+        buffer.close();
+
         QString src = "data/" + name + ".png";
-        zipWriter.addFile(src, imageByteArray);
+        zipWriter.addFile(src, ba);
 
         // layer
         stream.writeStartElement("layer");

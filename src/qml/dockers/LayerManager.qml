@@ -22,6 +22,7 @@ Panel {
             name: "None",
             isVisible: true,
             isLock: false,
+            canvasItem: null
         }
     }
 

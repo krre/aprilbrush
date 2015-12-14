@@ -58,7 +58,7 @@ MenuBar {
             text: qsTr("Save")
             shortcut: "Ctrl+S"
             onTriggered: {
-                if (!oraPath) {
+                if (!currentTab.oraPath) {
                     Utils.createDynamicObject(mainRoot, "qrc:/qml/components/filedialog/FileDialogSave.qml")
                 } else {
                     Utils.saveOra()
