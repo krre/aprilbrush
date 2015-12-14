@@ -93,11 +93,17 @@ Item {
                 enabled: !isLock
                 smooth: false
             }
+
+            onCountChanged: {
+                mouseArea.enabled = count > 0
+            }
         }
 
         Connections {
             target: TabletEventFilter
             onAction: {
+                if (!canvasView.count) return
+
                 var x = event.globalX - mainRoot.x
                 var y = event.globalY - mainRoot.y
                 var pos = canvasItem.itemPos(Qt.point(x, y))
