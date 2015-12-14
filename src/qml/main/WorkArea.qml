@@ -31,7 +31,6 @@ Item {
             antialiasing: false
 
             Connections {
-                property bool isTouch: false
                 target: TabletEventFilter
                 onAction: {
                     var x = event.globalX - mainRoot.x
@@ -40,14 +39,12 @@ Item {
                     var pressure = event.pressure
                     if (event.press === true) {
                         mouseArea.enabled = false
-                        isTouch = true
-//                        brushEngine.setTouch(true)
+                        BrushEngine.isTouch = true
                         BrushEngine.paint(pos, canvasItem, pressure)
                     } else if (event.release === true) {
                         mouseArea.enabled = true
-                        isTouch = false
-//                        brushEngine.setTouch(false)
-                    } else if (isTouch) {
+                        BrushEngine.isTouch = true
+                    } else if (BrushEngine.isTouch) {
                         BrushEngine.paint(pos, canvasItem, pressure)
                     }
                 }
@@ -57,13 +54,18 @@ Item {
                 id: mouseArea
                 anchors.fill: parent
 
-                onPressed: BrushEngine.paint(Qt.point(mouse.x, mouse.y), canvasItem)
+                onPressed: {
+                    BrushEngine.isTouch = true
+                    BrushEngine.paint(Qt.point(mouse.x, mouse.y), canvasItem)
+                }
 
                 onPositionChanged: {
                     if (pressed) {
                         BrushEngine.paint(Qt.point(mouse.x, mouse.y), canvasItem)
                     }
                 }
+
+                onReleased: BrushEngine.isTouch = false
             }
         }
 

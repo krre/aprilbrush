@@ -78,3 +78,10 @@ void BrushEngine::setSpacing(int spacing)
     m_spacing = spacing;
     emit spacingChanged(spacing);
 }
+
+void BrushEngine::setIsTouch(bool isTouch)
+{
+    if (m_isTouch == isTouch) return;
+    m_isTouch = isTouch;
+    emit isTouchChanged(isTouch);
+}
