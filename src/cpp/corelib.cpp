@@ -131,3 +131,15 @@ void CoreLib::setCursorShape(QString type, int size)
         window->setCursor(QCursor(Qt::ArrowCursor));
     }
 }
+
+QString CoreLib::pathToBaseName(const QString& path)
+{
+    QFileInfo fileInfo(path);
+    return fileInfo.baseName();
+}
+
+QString CoreLib::pathToFileName(const QString& path)
+{
+    QFileInfo fileInfo(path);
+    return fileInfo.fileName();
+}

@@ -16,6 +16,7 @@ Item {
     property var commandArray: [] // array for saving undo/redo command (they don't work from ListModel)
     property int prevUndoIndex: -1
     property string oraPath
+    property string fileName: oraPath ? coreLib.pathToFileName(oraPath) : "Unnamed"
     property bool isDirty: false
     property string canvasMode: Enums.CanvasFree
 

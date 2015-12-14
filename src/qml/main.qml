@@ -12,8 +12,7 @@ import "../js/utils.js" as Utils
 
 ApplicationWindow {
     id: mainRoot
-    title: "AprilBrush"
-//    title: "AprilBrush - " + fileName + (isDirty ? " [*]" : "") + " @ " + Math.round(canvas3DArea.zoom * 100) + "%"
+    title: "AprilBrush - " + currentTab.fileName + (currentTab.isDirty ? " [*]" : "") + " @ " + Math.round(currentTab.zoom * 100) + "%"
 
     property string version: "0.3"
     property size imageSize: Qt.size(Screen.width, Screen.height)

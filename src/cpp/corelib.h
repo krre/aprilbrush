@@ -16,6 +16,8 @@ public:
     Q_INVOKABLE QVariantList readOra(QString oraPath);
     Q_INVOKABLE void setCursorShape(QString type, int size=0);
     Q_INVOKABLE QString urlToPath(const QUrl& url) { return url.toLocalFile(); }
+    Q_INVOKABLE QString pathToBaseName(const QString& path);
+    Q_INVOKABLE QString pathToFileName(const QString& path);
     void setWindow(QWindow* window) { this->window = window; }
     QWindow* getWindow() { return this->window; }
     QString buildDate() { return QString(__DATE__); }
