@@ -38,6 +38,7 @@ Item {
                     var pos = canvasItem.itemPos(Qt.point(x, y))
                     var pressure = event.pressure
                     if (event.press === true) {
+                        canvasItem.forceActiveFocus()
                         mouseArea.enabled = false
                         BrushEngine.isTouch = true
                         BrushEngine.paint(pos, canvasItem, pressure)
@@ -55,6 +56,7 @@ Item {
                 anchors.fill: parent
 
                 onPressed: {
+                    canvasItem.forceActiveFocus()
                     BrushEngine.isTouch = true
                     BrushEngine.paint(Qt.point(mouse.x, mouse.y), canvasItem)
                 }
