@@ -1,6 +1,6 @@
 #include "brushengine.h"
 
-void BrushEngine::paint(const QPointF& point, CanvasItem* canvasItem, float pressure)
+void BrushEngine::paint(const QPointF& point, float pressure)
 {
     QPainter painter(canvasItem->pixmap());
     painter.setRenderHint(QPainter::Antialiasing, true);
@@ -46,8 +46,6 @@ void BrushEngine::paint(const QPointF& point, CanvasItem* canvasItem, float pres
             lastPoint = betweenPoint;
         }
     }
-
-    canvasItem->update();
 }
 
 void BrushEngine::setColor(QColor color)
@@ -122,6 +120,9 @@ void BrushEngine::paintDab(const QPointF& point, QPainter& painter)
     painter.translate(point);
     painter.rotate(m_angle);
     painter.scale(1, m_roundness / 100.0);
-    painter.drawEllipse(-m_size / 2.0, -m_size / 2.0, m_size, m_size);
+    QRect rect(-m_size / 2.0, -m_size / 2.0, m_size, m_size);
+    painter.drawEllipse(rect);
     painter.restore();
+    rect.moveTo(point.x() - m_size / 2, point.y() - m_size / 2);
+    canvasItem->update(rect);
 }

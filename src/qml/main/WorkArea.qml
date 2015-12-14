@@ -57,13 +57,14 @@ Item {
                 if (event.press === true) {
                     canvasView.forceActiveFocus()
                     mouseArea.enabled = false
+                    BrushEngine.setCanvasItem(canvasItem)
                     BrushEngine.isTouch = true
-                    BrushEngine.paint(pos, canvasItem, pressure)
+                    BrushEngine.paint(pos, pressure)
                 } else if (event.release === true) {
                     mouseArea.enabled = true
                     BrushEngine.isTouch = true
                 } else if (BrushEngine.isTouch) {
-                    BrushEngine.paint(pos, canvasItem, pressure)
+                    BrushEngine.paint(pos, pressure)
                 }
             }
         }
@@ -75,12 +76,13 @@ Item {
             onPressed: {
                 canvasView.forceActiveFocus()
                 BrushEngine.isTouch = true
-                BrushEngine.paint(Qt.point(mouse.x, mouse.y), canvasItem)
+                BrushEngine.setCanvasItem(canvasItem)
+                BrushEngine.paint(Qt.point(mouse.x, mouse.y))
             }
 
             onPositionChanged: {
                 if (pressed) {
-                    BrushEngine.paint(Qt.point(mouse.x, mouse.y), canvasItem)
+                    BrushEngine.paint(Qt.point(mouse.x, mouse.y))
                 }
             }
 
