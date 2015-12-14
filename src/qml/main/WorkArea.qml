@@ -17,13 +17,43 @@ Item {
     property string oraPath
     property bool isDirty: false
 
-    Component.onCompleted: canvasView.forceActiveFocus()
+    property real zoom: 1.0
+    property int mirror: 1
+    property real rotation: 0
+
+    transform: [
+        Scale { origin.x: width / 2; origin.y: height / 2; xScale: zoom * mirror; yScale: zoom },
+        Rotation { origin.x: width / 2; origin.y: height / 2; angle: rotation }
+    ]
+
+    Component.onCompleted: {
+        canvasView.forceActiveFocus()
+    }
+
+    function resetTransform() {
+        zoom = 1
+        mirror = 1
+        rotation = 0
+        content.x = 0
+        content.y = 0
+//        content.x = (width - content.width) / 2
+//        content.y = (height - content.height) / 2
+    }
+
+    function zoomIn() {
+        if (zoom < 30) zoom *= 1.5
+    }
+
+    function zoomOut() {
+        if (zoom > 0.01) zoom /= 1.5
+    }
 
     ListModel { id: layerModel }
 
     ListModel { id: undoModel }
 
     Rectangle {
+        id: content
         width: imageSize.width
         height: imageSize.height
 
@@ -87,6 +117,16 @@ Item {
             }
 
             onReleased: BrushEngine.isTouch = false
+
+            onWheel: {
+                if (wheel.modifiers & Qt.ControlModifier) {
+                    if (wheel.angleDelta.y > 0) {
+                        zoomIn()
+                    } else {
+                        zoomOut()
+                    }
+                }
+            }
         }
 
 //        Label {

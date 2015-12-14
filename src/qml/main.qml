@@ -83,6 +83,7 @@ ApplicationWindow {
             Layout.fillWidth: true
             Layout.margins: 5
             height: parent.height
+            clip: true
         }
 
         SplitView {
