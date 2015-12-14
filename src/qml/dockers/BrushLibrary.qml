@@ -12,7 +12,6 @@ Panel {
 
     Component.onCompleted: {
         loadBrushes()
-        changeBrushSettings(0)
     }
 
     function changeBrushSettings(row) {

@@ -17,6 +17,13 @@ Panel {
     property alias eraser: eraser.value
     objectName: "brushSettings"
 
+    Component.onDestruction: {
+        for (var i = 0; i < brushModel.count; i++) {
+            var slider = brushModel.children[i]
+            Settings.setValue("Brush", slider.objectName, slider.value)
+        }
+    }
+
     onSizeChanged: {
         BrushEngine.size = size.value
         coreLib.setCursorShape(Enums.CanvasPaint, size.value)
@@ -40,15 +47,15 @@ Panel {
             model: VisualItemModel {
                 id: brushModel
                 property real sliderWidth: scrollView.width !== scrollView.viewport.width ? scrollView.viewport.width - 5 : scrollView.width
-                SliderText { id: size; title: qsTr("Size"); width: brushModel.sliderWidth; minimumValue: 1; maximumValue: 100; value: 20 }
-                SliderText { id: opaque; title: qsTr("Opacity"); width: brushModel.sliderWidth; value: 85 }
-                SliderText { id: flow; title: qsTr("Flow"); width: brushModel.sliderWidth; value: 50 }
-                SliderText { id: hardness; title: qsTr("Hardness"); width: brushModel.sliderWidth; minimumValue: 1; value: 95 }
-                SliderText { id: spacing; title: qsTr("Spacing"); width: brushModel.sliderWidth; minimumValue: 5; maximumValue: 200; value: 25 }
-                SliderText { id: roundness; title: qsTr("Roundness"); width: brushModel.sliderWidth; minimumValue: 1; maximumValue: 100; value: 100 }
-                SliderText { id: angle; title: qsTr("Angle"); width: brushModel.sliderWidth; minimumValue: 0; maximumValue: 180; value: 0 }
-                SliderText { id: jitter; title: qsTr("Jitter"); width: brushModel.sliderWidth; minimumValue: 0; maximumValue: 500; value: 0 }
-                SliderText { id: eraser; title: qsTr("Eraser"); width: brushModel.sliderWidth; minimumValue: 0; maximumValue: 100; value: 0 }
+                SliderText { id: size; objectName: "size"; title: qsTr("Size"); width: brushModel.sliderWidth; minimumValue: 1; maximumValue: 100; value: Settings.value("Brush", objectName, 30) }
+                SliderText { id: opaque; objectName: "opacity"; title: qsTr("Opacity"); width: brushModel.sliderWidth; value: Settings.value("Brush", objectName, 85) }
+                SliderText { id: flow; objectName: "flow"; title: qsTr("Flow"); width: brushModel.sliderWidth; value: Settings.value("Brush", objectName, 50) }
+                SliderText { id: hardness; objectName: "hardness"; title: qsTr("Hardness"); width: brushModel.sliderWidth; minimumValue: 1; value: Settings.value("Brush", objectName, 95) }
+                SliderText { id: spacing; objectName: "spacing"; title: qsTr("Spacing"); width: brushModel.sliderWidth; minimumValue: 5; maximumValue: 200; value: Settings.value("Brush", objectName, 25) }
+                SliderText { id: roundness; objectName: "roundness"; title: qsTr("Roundness"); width: brushModel.sliderWidth; minimumValue: 1; maximumValue: 100; value: Settings.value("Brush", objectName, 100) }
+                SliderText { id: angle; objectName: "angle"; title: qsTr("Angle"); width: brushModel.sliderWidth; minimumValue: 0; maximumValue: 180; value: Settings.value("Brush", objectName, 0) }
+                SliderText { id: jitter; objectName: "jitter"; title: qsTr("Jitter"); width: brushModel.sliderWidth; minimumValue: 0; maximumValue: 500; value: Settings.value("Brush", objectName, 0) }
+                SliderText { id: eraser; objectName: "eraser"; title: qsTr("Eraser"); width: brushModel.sliderWidth; minimumValue: 0; maximumValue: 100; value: Settings.value("Brush", objectName, 0) }
             }
         }
     }
