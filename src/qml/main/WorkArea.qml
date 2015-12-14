@@ -2,6 +2,7 @@ import QtQuick 2.5
 import QtQuick.Controls 1.4
 import QtQuick.Layouts 1.1
 import AprilBrush 1.0
+import "../../js/enums.js" as Enums
 import "../../3rdparty/font-awesome/fontawesome.js" as FontAwesome
 
 Item {
@@ -16,10 +17,27 @@ Item {
     property int prevUndoIndex: -1
     property string oraPath
     property bool isDirty: false
+    property string canvasMode: Enums.CanvasFree
 
     property real zoom: 1.0
     property int mirror: 1
     property real rotation: 0
+
+    Keys.onPressed: {
+        if (!event.isAutoRepeat) {
+            if (event.key === Qt.Key_Space) {
+                canvasMode = Enums.CanvasPan
+            } else if (event.modifiers & Qt.AltModifier) {
+                canvasMode = Enums.CanvasPick
+            }
+        }
+    }
+
+    Keys.onReleased: {
+        if (!event.isAutoRepeat) {
+            canvasMode = Enums.CanvasFree
+        }
+    }
 
     transform: [
         Scale { origin.x: width / 2; origin.y: height / 2; xScale: zoom * mirror; yScale: zoom },
@@ -27,7 +45,7 @@ Item {
     ]
 
     Component.onCompleted: {
-        canvasView.forceActiveFocus()
+        forceActiveFocus()
     }
 
     function resetTransform() {
@@ -85,7 +103,7 @@ Item {
                 var pos = canvasItem.itemPos(Qt.point(x, y))
                 var pressure = event.pressure
                 if (event.press === true) {
-                    canvasView.forceActiveFocus()
+                    root.forceActiveFocus()
                     mouseArea.enabled = false
                     BrushEngine.setCanvasItem(canvasItem)
                     BrushEngine.isTouch = true
@@ -102,21 +120,38 @@ Item {
         MouseArea {
             id: mouseArea
             anchors.fill: parent
+            hoverEnabled: true
+            drag.target: canvasMode === Enums.CanvasPan ? content : null
+            drag.threshold: 1
 
             onPressed: {
-                canvasView.forceActiveFocus()
-                BrushEngine.isTouch = true
-                BrushEngine.setCanvasItem(canvasItem)
-                BrushEngine.paint(Qt.point(mouse.x, mouse.y))
+                if (canvasMode === Enums.CanvasFree) {
+                    canvasView.forceActiveFocus()
+                    BrushEngine.isTouch = true
+                    BrushEngine.setCanvasItem(canvasItem)
+                    BrushEngine.paint(Qt.point(mouse.x, mouse.y))
+                    canvasMode = Enums.CanvasPaint
+                } else {
+                    // pick color
+                }
             }
 
             onPositionChanged: {
                 if (pressed) {
-                    BrushEngine.paint(Qt.point(mouse.x, mouse.y))
+                    if (canvasMode === Enums.CanvasPaint) {
+                        BrushEngine.paint(Qt.point(mouse.x, mouse.y))
+                    } else if (canvasMode === Enums.CanvasPick){
+                        // pick color
+                    }
                 }
             }
 
-            onReleased: BrushEngine.isTouch = false
+            onReleased: {
+                BrushEngine.isTouch = false
+                if (canvasMode === Enums.CanvasPaint) {
+                    canvasMode = Enums.CanvasFree
+                }
+            }
 
             onWheel: {
                 if (wheel.modifiers & Qt.ControlModifier) {
