@@ -20,13 +20,35 @@ void BrushEngine::paint(const QPointF& point, CanvasItem* canvasItem, float pres
     radialGradient.setColorAt(m_hardness / 100.0, pressureColor);
     painter.setBrush(QBrush(radialGradient));
 
-//    QPointF betweenPoint = QPointF(x, y);
-    painter.save();
-    painter.translate(point);
-    painter.rotate(m_angle);
-    painter.scale(1, m_roundness / 100.0);
-    painter.drawEllipse(-m_size / 2.0, -m_size / 2.0, m_size, m_size);
-    painter.restore();
+    if (startPoint.isNull()) {
+        startPoint = QPointF(point);
+        lastPoint = QPointF(point);
+        paintDab(point, painter);
+    } else {
+        qreal length = qSqrt(qPow(lastPoint.x() - point.x(), 2) + qPow(lastPoint.y() - point.y(), 2));
+        qreal delta = m_size * m_spacing / 2 / 100.0;
+        int m_jitter = 0;
+
+        if (length >= delta) {
+            int dabs = qRound(length / delta);
+            qreal angle = qAtan2(point.x() - lastPoint.x(), point.y() - lastPoint.y());
+            qreal deltaX = delta * qSin(angle);
+            qreal deltaY = delta * qCos(angle);
+
+            QPointF betweenPoint;
+            for (int i = 1; i <= dabs; i++) {
+                qreal x = lastPoint.x() + deltaX * i +
+                        (10000 - qrand() % 20000) / 10000.0 * m_size * m_jitter / 100;
+                qreal y = lastPoint.y() + deltaY * i +
+                        (10000 - qrand() % 20000) / 10000.0 * m_size * m_jitter / 100;
+                betweenPoint = QPointF(x, y);
+                paintDab(betweenPoint, painter);
+
+            }
+            lastPoint = betweenPoint;
+        }
+    }
+
     canvasItem->update();
 }
 
@@ -83,5 +105,18 @@ void BrushEngine::setIsTouch(bool isTouch)
 {
     if (m_isTouch == isTouch) return;
     m_isTouch = isTouch;
+    if (!isTouch) {
+        startPoint = QPointF();
+    }
     emit isTouchChanged(isTouch);
+}
+
+void BrushEngine::paintDab(const QPointF& point, QPainter& painter)
+{
+    painter.save();
+    painter.translate(point);
+    painter.rotate(m_angle);
+    painter.scale(1, m_roundness / 100.0);
+    painter.drawEllipse(-m_size / 2.0, -m_size / 2.0, m_size, m_size);
+    painter.restore();
 }

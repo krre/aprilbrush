@@ -56,4 +56,8 @@ private:
     int m_angle = 0;
     int m_spacing;
     bool m_isTouch = false;
+
+    QPointF startPoint;
+    QPointF lastPoint;
+    void paintDab(const QPointF& point, QPainter& painter);
 };
