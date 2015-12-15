@@ -65,7 +65,7 @@ private:
     int m_angle = 0;
     int m_spacing = 100;
     int m_jitter = 0;
-    int m_eraser;
+    int m_eraser = 0;
 
     bool m_isTouch = false;
     CanvasItem* canvasItem;
