@@ -91,9 +91,8 @@ QVariantList CoreLib::readOra(QString oraPath) {
                 for (int i = 0; i < stream.attributes().size(); i++) {
                     map[stream.attributes().at(i).name().toString()] = stream.attributes().at(i).value().toString();
                 }
-                QByteArray byteArray = zipReader.fileData(stream.attributes().value("src").toString());
-                QString dataURL = QString("data:image/png;base64," + byteArray.toBase64());
-                map["image"] = dataURL;
+                QByteArray ba = zipReader.fileData(stream.attributes().value("src").toString());
+                map["image"] = QString(ba.toBase64());
                 list.append(map);
                 map.clear();
             }

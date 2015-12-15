@@ -5,6 +5,7 @@ import "../../js/enums.js" as Enums
 import "../../js/undo.js" as Undo
 
 MenuBar {
+    property alias recentFilesModel: recentFilesModel
 
     Menu {
         title: qsTr("File")

@@ -21,6 +21,12 @@ void CanvasItem::clear()
     update();
 }
 
+void CanvasItem::loadImage(const QString& image)
+{
+    QByteArray ba = QByteArray::fromBase64(image.toLatin1());
+    m_pixmap->loadFromData(ba);
+}
+
 void CanvasItem::setSize(QSize size)
 {
     if (m_size == size) return;

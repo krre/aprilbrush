@@ -15,6 +15,7 @@ public:
     QPixmap* pixmap() const { return m_pixmap; }
     Q_INVOKABLE void clear();
     Q_INVOKABLE QPointF itemPos(const QPointF& point) { return mapFromScene(point); }
+    Q_INVOKABLE void loadImage(const QString& image);
 
 signals:
     void sizeChanged(QSize size);

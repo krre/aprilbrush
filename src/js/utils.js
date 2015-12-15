@@ -35,62 +35,40 @@ function addRecentFile(path) {
     }
 }
 
-function newTab() {
-    var title = qsTr("Unnamed")
+function newTab(title, withoutLayer) {
+    title = title || qsTr("Unnamed")
     var tab = tabView.addTab(title)
     tab.setSource("qrc:/qml/main/WorkArea.qml", { title: title })
     tabView.currentIndex = tabView.count - 1
-    layerManager.addLayer()
-    undoManager.clear()
+    if (!withoutLayer) {
+        layerManager.addLayer()
+        undoManager.clear()
+    }
 }
 
 function openOra(filePath) {
-    layerModel.clear()
-    undoModel.clear()
+    newTab(coreLib.pathToFileName(filePath), true)
+
     var layersList = coreLib.readOra(filePath)
     var selectedIndex = 0
 
     for (var i = 0; i < layersList.length; i++) {
-        var layerMap = layersList[i]
-        if (layerMap.selected === "true") {
+        var layer = layersList[i]
+        if (layer.selected === "true") {
             selectedIndex = i
         }
-        layerModel.append({ name: layerMap.name,
-                              isVisible: layerMap.visibility === "visible",
-                              isLock: layerMap["edit-locked"] === "true",
-                              isBackground: layerMap.aprilbrush_background === "true"
+        layerModel.append({ name: layer.name,
+                              isVisible: layer.visibility === "visible",
+                              isLock: layer["edit-locked"] === "true",
+//                              isBackground: layer.aprilbrush_background === "true"
+                              image: layer.image
                           })
     }
 
-    var loadCounter = 0
-
-    canvasArea.canvasView.onCreated.connect(function load(index, canvas) {
-        var image = layersList[index].image
-        canvas.loadImage(image)
-        canvas.onImageLoaded.connect(function draw() {
-            var context = canvas.getContext("2d")
-            context.drawImage(image, 0, 0)
-            canvas.requestPaint()
-            canvas.unloadImage(image)
-            if (layerModel.get(index).isBackground) {
-                var p = context.getImageData(0, 0, 1, 1).data
-                var hex = "#" + ("000000" + rgbToHex(p[0], p[1], p[2])).slice(-6)
-                canvasArea.bgColor = hex
-            }
-        })
-        if (++loadCounter === layersList.length) {
-            canvasArea.canvasView.onCreated.disconnect(load)
-        }
-    })
-
-    layerManager.layerView.currentIndex = selectedIndex
-
-    oraPath = filePath
-    fileName = fileFromPath(oraPath)
-    canvasArea.resetTransform()
+    layerManager.currentIndex = selectedIndex
+    currentTab.oraPath = filePath
+    addRecentFile(filePath)
     undoManager.add(Undo.start())
-    isDirty = false
-    addRecentFile(path)
     console.log("open: " + filePath)
 }
 
