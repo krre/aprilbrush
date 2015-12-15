@@ -2,6 +2,7 @@ import QtQuick 2.5
 import QtQuick.Controls 1.4
 import QtQuick.Layouts 1.1
 import AprilBrush 1.0
+import "../../js/utils.js" as Utils
 import "../../js/enums.js" as Enums
 import "../../3rdparty/font-awesome/fontawesome.js" as FontAwesome
 
@@ -153,14 +154,15 @@ Item {
             onPressed: {
                 if (!(canvasView.count && canvasItem.enabled)) return
 
+                var pos = Qt.point(mouse.x, mouse.y)
                 if (canvasMode === Enums.CanvasFree) {
                     canvasView.forceActiveFocus()
                     BrushEngine.isTouch = true
                     BrushEngine.setCanvasItem(canvasItem)
-                    BrushEngine.paint(Qt.point(mouse.x, mouse.y))
+                    BrushEngine.paint(pos)
                     canvasMode = Enums.CanvasPaint
                 } else {
-                    // pick color
+                    Utils.pickColor(pos)
                 }
             }
 
@@ -168,10 +170,11 @@ Item {
                 if (!(canvasView.count && canvasItem.enabled)) return
 
                 if (pressed) {
+                    var pos = Qt.point(mouse.x, mouse.y)
                     if (canvasMode === Enums.CanvasPaint) {
-                        BrushEngine.paint(Qt.point(mouse.x, mouse.y))
+                        BrushEngine.paint(pos)
                     } else if (canvasMode === Enums.CanvasPick){
-                        // pick color
+                        Utils.pickColor(pos)
                     }
                 }
             }

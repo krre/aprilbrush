@@ -109,25 +109,11 @@ function exportPng(filePath) {
 }
 
 function pickColor(pos) {
-    var ctx = pickCanvas.getContext("2d")
-    ctx.fillStyle = bgColor
-    ctx.fillRect(0, 0, 1, 1)
-    var isColor = false
-    for (var i = layerModel.count - 1; i > -1; i--) {
-        var layer = layerModel.get(i)
-        if (layer.isVisible) {
-            var canvas = layer.canvas
-            var image = canvas.getContext("2d").getImageData(pos.x, pos.y, 1, 1)
-            ctx.drawImage(image, 0, 0)
-            isColor = true
-        }
+    var list = []
+    for (var i = 0; i < layerModel.count; i++) {
+        list.push(layerModel.get(i).canvasItem)
     }
-
-    if (isColor) {
-        var p = ctx.getImageData(0, 0, 1, 1).data
-        var hex = "#" + ("000000" + rgbToHex(p[0], p[1], p[2])).slice(-6)
-        colorPicker.color = hex
-    }
+    colorPicker.color = coreLib.pickColor(pos, list)
 }
 
 function rgbToHex(r, g, b) {
