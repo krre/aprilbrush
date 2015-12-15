@@ -20,6 +20,7 @@ public:
     Q_INVOKABLE QString pathToBaseName(const QString& path);
     Q_INVOKABLE QString pathToFileName(const QString& path);
     Q_INVOKABLE QColor hsvToColor(qreal h, qreal s, qreal v);
+    Q_INVOKABLE QVariantMap colorToHsv(const QColor& color);
     void setWindow(QWindow* window) { this->window = window; }
     QWindow* getWindow() { return this->window; }
     QString buildDate() { return QString(__DATE__); }

@@ -20,10 +20,11 @@ Panel {
     onColorChanged: if (!changeColorByPicker) { setHsv(color) }
 
     function setHsv(color) {
-        var hsvColor = Utils.rgbToHsv(color)
-        h = hsvColor.h
-        s = hsvColor.s
-        v = hsvColor.v
+        var hsv = coreLib.colorToHsv(color)
+//        var hsvColor = Utils.rgbToHsv(color)
+        h = hsv.h
+        s = hsv.s
+        v = hsv.v
     }
 
     Component.onCompleted: setHsv(color)

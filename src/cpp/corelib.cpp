@@ -167,3 +167,12 @@ QColor CoreLib::hsvToColor(qreal h, qreal s, qreal v)
     color.setHsvF(h, s, v);
     return color;
 }
+
+QVariantMap CoreLib::colorToHsv(const QColor &color)
+{
+    QVariantMap map;
+    map["h"] = color.hueF();
+    map["s"] = color.saturationF();
+    map["v"] = color.valueF();
+    return map;
+}
