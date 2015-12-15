@@ -72,13 +72,14 @@ MenuBar {
             text: qsTr("Save As...")
             shortcut: "Ctrl+Shift+S"
             onTriggered: Utils.createDynamicObject(mainRoot, "qrc:/qml/components/filedialog/FileDialogSave.qml")
+            enabled: currentTab
         }
 
         MenuItem {
             text: qsTr("Export...")
             shortcut: "Ctrl+E"
             onTriggered: Utils.createDynamicObject(mainRoot, "qrc:/qml/components/filedialog/FileDialogExport.qml")
-            enabled: layerModel && layerModel.count > 0
+            enabled: currentTab && layerModel.count > 0
         }
 
         MenuSeparator {}
