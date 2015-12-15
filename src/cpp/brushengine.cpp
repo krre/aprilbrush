@@ -5,6 +5,9 @@ void BrushEngine::paint(const QPointF& point, float pressure)
     QPainter painter(canvasItem->pixmap());
     painter.setRenderHint(QPainter::Antialiasing, true);
     painter.setPen(Qt::NoPen);
+    if (m_eraser > 50) {
+        painter.setCompositionMode(QPainter::CompositionMode_DestinationOut);
+    }
 
     m_color.setAlpha(qRound(255 * m_opacity / 100.0));
     QColor pressureColor = m_color;
@@ -112,6 +115,13 @@ void BrushEngine::setIsTouch(bool isTouch)
         startPoint = QPointF();
     }
     emit isTouchChanged(isTouch);
+}
+
+void BrushEngine::setEraser(int eraser)
+{
+    if (m_eraser == eraser) return;
+    m_eraser = eraser;
+    emit eraserChanged(eraser);
 }
 
 void BrushEngine::paintDab(const QPointF& point, QPainter& painter)

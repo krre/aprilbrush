@@ -35,6 +35,7 @@ Panel {
     onRoundnessChanged: BrushEngine.roundness = roundness.value
     onAngleChanged: BrushEngine.angle = angle.value
     onJitterChanged: BrushEngine.jitter = jitter.value
+    onEraserChanged: BrushEngine.eraser = eraser.value
 
     ScrollView {
         id: scrollView
