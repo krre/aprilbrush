@@ -94,7 +94,7 @@ Panel {
                     var radianAngle = Math.atan2(parent.height / 2 - mouse.y, mouse.x - parent.width / 2)
                     h = (radianAngle > 0 ? radianAngle : 2 * Math.PI + radianAngle) / Math.PI / 2
                     changeColorByPicker = true
-                    color = Utils.hsvToRgb(h, s, v)
+                    color = coreLib.hsvToColor(h, s, v)
                     changeColorByPicker = false
                 }
             }
@@ -155,7 +155,7 @@ Panel {
                         s = Math.max(0, Math.min(width, mouse.x)) / parent.width
                         v = 1 - Math.max(0, Math.min(height, mouse.y)) / parent.height
                         changeColorByPicker = true
-                        color = Utils.hsvToRgb(h, s, v)
+                        color = coreLib.hsvToColor(h, s, v)
                         changeColorByPicker = false
                     }
                 }

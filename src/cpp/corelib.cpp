@@ -160,3 +160,10 @@ QString CoreLib::pathToFileName(const QString& path)
     QFileInfo fileInfo(path);
     return fileInfo.fileName();
 }
+
+QColor CoreLib::hsvToColor(qreal h, qreal s, qreal v)
+{
+    QColor color;
+    color.setHsvF(h, s, v);
+    return color;
+}
