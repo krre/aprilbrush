@@ -21,8 +21,7 @@ Panel {
 
     function setHsv(color) {
         var hsv = coreLib.colorToHsv(color)
-//        var hsvColor = Utils.rgbToHsv(color)
-        h = hsv.h
+        h = Math.max(hsv.h, 0)
         s = hsv.s
         v = hsv.v
     }
