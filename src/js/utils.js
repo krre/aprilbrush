@@ -130,16 +130,6 @@ function pickColor(pos) {
     }
 }
 
-function zeroFill(number, width)
-{
-    width -= number.toString().length;
-    if (width > 0)
-    {
-        return new Array(width + (/\./.test(number) ? 2 : 1)).join('0') + number;
-    }
-    return number + ""; // always return a string
-}
-
 function rgbToHex(r, g, b) {
     if (r > 255 || g > 255 || b > 255)
         throw "Invalid color component";
