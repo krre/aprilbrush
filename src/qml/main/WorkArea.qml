@@ -24,6 +24,17 @@ Item {
     property int mirror: 1
     property real rotation: 0
 
+    onCanvasModeChanged: {
+        coreLib.setCursorShape(canvasMode === Enums.CanvasFree && mouseArea.containsMouse || canvasMode === Enums.CanvasPaint ?
+                                   "paint" : canvasMode, brushSettings.size * zoom)
+    }
+
+    onZoomChanged: {
+        if (mouseArea.containsMouse) {
+            coreLib.setCursorShape("paint", brushSettings.size * zoom)
+        }
+    }
+
     Keys.onPressed: {
         if (!event.isAutoRepeat) {
             if (event.key === Qt.Key_Space) {
@@ -128,6 +139,7 @@ Item {
         }
 
         MouseArea {
+            id: mouseArea
             anchors.fill: parent
             hoverEnabled: true
             drag.target: canvasMode === Enums.CanvasPan ? content : null
