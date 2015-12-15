@@ -17,13 +17,13 @@ Panel {
 
     objectName: "ColorPicker"
 
-    onColorChanged: if (!changeColorByPicker) { setHsv(color) }
-
-    function setHsv(color) {
-        var hsv = coreLib.colorToHsv(color)
-        h = Math.max(hsv.h, 0)
-        s = hsv.s
-        v = hsv.v
+    onColorChanged: {
+        if (!changeColorByPicker) {
+            var hsv = coreLib.colorToHsv(color)
+            h = Math.max(hsv.h, 0)
+            s = hsv.s
+            v = hsv.v
+        }
     }
 
     Component.onDestruction: Settings.setValue(objectName, "color", String(color))
