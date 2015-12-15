@@ -140,12 +140,6 @@ function zeroFill(number, width)
     return number + ""; // always return a string
 }
 
-function hsvToHsl(h, s, v) {
-    var l = (2 - s) * v / 2
-    var computedS = s * v / (1 - Math.abs(2 * l - 1))
-    return Qt.hsla(h, computedS, l, 1)
-}
-
 function rgbToHsv(color) {
     var r = color.r
     var g = color.g
