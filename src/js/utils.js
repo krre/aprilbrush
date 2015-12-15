@@ -69,7 +69,6 @@ function openOra(filePath) {
     currentTab.oraPath = filePath
     addRecentFile(filePath)
     undoManager.add(Undo.start())
-    console.log("open: " + filePath)
 }
 
 function saveAsOra(filePath) {
@@ -94,7 +93,6 @@ function saveOra() {
     }
     coreLib.writeOra(currentTab.oraPath, imageSize, layerList)
     currentTab.isDirty = false
-    console.log("save: " + currentTab.oraPath)
 }
 
 function exportPng(filePath) {
