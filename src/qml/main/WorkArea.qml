@@ -134,6 +134,10 @@ Item {
             drag.threshold: 1
             enabled: !BrushEngine.isTouch
 
+            onContainsMouseChanged: {
+                coreLib.setCursorShape(containsMouse && canvasMode === Enums.CanvasFree ? "paint" : canvasMode, brushSettings.size * zoom)
+            }
+
             onPressed: {
                 if (!(canvasView.count && canvasItem.enabled)) return
 
