@@ -100,12 +100,12 @@ function exportPng(filePath) {
         filePath += ".png"
     }
 
-    var finalCanvas = canvasArea.exportCanvas.createObject(canvasArea)
-    finalCanvas.onFinished.connect(function() {
-        finalCanvas.save(filePath)
-        finalCanvas.destroy()
-        console.log("export: " + filePath)
-    })
+    var list = []
+    for (var i = 0; i < layerModel.count; i++) {
+        list.push(layerModel.get(i).canvasItem)
+    }
+
+    coreLib.writePng(filePath, list)
 }
 
 function pickColor(pos) {

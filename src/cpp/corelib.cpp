@@ -104,6 +104,24 @@ QVariantList CoreLib::readOra(QString oraPath) {
     return list;
 }
 
+void CoreLib::writePng(const QString& pngPath, const QVariantList& canvasItems)
+{
+    QPixmap pixmap;
+    for (int i = canvasItems.count() - 1; i >= 0; i--)
+    {
+        QObject* obj = qvariant_cast<QObject*>(canvasItems.at(i));
+        CanvasItem* canvasItem = qobject_cast<CanvasItem*>(obj);
+        QPixmap* canvasPixmap = canvasItem->pixmap();
+        if (pixmap.isNull()) {
+            pixmap = QPixmap(canvasPixmap->width(), canvasPixmap->height());
+            pixmap.fill(Qt::white);
+        }
+        QPainter painter(&pixmap);
+        painter.drawPixmap(0, 0, *canvasPixmap);
+    }
+    pixmap.save(pngPath);
+}
+
 void CoreLib::setCursorShape(QString type, int size)
 {
     if (!window) {
