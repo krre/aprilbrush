@@ -112,7 +112,7 @@ Item {
         Connections {
             target: TabletEventFilter
             onAction: {
-                if (!canvasView.count) return
+                if (!(canvasView.count && canvasItem.enabled)) return
 
                 var x = event.globalX - mainRoot.x
                 var y = event.globalY - mainRoot.y
@@ -141,6 +141,8 @@ Item {
             drag.threshold: 1
 
             onPressed: {
+                if (!(canvasView.count && canvasItem.enabled)) return
+
                 if (canvasMode === Enums.CanvasFree) {
                     canvasView.forceActiveFocus()
                     BrushEngine.isTouch = true
@@ -153,6 +155,8 @@ Item {
             }
 
             onPositionChanged: {
+                if (!(canvasView.count && canvasItem.enabled)) return
+
                 if (pressed) {
                     if (canvasMode === Enums.CanvasPaint) {
                         BrushEngine.paint(Qt.point(mouse.x, mouse.y))
