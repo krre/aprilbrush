@@ -10,11 +10,22 @@ Panel {
     title: qsTr("Layers")
     property alias layerView: layerView
     property alias currentIndex: layerView.currentIndex
-    property int layerNameIndexCounter: 1
     objectName: "LayerManager"
 
     function addLayer(name) {
-        undoManager.add(Undo.addLayer(name || (qsTr("Layer") + " " + layerNameIndexCounter++)))
+        if (!name) {
+            var names = []
+            for (var i = 0; i < layerModel.count; i++) {
+                names.push(layerModel.get(i).name)
+            }
+
+            var counter = 1
+            do {
+                name = qsTr("Layer") + " " + counter++
+            } while(names.indexOf(name) > -1)
+        }
+
+        undoManager.add(Undo.addLayer(name))
     }
 
     function defaultLayer() {
