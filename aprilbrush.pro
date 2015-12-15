@@ -24,7 +24,6 @@ RESOURCES += \
     src/media.qrc
 
 DISTFILES += \
-    src/qml/CanvasArea.qml \
     src/qml/components/SliderText.qml \
     src/qml/main/Actions.qml \
     src/qml/main/MainMenu.qml \

@@ -3,7 +3,6 @@
         <file>qml/main.qml</file>
         <file>qml/dockers/ColorPicker.qml</file>
         <file>qml/main/Actions.qml</file>
-        <file>qml/CanvasArea.qml</file>
         <file>qml/dockers/BrushLibrary.qml</file>
         <file>qml/dockers/BrushSettings.qml</file>
         <file>qml/dockers/LayerManager.qml</file>
