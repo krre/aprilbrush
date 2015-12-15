@@ -103,10 +103,6 @@ Item {
                     }
                 }
             }
-
-            onCountChanged: {
-                mouseArea.enabled = count > 0
-            }
         }
 
         Connections {
@@ -120,12 +116,10 @@ Item {
                 var pressure = event.pressure
                 if (event.press === true) {
                     root.forceActiveFocus()
-                    mouseArea.enabled = false
                     BrushEngine.setCanvasItem(canvasItem)
                     BrushEngine.isTouch = true
                     BrushEngine.paint(pos, pressure)
                 } else if (event.release === true) {
-                    mouseArea.enabled = true
                     BrushEngine.isTouch = true
                 } else if (BrushEngine.isTouch) {
                     BrushEngine.paint(pos, pressure)
@@ -134,11 +128,11 @@ Item {
         }
 
         MouseArea {
-            id: mouseArea
             anchors.fill: parent
             hoverEnabled: true
             drag.target: canvasMode === Enums.CanvasPan ? content : null
             drag.threshold: 1
+            enabled: !BrushEngine.isTouch
 
             onPressed: {
                 if (!(canvasView.count && canvasItem.enabled)) return
