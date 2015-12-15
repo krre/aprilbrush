@@ -197,11 +197,3 @@ function hsvToRgb(h, s, v) {
     return Qt.rgba(r, g, b, 1)
 }
 
-function fileFromPath(path) {
-    return path.substr(path.lastIndexOf("/") + 1)
-}
-
-function folderFromPath(path) {
-    return path.replace(/^.*[\\\/]/, '')
-}
-
