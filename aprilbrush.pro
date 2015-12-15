@@ -29,7 +29,6 @@ DISTFILES += \
     src/qml/main/Actions.qml \
     src/qml/main/MainMenu.qml \
     src/qml/components/Panel.qml \
-    src/qml/BrushEngine.qml \
     src/qml/Canvas3DArea.qml \
     src/js/utils.js \
     src/js/undo.js \

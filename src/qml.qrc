@@ -13,7 +13,6 @@
         <file>qml/components/filedialog/FileDialogBase.qml</file>
         <file>qml/dockers/UndoManager.qml</file>
         <file>qml/components/Panel.qml</file>
-        <file>qml/BrushEngine.qml</file>
         <file>qml/Canvas3DArea.qml</file>
         <file>qml/main/WorkArea.qml</file>
         <file>qml/components/Dummy.qml</file>
