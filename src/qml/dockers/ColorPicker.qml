@@ -26,7 +26,6 @@ Panel {
         v = hsv.v
     }
 
-    Component.onCompleted: setHsv(color)
     Component.onDestruction: Settings.setValue(objectName, "color", String(color))
 
     // Color ring
