@@ -11,6 +11,12 @@
 #include <QXmlStreamReader>
 #include <QXmlStreamWriter>
 
+bool CoreLib::isFileExists(const QString& filePath)
+{
+    QFileInfo checkFile(filePath);
+    return checkFile.exists() && checkFile.isFile();
+}
+
 void CoreLib::writeOra(QString oraPath, const QSize imageSize, const QVariantList layerList)
 {
     QZipWriter zipWriter(oraPath);

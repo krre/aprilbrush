@@ -11,6 +11,7 @@ class CoreLib : public QObject
 
 public:
     explicit CoreLib() {}
+    Q_INVOKABLE bool isFileExists(const QString& filePath);
     //Q_INVOKABLE void buildDate() { qDebug() << QLocale(QLocale::C).toDate(QString(__DATE__).simplified(), QLatin1String("MMM d yyyy")); }
     Q_INVOKABLE void writeOra(QString oraPath, const QSize imageSize, const QVariantList layerList);
     Q_INVOKABLE QVariantList readOra(QString oraPath);

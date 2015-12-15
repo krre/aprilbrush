@@ -35,6 +35,29 @@ function addRecentFile(path) {
     }
 }
 
+function saveRecentFiles() {
+    var model = mainMenu.recentFilesModel
+    var list = []
+    for (var i = 0; i < model.count; i++) {
+        var path = model.get(i).filePath
+        if (path) {
+            list.push(path)
+        }
+    }
+    Settings.setList("RecentFiles", list)
+}
+
+function loadRecentFiles() {
+    var list = Settings.list("RecentFiles")
+    var model = mainMenu.recentFilesModel
+    for (var i = 0; i < list.length; i++) {
+        var path = list[i]
+        if (coreLib.isFileExists(path)) {
+            model.append({ filePath: path })
+        }
+    }
+}
+
 function newTab(title, withoutLayer) {
     title = title || qsTr("Unnamed")
     var tab = tabView.addTab(title)

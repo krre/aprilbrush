@@ -39,6 +39,8 @@ ApplicationWindow {
         x = Settings.value("Main", "x", (Screen.width - width) / 2)
         y = Settings.value("Main", "y", (Screen.height - height) / 2)
 
+        Utils.loadRecentFiles()
+
         Utils.movePanelToDocker(colorPicker, topDock)
         Utils.movePanelToDocker(undoManager, topDock)
         Utils.movePanelToDocker(layerManager, bottomDock)
@@ -58,6 +60,8 @@ ApplicationWindow {
 
         Settings.setValue("Main", "dockerSplit.width", dockerSplit.width)
         Settings.setValue("Main", "topDock.height", topDock.height)
+
+        Utils.saveRecentFiles()
     }
 
     SystemPalette {
