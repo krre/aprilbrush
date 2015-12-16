@@ -170,15 +170,14 @@ function renameLayer(undoName, redoName) {
 }
 
 function changeIsVisibileLayer(index) {
-    var _index = index
-    var _isVisible = layerModel.get(_index).isVisible
+    var isVisible = layerModel.get(index).isVisible
     return {
-        name: _isVisible ? qsTr("Layer Unvisible") : qsTr("Layer Visible"),
+        name: isVisible ? qsTr("Layer Unvisible") : qsTr("Layer Visible"),
         undo: function() {
-            layerModel.setProperty(_index, "isVisible", _isVisible)
+            layerModel.setProperty(index, "isVisible", isVisible)
         },
         redo: function() {
-            layerModel.setProperty(_index, "isVisible", !_isVisible)
+            layerModel.setProperty(index, "isVisible", !isVisible)
         }
     }
 }
