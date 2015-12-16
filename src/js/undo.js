@@ -6,38 +6,19 @@ function start() {
     }
 }
 
-function paint(startPos, undoArea, redoArea, alpha, isEraser) {
-    var _startPos = Qt.point(startPos.x, startPos.y)
-    var _undoArea = undoArea
-    var _redoArea = redoArea
-    var _alpha = alpha
-    var _isHistory = false
-    var _isEraser = isEraser
-
+function paint() {
+//    var startPos = brushEngine.startPos()
+//    var undoArea = brushEngine.undoArea()
+//    var redoArea = brushEngine.redoArea()
     return {
-        name: isEraser ? qsTr("Eraser") : qsTr("Brush"),
+        name: "Paint",
         undo: function() {
-            canvasArea.canvas.getContext("2d").clearRect(_startPos.x, _startPos.y,  _undoArea.width, _undoArea.height)
-            canvasArea.canvas.getContext("2d").drawImage(_undoArea, _startPos.x, _startPos.y)
-            canvasArea.canvas.requestPaint()
         },
         redo: function() {
-            if (_isEraser && !_isHistory) {
-                _isHistory = true
-            } else {
-                var ctx = canvas.getContext("2d")
-                ctx.save()
-                if (_isEraser) {
-                    ctx.clearRect(_startPos.x, _startPos.y,  _redoArea.width, _redoArea.height)
-                }
-                ctx.globalAlpha = _isEraser ? 1.0 : _alpha
-                ctx.drawImage(_redoArea, _startPos.x, _startPos.y)
-                ctx.restore()
-                canvasArea.canvas.requestPaint()
-            }
         }
     }
 }
+
 
 function clearLayer() {
 //    var _undoArea = canvasArea.canvas.getContext("2d").getImageData(0, 0, imageSize.width, imageSize.height)
@@ -208,7 +189,6 @@ function changeIsLockLayer(index) {
     return {
         name: _isLock ? qsTr("Layer Unlock") : qsTr("Layer Lock"),
         undo: function() {
-
             layerModel.setProperty(_index, "isLock", _isLock)
         },
         redo: function() {

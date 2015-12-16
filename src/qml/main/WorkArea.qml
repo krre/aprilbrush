@@ -3,6 +3,7 @@ import QtQuick.Controls 1.4
 import QtQuick.Layouts 1.1
 import AprilBrush 1.0
 import "../../js/utils.js" as Utils
+import "../../js/undo.js" as Undo
 import "../../js/enums.js" as Enums
 import "../../3rdparty/font-awesome/fontawesome.js" as FontAwesome
 
@@ -133,6 +134,7 @@ Item {
                     BrushEngine.paint(pos, pressure)
                 } else if (event.release === true) {
                     BrushEngine.isTouch = true
+                    undoManager.add(Undo.paint())
                 } else if (BrushEngine.isTouch) {
                     BrushEngine.paint(pos, pressure)
                 }
@@ -182,6 +184,7 @@ Item {
             onReleased: {
                 BrushEngine.isTouch = false
                 if (canvasMode === Enums.CanvasPaint) {
+                    undoManager.add(Undo.paint())
                     canvasMode = Enums.CanvasFree
                 }
             }
