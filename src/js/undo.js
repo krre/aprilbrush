@@ -105,29 +105,32 @@ function lowerLayer() {
 }
 
 function mergeLayer() {
-    var _undoAreaUp = canvasArea.canvas.getContext("2d").getImageData(0, 0, imageSize.width, imageSize.height)
-    var layerDown = layerModel.get(currentLayerIndex + 1)
-    var _undoAreaDown = layerDown.canvas.getContext("2d").getImageData(0, 0, imageSize.width, imageSize.height)
-    var _nameUp = layerModel.get(currentLayerIndex).name
-    var _indexUp = layerManager.currentIndex
+    var indexUp = layerManager.currentIndex
+    var layerUp = layerModel.get(indexUp)
+    var undoAreaUp = layerUp.canvasItem.base64Image()
+    var nameUp = layerUp.name
+    var isVisibleUp = layerUp.isVisible
+    var isLockUp = layerUp.isLock
+
+    var layerDown = layerModel.get(indexUp + 1)
+    var undoAreaDown = layerDown.canvasItem.base64Image()
+
     return {
         name: qsTr("Merge Layer"),
         undo: function() {
-            canvasArea.canvas.getContext("2d").drawImage(_undoAreaDown, 0, 0)
-            canvasArea.canvas.requestPaint()
-            var layerObj = layerManager.defaultLayer()
-            layerObj.name = _nameUp
-            layerModel.insert(currentLayerIndex, layerObj)
-            layerManager.layerView.currentIndex = _indexUp
-            layerModel.get(_indexUp).canvas.onReady.connect(function() {
-                layerModel.get(_indexUp).canvas.getContext("2d").drawImage(_undoAreaUp, 0, 0)
-                layerModel.get(_indexUp).canvas.requestPaint()
-            })
+            currentTab.canvasItem.setBase64Image(undoAreaDown)
+
+            var layer = layerManager.defaultLayer()
+            layer.name = nameUp
+            layer.isVisible = isVisibleUp
+            layer.isLock = isLockUp
+            layer.image = undoAreaUp
+            layerModel.insert(layerManager.currentIndex, layer)
+            layerManager.layerView.currentIndex = indexUp
         },
         redo: function() {
-            layerDown.canvas.getContext("2d").drawImage(_undoAreaUp, 0, 0)
-            layerDown.canvas.requestPaint()
-            layerModel.remove(currentLayerIndex)
+            layerDown.canvasItem.drawBase64Image(undoAreaUp)
+            layerModel.remove(indexUp)
         }
     }
 }

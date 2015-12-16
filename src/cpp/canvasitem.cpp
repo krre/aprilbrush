@@ -21,10 +21,22 @@ void CanvasItem::clear()
     update();
 }
 
+void CanvasItem::drawBase64Image(const QString& image)
+{
+    QPainter painter(m_pixmap);
+    QByteArray ba = QByteArray::fromBase64(image.toLatin1());
+    QPixmap pixmap(m_pixmap->width(), m_pixmap->height());
+    pixmap.loadFromData(ba);
+    painter.drawPixmap(0, 0, pixmap);
+    update();
+}
+
 void CanvasItem::setBase64Image(const QString& image)
 {
     QByteArray ba = QByteArray::fromBase64(image.toLatin1());
+    m_pixmap->fill(Qt::transparent);
     m_pixmap->loadFromData(ba);
+    update();
 }
 
 QString CanvasItem::base64Image()
@@ -42,7 +54,7 @@ QByteArray CanvasItem::byteArray()
     return ba;
 }
 
-void CanvasItem::setByteArray(const QByteArray &ba)
+void CanvasItem::setByteArray(const QByteArray& ba)
 {
     m_pixmap->loadFromData(ba, "PNG");
     update();
