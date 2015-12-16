@@ -139,16 +139,14 @@ function duplicateLayer() {
             layerModel.remove(layerManager.currentIndex)
         },
         redo: function() {
-            var _name = layerModel.get(layerManager.currentIndex).name
-//            var _duplicateArea = canvasArea.canvas.getContext("2d").getImageData(0, 0, imageSize.width, imageSize.height)
-            var layerObj = layerManager.defaultLayer()
-            layerObj.name = _name
-            layerModel.insert(layerManager.currentIndex, layerObj)
-//            layerManager.currentIndex = currentLayerIndex
-//            layerModel.get(currentLayerIndex).canvas.onReady.connect(function() {
-//                layerModel.get(currentLayerIndex).canvas.getContext("2d").drawImage(_duplicateArea, 0, 0)
-//                layerModel.get(currentLayerIndex).canvas.requestPaint()
-//            })
+            var layer = layerManager.defaultLayer()
+            layer.name = layerModel.get(layerManager.currentIndex).name
+            layer.isVisble = layerModel.get(layerManager.currentIndex).isVisible
+            layer.isLock = layerModel.get(layerManager.currentIndex).isLock
+            layer.image = currentTab.canvasItem.base64Image()
+            var index = layerManager.currentIndex
+            layerModel.insert(layerManager.currentIndex, layer)
+            layerManager.currentIndex = index
         }
     }
 }
