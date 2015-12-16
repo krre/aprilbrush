@@ -110,8 +110,8 @@ Item {
                 Component.onCompleted: {
                     layerModel.set(index, { "canvasItem": this })
                     var image = layerModel.get(index).image
-                    if (image) { // load PNG from ora file
-                        loadImage(image)
+                    if (image) { // load PNG from ora file or undo buffer
+                        setBase64Image(image)
                         image = undefined
                     }
                 }

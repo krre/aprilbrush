@@ -21,10 +21,15 @@ void CanvasItem::clear()
     update();
 }
 
-void CanvasItem::loadImage(const QString& image)
+void CanvasItem::setBase64Image(const QString& image)
 {
     QByteArray ba = QByteArray::fromBase64(image.toLatin1());
     m_pixmap->loadFromData(ba);
+}
+
+QString CanvasItem::base64Image()
+{
+    return QString(byteArray().toBase64());
 }
 
 QByteArray CanvasItem::byteArray()
@@ -34,7 +39,6 @@ QByteArray CanvasItem::byteArray()
     buffer.open(QIODevice::WriteOnly);
     m_pixmap->save(&buffer, "PNG");
     buffer.close();
-
     return ba;
 }
 

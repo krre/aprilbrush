@@ -62,23 +62,20 @@ function addLayer(name) {
 }
 
 function deleteLayer() {
-    var _index = layerManager.currentIndex
-    var _name = layerModel.get(_index).name
-//    var _undoArea = canvasArea.canvas.getContext("2d").getImageData(0, 0, imageSize.width, imageSize.height)
+    var index = layerManager.currentIndex
+    var layer = layerManager.defaultLayer()
+    layer.name = layerModel.get(index).name
+    layer.isVisible = layerModel.get(index).isVisible
+    layer.isLock = layerModel.get(index).isLock
+    layer.image = currentTab.canvasItem.base64Image()
     return {
         name: qsTr("Delete Layer"),
         undo: function() {
-            var layerObj = layerManager.defaultLayer()
-            layerObj.name = _name
-            layerModel.insert(_index, layerObj)
-            layerManager.currentIndex = _index
-//            canvasArea.canvas.onReady.connect(function() {
-//                canvasArea.canvas.getContext("2d").drawImage(_undoArea, 0, 0)
-//                canvasArea.canvas.requestPaint()
-//            })
+            layerModel.insert(index, layer)
+            layerManager.currentIndex = index
         },
         redo: function() {
-            layerModel.remove(_index)
+            layerModel.remove(index)
         }
     }
 }
