@@ -68,7 +68,6 @@ Panel {
                     onClicked: {
                         if (layerManager.currentIndex !== index) {
                             undoManager.add(Undo.changeLayer(layerManager.currentIndex, index))
-                            layerManager.currentIndex = index
                         }
                     }
                     onDoubleClicked: layerTextEdit.forceActiveFocus()
