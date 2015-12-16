@@ -99,7 +99,9 @@ function saveAsOra(filePath) {
         filePath += ".ora"
     }
     currentTab.oraPath = filePath
+    tabView.getTab(tabView.currentIndex).title = coreLib.pathToFileName(filePath)
     saveOra()
+    addRecentFile(filePath)
 }
 
 function saveOra() {
