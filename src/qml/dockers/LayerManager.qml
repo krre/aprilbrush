@@ -131,13 +131,25 @@ Panel {
 
                         CheckBox {
                             text: qsTr("Visible")
-                            checked: isVisible
+
+                            // Strange bug
+                            // "checked: isVisible" not works
+                            property bool isV: isVisible
+                            onIsVChanged: checked = isV
+//                            checked: isVisible
+
                             onClicked: undoManager.add(Undo.changeIsVisibileLayer(index))
                         }
 
                         CheckBox {
                             text: qsTr("Lock")
-                            checked: isLock
+
+                            // Strange bug
+                            // "checked: isLock" not works
+                            property bool isL: isLock
+                            onIsLChanged: checked = isL
+//                            checked: isLock
+
                             onClicked: undoManager.add(Undo.changeIsLockLayer(index))
                         }
                     }
