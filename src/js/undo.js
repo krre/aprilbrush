@@ -53,9 +53,9 @@ function addLayer(name) {
         },
         redo: function() {
             var insertIndex = layerManager.currentIndex < 0 ? 0 : layerManager.currentIndex
-            var layerObj = layerManager.defaultLayer()
-            layerObj.name = name
-            layerModel.insert(insertIndex, layerObj)
+            var layer = layerManager.defaultLayer()
+            layer.name = name
+            layerModel.insert(insertIndex, layer)
             layerManager.currentIndex = insertIndex
         }
     }
