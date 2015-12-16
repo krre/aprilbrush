@@ -21,12 +21,11 @@ function paint() {
 
 
 function clearLayer() {
-//    var _undoArea = canvasArea.canvas.getContext("2d").getImageData(0, 0, imageSize.width, imageSize.height)
+    var undoArea = currentTab.canvasItem.byteArray()
     return {
         name: qsTr("Clear"),
         undo: function() {
-//            canvasArea.canvas.getContext("2d").drawImage(_undoArea, 0, 0)
-//            canvasArea.canvas.requestPaint()
+            currentTab.canvasItem.setByteArray(undoArea)
         },
         redo: function() {
             currentTab.canvasItem.clear()
