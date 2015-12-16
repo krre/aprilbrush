@@ -183,15 +183,14 @@ function changeIsVisibileLayer(index) {
 }
 
 function changeIsLockLayer(index) {
-    var _index = index
-    var _isLock = layerModel.get(_index).isLock
+    var isLock = layerModel.get(index).isLock
     return {
-        name: _isLock ? qsTr("Layer Unlock") : qsTr("Layer Lock"),
+        name: isLock ? qsTr("Layer Unlock") : qsTr("Layer Lock"),
         undo: function() {
-            layerModel.setProperty(_index, "isLock", _isLock)
+            layerModel.setProperty(index, "isLock", isLock)
         },
         redo: function() {
-            layerModel.setProperty(_index, "isLock", !_isLock)
+            layerModel.setProperty(index, "isLock", !isLock)
         }
     }
 }
