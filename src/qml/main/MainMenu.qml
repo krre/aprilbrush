@@ -214,6 +214,13 @@ MenuBar {
             shortcut: "F12"
             onTriggered: currentTab.resetTransform()
         }
+
+        MenuItem {
+            text: qsTr("Full Screen")
+            shortcut: "F11"
+            checkable: true
+            onTriggered: checked ? mainRoot.showFullScreen() : mainRoot.showNormal()
+        }
     }
 
     Menu {
