@@ -6,6 +6,7 @@ import "../../js/undo.js" as Undo
 
 MenuBar {
     property alias recentFilesModel: recentFilesModel
+    property alias docker: docker
 
     Menu {
         title: qsTr("File")
@@ -175,6 +176,14 @@ MenuBar {
 
     Menu {
         title: qsTr("View")
+
+        MenuItem {
+            id: docker
+            text: qsTr("Docker")
+            checkable: true
+            shortcut: "Tab"
+            checked: Settings.value("Main", "docker", true) === "true"
+        }
 
         MenuItem {
             text: qsTr("Zoom In")

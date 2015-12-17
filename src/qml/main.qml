@@ -60,6 +60,7 @@ ApplicationWindow {
 
         Settings.setValue("Main", "dockerSplit.width", dockerSplit.width)
         Settings.setValue("Main", "topDock.height", topDock.height)
+        Settings.setValue("Main", "docker", mainMenu.docker.checked)
 
         Utils.saveRecentFiles()
     }
@@ -97,6 +98,7 @@ ApplicationWindow {
             height: parent.height
             Layout.minimumWidth: 150
             orientation: Qt.Vertical
+            visible: mainMenu.docker.checked
 
             TabView {
                 id: topDock
