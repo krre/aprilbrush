@@ -2,7 +2,7 @@
 
 void BrushEngine::paint(const QPointF& point, float pressure)
 {
-    QPainter painter(canvasBuffer->pixmap());
+    QPainter painter(m_eraser > 50 ? canvasItem->pixmap() : canvasBuffer->pixmap());
     painter.setRenderHint(QPainter::Antialiasing, true);
     painter.setPen(Qt::NoPen);
     if (m_eraser > 50) {
@@ -152,5 +152,9 @@ void BrushEngine::paintDab(const QPointF& point, QPainter& painter)
     painter.drawEllipse(rect);
     painter.restore();
     rect.moveTo(point.x() - m_size / 2, point.y() - m_size / 2);
-    canvasBuffer->update(rect);
+    if (m_eraser > 50) {
+        canvasItem->update(rect);
+    } else {
+        canvasBuffer->update(rect);
+    }
 }
