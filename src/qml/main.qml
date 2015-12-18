@@ -16,7 +16,7 @@ ApplicationWindow {
              " - " + currentTab.fileName + (currentTab.isDirty ? " [*]" : "") + " @ " + Math.round(currentTab.zoom * 100) + "%"
              : "")
 
-    property string version: "0.3"
+    property string version: "0.3.0"
     property size imageSize: Qt.size(Screen.width, Screen.height)
     property alias sysPalette: sysPalette
     property bool isEraser: brushSettings.eraser > 50
