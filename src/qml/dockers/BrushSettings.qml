@@ -32,6 +32,7 @@ Panel {
     onSpacingChanged: BrushEngine.spacing = spacing.value
     onHardnessChanged: BrushEngine.hardness = hardness.value
     onOpaqueChanged: BrushEngine.opacity = opaque.value
+    onFlowChanged: BrushEngine.flow = flow.value
     onRoundnessChanged: BrushEngine.roundness = roundness.value
     onAngleChanged: BrushEngine.angle = angle.value
     onJitterChanged: BrushEngine.jitter = jitter.value

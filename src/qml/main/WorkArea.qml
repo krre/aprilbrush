@@ -125,6 +125,7 @@ Item {
             size: Qt.size(content.width, content.height)
             antialiasing: false
             smooth: false
+            opacity: brushSettings.opaque / 100
             Component.onCompleted: BrushEngine.setCanvasItem(paintBuffer)
         }
 

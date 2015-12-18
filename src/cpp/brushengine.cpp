@@ -9,7 +9,7 @@ void BrushEngine::paint(const QPointF& point, float pressure)
         painter.setCompositionMode(QPainter::CompositionMode_DestinationOut);
     }
 
-    m_color.setAlpha(qRound(255 * m_opacity / 100.0));
+    m_color.setAlpha(qRound(255 * m_flow / 100.0));
     QColor pressureColor = m_color;
     pressureColor.setAlpha(qRound(m_color.alpha() * pressure));
     QColor alphaColor = m_color;
@@ -115,6 +115,13 @@ void BrushEngine::setIsTouch(bool isTouch)
         startPoint = QPointF();
     }
     emit isTouchChanged(isTouch);
+}
+
+void BrushEngine::setFlow(int flow)
+{
+    if (m_flow == flow) return;
+    m_flow = flow;
+    emit flowChanged(flow);
 }
 
 void BrushEngine::setEraser(int eraser)

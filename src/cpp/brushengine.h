@@ -11,6 +11,7 @@ class BrushEngine : public QObject
     Q_PROPERTY(int spacing READ spacing WRITE setSpacing NOTIFY spacingChanged)
     Q_PROPERTY(int hardness READ hardness WRITE setHardness NOTIFY hardnessChanged)
     Q_PROPERTY(int opacity READ opacity WRITE setOpacity NOTIFY opacityChanged)
+    Q_PROPERTY(int flow READ flow WRITE setFlow NOTIFY flowChanged)
     Q_PROPERTY(int roundness READ roundness WRITE setRoundness NOTIFY roundnessChanged)
     Q_PROPERTY(int angle READ angle WRITE setAngle NOTIFY angleChanged)
     Q_PROPERTY(int jitter READ jitter WRITE setJitter NOTIFY jitterChanged)
@@ -29,6 +30,8 @@ public:
     void setHardness(int hardness);
     int opacity() const { return m_opacity; }
     void setOpacity(int opacity);
+    int flow() const { return m_flow; }
+    void setFlow(int flow);
     int roundness() const { return m_roundness; }
     void setRoundness(int roundness);
     int angle() const { return m_angle; }
@@ -48,6 +51,7 @@ signals:
     void sizeChanged(int size);
     void hardnessChanged(int hardness);
     void opacityChanged(int opacity);
+    void flowChanged(int flow);
     void roundnessChanged(int roundness);
     void angleChanged(int angle);
     void spacingChanged(int spacing);
@@ -61,6 +65,7 @@ private:
     int m_size = 30;
     int m_hardness = 80;
     int m_opacity = 80;
+    int m_flow = 100;
     int m_roundness = 100;
     int m_angle = 0;
     int m_spacing = 100;
