@@ -2,7 +2,7 @@
 
 void BrushEngine::paint(const QPointF& point, float pressure)
 {
-    QPainter painter(canvasItem->pixmap());
+    QPainter painter(canvasBuffer->pixmap());
     painter.setRenderHint(QPainter::Antialiasing, true);
     painter.setPen(Qt::NoPen);
     if (m_eraser > 50) {
@@ -112,6 +112,13 @@ void BrushEngine::setIsTouch(bool isTouch)
     if (m_isTouch == isTouch) return;
     m_isTouch = isTouch;
     if (!isTouch) {
+        QPainter painter(canvasItem->pixmap());
+        painter.setOpacity(m_opacity / 100.0);
+        painter.drawPixmap(0, 0, *canvasBuffer->pixmap());
+        canvasBuffer->pixmap()->fill(Qt::transparent);
+        canvasItem->update();
+        canvasBuffer->update();
+
         startPoint = QPointF();
     }
     emit isTouchChanged(isTouch);
@@ -141,5 +148,5 @@ void BrushEngine::paintDab(const QPointF& point, QPainter& painter)
     painter.drawEllipse(rect);
     painter.restore();
     rect.moveTo(point.x() - m_size / 2, point.y() - m_size / 2);
-    canvasItem->update(rect);
+    canvasBuffer->update(rect);
 }

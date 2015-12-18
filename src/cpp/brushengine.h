@@ -21,6 +21,7 @@ public:
     BrushEngine() {}
     Q_INVOKABLE void paint(const QPointF& point, float pressure=1.0);
     Q_INVOKABLE void setCanvasItem(CanvasItem* canvasItem) { this->canvasItem = canvasItem; }
+    Q_INVOKABLE void setCanvasBuffer(CanvasItem* canvasBuffer) { this->canvasBuffer = canvasBuffer; }
 
     QColor color() const { return m_color; }
     void setColor(QColor color);
@@ -74,6 +75,7 @@ private:
 
     bool m_isTouch = false;
     CanvasItem* canvasItem;
+    CanvasItem* canvasBuffer;
 
     QPointF startPoint;
     QPointF lastPoint;

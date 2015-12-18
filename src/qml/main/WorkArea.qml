@@ -119,14 +119,13 @@ Item {
         }
 
         CanvasItem {
-            id: paintBuffer
+            id: canvasBuffer
             parent: canvasItem
             anchors.fill: parent
             size: Qt.size(content.width, content.height)
             antialiasing: false
             smooth: false
             opacity: brushSettings.opaque / 100
-            Component.onCompleted: BrushEngine.setCanvasItem(paintBuffer)
         }
 
         Connections {
@@ -141,7 +140,9 @@ Item {
                 if (event.press === true) {
                     root.forceActiveFocus()
                     BrushEngine.setCanvasItem(canvasItem)
+                    BrushEngine.setCanvasBuffer(canvasBuffer)
                     BrushEngine.isTouch = true
+                    canvasMode = Enums.CanvasPaint
                     BrushEngine.paint(pos, pressure)
                 } else if (event.release === true) {
                     BrushEngine.isTouch = true
@@ -170,9 +171,11 @@ Item {
                 var pos = Qt.point(mouse.x, mouse.y)
                 if (canvasMode === Enums.CanvasFree) {
                     canvasView.forceActiveFocus()
+                    BrushEngine.setCanvasItem(canvasItem)
+                    BrushEngine.setCanvasBuffer(canvasBuffer)
                     BrushEngine.isTouch = true
-                    BrushEngine.paint(pos)
                     canvasMode = Enums.CanvasPaint
+                    BrushEngine.paint(pos)
                 } else {
                     Utils.pickColor(pos)
                 }
