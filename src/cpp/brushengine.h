@@ -20,7 +20,7 @@ class BrushEngine : public QObject
 public:
     BrushEngine() {}
     Q_INVOKABLE void paint(const QPointF& point, float pressure=1.0);
-    Q_INVOKABLE void setCanvasItem(CanvasItem* canvasItem) { this->canvasItem = canvasItem; }
+    Q_INVOKABLE void setCanvasItem(CanvasItem* canvasItem);
     Q_INVOKABLE void setCanvasBuffer(CanvasItem* canvasBuffer) { this->canvasBuffer = canvasBuffer; }
     Q_INVOKABLE QString undoBase64Image() { return m_undoBase64Image; }
     Q_INVOKABLE QString redoBase64Image() { return m_redoBase64Image; }
