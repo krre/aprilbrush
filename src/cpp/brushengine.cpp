@@ -111,13 +111,17 @@ void BrushEngine::setIsTouch(bool isTouch)
 {
     if (m_isTouch == isTouch) return;
     m_isTouch = isTouch;
-    if (!isTouch) {
+    if (isTouch) {
+        m_undoBase64Image = canvasItem->base64Image();
+    } else {
         QPainter painter(canvasItem->pixmap());
         painter.setOpacity(m_opacity / 100.0);
         painter.drawPixmap(0, 0, *canvasBuffer->pixmap());
         canvasBuffer->pixmap()->fill(Qt::transparent);
         canvasItem->update();
         canvasBuffer->update();
+
+        m_redoBase64Image = canvasItem->base64Image();
 
         startPoint = QPointF();
     }
