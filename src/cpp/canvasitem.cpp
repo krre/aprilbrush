@@ -64,8 +64,10 @@ void CanvasItem::setSize(QSize size)
 {
     if (m_size == size) return;
     m_size = size;
-    m_pixmap = new QPixmap(size);
-    m_pixmap->fill(Qt::transparent);
+    if (size.width() && size.height()) {
+        m_pixmap = new QPixmap(size);
+        m_pixmap->fill(Qt::transparent);
+    }
 
     emit sizeChanged(size);
 }

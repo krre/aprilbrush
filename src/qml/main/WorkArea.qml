@@ -118,6 +118,16 @@ Item {
             }
         }
 
+        CanvasItem {
+            id: paintBuffer
+            parent: canvasItem
+            anchors.fill: parent
+            size: Qt.size(content.width, content.height)
+            antialiasing: false
+            smooth: false
+            Component.onCompleted: BrushEngine.setCanvasItem(paintBuffer)
+        }
+
         Connections {
             target: TabletEventFilter
             onAction: {
@@ -160,7 +170,6 @@ Item {
                 if (canvasMode === Enums.CanvasFree) {
                     canvasView.forceActiveFocus()
                     BrushEngine.isTouch = true
-                    BrushEngine.setCanvasItem(canvasItem)
                     BrushEngine.paint(pos)
                     canvasMode = Enums.CanvasPaint
                 } else {
