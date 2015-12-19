@@ -1,4 +1,4 @@
-import QtQuick 2.5
+import QtQuick 2.6
 import QtQml 2.2
 import QtQuick.Controls 1.4
 import "../../js/utils.js" as Utils
