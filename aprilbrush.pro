@@ -44,4 +44,6 @@ DISTFILES += \
     src/qml/components/Dummy.qml \
     src/qml/components/filedialog/FileDialogOpen.qml \
     src/qml/components/filedialog/FileDialogSave.qml \
-    src/qml/components/filedialog/FileDialogExport.qml
+    src/qml/components/filedialog/FileDialogExport.qml \
+    changelog.txt \
+    README.md
