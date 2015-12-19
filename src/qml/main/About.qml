@@ -8,8 +8,8 @@ MessageDialog {
           Based on Qt %2<br>
           Build on %3<br><br>
           Copyright (c) 2012-2015, Vladimir Zarypov<br>
-          <a href=\"https://github.com/krre/aprilbrush-desktop\">
-          https://github.com/krre/aprilbrush-desktop</a>").arg(mainRoot.version).arg(coreLib.qtVersion).arg(coreLib.buildDate)
+          <a href=\"https://github.com/krre/aprilbrush\">
+          https://github.com/krre/aprilbrush</a>").arg(mainRoot.version).arg(coreLib.qtVersion).arg(coreLib.buildDate)
     Component.onCompleted: open()
     onVisibilityChanged: if (!visible) destroy()
 }
