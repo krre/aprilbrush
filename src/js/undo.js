@@ -8,19 +8,19 @@ function start() {
 
 function paint() {
 //    var startPos = brushEngine.startPos()
-    var undoArea = BrushEngine.undoBase64Image()
-    var redoArea = BrushEngine.redoBase64Image()
+    var undoArea = BrushEngine.undoImage()
+    var redoArea = BrushEngine.redoImage()
     var isHistory = false
     return {
         name: "Paint",
         undo: function() {
-            canvasItem.setBase64Image(undoArea)
+            canvasItem.setImage(undoArea)
         },
         redo: function() {
             if (!isHistory) {
                 isHistory = true
             } else {
-                canvasItem.setBase64Image(redoArea)
+                canvasItem.setImage(redoArea)
             }
         }
     }

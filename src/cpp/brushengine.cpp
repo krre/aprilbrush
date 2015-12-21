@@ -53,7 +53,7 @@ void BrushEngine::paint(const QPointF& point, float pressure)
 
 void BrushEngine::setCanvasItem(CanvasItem *canvasItem) {
     this->canvasItem = canvasItem;
-    m_undoBase64Image = canvasItem->base64Image();
+    m_undoImage = canvasItem->image();
 }
 
 void BrushEngine::setColor(QColor color)
@@ -119,7 +119,7 @@ void BrushEngine::setIsTouch(bool isTouch)
     if (isTouch) {
 
     } else {
-        m_undoBase64Image = canvasItem->base64Image();
+        m_undoImage = canvasItem->image();
 
         QPainter painter(canvasItem->pixmap());
         painter.setOpacity(m_opacity / 100.0);
@@ -128,7 +128,7 @@ void BrushEngine::setIsTouch(bool isTouch)
         canvasItem->update();
         canvasBuffer->update();
 
-        m_redoBase64Image = canvasItem->base64Image();
+        m_redoImage = canvasItem->image();
 
         startPoint = QPointF();
     }

@@ -39,9 +39,20 @@ void CanvasItem::setBase64Image(const QString& image)
     update();
 }
 
-QString CanvasItem::base64Image()
+QByteArray CanvasItem::image()
 {
-    return QString(byteArray().toBase64());
+    QByteArray ba;
+    QBuffer buffer(&ba);
+    buffer.open(QIODevice::WriteOnly);
+    m_pixmap->save(&buffer, "TIFF");
+    buffer.close();
+    return ba;
+}
+
+void CanvasItem::setImage(const QByteArray& image)
+{
+    m_pixmap->loadFromData(image);
+    update();
 }
 
 QByteArray CanvasItem::byteArray()
