@@ -13,6 +13,7 @@ QPointer<TabletEventFilter> tabletEventFilter;
 int main(int argc, char* argv[])
 {
     QApplication app(argc, argv);
+    app.setApplicationName("AprilBrush");
 
     qmlRegisterType<CanvasItem>("AprilBrush", 1, 0, "CanvasItem");
     qmlRegisterType<CoreLib>("AprilBrush", 1, 0, "CoreLib");

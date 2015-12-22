@@ -12,7 +12,7 @@ import "../js/utils.js" as Utils
 
 ApplicationWindow {
     id: mainRoot
-    title: "AprilBrush" + (currentTab ?
+    title: Qt.application.name + (currentTab ?
              " - " + currentTab.fileName + (currentTab.isDirty ? " [*]" : "") + " @ " + Math.round(currentTab.zoom * 100) + "%"
              : "")
 
