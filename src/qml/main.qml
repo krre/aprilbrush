@@ -11,18 +11,16 @@ import "dockers"
 import "../js/utils.js" as Utils
 
 ApplicationWindow {
-    id: mainRoot
-    title: Qt.application.name + (currentTab ?
-             " - " + currentTab.fileName + (currentTab.isDirty ? " [*]" : "") + " @ " + Math.round(currentTab.zoom * 100) + "%"
-             : "")
-
-    property string version: "0.3.0"
     property size imageSize: Qt.size(Screen.width, Screen.height)
     property alias sysPalette: sysPalette
     property bool isEraser: brushSettings.eraser > 50
     property WorkArea currentTab: tabView.count > 0 ? tabView.getTab(tabView.currentIndex).item : null
     property ListModel layerModel: currentTab ? currentTab.layerModel : null
     property ListModel undoModel: currentTab ? currentTab.undoModel : null
+    id: mainRoot
+    title: Qt.application.name + (currentTab ?
+             " - " + currentTab.fileName + (currentTab.isDirty ? " [*]" : "") + " @ " + Math.round(currentTab.zoom * 100) + "%"
+             : "")
     width: Settings.value("Main", "width", 800)
     height: Settings.value("Main", "height", 600)
 
