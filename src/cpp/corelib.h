@@ -23,6 +23,8 @@ public:
     Q_INVOKABLE QColor hsvToColor(qreal h, qreal s, qreal v);
     Q_INVOKABLE QColor pickColor(const QPointF& point, const QVariantList& canvasItems);
     Q_INVOKABLE QVariantMap colorToHsv(const QColor& color);
+    Q_INVOKABLE QString byteArrayToBase64(const QByteArray& value);
+    Q_INVOKABLE QByteArray base64ToByteArray(const QString& value);
     void setWindow(QWindow* window) { this->window = window; }
     QWindow* getWindow() { return this->window; }
     QString buildDate() { return QString(__DATE__); }

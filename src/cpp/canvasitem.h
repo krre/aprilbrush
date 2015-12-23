@@ -15,8 +15,7 @@ public:
     QPixmap* pixmap() const { return m_pixmap; }
     Q_INVOKABLE void clear();
     Q_INVOKABLE QPointF itemPos(const QPointF& point) { return mapFromScene(point); }
-    Q_INVOKABLE void drawBase64Image(const QString& image);
-    Q_INVOKABLE void setBase64Image(const QString& image);
+    Q_INVOKABLE void drawImage(const QByteArray& image);
     Q_INVOKABLE QByteArray image(QPoint topleft = QPoint(), QPoint bottomright = QPoint());
     Q_INVOKABLE void setImage(const QByteArray& image, QPoint topleft = QPoint());
 

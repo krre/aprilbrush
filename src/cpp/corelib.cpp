@@ -201,3 +201,13 @@ QVariantMap CoreLib::colorToHsv(const QColor &color)
     map["v"] = color.valueF();
     return map;
 }
+
+QString CoreLib::byteArrayToBase64(const QByteArray& value)
+{
+    return value.toBase64();
+}
+
+QByteArray CoreLib::base64ToByteArray(const QString& value)
+{
+    return QByteArray::fromBase64(value.toLatin1());
+}

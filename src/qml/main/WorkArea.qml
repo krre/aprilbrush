@@ -111,7 +111,7 @@ Item {
                     layerModel.set(index, { "canvasItem": this })
                     var image = layerModel.get(index).image
                     if (image) { // load PNG from ora file or undo buffer
-                        setBase64Image(image)
+                        setImage(coreLib.base64ToByteArray(image))
                         image = undefined
                     }
                 }
