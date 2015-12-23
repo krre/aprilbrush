@@ -7,20 +7,20 @@ function start() {
 }
 
 function paint() {
-//    var startPos = brushEngine.startPos()
+    var startPos = BrushEngine.startPos()
     var undoArea = BrushEngine.undoImage()
     var redoArea = BrushEngine.redoImage()
     var isHistory = false
     return {
         name: "Paint",
         undo: function() {
-            canvasItem.setImage(undoArea)
+            canvasItem.setImage(undoArea, startPos)
         },
         redo: function() {
             if (!isHistory) {
                 isHistory = true
             } else {
-                canvasItem.setImage(redoArea)
+                canvasItem.setImage(redoArea, startPos)
             }
         }
     }

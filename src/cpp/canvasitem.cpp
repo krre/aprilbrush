@@ -39,19 +39,34 @@ void CanvasItem::setBase64Image(const QString& image)
     update();
 }
 
-QByteArray CanvasItem::image()
+QByteArray CanvasItem::image(QPoint topleft, QPoint bottomright)
 {
     QByteArray ba;
     QBuffer buffer(&ba);
     buffer.open(QIODevice::WriteOnly);
-    m_pixmap->save(&buffer, "TIFF");
+    if (topleft.isNull()) {
+        m_pixmap->save(&buffer, "TIFF");
+    } else {
+        m_pixmap->copy(QRect(topleft, bottomright)).save(&buffer, "TIFF");
+    }
     buffer.close();
     return ba;
 }
 
-void CanvasItem::setImage(const QByteArray& image)
+void CanvasItem::setImage(const QByteArray& image, QPoint topleft)
 {
-    m_pixmap->loadFromData(image);
+    if (topleft.isNull()) {
+        m_pixmap->loadFromData(image);
+    } else {
+        QPixmap pixmap;
+        pixmap.loadFromData(image);
+
+        QPainter painter(m_pixmap);
+        painter.setCompositionMode(QPainter::CompositionMode_Source);
+        painter.fillRect(QRect(topleft, pixmap.size()), Qt::transparent);
+        painter.setCompositionMode(QPainter::CompositionMode_SourceOver);
+        painter.drawPixmap(topleft, pixmap);
+    }
     update();
 }
 

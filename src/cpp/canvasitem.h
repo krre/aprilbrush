@@ -17,8 +17,8 @@ public:
     Q_INVOKABLE QPointF itemPos(const QPointF& point) { return mapFromScene(point); }
     Q_INVOKABLE void drawBase64Image(const QString& image);
     Q_INVOKABLE void setBase64Image(const QString& image);
-    Q_INVOKABLE QByteArray image();
-    Q_INVOKABLE void setImage(const QByteArray& image);
+    Q_INVOKABLE QByteArray image(QPoint topleft = QPoint(), QPoint bottomright = QPoint());
+    Q_INVOKABLE void setImage(const QByteArray& image, QPoint topleft = QPoint());
     Q_INVOKABLE QByteArray byteArray();
     Q_INVOKABLE void setByteArray(const QByteArray& ba);
 

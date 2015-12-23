@@ -25,6 +25,8 @@ void BrushEngine::paint(const QPointF& point, float pressure)
     if (startPoint.isNull()) {
         startPoint = QPointF(point);
         lastPoint = QPointF(point);
+        topleft = QPoint(0, 0);
+        bottomright = QPoint(canvasBuffer->pixmap()->width(), canvasBuffer->pixmap()->height());
         paintDab(point, painter);
     } else {
         qreal length = qSqrt(qPow(lastPoint.x() - point.x(), 2) + qPow(lastPoint.y() - point.y(), 2));
@@ -117,9 +119,9 @@ void BrushEngine::setIsTouch(bool isTouch)
     if (m_isTouch == isTouch) return;
     m_isTouch = isTouch;
     if (isTouch) {
-
+        startPoint = QPointF();
     } else {
-        m_undoImage = canvasItem->image();
+        m_undoImage = canvasItem->image(topleft, bottomright);
 
         QPainter painter(canvasItem->pixmap());
         painter.setOpacity(m_opacity / 100.0);
@@ -128,9 +130,18 @@ void BrushEngine::setIsTouch(bool isTouch)
         canvasItem->update();
         canvasBuffer->update();
 
-        m_redoImage = canvasItem->image();
+        m_redoImage = canvasItem->image(topleft, bottomright);
 
-        startPoint = QPointF();
+        // Correct corner positions on brush size
+        topleft.setX(topleft.x() - m_size);
+        topleft.setY(topleft.y() - m_size);
+        bottomright.setX(bottomright.x() + m_size);
+        bottomright.setY(bottomright.y() + m_size);
+
+        topleft.setX(qMax(0, topleft.x()));
+        topleft.setY(qMax(0, topleft.y()));
+        bottomright.setX(qMin(canvasBuffer->pixmap()->width(), bottomright.x()));
+        bottomright.setY(qMin(canvasBuffer->pixmap()->height(), bottomright.y()));
     }
     emit isTouchChanged(isTouch);
 }
@@ -164,4 +175,10 @@ void BrushEngine::paintDab(const QPointF& point, QPainter& painter)
     } else {
         canvasBuffer->update(rect);
     }
+
+    // Detect a min and max corner positions
+    bottomright.setX(qMax(bottomright.x(), qRound(point.x())));
+    bottomright.setY(qMax(bottomright.y(), qRound(point.y())));
+    topleft.setX(qMin(topleft.x(), qRound(point.x())));
+    topleft.setY(qMin(topleft.y(), qRound(point.y())));
 }

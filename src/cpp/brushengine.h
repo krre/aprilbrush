@@ -24,6 +24,7 @@ public:
     Q_INVOKABLE void setCanvasBuffer(CanvasItem* canvasBuffer) { this->canvasBuffer = canvasBuffer; }
     Q_INVOKABLE QByteArray undoImage() { return m_undoImage; }
     Q_INVOKABLE QByteArray redoImage() { return m_redoImage; }
+    Q_INVOKABLE QPointF startPos() { return topleft; }
 
     QColor color() const { return m_color; }
     void setColor(QColor color);
@@ -81,6 +82,8 @@ private:
 
     QPointF startPoint;
     QPointF lastPoint;
+    QPoint topleft;
+    QPoint bottomright;
     QByteArray m_undoImage;
     QByteArray m_redoImage;
     void paintDab(const QPointF& point, QPainter& painter);
