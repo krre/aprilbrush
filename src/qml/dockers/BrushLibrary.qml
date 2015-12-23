@@ -6,6 +6,7 @@ import QtQuick.LocalStorage 2.0
 import "../components"
 
 Panel {
+    property int currentBrush: 0
     id: root
     title: qsTr("Brush Library")
     objectName: "brushLibrary"
@@ -24,6 +25,7 @@ Panel {
         brushSettings.angle = libraryModel.get(row).angle
         brushSettings.jitter = libraryModel.get(row).jitter
         brushSettings.eraser = libraryModel.get(row).eraser
+        currentBrush = row
     }
 
     function loadBrushes() {
@@ -60,6 +62,7 @@ Panel {
                 width: 50
                 height: 50
                 text: name
+                isDefault: index == currentBrush
                 onClicked: changeBrushSettings(index)
                 style: ButtonStyle {
                     label: Text {
@@ -68,6 +71,18 @@ Panel {
                         verticalAlignment: Text.AlignVCenter
                         wrapMode: Text.WordWrap
                         elide: Text.ElideRight
+                    }
+
+                    background: Rectangle {
+                        implicitWidth: 50
+                        implicitHeight: 50
+                        border.color: control.isDefault ? "red" : "#888"
+                        radius: 4
+                        antialiasing: true
+                        gradient: Gradient {
+                            GradientStop { position: 0 ; color: control.pressed ? "#ccc" : "#eee" }
+                            GradientStop { position: 1 ; color: control.pressed ? "#aaa" : "#ccc" }
+                        }
                     }
                 }
             }
