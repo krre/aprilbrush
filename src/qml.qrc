@@ -17,5 +17,10 @@
         <file>qml/components/filedialog/FileDialogOpen.qml</file>
         <file>qml/components/filedialog/FileDialogExport.qml</file>
         <file>qml/components/filedialog/FileDialogSave.qml</file>
+        <file>qml/components/messagedialog/MessageDialogBase.qml</file>
+        <file>qml/components/messagedialog/MessageDialogError.qml</file>
+        <file>qml/components/messagedialog/MessageDialogInformation.qml</file>
+        <file>qml/components/messagedialog/MessageDialogQuestion.qml</file>
+        <file>qml/components/messagedialog/MessageDialogWarning.qml</file>
     </qresource>
 </RCC>

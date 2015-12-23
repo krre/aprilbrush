@@ -46,4 +46,9 @@ DISTFILES += \
     src/qml/components/filedialog/FileDialogSave.qml \
     src/qml/components/filedialog/FileDialogExport.qml \
     changelog.txt \
-    README.md
+    README.md \
+    src/qml/components/messagedialog/MessageDialogBase.qml \
+    src/qml/components/messagedialog/MessageDialogError.qml \
+    src/qml/components/messagedialog/MessageDialogInformation.qml \
+    src/qml/components/messagedialog/MessageDialogQuestion.qml \
+    src/qml/components/messagedialog/MessageDialogWarning.qml
