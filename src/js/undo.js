@@ -92,9 +92,11 @@ function raiseLayer() {
         name: qsTr("Raise Layer"),
         undo: function() {
             layerModel.move(layerManager.currentIndex, layerManager.currentIndex + 1, 1)
+            layerManager.currentIndex = layerManager.currentIndex + 1
         },
         redo: function() {
             layerModel.move(layerManager.currentIndex, layerManager.currentIndex - 1, 1)
+            layerManager.currentIndex = layerManager.currentIndex - 1
         }
     }
 }
@@ -104,9 +106,11 @@ function lowerLayer() {
         name: qsTr("Lower Layer"),
         undo: function() {
             layerModel.move(layerManager.currentIndex, layerManager.currentIndex - 1, 1)
+            layerManager.currentIndex = layerManager.currentIndex - 1
         },
         redo: function() {
             layerModel.move(layerManager.currentIndex, layerManager.currentIndex + 1, 1)
+            layerManager.currentIndex = layerManager.currentIndex + 1
         }
     }
 }
