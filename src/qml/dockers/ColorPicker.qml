@@ -12,7 +12,7 @@ Panel {
     property real v
     property color color: Settings.value(objectName, "color", "#000000")
     property bool changeColorByPicker: false
-    property int minSize: Math.min(width, height)
+    property int minSize: Math.min(width, height) - 14 // Panel.content.anchors.margins * 2
     property real ringRatio: 0.75
 
     objectName: "ColorPicker"
