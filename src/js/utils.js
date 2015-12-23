@@ -91,7 +91,7 @@ function openOra(filePath) {
     layerManager.currentIndex = selectedIndex
     currentTab.oraPath = filePath
     addRecentFile(filePath)
-    undoManager.add(Undo.start())
+    undoManager.clear()
 }
 
 function saveAsOra(filePath) {

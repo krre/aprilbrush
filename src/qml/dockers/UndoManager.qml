@@ -33,6 +33,7 @@ Panel {
         undoModel.clear()
         currentTab.prevUndoIndex = -1
         add(Undo.start())
+        currentTab.isDirty = false
     }
 
     function run(index) {
