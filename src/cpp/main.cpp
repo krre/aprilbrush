@@ -14,7 +14,7 @@ int main(int argc, char* argv[])
 {
     QApplication app(argc, argv);
     app.setApplicationName("AprilBrush");
-    app.setApplicationVersion("0.1.0");
+    app.setApplicationVersion("0.3.0");
 
     qmlRegisterType<CanvasItem>("AprilBrush", 1, 0, "CanvasItem");
     qmlRegisterType<CoreLib>("AprilBrush", 1, 0, "CoreLib");
