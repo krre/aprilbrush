@@ -74,7 +74,7 @@ function deleteLayer() {
     layer.name = layerModel.get(index).name
     layer.isVisible = layerModel.get(index).isVisible
     layer.isLock = layerModel.get(index).isLock
-    layer.image = currentTab.canvasItem.base64Image()
+    layer.image = currentTab.canvasItem.image()
     return {
         name: qsTr("Delete Layer"),
         undo: function() {
@@ -114,13 +114,13 @@ function lowerLayer() {
 function mergeLayer() {
     var indexUp = layerManager.currentIndex
     var layerUp = layerModel.get(indexUp)
-    var undoAreaUp = layerUp.canvasItem.base64Image()
+    var undoAreaUp = layerUp.canvasItem.image()
     var nameUp = layerUp.name
     var isVisibleUp = layerUp.isVisible
     var isLockUp = layerUp.isLock
 
     var layerDown = layerModel.get(indexUp + 1)
-    var undoAreaDown = layerDown.canvasItem.base64Image()
+    var undoAreaDown = layerDown.canvasItem.image()
 
     return {
         name: qsTr("Merge Layer"),
