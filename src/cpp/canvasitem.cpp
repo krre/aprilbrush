@@ -70,22 +70,6 @@ void CanvasItem::setImage(const QByteArray& image, QPoint topleft)
     update();
 }
 
-QByteArray CanvasItem::byteArray()
-{
-    QByteArray ba;
-    QBuffer buffer(&ba);
-    buffer.open(QIODevice::WriteOnly);
-    m_pixmap->save(&buffer, "PNG");
-    buffer.close();
-    return ba;
-}
-
-void CanvasItem::setByteArray(const QByteArray& ba)
-{
-    m_pixmap->loadFromData(ba, "PNG");
-    update();
-}
-
 void CanvasItem::setSize(QSize size)
 {
     if (m_size == size) return;

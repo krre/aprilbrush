@@ -28,11 +28,11 @@ function paint() {
 
 
 function clearLayer() {
-    var undoArea = currentTab.canvasItem.byteArray()
+    var undoArea = currentTab.canvasItem.image()
     return {
         name: qsTr("Clear"),
         undo: function() {
-            currentTab.canvasItem.setByteArray(undoArea)
+            currentTab.canvasItem.setImage(undoArea)
         },
         redo: function() {
             currentTab.canvasItem.clear()
