@@ -26,6 +26,7 @@ Item {
     property real zoom: 1.0
     property int mirror: 1
     property real rotation: 0
+    visible: false
 
     onCanvasModeChanged: {
         coreLib.setCursorShape(canvasMode === Enums.CanvasFree && mouseArea.containsMouse || canvasMode === Enums.CanvasPaint ?
@@ -61,6 +62,7 @@ Item {
 
     Component.onCompleted: {
         forceActiveFocus()
+        timer.start()
     }
 
     function resetTransform() {
@@ -69,8 +71,8 @@ Item {
         rotation = 0
         content.x = 0
         content.y = 0
-//        content.x = (width - content.width) / 2
-//        content.y = (height - content.height) / 2
+        content.x = (width - canvasSize.width) / 2
+        content.y = (height - canvasSize.height) / 2
     }
 
     function zoomIn() {
@@ -79,6 +81,15 @@ Item {
 
     function zoomOut() {
         if (zoom > 0.01) zoom /= 1.5
+    }
+
+    Timer {
+        id: timer
+        interval: 100
+        onTriggered: {
+            resetTransform()
+            root.visible = true
+        }
     }
 
     ListModel { id: layerModel }
