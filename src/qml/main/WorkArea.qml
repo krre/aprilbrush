@@ -169,9 +169,7 @@ Item {
             id: mouseArea
             anchors.fill: parent
             hoverEnabled: true
-            drag.target: canvasMode === Enums.CanvasPan ? content : null
-            drag.threshold: 1
-            enabled: !BrushEngine.isTouch
+            enabled: !(BrushEngine.isTouch || canvasMode == Enums.CanvasPan)
 
             onContainsMouseChanged: {
                 coreLib.setCursorShape(containsMouse && canvasMode === Enums.CanvasFree ? "paint" : canvasMode, brushSettings.size * zoom)
@@ -230,5 +228,13 @@ Item {
 //            font.family: "FontAwesome"
 //            text: FontAwesome.Icon.Plus
 //        }
+    }
+
+    // Panning mouse area
+    MouseArea {
+        anchors.fill: parent
+        drag.target: content
+        drag.threshold: 1
+        enabled: canvasMode == Enums.CanvasPan
     }
 }
