@@ -55,4 +55,5 @@ DISTFILES += \
     src/js/dialog.js \
     src/qml/components/WindowDialog.qml \
     src/qml/components/ButtonBase.qml \
-    src/qml/main/Options.qml
+    src/qml/main/Options.qml \
+    src/qml/main/NewImage.qml

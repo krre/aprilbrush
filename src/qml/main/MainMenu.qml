@@ -19,6 +19,12 @@ MenuBar {
         }
 
         MenuItem {
+            text: qsTr("New Dialog...")
+            shortcut: "Ctrl+Alt+N"
+            onTriggered: Utils.createDynamicObject(mainRoot, "qrc:/qml/main/NewImage.qml")
+        }
+
+        MenuItem {
             text: qsTr("Open...")
             shortcut: "Ctrl+O"
             onTriggered: Utils.createDynamicObject(mainRoot, "qrc:/qml/components/filedialog/FileDialogOpen.qml")
