@@ -14,7 +14,7 @@ WindowDialog {
     onAccepted: {
         Settings.setValue("NewImage", "width", widthSize.value)
         Settings.setValue("NewImage", "height", heightSize.value)
-        Utils.newTab(name.text, false)
+        Utils.newTab(name.text, false, Qt.size(widthSize.value, heightSize.value))
     }
 
     GridLayout {

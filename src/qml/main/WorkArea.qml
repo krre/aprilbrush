@@ -21,6 +21,7 @@ Item {
     property string fileName: oraPath ? coreLib.pathToFileName(oraPath) : "Unnamed"
     property bool isDirty: false
     property string canvasMode: Enums.CanvasFree
+    property size canvasSize
 
     property real zoom: 1.0
     property int mirror: 1
@@ -86,8 +87,8 @@ Item {
 
     Rectangle {
         id: content
-        width: imageSize.width
-        height: imageSize.height
+        width: canvasSize.width
+        height: canvasSize.height
 
         ListView {
             id: canvasView
@@ -100,7 +101,7 @@ Item {
             delegate: CanvasItem {
                 width: ListView.view.width
                 height: ListView.view.height
-                size: mainRoot.imageSize
+                size: canvasSize
                 antialiasing: false
                 z: 1000 - index
                 visible: isVisible

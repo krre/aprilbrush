@@ -11,7 +11,7 @@ import "dockers"
 import "../js/utils.js" as Utils
 
 ApplicationWindow {
-    property size imageSize: Qt.size(Screen.width, Screen.height)
+    property size screenSize: Qt.size(Screen.width, Screen.height)
     property alias sysPalette: sysPalette
     property bool isEraser: brushSettings.eraser > 50
     property WorkArea currentTab: tabView.count > 0 ? tabView.getTab(tabView.currentIndex).item : null

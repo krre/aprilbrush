@@ -58,10 +58,12 @@ function loadRecentFiles() {
     }
 }
 
-function newTab(title, withoutLayer) {
+function newTab(title, withoutLayer, size) {
     title = title || qsTr("Unnamed")
+    size = size || Qt.size(Settings.value("NewImage", "width", screenSize.width),
+                           Settings.value("NewImage", "height", screenSize.heigth))
     var tab = tabView.addTab(title)
-    tab.setSource("qrc:/qml/main/WorkArea.qml", { title: title })
+    tab.setSource("qrc:/qml/main/WorkArea.qml", { title: title, canvasSize: size })
     tabView.currentIndex = tabView.count - 1
     if (!withoutLayer) {
         layerManager.addLayer()
@@ -70,7 +72,8 @@ function newTab(title, withoutLayer) {
 }
 
 function openOra(filePath) {
-    newTab(coreLib.pathToFileName(filePath), true)
+    var oraAttr = coreLib.readOraAttr(filePath)
+    newTab(coreLib.pathToFileName(filePath), true, Qt.size(oraAttr.w, oraAttr.h))
 
     var layersList = coreLib.readOra(filePath)
     var selectedIndex = 0
@@ -116,7 +119,7 @@ function saveOra() {
         map.canvasItem = layerModel.get(i).canvasItem
         layerList.push(map)
     }
-    coreLib.writeOra(currentTab.oraPath, imageSize, layerList)
+    coreLib.writeOra(currentTab.oraPath, currentTab.canvasSize, layerList)
     currentTab.isDirty = false
 }
 

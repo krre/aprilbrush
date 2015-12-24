@@ -17,7 +17,7 @@ bool CoreLib::isFileExists(const QString& filePath)
     return checkFile.exists() && checkFile.isFile();
 }
 
-void CoreLib::writeOra(QString oraPath, const QSize imageSize, const QVariantList layerList)
+void CoreLib::writeOra(const QString& oraPath, const QSize& canvasSize, const QVariantList layerList)
 {
     QZipWriter zipWriter(oraPath);
     zipWriter.setCompressionPolicy(QZipWriter::AutoCompress);
@@ -35,8 +35,8 @@ void CoreLib::writeOra(QString oraPath, const QSize imageSize, const QVariantLis
     stream.writeStartDocument();
 
     stream.writeStartElement("image");
-    stream.writeAttribute("w", QString::number(imageSize.width()));
-    stream.writeAttribute("h",QString::number(imageSize.height()));
+    stream.writeAttribute("w", QString::number(canvasSize.width()));
+    stream.writeAttribute("h",QString::number(canvasSize.height()));
     stream.writeStartElement("stack");
 
     QByteArray ba;
@@ -83,7 +83,7 @@ void CoreLib::writeOra(QString oraPath, const QSize imageSize, const QVariantLis
     zipWriter.close();
 }
 
-QVariantList CoreLib::readOra(QString oraPath) {
+QVariantList CoreLib::readOra(const QString& oraPath) {
     QZipReader zipReader(oraPath, QIODevice::ReadOnly);
 
     QByteArray xmlByteArray = zipReader.fileData("stack.xml");
@@ -108,6 +108,30 @@ QVariantList CoreLib::readOra(QString oraPath) {
     zipReader.close();
 
     return list;
+}
+
+QVariantMap CoreLib::readOraAttr(const QString& oraPath)
+{
+    QVariantMap map;
+
+    QZipReader zipReader(oraPath, QIODevice::ReadOnly);
+
+    QByteArray xmlByteArray = zipReader.fileData("stack.xml");
+    QXmlStreamReader stream(xmlByteArray);
+
+    while (!stream.atEnd()) {
+        if (stream.isStartElement()) {
+            if (stream.name() == "image") {
+                for (int i = 0; i < stream.attributes().size(); i++) {
+                    map[stream.attributes().at(i).name().toString()] = stream.attributes().at(i).value().toString();
+                }
+            }
+        }
+        stream.readNextStartElement();
+    }
+    zipReader.close();
+
+    return map;
 }
 
 void CoreLib::writePng(const QString& pngPath, const QVariantList& canvasItems)
