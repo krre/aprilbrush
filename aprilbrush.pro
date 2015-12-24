@@ -54,4 +54,5 @@ DISTFILES += \
     src/qml/components/messagedialog/MessageDialogWarning.qml \
     src/js/dialog.js \
     src/qml/components/WindowDialog.qml \
-    src/qml/components/ButtonBase.qml
+    src/qml/components/ButtonBase.qml \
+    src/qml/main/Options.qml

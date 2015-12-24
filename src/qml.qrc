@@ -25,5 +25,6 @@
         <file>js/dialog.js</file>
         <file>qml/components/WindowDialog.qml</file>
         <file>qml/components/ButtonBase.qml</file>
+        <file>qml/main/Options.qml</file>
     </qresource>
 </RCC>
