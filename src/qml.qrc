@@ -22,5 +22,6 @@
         <file>qml/components/messagedialog/MessageDialogInformation.qml</file>
         <file>qml/components/messagedialog/MessageDialogQuestion.qml</file>
         <file>qml/components/messagedialog/MessageDialogWarning.qml</file>
+        <file>js/dialog.js</file>
     </qresource>
 </RCC>
