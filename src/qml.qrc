@@ -23,5 +23,7 @@
         <file>qml/components/messagedialog/MessageDialogQuestion.qml</file>
         <file>qml/components/messagedialog/MessageDialogWarning.qml</file>
         <file>js/dialog.js</file>
+        <file>qml/components/WindowDialog.qml</file>
+        <file>qml/components/ButtonBase.qml</file>
     </qresource>
 </RCC>
