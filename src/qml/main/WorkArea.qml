@@ -22,6 +22,7 @@ Item {
     property bool isDirty: false
     property string canvasMode: Enums.CanvasFree
     property size canvasSize
+    property alias backgroundColor: content.color
 
     property real zoom: 1.0
     property int mirror: 1

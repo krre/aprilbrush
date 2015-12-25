@@ -157,6 +157,27 @@ Panel {
             }
         }
 
+        Row {
+            spacing: 7
+
+            CheckBox {
+                text: qsTr("Background")
+                checked: true
+            }
+
+            ColorBox {
+                id: colorBox
+                onAccepted: currentTab.backgroundColor = color
+
+                Connections {
+                    target: mainRoot
+                    onCurrentTabChanged: {
+                        colorBox.color = currentTab ? currentTab.backgroundColor : "white"
+                    }
+                }
+            }
+        }
+
         RowLayout {
             spacing: 2
             Layout.preferredWidth: parent.width

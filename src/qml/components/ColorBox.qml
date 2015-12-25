@@ -8,6 +8,8 @@ Rectangle {
     color: "white"
     border.color: "black"
 
+    signal accepted(var color)
+
     MouseArea {
         anchors.fill: parent
         onClicked: {
@@ -21,6 +23,7 @@ Rectangle {
         title: qsTr("Color:")
         onAccepted: {
             root.color = color
+            root.accepted(color)
         }
     }
 }
