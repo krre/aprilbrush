@@ -18,7 +18,6 @@ int main(int argc, char* argv[])
     app.setApplicationVersion("0.3.0");
 
     qmlRegisterType<CanvasItem>("AprilBrush", 1, 0, "CanvasItem");
-    qmlRegisterType<CoreLib>("AprilBrush", 1, 0, "CoreLib");
 
     ::tabletEventFilter = new TabletEventFilter;
     app.installEventFilter(tabletEventFilter);
@@ -26,6 +25,7 @@ int main(int argc, char* argv[])
     QString filePath = qApp->applicationDirPath() + "/aprilbrush.ini";
     Settings settings(filePath);
     BrushEngine brushEngine;
+    CoreLib CoreLib;
 
     QQmlApplicationEngine engine;
     QString storageDirPath = QDir::currentPath() + "/storage";
@@ -35,6 +35,7 @@ int main(int argc, char* argv[])
     engine.rootContext()->setContextProperty("TabletEventFilter", tabletEventFilter);
     engine.rootContext()->setContextProperty("Settings", &settings);
     engine.rootContext()->setContextProperty("BrushEngine", &brushEngine);
+    engine.rootContext()->setContextProperty("CoreLib", &CoreLib);
     engine.load(QUrl("qrc:/qml/main.qml"));
 
     ::mainWindow = qobject_cast<QQuickWindow *>(engine.rootObjects().at(0));

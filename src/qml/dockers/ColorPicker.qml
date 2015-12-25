@@ -19,7 +19,7 @@ Panel {
 
     onColorChanged: {
         if (!changeColorByPicker) {
-            var hsv = coreLib.colorToHsv(color)
+            var hsv = CoreLib.colorToHsv(color)
             h = Math.max(hsv.h, 0)
             s = hsv.s
             v = hsv.v
@@ -93,7 +93,7 @@ Panel {
                     var radianAngle = Math.atan2(parent.height / 2 - mouse.y, mouse.x - parent.width / 2)
                     h = (radianAngle > 0 ? radianAngle : 2 * Math.PI + radianAngle) / Math.PI / 2
                     changeColorByPicker = true
-                    color = coreLib.hsvToColor(h, s, v)
+                    color = CoreLib.hsvToColor(h, s, v)
                     changeColorByPicker = false
                 }
             }
@@ -154,7 +154,7 @@ Panel {
                         s = Math.max(0, Math.min(width, mouse.x)) / parent.width
                         v = 1 - Math.max(0, Math.min(height, mouse.y)) / parent.height
                         changeColorByPicker = true
-                        color = coreLib.hsvToColor(h, s, v)
+                        color = CoreLib.hsvToColor(h, s, v)
                         changeColorByPicker = false
                     }
                 }

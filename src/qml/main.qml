@@ -74,10 +74,6 @@ ApplicationWindow {
 
     Actions { id: actions}
 
-    CoreLib {
-        id: coreLib
-    }
-
     SplitView {
         anchors.fill: parent
 

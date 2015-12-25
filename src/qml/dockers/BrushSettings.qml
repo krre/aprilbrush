@@ -26,7 +26,7 @@ Panel {
 
     onSizeChanged: {
         BrushEngine.size = size.value
-        coreLib.setCursorShape(Enums.CanvasPaint, size.value)
+        CoreLib.setCursorShape(Enums.CanvasPaint, size.value)
     }
 
     onSpacingChanged: BrushEngine.spacing = spacing.value

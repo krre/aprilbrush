@@ -5,5 +5,5 @@ FileDialogBase {
      title: qsTr("Save OpenRaster file")
      nameFilters: [ qsTr("OpenRaster (*.ora)"), qsTr("All files (*)") ]
      selectExisting: false
-     onAccepted: Utils.saveAsOra(coreLib.urlToPath(fileUrl))
+     onAccepted: Utils.saveAsOra(CoreLib.urlToPath(fileUrl))
 }

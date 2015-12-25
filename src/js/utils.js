@@ -52,7 +52,7 @@ function loadRecentFiles() {
     var model = mainMenu.recentFilesModel
     for (var i = 0; i < list.length; i++) {
         var path = list[i]
-        if (coreLib.isFileExists(path)) {
+        if (CoreLib.isFileExists(path)) {
             model.append({ filePath: path })
         }
     }
@@ -72,10 +72,10 @@ function newTab(title, withoutLayer, size) {
 }
 
 function openOra(filePath) {
-    var oraAttr = coreLib.readOraAttr(filePath)
-    newTab(coreLib.pathToFileName(filePath), true, Qt.size(oraAttr.w, oraAttr.h))
+    var oraAttr = CoreLib.readOraAttr(filePath)
+    newTab(CoreLib.pathToFileName(filePath), true, Qt.size(oraAttr.w, oraAttr.h))
 
-    var layersList = coreLib.readOra(filePath)
+    var layersList = CoreLib.readOra(filePath)
     var selectedIndex = 0
 
     for (var i = 0; i < layersList.length; i++) {
@@ -102,7 +102,7 @@ function saveAsOra(filePath) {
         filePath += ".ora"
     }
     currentTab.oraPath = filePath
-    tabView.getTab(tabView.currentIndex).title = coreLib.pathToFileName(filePath)
+    tabView.getTab(tabView.currentIndex).title = CoreLib.pathToFileName(filePath)
     saveOra()
     addRecentFile(filePath)
 }
@@ -119,7 +119,7 @@ function saveOra() {
         map.canvasItem = layerModel.get(i).canvasItem
         layerList.push(map)
     }
-    coreLib.writeOra(currentTab.oraPath, currentTab.canvasSize, layerList)
+    CoreLib.writeOra(currentTab.oraPath, currentTab.canvasSize, layerList)
     currentTab.isDirty = false
 }
 
@@ -133,7 +133,7 @@ function exportPng(filePath) {
         list.push(layerModel.get(i).canvasItem)
     }
 
-    coreLib.writePng(filePath, list)
+    CoreLib.writePng(filePath, list)
 }
 
 function pickColor(pos) {
@@ -141,6 +141,6 @@ function pickColor(pos) {
     for (var i = 0; i < layerModel.count; i++) {
         list.push(layerModel.get(i).canvasItem)
     }
-    colorPicker.color = coreLib.pickColor(pos, list)
+    colorPicker.color = CoreLib.pickColor(pos, list)
 }
 

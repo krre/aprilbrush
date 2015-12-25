@@ -5,5 +5,5 @@ FileDialogBase {
      title: qsTr("Export image to PNG")
      nameFilters: [ qsTr("Images (*.png)"), qsTr("All files (*)") ]
      selectExisting: false
-     onAccepted: Utils.exportPng(coreLib.urlToPath(fileUrl))
+     onAccepted: Utils.exportPng(CoreLib.urlToPath(fileUrl))
 }
