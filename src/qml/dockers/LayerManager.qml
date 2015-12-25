@@ -159,6 +159,7 @@ Panel {
 
         Row {
             spacing: 7
+            visible: currentTab
 
             CheckBox {
                 text: qsTr("Background")
