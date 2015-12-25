@@ -9,6 +9,7 @@
 #include <QQmlApplicationEngine>
 
 QPointer<TabletEventFilter> tabletEventFilter;
+QPointer<QQuickWindow> mainWindow;
 
 int main(int argc, char* argv[])
 {
@@ -30,10 +31,13 @@ int main(int argc, char* argv[])
     QString storageDirPath = QDir::currentPath() + "/storage";
     QDir().mkdir(storageDirPath);
     engine.setOfflineStoragePath(storageDirPath);
+
     engine.rootContext()->setContextProperty("TabletEventFilter", tabletEventFilter);
     engine.rootContext()->setContextProperty("Settings", &settings);
     engine.rootContext()->setContextProperty("BrushEngine", &brushEngine);
     engine.load(QUrl("qrc:/qml/main.qml"));
+
+    ::mainWindow = qobject_cast<QQuickWindow *>(engine.rootObjects().at(0));
 
     return app.exec();
 }

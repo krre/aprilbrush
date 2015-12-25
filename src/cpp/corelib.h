@@ -5,7 +5,6 @@
 class CoreLib : public QObject
 {
     Q_OBJECT
-    Q_PROPERTY(QWindow* window READ getWindow WRITE setWindow)
     Q_PROPERTY(QString buildDate READ buildDate CONSTANT)
     Q_PROPERTY(QString qtVersion READ qtVersion CONSTANT)
 
@@ -26,12 +25,6 @@ public:
     Q_INVOKABLE QVariantMap colorToHsv(const QColor& color);
     Q_INVOKABLE QString byteArrayToBase64(const QByteArray& value);
     Q_INVOKABLE QByteArray base64ToByteArray(const QString& value);
-    void setWindow(QWindow* window) { this->window = window; }
-    QWindow* getWindow() { return this->window; }
     QString buildDate() { return QString(__DATE__); }
     QString qtVersion() { return QT_VERSION_STR; }
-
-private:
-    QPointer<QWindow> window;
-
 };

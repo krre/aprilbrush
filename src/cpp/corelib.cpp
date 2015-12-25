@@ -11,6 +11,8 @@
 #include <QXmlStreamReader>
 #include <QXmlStreamWriter>
 
+extern QPointer<QQuickWindow> mainWindow;
+
 bool CoreLib::isFileExists(const QString& filePath)
 {
     QFileInfo checkFile(filePath);
@@ -154,9 +156,8 @@ void CoreLib::writePng(const QString& pngPath, const QVariantList& canvasItems)
 
 void CoreLib::setCursorShape(QString type, int size)
 {
-    if (!window) {
-        return;
-    }
+    if (::mainWindow.isNull()) return;
+
     if (type == "paint") {
          // size of the cursor should not be very small
         int sizeBrush = qMax(size, 3);
@@ -169,13 +170,13 @@ void CoreLib::setCursorShape(QString type, int size)
         painter.drawEllipse(0, 0, sizeBrush, sizeBrush);
         painter.setPen(QColor(255, 255, 255, 200));
         painter.drawEllipse(1, 1, sizeBrush - 2, sizeBrush - 2);
-        window->setCursor(pixmap);
+        ::mainWindow->setCursor(pixmap);
     } else if (type == "pan") {
-        window->setCursor(QCursor(Qt::OpenHandCursor));
+        ::mainWindow->setCursor(QCursor(Qt::OpenHandCursor));
     } else if (type == "pick") {
-        window->setCursor(QCursor(Qt::CrossCursor));
+        ::mainWindow->setCursor(QCursor(Qt::CrossCursor));
     } else if (type == "free") {
-        window->setCursor(QCursor(Qt::ArrowCursor));
+        ::mainWindow->setCursor(QCursor(Qt::ArrowCursor));
     }
 }
 

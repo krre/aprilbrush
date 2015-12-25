@@ -76,7 +76,6 @@ ApplicationWindow {
 
     CoreLib {
         id: coreLib
-        window: mainRoot
     }
 
     SplitView {
