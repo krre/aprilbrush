@@ -49,7 +49,6 @@ void CoreLib::writeOra(const QString& oraPath, const QSize& canvasSize, const QV
         QString name = map.value("name").toString();
         QString isVisible = map.value("isVisible").toString();
         QString isLock = map.value("isLock").toString();
-        QString isBackground = map.value("isBackground").toString();
         QString isSelected = map.value("isSelected").toString();
 
         buffer.open(QIODevice::WriteOnly);
@@ -69,7 +68,6 @@ void CoreLib::writeOra(const QString& oraPath, const QSize& canvasSize, const QV
         stream.writeAttribute("visibility", isVisible == "true" ? "visible" : "hidden");
         stream.writeAttribute("edit-locked", isLock);
         stream.writeAttribute("selected", isSelected);
-        stream.writeAttribute("aprilbrush_background", isBackground);
         stream.writeAttribute("src", src);
         stream.writeAttribute("x", "0");
         stream.writeAttribute("y", "0");

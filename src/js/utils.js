@@ -86,7 +86,6 @@ function openOra(filePath) {
         layerModel.append({ name: layer.name,
                               isVisible: layer.visibility === "visible",
                               isLock: layer["edit-locked"] === "true",
-//                              isBackground: layer.aprilbrush_background === "true"
                               image: layer.image
                           })
     }
