@@ -31,12 +31,12 @@ Item {
 
     onCanvasModeChanged: {
         CoreLib.setCursorShape(canvasMode === Enums.CanvasFree && mouseArea.containsMouse || canvasMode === Enums.CanvasPaint ?
-                                   "paint" : canvasMode, brushSettings.size * zoom)
+                                   Enums.CanvasPaint : canvasMode, brushSettings.size * zoom)
     }
 
     onZoomChanged: {
         if (mouseArea.containsMouse) {
-            CoreLib.setCursorShape("paint", brushSettings.size * zoom)
+            CoreLib.setCursorShape(Enums.CanvasPaint, brushSettings.size * zoom)
         }
     }
 
@@ -173,7 +173,7 @@ Item {
             enabled: !(BrushEngine.isTouch || canvasMode == Enums.CanvasPan)
 
             onContainsMouseChanged: {
-                CoreLib.setCursorShape(containsMouse && canvasMode === Enums.CanvasFree ? "paint" : canvasMode, brushSettings.size * zoom)
+                CoreLib.setCursorShape(containsMouse && canvasMode === Enums.CanvasFree ? Enums.CanvasPaint : canvasMode, brushSettings.size * zoom)
             }
 
             onPressed: {
