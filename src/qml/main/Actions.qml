@@ -1,5 +1,5 @@
 import QtQuick 2.6
-import QtQuick.Controls 1.4
+import QtQuick.Controls 1.5
 import "../../js/utils.js" as Utils
 import "../../js/undo.js" as Undo
 import "../../js/enums.js" as Enums
