@@ -56,11 +56,6 @@ Item {
         }
     }
 
-    transform: [
-        Scale { origin.x: width / 2; origin.y: height / 2; xScale: zoom * mirror; yScale: zoom },
-        Rotation { origin.x: width / 2; origin.y: height / 2; angle: rotation }
-    ]
-
     Component.onCompleted: {
         forceActiveFocus()
         timer.start()
@@ -102,6 +97,11 @@ Item {
         width: canvasSize.width
         height: canvasSize.height
 
+        transform: [
+            Scale { origin.x: content.width / 2; origin.y: content.height / 2; xScale: zoom * mirror; yScale: zoom },
+            Rotation { origin.x: content.width / 2; origin.y: content.height / 2; angle: rotation }
+        ]
+
         ListView {
             id: canvasView
             anchors.fill: parent
@@ -141,89 +141,6 @@ Item {
             opacity: brushSettings.opaque / 100
         }
 
-        Connections {
-            target: TabletEventFilter
-            onAction: {
-                if (!(canvasView.count && canvasItem.enabled)) return
-
-                var x = event.globalX - mainRoot.x
-                var y = event.globalY - mainRoot.y
-                var pos = canvasItem.itemPos(Qt.point(x, y))
-                var pressure = event.pressure
-                if (event.press === true) {
-                    root.forceActiveFocus()
-                    BrushEngine.setCanvasItem(canvasItem)
-                    BrushEngine.setCanvasBuffer(canvasBuffer)
-                    BrushEngine.isTouch = true
-                    canvasMode = Enums.CanvasPaint
-                    BrushEngine.paint(pos, pressure)
-                } else if (event.release === true) {
-                    BrushEngine.isTouch = true
-                    undoManager.add(Undo.paint())
-                } else if (BrushEngine.isTouch) {
-                    BrushEngine.paint(pos, pressure)
-                }
-            }
-        }
-
-        MouseArea {
-            id: mouseArea
-            anchors.fill: parent
-            hoverEnabled: true
-            enabled: !(BrushEngine.isTouch || canvasMode == Enums.CanvasPan)
-
-            onContainsMouseChanged: {
-                CoreLib.setCursorShape(containsMouse && canvasMode === Enums.CanvasFree ? Enums.CanvasPaint : canvasMode, brushSettings.size * zoom)
-            }
-
-            onPressed: {
-                if (!(canvasView.count && canvasItem.enabled)) return
-
-                var pos = Qt.point(mouse.x, mouse.y)
-                if (canvasMode === Enums.CanvasFree) {
-                    canvasView.forceActiveFocus()
-                    BrushEngine.setCanvasItem(canvasItem)
-                    BrushEngine.setCanvasBuffer(canvasBuffer)
-                    BrushEngine.isTouch = true
-                    canvasMode = Enums.CanvasPaint
-                    BrushEngine.paint(pos)
-                } else {
-                    Utils.pickColor(pos)
-                }
-            }
-
-            onPositionChanged: {
-                if (!(canvasView.count && canvasItem.enabled)) return
-
-                if (pressed) {
-                    var pos = Qt.point(mouse.x, mouse.y)
-                    if (canvasMode === Enums.CanvasPaint) {
-                        BrushEngine.paint(pos)
-                    } else if (canvasMode === Enums.CanvasPick){
-                        Utils.pickColor(pos)
-                    }
-                }
-            }
-
-            onReleased: {
-                BrushEngine.isTouch = false
-                if (canvasMode === Enums.CanvasPaint) {
-                    undoManager.add(Undo.paint())
-                    canvasMode = Enums.CanvasFree
-                }
-            }
-
-            onWheel: {
-                if (wheel.modifiers & Qt.ControlModifier) {
-                    if (wheel.angleDelta.y > 0) {
-                        zoomIn()
-                    } else {
-                        zoomOut()
-                    }
-                }
-            }
-        }
-
 //        Label {
 //            font.pointSize: 15
 //            font.family: "FontAwesome"
@@ -231,11 +148,84 @@ Item {
 //        }
     }
 
-    // Panning mouse area
     MouseArea {
+        id: mouseArea
         anchors.fill: parent
-        drag.target: content
+        drag.target: canvasMode === Enums.CanvasPan ? content : null
         drag.threshold: 1
-        enabled: canvasMode == Enums.CanvasPan
+        hoverEnabled: true
+
+        onContainsMouseChanged: {
+            CoreLib.setCursorShape(containsMouse && canvasMode === Enums.CanvasFree ? Enums.CanvasPaint : canvasMode, brushSettings.size * zoom)
+        }
+
+        onPressed: {
+            if (!(canvasView.count && canvasItem.enabled)) return
+            var pos = Qt.point(mouse.x - content.x, mouse.y - content.y)
+            if (canvasMode === Enums.CanvasFree) {
+                canvasView.forceActiveFocus()
+                BrushEngine.setCanvasItem(canvasItem)
+                BrushEngine.setCanvasBuffer(canvasBuffer)
+                BrushEngine.isTouch = true
+                canvasMode = Enums.CanvasPaint
+                BrushEngine.paint(pos)
+            } else {
+                Utils.pickColor(pos)
+            }
+        }
+
+        onPositionChanged: {
+            if (!(canvasView.count && canvasItem.enabled)) return
+
+            if (pressed) {
+                var pos = Qt.point(mouse.x - content.x, mouse.y - content.y)
+                if (canvasMode === Enums.CanvasPaint) {
+                    BrushEngine.paint(pos)
+                } else if (canvasMode === Enums.CanvasPick){
+                    Utils.pickColor(pos)
+                }
+            }
+        }
+
+        onReleased: {
+            BrushEngine.isTouch = false
+            if (canvasMode === Enums.CanvasPaint) {
+                undoManager.add(Undo.paint())
+                canvasMode = Enums.CanvasFree
+            }
+        }
+
+        onWheel: {
+            if (wheel.angleDelta.y > 0) {
+                zoomIn()
+            } else {
+                zoomOut()
+            }
+        }
+    }
+
+    Connections {
+        target: TabletEventFilter
+        onAction: {
+            if (!(canvasView.count && canvasItem.enabled)) return
+
+            var x = event.globalX - mainRoot.x
+            var y = event.globalY - mainRoot.y
+            var pos = canvasItem.itemPos(Qt.point(x, y))
+            var pressure = event.pressure
+            if (event.press === true) {
+                root.forceActiveFocus()
+                BrushEngine.setCanvasItem(canvasItem)
+                BrushEngine.setCanvasBuffer(canvasBuffer)
+                BrushEngine.isTouch = true
+                canvasMode = Enums.CanvasPaint
+                BrushEngine.paint(pos, pressure)
+            } else if (event.release === true) {
+                BrushEngine.isTouch = true
+                undoManager.add(Undo.paint())
+            } else if (BrushEngine.isTouch) {
+                BrushEngine.paint(pos, pressure)
+            }
+        }
     }
 }
