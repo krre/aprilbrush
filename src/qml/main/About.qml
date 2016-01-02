@@ -11,5 +11,5 @@ MessageDialog {
           <a href=\"https://github.com/krre/aprilbrush\">
           https://github.com/krre/aprilbrush</a>").arg(Qt.application.name).arg(Qt.application.version).arg(CoreLib.qtVersion).arg(CoreLib.buildDate)
     Component.onCompleted: open()
-    onVisibilityChanged: if (!visible) destroy()
+    onVisibleChanged: if (!visible) destroy()
 }
