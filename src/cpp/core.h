@@ -2,14 +2,14 @@
 #include <QtCore>
 #include <QtGui>
 
-class CoreLib : public QObject
+class Core : public QObject
 {
     Q_OBJECT
     Q_PROPERTY(QString buildDate READ buildDate CONSTANT)
     Q_PROPERTY(QString qtVersion READ qtVersion CONSTANT)
 
 public:
-    explicit CoreLib() {}
+    explicit Core() {}
     Q_INVOKABLE bool isFileExists(const QString& filePath);
     //Q_INVOKABLE void buildDate() { qDebug() << QLocale(QLocale::C).toDate(QString(__DATE__).simplified(), QLatin1String("MMM d yyyy")); }
     Q_INVOKABLE void writeOra(const QString& oraPath, const QSize& canvasSize, const QVariantList layerList);

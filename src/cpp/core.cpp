@@ -1,4 +1,4 @@
-#include "corelib.h"
+#include "core.h"
 #include "tableteventfilter.h"
 #include "canvasitem.h"
 #include "qzip/qzipreader_p.h"
@@ -13,13 +13,13 @@
 
 extern QPointer<QQuickWindow> mainWindow;
 
-bool CoreLib::isFileExists(const QString& filePath)
+bool Core::isFileExists(const QString& filePath)
 {
     QFileInfo checkFile(filePath);
     return checkFile.exists() && checkFile.isFile();
 }
 
-void CoreLib::writeOra(const QString& oraPath, const QSize& canvasSize, const QVariantList layerList)
+void Core::writeOra(const QString& oraPath, const QSize& canvasSize, const QVariantList layerList)
 {
     QZipWriter zipWriter(oraPath);
     zipWriter.setCompressionPolicy(QZipWriter::AutoCompress);
@@ -83,7 +83,7 @@ void CoreLib::writeOra(const QString& oraPath, const QSize& canvasSize, const QV
     zipWriter.close();
 }
 
-QVariantList CoreLib::readOra(const QString& oraPath) {
+QVariantList Core::readOra(const QString& oraPath) {
     QZipReader zipReader(oraPath, QIODevice::ReadOnly);
 
     QByteArray xmlByteArray = zipReader.fileData("stack.xml");
@@ -110,7 +110,7 @@ QVariantList CoreLib::readOra(const QString& oraPath) {
     return list;
 }
 
-QVariantMap CoreLib::readOraAttr(const QString& oraPath)
+QVariantMap Core::readOraAttr(const QString& oraPath)
 {
     QVariantMap map;
 
@@ -134,7 +134,7 @@ QVariantMap CoreLib::readOraAttr(const QString& oraPath)
     return map;
 }
 
-void CoreLib::writePng(const QString& pngPath, const QVariantList& canvasItems)
+void Core::writePng(const QString& pngPath, const QVariantList& canvasItems)
 {
     QPixmap pixmap;
     for (int i = canvasItems.count() - 1; i >= 0; i--)
@@ -152,7 +152,7 @@ void CoreLib::writePng(const QString& pngPath, const QVariantList& canvasItems)
     pixmap.save(pngPath);
 }
 
-void CoreLib::setCursorShape(QString type, int size)
+void Core::setCursorShape(QString type, int size)
 {
     if (::mainWindow.isNull()) return;
 
@@ -178,26 +178,26 @@ void CoreLib::setCursorShape(QString type, int size)
     }
 }
 
-QString CoreLib::pathToBaseName(const QString& path)
+QString Core::pathToBaseName(const QString& path)
 {
     QFileInfo fileInfo(path);
     return fileInfo.baseName();
 }
 
-QString CoreLib::pathToFileName(const QString& path)
+QString Core::pathToFileName(const QString& path)
 {
     QFileInfo fileInfo(path);
     return fileInfo.fileName();
 }
 
-QColor CoreLib::hsvToColor(qreal h, qreal s, qreal v)
+QColor Core::hsvToColor(qreal h, qreal s, qreal v)
 {
     QColor color;
     color.setHsvF(h, s, v);
     return color;
 }
 
-QColor CoreLib::pickColor(const QPointF& point, const QVariantList& canvasItems)
+QColor Core::pickColor(const QPointF& point, const QVariantList& canvasItems)
 {
     QPixmap pixmap;
     for (int i = canvasItems.count() - 1; i >= 0; i--)
@@ -216,7 +216,7 @@ QColor CoreLib::pickColor(const QPointF& point, const QVariantList& canvasItems)
     return QColor(pixmap.toImage().pixel(qRound(point.x()), qRound(point.y())));
 }
 
-QVariantMap CoreLib::colorToHsv(const QColor &color)
+QVariantMap Core::colorToHsv(const QColor &color)
 {
     QVariantMap map;
     map["h"] = color.hueF();
@@ -225,12 +225,12 @@ QVariantMap CoreLib::colorToHsv(const QColor &color)
     return map;
 }
 
-QString CoreLib::byteArrayToBase64(const QByteArray& value)
+QString Core::byteArrayToBase64(const QByteArray& value)
 {
     return value.toBase64();
 }
 
-QByteArray CoreLib::base64ToByteArray(const QString& value)
+QByteArray Core::base64ToByteArray(const QString& value)
 {
     return QByteArray::fromBase64(value.toLatin1());
 }

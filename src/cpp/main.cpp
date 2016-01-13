@@ -1,6 +1,6 @@
 #include "canvasitem.h"
 #include "brushengine.h"
-#include "corelib.h"
+#include "core.h"
 #include "tableteventfilter.h"
 #include "settings.h"
 
@@ -25,7 +25,7 @@ int main(int argc, char* argv[])
     QString filePath = qApp->applicationDirPath() + "/aprilbrush.ini";
     Settings settings(filePath);
     BrushEngine brushEngine;
-    CoreLib CoreLib;
+    Core Core;
 
     QQmlApplicationEngine engine;
     QString storageDirPath = QDir::currentPath() + "/storage";
@@ -35,7 +35,7 @@ int main(int argc, char* argv[])
     engine.rootContext()->setContextProperty("TabletEventFilter", tabletEventFilter);
     engine.rootContext()->setContextProperty("Settings", &settings);
     engine.rootContext()->setContextProperty("BrushEngine", &brushEngine);
-    engine.rootContext()->setContextProperty("CoreLib", &CoreLib);
+    engine.rootContext()->setContextProperty("Core", &Core);
     engine.load(QUrl("qrc:/qml/main.qml"));
 
     ::mainWindow = qobject_cast<QQuickWindow *>(engine.rootObjects().at(0));

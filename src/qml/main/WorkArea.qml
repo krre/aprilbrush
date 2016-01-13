@@ -18,7 +18,7 @@ Item {
     property var commandArray: [] // array for saving undo/redo command (they don't work from ListModel)
     property int prevUndoIndex: -1
     property string oraPath
-    property string fileName: oraPath ? CoreLib.pathToFileName(oraPath) : "Unnamed"
+    property string fileName: oraPath ? Core.pathToFileName(oraPath) : "Unnamed"
     property bool isDirty: false
     property string canvasMode: Enums.CanvasFree
     property size canvasSize
@@ -30,13 +30,13 @@ Item {
     visible: false
 
     onCanvasModeChanged: {
-        CoreLib.setCursorShape(canvasMode === Enums.CanvasFree && mouseArea.containsMouse || canvasMode === Enums.CanvasPaint ?
+        Core.setCursorShape(canvasMode === Enums.CanvasFree && mouseArea.containsMouse || canvasMode === Enums.CanvasPaint ?
                                    Enums.CanvasPaint : canvasMode, brushSettings.size * zoom)
     }
 
     onZoomChanged: {
         if (mouseArea.containsMouse) {
-            CoreLib.setCursorShape(Enums.CanvasPaint, brushSettings.size * zoom)
+            Core.setCursorShape(Enums.CanvasPaint, brushSettings.size * zoom)
         }
     }
 
@@ -124,7 +124,7 @@ Item {
                     layerModel.set(index, { "canvasItem": this })
                     var image = layerModel.get(index).image
                     if (image) { // load PNG from ora file or undo buffer
-                        setImage(CoreLib.base64ToByteArray(image))
+                        setImage(Core.base64ToByteArray(image))
                         image = undefined
                     }
                 }
@@ -156,7 +156,7 @@ Item {
         hoverEnabled: true
 
         onContainsMouseChanged: {
-            CoreLib.setCursorShape(containsMouse && canvasMode === Enums.CanvasFree ? Enums.CanvasPaint : canvasMode, brushSettings.size * zoom)
+            Core.setCursorShape(containsMouse && canvasMode === Enums.CanvasFree ? Enums.CanvasPaint : canvasMode, brushSettings.size * zoom)
         }
 
         onPressed: {

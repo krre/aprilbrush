@@ -5,7 +5,7 @@ CONFIG += c++11
 
 SOURCES += \
     src/cpp/tableteventfilter.cpp \
-    src/cpp/corelib.cpp \
+    src/cpp/core.cpp \
     src/cpp/main.cpp \
     src/cpp/canvasitem.cpp \
     src/cpp/settings.cpp \
@@ -13,7 +13,7 @@ SOURCES += \
 
 HEADERS += \
     src/cpp/tableteventfilter.h \
-    src/cpp/corelib.h \
+    src/cpp/core.h \
     src/cpp/canvasitem.h \
     src/cpp/settings.h \
     src/cpp/brushengine.h

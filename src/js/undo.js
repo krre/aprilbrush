@@ -74,7 +74,7 @@ function deleteLayer() {
     layer.name = layerModel.get(index).name
     layer.isVisible = layerModel.get(index).isVisible
     layer.isLock = layerModel.get(index).isLock
-    layer.image = CoreLib.byteArrayToBase64(currentTab.canvasItem.image())
+    layer.image = Core.byteArrayToBase64(currentTab.canvasItem.image())
     return {
         name: qsTr("Delete Layer"),
         undo: function() {
@@ -135,7 +135,7 @@ function mergeLayer() {
             layer.name = nameUp
             layer.isVisible = isVisibleUp
             layer.isLock = isLockUp
-            layer.image = CoreLib.byteArrayToBase64(undoAreaUp)
+            layer.image = Core.byteArrayToBase64(undoAreaUp)
             layerModel.insert(layerManager.currentIndex, layer)
             layerManager.layerView.currentIndex = indexUp
         },
@@ -157,7 +157,7 @@ function duplicateLayer() {
             layer.name = layerModel.get(layerManager.currentIndex).name
             layer.isVisble = layerModel.get(layerManager.currentIndex).isVisible
             layer.isLock = layerModel.get(layerManager.currentIndex).isLock
-            layer.image = CoreLib.byteArrayToBase64(currentTab.canvasItem.image())
+            layer.image = Core.byteArrayToBase64(currentTab.canvasItem.image())
             var index = layerManager.currentIndex
             layerModel.insert(layerManager.currentIndex, layer)
             layerManager.currentIndex = index

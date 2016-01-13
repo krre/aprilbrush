@@ -9,7 +9,7 @@ MessageDialog {
           Build on %4<br><br>
           Copyright © 2012-2016, Vladimir Zarypov<br>
           <a href=\"https://github.com/krre/aprilbrush\">
-          https://github.com/krre/aprilbrush</a>").arg(Qt.application.name).arg(Qt.application.version).arg(CoreLib.qtVersion).arg(CoreLib.buildDate)
+          https://github.com/krre/aprilbrush</a>").arg(Qt.application.name).arg(Qt.application.version).arg(Core.qtVersion).arg(Core.buildDate)
     Component.onCompleted: open()
     onVisibleChanged: if (!visible) destroy()
 }
