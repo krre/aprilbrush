@@ -13,14 +13,8 @@ MenuBar {
         title: qsTr("File")
 
         MenuItem {
-            text: qsTr("New")
+            text: qsTr("New...")
             shortcut: "Ctrl+N"
-            onTriggered: Utils.newTab()
-        }
-
-        MenuItem {
-            text: qsTr("New Image...")
-            shortcut: "Ctrl+Alt+N"
             onTriggered: Utils.createDynamicObject(mainRoot, "qrc:/qml/main/NewImage.qml")
         }
 
