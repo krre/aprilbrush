@@ -118,6 +118,11 @@ ApplicationWindow {
                         }
                     }
                 }
+
+                tabBar: Rectangle {
+                    color: sysPalette.window
+                }
+
             }
         }
 
