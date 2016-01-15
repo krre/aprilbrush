@@ -5,7 +5,6 @@ import AprilBrush 1.0
 import "../../js/utils.js" as Utils
 import "../../js/undo.js" as Undo
 import "../../js/enums.js" as Enums
-import "../../3rdparty/font-awesome/fontawesome.js" as FontAwesome
 
 Item {
     id: root
@@ -140,12 +139,6 @@ Item {
             smooth: false
             opacity: brushSettings.opaque / 100
         }
-
-//        Label {
-//            font.pointSize: 15
-//            font.family: "FontAwesome"
-//            text: FontAwesome.Icon.Plus
-//        }
     }
 
     MouseArea {

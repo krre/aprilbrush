@@ -9,6 +9,7 @@ import "main"
 import "components"
 import "dockers"
 import "../js/utils.js" as Utils
+import "../3rdparty/font-awesome/fontawesome.js" as FontAwesome
 
 ApplicationWindow {
     property size screenSize: Qt.size(Screen.width, Screen.height)
@@ -114,6 +115,21 @@ ApplicationWindow {
                             anchors.verticalCenter: parent.verticalCenter
                             anchors.right: parent.right
                             anchors.rightMargin: 2
+                            style: ButtonStyle {
+                                background: Rectangle {
+                                    color: control.pressed ? "gray" : (control.hovered ? "lightgray" : "transparent")
+                                    border.color: control.hovered ? "gray" : "transparent"
+                                }
+
+                                label: Text {
+                                    verticalAlignment: Text.AlignVCenter
+                                    horizontalAlignment: Text.AlignHCenter
+                                    font.family: "FontAwesome"
+                                    text: FontAwesome.Icon.Remove
+                                    font.pointSize: 8
+                                }
+                            }
+
                             onClicked: control.removeTab(styleData.index)
                         }
                     }
@@ -122,7 +138,6 @@ ApplicationWindow {
                 tabBar: Rectangle {
                     color: sysPalette.window
                 }
-
             }
         }
 
