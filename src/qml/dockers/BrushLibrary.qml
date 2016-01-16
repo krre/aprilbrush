@@ -4,6 +4,7 @@ import QtQuick.Layouts 1.3
 import QtQuick.Controls.Styles 1.4
 import QtQuick.LocalStorage 2.0
 import "../components"
+import "../../js/brush-lib.js" as BrushLib
 
 Panel {
     property int currentBrush: 0
@@ -36,11 +37,11 @@ Panel {
                 tx.executeSql('CREATE TABLE IF NOT EXISTS Inner(name TEXT, size TEXT, opacity TEXT, flow TEXT, spacing TEXT, hardness TEXT, roundness TEXT, angle TEXT, jitter TEXT, eraser TEXT)')
                 var rs = tx.executeSql('SELECT * FROM Inner');
                 if (!rs.rows.length) {
-                    tx.executeSql('INSERT INTO Inner VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)', [ 'Default', '30', '80', '100', '25', '85', '100', '0', '0', '0' ])
-                    tx.executeSql('INSERT INTO Inner VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)', [ 'Big', '100', '80', '100', '10', '85', '100', '0', '0', '0' ])
-                    tx.executeSql('INSERT INTO Inner VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)', [ 'Little', '5', '80', '50', '10', '50', '100', '0', '0', '0' ])
-                    tx.executeSql('INSERT INTO Inner VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)', [ 'Hard Eraser', '30', '100', '80', '10', '90', '100', '0', '0', '100' ])
-                    tx.executeSql('INSERT INTO Inner VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)', [ 'Soft Eraser', '30', '100', '15', '10', '70', '100', '0', '0', '100' ])
+                    tx.executeSql('INSERT INTO Inner VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)', BrushLib.default1)
+                    tx.executeSql('INSERT INTO Inner VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)', BrushLib.big)
+                    tx.executeSql('INSERT INTO Inner VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)', BrushLib.little)
+                    tx.executeSql('INSERT INTO Inner VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)', BrushLib.hardEraser)
+                    tx.executeSql('INSERT INTO Inner VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)', BrushLib.sofrEraser)
                     rs = tx.executeSql('SELECT * FROM Inner')
                 }
 

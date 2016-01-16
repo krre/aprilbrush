@@ -57,4 +57,5 @@ DISTFILES += \
     src/qml/components/ButtonBase.qml \
     src/qml/main/Options.qml \
     src/qml/main/NewImage.qml \
-    src/qml/components/ColorBox.qml
+    src/qml/components/ColorBox.qml \
+    src/js/brush-lib.js

@@ -3,5 +3,6 @@
         <file>js/enums.js</file>
         <file>js/undo.js</file>
         <file>js/utils.js</file>
+        <file>js/brush-lib.js</file>
     </qresource>
 </RCC>
