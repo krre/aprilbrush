@@ -28,9 +28,6 @@ int main(int argc, char* argv[])
     Core Core;
 
     QQmlApplicationEngine engine;
-    QString storageDirPath = QDir::currentPath() + "/storage";
-    QDir().mkdir(storageDirPath);
-    engine.setOfflineStoragePath(storageDirPath);
 
     engine.rootContext()->setContextProperty("TabletEventFilter", tabletEventFilter);
     engine.rootContext()->setContextProperty("Settings", &settings);

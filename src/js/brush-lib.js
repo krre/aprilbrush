@@ -1,5 +1,7 @@
-var default1 = [ 'Default', '30', '80', '100', '25', '85', '100', '0', '0', '0' ]
-var big = [ 'Big', '100', '80', '100', '10', '85', '100', '0', '0', '0' ]
-var little = [ 'Little', '5', '80', '50', '10', '50', '100', '0', '0', '0' ]
-var hardEraser = [ 'Hard Eraser', '30', '100', '80', '10', '90', '100', '0', '0', '100' ]
-var sofrEraser = [ 'Soft Eraser', '30', '100', '15', '10', '70', '100', '0', '0', '100' ]
+var defaultPack = [
+    { name: "Default", size: 30, opacity: 80, flow: 100, spacing: 25, hardness: 85, roundness: 100, angle: 0, jitter: 0, eraser: 0 },
+    { name: "Big", size: 100, opacity: 80, flow: 100, spacing: 10, hardness: 85, roundness: 100, angle: 0, jitter: 0, eraser: 0 },
+    { name: "Little", size: 5, opacity: 80, flow: 50, spacing: 10, hardness: 50, roundness: 100, angle: 0, jitter: 0, eraser: 0 },
+    { name: "Hard Eraser", size: 30, opacity: 100, flow: 80, spacing: 10, hardness: 90, roundness: 100, angle: 0, jitter: 0, eraser: 100 },
+    { name: "Soft Eraser", size: 30, opacity: 100, flow: 15, spacing: 10, hardness: 70, roundness: 100, angle: 0, jitter: 0, eraser: 100 }
+]

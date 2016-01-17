@@ -2,7 +2,6 @@ import QtQuick 2.6
 import QtQuick.Controls 1.5
 import QtQuick.Layouts 1.3
 import QtQuick.Controls.Styles 1.4
-import QtQuick.LocalStorage 2.0
 import "../components"
 import "../../js/brush-lib.js" as BrushLib
 
@@ -30,27 +29,12 @@ Panel {
     }
 
     function loadBrushes() {
-        var db = LocalStorage.openDatabaseSync("Brush", "1.0", "Brush Pack", 1000000);
-
-        db.transaction(
-            function(tx) {
-                tx.executeSql('CREATE TABLE IF NOT EXISTS Inner(name TEXT, size TEXT, opacity TEXT, flow TEXT, spacing TEXT, hardness TEXT, roundness TEXT, angle TEXT, jitter TEXT, eraser TEXT)')
-                var rs = tx.executeSql('SELECT * FROM Inner');
-                if (!rs.rows.length) {
-                    tx.executeSql('INSERT INTO Inner VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)', BrushLib.default1)
-                    tx.executeSql('INSERT INTO Inner VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)', BrushLib.big)
-                    tx.executeSql('INSERT INTO Inner VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)', BrushLib.little)
-                    tx.executeSql('INSERT INTO Inner VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)', BrushLib.hardEraser)
-                    tx.executeSql('INSERT INTO Inner VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)', BrushLib.sofrEraser)
-                    rs = tx.executeSql('SELECT * FROM Inner')
-                }
-
-                for(var i = 0; i < rs.rows.length; i++) {
-                    libraryModel.append({ name: rs.rows.item(i).name, size: rs.rows.item(i).size, opacity: rs.rows.item(i).opacity, flow: rs.rows.item(i).flow, spacing: rs.rows.item(i).spacing,
-                                        hardness: rs.rows.item(i).hardness, roundness: rs.rows.item(i).roundness, angle: rs.rows.item(i).angle, jitter: rs.rows.item(i).jitter, eraser: rs.rows.item(i).eraser })
-                }
-            }
-        )
+        for(var i in BrushLib.defaultPack) {
+            var brush = BrushLib.defaultPack[i]
+            libraryModel.append({ name: brush.name, size: brush.size, opacity: brush.opacity, flow: brush.flow,
+                                    spacing: brush.spacing, hardness: brush.hardness, roundness: brush.roundness,
+                                    angle: brush.angle, jitter: brush.jitter, eraser: brush.eraser })
+        }
     }
 
     Flow {
