@@ -109,7 +109,6 @@ ApplicationWindow {
 
                         ToolButton {
                             id: closeButton
-                            text: "x"
                             implicitWidth: 15
                             implicitHeight: 15
                             anchors.verticalCenter: parent.verticalCenter
@@ -117,8 +116,9 @@ ApplicationWindow {
                             anchors.rightMargin: 2
                             style: ButtonStyle {
                                 background: Rectangle {
-                                    color: control.pressed ? "gray" : (control.hovered ? "lightgray" : "transparent")
-                                    border.color: control.hovered ? "gray" : "transparent"
+                                    color: control.pressed ? "#b42328" : (control.hovered ? "#dc3235" : "transparent")
+                                    radius: control.implicitWidth
+                                    antialiasing: true
                                 }
 
                                 label: Text {
@@ -127,6 +127,7 @@ ApplicationWindow {
                                     font.family: "FontAwesome"
                                     text: FontAwesome.Icon.Remove
                                     font.pointSize: 8
+                                    color: control.pressed || control.hovered ? "white" : "gray"
                                 }
                             }
 
