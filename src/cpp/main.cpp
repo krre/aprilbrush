@@ -25,14 +25,14 @@ int main(int argc, char* argv[])
     QString filePath = qApp->applicationDirPath() + "/aprilbrush.ini";
     Settings settings(filePath);
     BrushEngine brushEngine;
-    Core Core;
+    Core core;
 
     QQmlApplicationEngine engine;
 
     engine.rootContext()->setContextProperty("TabletEventFilter", tabletEventFilter);
     engine.rootContext()->setContextProperty("Settings", &settings);
     engine.rootContext()->setContextProperty("BrushEngine", &brushEngine);
-    engine.rootContext()->setContextProperty("Core", &Core);
+    engine.rootContext()->setContextProperty("Core", &core);
     engine.load(QUrl("qrc:/qml/main.qml"));
 
     ::mainWindow = qobject_cast<QQuickWindow *>(engine.rootObjects().at(0));
