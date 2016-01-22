@@ -1,12 +1,12 @@
+.import QtQuick 2.6 as QtQuick
 .import "undo.js" as Undo
 
 function createDynamicObject(parent, url, properties) {
     var component = Qt.createComponent(url)
-    var errorMessage = component.errorString()
-    if (errorMessage) {
-        print(errorMessage)
-    } else {
+    if (component.status === QtQuick.Component.Ready) {
         return component.createObject(parent, properties || {})
+    } else {
+        print(component.errorString())
     }
 }
 
