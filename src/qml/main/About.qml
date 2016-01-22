@@ -1,4 +1,3 @@
-import QtQuick 2.6
 import "../components"
 
 MessageDialogBase {
