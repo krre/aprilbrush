@@ -1,5 +1,5 @@
 import QtQuick 2.6
-import "../components/messagedialog"
+import "../components"
 
 MessageDialogBase {
     title: qsTr(String("About %1").arg(Qt.application.name))

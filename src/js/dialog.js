@@ -1,17 +1,23 @@
-.import "utils.js" as Utils
+.import QtQuick.Dialogs 1.2 as Dialogs
+.import "../js/utils.js" as Utils
 
-function infoMessage(message) {
-    return Utils.createDynamicObject(mainRoot, "qrc:/qml/components/messagedialog/MessageDialogInformation.qml", { text: message })
+function info(message, parent) {
+    return Utils.createDynamicObject(parent || mainRoot, "qrc:/qml/components/MessageDialogBase.qml",
+                                     { icon: Dialogs.StandardIcon.Information, text: message })
 }
 
-function warningMessage(message) {
-    return Utils.createDynamicObject(mainRoot, "qrc:/qml/components/messagedialog/MessageDialogWarning.qml", { text: message })
+function warning(message, parent) {
+    return Utils.createDynamicObject(parent || mainRoot, "qrc:/qml/components/MessageDialogBase.qml",
+                                     { icon: Dialogs.StandardIcon.Information, text: message })
 }
 
-function questionMessage(message) {
-    return Utils.createDynamicObject(mainRoot, "qrc:/qml/components/messagedialog/MessageDialogQuestion.qml", { text: message })
+function question(message, parent) {
+    return Utils.createDynamicObject(parent || mainRoot, "qrc:/qml/components/MessageDialogBase.qml",
+                                     { icon: Dialogs.StandardIcon.Information, standardButtons: Dialogs.StandardButton.Yes | Dialogs.StandardButton.No, text: message })
 }
 
-function errorMessage(message) {
-    return Utils.createDynamicObject(mainRoot, "qrc:/qml/components/messagedialog/MessageDialogError.qml", { text: message })
+function error(message, parent) {
+    return Utils.createDynamicObject(parent || mainRoot, "qrc:/qml/components/MessageDialogBase.qml",
+                                     { icon: Dialogs.StandardIcon.Critical, text: message })
 }
+

@@ -47,15 +47,11 @@ DISTFILES += \
     src/qml/components/filedialog/FileDialogExport.qml \
     changelog.txt \
     README.md \
-    src/qml/components/messagedialog/MessageDialogBase.qml \
-    src/qml/components/messagedialog/MessageDialogError.qml \
-    src/qml/components/messagedialog/MessageDialogInformation.qml \
-    src/qml/components/messagedialog/MessageDialogQuestion.qml \
-    src/qml/components/messagedialog/MessageDialogWarning.qml \
     src/js/dialog.js \
     src/qml/components/WindowDialog.qml \
     src/qml/components/ButtonBase.qml \
     src/qml/main/Options.qml \
     src/qml/main/NewImage.qml \
     src/qml/components/ColorBox.qml \
-    src/js/brush-lib.js
+    src/js/brush-lib.js \
+    src/qml/components/MessageDialogBase.qml
