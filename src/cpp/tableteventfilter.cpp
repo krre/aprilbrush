@@ -9,15 +9,15 @@ bool TabletEventFilter::eventFilter(QObject* obj, QEvent* event)
             event->type() == QEvent::TabletEnterProximity ||
             event->type() == QEvent::TabletLeaveProximity) {
         QTabletEvent* tabletEvent = static_cast<QTabletEvent*>(event);
-        QVariantMap eventMap;
-        eventMap["posX"] = tabletEvent->posF().x();
-        eventMap["posY"] = tabletEvent->posF().y();
-        eventMap["globalX"] = tabletEvent->hiResGlobalX();
-        eventMap["globalY"] = tabletEvent->hiResGlobalY();
-        eventMap["pressure"] = tabletEvent->pressure();
-        eventMap["press"] = event->type() == QEvent::TabletPress;
-        eventMap["release"] = event->type() == QEvent::TabletRelease;
-        emit action(eventMap);
+        QVariantMap map;
+        map["posX"] = tabletEvent->posF().x();
+        map["posY"] = tabletEvent->posF().y();
+        map["globalX"] = tabletEvent->hiResGlobalX();
+        map["globalY"] = tabletEvent->hiResGlobalY();
+        map["pressure"] = tabletEvent->pressure();
+        map["press"] = event->type() == QEvent::TabletPress;
+        map["release"] = event->type() == QEvent::TabletRelease;
+        emit action(map);
         return true;
     } else if (event->type() == QEvent::MouseMove) {
 //        QMouseEvent* mouseEvent = static_cast<QMouseEvent*>(event);
