@@ -24,5 +24,6 @@
         <file>qml/main/Options.qml</file>
         <file>qml/main/NewImage.qml</file>
         <file>qml/components/ColorBox.qml</file>
+        <file>qml/components/style/MainTabViewStyle.qml</file>
     </qresource>
 </RCC>

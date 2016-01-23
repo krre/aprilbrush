@@ -54,4 +54,5 @@ DISTFILES += \
     src/qml/main/NewImage.qml \
     src/qml/components/ColorBox.qml \
     src/js/brush-lib.js \
-    src/qml/components/MessageDialogBase.qml
+    src/qml/components/MessageDialogBase.qml \
+    src/qml/components/style/MainTabViewStyle.qml
