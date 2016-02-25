@@ -35,6 +35,8 @@ int main(int argc, char* argv[])
     engine.rootContext()->setContextProperty("Core", &core);
     engine.load(QUrl("qrc:/qml/main.qml"));
 
+    if (engine.rootObjects().isEmpty()) return EXIT_FAILURE;
+
     ::mainWindow = qobject_cast<QQuickWindow *>(engine.rootObjects().at(0));
 
     return app.exec();
