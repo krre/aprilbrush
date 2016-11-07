@@ -1,7 +1,6 @@
 #include "brushengine.h"
 
-void BrushEngine::paint(const QPointF& point, float pressure)
-{
+void BrushEngine::paint(const QPointF& point, float pressure) {
     QPainter painter(m_eraser > 50 ? canvasItem->pixmap() : canvasBuffer->pixmap());
     painter.setRenderHint(QPainter::Antialiasing, true);
     painter.setPen(Qt::NoPen);
@@ -58,64 +57,55 @@ void BrushEngine::setCanvasItem(CanvasItem *canvasItem) {
     m_undoImage = canvasItem->image();
 }
 
-void BrushEngine::setColor(QColor color)
-{
+void BrushEngine::setColor(QColor color) {
     if (m_color == color) return;
     m_color = color;
     emit colorChanged(color);
 }
 
-void BrushEngine::setSize(int size)
-{
+void BrushEngine::setSize(int size) {
     if (m_size == size) return;
     m_size = size;
     emit sizeChanged(size);
 }
 
-void BrushEngine::setHardness(int hardness)
-{
+void BrushEngine::setHardness(int hardness) {
     if (m_hardness == hardness) return;
     m_hardness = hardness;
     emit hardnessChanged(hardness);
 }
 
-void BrushEngine::setOpacity(int opacity)
-{
+void BrushEngine::setOpacity(int opacity) {
     if (m_opacity == opacity) return;
     m_opacity = opacity;
     emit opacityChanged(opacity);
 }
 
-void BrushEngine::setRoundness(int roundness)
-{
+void BrushEngine::setRoundness(int roundness) {
     if (m_roundness == roundness) return;
     m_roundness = roundness;
     emit roundnessChanged(roundness);
 }
 
-void BrushEngine::setAngle(int angle)
-{
+void BrushEngine::setAngle(int angle) {
     if (m_angle == angle) return;
     m_angle = angle;
     emit angleChanged(angle);
 }
 
-void BrushEngine::setSpacing(int spacing)
-{
+void BrushEngine::setSpacing(int spacing) {
     if (m_spacing == spacing) return;
     m_spacing = spacing;
     emit spacingChanged(spacing);
 }
 
-void BrushEngine::setJitter(int jitter)
-{
+void BrushEngine::setJitter(int jitter) {
     if (m_jitter == jitter) return;
     m_jitter = jitter;
     emit jitterChanged(jitter);
 }
 
-void BrushEngine::setIsTouch(bool isTouch)
-{
+void BrushEngine::setIsTouch(bool isTouch) {
     if (m_isTouch == isTouch) return;
     m_isTouch = isTouch;
     if (isTouch) {
@@ -146,22 +136,19 @@ void BrushEngine::setIsTouch(bool isTouch)
     emit isTouchChanged(isTouch);
 }
 
-void BrushEngine::setFlow(int flow)
-{
+void BrushEngine::setFlow(int flow) {
     if (m_flow == flow) return;
     m_flow = flow;
     emit flowChanged(flow);
 }
 
-void BrushEngine::setEraser(int eraser)
-{
+void BrushEngine::setEraser(int eraser) {
     if (m_eraser == eraser) return;
     m_eraser = eraser;
     emit eraserChanged(eraser);
 }
 
-void BrushEngine::paintDab(const QPointF& point, QPainter& painter)
-{
+void BrushEngine::paintDab(const QPointF& point, QPainter& painter) {
     painter.save();
     painter.translate(point);
     painter.rotate(m_angle);

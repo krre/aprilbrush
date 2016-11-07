@@ -2,8 +2,7 @@
 #include <QtGui>
 #include <QtQuick>
 
-class CanvasItem : public QQuickPaintedItem
-{
+class CanvasItem : public QQuickPaintedItem {
     Q_OBJECT
     Q_PROPERTY(QSize size READ size WRITE setSize NOTIFY sizeChanged)
 public:

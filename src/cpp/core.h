@@ -2,8 +2,7 @@
 #include <QtCore>
 #include <QtGui>
 
-class Core : public QObject
-{
+class Core : public QObject {
     Q_OBJECT
     Q_PROPERTY(QString buildDate READ buildDate CONSTANT)
     Q_PROPERTY(QString qtVersion READ qtVersion CONSTANT)

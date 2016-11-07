@@ -11,8 +11,7 @@
 QPointer<TabletEventFilter> tabletEventFilter;
 QPointer<QQuickWindow> mainWindow;
 
-int main(int argc, char* argv[])
-{
+int main(int argc, char* argv[]) {
     QApplication app(argc, argv);
     app.setApplicationName("AprilBrush");
     app.setApplicationVersion("0.3.0");

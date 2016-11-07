@@ -1,8 +1,7 @@
 #pragma once
 #include <QtCore>
 
-class TabletEventFilter : public QObject
-{
+class TabletEventFilter : public QObject {
     Q_OBJECT
 public:
     explicit TabletEventFilter() {}

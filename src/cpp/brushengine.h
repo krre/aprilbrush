@@ -2,8 +2,7 @@
 #include <QtCore>
 #include "canvasitem.h"
 
-class BrushEngine : public QObject
-{
+class BrushEngine : public QObject {
     Q_OBJECT
     Q_PROPERTY(bool isTouch READ isTouch WRITE setIsTouch NOTIFY isTouchChanged)
     Q_PROPERTY(QColor color READ color WRITE setColor NOTIFY colorChanged)

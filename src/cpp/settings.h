@@ -1,8 +1,7 @@
 #pragma once
 #include <QtCore>
 
-class Settings : public QObject
-{
+class Settings : public QObject {
     Q_OBJECT
 public:
     explicit Settings(const QString& filePath);

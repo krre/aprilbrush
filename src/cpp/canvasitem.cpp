@@ -1,28 +1,23 @@
 #include "canvasitem.h"
 
-CanvasItem::CanvasItem()
-{
+CanvasItem::CanvasItem() {
 //    setRenderTarget(QQuickPaintedItem::FramebufferObject);
 }
 
-CanvasItem::~CanvasItem()
-{
+CanvasItem::~CanvasItem() {
     delete m_pixmap;
 }
 
-void CanvasItem::paint(QPainter* painter)
-{
+void CanvasItem::paint(QPainter* painter) {
     painter->drawPixmap(0, 0, *m_pixmap);
 }
 
-void CanvasItem::clear()
-{
+void CanvasItem::clear() {
     m_pixmap->fill(Qt::transparent);
     update();
 }
 
-void CanvasItem::drawImage(const QByteArray& image)
-{
+void CanvasItem::drawImage(const QByteArray& image) {
     QPixmap pixmap;
     pixmap.loadFromData(image);
     QPainter painter(m_pixmap);
@@ -30,8 +25,7 @@ void CanvasItem::drawImage(const QByteArray& image)
     update();
 }
 
-QByteArray CanvasItem::image(QPoint topleft, QPoint bottomright)
-{
+QByteArray CanvasItem::image(QPoint topleft, QPoint bottomright) {
     QByteArray ba;
     QBuffer buffer(&ba);
     buffer.open(QIODevice::WriteOnly);
@@ -44,8 +38,7 @@ QByteArray CanvasItem::image(QPoint topleft, QPoint bottomright)
     return ba;
 }
 
-void CanvasItem::setImage(const QByteArray& image, QPoint topleft)
-{
+void CanvasItem::setImage(const QByteArray& image, QPoint topleft) {
     if (topleft.isNull()) {
         m_pixmap->loadFromData(image);
     } else {
@@ -61,8 +54,7 @@ void CanvasItem::setImage(const QByteArray& image, QPoint topleft)
     update();
 }
 
-void CanvasItem::setSize(QSize size)
-{
+void CanvasItem::setSize(QSize size) {
     if (m_size == size) return;
     m_size = size;
     if (size.width() && size.height()) {

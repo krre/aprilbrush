@@ -13,14 +13,12 @@
 
 extern QPointer<QQuickWindow> mainWindow;
 
-bool Core::isFileExists(const QString& filePath)
-{
+bool Core::isFileExists(const QString& filePath) {
     QFileInfo checkFile(filePath);
     return checkFile.exists() && checkFile.isFile();
 }
 
-void Core::writeOra(const QString& oraPath, const QSize& canvasSize, const QVariantList layerList)
-{
+void Core::writeOra(const QString& oraPath, const QSize& canvasSize, const QVariantList layerList) {
     QZipWriter zipWriter(oraPath);
     zipWriter.setCompressionPolicy(QZipWriter::AutoCompress);
 
@@ -110,8 +108,7 @@ QVariantList Core::readOra(const QString& oraPath) {
     return list;
 }
 
-QVariantMap Core::readOraAttr(const QString& oraPath)
-{
+QVariantMap Core::readOraAttr(const QString& oraPath) {
     QVariantMap map;
 
     QZipReader zipReader(oraPath, QIODevice::ReadOnly);
@@ -134,8 +131,7 @@ QVariantMap Core::readOraAttr(const QString& oraPath)
     return map;
 }
 
-void Core::writePng(const QString& pngPath, const QVariantList& canvasItems)
-{
+void Core::writePng(const QString& pngPath, const QVariantList& canvasItems) {
     QPixmap pixmap;
     for (int i = canvasItems.count() - 1; i >= 0; i--)
     {
@@ -152,8 +148,7 @@ void Core::writePng(const QString& pngPath, const QVariantList& canvasItems)
     pixmap.save(pngPath);
 }
 
-void Core::setCursorShape(QString type, int size)
-{
+void Core::setCursorShape(QString type, int size) {
     if (::mainWindow.isNull()) return;
 
     if (type == "paint") {
@@ -178,30 +173,25 @@ void Core::setCursorShape(QString type, int size)
     }
 }
 
-QString Core::pathToBaseName(const QString& path)
-{
+QString Core::pathToBaseName(const QString& path) {
     QFileInfo fileInfo(path);
     return fileInfo.baseName();
 }
 
-QString Core::pathToFileName(const QString& path)
-{
+QString Core::pathToFileName(const QString& path) {
     QFileInfo fileInfo(path);
     return fileInfo.fileName();
 }
 
-QColor Core::hsvToColor(qreal h, qreal s, qreal v)
-{
+QColor Core::hsvToColor(qreal h, qreal s, qreal v) {
     QColor color;
     color.setHsvF(h, s, v);
     return color;
 }
 
-QColor Core::pickColor(const QPointF& point, const QVariantList& canvasItems)
-{
+QColor Core::pickColor(const QPointF& point, const QVariantList& canvasItems) {
     QPixmap pixmap;
-    for (int i = canvasItems.count() - 1; i >= 0; i--)
-    {
+    for (int i = canvasItems.count() - 1; i >= 0; i--) {
         QObject* obj = qvariant_cast<QObject*>(canvasItems.at(i));
         CanvasItem* canvasItem = qobject_cast<CanvasItem*>(obj);
         QPixmap* canvasPixmap = canvasItem->pixmap();
@@ -216,8 +206,7 @@ QColor Core::pickColor(const QPointF& point, const QVariantList& canvasItems)
     return QColor(pixmap.toImage().pixel(qRound(point.x()), qRound(point.y())));
 }
 
-QVariantMap Core::colorToHsv(const QColor &color)
-{
+QVariantMap Core::colorToHsv(const QColor &color) {
     QVariantMap map;
     map["h"] = color.hueF();
     map["s"] = color.saturationF();
@@ -225,12 +214,10 @@ QVariantMap Core::colorToHsv(const QColor &color)
     return map;
 }
 
-QString Core::byteArrayToBase64(const QByteArray& value)
-{
+QString Core::byteArrayToBase64(const QByteArray& value) {
     return value.toBase64();
 }
 
-QByteArray Core::base64ToByteArray(const QString& value)
-{
+QByteArray Core::base64ToByteArray(const QString& value) {
     return QByteArray::fromBase64(value.toLatin1());
 }

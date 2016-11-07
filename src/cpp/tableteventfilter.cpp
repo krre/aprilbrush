@@ -1,8 +1,7 @@
 #include "tableteventfilter.h"
 #include <QtGui>
 
-bool TabletEventFilter::eventFilter(QObject* obj, QEvent* event)
-{
+bool TabletEventFilter::eventFilter(QObject* obj, QEvent* event) {
     if (event->type() == QEvent::TabletPress ||
             event->type() == QEvent::TabletMove ||
             event->type() == QEvent::TabletRelease ||
