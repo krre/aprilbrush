@@ -4,8 +4,6 @@
 
 class TabletEventFilter : public QObject {
     Q_OBJECT
-public:
-    explicit TabletEventFilter() {}
 
 signals:
     void action(QVariantMap event);

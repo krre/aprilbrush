@@ -16,7 +16,6 @@ class BrushEngine : public QObject {
     Q_PROPERTY(int eraser READ eraser WRITE setEraser NOTIFY eraserChanged)
 
 public:
-    BrushEngine() {}
     Q_INVOKABLE void paint(const QPointF& point, float pressure=1.0);
     Q_INVOKABLE void setCanvasItem(CanvasItem* canvasItem);
     Q_INVOKABLE void setCanvasBuffer(CanvasItem* canvasBuffer) { this->canvasBuffer = canvasBuffer; }
