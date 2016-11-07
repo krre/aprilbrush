@@ -8,7 +8,6 @@
 #include <QQmlApplicationEngine>
 #include <QQuickWindow>
 
-QPointer<TabletEventFilter> tabletEventFilter;
 QPointer<QQuickWindow> mainWindow;
 
 int main(int argc, char* argv[]) {
@@ -18,17 +17,18 @@ int main(int argc, char* argv[]) {
 
     qmlRegisterType<CanvasItem>("AprilBrush", 1, 0, "CanvasItem");
 
-    ::tabletEventFilter = new TabletEventFilter;
-    app.installEventFilter(tabletEventFilter);
+    TabletEventFilter tabletEventFilter;
+    app.installEventFilter(&tabletEventFilter);
 
     QString filePath = qApp->applicationDirPath() + "/aprilbrush.ini";
     Settings settings(filePath);
+
     BrushEngine brushEngine;
     Core core;
 
     QQmlApplicationEngine engine;
 
-    engine.rootContext()->setContextProperty("TabletEventFilter", tabletEventFilter);
+    engine.rootContext()->setContextProperty("TabletEventFilter", &tabletEventFilter);
     engine.rootContext()->setContextProperty("Settings", &settings);
     engine.rootContext()->setContextProperty("BrushEngine", &brushEngine);
     engine.rootContext()->setContextProperty("Core", &core);
@@ -36,7 +36,7 @@ int main(int argc, char* argv[]) {
 
     if (engine.rootObjects().isEmpty()) return EXIT_FAILURE;
 
-    ::mainWindow = qobject_cast<QQuickWindow *>(engine.rootObjects().at(0));
+    ::mainWindow = qobject_cast<QQuickWindow*>(engine.rootObjects().at(0));
 
     return app.exec();
 }
