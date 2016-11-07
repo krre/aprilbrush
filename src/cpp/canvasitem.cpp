@@ -1,4 +1,5 @@
 #include "canvasitem.h"
+#include <QtGui>
 
 CanvasItem::CanvasItem() {
 //    setRenderTarget(QQuickPaintedItem::FramebufferObject);

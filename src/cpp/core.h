@@ -1,6 +1,8 @@
 #pragma once
-#include <QtCore>
-#include <QtGui>
+#include <QObject>
+#include <QUrl>
+#include <QVariantMap>
+#include <QColor>
 
 class Core : public QObject {
     Q_OBJECT

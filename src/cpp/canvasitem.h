@@ -1,6 +1,5 @@
 #pragma once
-#include <QtGui>
-#include <QtQuick>
+#include <QQuickPaintedItem>
 
 class CanvasItem : public QQuickPaintedItem {
     Q_OBJECT

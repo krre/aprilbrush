@@ -1,5 +1,6 @@
 #pragma once
-#include <QtCore>
+#include <QObject>
+#include <QVariantMap>
 
 class TabletEventFilter : public QObject {
     Q_OBJECT

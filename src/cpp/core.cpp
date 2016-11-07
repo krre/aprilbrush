@@ -3,7 +3,6 @@
 #include "canvasitem.h"
 #include "qzip/qzipreader_p.h"
 #include "qzip/qzipwriter_p.h"
-
 #include <QtGui>
 #include <QtQuick>
 #include <QDir>

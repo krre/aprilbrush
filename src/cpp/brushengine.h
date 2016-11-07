@@ -1,5 +1,4 @@
 #pragma once
-#include <QtCore>
 #include "canvasitem.h"
 
 class BrushEngine : public QObject {

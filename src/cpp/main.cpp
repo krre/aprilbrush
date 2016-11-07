@@ -3,10 +3,10 @@
 #include "core.h"
 #include "tableteventfilter.h"
 #include "settings.h"
-
 #include <QtQml>
 #include <QApplication>
 #include <QQmlApplicationEngine>
+#include <QQuickWindow>
 
 QPointer<TabletEventFilter> tabletEventFilter;
 QPointer<QQuickWindow> mainWindow;

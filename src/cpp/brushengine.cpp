@@ -1,4 +1,5 @@
 #include "brushengine.h"
+#include <QtGui>
 
 void BrushEngine::paint(const QPointF& point, float pressure) {
     QPainter painter(m_eraser > 50 ? canvasItem->pixmap() : canvasBuffer->pixmap());
