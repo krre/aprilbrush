@@ -17,7 +17,7 @@ public:
     Q_INVOKABLE QVariantList readOra(const QString& oraPath);
     Q_INVOKABLE QVariantMap readOraAttr(const QString& oraPath);
     Q_INVOKABLE void writePng(const QString& pngPath, const QVariantList& canvasItems);
-    Q_INVOKABLE void setCursorShape(QString type, int size=0);
+    Q_INVOKABLE void setCursorShape(const QString& type, int size=0);
     Q_INVOKABLE QString urlToPath(const QUrl& url) { return url.toLocalFile(); }
     Q_INVOKABLE QString pathToBaseName(const QString& path);
     Q_INVOKABLE QString pathToFileName(const QString& path);

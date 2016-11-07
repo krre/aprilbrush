@@ -147,7 +147,7 @@ void Core::writePng(const QString& pngPath, const QVariantList& canvasItems) {
     pixmap.save(pngPath);
 }
 
-void Core::setCursorShape(QString type, int size) {
+void Core::setCursorShape(const QString& type, int size) {
     if (::mainWindow.isNull()) return;
 
     if (type == "paint") {
