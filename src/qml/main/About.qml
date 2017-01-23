@@ -7,6 +7,6 @@ MessageDialogBase {
           Build on %4<br><br>
           <a href=\"https://github.com/krre/aprilbrush\">
           https://github.com/krre/aprilbrush</a><br><br>
-          Copyright © 2012-2016, Vladimir Zarypov
+          Copyright © 2012-2017, Vladimir Zarypov
           ".arg(Qt.application.name).arg(Qt.application.version).arg(Core.qtVersion).arg(Core.buildDate)
 }
