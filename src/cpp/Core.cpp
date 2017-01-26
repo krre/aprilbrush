@@ -1,6 +1,6 @@
-#include "core.h"
-#include "tableteventfilter.h"
-#include "canvasitem.h"
+#include "Core.h"
+#include "TabletEventFilter.h"
+#include "CanvasItem.h"
 #include "qzip/qzipreader_p.h"
 #include "qzip/qzipwriter_p.h"
 #include <QtGui>

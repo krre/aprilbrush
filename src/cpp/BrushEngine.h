@@ -1,5 +1,5 @@
 #pragma once
-#include "canvasitem.h"
+#include "CanvasItem.h"
 
 class BrushEngine : public QObject {
     Q_OBJECT

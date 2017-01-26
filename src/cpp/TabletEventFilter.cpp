@@ -1,4 +1,4 @@
-#include "tableteventfilter.h"
+#include "TabletEventFilter.h"
 #include <QtGui>
 
 bool TabletEventFilter::eventFilter(QObject* obj, QEvent* event) {

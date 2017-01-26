@@ -1,4 +1,4 @@
-#include "settings.h"
+#include "Settings.h"
 
 Settings::Settings(const QString& filePath) {
     settings = new QSettings(filePath, QSettings::IniFormat, this);

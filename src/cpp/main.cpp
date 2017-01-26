@@ -1,8 +1,8 @@
-#include "canvasitem.h"
-#include "brushengine.h"
-#include "core.h"
-#include "tableteventfilter.h"
-#include "settings.h"
+#include "CanvasItem.h"
+#include "BrushEngine.h"
+#include "Core.h"
+#include "TabletEventFilter.h"
+#include "Settings.h"
 #include <QtQml>
 #include <QApplication>
 #include <QQmlApplicationEngine>

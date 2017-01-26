@@ -4,19 +4,19 @@ QT += qml quick widgets
 CONFIG += c++11
 
 SOURCES += \
-    src/cpp/tableteventfilter.cpp \
-    src/cpp/core.cpp \
     src/cpp/main.cpp \
-    src/cpp/canvasitem.cpp \
-    src/cpp/settings.cpp \
-    src/cpp/brushengine.cpp
+    src/cpp/BrushEngine.cpp \
+    src/cpp/CanvasItem.cpp \
+    src/cpp/Core.cpp \
+    src/cpp/Settings.cpp \
+    src/cpp/TabletEventFilter.cpp
 
 HEADERS += \
-    src/cpp/tableteventfilter.h \
-    src/cpp/core.h \
-    src/cpp/canvasitem.h \
-    src/cpp/settings.h \
-    src/cpp/brushengine.h
+    src/cpp/BrushEngine.h \
+    src/cpp/CanvasItem.h \
+    src/cpp/Core.h \
+    src/cpp/Settings.h \
+    src/cpp/TabletEventFilter.h
 
 RESOURCES += \
     src/qml.qrc \
