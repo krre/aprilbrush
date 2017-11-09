@@ -17,11 +17,11 @@ class BrushEngine : public QObject {
 
 public:
     Q_INVOKABLE void paint(const QPointF& point, float pressure=1.0);
-    Q_INVOKABLE void setCanvasItem(CanvasItem* canvasItem);
-    Q_INVOKABLE void setCanvasBuffer(CanvasItem* canvasBuffer) { this->canvasBuffer = canvasBuffer; }
+    Q_INVOKABLE void setCanvasItem(CanvasItem* _canvasItem);
+    Q_INVOKABLE void setCanvasBuffer(CanvasItem* canvasBuffer) { this->_canvasBuffer = canvasBuffer; }
     Q_INVOKABLE QByteArray undoImage() { return _undoImage; }
     Q_INVOKABLE QByteArray redoImage() { return _redoImage; }
-    Q_INVOKABLE QPointF startPos() { return topleft; }
+    Q_INVOKABLE QPointF startPos() { return _topleft; }
 
     QColor color() const { return _color; }
     void setColor(QColor color);
@@ -74,13 +74,13 @@ private:
     int _eraser = 0;
 
     bool _isTouch = false;
-    CanvasItem* canvasItem;
-    CanvasItem* canvasBuffer;
+    CanvasItem* _canvasItem;
+    CanvasItem* _canvasBuffer;
 
-    QPointF startPoint;
-    QPointF lastPoint;
-    QPoint topleft;
-    QPoint bottomright;
+    QPointF _startPoint;
+    QPointF _lastPoint;
+    QPoint _topleft;
+    QPoint _bottomright;
     QByteArray _undoImage;
     QByteArray _redoImage;
     void paintDab(const QPointF& point, QPainter& painter);

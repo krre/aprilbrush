@@ -2,7 +2,7 @@
 #include <QtGui>
 
 void BrushEngine::paint(const QPointF& point, float pressure) {
-    QPainter painter(_eraser > 50 ? canvasItem->pixmap() : canvasBuffer->pixmap());
+    QPainter painter(_eraser > 50 ? _canvasItem->pixmap() : _canvasBuffer->pixmap());
     painter.setRenderHint(QPainter::Antialiasing, true);
     painter.setPen(Qt::NoPen);
     if (_eraser > 50) {
@@ -22,39 +22,39 @@ void BrushEngine::paint(const QPointF& point, float pressure) {
     radialGradient.setColorAt(_hardness / 100.0, pressureColor);
     painter.setBrush(QBrush(radialGradient));
 
-    if (startPoint.isNull()) {
-        startPoint = QPointF(point);
-        lastPoint = QPointF(point);
-        topleft = QPoint(0, 0);
-        bottomright = QPoint(canvasBuffer->pixmap()->width(), canvasBuffer->pixmap()->height());
+    if (_startPoint.isNull()) {
+        _startPoint = QPointF(point);
+        _lastPoint = QPointF(point);
+        _topleft = QPoint(0, 0);
+        _bottomright = QPoint(_canvasBuffer->pixmap()->width(), _canvasBuffer->pixmap()->height());
         paintDab(point, painter);
     } else {
-        qreal length = qSqrt(qPow(lastPoint.x() - point.x(), 2) + qPow(lastPoint.y() - point.y(), 2));
+        qreal length = qSqrt(qPow(_lastPoint.x() - point.x(), 2) + qPow(_lastPoint.y() - point.y(), 2));
         qreal delta = _size * _spacing / 2 / 100.0;
 
         if (length >= delta) {
             int dabs = qRound(length / delta);
-            qreal angle = qAtan2(point.x() - lastPoint.x(), point.y() - lastPoint.y());
+            qreal angle = qAtan2(point.x() - _lastPoint.x(), point.y() - _lastPoint.y());
             qreal deltaX = delta * qSin(angle);
             qreal deltaY = delta * qCos(angle);
 
             QPointF betweenPoint;
             for (int i = 1; i <= dabs; i++) {
-                qreal x = lastPoint.x() + deltaX * i +
+                qreal x = _lastPoint.x() + deltaX * i +
                         (10000 - qrand() % 20000) / 10000.0 * _size * _jitter / 100;
-                qreal y = lastPoint.y() + deltaY * i +
+                qreal y = _lastPoint.y() + deltaY * i +
                         (10000 - qrand() % 20000) / 10000.0 * _size * _jitter / 100;
                 betweenPoint = QPointF(x, y);
                 paintDab(betweenPoint, painter);
 
             }
-            lastPoint = betweenPoint;
+            _lastPoint = betweenPoint;
         }
     }
 }
 
 void BrushEngine::setCanvasItem(CanvasItem *canvasItem) {
-    this->canvasItem = canvasItem;
+    this->_canvasItem = canvasItem;
     _undoImage = canvasItem->image();
 }
 
@@ -110,29 +110,29 @@ void BrushEngine::setIsTouch(bool isTouch) {
     if (_isTouch == isTouch) return;
     _isTouch = isTouch;
     if (isTouch) {
-        startPoint = QPointF();
+        _startPoint = QPointF();
     } else {
-        _undoImage = canvasItem->image(topleft, bottomright);
+        _undoImage = _canvasItem->image(_topleft, _bottomright);
 
-        QPainter painter(canvasItem->pixmap());
+        QPainter painter(_canvasItem->pixmap());
         painter.setOpacity(_opacity / 100.0);
-        painter.drawPixmap(0, 0, *canvasBuffer->pixmap());
-        canvasBuffer->pixmap()->fill(Qt::transparent);
-        canvasItem->update();
-        canvasBuffer->update();
+        painter.drawPixmap(0, 0, *_canvasBuffer->pixmap());
+        _canvasBuffer->pixmap()->fill(Qt::transparent);
+        _canvasItem->update();
+        _canvasBuffer->update();
 
-        _redoImage = canvasItem->image(topleft, bottomright);
+        _redoImage = _canvasItem->image(_topleft, _bottomright);
 
         // Correct corner positions on brush size
-        topleft.setX(topleft.x() - _size);
-        topleft.setY(topleft.y() - _size);
-        bottomright.setX(bottomright.x() + _size);
-        bottomright.setY(bottomright.y() + _size);
+        _topleft.setX(_topleft.x() - _size);
+        _topleft.setY(_topleft.y() - _size);
+        _bottomright.setX(_bottomright.x() + _size);
+        _bottomright.setY(_bottomright.y() + _size);
 
-        topleft.setX(qMax(0, topleft.x()));
-        topleft.setY(qMax(0, topleft.y()));
-        bottomright.setX(qMin(canvasBuffer->pixmap()->width(), bottomright.x()));
-        bottomright.setY(qMin(canvasBuffer->pixmap()->height(), bottomright.y()));
+        _topleft.setX(qMax(0, _topleft.x()));
+        _topleft.setY(qMax(0, _topleft.y()));
+        _bottomright.setX(qMin(_canvasBuffer->pixmap()->width(), _bottomright.x()));
+        _bottomright.setY(qMin(_canvasBuffer->pixmap()->height(), _bottomright.y()));
     }
     emit isTouchChanged(isTouch);
 }
@@ -159,14 +159,14 @@ void BrushEngine::paintDab(const QPointF& point, QPainter& painter) {
     painter.restore();
     rect.moveTo(point.x() - _size / 2, point.y() - _size / 2);
     if (_eraser > 50) {
-        canvasItem->update(rect);
+        _canvasItem->update(rect);
     } else {
-        canvasBuffer->update(rect);
+        _canvasBuffer->update(rect);
     }
 
     // Detect a min and max corner positions
-    bottomright.setX(qMax(bottomright.x(), qRound(point.x())));
-    bottomright.setY(qMax(bottomright.y(), qRound(point.y())));
-    topleft.setX(qMin(topleft.x(), qRound(point.x())));
-    topleft.setY(qMin(topleft.y(), qRound(point.y())));
+    _bottomright.setX(qMax(_bottomright.x(), qRound(point.x())));
+    _bottomright.setY(qMax(_bottomright.y(), qRound(point.y())));
+    _topleft.setX(qMin(_topleft.x(), qRound(point.x())));
+    _topleft.setY(qMin(_topleft.y(), qRound(point.y())));
 }
