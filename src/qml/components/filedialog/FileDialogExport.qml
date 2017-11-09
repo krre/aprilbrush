@@ -1,4 +1,4 @@
-import QtQuick 2.8
+import QtQuick 2.10
 import "../../../js/utils.js" as Utils
 
 FileDialogBase {

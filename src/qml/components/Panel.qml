@@ -1,4 +1,4 @@
-import QtQuick 2.8
+import QtQuick 2.10
 
 Rectangle {
     default property alias content: content.data

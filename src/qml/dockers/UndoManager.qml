@@ -1,4 +1,4 @@
-import QtQuick 2.8
+import QtQuick 2.10
 import QtQuick.Controls 1.5
 import "../components"
 import "../../js/undo.js" as Undo

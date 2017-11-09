@@ -1,4 +1,4 @@
-.import QtQuick 2.8 as QtQuick
+.import QtQuick 2.10 as QtQuick
 .import "undo.js" as Undo
 
 function createDynamicObject(parent, url, properties) {
