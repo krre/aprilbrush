@@ -1,5 +1,5 @@
 import QtQuick 2.10
-import QtQuick.Controls 1.5
+import QtQuick.Controls 1.6
 import QtQuick.Layouts 1.3
 import AprilBrush 1.0
 import "../../js/utils.js" as Utils
