@@ -29,7 +29,7 @@ TabViewStyle {
                 anchors.verticalCenter: parent.verticalCenter
                 horizontalAlignment: Text.AlignHCenter
                 text: styleData.title
-                elide: Text.ElideLeft
+                elide: Text.ElideRight
             }
 
             ToolButton {
