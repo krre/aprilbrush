@@ -8,7 +8,7 @@ TabViewStyle {
     tabsMovable: true
     tabOverlap: -5
     tab: Rectangle {
-        implicitWidth: styleData.selected ? Math.max(text.text.length * text.font.pixelSize / 1.5, 80) : Math.min(control.width / tabView.count, 80)
+        implicitWidth: styleData.selected ? Math.max(title.text.length * title.font.pixelSize / 1.5, 80) : Math.min(control.width / tabView.count, 80)
         implicitHeight: 25
         color: "#e6e6e6"
         border.width: 1
@@ -18,8 +18,8 @@ TabViewStyle {
             anchors.fill: parent
             spacing: 0
 
-            Text {
-                id: text
+            Label {
+                id: title
                 Layout.fillWidth: true
                 anchors.verticalCenter: parent.verticalCenter
                 horizontalAlignment: Text.AlignHCenter
