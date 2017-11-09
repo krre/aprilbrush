@@ -11,6 +11,7 @@ Column {
 
     RowLayout {
         width: parent.width
+
         Label {
             text: title
         }
