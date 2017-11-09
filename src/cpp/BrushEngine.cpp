@@ -1,4 +1,5 @@
 #include "BrushEngine.h"
+#include "CanvasItem.h"
 #include <QtGui>
 
 void BrushEngine::paint(const QPointF& point, float pressure) {

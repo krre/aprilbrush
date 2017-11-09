@@ -1,5 +1,10 @@
 #pragma once
-#include "CanvasItem.h"
+#include <QObject>
+#include <QColor>
+#include <QPointF>
+
+class CanvasItem;
+class QPainter;
 
 class BrushEngine : public QObject {
     Q_OBJECT
