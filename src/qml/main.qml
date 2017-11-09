@@ -21,8 +21,6 @@ ApplicationWindow {
     title: Qt.application.name + (currentTab ?
              " - " + currentTab.fileName + (currentTab.isDirty ? " [*]" : "") + " @ " + Math.round(currentTab.zoom * 100) + "%"
              : "")
-    width: Settings.value("Main", "width", 800)
-    height: Settings.value("Main", "height", 600)
 
     menuBar: MainMenu {
         id: mainMenu
@@ -34,8 +32,16 @@ ApplicationWindow {
     }
 
     Component.onCompleted: {
+        width = Settings.value("Main", "width", 800)
+        height = Settings.value("Main", "height", 600)
+
         x = Settings.value("Main", "x", (Screen.width - width) / 2)
         y = Settings.value("Main", "y", (Screen.height - height) / 2)
+
+        var visibility = Settings.value("Main", "visibility", Window.Windowed)
+        if (Number(visibility) === Window.Maximized) {
+            mainRoot.visibility = Window.Maximized
+        }
 
         Utils.loadRecentFiles()
 
@@ -55,6 +61,7 @@ ApplicationWindow {
         Settings.setValue("Main", "y", y)
         Settings.setValue("Main", "width", width)
         Settings.setValue("Main", "height", height)
+        Settings.setValue("Main", "visibility", visibility)
 
         Settings.setValue("Main", "dockerSplit.width", dockerSplit.width)
         Settings.setValue("Main", "topDock.height", topDock.height)
