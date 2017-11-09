@@ -1,4 +1,5 @@
 #include "Settings.h"
+#include <QtCore>
 
 Settings::Settings(const QString& filePath) {
     _settings = new QSettings(filePath, QSettings::IniFormat, this);

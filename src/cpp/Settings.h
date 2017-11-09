@@ -1,6 +1,8 @@
 #pragma once
 #include <QObject>
-#include <QSettings>
+#include <QVariant>
+
+class QSettings;
 
 class Settings : public QObject {
     Q_OBJECT
