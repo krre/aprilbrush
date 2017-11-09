@@ -8,11 +8,16 @@ TabViewStyle {
     tabsMovable: true
     tabOverlap: -5
     tab: Rectangle {
-        implicitWidth: styleData.selected ? Math.max(title.text.length * title.font.pixelSize / 1.5, 80) : Math.min(control.width / tabView.count, 80)
+        implicitWidth: Math.max(fontMetrics.advanceWidth(title.text), 80) + closeButton.implicitWidth
         implicitHeight: 25
         color: "#e6e6e6"
         border.width: 1
         border.color: styleData.selected ? "#7d91f5" : "transparent"
+
+        FontMetrics {
+            id: fontMetrics
+            font.family: title.font.family
+        }
 
         RowLayout {
             anchors.fill: parent
