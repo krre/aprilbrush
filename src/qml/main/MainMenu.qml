@@ -138,7 +138,7 @@ MenuBar {
                 undoManager.undoView.decrementCurrentIndex()
                 undoManager.run(undoManager.currentIndex)
             }
-            enabled: undoManager.currentIndex > 0
+            enabled: tabView.count && undoManager.currentIndex > 0
         }
 
         MenuItem {
@@ -148,14 +148,14 @@ MenuBar {
                 undoManager.undoView.incrementCurrentIndex()
                 undoManager.run(undoManager.currentIndex)
             }
-            enabled: undoModel ? undoManager.currentIndex < undoModel.count - 1 : false
+            enabled: undoModel && undoManager.currentIndex < undoModel.count - 1
         }
 
         MenuItem {
             text: qsTr("Clear")
             shortcut: "Delete"
             onTriggered: undoManager.add(Undo.clearLayer())
-            enabled: layerManager.currentIndex >= 0
+            enabled: tabView.count && layerManager.currentIndex >= 0
         }
     }
 
