@@ -6,22 +6,22 @@ CanvasItem::CanvasItem() {
 }
 
 CanvasItem::~CanvasItem() {
-    delete m_pixmap;
+    delete _pixmap;
 }
 
 void CanvasItem::paint(QPainter* painter) {
-    painter->drawPixmap(0, 0, *m_pixmap);
+    painter->drawPixmap(0, 0, *_pixmap);
 }
 
 void CanvasItem::clear() {
-    m_pixmap->fill(Qt::transparent);
+    _pixmap->fill(Qt::transparent);
     update();
 }
 
 void CanvasItem::drawImage(const QByteArray& image) {
     QPixmap pixmap;
     pixmap.loadFromData(image);
-    QPainter painter(m_pixmap);
+    QPainter painter(_pixmap);
     painter.drawPixmap(0, 0, pixmap);
     update();
 }
@@ -31,9 +31,9 @@ QByteArray CanvasItem::image(QPoint topleft, QPoint bottomright) {
     QBuffer buffer(&ba);
     buffer.open(QIODevice::WriteOnly);
     if (topleft.isNull()) {
-        m_pixmap->save(&buffer, "TIFF");
+        _pixmap->save(&buffer, "TIFF");
     } else {
-        m_pixmap->copy(QRect(topleft, bottomright)).save(&buffer, "TIFF");
+        _pixmap->copy(QRect(topleft, bottomright)).save(&buffer, "TIFF");
     }
     buffer.close();
     return ba;
@@ -41,12 +41,12 @@ QByteArray CanvasItem::image(QPoint topleft, QPoint bottomright) {
 
 void CanvasItem::setImage(const QByteArray& image, QPoint topleft) {
     if (topleft.isNull()) {
-        m_pixmap->loadFromData(image);
+        _pixmap->loadFromData(image);
     } else {
         QPixmap pixmap;
         pixmap.loadFromData(image);
 
-        QPainter painter(m_pixmap);
+        QPainter painter(_pixmap);
         painter.setCompositionMode(QPainter::CompositionMode_Source);
         painter.fillRect(QRect(topleft, pixmap.size()), Qt::transparent);
         painter.setCompositionMode(QPainter::CompositionMode_SourceOver);
@@ -56,11 +56,11 @@ void CanvasItem::setImage(const QByteArray& image, QPoint topleft) {
 }
 
 void CanvasItem::setSize(QSize size) {
-    if (m_size == size) return;
-    m_size = size;
+    if (_size == size) return;
+    _size = size;
     if (size.width() && size.height()) {
-        m_pixmap = new QPixmap(size);
-        m_pixmap->fill(Qt::transparent);
+        _pixmap = new QPixmap(size);
+        _pixmap->fill(Qt::transparent);
     }
 
     emit sizeChanged(size);
