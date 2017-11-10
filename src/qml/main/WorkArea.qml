@@ -28,6 +28,11 @@ Item {
     property real rotation: 0
     visible: false
 
+    Component.onCompleted: {
+        forceActiveFocus()
+        timer.start()
+    }
+
     onCanvasModeChanged: {
         Core.setCursorShape(canvasMode === Enums.CanvasFree && mouseArea.containsMouse || canvasMode === Enums.CanvasPaint ?
                                    Enums.CanvasPaint : canvasMode, brushSettings.size * zoom)
@@ -53,11 +58,6 @@ Item {
         if (!event.isAutoRepeat) {
             canvasMode = Enums.CanvasFree
         }
-    }
-
-    Component.onCompleted: {
-        forceActiveFocus()
-        timer.start()
     }
 
     function resetTransform() {
