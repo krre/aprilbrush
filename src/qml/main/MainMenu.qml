@@ -189,30 +189,35 @@ MenuBar {
         MenuItem {
             text: qsTr("Zoom In")
             shortcut: "."
+            enabled: tabView.count
             onTriggered: currentTab.zoomIn()
         }
 
         MenuItem {
             text: qsTr("Zoom Out")
             shortcut: ","
+            enabled: tabView.count
             onTriggered: currentTab.zoomOut()
         }
 
         MenuItem {
             text: qsTr("Rotation")
             shortcut: "R"
+            enabled: tabView.count
             onTriggered: currentTab.rotation += 90
         }
 
         MenuItem {
             text: qsTr("Mirror")
             shortcut: "M"
+            enabled: tabView.count
             onTriggered: currentTab.mirror *= -1
         }
 
         MenuItem {
             text: qsTr("Reset")
             shortcut: "F12"
+            enabled: tabView.count
             onTriggered: currentTab.resetTransform()
         }
 
