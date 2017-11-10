@@ -32,7 +32,7 @@ int main(int argc, char* argv[]) {
     engine.rootContext()->setContextProperty("Settings", &settings);
     engine.rootContext()->setContextProperty("BrushEngine", &brushEngine);
     engine.rootContext()->setContextProperty("Core", &core);
-    engine.load(QUrl("qrc:/qml/main.qml"));
+    engine.load(QUrl("qrc:/qml/Main.qml"));
 
     if (engine.rootObjects().isEmpty()) return EXIT_FAILURE;
 
