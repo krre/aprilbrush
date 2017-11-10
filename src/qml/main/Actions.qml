@@ -19,6 +19,7 @@ Item {
         id: newLayerAction
         text: qsTr("New")
         shortcut: "Shift+Ctrl+N"
+        enabled: tabView.count
         onTriggered: layerManager.addLayer()
     }
 
