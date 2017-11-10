@@ -61,7 +61,7 @@ function loadRecentFiles() {
 function newTab(title, withoutLayer, size) {
     title = title || qsTr("Unnamed")
     size = size || Qt.size(Settings.value("NewImage", "width", screenSize.width),
-                           Settings.value("NewImage", "height", screenSize.heigth))
+                           Settings.value("NewImage", "height", screenSize.height))
     var tab = tabView.addTab(title)
     tab.setSource("qrc:/qml/main/WorkArea.qml", { title: title, canvasSize: size })
     tabView.currentIndex = tabView.count - 1
