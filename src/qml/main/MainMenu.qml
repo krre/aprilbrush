@@ -226,6 +226,7 @@ MenuBar {
 
     Menu {
         title: qsTr("Tools")
+        visible: false // TODO: Temporary hide
 
         MenuItem {
             text: qsTr("Options...")
