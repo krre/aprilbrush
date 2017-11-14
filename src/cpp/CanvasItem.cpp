@@ -6,7 +6,7 @@ CanvasItem::CanvasItem() {
 }
 
 CanvasItem::~CanvasItem() {
-    delete _pixmap;
+
 }
 
 void CanvasItem::paint(QPainter* painter) {
@@ -21,7 +21,7 @@ void CanvasItem::clear() {
 void CanvasItem::drawImage(const QByteArray& image) {
     QPixmap pixmap;
     pixmap.loadFromData(image);
-    QPainter painter(_pixmap);
+    QPainter painter(_pixmap.data());
     painter.drawPixmap(0, 0, pixmap);
     update();
 }
@@ -46,7 +46,7 @@ void CanvasItem::setImage(const QByteArray& image, QPoint topleft) {
         QPixmap pixmap;
         pixmap.loadFromData(image);
 
-        QPainter painter(_pixmap);
+        QPainter painter(_pixmap.data());
         painter.setCompositionMode(QPainter::CompositionMode_Source);
         painter.fillRect(QRect(topleft, pixmap.size()), Qt::transparent);
         painter.setCompositionMode(QPainter::CompositionMode_SourceOver);
@@ -59,7 +59,7 @@ void CanvasItem::setSize(QSize size) {
     if (_size == size) return;
     _size = size;
     if (size.width() && size.height()) {
-        _pixmap = new QPixmap(size);
+        _pixmap.reset(new QPixmap(size));
         _pixmap->fill(Qt::transparent);
     }
 

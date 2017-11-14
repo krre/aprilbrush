@@ -1,5 +1,6 @@
 #pragma once
 #include <QQuickPaintedItem>
+#include <QScopedPointer>
 
 class CanvasItem : public QQuickPaintedItem {
     Q_OBJECT
@@ -10,7 +11,7 @@ public:
     void paint(QPainter* painter) override;
     QSize size() const { return _size; }
     void setSize(QSize size);
-    QPixmap* pixmap() const { return _pixmap; }
+    QPixmap* pixmap() const { return _pixmap.data(); }
     Q_INVOKABLE void clear();
     Q_INVOKABLE QPointF itemPos(const QPointF& point) { return mapFromScene(point); }
     Q_INVOKABLE void drawImage(const QByteArray& image);
@@ -22,5 +23,5 @@ signals:
 
 private:
     QSize _size;
-    QPixmap* _pixmap;
+    QScopedPointer<QPixmap> _pixmap;
 };
