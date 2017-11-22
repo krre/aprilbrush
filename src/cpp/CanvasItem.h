@@ -9,9 +9,9 @@ public:
     CanvasItem();
     ~CanvasItem();
     void paint(QPainter* painter) override;
-    QSize size() const { return _size; }
+    QSize size() const { return m_size; }
     void setSize(QSize size);
-    QPixmap* pixmap() const { return _pixmap.data(); }
+    QPixmap* pixmap() const { return m_pixmap.data(); }
     Q_INVOKABLE void clear();
     Q_INVOKABLE QPointF itemPos(const QPointF& point) { return mapFromScene(point); }
     Q_INVOKABLE void drawImage(const QByteArray& image);
@@ -22,6 +22,6 @@ signals:
     void sizeChanged(QSize size);
 
 private:
-    QSize _size;
-    QScopedPointer<QPixmap> _pixmap;
+    QSize m_size;
+    QScopedPointer<QPixmap> m_pixmap;
 };

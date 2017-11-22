@@ -22,34 +22,34 @@ class BrushEngine : public QObject {
 
 public:
     Q_INVOKABLE void paint(const QPointF& point, float pressure=1.0);
-    Q_INVOKABLE void setCanvasItem(CanvasItem* _canvasItem);
-    Q_INVOKABLE void setCanvasBuffer(CanvasItem* canvasBuffer) { this->_canvasBuffer = canvasBuffer; }
-    Q_INVOKABLE QByteArray undoImage() { return _undoImage; }
-    Q_INVOKABLE QByteArray redoImage() { return _redoImage; }
-    Q_INVOKABLE QPointF startPos() { return _topleft; }
+    Q_INVOKABLE void setCanvasItem(CanvasItem* m_canvasItem);
+    Q_INVOKABLE void setCanvasBuffer(CanvasItem* canvasBuffer) { this->m_canvasBuffer = canvasBuffer; }
+    Q_INVOKABLE QByteArray undoImage() { return m_undoImage; }
+    Q_INVOKABLE QByteArray redoImage() { return m_redoImage; }
+    Q_INVOKABLE QPointF startPos() { return topleft; }
 
-    QColor color() const { return _color; }
+    QColor color() const { return m_color; }
     void setColor(QColor color);
-    int size() const { return _size; }
+    int size() const { return m_size; }
     void setSize(int size);
-    int hardness() const { return _hardness; }
+    int hardness() const { return m_hardness; }
     void setHardness(int hardness);
-    int opacity() const { return _opacity; }
+    int opacity() const { return m_opacity; }
     void setOpacity(int opacity);
-    int flow() const { return _flow; }
+    int flow() const { return m_flow; }
     void setFlow(int flow);
-    int roundness() const { return _roundness; }
+    int roundness() const { return m_roundness; }
     void setRoundness(int roundness);
-    int angle() const { return _angle; }
+    int angle() const { return m_angle; }
     void setAngle(int angle);
-    int spacing() const { return _spacing; }
+    int spacing() const { return m_spacing; }
     void setSpacing(int spacing);
-    int jitter() const { return _jitter; }
+    int jitter() const { return m_jitter; }
     void setJitter(int jitter);
-    int eraser() const { return _eraser; }
+    int eraser() const { return m_eraser; }
     void setEraser(int eraser);
 
-    bool isTouch() const { return _isTouch; }
+    bool isTouch() const { return m_isTouch; }
     void setIsTouch(bool isTouch);
 
 signals:
@@ -67,26 +67,27 @@ signals:
     void isTouchChanged(bool isTouch);
 
 private:
-    QColor _color = QColor(Qt::black);
-    int _size = 30;
-    int _hardness = 80;
-    int _opacity = 80;
-    int _flow = 100;
-    int _roundness = 100;
-    int _angle = 0;
-    int _spacing = 100;
-    int _jitter = 0;
-    int _eraser = 0;
-
-    bool _isTouch = false;
-    CanvasItem* _canvasItem;
-    CanvasItem* _canvasBuffer;
-
-    QPointF _startPoint;
-    QPointF _lastPoint;
-    QPoint _topleft;
-    QPoint _bottomright;
-    QByteArray _undoImage;
-    QByteArray _redoImage;
     void paintDab(const QPointF& point, QPainter& painter);
+
+    QColor m_color = QColor(Qt::black);
+    int m_size = 30;
+    int m_hardness = 80;
+    int m_opacity = 80;
+    int m_flow = 100;
+    int m_roundness = 100;
+    int m_angle = 0;
+    int m_spacing = 100;
+    int m_jitter = 0;
+    int m_eraser = 0;
+
+    bool m_isTouch = false;
+    CanvasItem* m_canvasItem;
+    CanvasItem* m_canvasBuffer;
+
+    QPointF startPoint;
+    QPointF lastPoint;
+    QPoint topleft;
+    QPoint bottomright;
+    QByteArray m_undoImage;
+    QByteArray m_redoImage;
 };

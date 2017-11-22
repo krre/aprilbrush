@@ -18,6 +18,5 @@ public:
     Q_INVOKABLE QStringList list(const QString& group);
 
 private:
-    QSettings* _settings;
-
+    QSettings* settings;
 };
