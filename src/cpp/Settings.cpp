@@ -1,6 +1,8 @@
 #include "Settings.h"
 #include <QtCore>
 
+namespace AprilBrush {
+
 Settings::Settings(const QString& filePath) {
     settings = new QSettings(filePath, QSettings::IniFormat, this);
     settings->setIniCodec("UTF-8");
@@ -59,3 +61,5 @@ QStringList Settings::list(const QString& group) {
 
     return list;
 }
+
+} // AprilBrush

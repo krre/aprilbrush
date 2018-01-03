@@ -12,6 +12,8 @@
 
 extern QPointer<QQuickWindow> mainWindow;
 
+namespace AprilBrush {
+
 bool Core::isFileExists(const QString& filePath) {
     QFileInfo checkFile(filePath);
     return checkFile.exists() && checkFile.isFile();
@@ -205,7 +207,7 @@ QColor Core::pickColor(const QPointF& point, const QVariantList& canvasItems) {
     return QColor(pixmap.toImage().pixel(qRound(point.x()), qRound(point.y())));
 }
 
-QVariantMap Core::colorToHsv(const QColor &color) {
+QVariantMap Core::colorToHsv(const QColor& color) {
     QVariantMap map;
     map["h"] = color.hueF();
     map["s"] = color.saturationF();
@@ -220,3 +222,5 @@ QString Core::byteArrayToBase64(const QByteArray& value) {
 QByteArray Core::base64ToByteArray(const QString& value) {
     return QByteArray::fromBase64(value.toLatin1());
 }
+
+} // AprilBrush

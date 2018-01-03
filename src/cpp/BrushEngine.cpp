@@ -2,6 +2,8 @@
 #include "CanvasItem.h"
 #include <QtGui>
 
+namespace AprilBrush {
+
 void BrushEngine::paint(const QPointF& point, float pressure) {
     QPainter painter(m_eraser > 50 ? m_canvasItem->pixmap() : m_canvasBuffer->pixmap());
     painter.setRenderHint(QPainter::Antialiasing, true);
@@ -54,7 +56,7 @@ void BrushEngine::paint(const QPointF& point, float pressure) {
     }
 }
 
-void BrushEngine::setCanvasItem(CanvasItem *canvasItem) {
+void BrushEngine::setCanvasItem(CanvasItem* canvasItem) {
     this->m_canvasItem = canvasItem;
     m_undoImage = canvasItem->image();
 }
@@ -171,3 +173,5 @@ void BrushEngine::paintDab(const QPointF& point, QPainter& painter) {
     topleft.setX(qMin(topleft.x(), qRound(point.x())));
     topleft.setY(qMin(topleft.y(), qRound(point.y())));
 }
+
+} // AprilBrush

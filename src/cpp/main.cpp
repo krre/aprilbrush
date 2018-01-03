@@ -15,16 +15,16 @@ int main(int argc, char* argv[]) {
     app.setApplicationName("AprilBrush");
     app.setApplicationVersion("0.3.0");
 
-    qmlRegisterType<CanvasItem>("AprilBrush", 1, 0, "CanvasItem");
+    qmlRegisterType<AprilBrush::CanvasItem>("AprilBrush", 1, 0, "CanvasItem");
 
-    TabletEventFilter tabletEventFilter;
+    AprilBrush::TabletEventFilter tabletEventFilter;
     app.installEventFilter(&tabletEventFilter);
 
     QString filePath = qApp->applicationDirPath() + "/aprilbrush.ini";
-    Settings settings(filePath);
+    AprilBrush::Settings settings(filePath);
 
-    BrushEngine brushEngine;
-    Core core;
+    AprilBrush::BrushEngine brushEngine;
+    AprilBrush::Core core;
 
     QQmlApplicationEngine engine;
 

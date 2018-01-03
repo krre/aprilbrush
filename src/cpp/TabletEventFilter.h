@@ -2,6 +2,8 @@
 #include <QObject>
 #include <QVariantMap>
 
+namespace AprilBrush {
+
 class TabletEventFilter : public QObject {
     Q_OBJECT
 
@@ -14,3 +16,5 @@ protected:
     bool eventFilter(QObject* obj, QEvent* event);
 
 };
+
+} // AprilBrush

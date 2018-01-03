@@ -4,6 +4,8 @@
 
 class QSettings;
 
+namespace AprilBrush {
+
 class Settings : public QObject {
     Q_OBJECT
 public:
@@ -20,3 +22,5 @@ public:
 private:
     QSettings* settings;
 };
+
+} // AprilBrush

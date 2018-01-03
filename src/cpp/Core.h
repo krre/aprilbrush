@@ -4,6 +4,8 @@
 #include <QVariantMap>
 #include <QColor>
 
+namespace AprilBrush {
+
 class Core : public QObject {
     Q_OBJECT
     Q_PROPERTY(QString buildDate READ buildDate CONSTANT)
@@ -28,3 +30,5 @@ public:
     QString buildDate() { return QString(__DATE__); }
     QString qtVersion() { return QT_VERSION_STR; }
 };
+
+} // AprilBrush

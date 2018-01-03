@@ -1,6 +1,8 @@
 #include "TabletEventFilter.h"
 #include <QtGui>
 
+namespace AprilBrush {
+
 bool TabletEventFilter::eventFilter(QObject* obj, QEvent* event) {
     if (event->type() == QEvent::TabletPress ||
             event->type() == QEvent::TabletMove ||
@@ -26,3 +28,5 @@ bool TabletEventFilter::eventFilter(QObject* obj, QEvent* event) {
         return QObject::eventFilter(obj, event);
     }
 }
+
+} // AprilBrush
