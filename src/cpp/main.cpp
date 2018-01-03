@@ -8,8 +8,6 @@
 #include <QQmlApplicationEngine>
 #include <QQuickWindow>
 
-QPointer<QQuickWindow> mainWindow;
-
 int main(int argc, char* argv[]) {
     QApplication app(argc, argv);
     app.setApplicationName("AprilBrush");
@@ -36,7 +34,7 @@ int main(int argc, char* argv[]) {
 
     if (engine.rootObjects().isEmpty()) return EXIT_FAILURE;
 
-    ::mainWindow = qobject_cast<QQuickWindow*>(engine.rootObjects().at(0));
+    core.setMainWindow(qobject_cast<QQuickWindow*>(engine.rootObjects().at(0)));
 
     return app.exec();
 }

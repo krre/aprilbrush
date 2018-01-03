@@ -4,6 +4,8 @@
 #include <QVariantMap>
 #include <QColor>
 
+class QQuickWindow;
+
 namespace AprilBrush {
 
 class Core : public QObject {
@@ -12,6 +14,7 @@ class Core : public QObject {
     Q_PROPERTY(QString qtVersion READ qtVersion CONSTANT)
 
 public:
+    Core() = default;
     Q_INVOKABLE bool isFileExists(const QString& filePath);
     //Q_INVOKABLE void buildDate() { qDebug() << QLocale(QLocale::C).toDate(QString(__DATE__).simplified(), QLatin1String("MMM d yyyy")); }
     Q_INVOKABLE void writeOra(const QString& oraPath, const QSize& canvasSize, const QVariantList layerList);
@@ -29,6 +32,10 @@ public:
     Q_INVOKABLE QByteArray base64ToByteArray(const QString& value);
     QString buildDate() { return QString(__DATE__); }
     QString qtVersion() { return QT_VERSION_STR; }
+    void setMainWindow(QQuickWindow* mainWindow);
+
+private:
+    QQuickWindow* m_mainWindow = nullptr;
 };
 
 } // AprilBrush

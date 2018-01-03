@@ -10,8 +10,6 @@
 #include <QXmlStreamReader>
 #include <QXmlStreamWriter>
 
-extern QPointer<QQuickWindow> mainWindow;
-
 namespace AprilBrush {
 
 bool Core::isFileExists(const QString& filePath) {
@@ -150,7 +148,7 @@ void Core::writePng(const QString& pngPath, const QVariantList& canvasItems) {
 }
 
 void Core::setCursorShape(const QString& type, int size) {
-    if (::mainWindow.isNull()) return;
+    if (m_mainWindow == nullptr) return;
 
     if (type == "paint") {
          // size of the cursor should not be very small
@@ -164,13 +162,13 @@ void Core::setCursorShape(const QString& type, int size) {
         painter.drawEllipse(0, 0, sizeBrush, sizeBrush);
         painter.setPen(QColor(255, 255, 255, 200));
         painter.drawEllipse(1, 1, sizeBrush - 2, sizeBrush - 2);
-        ::mainWindow->setCursor(pixmap);
+        m_mainWindow->setCursor(pixmap);
     } else if (type == "pan") {
-        ::mainWindow->setCursor(QCursor(Qt::OpenHandCursor));
+        m_mainWindow->setCursor(QCursor(Qt::OpenHandCursor));
     } else if (type == "pick") {
-        ::mainWindow->setCursor(QCursor(Qt::CrossCursor));
+        m_mainWindow->setCursor(QCursor(Qt::CrossCursor));
     } else if (type == "free") {
-        ::mainWindow->setCursor(QCursor(Qt::ArrowCursor));
+        m_mainWindow->setCursor(QCursor(Qt::ArrowCursor));
     }
 }
 
@@ -221,6 +219,10 @@ QString Core::byteArrayToBase64(const QByteArray& value) {
 
 QByteArray Core::base64ToByteArray(const QString& value) {
     return QByteArray::fromBase64(value.toLatin1());
+}
+
+void Core::setMainWindow(QQuickWindow* mainWindow) {
+    m_mainWindow = mainWindow;
 }
 
 } // AprilBrush
