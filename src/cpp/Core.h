@@ -35,7 +35,7 @@ public:
     void setMainWindow(QQuickWindow* mainWindow);
 
 private:
-    QQuickWindow* m_mainWindow = nullptr;
+    QQuickWindow* mainWindow = nullptr;
 };
 
 } // AprilBrush

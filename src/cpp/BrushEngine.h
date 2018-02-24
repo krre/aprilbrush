@@ -11,48 +11,48 @@ class CanvasItem;
 
 class BrushEngine : public QObject {
     Q_OBJECT
-    Q_PROPERTY(bool isTouch READ isTouch WRITE setIsTouch NOTIFY isTouchChanged)
-    Q_PROPERTY(QColor color READ color WRITE setColor NOTIFY colorChanged)
-    Q_PROPERTY(int size READ size WRITE setSize NOTIFY sizeChanged)
-    Q_PROPERTY(int spacing READ spacing WRITE setSpacing NOTIFY spacingChanged)
-    Q_PROPERTY(int hardness READ hardness WRITE setHardness NOTIFY hardnessChanged)
-    Q_PROPERTY(int opacity READ opacity WRITE setOpacity NOTIFY opacityChanged)
-    Q_PROPERTY(int flow READ flow WRITE setFlow NOTIFY flowChanged)
-    Q_PROPERTY(int roundness READ roundness WRITE setRoundness NOTIFY roundnessChanged)
-    Q_PROPERTY(int angle READ angle WRITE setAngle NOTIFY angleChanged)
-    Q_PROPERTY(int jitter READ jitter WRITE setJitter NOTIFY jitterChanged)
-    Q_PROPERTY(int eraser READ eraser WRITE setEraser NOTIFY eraserChanged)
+    Q_PROPERTY(bool isTouch READ getIsTouch WRITE setIsTouch NOTIFY isTouchChanged)
+    Q_PROPERTY(QColor color READ getColor WRITE setColor NOTIFY colorChanged)
+    Q_PROPERTY(int size READ getSize WRITE setSize NOTIFY sizeChanged)
+    Q_PROPERTY(int spacing READ getSpacing WRITE setSpacing NOTIFY spacingChanged)
+    Q_PROPERTY(int hardness READ getHardness WRITE setHardness NOTIFY hardnessChanged)
+    Q_PROPERTY(int opacity READ getOpacity WRITE setOpacity NOTIFY opacityChanged)
+    Q_PROPERTY(int flow READ getFlow WRITE setFlow NOTIFY flowChanged)
+    Q_PROPERTY(int roundness READ getRoundness WRITE setRoundness NOTIFY roundnessChanged)
+    Q_PROPERTY(int angle READ getAngle WRITE setAngle NOTIFY angleChanged)
+    Q_PROPERTY(int jitter READ getJitter WRITE setJitter NOTIFY jitterChanged)
+    Q_PROPERTY(int eraser READ getEraser WRITE setEraser NOTIFY eraserChanged)
 
 public:
-    Q_INVOKABLE void paint(const QPointF& point, float pressure=1.0);
+    Q_INVOKABLE void paint(const QPointF& point, float pressure = 1.0);
     Q_INVOKABLE void setCanvasItem(AprilBrush::CanvasItem* canvasItem);
-    Q_INVOKABLE void setCanvasBuffer(AprilBrush::CanvasItem* canvasBuffer) { this->m_canvasBuffer = canvasBuffer; }
-    Q_INVOKABLE QByteArray undoImage() { return m_undoImage; }
-    Q_INVOKABLE QByteArray redoImage() { return m_redoImage; }
+    Q_INVOKABLE void setCanvasBuffer(AprilBrush::CanvasItem* canvasBuffer);
+    Q_INVOKABLE QByteArray getUndoImage() { return undoImage; }
+    Q_INVOKABLE QByteArray getRedoImage() { return redoImage; }
     Q_INVOKABLE QPointF startPos() { return topleft; }
 
-    QColor color() const { return m_color; }
+    QColor getColor() const { return color; }
     void setColor(QColor color);
-    int size() const { return m_size; }
+    int getSize() const { return size; }
     void setSize(int size);
-    int hardness() const { return m_hardness; }
+    int getHardness() const { return hardness; }
     void setHardness(int hardness);
-    int opacity() const { return m_opacity; }
+    int getOpacity() const { return opacity; }
     void setOpacity(int opacity);
-    int flow() const { return m_flow; }
+    int getFlow() const { return flow; }
     void setFlow(int flow);
-    int roundness() const { return m_roundness; }
+    int getRoundness() const { return roundness; }
     void setRoundness(int roundness);
-    int angle() const { return m_angle; }
+    int getAngle() const { return angle; }
     void setAngle(int angle);
-    int spacing() const { return m_spacing; }
+    int getSpacing() const { return spacing; }
     void setSpacing(int spacing);
-    int jitter() const { return m_jitter; }
+    int getJitter() const { return jitter; }
     void setJitter(int jitter);
-    int eraser() const { return m_eraser; }
+    int getEraser() const { return eraser; }
     void setEraser(int eraser);
 
-    bool isTouch() const { return m_isTouch; }
+    bool getIsTouch() const { return isTouch; }
     void setIsTouch(bool isTouch);
 
 signals:
@@ -72,27 +72,27 @@ signals:
 private:
     void paintDab(const QPointF& point, QPainter& painter);
 
-    QColor m_color = QColor(Qt::black);
-    int m_size = 30;
-    int m_hardness = 80;
-    int m_opacity = 80;
-    int m_flow = 100;
-    int m_roundness = 100;
-    int m_angle = 0;
-    int m_spacing = 100;
-    int m_jitter = 0;
-    int m_eraser = 0;
+    QColor color = QColor(Qt::black);
+    int size = 30;
+    int hardness = 80;
+    int opacity = 80;
+    int flow = 100;
+    int roundness = 100;
+    int angle = 0;
+    int spacing = 100;
+    int jitter = 0;
+    int eraser = 0;
 
-    bool m_isTouch = false;
-    CanvasItem* m_canvasItem;
-    CanvasItem* m_canvasBuffer;
+    bool isTouch = false;
+    CanvasItem* canvasItem;
+    CanvasItem* canvasBuffer;
 
     QPointF startPoint;
     QPointF lastPoint;
     QPoint topleft;
     QPoint bottomright;
-    QByteArray m_undoImage;
-    QByteArray m_redoImage;
+    QByteArray undoImage;
+    QByteArray redoImage;
 };
 
 } // AprilBrush

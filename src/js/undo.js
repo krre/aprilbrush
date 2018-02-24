@@ -8,8 +8,8 @@ function start() {
 
 function paint() {
     var startPos = BrushEngine.startPos()
-    var undoArea = BrushEngine.undoImage()
-    var redoArea = BrushEngine.redoImage()
+    var undoArea = BrushEngine.getUndoImage()
+    var redoArea = BrushEngine.getRedoImage()
     var isHistory = false
     return {
         name: "Paint",
@@ -28,7 +28,7 @@ function paint() {
 
 
 function clearLayer() {
-    var undoArea = currentTab.canvasItem.image()
+    var undoArea = currentTab.canvasItem.getImage()
     return {
         name: qsTr("Clear"),
         undo: function() {
@@ -74,7 +74,7 @@ function deleteLayer() {
     layer.name = layerModel.get(index).name
     layer.isVisible = layerModel.get(index).isVisible
     layer.isLock = layerModel.get(index).isLock
-    layer.image = Core.byteArrayToBase64(currentTab.canvasItem.image())
+    layer.image = Core.byteArrayToBase64(currentTab.canvasItem.getImage())
     return {
         name: qsTr("Delete Layer"),
         undo: function() {
@@ -118,13 +118,13 @@ function lowerLayer() {
 function mergeLayer() {
     var indexUp = layerManager.currentIndex
     var layerUp = layerModel.get(indexUp)
-    var undoAreaUp = layerUp.canvasItem.image()
+    var undoAreaUp = layerUp.canvasItem.getImage()
     var nameUp = layerUp.name
     var isVisibleUp = layerUp.isVisible
     var isLockUp = layerUp.isLock
 
     var layerDown = layerModel.get(indexUp + 1)
-    var undoAreaDown = layerDown.canvasItem.image()
+    var undoAreaDown = layerDown.canvasItem.getImage()
 
     return {
         name: qsTr("Merge Layer"),
@@ -157,7 +157,7 @@ function duplicateLayer() {
             layer.name = layerModel.get(layerManager.currentIndex).name
             layer.isVisble = layerModel.get(layerManager.currentIndex).isVisible
             layer.isLock = layerModel.get(layerManager.currentIndex).isLock
-            layer.image = Core.byteArrayToBase64(currentTab.canvasItem.image())
+            layer.image = Core.byteArrayToBase64(currentTab.canvasItem.getImage())
             var index = layerManager.currentIndex
             layerModel.insert(layerManager.currentIndex, layer)
             layerManager.currentIndex = index

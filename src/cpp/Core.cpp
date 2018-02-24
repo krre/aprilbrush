@@ -51,7 +51,7 @@ void Core::writeOra(const QString& oraPath, const QSize& canvasSize, const QVari
         buffer.open(QIODevice::WriteOnly);
         QObject* obj = qvariant_cast<QObject*>(map.value("canvasItem"));
         CanvasItem* canvasItem = qobject_cast<CanvasItem*>(obj);
-        QPixmap* pixmap = canvasItem->pixmap();
+        QPixmap* pixmap = canvasItem->getPixmap();
         pixmap->save(&buffer, "PNG");
         buffer.close();
 
@@ -136,7 +136,7 @@ void Core::writePng(const QString& pngPath, const QVariantList& canvasItems) {
     {
         QObject* obj = qvariant_cast<QObject*>(canvasItems.at(i));
         CanvasItem* canvasItem = qobject_cast<CanvasItem*>(obj);
-        QPixmap* canvasPixmap = canvasItem->pixmap();
+        QPixmap* canvasPixmap = canvasItem->getPixmap();
         if (pixmap.isNull()) {
             pixmap = QPixmap(canvasPixmap->width(), canvasPixmap->height());
             pixmap.fill(Qt::white);
@@ -148,7 +148,7 @@ void Core::writePng(const QString& pngPath, const QVariantList& canvasItems) {
 }
 
 void Core::setCursorShape(const QString& type, int size) {
-    if (m_mainWindow == nullptr) return;
+    if (!mainWindow) return;
 
     if (type == "paint") {
          // size of the cursor should not be very small
@@ -162,13 +162,13 @@ void Core::setCursorShape(const QString& type, int size) {
         painter.drawEllipse(0, 0, sizeBrush, sizeBrush);
         painter.setPen(QColor(255, 255, 255, 200));
         painter.drawEllipse(1, 1, sizeBrush - 2, sizeBrush - 2);
-        m_mainWindow->setCursor(pixmap);
+        mainWindow->setCursor(pixmap);
     } else if (type == "pan") {
-        m_mainWindow->setCursor(QCursor(Qt::OpenHandCursor));
+        mainWindow->setCursor(QCursor(Qt::OpenHandCursor));
     } else if (type == "pick") {
-        m_mainWindow->setCursor(QCursor(Qt::CrossCursor));
+        mainWindow->setCursor(QCursor(Qt::CrossCursor));
     } else if (type == "free") {
-        m_mainWindow->setCursor(QCursor(Qt::ArrowCursor));
+        mainWindow->setCursor(QCursor(Qt::ArrowCursor));
     }
 }
 
@@ -193,7 +193,7 @@ QColor Core::pickColor(const QPointF& point, const QVariantList& canvasItems) {
     for (int i = canvasItems.count() - 1; i >= 0; i--) {
         QObject* obj = qvariant_cast<QObject*>(canvasItems.at(i));
         CanvasItem* canvasItem = qobject_cast<CanvasItem*>(obj);
-        QPixmap* canvasPixmap = canvasItem->pixmap();
+        QPixmap* canvasPixmap = canvasItem->getPixmap();
         if (pixmap.isNull()) {
             pixmap = QPixmap(canvasPixmap->width(), canvasPixmap->height());
             pixmap.fill(Qt::white);
@@ -222,7 +222,7 @@ QByteArray Core::base64ToByteArray(const QString& value) {
 }
 
 void Core::setMainWindow(QQuickWindow* mainWindow) {
-    m_mainWindow = mainWindow;
+    this->mainWindow = mainWindow;
 }
 
 } // AprilBrush

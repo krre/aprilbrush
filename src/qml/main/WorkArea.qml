@@ -204,7 +204,7 @@ Item {
 
             var x = event.globalX - mainRoot.x
             var y = event.globalY - mainRoot.y
-            var pos = canvasItem.itemPos(Qt.point(x, y))
+            var pos = canvasItem.getItemPos(Qt.point(x, y))
             var pressure = event.pressure
             if (event.press === true) {
                 root.forceActiveFocus()
