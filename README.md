@@ -11,4 +11,5 @@ Required a pressure sentive input device (graphic tablet).
 ## Download
 https://github.com/krre/aprilbrush/releases
 
+## Screenshot
 ![Screenshot](/images/screenshot.png?raw=true)
