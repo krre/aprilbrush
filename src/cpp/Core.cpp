@@ -10,8 +10,6 @@
 #include <QXmlStreamReader>
 #include <QXmlStreamWriter>
 
-namespace AprilBrush {
-
 bool Core::isFileExists(const QString& filePath) {
     QFileInfo checkFile(filePath);
     return checkFile.exists() && checkFile.isFile();
@@ -225,4 +223,3 @@ void Core::setMainWindow(QQuickWindow* mainWindow) {
     this->mainWindow = mainWindow;
 }
 
-} // AprilBrush

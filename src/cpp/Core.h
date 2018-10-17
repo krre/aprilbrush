@@ -6,8 +6,6 @@
 
 class QQuickWindow;
 
-namespace AprilBrush {
-
 class Core : public QObject {
     Q_OBJECT
     Q_PROPERTY(QString buildDate READ buildDate CONSTANT)
@@ -37,5 +35,3 @@ public:
 private:
     QQuickWindow* mainWindow = nullptr;
 };
-
-} // AprilBrush

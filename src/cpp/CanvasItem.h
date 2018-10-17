@@ -2,8 +2,6 @@
 #include <QQuickPaintedItem>
 #include <QScopedPointer>
 
-namespace AprilBrush {
-
 class CanvasItem : public QQuickPaintedItem {
     Q_OBJECT
     Q_PROPERTY(QSize size READ getSize WRITE setSize NOTIFY sizeChanged)
@@ -27,5 +25,3 @@ private:
     QSize size;
     QScopedPointer<QPixmap> pixmap;
 };
-
-} // AprilBrush

@@ -4,9 +4,6 @@
 #include <QPointF>
 
 class QPainter;
-
-namespace AprilBrush {
-
 class CanvasItem;
 
 class BrushEngine : public QObject {
@@ -25,8 +22,8 @@ class BrushEngine : public QObject {
 
 public:
     Q_INVOKABLE void paint(const QPointF& point, float pressure = 1.0);
-    Q_INVOKABLE void setCanvasItem(AprilBrush::CanvasItem* canvasItem);
-    Q_INVOKABLE void setCanvasBuffer(AprilBrush::CanvasItem* canvasBuffer);
+    Q_INVOKABLE void setCanvasItem(CanvasItem* canvasItem);
+    Q_INVOKABLE void setCanvasBuffer(CanvasItem* canvasBuffer);
     Q_INVOKABLE QByteArray getUndoImage() { return undoImage; }
     Q_INVOKABLE QByteArray getRedoImage() { return redoImage; }
     Q_INVOKABLE QPointF startPos() { return topleft; }
@@ -94,5 +91,3 @@ private:
     QByteArray undoImage;
     QByteArray redoImage;
 };
-
-} // AprilBrush

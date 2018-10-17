@@ -1,8 +1,6 @@
 #include "CanvasItem.h"
 #include <QtGui>
 
-namespace AprilBrush {
-
 CanvasItem::CanvasItem() {
 //    setRenderTarget(QQuickPaintedItem::FramebufferObject);
 }
@@ -68,4 +66,3 @@ void CanvasItem::setSize(QSize size) {
     emit sizeChanged(size);
 }
 
-} // AprilBrush
