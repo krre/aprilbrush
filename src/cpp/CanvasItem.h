@@ -6,8 +6,7 @@ class CanvasItem : public QQuickPaintedItem {
     Q_OBJECT
     Q_PROPERTY(QSize size READ getSize WRITE setSize NOTIFY sizeChanged)
 public:
-    CanvasItem();
-    ~CanvasItem();
+    CanvasItem() = default;
     void paint(QPainter* painter) override;
     QSize getSize() const { return size; }
     void setSize(QSize size);

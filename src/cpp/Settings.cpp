@@ -13,7 +13,7 @@ void Settings::setValue(const QString& group, const QString& key, const QVariant
 }
 
 QVariant Settings::value(const QString& group, const QString& key, const QVariant& defaultValue) {
-    return settings->value(QString("%1/%2").arg(group).arg(key), defaultValue);
+    return settings->value(QString("%1/%2").arg(group, key), defaultValue);
 }
 
 void Settings::setMap(const QString& group, const QVariantMap& map) {

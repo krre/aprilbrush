@@ -1,14 +1,6 @@
 #include "CanvasItem.h"
 #include <QtGui>
 
-CanvasItem::CanvasItem() {
-//    setRenderTarget(QQuickPaintedItem::FramebufferObject);
-}
-
-CanvasItem::~CanvasItem() {
-
-}
-
 void CanvasItem::paint(QPainter* painter) {
     painter->drawPixmap(0, 0, *pixmap);
 }

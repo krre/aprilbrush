@@ -10,15 +10,15 @@
 
 int main(int argc, char* argv[]) {
     QApplication app(argc, argv);
-    app.setApplicationName("AprilBrush");
-    app.setApplicationVersion("0.3.0");
+    QApplication::setApplicationName("AprilBrush");
+    QApplication::setApplicationVersion("0.3.0");
 
     qmlRegisterType<CanvasItem>("AprilBrush", 1, 0, "CanvasItem");
 
     TabletEventFilter tabletEventFilter;
     app.installEventFilter(&tabletEventFilter);
 
-    QString filePath = qApp->applicationDirPath() + "/aprilbrush.ini";
+    QString filePath = QApplication::applicationDirPath() + "/aprilbrush.ini";
     Settings settings(filePath);
 
     BrushEngine brushEngine;
@@ -36,5 +36,5 @@ int main(int argc, char* argv[]) {
 
     core.setMainWindow(qobject_cast<QQuickWindow*>(engine.rootObjects().at(0)));
 
-    return app.exec();
+    return QApplication::exec();
 }

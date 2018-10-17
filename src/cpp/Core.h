@@ -15,7 +15,7 @@ public:
     Core() = default;
     Q_INVOKABLE bool isFileExists(const QString& filePath);
     //Q_INVOKABLE void buildDate() { qDebug() << QLocale(QLocale::C).toDate(QString(__DATE__).simplified(), QLatin1String("MMM d yyyy")); }
-    Q_INVOKABLE void writeOra(const QString& oraPath, const QSize& canvasSize, const QVariantList layerList);
+    Q_INVOKABLE void writeOra(const QString& oraPath, const QSize& canvasSize, const QVariantList& layerList);
     Q_INVOKABLE QVariantList readOra(const QString& oraPath);
     Q_INVOKABLE QVariantMap readOraAttr(const QString& oraPath);
     Q_INVOKABLE void writePng(const QString& pngPath, const QVariantList& canvasItems);

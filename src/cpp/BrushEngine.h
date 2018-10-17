@@ -29,7 +29,7 @@ public:
     Q_INVOKABLE QPointF startPos() { return topleft; }
 
     QColor getColor() const { return color; }
-    void setColor(QColor color);
+    void setColor(const QColor& color);
     int getSize() const { return size; }
     void setSize(int size);
     int getHardness() const { return hardness; }

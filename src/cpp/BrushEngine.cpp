@@ -31,7 +31,7 @@ void BrushEngine::paint(const QPointF& point, float pressure) {
         paintDab(point, painter);
     } else {
         qreal length = qSqrt(qPow(lastPoint.x() - point.x(), 2) + qPow(lastPoint.y() - point.y(), 2));
-        qreal delta = size * spacing / 2 / 100.0;
+        qreal delta = size * spacing / 2.0 / 100.0;
 
         if (length >= delta) {
             int dabs = qRound(length / delta);
@@ -63,7 +63,7 @@ void BrushEngine::setCanvasBuffer(CanvasItem* canvasBuffer) {
     this->canvasBuffer = canvasBuffer;
 }
 
-void BrushEngine::setColor(QColor color) {
+void BrushEngine::setColor(const QColor& color) {
     if (this->color == color) return;
     this->color = color;
     emit colorChanged(color);
@@ -160,14 +160,14 @@ void BrushEngine::paintDab(const QPointF& point, QPainter& painter) {
     painter.translate(point);
     painter.rotate(angle);
     painter.scale(1, roundness / 100.0);
-    QRect rect(-size / 2.0, -size / 2.0, size, size);
+    QRectF rect(-size / 2.0, -size / 2.0, size, size);
     painter.drawEllipse(rect);
     painter.restore();
-    rect.moveTo(point.x() - size / 2, point.y() - size / 2);
+    rect.moveTo(point.x() - size / 2.0, point.y() - size / 2.0);
     if (eraser > 50) {
-        canvasItem->update(rect);
+        canvasItem->update(rect.toRect());
     } else {
-        canvasBuffer->update(rect);
+        canvasBuffer->update(rect.toRect());
     }
 
     // Detect a min and max corner positions

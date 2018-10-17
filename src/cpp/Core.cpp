@@ -15,7 +15,7 @@ bool Core::isFileExists(const QString& filePath) {
     return checkFile.exists() && checkFile.isFile();
 }
 
-void Core::writeOra(const QString& oraPath, const QSize& canvasSize, const QVariantList layerList) {
+void Core::writeOra(const QString& oraPath, const QSize& canvasSize, const QVariantList& layerList) {
     QZipWriter zipWriter(oraPath);
     zipWriter.setCompressionPolicy(QZipWriter::AutoCompress);
 
@@ -47,8 +47,8 @@ void Core::writeOra(const QString& oraPath, const QSize& canvasSize, const QVari
         QString isSelected = map.value("isSelected").toString();
 
         buffer.open(QIODevice::WriteOnly);
-        QObject* obj = qvariant_cast<QObject*>(map.value("canvasItem"));
-        CanvasItem* canvasItem = qobject_cast<CanvasItem*>(obj);
+        auto obj = qvariant_cast<QObject*>(map.value("canvasItem"));
+        auto canvasItem = qobject_cast<CanvasItem*>(obj);
         QPixmap* pixmap = canvasItem->getPixmap();
         pixmap->save(&buffer, "PNG");
         buffer.close();
@@ -130,10 +130,9 @@ QVariantMap Core::readOraAttr(const QString& oraPath) {
 
 void Core::writePng(const QString& pngPath, const QVariantList& canvasItems) {
     QPixmap pixmap;
-    for (int i = canvasItems.count() - 1; i >= 0; i--)
-    {
-        QObject* obj = qvariant_cast<QObject*>(canvasItems.at(i));
-        CanvasItem* canvasItem = qobject_cast<CanvasItem*>(obj);
+    for (int i = canvasItems.count() - 1; i >= 0; i--) {
+        auto obj = qvariant_cast<QObject*>(canvasItems.at(i));
+        auto canvasItem = qobject_cast<CanvasItem*>(obj);
         QPixmap* canvasPixmap = canvasItem->getPixmap();
         if (pixmap.isNull()) {
             pixmap = QPixmap(canvasPixmap->width(), canvasPixmap->height());
@@ -189,8 +188,8 @@ QColor Core::hsvToColor(qreal h, qreal s, qreal v) {
 QColor Core::pickColor(const QPointF& point, const QVariantList& canvasItems) {
     QPixmap pixmap;
     for (int i = canvasItems.count() - 1; i >= 0; i--) {
-        QObject* obj = qvariant_cast<QObject*>(canvasItems.at(i));
-        CanvasItem* canvasItem = qobject_cast<CanvasItem*>(obj);
+        auto obj = qvariant_cast<QObject*>(canvasItems.at(i));
+        auto canvasItem = qobject_cast<CanvasItem*>(obj);
         QPixmap* canvasPixmap = canvasItem->getPixmap();
         if (pixmap.isNull()) {
             pixmap = QPixmap(canvasPixmap->width(), canvasPixmap->height());
