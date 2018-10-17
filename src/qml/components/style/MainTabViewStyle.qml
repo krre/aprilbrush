@@ -26,7 +26,7 @@ TabViewStyle {
             Label {
                 id: title
                 Layout.fillWidth: true
-                anchors.verticalCenter: parent.verticalCenter
+                Layout.alignment: Qt.AlignVCenter
                 horizontalAlignment: Text.AlignHCenter
                 text: styleData.title
                 elide: Text.ElideRight
@@ -36,9 +36,9 @@ TabViewStyle {
                 id: closeButton
                 implicitWidth: 15
                 implicitHeight: 15
-                anchors.verticalCenter: parent.verticalCenter
-                anchors.right: parent.right
-                anchors.rightMargin: 2
+                Layout.alignment: Qt.AlignVCenter | Qt.AlignRight
+                Layout.rightMargin: 2
+
                 style: ButtonStyle {
                     background: Rectangle {
                         color: control.pressed ? "#b42328" : (control.hovered ? "#dc3235" : "transparent")

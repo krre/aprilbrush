@@ -17,9 +17,8 @@ Column {
         }
 
         SpinBox {
-            anchors.right: parent.right
+            Layout.alignment: Qt.AlignRight
             Layout.preferredWidth: 50
-            horizontalAlignment: Qt.AlignRight
             value: slider.value
             minimumValue: slider.minimumValue
             maximumValue: slider.maximumValue
