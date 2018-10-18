@@ -1,4 +1,4 @@
-import QtQuick 2.10
+import QtQuick 2.11
 import QtQuick.Dialogs 1.2
 
 MessageDialog {

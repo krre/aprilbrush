@@ -1,4 +1,4 @@
-import QtQuick 2.10
+import QtQuick 2.11
 import QtQuick.Controls 1.6
 import "../components"
 import "../../js/enums.js" as Enums

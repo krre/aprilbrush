@@ -1,4 +1,4 @@
-import QtQuick 2.10
+import QtQuick 2.11
 import QtQuick.Layouts 1.3
 import QtGraphicalEffects 1.0
 import "../components"
