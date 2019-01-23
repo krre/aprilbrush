@@ -1,6 +1,7 @@
 #pragma once
 #include <QQuickPaintedItem>
 #include <QScopedPointer>
+#include <QPixmap>
 
 class CanvasItem : public QQuickPaintedItem {
     Q_OBJECT
