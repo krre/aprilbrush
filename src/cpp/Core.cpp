@@ -11,8 +11,8 @@
 #include <QXmlStreamWriter>
 
 bool Core::isFileExists(const QString& filePath) {
-    QFileInfo checkFile(filePath);
-    return checkFile.exists() && checkFile.isFile();
+    QFileInfo fi(filePath);
+    return fi.exists() && fi.isFile();
 }
 
 void Core::writeOra(const QString& oraPath, const QSize& canvasSize, const QVariantList& layerList) {
