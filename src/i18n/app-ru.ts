@@ -366,7 +366,7 @@
     <message>
         <location filename="../ui/MainWindow.cpp" line="68"/>
         <source>Tools</source>
-        <translation>Настройки</translation>
+        <translation>Инструменты</translation>
     </message>
     <message>
         <location filename="../ui/MainWindow.cpp" line="69"/>
