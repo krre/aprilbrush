@@ -4,7 +4,7 @@ QT += qml quick widgets
 CONFIG += c++11
 
 SOURCES += \
-    cpp/main.cpp \
+    main.cpp \
     cpp/BrushEngine.cpp \
     cpp/CanvasItem.cpp \
     cpp/Core.cpp \
