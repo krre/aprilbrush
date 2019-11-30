@@ -12,7 +12,7 @@ void MainWindow::closeEvent(QCloseEvent* event) {
     event->accept();
 }
 
-void MainWindow::about() {
+void MainWindow::showAbout() {
     using namespace Const::App;
 
     QMessageBox::about(this, tr("About %1").arg(Name),
@@ -59,5 +59,5 @@ void MainWindow::createActions() {
 
     // Help
     QMenu* helpMenu = menuBar()->addMenu(tr("Help"));
-    helpMenu->addAction(tr("About %1...").arg(Const::App::Name), this, &MainWindow::about);
+    helpMenu->addAction(tr("About %1...").arg(Const::App::Name), this, &MainWindow::showAbout);
 }
