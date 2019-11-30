@@ -11,6 +11,7 @@ SOURCES += \
     cpp/TabletEventFilter.cpp
 
 HEADERS += \
+    core/Constants.h \
     cpp/BrushEngine.h \
     cpp/CanvasItem.h \
     cpp/Core.h \

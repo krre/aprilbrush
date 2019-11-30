@@ -1,3 +1,4 @@
+#include "core/Constants.h"
 #include "cpp/CanvasItem.h"
 #include "cpp/BrushEngine.h"
 #include "cpp/Core.h"
@@ -10,8 +11,10 @@
 
 int main(int argc, char* argv[]) {
     QApplication app(argc, argv);
-    QApplication::setApplicationName("AprilBrush");
-    QApplication::setApplicationVersion("0.3.0");
+
+    QApplication::setOrganizationName(Const::App::Name);
+    QApplication::setApplicationName(Const::App::Name);
+    QApplication::setApplicationVersion(Const::App::Version);
 
     qmlRegisterType<CanvasItem>("AprilBrush", 1, 0, "CanvasItem");
 
