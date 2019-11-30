@@ -366,7 +366,7 @@
     <message>
         <location filename="../ui/MainWindow.cpp" line="63"/>
         <source>Options...</source>
-        <translation>Настройки...</translation>
+        <translation>Параметры...</translation>
     </message>
     <message>
         <location filename="../ui/MainWindow.cpp" line="66"/>
@@ -418,7 +418,7 @@
         <location filename="../qml/main/Options.qml" line="8"/>
         <location filename="../ui/Options.cpp" line="5"/>
         <source>Options</source>
-        <translation>Настройки</translation>
+        <translation>Параметры</translation>
     </message>
     <message>
         <location filename="../ui/Options.cpp" line="7"/>
