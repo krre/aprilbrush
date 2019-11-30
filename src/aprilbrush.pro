@@ -8,7 +8,8 @@ SOURCES += \
     cpp/CanvasItem.cpp \
     cpp/Core.cpp \
     cpp/Settings.cpp \
-    cpp/TabletEventFilter.cpp
+    cpp/TabletEventFilter.cpp \
+    ui/MainWindow.cpp
 
 HEADERS += \
     core/Constants.h \
@@ -16,7 +17,8 @@ HEADERS += \
     cpp/CanvasItem.h \
     cpp/Core.h \
     cpp/Settings.h \
-    cpp/TabletEventFilter.h
+    cpp/TabletEventFilter.h \
+    ui/MainWindow.h
 
 RESOURCES += \
     qml.qrc \

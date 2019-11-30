@@ -1,4 +1,5 @@
 #include "core/Constants.h"
+#include "ui/MainWindow.h"
 #include "cpp/CanvasItem.h"
 #include "cpp/BrushEngine.h"
 #include "cpp/Core.h"
@@ -21,28 +22,40 @@ int main(int argc, char* argv[]) {
     QSettings::setDefaultFormat(QSettings::IniFormat);
 #endif
 
-    qmlRegisterType<CanvasItem>("AprilBrush", 1, 0, "CanvasItem");
+    QCommandLineParser parser;
 
-    TabletEventFilter tabletEventFilter;
-    app.installEventFilter(&tabletEventFilter);
+    QCommandLineOption javaScriptOption("j");
+    parser.addOption(javaScriptOption);
 
-    QString filePath = QApplication::applicationDirPath() + "/aprilbrush.ini";
-    Settings settings(filePath);
+    parser.process(app);
 
-    BrushEngine brushEngine;
-    Core core;
+    if (parser.isSet(javaScriptOption)) {
+        qmlRegisterType<CanvasItem>("AprilBrush", 1, 0, "CanvasItem");
 
-    QQmlApplicationEngine engine;
+        TabletEventFilter tabletEventFilter;
+        app.installEventFilter(&tabletEventFilter);
 
-    engine.rootContext()->setContextProperty("TabletEventFilter", &tabletEventFilter);
-    engine.rootContext()->setContextProperty("Settings", &settings);
-    engine.rootContext()->setContextProperty("BrushEngine", &brushEngine);
-    engine.rootContext()->setContextProperty("Core", &core);
-    engine.load(QUrl("qrc:/qml/Main.qml"));
+        QString filePath = QApplication::applicationDirPath() + "/aprilbrush.ini";
+        Settings settings(filePath);
 
-    if (engine.rootObjects().isEmpty()) return EXIT_FAILURE;
+        BrushEngine brushEngine;
+        Core core;
 
-    core.setMainWindow(qobject_cast<QQuickWindow*>(engine.rootObjects().at(0)));
+        QQmlApplicationEngine engine;
 
-    return QApplication::exec();
+        engine.rootContext()->setContextProperty("TabletEventFilter", &tabletEventFilter);
+        engine.rootContext()->setContextProperty("Settings", &settings);
+        engine.rootContext()->setContextProperty("BrushEngine", &brushEngine);
+        engine.rootContext()->setContextProperty("Core", &core);
+        engine.load(QUrl("qrc:/qml/Main.qml"));
+
+        if (engine.rootObjects().isEmpty()) return EXIT_FAILURE;
+
+        core.setMainWindow(qobject_cast<QQuickWindow*>(engine.rootObjects().at(0)));
+        return QApplication::exec();
+    } else {
+        MainWindow mainWindow;
+        mainWindow.show();
+        return QApplication::exec();
+    }
 }
