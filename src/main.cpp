@@ -54,8 +54,28 @@ int main(int argc, char* argv[]) {
         core.setMainWindow(qobject_cast<QQuickWindow*>(engine.rootObjects().at(0)));
         return QApplication::exec();
     } else {
+        QSettings settings;
+        QString language = settings.value("language").toString();
+
+        if (language.isEmpty()) {
+            language = QLocale::system().name().split("_").first();
+        }
+
+        auto qtTranslator = new QTranslator(&app);
+
+        if (qtTranslator->load("qt_" + language, QLibraryInfo::location(QLibraryInfo::TranslationsPath))) {
+            QCoreApplication::installTranslator(qtTranslator);
+        }
+
+        auto appTranslator = new QTranslator(&app);
+
+        if (appTranslator->load("app-" + language, ":/i18n")) {
+            QCoreApplication::installTranslator(appTranslator);
+        }
+
         MainWindow mainWindow;
         mainWindow.show();
+
         return QApplication::exec();
     }
 }

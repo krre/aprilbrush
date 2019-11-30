@@ -17,12 +17,12 @@ void MainWindow::showAbout() {
     using namespace Const::App;
 
     QMessageBox::about(this, tr("About %1").arg(Name),
-        tr("<h3>%1 %2</h3>\
-           Painting application<br><br> \
-           Based on Qt %3<br> \
-           Build on %4 %5<br><br> \
-           <a href=%6>%6</a><br><br> \
-           Copyright © 2012-%7, Vladimir Zarypov")
+        tr("<h3>%1 %2</h3>"
+           "Painting application<br><br>"
+           "Based on Qt %3<br>"
+           "Build on %4 %5<br><br>"
+           "<a href=%6>%6</a><br><br>"
+           "Copyright © 2012-%7, Vladimir Zarypov")
            .arg(Name, Version, QT_VERSION_STR, BuildDate, BuildTime, URL, CopyrightLastYear));
 }
 

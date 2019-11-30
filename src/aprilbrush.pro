@@ -23,10 +23,14 @@ HEADERS += \
     ui/Options.h
 
 RESOURCES += \
+    resources.qrc \
     qml.qrc \
     js.qrc \
     media.qrc
 
 DISTFILES += \
-    changelog.txt \
-    README.md
+    i18n/app-ru.ts \
+    ../README.md \
+    ../changelog.txt
+
+TRANSLATIONS = i18n/app-ru.ts
