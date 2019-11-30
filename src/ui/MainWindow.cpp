@@ -1,4 +1,5 @@
 #include "MainWindow.h"
+#include "NewImage.h"
 #include "Options.h"
 #include "core/Constants.h"
 #include <QtWidgets>
@@ -14,7 +15,11 @@ void MainWindow::closeEvent(QCloseEvent* event) {
 }
 
 void MainWindow::createFile() {
-    qDebug() << "create";
+    NewImage newImage;
+
+    if (newImage.exec() == QDialog::Accepted) {
+        qDebug() << "new image";
+    }
 }
 
 void MainWindow::showAbout() {

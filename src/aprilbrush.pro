@@ -10,6 +10,7 @@ SOURCES += \
     cpp/Settings.cpp \
     cpp/TabletEventFilter.cpp \
     ui/MainWindow.cpp \
+    ui/NewImage.cpp \
     ui/Options.cpp
 
 HEADERS += \
@@ -20,6 +21,7 @@ HEADERS += \
     cpp/Settings.h \
     cpp/TabletEventFilter.h \
     ui/MainWindow.h \
+    ui/NewImage.h \
     ui/Options.h
 
 RESOURCES += \
