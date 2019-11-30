@@ -8,6 +8,7 @@
 #include <QApplication>
 #include <QQmlApplicationEngine>
 #include <QQuickWindow>
+#include <QSettings>
 
 int main(int argc, char* argv[]) {
     QApplication app(argc, argv);
@@ -15,6 +16,10 @@ int main(int argc, char* argv[]) {
     QApplication::setOrganizationName(Const::App::Name);
     QApplication::setApplicationName(Const::App::Name);
     QApplication::setApplicationVersion(Const::App::Version);
+
+#ifdef Q_OS_WIN
+    QSettings::setDefaultFormat(QSettings::IniFormat);
+#endif
 
     qmlRegisterType<CanvasItem>("AprilBrush", 1, 0, "CanvasItem");
 
