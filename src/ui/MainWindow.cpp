@@ -25,7 +25,7 @@ void MainWindow::showAbout() {
            .arg(Name, Version, QT_VERSION_STR, BuildDate, BuildTime, URL, CopyrightLastYear));
 }
 
-void MainWindow::showTools() {
+void MainWindow::showOptions() {
     qDebug() << "tools";
 }
 
@@ -55,7 +55,7 @@ void MainWindow::createActions() {
 
     // Tools
     QMenu* toolsMenu = menuBar()->addMenu(tr("Tools"));
-    toolsMenu->addAction(tr("Options..."), this, &MainWindow::showTools);
+    toolsMenu->addAction(tr("Options..."), this, &MainWindow::showOptions);
 
     // Help
     QMenu* helpMenu = menuBar()->addMenu(tr("Help"));

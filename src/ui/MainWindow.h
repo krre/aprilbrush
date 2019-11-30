@@ -11,7 +11,7 @@ protected:
 
 private slots:
     void showAbout();
-    void showTools();
+    void showOptions();
 
 private:
     void readSettings();
