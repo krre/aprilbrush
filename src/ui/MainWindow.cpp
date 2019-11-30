@@ -2,6 +2,7 @@
 #include <QtWidgets>
 
 MainWindow::MainWindow(QWidget* parent) : QMainWindow(parent) {
+    createActions();
     readSettings();
 }
 
@@ -27,4 +28,9 @@ void MainWindow::readSettings() {
 void MainWindow::writeSettings() {
     QSettings settings;
     settings.setValue("geometry", saveGeometry());
+}
+
+void MainWindow::createActions() {
+    QMenu* fileMenu = menuBar()->addMenu(tr("File"));
+    fileMenu->addAction(tr("Exit"), this, &QMainWindow::close, QKeySequence("Ctrl+Q"));
 }
