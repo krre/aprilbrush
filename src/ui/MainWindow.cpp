@@ -25,6 +25,10 @@ void MainWindow::about() {
            .arg(Name, Version, QT_VERSION_STR, BuildDate, BuildTime, URL, CopyrightLastYear));
 }
 
+void MainWindow::showTools() {
+    qDebug() << "tools";
+}
+
 void MainWindow::readSettings() {
     QSettings settings;
 
@@ -48,6 +52,10 @@ void MainWindow::createActions() {
     // File
     QMenu* fileMenu = menuBar()->addMenu(tr("File"));
     fileMenu->addAction(tr("Exit"), this, &QMainWindow::close, QKeySequence("Ctrl+Q"));
+
+    // Tools
+    QMenu* toolsMenu = menuBar()->addMenu(tr("Tools"));
+    toolsMenu->addAction(tr("Options..."), this, &MainWindow::showTools);
 
     // Help
     QMenu* helpMenu = menuBar()->addMenu(tr("Help"));
