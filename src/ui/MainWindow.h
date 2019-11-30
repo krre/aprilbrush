@@ -18,4 +18,5 @@ private:
     void writeSettings();
 
     void createActions();
+    void applyHotSettings();
 };

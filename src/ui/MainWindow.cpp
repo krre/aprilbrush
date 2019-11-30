@@ -1,4 +1,5 @@
 #include "MainWindow.h"
+#include "Options.h"
 #include "core/Constants.h"
 #include <QtWidgets>
 
@@ -26,7 +27,11 @@ void MainWindow::showAbout() {
 }
 
 void MainWindow::showOptions() {
-    qDebug() << "tools";
+    Options options;
+
+    if (options.exec() == QDialog::Accepted) {
+        applyHotSettings();
+    }
 }
 
 void MainWindow::readSettings() {
@@ -60,4 +65,8 @@ void MainWindow::createActions() {
     // Help
     QMenu* helpMenu = menuBar()->addMenu(tr("Help"));
     helpMenu->addAction(tr("About %1...").arg(Const::App::Name), this, &MainWindow::showAbout);
+}
+
+void MainWindow::applyHotSettings() {
+
 }
