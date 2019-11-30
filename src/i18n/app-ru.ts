@@ -198,7 +198,7 @@
     <message>
         <location filename="../qml/main/MainMenu.qml" line="13"/>
         <source>File</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Файл</translation>
     </message>
     <message>
         <location filename="../qml/main/MainMenu.qml" line="16"/>
@@ -253,7 +253,7 @@
     <message>
         <location filename="../qml/main/MainMenu.qml" line="125"/>
         <source>Exit</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Выход</translation>
     </message>
     <message>
         <location filename="../qml/main/MainMenu.qml" line="132"/>
@@ -323,58 +323,63 @@
     <message>
         <location filename="../qml/main/MainMenu.qml" line="233"/>
         <source>Tools</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Настройки</translation>
     </message>
     <message>
         <location filename="../qml/main/MainMenu.qml" line="237"/>
         <source>Options...</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Параметры...</translation>
     </message>
     <message>
         <location filename="../qml/main/MainMenu.qml" line="243"/>
         <source>Help</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Справка</translation>
     </message>
 </context>
 <context>
     <name>MainWindow</name>
     <message>
-        <location filename="../ui/MainWindow.cpp" line="19"/>
+        <location filename="../ui/MainWindow.cpp" line="23"/>
         <source>About %1</source>
         <translation>О программе %1</translation>
     </message>
     <message>
-        <location filename="../ui/MainWindow.cpp" line="20"/>
+        <location filename="../ui/MainWindow.cpp" line="24"/>
         <source>&lt;h3&gt;%1 %2&lt;/h3&gt;Painting application&lt;br&gt;&lt;br&gt;Based on Qt %3&lt;br&gt;Build on %4 %5&lt;br&gt;&lt;br&gt;&lt;a href=%6&gt;%6&lt;/a&gt;&lt;br&gt;&lt;br&gt;Copyright © 2012-%7, Vladimir Zarypov</source>
         <translation>&lt;h3&gt;%1 %2&lt;/h3&gt;Приложение для рисования&lt;br&gt;&lt;br&gt;Основано на Qt %3&lt;br&gt;Собрано %4 %5&lt;br&gt;&lt;br&gt;&lt;a href=%6&gt;%6&lt;/a&gt;&lt;br&gt;&lt;br&gt;© 2012-%7, Владимир Зарыпов</translation>
     </message>
     <message>
-        <location filename="../ui/MainWindow.cpp" line="58"/>
+        <location filename="../ui/MainWindow.cpp" line="62"/>
         <source>File</source>
         <translation>Файл</translation>
     </message>
     <message>
-        <location filename="../ui/MainWindow.cpp" line="59"/>
+        <location filename="../ui/MainWindow.cpp" line="63"/>
+        <source>New...</source>
+        <translation>Создать...</translation>
+    </message>
+    <message>
+        <location filename="../ui/MainWindow.cpp" line="65"/>
         <source>Exit</source>
         <translation>Выход</translation>
     </message>
     <message>
-        <location filename="../ui/MainWindow.cpp" line="62"/>
+        <location filename="../ui/MainWindow.cpp" line="68"/>
         <source>Tools</source>
         <translation>Настройки</translation>
     </message>
     <message>
-        <location filename="../ui/MainWindow.cpp" line="63"/>
+        <location filename="../ui/MainWindow.cpp" line="69"/>
         <source>Options...</source>
         <translation>Параметры...</translation>
     </message>
     <message>
-        <location filename="../ui/MainWindow.cpp" line="66"/>
+        <location filename="../ui/MainWindow.cpp" line="72"/>
         <source>Help</source>
         <translation>Справка</translation>
     </message>
     <message>
-        <location filename="../ui/MainWindow.cpp" line="67"/>
+        <location filename="../ui/MainWindow.cpp" line="73"/>
         <source>About %1...</source>
         <translation>О программе %1...</translation>
     </message>

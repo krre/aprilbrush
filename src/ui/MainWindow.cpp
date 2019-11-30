@@ -13,6 +13,10 @@ void MainWindow::closeEvent(QCloseEvent* event) {
     event->accept();
 }
 
+void MainWindow::createFile() {
+    qDebug() << "create";
+}
+
 void MainWindow::showAbout() {
     using namespace Const::App;
 
@@ -56,6 +60,8 @@ void MainWindow::writeSettings() {
 void MainWindow::createActions() {
     // File
     QMenu* fileMenu = menuBar()->addMenu(tr("File"));
+    fileMenu->addAction(tr("New..."), this, &MainWindow::createFile, QKeySequence("Ctrl+N"));
+    fileMenu->addSeparator();
     fileMenu->addAction(tr("Exit"), this, &QMainWindow::close, QKeySequence("Ctrl+Q"));
 
     // Tools
