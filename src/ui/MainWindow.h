@@ -1,6 +1,8 @@
 #pragma once
 #include <QMainWindow>
 
+class CanvasTabWidget;
+
 class MainWindow : public QMainWindow {
     Q_OBJECT
 public:
@@ -19,5 +21,8 @@ private:
     void writeSettings();
 
     void createActions();
+    void createUi();
     void applyHotSettings();
+
+    CanvasTabWidget* canvasTabWidget;
 };

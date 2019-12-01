@@ -1,4 +1,5 @@
 #include "MainWindow.h"
+#include "CanvasTabWidget.h"
 #include "NewImage.h"
 #include "Options.h"
 #include "core/Constants.h"
@@ -6,6 +7,7 @@
 
 MainWindow::MainWindow(QWidget* parent) : QMainWindow(parent) {
     createActions();
+    createUi();
     readSettings();
 }
 
@@ -18,7 +20,7 @@ void MainWindow::createFile() {
     NewImage newImage;
 
     if (newImage.exec() == QDialog::Accepted) {
-        qDebug() << "new image" << newImage.imageSize();
+        canvasTabWidget->addCanvas(newImage.imageSize());
     }
 }
 
@@ -75,6 +77,11 @@ void MainWindow::createActions() {
     // Help
     QMenu* helpMenu = menuBar()->addMenu(tr("Help"));
     helpMenu->addAction(tr("About %1...").arg(Const::App::Name), this, &MainWindow::showAbout);
+}
+
+void MainWindow::createUi() {
+    canvasTabWidget = new CanvasTabWidget;
+    setCentralWidget(canvasTabWidget);
 }
 
 void MainWindow::applyHotSettings() {
