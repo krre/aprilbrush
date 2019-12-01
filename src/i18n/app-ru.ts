@@ -203,7 +203,7 @@
     <message>
         <location filename="../qml/main/MainMenu.qml" line="16"/>
         <source>New...</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Создать...</translation>
     </message>
     <message>
         <location filename="../qml/main/MainMenu.qml" line="22"/>
@@ -339,47 +339,47 @@
 <context>
     <name>MainWindow</name>
     <message>
-        <location filename="../ui/MainWindow.cpp" line="23"/>
+        <location filename="../ui/MainWindow.cpp" line="28"/>
         <source>About %1</source>
         <translation>О программе %1</translation>
     </message>
     <message>
-        <location filename="../ui/MainWindow.cpp" line="24"/>
+        <location filename="../ui/MainWindow.cpp" line="29"/>
         <source>&lt;h3&gt;%1 %2&lt;/h3&gt;Painting application&lt;br&gt;&lt;br&gt;Based on Qt %3&lt;br&gt;Build on %4 %5&lt;br&gt;&lt;br&gt;&lt;a href=%6&gt;%6&lt;/a&gt;&lt;br&gt;&lt;br&gt;Copyright © 2012-%7, Vladimir Zarypov</source>
         <translation>&lt;h3&gt;%1 %2&lt;/h3&gt;Приложение для рисования&lt;br&gt;&lt;br&gt;Основано на Qt %3&lt;br&gt;Собрано %4 %5&lt;br&gt;&lt;br&gt;&lt;a href=%6&gt;%6&lt;/a&gt;&lt;br&gt;&lt;br&gt;© 2012-%7, Владимир Зарыпов</translation>
     </message>
     <message>
-        <location filename="../ui/MainWindow.cpp" line="62"/>
+        <location filename="../ui/MainWindow.cpp" line="66"/>
         <source>File</source>
         <translation>Файл</translation>
     </message>
     <message>
-        <location filename="../ui/MainWindow.cpp" line="63"/>
+        <location filename="../ui/MainWindow.cpp" line="67"/>
         <source>New...</source>
         <translation>Создать...</translation>
     </message>
     <message>
-        <location filename="../ui/MainWindow.cpp" line="65"/>
+        <location filename="../ui/MainWindow.cpp" line="69"/>
         <source>Exit</source>
         <translation>Выход</translation>
     </message>
     <message>
-        <location filename="../ui/MainWindow.cpp" line="68"/>
+        <location filename="../ui/MainWindow.cpp" line="72"/>
         <source>Tools</source>
         <translation>Инструменты</translation>
     </message>
     <message>
-        <location filename="../ui/MainWindow.cpp" line="69"/>
+        <location filename="../ui/MainWindow.cpp" line="73"/>
         <source>Options...</source>
         <translation>Параметры...</translation>
     </message>
     <message>
-        <location filename="../ui/MainWindow.cpp" line="72"/>
+        <location filename="../ui/MainWindow.cpp" line="76"/>
         <source>Help</source>
         <translation>Справка</translation>
     </message>
     <message>
-        <location filename="../ui/MainWindow.cpp" line="73"/>
+        <location filename="../ui/MainWindow.cpp" line="77"/>
         <source>About %1...</source>
         <translation>О программе %1...</translation>
     </message>
@@ -403,18 +403,26 @@
     </message>
     <message>
         <location filename="../qml/main/NewImage.qml" line="36"/>
+        <location filename="../ui/NewImage.cpp" line="14"/>
         <source>Width:</source>
-        <translation type="unfinished"></translation>
+        <translation>Ширина:</translation>
     </message>
     <message>
         <location filename="../qml/main/NewImage.qml" line="48"/>
+        <location filename="../ui/NewImage.cpp" line="19"/>
         <source>Height:</source>
-        <translation type="unfinished"></translation>
+        <translation>Высота:</translation>
     </message>
     <message>
         <location filename="../qml/main/NewImage.qml" line="61"/>
+        <location filename="../ui/NewImage.cpp" line="24"/>
         <source>Screen Size</source>
-        <translation type="unfinished"></translation>
+        <translation>Размер экрана</translation>
+    </message>
+    <message>
+        <location filename="../ui/NewImage.cpp" line="5"/>
+        <source>Create New Image</source>
+        <translation>Создать новое изображение</translation>
     </message>
 </context>
 <context>

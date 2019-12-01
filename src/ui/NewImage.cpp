@@ -1,8 +1,8 @@
 #include "NewImage.h"
 #include <QtWidgets>
 
-NewImage::NewImage(QWidget *parent) : QDialog(parent) {
-    setWindowTitle(tr("New Image"));
+NewImage::NewImage(QWidget* parent) : QDialog(parent) {
+    setWindowTitle(tr("Create New Image"));
 
     auto layout = new QVBoxLayout;
     setLayout(layout);
@@ -11,18 +11,14 @@ NewImage::NewImage(QWidget *parent) : QDialog(parent) {
     gridLayout->setColumnStretch(1, 1);
     layout->addLayout(gridLayout);
 
-    gridLayout->addWidget(new QLabel(tr("Name:")), 0, 0);
-    m_nameLineEdit = new QLineEdit;
-    gridLayout->addWidget(m_nameLineEdit, 0, 1);
-
     gridLayout->addWidget(new QLabel(tr("Width:")), 1, 0);
     m_widthSpinBox = new QSpinBox;
-    m_widthSpinBox->setMinimumWidth(80);
+    setupSpinBox(m_widthSpinBox);
     gridLayout->addWidget(m_widthSpinBox, 1, 1, Qt::AlignLeft);
 
     gridLayout->addWidget(new QLabel(tr("Height:")), 2, 0);
     m_heightSpinBox = new QSpinBox;
-    m_heightSpinBox->setMinimumWidth(80);
+    setupSpinBox(m_heightSpinBox);
     gridLayout->addWidget(m_heightSpinBox, 2, 1, Qt::AlignLeft);
 
     auto sizeButton = new QPushButton(tr("Screen Size"));
@@ -35,12 +31,47 @@ NewImage::NewImage(QWidget *parent) : QDialog(parent) {
     layout->addWidget(buttonBox);
 
     resize(400, 0);
-    resetToScreenSize();
+    readSettings();
 
     connect(buttonBox, &QDialogButtonBox::accepted, this, &QDialog::accept);
     connect(buttonBox, &QDialogButtonBox::rejected, this, &QDialog::reject);
 }
 
+QSize NewImage::imageSize() const {
+    return QSize(m_widthSpinBox->value(), m_heightSpinBox->value());
+}
+
+void NewImage::accept() {
+    writeSettings();
+    QDialog::accept();
+}
+
 void NewImage::resetToScreenSize() {
-    qDebug() << "reset";
+    QSize screenSize = QGuiApplication::screens().first()->size();
+    m_widthSpinBox->setValue(screenSize.width());
+    m_heightSpinBox->setValue(screenSize.height());
+}
+
+void NewImage::readSettings() {
+    QSettings settings;
+    settings.beginGroup("NewImage");
+
+    if (settings.contains("width")) {
+        m_widthSpinBox->setValue(settings.value("width").toInt());
+        m_heightSpinBox->setValue(settings.value("height").toInt());
+    } else {
+        resetToScreenSize();
+    }
+}
+
+void NewImage::writeSettings() {
+    QSettings settings;
+    settings.beginGroup("NewImage");
+    settings.setValue("width", m_widthSpinBox->value());
+    settings.setValue("height", m_heightSpinBox->value());
+}
+
+void NewImage::setupSpinBox(QSpinBox* spinBox) {
+    spinBox->setMinimumWidth(80);
+    spinBox->setRange(1, 10000);
 }

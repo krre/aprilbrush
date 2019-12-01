@@ -18,7 +18,7 @@ void MainWindow::createFile() {
     NewImage newImage;
 
     if (newImage.exec() == QDialog::Accepted) {
-        qDebug() << "new image";
+        qDebug() << "new image" << newImage.imageSize();
     }
 }
 
