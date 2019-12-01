@@ -12,7 +12,7 @@ public:
 
 private slots:
     void accept() override;
-    void resetToScreenSize();
+    void resetSize();
 
 private:
     void readSettings();

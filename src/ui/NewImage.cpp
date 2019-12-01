@@ -1,4 +1,5 @@
 #include "NewImage.h"
+#include "core/Utils.h"
 #include <QtWidgets>
 
 NewImage::NewImage(QWidget* parent) : QDialog(parent) {
@@ -23,7 +24,7 @@ NewImage::NewImage(QWidget* parent) : QDialog(parent) {
 
     auto sizeButton = new QPushButton(tr("Screen Size"));
     gridLayout->addWidget(sizeButton, 3, 0, 1, -1, Qt::AlignLeft);
-    connect(sizeButton, &QPushButton::clicked, this, &NewImage::resetToScreenSize);
+    connect(sizeButton, &QPushButton::clicked, this, &NewImage::resetSize);
 
     layout->addStretch(1);
 
@@ -46,10 +47,10 @@ void NewImage::accept() {
     QDialog::accept();
 }
 
-void NewImage::resetToScreenSize() {
-    QSize screenSize = QGuiApplication::screens().first()->size();
-    m_widthSpinBox->setValue(screenSize.width());
-    m_heightSpinBox->setValue(screenSize.height());
+void NewImage::resetSize() {
+    QSize canvasSize = Utils::defaultCanvasSize();
+    m_widthSpinBox->setValue(canvasSize.width());
+    m_heightSpinBox->setValue(canvasSize.height());
 }
 
 void NewImage::readSettings() {
@@ -60,7 +61,7 @@ void NewImage::readSettings() {
         m_widthSpinBox->setValue(settings.value("width").toInt());
         m_heightSpinBox->setValue(settings.value("height").toInt());
     } else {
-        resetToScreenSize();
+        resetSize();
     }
 }
 

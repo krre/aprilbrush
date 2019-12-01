@@ -9,6 +9,7 @@ MainWindow::MainWindow(QWidget* parent) : QMainWindow(parent) {
     createActions();
     createUi();
     readSettings();
+    canvasTabWidget->addCanvas();
 }
 
 void MainWindow::closeEvent(QCloseEvent* event) {

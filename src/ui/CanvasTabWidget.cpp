@@ -1,5 +1,6 @@
 #include "CanvasTabWidget.h"
 #include "Canvas.h"
+#include "core/Utils.h"
 #include <QtWidgets>
 
 CanvasTabWidget::CanvasTabWidget() {
@@ -10,7 +11,8 @@ CanvasTabWidget::CanvasTabWidget() {
 
 void CanvasTabWidget::addCanvas(const QSize& size) {
     QString tabName = tr("Untitled-%1").arg(m_maxTabCount++);
-    addTab(new Canvas(size), tabName);
+    QSize canvasSize = size.isEmpty() ? Utils::defaultCanvasSize() : size;
+    addTab(new Canvas(canvasSize), tabName);
 }
 
 void CanvasTabWidget::closeTab(int index) {

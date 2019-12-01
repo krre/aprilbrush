@@ -3,6 +3,7 @@ QT += qml quick widgets
 CONFIG += c++17
 
 SOURCES += \
+    core/Utils.cpp \
     main.cpp \
     cpp/BrushEngine.cpp \
     cpp/CanvasItem.cpp \
@@ -17,6 +18,7 @@ SOURCES += \
 
 HEADERS += \
     core/Constants.h \
+    core/Utils.h \
     cpp/BrushEngine.h \
     cpp/CanvasItem.h \
     cpp/Core.h \
