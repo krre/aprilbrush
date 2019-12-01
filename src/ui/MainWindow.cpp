@@ -45,13 +45,12 @@ void MainWindow::showOptions() {
 
 void MainWindow::readSettings() {
     QSettings settings;
-
     QByteArray geometry = settings.value("geometry", QByteArray()).toByteArray();
 
     if (geometry.isEmpty()) {
-        QRect availableGeometry = QApplication::desktop()->availableGeometry(this);
-        resize(availableGeometry.width() * 2 / 3, availableGeometry.height() * 2 / 3);
-        move((availableGeometry.width() - width()) / 2, (availableGeometry.height() - height()) / 2);
+        QSize screenSize = QGuiApplication::screens().first()->size();
+        resize(screenSize.width() * 2 / 3, screenSize.height() * 2 / 3);
+        move((screenSize.width() - width()) / 2, (screenSize.height() - height()) / 2);
     } else {
         restoreGeometry(geometry);
     }
