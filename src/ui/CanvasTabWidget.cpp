@@ -6,7 +6,7 @@
 CanvasTabWidget::CanvasTabWidget() {
     setTabsClosable(true);
 
-    connect(this, &QTabWidget::tabCloseRequested, this, &CanvasTabWidget::closeTab);
+    connect(this, &QTabWidget::tabCloseRequested, this, &CanvasTabWidget::closeCanvas);
 }
 
 void CanvasTabWidget::addCanvas(const QSize& size) {
@@ -16,7 +16,7 @@ void CanvasTabWidget::addCanvas(const QSize& size) {
     setCurrentIndex(count() - 1);
 }
 
-void CanvasTabWidget::closeTab(int index) {
+void CanvasTabWidget::closeCanvas(int index) {
     QWidget* canvas = widget(index);
     removeTab(index);
     delete canvas;

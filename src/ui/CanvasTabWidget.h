@@ -8,7 +8,7 @@ public:
     void addCanvas(const QSize& size = QSize());
 
 private slots:
-    void closeTab(int index);
+    void closeCanvas(int index);
 
 private:
     int m_maxTabCount = 1;
