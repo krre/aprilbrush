@@ -96,6 +96,14 @@
     </message>
 </context>
 <context>
+    <name>CanvasTabWidget</name>
+    <message>
+        <location filename="../ui/CanvasTabWidget.cpp" line="12"/>
+        <source>Untitled-%1</source>
+        <translation>Безымянный-%1</translation>
+    </message>
+</context>
+<context>
     <name>ColorBox</name>
     <message>
         <location filename="../qml/components/ColorBox.qml" line="23"/>
@@ -339,47 +347,47 @@
 <context>
     <name>MainWindow</name>
     <message>
-        <location filename="../ui/MainWindow.cpp" line="28"/>
+        <location filename="../ui/MainWindow.cpp" line="30"/>
         <source>About %1</source>
         <translation>О программе %1</translation>
     </message>
     <message>
-        <location filename="../ui/MainWindow.cpp" line="29"/>
+        <location filename="../ui/MainWindow.cpp" line="31"/>
         <source>&lt;h3&gt;%1 %2&lt;/h3&gt;Painting application&lt;br&gt;&lt;br&gt;Based on Qt %3&lt;br&gt;Build on %4 %5&lt;br&gt;&lt;br&gt;&lt;a href=%6&gt;%6&lt;/a&gt;&lt;br&gt;&lt;br&gt;Copyright © 2012-%7, Vladimir Zarypov</source>
         <translation>&lt;h3&gt;%1 %2&lt;/h3&gt;Приложение для рисования&lt;br&gt;&lt;br&gt;Основано на Qt %3&lt;br&gt;Собрано %4 %5&lt;br&gt;&lt;br&gt;&lt;a href=%6&gt;%6&lt;/a&gt;&lt;br&gt;&lt;br&gt;© 2012-%7, Владимир Зарыпов</translation>
     </message>
     <message>
-        <location filename="../ui/MainWindow.cpp" line="66"/>
+        <location filename="../ui/MainWindow.cpp" line="68"/>
         <source>File</source>
         <translation>Файл</translation>
     </message>
     <message>
-        <location filename="../ui/MainWindow.cpp" line="67"/>
+        <location filename="../ui/MainWindow.cpp" line="69"/>
         <source>New...</source>
         <translation>Создать...</translation>
     </message>
     <message>
-        <location filename="../ui/MainWindow.cpp" line="69"/>
+        <location filename="../ui/MainWindow.cpp" line="71"/>
         <source>Exit</source>
         <translation>Выход</translation>
     </message>
     <message>
-        <location filename="../ui/MainWindow.cpp" line="72"/>
+        <location filename="../ui/MainWindow.cpp" line="74"/>
         <source>Tools</source>
         <translation>Инструменты</translation>
     </message>
     <message>
-        <location filename="../ui/MainWindow.cpp" line="73"/>
+        <location filename="../ui/MainWindow.cpp" line="75"/>
         <source>Options...</source>
         <translation>Параметры...</translation>
     </message>
     <message>
-        <location filename="../ui/MainWindow.cpp" line="76"/>
+        <location filename="../ui/MainWindow.cpp" line="78"/>
         <source>Help</source>
         <translation>Справка</translation>
     </message>
     <message>
-        <location filename="../ui/MainWindow.cpp" line="77"/>
+        <location filename="../ui/MainWindow.cpp" line="79"/>
         <source>About %1...</source>
         <translation>О программе %1...</translation>
     </message>

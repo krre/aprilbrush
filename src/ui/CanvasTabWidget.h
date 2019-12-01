@@ -9,4 +9,7 @@ public:
 
 private slots:
     void closeTab(int index);
+
+private:
+    int m_maxTabCount = 1;
 };
