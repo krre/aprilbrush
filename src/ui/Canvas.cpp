@@ -1,6 +1,11 @@
 #include "Canvas.h"
-#include <QtCore>
+#include <QtGui>
 
 Canvas::Canvas(const QSize& size) {
     qDebug() << size;
+    resize(size);
+}
+
+void Canvas::mouseMoveEvent(QMouseEvent* event) {
+    qDebug() << event->localPos();
 }
