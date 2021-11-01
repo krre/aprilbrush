@@ -3,7 +3,6 @@
 
 Settings::Settings(const QString& filePath) {
     settings = new QSettings(filePath, QSettings::IniFormat, this);
-    settings->setIniCodec("UTF-8");
 }
 
 void Settings::setValue(const QString& group, const QString& key, const QVariant& value) {

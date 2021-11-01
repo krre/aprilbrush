@@ -88,7 +88,7 @@ QVariantList Core::readOra(const QString& oraPath) {
 
     while (!stream.atEnd()) {
         if (stream.isStartElement()) {
-            if (stream.name() == "layer") {
+            if (stream.name().toString() == "layer") {
                 for (int i = 0; i < stream.attributes().size(); i++) {
                     map[stream.attributes().at(i).name().toString()] = stream.attributes().at(i).value().toString();
                 }
@@ -115,7 +115,7 @@ QVariantMap Core::readOraAttr(const QString& oraPath) {
 
     while (!stream.atEnd()) {
         if (stream.isStartElement()) {
-            if (stream.name() == "image") {
+            if (stream.name().toString() == "image") {
                 for (int i = 0; i < stream.attributes().size(); i++) {
                     map[stream.attributes().at(i).name().toString()] = stream.attributes().at(i).value().toString();
                 }
@@ -159,7 +159,7 @@ void Core::setCursorShape(const QString& type, int size) {
         painter.drawEllipse(0, 0, sizeBrush, sizeBrush);
         painter.setPen(QColor(255, 255, 255, 200));
         painter.drawEllipse(1, 1, sizeBrush - 2, sizeBrush - 2);
-        mainWindow->setCursor(pixmap);
+        mainWindow->setCursor(QCursor(pixmap));
     } else if (type == "pan") {
         mainWindow->setCursor(QCursor(Qt::OpenHandCursor));
     } else if (type == "pick") {

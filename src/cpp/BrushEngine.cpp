@@ -40,11 +40,13 @@ void BrushEngine::paint(const QPointF& point, float pressure) {
             qreal deltaY = delta * qCos(angle);
 
             QPointF betweenPoint;
+            QRandomGenerator rg;
+
             for (int i = 1; i <= dabs; i++) {
                 qreal x = lastPoint.x() + deltaX * i +
-                        (10000 - qrand() % 20000) / 10000.0 * size * jitter / 100;
+                        (10000 - rg.generate() % 20000) / 10000.0 * size * jitter / 100;
                 qreal y = lastPoint.y() + deltaY * i +
-                        (10000 - qrand() % 20000) / 10000.0 * size * jitter / 100;
+                        (10000 - rg.generate() % 20000) / 10000.0 * size * jitter / 100;
                 betweenPoint = QPointF(x, y);
                 paintDab(betweenPoint, painter);
 

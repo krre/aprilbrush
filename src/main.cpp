@@ -63,7 +63,7 @@ int main(int argc, char* argv[]) {
 
         auto qtTranslator = new QTranslator(&app);
 
-        if (qtTranslator->load("qt_" + language, QLibraryInfo::location(QLibraryInfo::TranslationsPath))) {
+        if (qtTranslator->load("qt_" + language, QLibraryInfo::path(QLibraryInfo::TranslationsPath))) {
             QCoreApplication::installTranslator(qtTranslator);
         }
 
