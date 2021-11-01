@@ -26,7 +26,6 @@ int main(int argc, char* argv[]) {
 
     QCommandLineOption javaScriptOption("j");
     parser.addOption(javaScriptOption);
-
     parser.process(app);
 
     if (parser.isSet(javaScriptOption)) {
