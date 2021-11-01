@@ -1,9 +1,8 @@
 #include "Options.h"
 #include <QtWidgets>
 
-Options::Options(QWidget* parent) : QDialog (parent) {
+Options::Options(QWidget* parent) : Dialog (parent) {
     setWindowTitle(tr("Options"));
-    auto layout = new QVBoxLayout;
     auto groupBoxUi = new QGroupBox(tr("User Interface"));
     auto gridLayoutUi = new QGridLayout;
     gridLayoutUi->setColumnStretch(1, 1);
@@ -19,17 +18,9 @@ Options::Options(QWidget* parent) : QDialog (parent) {
     gridLayoutUi->addWidget(m_languageComboBox, 0, 1, Qt::AlignLeft);
     groupBoxUi->setLayout(gridLayoutUi);
 
-    layout->addWidget(groupBoxUi);
-    layout->addStretch(1);
+    setContentWidget(groupBoxUi);
 
-    auto buttonBox = new QDialogButtonBox(QDialogButtonBox::Ok | QDialogButtonBox::Cancel);
-    layout->addWidget(buttonBox);
-
-    connect(buttonBox, &QDialogButtonBox::accepted, this, &QDialog::accept);
-    connect(buttonBox, &QDialogButtonBox::rejected, this, &QDialog::reject);
-
-    setLayout(layout);
-    resize(500, 100);
+    resizeToWidth(500);
     readSettings();
 }
 

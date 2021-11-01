@@ -2,15 +2,11 @@
 #include "core/Utils.h"
 #include <QtWidgets>
 
-NewImage::NewImage(QWidget* parent) : QDialog(parent) {
+NewImage::NewImage(QWidget* parent) : Dialog(parent) {
     setWindowTitle(tr("Create New Image"));
-
-    auto layout = new QVBoxLayout;
-    setLayout(layout);
 
     auto gridLayout = new QGridLayout;
     gridLayout->setColumnStretch(1, 1);
-    layout->addLayout(gridLayout);
 
     gridLayout->addWidget(new QLabel(tr("Width:")), 1, 0);
     m_widthSpinBox = new QSpinBox;
@@ -26,16 +22,10 @@ NewImage::NewImage(QWidget* parent) : QDialog(parent) {
     gridLayout->addWidget(sizeButton, 3, 0, 1, -1, Qt::AlignLeft);
     connect(sizeButton, &QPushButton::clicked, this, &NewImage::resetSize);
 
-    layout->addStretch(1);
+    setContentLayout(gridLayout);
 
-    auto buttonBox = new QDialogButtonBox(QDialogButtonBox::Ok | QDialogButtonBox::Cancel);
-    layout->addWidget(buttonBox);
-
-    resize(400, 0);
+    resizeToWidth(400);
     readSettings();
-
-    connect(buttonBox, &QDialogButtonBox::accepted, this, &QDialog::accept);
-    connect(buttonBox, &QDialogButtonBox::rejected, this, &QDialog::reject);
 }
 
 QSize NewImage::imageSize() const {

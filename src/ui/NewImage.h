@@ -1,9 +1,9 @@
 #pragma once
-#include <QDialog>
+#include "Dialog.h"
 
 class QSpinBox;
 
-class NewImage : public QDialog {
+class NewImage : public Dialog {
     Q_OBJECT
 public:
     explicit NewImage(QWidget* parent = nullptr);

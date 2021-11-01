@@ -12,6 +12,7 @@ SOURCES += \
     cpp/TabletEventFilter.cpp \
     ui/Canvas.cpp \
     ui/CanvasTabWidget.cpp \
+    ui/Dialog.cpp \
     ui/MainWindow.cpp \
     ui/NewImage.cpp \
     ui/Options.cpp
@@ -26,6 +27,7 @@ HEADERS += \
     cpp/TabletEventFilter.h \
     ui/Canvas.h \
     ui/CanvasTabWidget.h \
+    ui/Dialog.h \
     ui/MainWindow.h \
     ui/NewImage.h \
     ui/Options.h

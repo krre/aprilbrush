@@ -1,9 +1,9 @@
 #pragma once
-#include <QDialog>
+#include "Dialog.h"
 
 class QComboBox;
 
-class Options : public QDialog {
+class Options : public Dialog {
     Q_OBJECT
 public:
     Options(QWidget* parent = nullptr);
