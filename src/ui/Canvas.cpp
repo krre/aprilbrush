@@ -7,5 +7,5 @@ Canvas::Canvas(const QSize& size) {
 }
 
 void Canvas::mouseMoveEvent(QMouseEvent* event) {
-    qDebug() << event->localPos();
+    qDebug() << event->position();
 }
