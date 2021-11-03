@@ -1,15 +1,9 @@
 #include "core/Constants.h"
 #include "ui/MainWindow.h"
-#include "cpp/CanvasItem.h"
-#include "cpp/BrushEngine.h"
-#include "cpp/Core.h"
-#include "cpp/TabletEventFilter.h"
-#include "cpp/Settings.h"
-#include <QtQml>
 #include <QApplication>
-#include <QQmlApplicationEngine>
-#include <QQuickWindow>
 #include <QSettings>
+#include <QTranslator>
+#include <QLibraryInfo>
 
 int main(int argc, char* argv[]) {
     QApplication app(argc, argv);
