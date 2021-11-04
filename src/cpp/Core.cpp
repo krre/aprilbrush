@@ -1,6 +1,6 @@
 #include "Core.h"
 #include "TabletEventFilter.h"
-#include "CanvasItem.h"
+#include "engine/Layer.h"
 #include "qzip/qzipreader_p.h"
 #include "qzip/qzipwriter_p.h"
 #include <QtGui>
@@ -48,8 +48,8 @@ void Core::writeOra(const QString& oraPath, const QSize& canvasSize, const QVari
 
         buffer.open(QIODevice::WriteOnly);
         auto obj = qvariant_cast<QObject*>(map.value("canvasItem"));
-        auto canvasItem = qobject_cast<CanvasItem*>(obj);
-        QPixmap* pixmap = canvasItem->getPixmap();
+        auto layer = qobject_cast<Layer*>(obj);
+        QPixmap* pixmap = layer->pixmap();
         pixmap->save(&buffer, "PNG");
         buffer.close();
 
@@ -132,8 +132,8 @@ void Core::writePng(const QString& pngPath, const QVariantList& canvasItems) {
     QPixmap pixmap;
     for (int i = canvasItems.count() - 1; i >= 0; i--) {
         auto obj = qvariant_cast<QObject*>(canvasItems.at(i));
-        auto canvasItem = qobject_cast<CanvasItem*>(obj);
-        QPixmap* canvasPixmap = canvasItem->getPixmap();
+        auto layer = qobject_cast<Layer*>(obj);
+        QPixmap* canvasPixmap = layer->pixmap();
         if (pixmap.isNull()) {
             pixmap = QPixmap(canvasPixmap->width(), canvasPixmap->height());
             pixmap.fill(Qt::white);
@@ -189,8 +189,8 @@ QColor Core::pickColor(const QPointF& point, const QVariantList& canvasItems) {
     QPixmap pixmap;
     for (int i = canvasItems.count() - 1; i >= 0; i--) {
         auto obj = qvariant_cast<QObject*>(canvasItems.at(i));
-        auto canvasItem = qobject_cast<CanvasItem*>(obj);
-        QPixmap* canvasPixmap = canvasItem->getPixmap();
+        auto layer = qobject_cast<Layer*>(obj);
+        QPixmap* canvasPixmap = layer->pixmap();
         if (pixmap.isNull()) {
             pixmap = QPixmap(canvasPixmap->width(), canvasPixmap->height());
             pixmap.fill(Qt::white);

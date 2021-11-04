@@ -4,15 +4,15 @@
 #include <QPointF>
 
 class QPainter;
-class CanvasItem;
+class Layer;
 
 class BrushEngine : public QObject {
     Q_OBJECT
 public:
     void paint(const QPointF& point, float pressure = 1.0);
 
-    void setCanvasItem(CanvasItem* canvasItem);
-    void setCanvasBuffer(CanvasItem* canvasBuffer);
+    void setLayer(Layer* layer);
+    void setCanvasBuffer(Layer* layerBuffer);
 
     const QByteArray& undoImage() const;
     const QByteArray& redoImage() const;
@@ -81,8 +81,8 @@ private:
     uint m_eraser = 0;
 
     bool m_isTouch = false;
-    CanvasItem* m_canvasItem;
-    CanvasItem* m_canvasBuffer;
+    Layer* m_layer;
+    Layer* m_layerBuffer;
 
     QPointF startPoint;
     QPointF lastPoint;

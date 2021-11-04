@@ -5,8 +5,8 @@ CONFIG += c++17
 SOURCES += \
     core/Utils.cpp \
     engine/BrushEngine.cpp \
+    engine/Layer.cpp \
     main.cpp \
-    cpp/CanvasItem.cpp \
     cpp/Core.cpp \
     cpp/Settings.cpp \
     cpp/TabletEventFilter.cpp \
@@ -20,11 +20,11 @@ SOURCES += \
 HEADERS += \
     core/Constants.h \
     core/Utils.h \
-    cpp/CanvasItem.h \
     cpp/Core.h \
     cpp/Settings.h \
     cpp/TabletEventFilter.h \
     engine/BrushEngine.h \
+    engine/Layer.h \
     ui/Canvas.h \
     ui/CanvasTabWidget.h \
     ui/Dialog.h \
