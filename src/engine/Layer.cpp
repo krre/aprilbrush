@@ -39,12 +39,12 @@ QByteArray Layer::image(QPoint topleft, QPoint bottomright) {
 
 void Layer::setImage(const QByteArray& image, QPoint topleft) {
     if (topleft.isNull()) {
-        this->m_pixmap->loadFromData(image);
+        m_pixmap->loadFromData(image);
     } else {
         QPixmap pixmap;
         pixmap.loadFromData(image);
 
-        QPainter painter(this->m_pixmap.data());
+        QPainter painter(m_pixmap.data());
         painter.setCompositionMode(QPainter::CompositionMode_Source);
         painter.fillRect(QRect(topleft, pixmap.size()), Qt::transparent);
         painter.setCompositionMode(QPainter::CompositionMode_SourceOver);
