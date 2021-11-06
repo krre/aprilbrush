@@ -1,29 +1,29 @@
 #pragma once
-#include <QWidget>
 #include <QScopedPointer>
-#include <QPixmap>
+#include <QSize>
+#include <QPoint>
 
-class Layer : public QWidget {
-    Q_OBJECT
+class QPixmap;
+
+class Layer {
 public:
-    Layer() = default;
-    void paint(QPainter* painter);
+    Layer(const QString& name, const QSize& size);
+    ~Layer();
+
+    void setName(const QString& name);
+    const QString& name() const;
 
     const QSize& size() const;
     void setSize(QSize size);
 
     QPixmap* pixmap() const;
     void clear();
-//    QPointF getItemPos(const QPointF& point) { return mapFromScene(point); }
-    void drawImage(const QByteArray& image);
 
-    QByteArray image(QPoint topleft = QPoint(), QPoint bottomright = QPoint());
-    void setImage(const QByteArray& getImage, QPoint topleft = QPoint());
-
-signals:
-    void sizeChanged(QSize size);
+    QByteArray image(const QPoint& topLeft = QPoint(), const QPoint& bottomRight = QPoint());
+    void setImage(const QByteArray& image, const QPoint& topLeft = QPoint());
 
 private:
+    QString m_name;
     QSize m_size;
     QScopedPointer<QPixmap> m_pixmap;
 };

@@ -188,8 +188,6 @@ void BrushEngine::setIsTouch(bool isTouch) {
         painter.setOpacity(m_opacity / 100.0);
         painter.drawPixmap(0, 0, *m_layerBuffer->pixmap());
         m_layerBuffer->pixmap()->fill(Qt::transparent);
-        m_layer->update();
-        m_layerBuffer->update();
 
         m_redoImage = m_layer->image(topleft, bottomright);
 
@@ -217,12 +215,6 @@ void BrushEngine::paintDab(const QPointF& point, QPainter& painter) {
     painter.drawEllipse(rect);
     painter.restore();
     rect.moveTo(point.x() - m_size / 2.0, point.y() - m_size / 2.0);
-
-    if (m_eraser > 50) {
-        m_layer->update(rect.toRect());
-    } else {
-        m_layerBuffer->update(rect.toRect());
-    }
 
     // Detect a min and max corner positions
     bottomright.setX(qMax(bottomright.x(), qRound(point.x())));
