@@ -17,6 +17,8 @@ public:
     void setCurrentLayerIndex(int index);
     int currentLayerIndex() const;
 
+    Layer* currentLayer() const;
+
     QString nextName();
 
 protected:

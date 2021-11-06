@@ -3,13 +3,14 @@
 #include <QtGui>
 
 void BrushEngine::paint(const QPointF& point, float pressure) {
-    QPainter painter(m_eraser > 50 ? m_layer->pixmap() : m_layerBuffer->pixmap());
+//    QPainter painter(m_eraser > 50 ? m_layer->pixmap() : m_layerBuffer->pixmap());
+    QPainter painter(m_layer->pixmap());
     painter.setRenderHint(QPainter::Antialiasing, true);
     painter.setPen(Qt::NoPen);
 
-    if (m_eraser > 50) {
-        painter.setCompositionMode(QPainter::CompositionMode_DestinationOut);
-    }
+//    if (m_eraser > 50) {
+//        painter.setCompositionMode(QPainter::CompositionMode_DestinationOut);
+//    }
 
     m_color.setAlpha(qRound(255 * m_flow / 100.0));
     QColor pressureColor = m_color;
@@ -28,7 +29,8 @@ void BrushEngine::paint(const QPointF& point, float pressure) {
         startPoint = QPointF(point);
         lastPoint = QPointF(point);
         topleft = QPoint(0, 0);
-        bottomright = QPoint(m_layerBuffer->pixmap()->width(), m_layerBuffer->pixmap()->height());
+//        bottomright = QPoint(m_layerBuffer->pixmap()->width(), m_layerBuffer->pixmap()->height());
+        bottomright = QPoint(m_layer->pixmap()->width(), m_layer->pixmap()->height());
         paintDab(point, painter);
     } else {
         qreal length = qSqrt(qPow(lastPoint.x() - point.x(), 2) + qPow(lastPoint.y() - point.y(), 2));
@@ -63,7 +65,7 @@ void BrushEngine::setLayer(Layer* layer) {
     m_undoImage = layer->image();
 }
 
-void BrushEngine::setCanvasBuffer(Layer* layerBuffer) {
+void BrushEngine::setLayerBuffer(Layer* layerBuffer) {
     m_layerBuffer = layerBuffer;
 }
 
@@ -85,81 +87,81 @@ void BrushEngine::setColor(const QColor& color) {
     emit colorChanged(color);
 }
 
-uint BrushEngine::size() const {
+int BrushEngine::size() const {
     return m_size;
 }
 
-void BrushEngine::setSize(uint size) {
+void BrushEngine::setSize(int size) {
     if (m_size == size) return;
     m_size = size;
     emit sizeChanged(size);
 }
 
-uint BrushEngine::hardness() const {
+int BrushEngine::hardness() const {
     return m_hardness;
 }
 
-void BrushEngine::setHardness(uint hardness) {
+void BrushEngine::setHardness(int hardness) {
     if (m_hardness == hardness) return;
     m_hardness = hardness;
     emit hardnessChanged(hardness);
 }
 
-uint BrushEngine::opacity() const {
+int BrushEngine::opacity() const {
     return m_opacity;
 }
 
-void BrushEngine::setOpacity(uint opacity) {
+void BrushEngine::setOpacity(int opacity) {
     if (m_opacity == opacity) return;
     m_opacity = opacity;
     emit opacityChanged(opacity);
 }
 
-uint BrushEngine::flow() const {
+int BrushEngine::flow() const {
     return m_flow;
 }
 
-void BrushEngine::setFlow(uint flow) {
+void BrushEngine::setFlow(int flow) {
     if (m_flow == flow) return;
     m_flow = flow;
     emit flowChanged(flow);
 }
 
-uint BrushEngine::roundness() const {
+int BrushEngine::roundness() const {
     return m_roundness;
 }
 
-void BrushEngine::setRoundness(uint roundness) {
+void BrushEngine::setRoundness(int roundness) {
     if (m_roundness == roundness) return;
     m_roundness = roundness;
     emit roundnessChanged(roundness);
 }
 
-uint BrushEngine::angle() const {
+int BrushEngine::angle() const {
     return m_angle;
 }
 
-void BrushEngine::setAngle(uint angle) {
+void BrushEngine::setAngle(int angle) {
     if (m_angle == angle) return;
     m_angle = angle;
     emit angleChanged(angle);
 }
 
-uint BrushEngine::spacing() const {
+int BrushEngine::spacing() const {
     return m_spacing;
 }
 
-void BrushEngine::setSpacing(uint spacing) {
+void BrushEngine::setSpacing(int spacing) {
     if (m_spacing == spacing) return;
     m_spacing = spacing;
     emit spacingChanged(spacing);
 }
 
-uint BrushEngine::jitter() const {
+int BrushEngine::jitter() const {
     return m_jitter;
 }
 
-void BrushEngine::setJitter(uint jitter) {
+void BrushEngine::setJitter(int jitter) {
     if (m_jitter == jitter) return;
     m_jitter = jitter;
     emit jitterChanged(jitter);
@@ -169,7 +171,7 @@ int BrushEngine::eraser() const {
     return m_eraser;
 }
 
-void BrushEngine::setEraser(uint eraser) {
+void BrushEngine::setEraser(int eraser) {
     if (m_eraser == eraser) return;
     m_eraser = eraser;
     emit eraserChanged(eraser);

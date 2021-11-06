@@ -12,7 +12,7 @@ public:
     void paint(const QPointF& point, float pressure = 1.0);
 
     void setLayer(Layer* layer);
-    void setCanvasBuffer(Layer* layerBuffer);
+    void setLayerBuffer(Layer* layerBuffer);
 
     const QByteArray& undoImage() const;
     const QByteArray& redoImage() const;
@@ -22,32 +22,32 @@ public:
     const QColor& color() const;
     void setColor(const QColor& color);
 
-    uint size() const;
-    void setSize(uint size);
+    int size() const;
+    void setSize(int size);
 
-    uint hardness() const;
-    void setHardness(uint hardness);
+    int hardness() const;
+    void setHardness(int hardness);
 
-    uint opacity() const;
-    void setOpacity(uint opacity);
+    int opacity() const;
+    void setOpacity(int opacity);
 
-    uint flow() const;
-    void setFlow(uint flow);
+    int flow() const;
+    void setFlow(int flow);
 
-    uint roundness() const;
-    void setRoundness(uint roundness);
+    int roundness() const;
+    void setRoundness(int roundness);
 
-    uint angle() const;
-    void setAngle(uint angle);
+    int angle() const;
+    void setAngle(int angle);
 
-    uint spacing() const;
-    void setSpacing(uint spacing);
+    int spacing() const;
+    void setSpacing(int spacing);
 
-    uint jitter() const;
-    void setJitter(uint jitter);
+    int jitter() const;
+    void setJitter(int jitter);
 
     int eraser() const;
-    void setEraser(uint eraser);
+    void setEraser(int eraser);
 
     bool getIsTouch() const { return m_isTouch; }
     void setIsTouch(bool isTouch);
@@ -70,15 +70,15 @@ private:
     void paintDab(const QPointF& point, QPainter& painter);
 
     QColor m_color = QColor(Qt::black);
-    uint m_size = 30;
-    uint m_hardness = 80;
-    uint m_opacity = 80;
-    uint m_flow = 100;
-    uint m_roundness = 100;
-    uint m_angle = 0;
-    uint m_spacing = 100;
-    uint m_jitter = 0;
-    uint m_eraser = 0;
+    int m_size = 30;
+    int m_hardness = 80;
+    int m_opacity = 80;
+    int m_flow = 100;
+    int m_roundness = 100;
+    int m_angle = 0;
+    int m_spacing = 100;
+    int m_jitter = 0;
+    int m_eraser = 0;
 
     bool m_isTouch = false;
     Layer* m_layer;

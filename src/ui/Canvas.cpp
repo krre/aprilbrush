@@ -17,6 +17,7 @@ void Canvas::addLayer(const QString& name) {
     auto newLayer = QSharedPointer<Layer>(new Layer(name, size()));
     layers.append(newLayer);
     m_currentLayerIndex = layers.count() - 1;
+    brushEngine->setLayer(currentLayer());
 }
 
 void Canvas::addLayer(const QSharedPointer<Layer>& layer) {
@@ -31,12 +32,16 @@ int Canvas::currentLayerIndex() const {
     return m_currentLayerIndex;
 }
 
+Layer* Canvas::currentLayer() const {
+    return m_currentLayerIndex >= 0 ? layers.at(m_currentLayerIndex).data() : nullptr;
+}
+
 QString Canvas::nextName() {
     return tr("Untitled-%1").arg(maxTabCount++);
 }
 
 void Canvas::mouseMoveEvent(QMouseEvent* event) {
-    qDebug() << event->position();
+    brushEngine->paint(event->position());
     update();
 }
 
