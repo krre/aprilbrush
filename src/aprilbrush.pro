@@ -1,5 +1,5 @@
 TARGET = aprilbrush
-QT += widgets
+QT += widgets gui-private
 CONFIG += c++17
 
 SOURCES += \

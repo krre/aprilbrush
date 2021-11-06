@@ -1,7 +1,7 @@
 #include "Core.h"
+#include <QtGui/private/qzipwriter_p.h>
+#include <QtGui/private/qzipreader_p.h>
 #include <QtGui>
-#include "qzip/qzipreader_p.h"
-#include "qzip/qzipwriter_p.h"
 
 bool Core::isFileExists(const QString& filePath) {
     QFileInfo fi(filePath);
