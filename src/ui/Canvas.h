@@ -14,6 +14,11 @@ public:
     void addLayer(const QString& name = QString());
     void addLayer(const QSharedPointer<Layer>& layer);
 
+    void setCurrentLayerIndex(int index);
+    int currentLayerIndex() const;
+
+    QString nextName();
+
 protected:
     void mouseMoveEvent(QMouseEvent* event) override;
     void paintEvent(QPaintEvent* event) override;
@@ -21,4 +26,6 @@ protected:
 private:
     QScopedPointer<BrushEngine> brushEngine;
     QVector<QSharedPointer<Layer>> layers;
+    int m_currentLayerIndex = -1;
+    int maxTabCount = 1;
 };

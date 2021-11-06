@@ -21,7 +21,7 @@ void CanvasTabWidget::addCanvas(const QString& name, const QSize& size) {
 }
 
 QString CanvasTabWidget::nextName() {
-    return tr("Untitled-%1").arg(m_maxTabCount++);
+    return tr("Untitled-%1").arg(maxTabCount++);
 }
 
 void CanvasTabWidget::closeCanvas(int index) {

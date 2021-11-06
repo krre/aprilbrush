@@ -1,8 +1,9 @@
 #include "Layer.h"
 #include <QtGui>
 
-Layer::Layer(const QString& name, const QSize& size) : m_name(name), m_size(size) {
-
+Layer::Layer(const QString& name, const QSize& size) {
+    setName(name);
+    setSize(size);
 }
 
 Layer::~Layer() {

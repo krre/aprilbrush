@@ -15,5 +15,5 @@ private slots:
     void closeCanvas(int index);
 
 private:
-    int m_maxTabCount = 1;
+    int maxTabCount = 1;
 };
