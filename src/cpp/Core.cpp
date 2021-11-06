@@ -1,14 +1,7 @@
 #include "Core.h"
-#include "TabletEventFilter.h"
-#include "engine/Layer.h"
+#include <QtGui>
 #include "qzip/qzipreader_p.h"
 #include "qzip/qzipwriter_p.h"
-#include <QtGui>
-#include <QtQuick>
-#include <QDir>
-#include <QCursor>
-#include <QXmlStreamReader>
-#include <QXmlStreamWriter>
 
 bool Core::isFileExists(const QString& filePath) {
     QFileInfo fi(filePath);
@@ -16,66 +9,66 @@ bool Core::isFileExists(const QString& filePath) {
 }
 
 void Core::writeOra(const QString& oraPath, const QSize& canvasSize, const QVariantList& layerList) {
-    QZipWriter zipWriter(oraPath);
-    zipWriter.setCompressionPolicy(QZipWriter::AutoCompress);
+//    QZipWriter zipWriter(oraPath);
+//    zipWriter.setCompressionPolicy(QZipWriter::AutoCompress);
 
-    QByteArray xmlByteArray;
+//    QByteArray xmlByteArray;
 
-    // mimetype file
-    xmlByteArray.append("image/openraster");
-    zipWriter.addFile("mimetype", xmlByteArray);
+//    // mimetype file
+//    xmlByteArray.append("image/openraster");
+//    zipWriter.addFile("mimetype", xmlByteArray);
 
-    // stack.xml file
-    QXmlStreamWriter stream(&xmlByteArray);
-    stream.setAutoFormatting(true);
+//    // stack.xml file
+//    QXmlStreamWriter stream(&xmlByteArray);
+//    stream.setAutoFormatting(true);
 
-    stream.writeStartDocument();
+//    stream.writeStartDocument();
 
-    stream.writeStartElement("image");
-    stream.writeAttribute("w", QString::number(canvasSize.width()));
-    stream.writeAttribute("h",QString::number(canvasSize.height()));
-    stream.writeStartElement("stack");
+//    stream.writeStartElement("image");
+//    stream.writeAttribute("w", QString::number(canvasSize.width()));
+//    stream.writeAttribute("h",QString::number(canvasSize.height()));
+//    stream.writeStartElement("stack");
 
-    QByteArray ba;
-    QBuffer buffer(&ba);
+//    QByteArray ba;
+//    QBuffer buffer(&ba);
 
-    for (int i = 0; i < layerList.count(); i++) {
-        QMap<QString, QVariant> map = layerList.at(i).toMap();
-        QString name = map.value("name").toString();
-        QString isVisible = map.value("isVisible").toString();
-        QString isLock = map.value("isLock").toString();
-        QString isSelected = map.value("isSelected").toString();
+//    for (int i = 0; i < layerList.count(); i++) {
+//        QMap<QString, QVariant> map = layerList.at(i).toMap();
+//        QString name = map.value("name").toString();
+//        QString isVisible = map.value("isVisible").toString();
+//        QString isLock = map.value("isLock").toString();
+//        QString isSelected = map.value("isSelected").toString();
 
-        buffer.open(QIODevice::WriteOnly);
-        auto obj = qvariant_cast<QObject*>(map.value("canvasItem"));
-        auto layer = qobject_cast<Layer*>(obj);
-        QPixmap* pixmap = layer->pixmap();
-        pixmap->save(&buffer, "PNG");
-        buffer.close();
+//        buffer.open(QIODevice::WriteOnly);
+//        auto obj = qvariant_cast<QObject*>(map.value("canvasItem"));
+//        auto layer = qobject_cast<Layer*>(obj);
+//        QPixmap* pixmap = layer->pixmap();
+//        pixmap->save(&buffer, "PNG");
+//        buffer.close();
 
-        QString src = "data/" + name + ".png";
-        zipWriter.addFile(src, ba);
+//        QString src = "data/" + name + ".png";
+//        zipWriter.addFile(src, ba);
 
-        // layer
-        stream.writeStartElement("layer");
-        stream.writeAttribute("name", name);
-        stream.writeAttribute("composite-op", "svg:src-over");
-        stream.writeAttribute("visibility", isVisible == "true" ? "visible" : "hidden");
-        stream.writeAttribute("edit-locked", isLock);
-        stream.writeAttribute("selected", isSelected);
-        stream.writeAttribute("src", src);
-        stream.writeAttribute("x", "0");
-        stream.writeAttribute("y", "0");
-        stream.writeAttribute("opacity", "1.0");
-        stream.writeEndElement(); // layer
-    }
+//        // layer
+//        stream.writeStartElement("layer");
+//        stream.writeAttribute("name", name);
+//        stream.writeAttribute("composite-op", "svg:src-over");
+//        stream.writeAttribute("visibility", isVisible == "true" ? "visible" : "hidden");
+//        stream.writeAttribute("edit-locked", isLock);
+//        stream.writeAttribute("selected", isSelected);
+//        stream.writeAttribute("src", src);
+//        stream.writeAttribute("x", "0");
+//        stream.writeAttribute("y", "0");
+//        stream.writeAttribute("opacity", "1.0");
+//        stream.writeEndElement(); // layer
+//    }
 
-    stream.writeEndElement(); // stack
-    stream.writeEndElement(); // image
-    stream.writeEndDocument(); // document
-    zipWriter.addFile("stack.xml", xmlByteArray);
+//    stream.writeEndElement(); // stack
+//    stream.writeEndElement(); // image
+//    stream.writeEndDocument(); // document
+//    zipWriter.addFile("stack.xml", xmlByteArray);
 
-    zipWriter.close();
+//    zipWriter.close();
 }
 
 QVariantList Core::readOra(const QString& oraPath) {
@@ -129,24 +122,22 @@ QVariantMap Core::readOraAttr(const QString& oraPath) {
 }
 
 void Core::writePng(const QString& pngPath, const QVariantList& canvasItems) {
-    QPixmap pixmap;
-    for (int i = canvasItems.count() - 1; i >= 0; i--) {
-        auto obj = qvariant_cast<QObject*>(canvasItems.at(i));
-        auto layer = qobject_cast<Layer*>(obj);
-        QPixmap* canvasPixmap = layer->pixmap();
-        if (pixmap.isNull()) {
-            pixmap = QPixmap(canvasPixmap->width(), canvasPixmap->height());
-            pixmap.fill(Qt::white);
-        }
-        QPainter painter(&pixmap);
-        painter.drawPixmap(0, 0, *canvasPixmap);
-    }
-    pixmap.save(pngPath);
+//    QPixmap pixmap;
+//    for (int i = canvasItems.count() - 1; i >= 0; i--) {
+//        auto obj = qvariant_cast<QObject*>(canvasItems.at(i));
+//        auto layer = qobject_cast<Layer*>(obj);
+//        QPixmap* canvasPixmap = layer->pixmap();
+//        if (pixmap.isNull()) {
+//            pixmap = QPixmap(canvasPixmap->width(), canvasPixmap->height());
+//            pixmap.fill(Qt::white);
+//        }
+//        QPainter painter(&pixmap);
+//        painter.drawPixmap(0, 0, *canvasPixmap);
+//    }
+//    pixmap.save(pngPath);
 }
 
 void Core::setCursorShape(const QString& type, int size) {
-    if (!mainWindow) return;
-
     if (type == "paint") {
          // size of the cursor should not be very small
         int sizeBrush = qMax(size, 3);
@@ -159,13 +150,6 @@ void Core::setCursorShape(const QString& type, int size) {
         painter.drawEllipse(0, 0, sizeBrush, sizeBrush);
         painter.setPen(QColor(255, 255, 255, 200));
         painter.drawEllipse(1, 1, sizeBrush - 2, sizeBrush - 2);
-        mainWindow->setCursor(QCursor(pixmap));
-    } else if (type == "pan") {
-        mainWindow->setCursor(QCursor(Qt::OpenHandCursor));
-    } else if (type == "pick") {
-        mainWindow->setCursor(QCursor(Qt::CrossCursor));
-    } else if (type == "free") {
-        mainWindow->setCursor(QCursor(Qt::ArrowCursor));
     }
 }
 
@@ -187,17 +171,17 @@ QColor Core::hsvToColor(qreal h, qreal s, qreal v) {
 
 QColor Core::pickColor(const QPointF& point, const QVariantList& canvasItems) {
     QPixmap pixmap;
-    for (int i = canvasItems.count() - 1; i >= 0; i--) {
-        auto obj = qvariant_cast<QObject*>(canvasItems.at(i));
-        auto layer = qobject_cast<Layer*>(obj);
-        QPixmap* canvasPixmap = layer->pixmap();
-        if (pixmap.isNull()) {
-            pixmap = QPixmap(canvasPixmap->width(), canvasPixmap->height());
-            pixmap.fill(Qt::white);
-        }
-        QPainter painter(&pixmap);
-        painter.drawPixmap(0, 0, *canvasPixmap);
-    }
+//    for (int i = canvasItems.count() - 1; i >= 0; i--) {
+//        auto obj = qvariant_cast<QObject*>(canvasItems.at(i));
+//        auto layer = qobject_cast<Layer*>(obj);
+//        QPixmap* canvasPixmap = layer->pixmap();
+//        if (pixmap.isNull()) {
+//            pixmap = QPixmap(canvasPixmap->width(), canvasPixmap->height());
+//            pixmap.fill(Qt::white);
+//        }
+//        QPainter painter(&pixmap);
+//        painter.drawPixmap(0, 0, *canvasPixmap);
+//    }
 
     return QColor(pixmap.toImage().pixel(qRound(point.x()), qRound(point.y())));
 }
@@ -217,8 +201,3 @@ QString Core::byteArrayToBase64(const QByteArray& value) {
 QByteArray Core::base64ToByteArray(const QString& value) {
     return QByteArray::fromBase64(value.toLatin1());
 }
-
-void Core::setMainWindow(QQuickWindow* mainWindow) {
-    this->mainWindow = mainWindow;
-}
-
