@@ -13,8 +13,9 @@ protected:
 
 private slots:
     void createFile();
-    void showAbout();
-    void showOptions();
+    void onAbout();
+    void onOptions();
+    void onInputDevice();
 
 private:
     void readSettings();

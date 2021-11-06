@@ -1,6 +1,7 @@
 #include "Canvas.h"
 #include "engine/BrushEngine.h"
 #include "engine/Layer.h"
+#include "core/SignalHub.h"
 #include <QtGui>
 
 Canvas::Canvas(const QSize& size) {
@@ -43,6 +44,12 @@ QString Canvas::nextName() {
 void Canvas::mouseMoveEvent(QMouseEvent* event) {
     brushEngine->paint(event->position());
     update();
+
+    QVariantMap value;
+    value["type"] = "Mouse";
+    value["position"] = event->position();
+    value["pressure"] = 1.0;
+    emit SignalHub::instance()->inputDeviceValueChanged(value);
 }
 
 void Canvas::paintEvent(QPaintEvent* event) {

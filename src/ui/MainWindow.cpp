@@ -2,11 +2,15 @@
 #include "CanvasTabWidget.h"
 #include "NewImage.h"
 #include "Options.h"
+#include "Canvas.h"
+#include "InputDevice.h"
+#include "core/SignalHub.h"
 #include "core/Constants.h"
 #include <QtWidgets>
 
 MainWindow::MainWindow(QWidget* parent) : QMainWindow(parent) {
     setAutoFillBackground(true);
+    new SignalHub;
     createActions();
     createUi();
     readSettings();
@@ -26,7 +30,7 @@ void MainWindow::createFile() {
     }
 }
 
-void MainWindow::showAbout() {
+void MainWindow::onAbout() {
     using namespace Const::App;
 
     QMessageBox::about(this, tr("About %1").arg(Name),
@@ -39,12 +43,17 @@ void MainWindow::showAbout() {
            .arg(Name, Version, QT_VERSION_STR, BuildDate, BuildTime, URL, CopyrightLastYear));
 }
 
-void MainWindow::showOptions() {
+void MainWindow::onOptions() {
     Options options;
 
     if (options.exec() == QDialog::Accepted) {
         applyHotSettings();
     }
+}
+
+void MainWindow::onInputDevice() {
+    auto inputDevice = new InputDevice();
+    inputDevice->show();
 }
 
 void MainWindow::readSettings() {
@@ -74,11 +83,15 @@ void MainWindow::createActions() {
 
     // Tools
     QMenu* toolsMenu = menuBar()->addMenu(tr("Tools"));
-    toolsMenu->addAction(tr("Options..."), this, &MainWindow::showOptions);
+    toolsMenu->addAction(tr("Options..."), this, &MainWindow::onOptions);
+
+    // Window
+    QMenu* windowMenu = menuBar()->addMenu(tr("Window"));
+    windowMenu->addAction(tr("Input Device..."), this, &MainWindow::onInputDevice);
 
     // Help
     QMenu* helpMenu = menuBar()->addMenu(tr("Help"));
-    helpMenu->addAction(tr("About %1...").arg(Const::App::Name), this, &MainWindow::showAbout);
+    helpMenu->addAction(tr("About %1...").arg(Const::App::Name), this, &MainWindow::onAbout);
 }
 
 void MainWindow::createUi() {

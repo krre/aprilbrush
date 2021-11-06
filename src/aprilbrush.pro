@@ -4,6 +4,7 @@ CONFIG += c++17
 
 SOURCES += \
     core/Core.cpp \
+    core/SignalHub.cpp \
     core/TabletEventFilter.cpp \
     core/Utils.cpp \
     engine/BrushEngine.cpp \
@@ -12,6 +13,7 @@ SOURCES += \
     ui/Canvas.cpp \
     ui/CanvasTabWidget.cpp \
     ui/Dialog.cpp \
+    ui/InputDevice.cpp \
     ui/MainWindow.cpp \
     ui/NewImage.cpp \
     ui/Options.cpp
@@ -19,6 +21,7 @@ SOURCES += \
 HEADERS += \
     core/Constants.h \
     core/Core.h \
+    core/SignalHub.h \
     core/TabletEventFilter.h \
     core/Utils.h \
     engine/BrushEngine.h \
@@ -26,6 +29,7 @@ HEADERS += \
     ui/Canvas.h \
     ui/CanvasTabWidget.h \
     ui/Dialog.h \
+    ui/InputDevice.h \
     ui/MainWindow.h \
     ui/NewImage.h \
     ui/Options.h
