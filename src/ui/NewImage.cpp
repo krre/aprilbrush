@@ -5,25 +5,29 @@
 NewImage::NewImage(QWidget* parent) : Dialog(parent) {
     setWindowTitle(tr("Create New Image"));
 
-    auto gridLayout = new QGridLayout;
-    gridLayout->setColumnStretch(1, 1);
-
-    gridLayout->addWidget(new QLabel(tr("Width:")), 1, 0);
     m_widthSpinBox = new QSpinBox;
-    setupSpinBox(m_widthSpinBox);
-    gridLayout->addWidget(m_widthSpinBox, 1, 1, Qt::AlignLeft);
-
-    gridLayout->addWidget(new QLabel(tr("Height:")), 2, 0);
     m_heightSpinBox = new QSpinBox;
+
+    setupSpinBox(m_widthSpinBox);
     setupSpinBox(m_heightSpinBox);
-    gridLayout->addWidget(m_heightSpinBox, 2, 1, Qt::AlignLeft);
 
     auto sizeButton = new QPushButton(tr("Screen Size"));
-    gridLayout->addWidget(sizeButton, 3, 0, 1, -1, Qt::AlignLeft);
     connect(sizeButton, &QPushButton::clicked, this, &NewImage::resetSize);
 
-    setContentLayout(gridLayout);
+    auto formLayout = new QFormLayout;
+    formLayout->addRow(tr("Width:"), m_widthSpinBox);
+    formLayout->addRow(tr("Height:"), m_heightSpinBox);
 
+    auto rowLayout = new QHBoxLayout;
+    rowLayout->addLayout(formLayout);
+    rowLayout->addStretch();
+
+    auto columnLayout = new QVBoxLayout;
+    columnLayout->addLayout(rowLayout);
+    columnLayout->addWidget(sizeButton, 0, Qt::AlignLeft);
+    columnLayout->addStretch();
+
+    setContentLayout(columnLayout);
     resizeToWidth(400);
     readSettings();
 }
