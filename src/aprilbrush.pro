@@ -1,5 +1,5 @@
 TARGET = aprilbrush
-QT += qml quick widgets
+QT += widgets
 CONFIG += c++17
 
 SOURCES += \
