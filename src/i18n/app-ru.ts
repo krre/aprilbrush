@@ -98,7 +98,7 @@
 <context>
     <name>CanvasTabWidget</name>
     <message>
-        <location filename="../ui/CanvasTabWidget.cpp" line="12"/>
+        <location filename="../ui/CanvasTabWidget.cpp" line="24"/>
         <source>Untitled-%1</source>
         <translation>Безымянный-%1</translation>
     </message>
@@ -347,47 +347,47 @@
 <context>
     <name>MainWindow</name>
     <message>
-        <location filename="../ui/MainWindow.cpp" line="30"/>
+        <location filename="../ui/MainWindow.cpp" line="32"/>
         <source>About %1</source>
         <translation>О программе %1</translation>
     </message>
     <message>
-        <location filename="../ui/MainWindow.cpp" line="31"/>
+        <location filename="../ui/MainWindow.cpp" line="33"/>
         <source>&lt;h3&gt;%1 %2&lt;/h3&gt;Painting application&lt;br&gt;&lt;br&gt;Based on Qt %3&lt;br&gt;Build on %4 %5&lt;br&gt;&lt;br&gt;&lt;a href=%6&gt;%6&lt;/a&gt;&lt;br&gt;&lt;br&gt;Copyright © 2012-%7, Vladimir Zarypov</source>
         <translation>&lt;h3&gt;%1 %2&lt;/h3&gt;Приложение для рисования&lt;br&gt;&lt;br&gt;Основано на Qt %3&lt;br&gt;Собрано %4 %5&lt;br&gt;&lt;br&gt;&lt;a href=%6&gt;%6&lt;/a&gt;&lt;br&gt;&lt;br&gt;© 2012-%7, Владимир Зарыпов</translation>
     </message>
     <message>
-        <location filename="../ui/MainWindow.cpp" line="68"/>
+        <location filename="../ui/MainWindow.cpp" line="70"/>
         <source>File</source>
         <translation>Файл</translation>
     </message>
     <message>
-        <location filename="../ui/MainWindow.cpp" line="69"/>
+        <location filename="../ui/MainWindow.cpp" line="71"/>
         <source>New...</source>
         <translation>Создать...</translation>
     </message>
     <message>
-        <location filename="../ui/MainWindow.cpp" line="71"/>
+        <location filename="../ui/MainWindow.cpp" line="73"/>
         <source>Exit</source>
         <translation>Выход</translation>
     </message>
     <message>
-        <location filename="../ui/MainWindow.cpp" line="74"/>
+        <location filename="../ui/MainWindow.cpp" line="76"/>
         <source>Tools</source>
         <translation>Инструменты</translation>
     </message>
     <message>
-        <location filename="../ui/MainWindow.cpp" line="75"/>
+        <location filename="../ui/MainWindow.cpp" line="77"/>
         <source>Options...</source>
         <translation>Параметры...</translation>
     </message>
     <message>
-        <location filename="../ui/MainWindow.cpp" line="78"/>
+        <location filename="../ui/MainWindow.cpp" line="80"/>
         <source>Help</source>
         <translation>Справка</translation>
     </message>
     <message>
-        <location filename="../ui/MainWindow.cpp" line="79"/>
+        <location filename="../ui/MainWindow.cpp" line="81"/>
         <source>About %1...</source>
         <translation>О программе %1...</translation>
     </message>
@@ -401,6 +401,7 @@
     </message>
     <message>
         <location filename="../qml/main/NewImage.qml" line="25"/>
+        <location filename="../ui/NewImage.cpp" line="20"/>
         <source>Name:</source>
         <translation type="unfinished"></translation>
     </message>
@@ -411,24 +412,24 @@
     </message>
     <message>
         <location filename="../qml/main/NewImage.qml" line="36"/>
-        <location filename="../ui/NewImage.cpp" line="14"/>
+        <location filename="../ui/NewImage.cpp" line="21"/>
         <source>Width:</source>
         <translation>Ширина:</translation>
     </message>
     <message>
         <location filename="../qml/main/NewImage.qml" line="48"/>
-        <location filename="../ui/NewImage.cpp" line="19"/>
+        <location filename="../ui/NewImage.cpp" line="22"/>
         <source>Height:</source>
         <translation>Высота:</translation>
     </message>
     <message>
         <location filename="../qml/main/NewImage.qml" line="61"/>
-        <location filename="../ui/NewImage.cpp" line="24"/>
+        <location filename="../ui/NewImage.cpp" line="16"/>
         <source>Screen Size</source>
         <translation>Размер экрана</translation>
     </message>
     <message>
-        <location filename="../ui/NewImage.cpp" line="5"/>
+        <location filename="../ui/NewImage.cpp" line="6"/>
         <source>Create New Image</source>
         <translation>Создать новое изображение</translation>
     </message>
@@ -442,27 +443,27 @@
         <translation>Параметры</translation>
     </message>
     <message>
-        <location filename="../ui/Options.cpp" line="7"/>
+        <location filename="../ui/Options.cpp" line="6"/>
         <source>User Interface</source>
         <translation>Интерфейс пользователя</translation>
     </message>
     <message>
-        <location filename="../ui/Options.cpp" line="12"/>
+        <location filename="../ui/Options.cpp" line="11"/>
         <source>Language:</source>
         <translation>Язык:</translation>
     </message>
     <message>
-        <location filename="../ui/Options.cpp" line="15"/>
+        <location filename="../ui/Options.cpp" line="14"/>
         <source>&lt;System&gt;</source>
         <translation>&lt;Системный&gt;</translation>
     </message>
     <message>
-        <location filename="../ui/Options.cpp" line="38"/>
+        <location filename="../ui/Options.cpp" line="29"/>
         <source>Restart requred</source>
         <translation>Требуется перезапуск</translation>
     </message>
     <message>
-        <location filename="../ui/Options.cpp" line="38"/>
+        <location filename="../ui/Options.cpp" line="29"/>
         <source>You must restart application</source>
         <translation>Вы должны перезапустить приложение</translation>
     </message>

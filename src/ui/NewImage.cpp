@@ -2,8 +2,11 @@
 #include "core/Utils.h"
 #include <QtWidgets>
 
-NewImage::NewImage(QWidget* parent) : Dialog(parent) {
+NewImage::NewImage(const QString& name, QWidget* parent) : Dialog(parent) {
     setWindowTitle(tr("Create New Image"));
+
+    m_nameEdit = new QLineEdit(name);
+    connect(m_nameEdit, &QLineEdit::textChanged, this, &NewImage::onNameChanged);
 
     m_widthSpinBox = new QSpinBox;
     m_heightSpinBox = new QSpinBox;
@@ -15,24 +18,26 @@ NewImage::NewImage(QWidget* parent) : Dialog(parent) {
     connect(sizeButton, &QPushButton::clicked, this, &NewImage::resetSize);
 
     auto formLayout = new QFormLayout;
+    formLayout->addRow(tr("Name:"), m_nameEdit);
     formLayout->addRow(tr("Width:"), m_widthSpinBox);
     formLayout->addRow(tr("Height:"), m_heightSpinBox);
 
-    auto rowLayout = new QHBoxLayout;
-    rowLayout->addLayout(formLayout);
-    rowLayout->addStretch();
-
     auto columnLayout = new QVBoxLayout;
-    columnLayout->addLayout(rowLayout);
+    columnLayout->addLayout(formLayout);
     columnLayout->addWidget(sizeButton, 0, Qt::AlignLeft);
     columnLayout->addStretch();
 
     setContentLayout(columnLayout);
     resizeToWidth(400);
     readSettings();
+    m_nameEdit->setFocus();
 }
 
-QSize NewImage::imageSize() const {
+QString NewImage::name() const {
+    return m_nameEdit->text();
+}
+
+QSize NewImage::size() const {
     return QSize(m_widthSpinBox->value(), m_heightSpinBox->value());
 }
 
@@ -45,6 +50,10 @@ void NewImage::resetSize() {
     QSize canvasSize = Utils::defaultCanvasSize();
     m_widthSpinBox->setValue(canvasSize.width());
     m_heightSpinBox->setValue(canvasSize.height());
+}
+
+void NewImage::onNameChanged(const QString& text) {
+    buttonBox()->button(QDialogButtonBox::Ok)->setEnabled(!text.isEmpty());
 }
 
 void NewImage::readSettings() {

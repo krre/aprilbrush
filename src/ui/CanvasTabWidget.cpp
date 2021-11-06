@@ -10,12 +10,18 @@ CanvasTabWidget::CanvasTabWidget() {
     connect(this, &QTabWidget::tabCloseRequested, this, &CanvasTabWidget::closeCanvas);
 }
 
-void CanvasTabWidget::addCanvas(const QSize& size) {
-    QString tabName = tr("Untitled-%1").arg(m_maxTabCount++);
-    QSize canvasSize = size.isEmpty() ? Utils::defaultCanvasSize() : size;
-    addTab(new Canvas(canvasSize), tabName);
+void CanvasTabWidget::addCanvas() {
+    addCanvas(nextName(), Utils::defaultCanvasSize());
+}
+
+void CanvasTabWidget::addCanvas(const QString& name, const QSize& size) {
+    addTab(new Canvas(size), name);
     setCurrentIndex(count() - 1);
     setVisible(true);
+}
+
+QString CanvasTabWidget::nextName() {
+    return tr("Untitled-%1").arg(m_maxTabCount++);
 }
 
 void CanvasTabWidget::closeCanvas(int index) {

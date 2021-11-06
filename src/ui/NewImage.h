@@ -1,18 +1,21 @@
 #pragma once
 #include "Dialog.h"
 
+class QLineEdit;
 class QSpinBox;
 
 class NewImage : public Dialog {
     Q_OBJECT
 public:
-    explicit NewImage(QWidget* parent = nullptr);
+    explicit NewImage(const QString& name, QWidget* parent = nullptr);
 
-    QSize imageSize() const;
+    QString name() const;
+    QSize size() const;
 
 private slots:
     void accept() override;
     void resetSize();
+    void onNameChanged(const QString& text);
 
 private:
     void readSettings();
@@ -20,6 +23,7 @@ private:
 
     void setupSpinBox(QSpinBox* spinBox);
 
-    QSpinBox* m_widthSpinBox;
-    QSpinBox* m_heightSpinBox;
+    QLineEdit* m_nameEdit = nullptr;
+    QSpinBox* m_widthSpinBox = nullptr;
+    QSpinBox* m_heightSpinBox = nullptr;
 };

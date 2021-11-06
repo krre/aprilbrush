@@ -5,7 +5,11 @@ class CanvasTabWidget : public QTabWidget {
     Q_OBJECT
 public:
     CanvasTabWidget();
-    void addCanvas(const QSize& size = QSize());
+
+    void addCanvas();
+    void addCanvas(const QString& name, const QSize& size);
+
+    QString nextName();
 
 private slots:
     void closeCanvas(int index);

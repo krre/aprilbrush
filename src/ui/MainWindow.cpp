@@ -19,10 +19,10 @@ void MainWindow::closeEvent(QCloseEvent* event) {
 }
 
 void MainWindow::createFile() {
-    NewImage newImage;
+    NewImage newImage(canvasTabWidget->nextName());
 
     if (newImage.exec() == QDialog::Accepted) {
-        canvasTabWidget->addCanvas(newImage.imageSize());
+        canvasTabWidget->addCanvas(newImage.name(), newImage.size());
     }
 }
 
