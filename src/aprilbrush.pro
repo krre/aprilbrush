@@ -8,7 +8,6 @@ SOURCES += \
     engine/Layer.cpp \
     main.cpp \
     cpp/Core.cpp \
-    cpp/Settings.cpp \
     cpp/TabletEventFilter.cpp \
     ui/Canvas.cpp \
     ui/CanvasTabWidget.cpp \
@@ -21,7 +20,6 @@ HEADERS += \
     core/Constants.h \
     core/Utils.h \
     cpp/Core.h \
-    cpp/Settings.h \
     cpp/TabletEventFilter.h \
     engine/BrushEngine.h \
     engine/Layer.h \
