@@ -20,13 +20,12 @@ InputDevice::InputDevice(QWidget* parent) : QWidget(parent) {
     formLayout->addRow(tr("Pressure:"), pressure);
 
     setLayout(formLayout);
-    connect(SignalHub::instance(), &SignalHub::inputDeviceValueChanged, this, &InputDevice::onInputDeviceValueChanged);
-
+    connect(SignalHub::instance(), &SignalHub::inputDeviceDataChanged, this, &InputDevice::onDataChanged);
 }
 
-void InputDevice::onInputDeviceValueChanged(const QVariantMap& value) {
-    type->setText(value["type"].toString());
-    posX->setText(QString::number(value["position"].toPointF().x()));
-    posY->setText(QString::number(value["position"].toPointF().y()));
-    pressure->setText(QString::number(value["pressure"].toDouble()));
+void InputDevice::onDataChanged(const Data& data) {
+    type->setText(data.type == Type::Mouse ? tr("Mouse") : tr("Tablet"));
+    posX->setText(QString::number(data.pos.x()));
+    posY->setText(QString::number(data.pos.y()));
+    pressure->setText(QString::number(data.pressure));
 }

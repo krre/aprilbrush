@@ -7,10 +7,21 @@ class QLabel;
 class InputDevice : public QWidget {
     Q_OBJECT
 public:
+    enum class Type {
+        Mouse,
+        Tablet
+    };
+
+    struct Data {
+        Type type;
+        QPointF pos;
+        double pressure = 1.0;
+    };
+
     InputDevice(QWidget* parent);
 
 private slots:
-   void onInputDeviceValueChanged(const QVariantMap& value);
+   void onDataChanged(const Data& data);
 
 private:
     QLabel* type = nullptr;

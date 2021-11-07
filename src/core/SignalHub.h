@@ -1,4 +1,5 @@
 #pragma once
+#include "ui/InputDevice.h"
 #include <QObject>
 
 class SignalHub : public QObject {
@@ -8,9 +9,5 @@ public:
     static SignalHub* instance();
 
 signals:
-    void inputDeviceValueChanged(const QVariantMap& value);
-
-private:
-
+    void inputDeviceDataChanged(const InputDevice::Data& data);
 };
-

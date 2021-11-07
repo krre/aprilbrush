@@ -1,4 +1,5 @@
 #include "Canvas.h"
+#include "InputDevice.h"
 #include "engine/BrushEngine.h"
 #include "engine/Layer.h"
 #include "core/SignalHub.h"
@@ -45,11 +46,11 @@ void Canvas::mouseMoveEvent(QMouseEvent* event) {
     brushEngine->paint(event->position());
     update();
 
-    QVariantMap value;
-    value["type"] = "Mouse";
-    value["position"] = event->position();
-    value["pressure"] = 1.0;
-    emit SignalHub::instance()->inputDeviceValueChanged(value);
+    InputDevice::Data data{};
+    data.type = InputDevice::Type::Mouse;
+    data.pos = event->position();
+
+    emit SignalHub::instance()->inputDeviceDataChanged(data);
 }
 
 void Canvas::paintEvent(QPaintEvent* event) {
