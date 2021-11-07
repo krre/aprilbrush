@@ -2,7 +2,7 @@
 #include "core/SignalHub.h"
 #include <QtWidgets>
 
-InputDevice::InputDevice() {
+InputDevice::InputDevice(QWidget* parent) : QWidget(parent) {
     setWindowTitle(tr("Input Device"));
     setFixedSize(250, 100);
     setWindowFlags(Qt::WindowStaysOnTopHint | Qt::Tool);

@@ -7,7 +7,7 @@ class QLabel;
 class InputDevice : public QWidget {
     Q_OBJECT
 public:
-    InputDevice();
+    InputDevice(QWidget* parent);
 
 private slots:
    void onInputDeviceValueChanged(const QVariantMap& value);

@@ -52,7 +52,7 @@ void MainWindow::onOptions() {
 }
 
 void MainWindow::onInputDevice() {
-    auto inputDevice = new InputDevice();
+    auto inputDevice = new InputDevice(this);
     inputDevice->show();
 }
 
