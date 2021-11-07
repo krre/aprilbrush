@@ -5,13 +5,17 @@
 #include "Canvas.h"
 #include "InputDevice.h"
 #include "ColorPicker.h"
+#include "core/Context.h"
 #include "core/SignalHub.h"
 #include "core/Constants.h"
 #include <QtWidgets>
 
 MainWindow::MainWindow(QWidget* parent) : QMainWindow(parent) {
     setAutoFillBackground(true);
+
     new SignalHub(this);
+    new Context(this);
+
     createActions();
     createUi();
     readSettings();
@@ -107,6 +111,7 @@ void MainWindow::createUi() {
 
 void MainWindow::createDockWindows() {
     auto colorPicker = new ColorPicker;
+    Context::setColorPicker(colorPicker);
     auto dock = new QDockWidget(colorPicker->windowTitle(), this);
     dock->setWidget(colorPicker);
     dock->setAllowedAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea);

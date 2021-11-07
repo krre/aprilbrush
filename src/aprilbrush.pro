@@ -3,6 +3,7 @@ QT += widgets gui-private
 CONFIG += c++17
 
 SOURCES += \
+    core/Context.cpp \
     core/Core.cpp \
     core/SignalHub.cpp \
     core/TabletEventFilter.cpp \
@@ -21,6 +22,7 @@ SOURCES += \
 
 HEADERS += \
     core/Constants.h \
+    core/Context.h \
     core/Core.h \
     core/SignalHub.h \
     core/TabletEventFilter.h \

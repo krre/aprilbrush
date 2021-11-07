@@ -20,7 +20,6 @@ public:
     QPointF startPos() { return topleft; }
 
     const QColor& color() const;
-    void setColor(const QColor& color);
 
     int size() const;
     void setSize(int size);
@@ -51,6 +50,9 @@ public:
 
     bool getIsTouch() const { return m_isTouch; }
     void setIsTouch(bool isTouch);
+
+public slots:
+    void setColor(const QColor& color);
 
 signals:
     void colorChanged(QColor color);

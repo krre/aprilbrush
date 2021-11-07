@@ -1,13 +1,19 @@
 #include "Canvas.h"
 #include "InputDevice.h"
+#include "ColorPicker.h"
 #include "engine/BrushEngine.h"
 #include "engine/Layer.h"
 #include "core/SignalHub.h"
+#include "core/Context.h"
 #include <QtGui>
 
 Canvas::Canvas(const QSize& size) {
     resize(size);
+
     brushEngine.reset(new BrushEngine);
+    brushEngine->setColor(Context::colorPicker()->color());
+    connect(Context::colorPicker(), &ColorPicker::colorChanged, brushEngine.data(), &BrushEngine::setColor);
+
     addLayer(nextName());
 }
 
