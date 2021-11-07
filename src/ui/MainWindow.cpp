@@ -10,7 +10,7 @@
 
 MainWindow::MainWindow(QWidget* parent) : QMainWindow(parent) {
     setAutoFillBackground(true);
-    new SignalHub;
+    new SignalHub(this);
     createActions();
     createUi();
     readSettings();

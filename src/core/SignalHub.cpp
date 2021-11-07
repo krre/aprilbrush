@@ -2,7 +2,7 @@
 
 static SignalHub* s_instance = nullptr;
 
-SignalHub::SignalHub() {
+SignalHub::SignalHub(QObject* parent) : QObject(parent) {
     s_instance = this;
 }
 

@@ -4,7 +4,7 @@
 class SignalHub : public QObject {
     Q_OBJECT
 public:
-    SignalHub();
+    SignalHub(QObject* parent);
     static SignalHub* instance();
 
 signals:
