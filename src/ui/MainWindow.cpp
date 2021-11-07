@@ -4,6 +4,7 @@
 #include "Options.h"
 #include "Canvas.h"
 #include "InputDevice.h"
+#include "ColorPicker.h"
 #include "core/SignalHub.h"
 #include "core/Constants.h"
 #include <QtWidgets>
@@ -85,6 +86,9 @@ void MainWindow::createActions() {
     QMenu* toolsMenu = menuBar()->addMenu(tr("Tools"));
     toolsMenu->addAction(tr("Options..."), this, &MainWindow::onOptions);
 
+    // View
+    viewMenu = menuBar()->addMenu(tr("View"));
+
     // Window
     QMenu* windowMenu = menuBar()->addMenu(tr("Window"));
     windowMenu->addAction(tr("Input Device..."), this, &MainWindow::onInputDevice);
@@ -97,6 +101,17 @@ void MainWindow::createActions() {
 void MainWindow::createUi() {
     canvasTabWidget = new CanvasTabWidget;
     setCentralWidget(canvasTabWidget);
+
+    createDockWindows();
+}
+
+void MainWindow::createDockWindows() {
+    auto colorPicker = new ColorPicker;
+    auto dock = new QDockWidget(colorPicker->windowTitle(), this);
+    dock->setWidget(colorPicker);
+    dock->setAllowedAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea);
+    addDockWidget(Qt::RightDockWidgetArea, dock);
+    viewMenu->addAction(dock->toggleViewAction());
 }
 
 void MainWindow::applyHotSettings() {

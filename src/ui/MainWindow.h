@@ -23,7 +23,9 @@ private:
 
     void createActions();
     void createUi();
+    void createDockWindows();
     void applyHotSettings();
 
     CanvasTabWidget* canvasTabWidget;
+    QMenu* viewMenu = nullptr;
 };

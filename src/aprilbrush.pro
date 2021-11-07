@@ -12,6 +12,7 @@ SOURCES += \
     main.cpp \
     ui/Canvas.cpp \
     ui/CanvasTabWidget.cpp \
+    ui/ColorPicker.cpp \
     ui/Dialog.cpp \
     ui/InputDevice.cpp \
     ui/MainWindow.cpp \
@@ -28,6 +29,7 @@ HEADERS += \
     engine/Layer.h \
     ui/Canvas.h \
     ui/CanvasTabWidget.h \
+    ui/ColorPicker.h \
     ui/Dialog.h \
     ui/InputDevice.h \
     ui/MainWindow.h \
