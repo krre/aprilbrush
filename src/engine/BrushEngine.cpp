@@ -2,9 +2,13 @@
 #include "Layer.h"
 #include <QtGui>
 
-void BrushEngine::paint(const QPointF& point, float pressure) {
+BrushEngine::BrushEngine(QObject* parent) : QObject(parent) {
+
+}
+
+void BrushEngine::paint(QPixmap* pixmap, const QPointF& point, float pressure) {
 //    QPainter painter(m_eraser > 50 ? m_layer->pixmap() : m_layerBuffer->pixmap());
-    QPainter painter(m_layer->pixmap());
+    QPainter painter(pixmap);
     painter.setRenderHint(QPainter::Antialiasing, true);
     painter.setPen(Qt::NoPen);
 
@@ -30,7 +34,7 @@ void BrushEngine::paint(const QPointF& point, float pressure) {
         lastPoint = QPointF(point);
         topleft = QPoint(0, 0);
 //        bottomright = QPoint(m_layerBuffer->pixmap()->width(), m_layerBuffer->pixmap()->height());
-        bottomright = QPoint(m_layer->pixmap()->width(), m_layer->pixmap()->height());
+        bottomright = QPoint(pixmap->width(), pixmap->height());
         paintDab(point, painter);
     } else {
         qreal length = qSqrt(qPow(lastPoint.x() - point.x(), 2) + qPow(lastPoint.y() - point.y(), 2));
@@ -60,22 +64,22 @@ void BrushEngine::paint(const QPointF& point, float pressure) {
     }
 }
 
-void BrushEngine::setLayer(Layer* layer) {
-    m_layer = layer;
-    m_undoImage = layer->image();
-}
+//void BrushEngine::setLayer(Layer* layer) {
+//    m_layer = layer;
+//    m_undoImage = layer->image();
+//}
 
-void BrushEngine::setLayerBuffer(Layer* layerBuffer) {
-    m_layerBuffer = layerBuffer;
-}
+//void BrushEngine::setLayerBuffer(Layer* layerBuffer) {
+//    m_layerBuffer = layerBuffer;
+//}
 
-const QByteArray& BrushEngine::undoImage() const {
-    return m_undoImage;
-}
+//const QByteArray& BrushEngine::undoImage() const {
+//    return m_undoImage;
+//}
 
-const QByteArray& BrushEngine::redoImage() const {
-    return m_redoImage;
-}
+//const QByteArray& BrushEngine::redoImage() const {
+//    return m_redoImage;
+//}
 
 const QColor& BrushEngine::color() const {
     return m_color;
@@ -177,36 +181,36 @@ void BrushEngine::setEraser(int eraser) {
     emit eraserChanged(eraser);
 }
 
-void BrushEngine::setIsTouch(bool isTouch) {
-    if (m_isTouch == isTouch) return;
-    m_isTouch = isTouch;
+//void BrushEngine::setIsTouch(bool isTouch) {
+//    if (m_isTouch == isTouch) return;
+//    m_isTouch = isTouch;
 
-    if (isTouch) {
-        startPoint = QPointF();
-    } else {
-        m_undoImage = m_layer->image(topleft, bottomright);
+//    if (isTouch) {
+//        startPoint = QPointF();
+//    } else {
+//        m_undoImage = m_layer->image(topleft, bottomright);
 
-        QPainter painter(m_layer->pixmap());
-        painter.setOpacity(m_opacity / 100.0);
-        painter.drawPixmap(0, 0, *m_layerBuffer->pixmap());
-        m_layerBuffer->pixmap()->fill(Qt::transparent);
+//        QPainter painter(m_layer->pixmap());
+//        painter.setOpacity(m_opacity / 100.0);
+//        painter.drawPixmap(0, 0, *m_layerBuffer->pixmap());
+//        m_layerBuffer->pixmap()->fill(Qt::transparent);
 
-        m_redoImage = m_layer->image(topleft, bottomright);
+//        m_redoImage = m_layer->image(topleft, bottomright);
 
-        // Correct corner positions on brush size
-        topleft.setX(topleft.x() - m_size);
-        topleft.setY(topleft.y() - m_size);
-        bottomright.setX(bottomright.x() + m_size);
-        bottomright.setY(bottomright.y() + m_size);
+//        // Correct corner positions on brush size
+//        topleft.setX(topleft.x() - m_size);
+//        topleft.setY(topleft.y() - m_size);
+//        bottomright.setX(bottomright.x() + m_size);
+//        bottomright.setY(bottomright.y() + m_size);
 
-        topleft.setX(qMax(0, topleft.x()));
-        topleft.setY(qMax(0, topleft.y()));
-        bottomright.setX(qMin(m_layerBuffer->pixmap()->width(), bottomright.x()));
-        bottomright.setY(qMin(m_layerBuffer->pixmap()->height(), bottomright.y()));
-    }
+//        topleft.setX(qMax(0, topleft.x()));
+//        topleft.setY(qMax(0, topleft.y()));
+//        bottomright.setX(qMin(m_layerBuffer->pixmap()->width(), bottomright.x()));
+//        bottomright.setY(qMin(m_layerBuffer->pixmap()->height(), bottomright.y()));
+//    }
 
-    emit isTouchChanged(isTouch);
-}
+//    emit isTouchChanged(isTouch);
+//}
 
 void BrushEngine::paintDab(const QPointF& point, QPainter& painter) {
     painter.save();

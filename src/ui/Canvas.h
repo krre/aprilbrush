@@ -2,7 +2,6 @@
 #include <QWidget>
 #include <QScopedPointer>
 
-class BrushEngine;
 class Layer;
 
 class Canvas : public QWidget {
@@ -13,6 +12,9 @@ public:
 
     void addLayer(const QString& name = QString());
     void addLayer(const QSharedPointer<Layer>& layer);
+
+    void select();
+    void unselect();
 
     void setCurrentLayerIndex(int index);
     int currentLayerIndex() const;
@@ -26,7 +28,6 @@ protected:
     void paintEvent(QPaintEvent* event) override;
 
 private:
-    QScopedPointer<BrushEngine> brushEngine;
     QVector<QSharedPointer<Layer>> layers;
     int m_currentLayerIndex = -1;
     int maxTabCount = 1;

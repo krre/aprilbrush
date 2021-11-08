@@ -9,13 +9,15 @@ class Layer;
 class BrushEngine : public QObject {
     Q_OBJECT
 public:
-    void paint(const QPointF& point, float pressure = 1.0);
+    BrushEngine(QObject* parent);
 
-    void setLayer(Layer* layer);
-    void setLayerBuffer(Layer* layerBuffer);
+    void paint(QPixmap* pixmap, const QPointF& point, float pressure = 1.0);
 
-    const QByteArray& undoImage() const;
-    const QByteArray& redoImage() const;
+//    void setLayer(Layer* layer);
+//    void setLayerBuffer(Layer* layerBuffer);
+
+//    const QByteArray& undoImage() const;
+//    const QByteArray& redoImage() const;
 
     QPointF startPos() { return topleft; }
 
@@ -48,8 +50,8 @@ public:
     int eraser() const;
     void setEraser(int eraser);
 
-    bool getIsTouch() const { return m_isTouch; }
-    void setIsTouch(bool isTouch);
+//    bool getIsTouch() const { return m_isTouch; }
+//    void setIsTouch(bool isTouch);
 
 public slots:
     void setColor(const QColor& color);
@@ -66,7 +68,7 @@ signals:
     void jitterChanged(int jitter);
     void eraserChanged(int eraser);
 
-    void isTouchChanged(bool isTouch);
+//    void isTouchChanged(bool isTouch);
 
 private:
     void paintDab(const QPointF& point, QPainter& painter);
@@ -82,14 +84,14 @@ private:
     int m_jitter = 0;
     int m_eraser = 0;
 
-    bool m_isTouch = false;
-    Layer* m_layer;
-    Layer* m_layerBuffer;
+//    bool m_isTouch = false;
+//    Layer* m_layer;
+//    Layer* m_layerBuffer;
 
     QPointF startPoint;
     QPointF lastPoint;
     QPoint topleft;
     QPoint bottomright;
-    QByteArray m_undoImage;
-    QByteArray m_redoImage;
+//    QByteArray m_undoImage;
+//    QByteArray m_redoImage;
 };

@@ -9,11 +9,6 @@
 
 Canvas::Canvas(const QSize& size) {
     resize(size);
-
-    brushEngine.reset(new BrushEngine);
-    brushEngine->setColor(Context::colorPicker()->color());
-    connect(Context::colorPicker(), &ColorPicker::colorChanged, brushEngine.data(), &BrushEngine::setColor);
-
     addLayer(nextName());
 }
 
@@ -25,10 +20,17 @@ void Canvas::addLayer(const QString& name) {
     auto newLayer = QSharedPointer<Layer>(new Layer(name, size()));
     layers.append(newLayer);
     m_currentLayerIndex = layers.count() - 1;
-    brushEngine->setLayer(currentLayer());
 }
 
 void Canvas::addLayer(const QSharedPointer<Layer>& layer) {
+
+}
+
+void Canvas::select() {
+
+}
+
+void Canvas::unselect() {
 
 }
 
@@ -49,7 +51,7 @@ QString Canvas::nextName() {
 }
 
 void Canvas::mouseMoveEvent(QMouseEvent* event) {
-    brushEngine->paint(event->position());
+    Context::brushEngine()->paint(layers.at(m_currentLayerIndex)->pixmap(), event->position());
     update();
 
     InputDevice::Data data{};
