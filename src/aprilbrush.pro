@@ -11,6 +11,7 @@ SOURCES += \
     engine/BrushEngine.cpp \
     engine/Layer.cpp \
     main.cpp \
+    ui/BrushSettings.cpp \
     ui/Canvas.cpp \
     ui/CanvasTabWidget.cpp \
     ui/ColorPicker.cpp \
@@ -29,6 +30,7 @@ HEADERS += \
     core/Utils.h \
     engine/BrushEngine.h \
     engine/Layer.h \
+    ui/BrushSettings.h \
     ui/Canvas.h \
     ui/CanvasTabWidget.h \
     ui/ColorPicker.h \

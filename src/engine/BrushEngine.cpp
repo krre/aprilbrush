@@ -118,6 +118,7 @@ int BrushEngine::opacity() const {
 void BrushEngine::setOpacity(int opacity) {
     if (m_opacity == opacity) return;
     m_opacity = opacity;
+
     emit opacityChanged(opacity);
 }
 

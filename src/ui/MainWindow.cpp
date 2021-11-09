@@ -5,6 +5,7 @@
 #include "Canvas.h"
 #include "InputDevice.h"
 #include "ColorPicker.h"
+#include "BrushSettings.h"
 #include "core/Context.h"
 #include "core/SignalHub.h"
 #include "core/Constants.h"
@@ -114,6 +115,13 @@ void MainWindow::createDockWindows() {
     Context::setColorPicker(colorPicker);
     auto dock = new QDockWidget(colorPicker->windowTitle(), this);
     dock->setWidget(colorPicker);
+    dock->setAllowedAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea);
+    addDockWidget(Qt::RightDockWidgetArea, dock);
+    viewMenu->addAction(dock->toggleViewAction());
+
+    auto brushSettings = new BrushSettings(Context::brushEngine());
+    dock = new QDockWidget(brushSettings->windowTitle(), this);
+    dock->setWidget(brushSettings);
     dock->setAllowedAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea);
     addDockWidget(Qt::RightDockWidgetArea, dock);
     viewMenu->addAction(dock->toggleViewAction());

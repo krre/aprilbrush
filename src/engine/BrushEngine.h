@@ -22,39 +22,32 @@ public:
     QPointF startPos() { return topleft; }
 
     const QColor& color() const;
-
     int size() const;
-    void setSize(int size);
+
 
     int hardness() const;
     void setHardness(int hardness);
-
     int opacity() const;
-    void setOpacity(int opacity);
-
     int flow() const;
-    void setFlow(int flow);
-
     int roundness() const;
-    void setRoundness(int roundness);
-
     int angle() const;
-    void setAngle(int angle);
-
     int spacing() const;
-    void setSpacing(int spacing);
-
     int jitter() const;
-    void setJitter(int jitter);
-
     int eraser() const;
-    void setEraser(int eraser);
 
 //    bool getIsTouch() const { return m_isTouch; }
 //    void setIsTouch(bool isTouch);
 
 public slots:
     void setColor(const QColor& color);
+    void setSize(int size);
+    void setOpacity(int opacity);
+    void setFlow(int flow);
+    void setRoundness(int roundness);
+    void setAngle(int angle);
+    void setSpacing(int spacing);
+    void setJitter(int jitter);
+    void setEraser(int eraser);
 
 signals:
     void colorChanged(QColor color);
