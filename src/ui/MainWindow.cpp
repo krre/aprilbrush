@@ -83,9 +83,9 @@ void MainWindow::writeSettings() {
 void MainWindow::createActions() {
     // File
     QMenu* fileMenu = menuBar()->addMenu(tr("File"));
-    fileMenu->addAction(tr("New..."), this, &MainWindow::onNew, QKeySequence("Ctrl+N"));
+    fileMenu->addAction(tr("New..."), this, &MainWindow::onNew, Qt::CTRL | Qt::Key_N);
     fileMenu->addSeparator();
-    fileMenu->addAction(tr("Exit"), this, &QMainWindow::close, QKeySequence("Ctrl+Q"));
+    fileMenu->addAction(tr("Exit"), this, &QMainWindow::close, Qt::CTRL | Qt::Key_Q);
 
     // Tools
     QMenu* toolsMenu = menuBar()->addMenu(tr("Tools"));
