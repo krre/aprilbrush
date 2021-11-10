@@ -22,8 +22,20 @@ public:
     QByteArray image(const QPoint& topLeft = QPoint(), const QPoint& bottomRight = QPoint());
     void setImage(const QByteArray& image, const QPoint& topLeft = QPoint());
 
+    void setVisible(bool visible);
+    bool isVisible() const;
+
+    void setLocked(bool locked);
+    bool isLocked() const;
+
+    void setSelected(bool selected);
+    bool isSelected() const;
+
 private:
     QString m_name;
     QSize m_size;
     QScopedPointer<QPixmap> m_pixmap;
+    bool m_visible = true;
+    bool m_locked = false;
+    bool m_selected = false;
 };

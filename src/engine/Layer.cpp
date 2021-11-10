@@ -65,6 +65,30 @@ void Layer::setImage(const QByteArray& image, const QPoint& topLeft) {
     }
 }
 
+void Layer::setVisible(bool visible) {
+    m_visible = visible;
+}
+
+bool Layer::isVisible() const {
+    return m_visible;
+}
+
+void Layer::setLocked(bool locked) {
+    m_locked = locked;
+}
+
+bool Layer::isLocked() const {
+    return m_locked;
+}
+
+void Layer::setSelected(bool selected) {
+    m_selected = selected;
+}
+
+bool Layer::isSelected() const {
+    return m_selected;
+}
+
 QPixmap* Layer::pixmap() const {
     return m_pixmap.data();
 }
