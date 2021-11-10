@@ -12,6 +12,7 @@ public:
     BrushEngine(QObject* parent);
 
     void paint(QPixmap* pixmap, const QPointF& point, float pressure = 1.0);
+    void unTouch();
 
 //    void setLayer(Layer* layer);
 //    void setLayerBuffer(Layer* layerBuffer);

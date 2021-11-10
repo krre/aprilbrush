@@ -51,14 +51,15 @@ QString Canvas::nextName() {
 }
 
 void Canvas::mouseMoveEvent(QMouseEvent* event) {
-    Context::brushEngine()->paint(layers.at(m_currentLayerIndex)->pixmap(), event->position());
-    update();
+    paintAction(event->position());
+}
 
-    InputDevice::Data data{};
-    data.type = InputDevice::Type::Mouse;
-    data.pos = event->position();
+void Canvas::mousePressEvent(QMouseEvent* event) {
+    paintAction(event->position());
+}
 
-    emit SignalHub::instance()->inputDeviceDataChanged(data);
+void Canvas::mouseReleaseEvent(QMouseEvent*) {
+    Context::brushEngine()->unTouch();
 }
 
 void Canvas::paintEvent(QPaintEvent* event) {
@@ -68,4 +69,15 @@ void Canvas::paintEvent(QPaintEvent* event) {
     for (int i = layers.count() - 1; i >=0; i--) {
         painter.drawPixmap(0, 0, *layers.at(i)->pixmap());
     }
+}
+
+void Canvas::paintAction(const QPointF& pos) {
+    Context::brushEngine()->paint(layers.at(m_currentLayerIndex)->pixmap(), pos);
+    update();
+
+    InputDevice::Data data{};
+    data.type = InputDevice::Type::Mouse;
+    data.pos = pos;
+
+    emit SignalHub::instance()->inputDeviceDataChanged(data);
 }

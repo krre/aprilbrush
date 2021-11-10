@@ -25,9 +25,14 @@ public:
 
 protected:
     void mouseMoveEvent(QMouseEvent* event) override;
+    void mousePressEvent(QMouseEvent* event) override;
+    void mouseReleaseEvent(QMouseEvent*) override;
+
     void paintEvent(QPaintEvent* event) override;
 
 private:
+    void paintAction(const QPointF& pos);
+
     QVector<QSharedPointer<Layer>> layers;
     int m_currentLayerIndex = -1;
     int maxTabCount = 1;
