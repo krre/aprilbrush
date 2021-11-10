@@ -5,6 +5,7 @@
 #include "engine/Layer.h"
 #include "core/SignalHub.h"
 #include "core/Context.h"
+#include "core/OpenRaster.h"
 #include <QtGui>
 
 Canvas::Canvas(const QSize& size) {
@@ -13,6 +14,40 @@ Canvas::Canvas(const QSize& size) {
 }
 
 Canvas::~Canvas() {
+
+}
+
+void Canvas::setName(const QString& name) {
+    m_name = name;
+}
+
+const QString& Canvas::name() const {
+    return m_name;
+}
+
+void Canvas::setFilePath(const QString& filePath) {
+    m_filePath = filePath;
+    m_name = filePathToName(filePath);
+}
+
+const QString& Canvas::filePath() const {
+    return m_filePath;
+}
+
+void Canvas::save() {
+    OpenRaster openRaster;
+    openRaster.write(m_filePath, size(), layers);
+}
+
+void Canvas::open(const QString& filePath) {
+    OpenRaster openRaster;
+    layers = openRaster.read(filePath);
+
+    m_filePath = filePath;
+    m_name = filePathToName(filePath);
+}
+
+void Canvas::exportToPng(const QString& filePath) {
 
 }
 
@@ -80,4 +115,8 @@ void Canvas::paintAction(const QPointF& pos) {
     data.pos = pos;
 
     emit SignalHub::instance()->inputDeviceDataChanged(data);
+}
+
+QString Canvas::filePathToName(const QString& filePath) const {
+    return QFileInfo(filePath).fileName().replace(".ora", "");
 }

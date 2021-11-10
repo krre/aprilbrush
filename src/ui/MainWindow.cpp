@@ -36,6 +36,46 @@ void MainWindow::onNew() {
     }
 }
 
+void MainWindow::onOpen() {
+    QString filePath = QFileDialog::getOpenFileName(this, tr("Open Image"), QString(), tr("Images (*.ora)"));
+
+    if (!filePath.isEmpty()) {
+        onNew();
+        currentCanvas()->open(filePath);
+        canvasTabWidget->setTabText(canvasTabWidget->currentIndex(), currentCanvas()->name());
+    }
+}
+
+void MainWindow::onSave() {
+    Canvas* canvas =  currentCanvas();
+
+    if (!canvas->filePath().isEmpty()) {
+        canvas->save();
+    } else {
+        onSaveAs();
+    }
+}
+
+void MainWindow::onSaveAs() {
+    QString filePath = QFileDialog::getSaveFileName(this, tr("Save Image As"),  currentCanvas()->name() + ".ora", tr("OpenRaster (*.ora)"));
+
+    if (!filePath.isEmpty()) {
+        QString oraPath = filePath.last(4) != ".ora" ? filePath + ".ora" : filePath;
+        currentCanvas()->setFilePath(oraPath);
+        currentCanvas()->save();
+        canvasTabWidget->setTabText(canvasTabWidget->currentIndex(), currentCanvas()->name());
+    }
+}
+
+void MainWindow::onExport() {
+    QString fileName = currentCanvas()->name() + ".png";
+    QString filePath = QFileDialog::getSaveFileName(this, tr("Export Image"), fileName, tr("Images (*.png)"));
+
+    if (!filePath.isEmpty()) {
+        currentCanvas()->exportToPng(filePath);
+    }
+}
+
 void MainWindow::onAbout() {
     using namespace Const::App;
 
@@ -84,6 +124,12 @@ void MainWindow::createActions() {
     // File
     QMenu* fileMenu = menuBar()->addMenu(tr("File"));
     fileMenu->addAction(tr("New..."), this, &MainWindow::onNew, Qt::CTRL | Qt::Key_N);
+    fileMenu->addAction(tr("Open..."), this, &MainWindow::onOpen, Qt::CTRL | Qt::Key_O);
+    fileMenu->addAction(tr("Save"), this, &MainWindow::onSave, Qt::CTRL | Qt::Key_S);
+    fileMenu->addAction(tr("Save As..."), this, &MainWindow::onSaveAs, Qt::CTRL | Qt::SHIFT | Qt::Key_S);
+    fileMenu->addAction(tr("Export..."), this, &MainWindow::onExport, Qt::CTRL | Qt::Key_E);
+    fileMenu->addSeparator();
+
     fileMenu->addSeparator();
     fileMenu->addAction(tr("Exit"), this, &QMainWindow::close, Qt::CTRL | Qt::Key_Q);
 
@@ -129,4 +175,8 @@ void MainWindow::createDockWindows() {
 
 void MainWindow::applyHotSettings() {
 
+}
+
+Canvas* MainWindow::currentCanvas() const {
+    return static_cast<Canvas*>(canvasTabWidget->currentWidget());
 }

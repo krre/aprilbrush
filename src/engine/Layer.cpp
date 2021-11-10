@@ -92,3 +92,7 @@ bool Layer::isSelected() const {
 QPixmap* Layer::pixmap() const {
     return m_pixmap.data();
 }
+
+void Layer::setPixmap(const QSharedPointer<QPixmap>& pixmap) {
+    m_pixmap = pixmap;
+}

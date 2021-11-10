@@ -8,9 +8,6 @@ class Core {
 public:
     Core() = default;
     bool isFileExists(const QString& filePath);
-    void writeOra(const QString& oraPath, const QSize& canvasSize, const QVariantList& layerList);
-    QVariantList readOra(const QString& oraPath);
-    QVariantMap readOraAttr(const QString& oraPath);
     void writePng(const QString& pngPath, const QVariantList& canvasItems);
     void setCursorShape(const QString& type, int size=0);
     QString urlToPath(const QUrl& url) { return url.toLocalFile(); }

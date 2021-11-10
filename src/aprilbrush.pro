@@ -5,6 +5,7 @@ CONFIG += c++17
 SOURCES += \
     core/Context.cpp \
     core/Core.cpp \
+    core/OpenRaster.cpp \
     core/SignalHub.cpp \
     core/TabletEventFilter.cpp \
     core/Utils.cpp \
@@ -22,9 +23,11 @@ SOURCES += \
     ui/Options.cpp
 
 HEADERS += \
+    core/CommonTypes.h \
     core/Constants.h \
     core/Context.h \
     core/Core.h \
+    core/OpenRaster.h \
     core/SignalHub.h \
     core/TabletEventFilter.h \
     core/Utils.h \

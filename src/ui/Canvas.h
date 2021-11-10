@@ -1,14 +1,23 @@
 #pragma once
+#include "core/CommonTypes.h"
 #include <QWidget>
 #include <QScopedPointer>
-
-class Layer;
 
 class Canvas : public QWidget {
     Q_OBJECT
 public:
     explicit Canvas(const QSize& size);
     ~Canvas();
+
+    void setName(const QString& name);
+    const QString& name() const;
+
+    void setFilePath(const QString& filePath);
+    const QString& filePath() const;
+
+    void save();
+    void open(const QString& filePath);
+    void exportToPng(const QString& filePath);
 
     void addLayer(const QString& name = QString());
     void addLayer(const QSharedPointer<Layer>& layer);
@@ -32,8 +41,11 @@ protected:
 
 private:
     void paintAction(const QPointF& pos);
+    QString filePathToName(const QString& filePath) const;
 
-    QVector<QSharedPointer<Layer>> layers;
+    Layers layers;
     int m_currentLayerIndex = -1;
     int maxTabCount = 1;
+    QString m_name;
+    QString m_filePath;
 };
