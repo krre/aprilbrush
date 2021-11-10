@@ -28,7 +28,7 @@ void MainWindow::closeEvent(QCloseEvent* event) {
     event->accept();
 }
 
-void MainWindow::createFile() {
+void MainWindow::onNew() {
     NewImage newImage(canvasTabWidget->nextName());
 
     if (newImage.exec() == QDialog::Accepted) {
@@ -83,7 +83,7 @@ void MainWindow::writeSettings() {
 void MainWindow::createActions() {
     // File
     QMenu* fileMenu = menuBar()->addMenu(tr("File"));
-    fileMenu->addAction(tr("New..."), this, &MainWindow::createFile, QKeySequence("Ctrl+N"));
+    fileMenu->addAction(tr("New..."), this, &MainWindow::onNew, QKeySequence("Ctrl+N"));
     fileMenu->addSeparator();
     fileMenu->addAction(tr("Exit"), this, &QMainWindow::close, QKeySequence("Ctrl+Q"));
 

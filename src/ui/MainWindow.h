@@ -12,7 +12,7 @@ protected:
     void closeEvent(QCloseEvent* event) override;
 
 private slots:
-    void createFile();
+    void onNew();
     void onAbout();
     void onOptions();
     void onInputDevice();
