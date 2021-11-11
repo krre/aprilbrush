@@ -17,7 +17,7 @@ public:
 
     void save();
     void open(const QString& filePath);
-    void exportToPng(const QString& filePath);
+    void exportPng(const QString& filePath);
 
     void addLayer(const QString& name = QString());
     void addLayer(const QSharedPointer<Layer>& layer);

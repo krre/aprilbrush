@@ -72,7 +72,7 @@ void MainWindow::onExport() {
     QString filePath = QFileDialog::getSaveFileName(this, tr("Export Image"), fileName, tr("Images (*.png)"));
 
     if (!filePath.isEmpty()) {
-        currentCanvas()->exportToPng(filePath);
+        currentCanvas()->exportPng(filePath);
     }
 }
 

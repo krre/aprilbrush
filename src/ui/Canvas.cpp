@@ -47,8 +47,16 @@ void Canvas::open(const QString& filePath) {
     m_name = filePathToName(filePath);
 }
 
-void Canvas::exportToPng(const QString& filePath) {
+void Canvas::exportPng(const QString& filePath) {
+    QPixmap pixmap(width(), height());
+    pixmap.fill(Qt::white);
+    QPainter painter(&pixmap);
 
+    for (int i = layers.count() - 1; i >= 0; i--) {
+        painter.drawPixmap(0, 0, *layers.at(i)->pixmap());
+    }
+
+    pixmap.save(filePath);
 }
 
 void Canvas::addLayer(const QString& name) {

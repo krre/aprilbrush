@@ -6,22 +6,6 @@ bool Core::isFileExists(const QString& filePath) {
     return fi.exists() && fi.isFile();
 }
 
-void Core::writePng(const QString& pngPath, const QVariantList& canvasItems) {
-//    QPixmap pixmap;
-//    for (int i = canvasItems.count() - 1; i >= 0; i--) {
-//        auto obj = qvariant_cast<QObject*>(canvasItems.at(i));
-//        auto layer = qobject_cast<Layer*>(obj);
-//        QPixmap* canvasPixmap = layer->pixmap();
-//        if (pixmap.isNull()) {
-//            pixmap = QPixmap(canvasPixmap->width(), canvasPixmap->height());
-//            pixmap.fill(Qt::white);
-//        }
-//        QPainter painter(&pixmap);
-//        painter.drawPixmap(0, 0, *canvasPixmap);
-//    }
-//    pixmap.save(pngPath);
-}
-
 void Core::setCursorShape(const QString& type, int size) {
     if (type == "paint") {
          // size of the cursor should not be very small

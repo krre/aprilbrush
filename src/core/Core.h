@@ -8,7 +8,6 @@ class Core {
 public:
     Core() = default;
     bool isFileExists(const QString& filePath);
-    void writePng(const QString& pngPath, const QVariantList& canvasItems);
     void setCursorShape(const QString& type, int size=0);
     QString urlToPath(const QUrl& url) { return url.toLocalFile(); }
     QString pathToBaseName(const QString& path);
