@@ -5,8 +5,6 @@
 
 CanvasTabWidget::CanvasTabWidget() {
     setTabsClosable(true);
-    setVisible(false);
-
     connect(this, &QTabWidget::tabCloseRequested, this, &CanvasTabWidget::closeCanvas);
 }
 
@@ -30,8 +28,4 @@ void CanvasTabWidget::closeCanvas(int index) {
     QWidget* canvas = widget(index);
     removeTab(index);
     delete canvas;
-
-    if (!count()) {
-        setVisible(false);
-    }
 }
