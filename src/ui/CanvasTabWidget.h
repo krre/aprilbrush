@@ -11,7 +11,7 @@ public:
 
     QString nextName();
 
-private slots:
+public slots:
     void closeCanvas(int index);
 
 private:

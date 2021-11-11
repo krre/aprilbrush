@@ -18,6 +18,9 @@ private slots:
     void onSave();
     void onSaveAs();
     void onExport();
+    void onClose();
+    void onCloseAll();
+    void onCloseOthers();
 
     void onClear();
 

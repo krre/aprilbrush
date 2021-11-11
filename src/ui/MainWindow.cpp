@@ -76,6 +76,31 @@ void MainWindow::onExport() {
     }
 }
 
+void MainWindow::onClose() {
+    canvasTabWidget->closeCanvas(canvasTabWidget->currentIndex());
+}
+
+void MainWindow::onCloseAll() {
+    int count = canvasTabWidget->count();
+
+    for (int i = 0; i < count; ++i) {
+        canvasTabWidget->closeCanvas(0);
+    }
+}
+
+void MainWindow::onCloseOthers() {
+    int count = canvasTabWidget->count() - 1;
+    QWidget* activeTab = canvasTabWidget->currentWidget();
+
+    for (int i = 0; i < count; i++) {
+        if (canvasTabWidget->widget(0) != activeTab) {
+            canvasTabWidget->closeCanvas(0);
+        } else {
+            canvasTabWidget->closeCanvas(1);
+        }
+    }
+}
+
 void MainWindow::onClear() {
     currentCanvas()->clear();
 }
@@ -133,6 +158,10 @@ void MainWindow::createActions() {
     fileMenu->addAction(tr("Save As..."), this, &MainWindow::onSaveAs, Qt::CTRL | Qt::SHIFT | Qt::Key_S);
     fileMenu->addAction(tr("Export..."), this, &MainWindow::onExport, Qt::CTRL | Qt::Key_E);
     fileMenu->addSeparator();
+
+    fileMenu->addAction(tr("Close"), this, &MainWindow::onClose, Qt::CTRL | Qt::Key_W);
+    fileMenu->addAction(tr("Close All"), this, &MainWindow::onCloseAll, Qt::CTRL | Qt::SHIFT | Qt::Key_W);
+    fileMenu->addAction(tr("Close Others"), this, &MainWindow::onCloseOthers, Qt::CTRL | Qt::ALT | Qt::Key_W);
 
     fileMenu->addSeparator();
     fileMenu->addAction(tr("Exit"), this, &QMainWindow::close, Qt::CTRL | Qt::Key_Q);
