@@ -76,6 +76,10 @@ void MainWindow::onExport() {
     }
 }
 
+void MainWindow::onClear() {
+    currentCanvas()->clear();
+}
+
 void MainWindow::onAbout() {
     using namespace Const::App;
 
@@ -132,6 +136,10 @@ void MainWindow::createActions() {
 
     fileMenu->addSeparator();
     fileMenu->addAction(tr("Exit"), this, &QMainWindow::close, Qt::CTRL | Qt::Key_Q);
+
+    // Edit
+    QMenu* editMenu = menuBar()->addMenu(tr("Edit"));
+    editMenu->addAction(tr("Clear"), this, &MainWindow::onClear, Qt::Key_Delete);
 
     // Tools
     QMenu* toolsMenu = menuBar()->addMenu(tr("Tools"));

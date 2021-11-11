@@ -19,6 +19,8 @@ private slots:
     void onSaveAs();
     void onExport();
 
+    void onClear();
+
     void onAbout();
     void onOptions();
     void onInputDevice();

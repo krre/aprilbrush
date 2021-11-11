@@ -77,6 +77,11 @@ void Canvas::unselect() {
 
 }
 
+void Canvas::clear() {
+    currentLayer()->clear();
+    update();
+}
+
 void Canvas::setCurrentLayerIndex(int index) {
     m_currentLayerIndex = index;
 }

@@ -25,6 +25,8 @@ public:
     void select();
     void unselect();
 
+    void clear();
+
     void setCurrentLayerIndex(int index);
     int currentLayerIndex() const;
 
