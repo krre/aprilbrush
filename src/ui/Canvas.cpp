@@ -94,11 +94,19 @@ QString Canvas::nextName() {
 }
 
 void Canvas::mouseMoveEvent(QMouseEvent* event) {
-    paintAction(event->position());
+    if (pickPressed()) {
+        pickColor(event->position());
+    } else {
+        paintAction(event->position());
+    }
 }
 
 void Canvas::mousePressEvent(QMouseEvent* event) {
-    paintAction(event->position());
+    if (pickPressed()) {
+        pickColor(event->position());
+    } else {
+        paintAction(event->position());
+    }
 }
 
 void Canvas::mouseReleaseEvent(QMouseEvent*) {
@@ -127,4 +135,20 @@ void Canvas::paintAction(const QPointF& pos) {
 
 QString Canvas::filePathToName(const QString& filePath) const {
     return QFileInfo(filePath).fileName().replace(".ora", "");
+}
+
+bool Canvas::pickPressed() const {
+    return QGuiApplication::queryKeyboardModifiers().testFlag(Qt::AltModifier);
+}
+
+void Canvas::pickColor(const QPointF& pos) {
+    QPixmap pixmap(width(), height());
+    pixmap.fill(Qt::white);
+    QPainter painter(&pixmap);
+
+    for (int i = layers.count() - 1; i >= 0; i--) {
+        painter.drawPixmap(0, 0, *layers.at(i)->pixmap());
+    }
+
+    Context::colorPicker()->setColor(QColor(pixmap.toImage().pixel(qRound(pos.x()), qRound(pos.y()))));
 }

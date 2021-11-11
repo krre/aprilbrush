@@ -38,23 +38,6 @@ QColor Core::hsvToColor(qreal h, qreal s, qreal v) {
     return color;
 }
 
-QColor Core::pickColor(const QPointF& point, const QVariantList& canvasItems) {
-    QPixmap pixmap;
-//    for (int i = canvasItems.count() - 1; i >= 0; i--) {
-//        auto obj = qvariant_cast<QObject*>(canvasItems.at(i));
-//        auto layer = qobject_cast<Layer*>(obj);
-//        QPixmap* canvasPixmap = layer->pixmap();
-//        if (pixmap.isNull()) {
-//            pixmap = QPixmap(canvasPixmap->width(), canvasPixmap->height());
-//            pixmap.fill(Qt::white);
-//        }
-//        QPainter painter(&pixmap);
-//        painter.drawPixmap(0, 0, *canvasPixmap);
-//    }
-
-    return QColor(pixmap.toImage().pixel(qRound(point.x()), qRound(point.y())));
-}
-
 QVariantMap Core::colorToHsv(const QColor& color) {
     QVariantMap map;
     map["h"] = color.hueF();

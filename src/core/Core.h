@@ -13,7 +13,6 @@ public:
     QString pathToBaseName(const QString& path);
     QString pathToFileName(const QString& path);
     QColor hsvToColor(qreal h, qreal s, qreal v);
-    QColor pickColor(const QPointF& point, const QVariantList& canvasItems);
     QVariantMap colorToHsv(const QColor& color);
     QString byteArrayToBase64(const QByteArray& value);
     QByteArray base64ToByteArray(const QString& value);

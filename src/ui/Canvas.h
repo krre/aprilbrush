@@ -43,6 +43,9 @@ private:
     void paintAction(const QPointF& pos);
     QString filePathToName(const QString& filePath) const;
 
+    bool pickPressed() const;
+    void pickColor(const QPointF& pos);
+
     Layers layers;
     int m_currentLayerIndex = -1;
     int maxTabCount = 1;
