@@ -40,7 +40,7 @@ void MainWindow::onOpen() {
     QString filePath = QFileDialog::getOpenFileName(this, tr("Open Image"), QString(), tr("Images (*.ora)"));
 
     if (!filePath.isEmpty()) {
-        onNew();
+        canvasTabWidget->addCanvas(QString(), QSize());
         currentCanvas()->open(filePath);
         canvasTabWidget->setTabText(canvasTabWidget->currentIndex(), currentCanvas()->name());
     }
