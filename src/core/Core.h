@@ -8,7 +8,6 @@ class Core {
 public:
     Core() = default;
     bool isFileExists(const QString& filePath);
-    void setCursorShape(const QString& type, int size=0);
     QString urlToPath(const QUrl& url) { return url.toLocalFile(); }
     QString pathToBaseName(const QString& path);
     QString pathToFileName(const QString& path);

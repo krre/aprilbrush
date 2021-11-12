@@ -41,6 +41,9 @@ protected:
 
     void paintEvent(QPaintEvent* event) override;
 
+private slots:
+    void drawCursor(int size);
+
 private:
     void paintAction(const QPointF& pos);
     QString filePathToName(const QString& filePath) const;

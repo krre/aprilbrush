@@ -11,6 +11,9 @@
 Canvas::Canvas(const QSize& size) {
     resize(size);
     addLayer(nextName());
+
+    connect(Context::brushEngine(), &BrushEngine::sizeChanged, this, &Canvas::drawCursor);
+    drawCursor(Context::brushEngine()->size());
 }
 
 Canvas::~Canvas() {
@@ -125,6 +128,23 @@ void Canvas::paintEvent(QPaintEvent* event) {
     for (int i = layers.count() - 1; i >=0; i--) {
         painter.drawPixmap(0, 0, *layers.at(i)->pixmap());
     }
+}
+
+void Canvas::drawCursor(int size) {
+   // Size of the cursor should not be very small
+   int sizeBrush = qMax(size, 3);
+   QPixmap pixmap(sizeBrush, sizeBrush);
+   pixmap.fill(QColor(255, 255, 255, 0));
+
+   QPainter painter(&pixmap);
+   painter.setRenderHint(QPainter::Antialiasing, true);
+   painter.setBrush(Qt::NoBrush);
+   painter.setPen(QColor(0, 0, 0, 200));
+   painter.drawEllipse(0, 0, sizeBrush, sizeBrush);
+   painter.setPen(QColor(255, 255, 255, 200));
+   painter.drawEllipse(1, 1, sizeBrush - 2, sizeBrush - 2);
+
+   setCursor(QCursor(pixmap));
 }
 
 void Canvas::paintAction(const QPointF& pos) {
