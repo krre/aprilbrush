@@ -340,7 +340,9 @@ void ColorPicker::mouseReleaseEvent(QMouseEvent*) {
 }
 
 void ColorPicker::setColor(const QColor& color) {
+    if (color == m_color) return;
     m_color = color;
+    emit colorChanged(m_color);
     hueColor = color.hue();
     update();
 }
