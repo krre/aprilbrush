@@ -5,6 +5,7 @@ CONFIG += c++17
 SOURCES += \
     core/Context.cpp \
     core/Core.cpp \
+    core/EventFilter.cpp \
     core/OpenRaster.cpp \
     core/SignalHub.cpp \
     core/TabletEventFilter.cpp \
@@ -27,6 +28,7 @@ HEADERS += \
     core/Constants.h \
     core/Context.h \
     core/Core.h \
+    core/EventFilter.h \
     core/OpenRaster.h \
     core/SignalHub.h \
     core/TabletEventFilter.h \

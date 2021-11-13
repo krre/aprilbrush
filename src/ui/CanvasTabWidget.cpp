@@ -17,7 +17,7 @@ void CanvasTabWidget::addCanvas(const QString& name, const QSize& size) {
     canvas->setName(name);
     addTab(canvas, name);
     setCurrentIndex(count() - 1);
-    setVisible(true);
+    canvas->setFocus();
 }
 
 QString CanvasTabWidget::nextName() {

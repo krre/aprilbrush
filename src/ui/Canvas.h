@@ -44,6 +44,9 @@ protected:
 private slots:
     void drawCursor(int size);
 
+    void onKeyPressed(QKeyEvent* event);
+    void onKeyReleased(QKeyEvent* event);
+
 private:
     void paintAction(const QPointF& pos);
     QString filePathToName(const QString& filePath) const;

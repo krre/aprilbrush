@@ -10,6 +10,10 @@ Context::Context(QObject* parent) : QObject(parent) {
     m_brushEngine = new BrushEngine(this);
 }
 
+Context* Context::instance() {
+    return s_instance;
+}
+
 void Context::setColorPicker(ColorPicker* colorPicker) {
     s_colorPicker = colorPicker;
     connect(s_colorPicker, &ColorPicker::colorChanged, s_instance->m_brushEngine, &BrushEngine::setColor);

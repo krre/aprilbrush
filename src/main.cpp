@@ -1,4 +1,5 @@
 #include "core/Constants.h"
+#include "core/EventFilter.h"
 #include "ui/MainWindow.h"
 #include <QApplication>
 #include <QSettings>
@@ -11,6 +12,9 @@ int main(int argc, char* argv[]) {
     QApplication::setOrganizationName(Const::App::Name);
     QApplication::setApplicationName(Const::App::Name);
     QApplication::setApplicationVersion(Const::App::Version);
+
+    auto eventFilter = new EventFilter(&app);
+    app.installEventFilter(eventFilter);
 
 #ifdef Q_OS_WIN
     QSettings::setDefaultFormat(QSettings::IniFormat);

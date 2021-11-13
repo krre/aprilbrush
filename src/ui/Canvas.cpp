@@ -12,6 +12,9 @@ Canvas::Canvas(const QSize& size) {
     resize(size);
     addLayer(nextName());
 
+    connect(Context::instance(), &Context::keyPressed, this, &Canvas::onKeyPressed);
+    connect(Context::instance(), &Context::keyReleased, this, &Canvas::onKeyReleased);
+
     connect(Context::brushEngine(), &BrushEngine::sizeChanged, this, &Canvas::drawCursor);
     drawCursor(Context::brushEngine()->size());
 }
@@ -110,6 +113,8 @@ void Canvas::mouseMoveEvent(QMouseEvent* event) {
 }
 
 void Canvas::mousePressEvent(QMouseEvent* event) {
+    setFocus();
+
     if (pickPressed()) {
         pickColor(event->position());
     } else {
@@ -145,6 +150,18 @@ void Canvas::drawCursor(int size) {
    painter.drawEllipse(1, 1, sizeBrush - 2, sizeBrush - 2);
 
    setCursor(QCursor(pixmap));
+}
+
+void Canvas::onKeyPressed(QKeyEvent* event) {
+    if (event->key() == Qt::Key_Alt) {
+        setCursor(Qt::CrossCursor);
+    }
+}
+
+void Canvas::onKeyReleased(QKeyEvent* event) {
+    if (event->key() == Qt::Key_Alt) {
+        drawCursor(Context::brushEngine()->size());
+    }
 }
 
 void Canvas::paintAction(const QPointF& pos) {
