@@ -20,6 +20,8 @@ MainWindow::MainWindow(QWidget* parent) : QMainWindow(parent) {
     canvasTabWidget = new CanvasTabWidget;
     setCentralWidget(canvasTabWidget);
 
+    undoGroup = new QUndoGroup(this);
+
     createActions();
     createUi();
     readSettings();
@@ -172,6 +174,15 @@ void MainWindow::createActions() {
 
     // Edit
     QMenu* editMenu = menuBar()->addMenu(tr("Edit"));
+
+    auto undoAction = undoGroup->createUndoAction(this, tr("Undo"));
+    undoAction->setShortcuts(QKeySequence::Undo);
+    editMenu->addAction(undoAction);
+
+    auto redoAction = undoGroup->createRedoAction(this, tr("Redo"));
+    redoAction->setShortcuts(QKeySequence::Redo);
+    editMenu->addAction(redoAction);
+
     QAction* clearAction = editMenu->addAction(tr("Clear"), this, &MainWindow::onClear, Qt::Key_Delete);
 
     // Tools
@@ -196,6 +207,8 @@ void MainWindow::createActions() {
         closeAction->setEnabled(count);
         closeAllAction->setEnabled(count);
         closeOthersAction->setEnabled(count >= 2);
+        undoAction->setEnabled(count);
+        redoAction->setEnabled(count);
         clearAction->setEnabled(count);
     });
 }
@@ -219,6 +232,12 @@ void MainWindow::createDockWindows() {
     dock->setAllowedAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea);
     addDockWidget(Qt::RightDockWidgetArea, dock);
     viewMenu->addAction(dock->toggleViewAction());
+
+    auto undoView = new QUndoView(undoGroup);
+    dock = new QDockWidget(tr("Commands"), this);
+    dock->setAllowedAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea);
+    dock->setWidget(undoView);
+    addDockWidget(Qt::RightDockWidgetArea, dock);
 }
 
 void MainWindow::applyHotSettings() {

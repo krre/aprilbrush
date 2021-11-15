@@ -3,6 +3,7 @@
 
 class CanvasTabWidget;
 class Canvas;
+class QUndoGroup;
 
 class MainWindow : public QMainWindow {
     Q_OBJECT
@@ -41,4 +42,5 @@ private:
 
     CanvasTabWidget* canvasTabWidget;
     QMenu* viewMenu = nullptr;
+    QUndoGroup* undoGroup = nullptr;
 };
