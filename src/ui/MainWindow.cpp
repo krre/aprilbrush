@@ -17,6 +17,9 @@ MainWindow::MainWindow(QWidget* parent) : QMainWindow(parent) {
     new SignalHub(this);
     new Context(this);
 
+    canvasTabWidget = new CanvasTabWidget;
+    setCentralWidget(canvasTabWidget);
+
     createActions();
     createUi();
     readSettings();
@@ -154,21 +157,22 @@ void MainWindow::createActions() {
     QMenu* fileMenu = menuBar()->addMenu(tr("File"));
     fileMenu->addAction(tr("New..."), this, &MainWindow::onNew, Qt::CTRL | Qt::Key_N);
     fileMenu->addAction(tr("Open..."), this, &MainWindow::onOpen, Qt::CTRL | Qt::Key_O);
-    fileMenu->addAction(tr("Save"), this, &MainWindow::onSave, Qt::CTRL | Qt::Key_S);
-    fileMenu->addAction(tr("Save As..."), this, &MainWindow::onSaveAs, Qt::CTRL | Qt::SHIFT | Qt::Key_S);
-    fileMenu->addAction(tr("Export..."), this, &MainWindow::onExport, Qt::CTRL | Qt::Key_E);
+
+    QAction* saveAction = fileMenu->addAction(tr("Save"), this, &MainWindow::onSave, Qt::CTRL | Qt::Key_S);
+    QAction* saveAsAction = fileMenu->addAction(tr("Save As..."), this, &MainWindow::onSaveAs, Qt::CTRL | Qt::SHIFT | Qt::Key_S);
+    QAction* exportAction = fileMenu->addAction(tr("Export..."), this, &MainWindow::onExport, Qt::CTRL | Qt::Key_E);
     fileMenu->addSeparator();
 
-    fileMenu->addAction(tr("Close"), this, &MainWindow::onClose, Qt::CTRL | Qt::Key_W);
-    fileMenu->addAction(tr("Close All"), this, &MainWindow::onCloseAll, Qt::CTRL | Qt::SHIFT | Qt::Key_W);
-    fileMenu->addAction(tr("Close Others"), this, &MainWindow::onCloseOthers, Qt::CTRL | Qt::ALT | Qt::Key_W);
+    QAction* closeAction = fileMenu->addAction(tr("Close"), this, &MainWindow::onClose, Qt::CTRL | Qt::Key_W);
+    QAction* closeAllAction =fileMenu->addAction(tr("Close All"), this, &MainWindow::onCloseAll, Qt::CTRL | Qt::SHIFT | Qt::Key_W);
+    QAction* closeOthersAction = fileMenu->addAction(tr("Close Others"), this, &MainWindow::onCloseOthers, Qt::CTRL | Qt::ALT | Qt::Key_W);
 
     fileMenu->addSeparator();
     fileMenu->addAction(tr("Exit"), this, &QMainWindow::close, Qt::CTRL | Qt::Key_Q);
 
     // Edit
     QMenu* editMenu = menuBar()->addMenu(tr("Edit"));
-    editMenu->addAction(tr("Clear"), this, &MainWindow::onClear, Qt::Key_Delete);
+    QAction* clearAction = editMenu->addAction(tr("Clear"), this, &MainWindow::onClear, Qt::Key_Delete);
 
     // Tools
     QMenu* toolsMenu = menuBar()->addMenu(tr("Tools"));
@@ -184,12 +188,19 @@ void MainWindow::createActions() {
     // Help
     QMenu* helpMenu = menuBar()->addMenu(tr("Help"));
     helpMenu->addAction(tr("About %1...").arg(Const::App::Name), this, &MainWindow::onAbout);
+
+    connect(canvasTabWidget, &CanvasTabWidget::countChanged, [=] (int count) {
+        saveAction->setEnabled(count);
+        saveAsAction->setEnabled(count);
+        exportAction->setEnabled(count);
+        closeAction->setEnabled(count);
+        closeAllAction->setEnabled(count);
+        closeOthersAction->setEnabled(count >= 2);
+        clearAction->setEnabled(count);
+    });
 }
 
 void MainWindow::createUi() {
-    canvasTabWidget = new CanvasTabWidget;
-    setCentralWidget(canvasTabWidget);
-
     createDockWindows();
 }
 

@@ -18,6 +18,7 @@ void CanvasTabWidget::addCanvas(const QString& name, const QSize& size) {
     addTab(canvas, name);
     setCurrentIndex(count() - 1);
     canvas->setFocus();
+    emit countChanged(count());
 }
 
 QString CanvasTabWidget::nextName() {
@@ -28,4 +29,5 @@ void CanvasTabWidget::closeCanvas(int index) {
     QWidget* canvas = widget(index);
     removeTab(index);
     delete canvas;
+    emit countChanged(count());
 }

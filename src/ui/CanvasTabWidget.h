@@ -14,6 +14,9 @@ public:
 public slots:
     void closeCanvas(int index);
 
+signals:
+    void countChanged(int count);
+
 private:
     int maxTabCount = 1;
 };
