@@ -3,6 +3,7 @@
 #include "ColorPicker.h"
 #include "engine/BrushEngine.h"
 #include "engine/Layer.h"
+#include "engine/undo/ClearCommand.h"
 #include "core/SignalHub.h"
 #include "core/Context.h"
 #include "core/OpenRaster.h"
@@ -92,8 +93,7 @@ void Canvas::unselect() {
 }
 
 void Canvas::clear() {
-    currentLayer()->clear();
-    update();
+    m_undoStack->push(new ClearCommand(this, currentLayer()));
 }
 
 void Canvas::setCurrentLayerIndex(int index) {
