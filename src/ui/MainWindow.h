@@ -9,6 +9,7 @@ class MainWindow : public QMainWindow {
     Q_OBJECT
 public:
     explicit MainWindow(QWidget* parent = nullptr);
+    QUndoGroup* undoGroup() const;
 
 protected:
     void closeEvent(QCloseEvent* event) override;
@@ -42,5 +43,5 @@ private:
 
     CanvasTabWidget* canvasTabWidget;
     QMenu* viewMenu = nullptr;
-    QUndoGroup* undoGroup = nullptr;
+    QUndoGroup* m_undoGroup = nullptr;
 };

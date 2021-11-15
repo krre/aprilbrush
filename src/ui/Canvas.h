@@ -3,6 +3,8 @@
 #include <QWidget>
 #include <QScopedPointer>
 
+class QUndoStack;
+
 class Canvas : public QWidget {
     Q_OBJECT
 public:
@@ -14,6 +16,8 @@ public:
 
     void setFilePath(const QString& filePath);
     const QString& filePath() const;
+
+    QUndoStack* undoStack() const;
 
     void save();
     void open(const QString& filePath);
@@ -59,4 +63,5 @@ private:
     int maxTabCount = 1;
     QString m_name;
     QString m_filePath;
+    QUndoStack* m_undoStack = nullptr;
 };

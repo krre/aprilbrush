@@ -10,6 +10,10 @@
 
 Canvas::Canvas(const QSize& size) {
     resize(size);
+
+    m_undoStack = new QUndoStack(this);
+    m_undoStack->setUndoLimit(50);
+
     addLayer(nextName());
 
     connect(Context::instance(), &Context::keyPressed, this, &Canvas::onKeyPressed);
@@ -38,6 +42,10 @@ void Canvas::setFilePath(const QString& filePath) {
 
 const QString& Canvas::filePath() const {
     return m_filePath;
+}
+
+QUndoStack* Canvas::undoStack() const {
+    return m_undoStack;
 }
 
 void Canvas::save() {
