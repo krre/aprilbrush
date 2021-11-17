@@ -12,9 +12,9 @@ void BrushEngine::paint(QPixmap* pixmap, const QPointF& point, float pressure) {
     painter.setRenderHint(QPainter::Antialiasing, true);
     painter.setPen(Qt::NoPen);
 
-//    if (m_eraser > 50) {
-//        painter.setCompositionMode(QPainter::CompositionMode_DestinationOut);
-//    }
+    if (m_eraser > 50) {
+        painter.setCompositionMode(QPainter::CompositionMode_DestinationOut);
+    }
 
     m_color.setAlpha(qRound(255 * m_flow / 100.0));
     QColor pressureColor = m_color;
