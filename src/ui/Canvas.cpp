@@ -187,7 +187,7 @@ void Canvas::onKeyReleased(QKeyEvent* event) {
 }
 
 void Canvas::paintAction(const QPointF& pos) {
-    Context::brushEngine()->paint(&buffer, pos);
+    Context::brushEngine()->paint(Context::brushEngine()->eraser() < 50 ? &buffer : currentLayer()->pixmap(), pos);
     update();
 
     InputDevice::Data data{};
