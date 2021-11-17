@@ -2,6 +2,8 @@
 #include <QObject>
 #include <QColor>
 #include <QPointF>
+#include <QSize>
+#include <QRect>
 
 class QPainter;
 class Layer;
@@ -13,19 +15,10 @@ public:
 
     void paint(QPixmap* pixmap, const QPointF& point, float pressure = 1.0);
     void finish();
-
-//    void setLayer(Layer* layer);
-//    void setLayerBuffer(Layer* layerBuffer);
-
-//    const QByteArray& undoImage() const;
-//    const QByteArray& redoImage() const;
-
-    QPointF startPos() { return topleft; }
+    const QRect& bound() const;
 
     const QColor& color() const;
     int size() const;
-
-
     int hardness() const;
     void setHardness(int hardness);
     int opacity() const;
@@ -35,9 +28,6 @@ public:
     int spacing() const;
     int jitter() const;
     int eraser() const;
-
-//    bool getIsTouch() const { return m_isTouch; }
-//    void setIsTouch(bool isTouch);
 
 public slots:
     void setColor(const QColor& color);
@@ -62,10 +52,9 @@ signals:
     void jitterChanged(int jitter);
     void eraserChanged(int eraser);
 
-//    void isTouchChanged(bool isTouch);
-
 private:
     void paintDab(const QPointF& point, QPainter& painter);
+    void updateBound();
 
     QColor m_color = QColor(Qt::black);
     int m_size = 30;
@@ -78,14 +67,10 @@ private:
     int m_jitter = 0;
     int m_eraser = 0;
 
-//    bool m_isTouch = false;
-//    Layer* m_layer;
-//    Layer* m_layerBuffer;
-
     QPointF startPoint;
     QPointF lastPoint;
-    QPoint topleft;
-    QPoint bottomright;
-//    QByteArray m_undoImage;
-//    QByteArray m_redoImage;
+    QRect m_bound;
+    QPoint topLeft;
+    QPoint bottomRight;
+    QSize pixmapSize;
 };

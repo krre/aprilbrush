@@ -146,7 +146,7 @@ void Canvas::paintEvent(QPaintEvent* event) {
     Q_UNUSED(event)
     QPainter painter(this);
 
-    for (int i = layers.count() - 1; i >=0; i--) {
+    for (int i = layers.count() - 1; i >= 0; i--) {
         if (m_currentLayerIndex == i) {
             painter.setOpacity(Context::brushEngine()->opacity() / 100.0);
             painter.drawPixmap(0, 0, buffer);
@@ -155,6 +155,8 @@ void Canvas::paintEvent(QPaintEvent* event) {
         painter.setOpacity(1.0);
         painter.drawPixmap(0, 0, *layers.at(i)->pixmap());
     }
+
+    qDebug() << "paint event" << event->rect();
 }
 
 void Canvas::drawCursor(int size) {
@@ -188,7 +190,7 @@ void Canvas::onKeyReleased(QKeyEvent* event) {
 
 void Canvas::paintAction(const QPointF& pos) {
     Context::brushEngine()->paint(Context::brushEngine()->eraser() < 50 ? &buffer : currentLayer()->pixmap(), pos);
-    update();
+    update(Context::brushEngine()->bound());
 
     InputDevice::Data data{};
     data.type = InputDevice::Type::Mouse;
