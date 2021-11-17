@@ -64,7 +64,7 @@ void BrushEngine::paint(QPixmap* pixmap, const QPointF& point, float pressure) {
     }
 }
 
-void BrushEngine::unTouch() {
+void BrushEngine::finish() {
     startPoint = QPointF();
 }
 

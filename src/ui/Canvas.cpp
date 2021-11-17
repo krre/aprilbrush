@@ -131,7 +131,7 @@ void Canvas::mousePressEvent(QMouseEvent* event) {
 }
 
 void Canvas::mouseReleaseEvent(QMouseEvent*) {
-    Context::brushEngine()->unTouch();
+    Context::brushEngine()->finish();
 }
 
 void Canvas::paintEvent(QPaintEvent* event) {
