@@ -64,4 +64,5 @@ private:
     QString m_name;
     QString m_filePath;
     QUndoStack* m_undoStack = nullptr;
+    QPixmap buffer;
 };

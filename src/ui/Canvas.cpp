@@ -11,6 +11,8 @@
 
 Canvas::Canvas(const QSize& size) {
     resize(size);
+    buffer = QPixmap(size);
+    buffer.fill(Qt::transparent);
 
     m_undoStack = new QUndoStack(this);
     m_undoStack->setUndoLimit(50);
@@ -131,7 +133,13 @@ void Canvas::mousePressEvent(QMouseEvent* event) {
 }
 
 void Canvas::mouseReleaseEvent(QMouseEvent*) {
+    QPainter painter(currentLayer()->pixmap());
+    painter.setOpacity(Context::brushEngine()->opacity() / 100.0);
+    painter.drawPixmap(0, 0, buffer);
+
+    buffer.fill(Qt::transparent);
     Context::brushEngine()->finish();
+    update();
 }
 
 void Canvas::paintEvent(QPaintEvent* event) {
@@ -139,6 +147,12 @@ void Canvas::paintEvent(QPaintEvent* event) {
     QPainter painter(this);
 
     for (int i = layers.count() - 1; i >=0; i--) {
+        if (m_currentLayerIndex == i) {
+            painter.setOpacity(Context::brushEngine()->opacity() / 100.0);
+            painter.drawPixmap(0, 0, buffer);
+        }
+
+        painter.setOpacity(1.0);
         painter.drawPixmap(0, 0, *layers.at(i)->pixmap());
     }
 }
@@ -173,7 +187,7 @@ void Canvas::onKeyReleased(QKeyEvent* event) {
 }
 
 void Canvas::paintAction(const QPointF& pos) {
-    Context::brushEngine()->paint(layers.at(m_currentLayerIndex)->pixmap(), pos);
+    Context::brushEngine()->paint(&buffer, pos);
     update();
 
     InputDevice::Data data{};
