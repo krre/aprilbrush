@@ -49,16 +49,12 @@ void BrushEngine::paint(QPixmap* pixmap, const QPointF& point, float pressure) {
             qreal deltaY = delta * qCos(angle);
 
             QPointF betweenPoint;
-            QRandomGenerator rg;
 
             for (int i = 1; i <= dabs; i++) {
-                qreal x = lastPoint.x() + deltaX * i +
-                        (10000 - rg.generate() % 20000) / 10000.0 * m_size * m_jitter / 100;
-                qreal y = lastPoint.y() + deltaY * i +
-                        (10000 - rg.generate() % 20000) / 10000.0 * m_size * m_jitter / 100;
+                qreal x = lastPoint.x() + deltaX * i;
+                qreal y = lastPoint.y() + deltaY * i;
                 betweenPoint = QPointF(x, y);
                 paintDab(betweenPoint, painter);
-
             }
 
             lastPoint = betweenPoint;
@@ -177,20 +173,27 @@ void BrushEngine::setEraser(int eraser) {
 }
 
 void BrushEngine::paintDab(const QPointF& point, QPainter& painter) {
+    QPointF dubPoint = point;
+
+    if (m_jitter) {
+        dubPoint.setX(point.x() + jitterOffset());
+        dubPoint.setY(point.y() + jitterOffset());
+    }
+
     painter.save();
-    painter.translate(point);
+    painter.translate(dubPoint);
     painter.rotate(m_angle);
     painter.scale(1, m_roundness / 100.0);
     QRectF rect(-m_size / 2.0, -m_size / 2.0, m_size, m_size);
     painter.drawEllipse(rect);
     painter.restore();
-    rect.moveTo(point.x() - m_size / 2.0, point.y() - m_size / 2.0);
+    rect.moveTo(dubPoint.x() - m_size / 2.0, dubPoint.y() - m_size / 2.0);
 
     // Detect a min and max corner positions
-    topLeft.setX(qMin(topLeft.x(), qRound(point.x())));
-    topLeft.setY(qMin(topLeft.y(), qRound(point.y())));
-    bottomRight.setX(qMax(bottomRight.x(), qRound(point.x())));
-    bottomRight.setY(qMax(bottomRight.y(), qRound(point.y())));
+    topLeft.setX(qMin(topLeft.x(), qRound(dubPoint.x())));
+    topLeft.setY(qMin(topLeft.y(), qRound(dubPoint.y())));
+    bottomRight.setX(qMax(bottomRight.x(), qRound(dubPoint.x())));
+    bottomRight.setY(qMax(bottomRight.y(), qRound(dubPoint.y())));
 }
 
 void BrushEngine::updateBound() {
@@ -207,4 +210,8 @@ void BrushEngine::updateBound() {
     bottomRight.setY(qMin(pixmapSize.height(), bottomRight.y()));
 
     m_bound = QRect(topLeft, bottomRight);
+}
+
+qreal BrushEngine::jitterOffset() {
+    return m_jitter / 2.0 - QRandomGenerator().global()->bounded(m_jitter);
 }

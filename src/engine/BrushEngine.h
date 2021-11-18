@@ -55,6 +55,7 @@ signals:
 private:
     void paintDab(const QPointF& point, QPainter& painter);
     void updateBound();
+    qreal jitterOffset();
 
     QColor m_color = QColor(Qt::black);
     int m_size = 30;
