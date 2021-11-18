@@ -29,12 +29,12 @@ void BrushEngine::paint(QPixmap* pixmap, const QPointF& point, float pressure) {
     painter.setBrush(QBrush(radialGradient));
 
     m_bound = QRect();
+    topLeft = point.toPoint();
+    bottomRight = point.toPoint();
 
     if (startPoint.isNull()) {
         startPoint = point.toPoint();
         lastPoint = point.toPoint();
-        topLeft = point.toPoint();
-        bottomRight = point.toPoint();
         pixmapSize = pixmap->size();
         paintDab(point, painter);
         updateBound();
