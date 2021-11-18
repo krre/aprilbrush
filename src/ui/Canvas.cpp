@@ -189,8 +189,8 @@ void Canvas::onKeyReleased(QKeyEvent* event) {
 }
 
 void Canvas::paintAction(const QPointF& pos) {
-    Context::brushEngine()->paint(Context::brushEngine()->eraser() < 50 ? &buffer : currentLayer()->pixmap(), pos);
-    update(Context::brushEngine()->bound());
+    QRect bound = Context::brushEngine()->paint(Context::brushEngine()->eraser() < 50 ? &buffer : currentLayer()->pixmap(), pos);
+    update(clipBound(bound));
 
     InputDevice::Data data{};
     data.type = InputDevice::Type::Mouse;
@@ -217,4 +217,19 @@ void Canvas::pickColor(const QPointF& pos) {
     }
 
     Context::colorPicker()->setColor(QColor(pixmap.toImage().pixel(qRound(pos.x()), qRound(pos.y()))));
+}
+
+QRect Canvas::clipBound(const QRect& bound) {
+    // Correct corner positions on brush size
+    int burhsSize = Context::brushEngine()->size();
+    QPoint topLeft(bound.topLeft().x() - burhsSize, bound.topLeft().y() - burhsSize);
+    QPoint bottomRight(bound.bottomRight().x() + burhsSize, bound.bottomRight().y() + burhsSize);
+
+    // Bound to canvas size
+    topLeft.setX(qMax(0, topLeft.x()));
+    topLeft.setY(qMax(0, topLeft.y()));
+    bottomRight.setX(qMin(size().width(), bottomRight.x()));
+    bottomRight.setY(qMin(size().height(), bottomRight.y()));
+
+    return QRect(topLeft, bottomRight);
 }

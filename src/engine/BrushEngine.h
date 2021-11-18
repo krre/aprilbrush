@@ -13,7 +13,7 @@ class BrushEngine : public QObject {
 public:
     BrushEngine(QObject* parent);
 
-    void paint(QPixmap* pixmap, const QPointF& point, float pressure = 1.0);
+    QRect paint(QPixmap* pixmap, const QPointF& point, float pressure = 1.0);
     void finish();
     const QRect& bound() const;
 
@@ -54,7 +54,6 @@ signals:
 
 private:
     void paintDab(const QPointF& point, QPainter& painter);
-    void updateBound();
     qreal jitterOffset();
 
     QColor m_color = QColor(Qt::black);
@@ -70,8 +69,6 @@ private:
 
     QPointF startPoint;
     QPointF lastPoint;
-    QRect m_bound;
     QPoint topLeft;
     QPoint bottomRight;
-    QSize pixmapSize;
 };

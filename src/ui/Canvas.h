@@ -58,6 +58,8 @@ private:
     bool pickPressed() const;
     void pickColor(const QPointF& pos);
 
+    QRect clipBound(const QRect& bound);
+
     Layers layers;
     int m_currentLayerIndex = -1;
     int maxTabCount = 1;

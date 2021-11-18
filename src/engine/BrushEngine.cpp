@@ -6,7 +6,7 @@ BrushEngine::BrushEngine(QObject* parent) : QObject(parent) {
 
 }
 
-void BrushEngine::paint(QPixmap* pixmap, const QPointF& point, float pressure) {
+QRect BrushEngine::paint(QPixmap* pixmap, const QPointF& point, float pressure) {
     QPainter painter(pixmap);
     painter.setRenderHint(QPainter::Antialiasing, true);
     painter.setPen(Qt::NoPen);
@@ -28,16 +28,15 @@ void BrushEngine::paint(QPixmap* pixmap, const QPointF& point, float pressure) {
     radialGradient.setColorAt(m_hardness / 100.0, pressureColor);
     painter.setBrush(QBrush(radialGradient));
 
-    m_bound = QRect();
+    QRect rect = QRect();
     topLeft = point.toPoint();
     bottomRight = point.toPoint();
 
     if (startPoint.isNull()) {
         startPoint = point.toPoint();
         lastPoint = point.toPoint();
-        pixmapSize = pixmap->size();
         paintDab(point, painter);
-        updateBound();
+        rect = QRect(topLeft, bottomRight);
     } else {
         qreal length = qSqrt(qPow(lastPoint.x() - point.x(), 2) + qPow(lastPoint.y() - point.y(), 2));
         qreal delta = m_size * m_spacing / 2.0 / 100.0;
@@ -58,17 +57,15 @@ void BrushEngine::paint(QPixmap* pixmap, const QPointF& point, float pressure) {
             }
 
             lastPoint = betweenPoint;
-            updateBound();
+            rect = QRect(topLeft, bottomRight);
         }
     }
+
+    return rect;
 }
 
 void BrushEngine::finish() {
     startPoint = QPointF();
-}
-
-const QRect& BrushEngine::bound() const {
-    return m_bound;
 }
 
 const QColor& BrushEngine::color() const {
@@ -194,22 +191,6 @@ void BrushEngine::paintDab(const QPointF& point, QPainter& painter) {
     topLeft.setY(qMin(topLeft.y(), qRound(dubPoint.y())));
     bottomRight.setX(qMax(bottomRight.x(), qRound(dubPoint.x())));
     bottomRight.setY(qMax(bottomRight.y(), qRound(dubPoint.y())));
-}
-
-void BrushEngine::updateBound() {
-    // Correct corner positions on brush size
-    topLeft.setX(topLeft.x() - m_size);
-    topLeft.setY(topLeft.y() - m_size);
-    bottomRight.setX(bottomRight.x() + m_size);
-    bottomRight.setY(bottomRight.y() + m_size);
-
-    // Bound to pixmap size
-    topLeft.setX(qMax(0, topLeft.x()));
-    topLeft.setY(qMax(0, topLeft.y()));
-    bottomRight.setX(qMin(pixmapSize.width(), bottomRight.x()));
-    bottomRight.setY(qMin(pixmapSize.height(), bottomRight.y()));
-
-    m_bound = QRect(topLeft, bottomRight);
 }
 
 qreal BrushEngine::jitterOffset() {
