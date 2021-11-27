@@ -12,6 +12,7 @@ SOURCES += \
     core/Utils.cpp \
     engine/BrushEngine.cpp \
     engine/Layer.cpp \
+    engine/undo/BrushCommand.cpp \
     engine/undo/ClearCommand.cpp \
     main.cpp \
     ui/BrushSettings.cpp \
@@ -36,6 +37,7 @@ HEADERS += \
     core/Utils.h \
     engine/BrushEngine.h \
     engine/Layer.h \
+    engine/undo/BrushCommand.h \
     engine/undo/ClearCommand.h \
     ui/BrushSettings.h \
     ui/Canvas.h \

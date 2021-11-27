@@ -17,6 +17,8 @@ public:
     void setFilePath(const QString& filePath);
     const QString& filePath() const;
 
+    const QPixmap& buffer() const;
+
     QUndoStack* undoStack() const;
 
     void save();
@@ -66,6 +68,6 @@ private:
     QString m_name;
     QString m_filePath;
     QUndoStack* m_undoStack = nullptr;
-    QPixmap buffer;
+    QPixmap m_buffer;
     QRect paintArea;
 };

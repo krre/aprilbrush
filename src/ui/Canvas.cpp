@@ -4,6 +4,7 @@
 #include "engine/BrushEngine.h"
 #include "engine/Layer.h"
 #include "engine/undo/ClearCommand.h"
+#include "engine/undo/BrushCommand.h"
 #include "core/SignalHub.h"
 #include "core/Context.h"
 #include "core/OpenRaster.h"
@@ -11,8 +12,8 @@
 
 Canvas::Canvas(const QSize& size) {
     resize(size);
-    buffer = QPixmap(size);
-    buffer.fill(Qt::transparent);
+    m_buffer = QPixmap(size);
+    m_buffer.fill(Qt::transparent);
 
     m_undoStack = new QUndoStack(this);
     m_undoStack->setUndoLimit(50);
@@ -45,6 +46,10 @@ void Canvas::setFilePath(const QString& filePath) {
 
 const QString& Canvas::filePath() const {
     return m_filePath;
+}
+
+const QPixmap& Canvas::buffer() const {
+    return m_buffer;
 }
 
 QUndoStack* Canvas::undoStack() const {
@@ -134,11 +139,14 @@ void Canvas::mousePressEvent(QMouseEvent* event) {
 }
 
 void Canvas::mouseReleaseEvent(QMouseEvent*) {
-    QPainter painter(currentLayer()->pixmap());
-    painter.setOpacity(Context::brushEngine()->opacity() / 100.0);
-    painter.drawPixmap(0, 0, buffer);
+    double opacity = Context::brushEngine()->opacity() / 100.0;
+    m_undoStack->push(new BrushCommand(this, currentLayer(), paintArea, opacity));
 
-    buffer.fill(Qt::transparent);
+    QPainter painter(currentLayer()->pixmap());
+    painter.setOpacity(opacity);
+    painter.drawPixmap(0, 0, m_buffer);
+
+    m_buffer.fill(Qt::transparent);
     Context::brushEngine()->finish();
     update();
 }
@@ -150,7 +158,7 @@ void Canvas::paintEvent(QPaintEvent* event) {
     for (int i = layers.count() - 1; i >= 0; i--) {
         if (m_currentLayerIndex == i) {
             painter.setOpacity(Context::brushEngine()->opacity() / 100.0);
-            painter.drawPixmap(0, 0, buffer);
+            painter.drawPixmap(0, 0, m_buffer);
         }
 
         painter.setOpacity(1.0);
@@ -188,7 +196,7 @@ void Canvas::onKeyReleased(QKeyEvent* event) {
 }
 
 void Canvas::paintAction(const QPointF& pos) {
-    QRect bound = Context::brushEngine()->paint(Context::brushEngine()->eraser() < 50 ? &buffer : currentLayer()->pixmap(), pos);
+    QRect bound = Context::brushEngine()->paint(Context::brushEngine()->eraser() < 50 ? &m_buffer : currentLayer()->pixmap(), pos);
 
     if (bound.isNull()) return;
 
