@@ -128,6 +128,7 @@ void Canvas::mousePressEvent(QMouseEvent* event) {
     if (pickPressed()) {
         pickColor(event->position());
     } else {
+        paintArea = QRect(event->position().toPoint(), event->position().toPoint());
         paintAction(event->position());
     }
 }
@@ -155,8 +156,6 @@ void Canvas::paintEvent(QPaintEvent* event) {
         painter.setOpacity(1.0);
         painter.drawPixmap(0, 0, *layers.at(i)->pixmap());
     }
-
-    qDebug() << "paint event" << event->rect();
 }
 
 void Canvas::drawCursor(int size) {
@@ -190,7 +189,14 @@ void Canvas::onKeyReleased(QKeyEvent* event) {
 
 void Canvas::paintAction(const QPointF& pos) {
     QRect bound = Context::brushEngine()->paint(Context::brushEngine()->eraser() < 50 ? &buffer : currentLayer()->pixmap(), pos);
-    update(clipBound(bound));
+
+    if (bound.isNull()) return;
+
+    QRect clipedBound = clipBound(bound);
+    update(clipedBound);
+
+    paintArea.setTopLeft(QPoint(qMin(paintArea.topLeft().x(), clipedBound.topLeft().x()), qMin(paintArea.topLeft().y(), clipedBound.topLeft().y())));
+    paintArea.setBottomRight(QPoint(qMax(paintArea.bottomRight().x(), clipedBound.bottomRight().x()), qMax(paintArea.bottomRight().y(), clipedBound.bottomRight().y())));
 
     InputDevice::Data data{};
     data.type = InputDevice::Type::Mouse;

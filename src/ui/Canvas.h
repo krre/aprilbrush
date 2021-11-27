@@ -67,4 +67,5 @@ private:
     QString m_filePath;
     QUndoStack* m_undoStack = nullptr;
     QPixmap buffer;
+    QRect paintArea;
 };
