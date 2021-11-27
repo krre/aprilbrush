@@ -51,8 +51,6 @@ HEADERS += \
 
 RESOURCES += \
     resources.qrc \
-    qml.qrc \
-    js.qrc \
     media.qrc
 
 DISTFILES += \
