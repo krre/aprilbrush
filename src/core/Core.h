@@ -15,6 +15,4 @@ public:
     QVariantMap colorToHsv(const QColor& color);
     QString byteArrayToBase64(const QByteArray& value);
     QByteArray base64ToByteArray(const QString& value);
-    QString buildDate() { return QString(__DATE__); }
-    QString qtVersion() { return QT_VERSION_STR; }
 };
