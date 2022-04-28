@@ -26,4 +26,3 @@ private:
     static ColorPicker* s_colorPicker;
     BrushEngine* m_brushEngine = nullptr;
 };
-
