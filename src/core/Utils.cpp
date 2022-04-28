@@ -6,5 +6,5 @@ Utils::Utils() {
 }
 
 QSize Utils::defaultCanvasSize() {
-    return QGuiApplication::screens().first()->size();
+    return QGuiApplication::screens().constFirst()->size();
 }
