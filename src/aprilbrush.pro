@@ -54,8 +54,8 @@ RESOURCES += \
     media.qrc
 
 DISTFILES += \
+    ../Changelog.md \
     i18n/app-ru.ts \
-    ../README.md \
-    ../changelog.txt
+    ../README.md
 
 TRANSLATIONS = i18n/app-ru.ts
