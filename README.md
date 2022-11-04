@@ -5,7 +5,7 @@ brush libraries and multi-page. The program saves the image files in the format 
 Required a pressure sentive input device (graphic tablet).
 
 ## Dependencies
-- Qt 6.3
+- Qt 6.4
 
 ## Download
 https://github.com/krre/aprilbrush/releases
