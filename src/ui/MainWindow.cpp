@@ -161,22 +161,22 @@ void MainWindow::writeSettings() {
 void MainWindow::createActions() {
     // File
     QMenu* fileMenu = menuBar()->addMenu(tr("File"));
-    fileMenu->addAction(tr("New..."), this, &MainWindow::onNew, Qt::CTRL | Qt::Key_N);
-    fileMenu->addAction(tr("Open..."), this, &MainWindow::onOpen, Qt::CTRL | Qt::Key_O);
+    fileMenu->addAction(tr("New..."), Qt::CTRL | Qt::Key_N, this, &MainWindow::onNew);
+    fileMenu->addAction(tr("Open..."), Qt::CTRL | Qt::Key_O, this, &MainWindow::onOpen);
 
-    QAction* saveAction = fileMenu->addAction(tr("Save"), this, &MainWindow::onSave, Qt::CTRL | Qt::Key_S);
-    QAction* saveAsAction = fileMenu->addAction(tr("Save As..."), this, &MainWindow::onSaveAs, Qt::CTRL | Qt::SHIFT | Qt::Key_S);
-    QAction* exportAction = fileMenu->addAction(tr("Export..."), this, &MainWindow::onExport, Qt::CTRL | Qt::Key_E);
+    QAction* saveAction = fileMenu->addAction(tr("Save"), Qt::CTRL | Qt::Key_S, this, &MainWindow::onSave);
+    QAction* saveAsAction = fileMenu->addAction(tr("Save As..."), Qt::CTRL | Qt::SHIFT | Qt::Key_S, this, &MainWindow::onSaveAs);
+    QAction* exportAction = fileMenu->addAction(tr("Export..."), Qt::CTRL | Qt::Key_E, this, &MainWindow::onExport);
     fileMenu->addSeparator();
 
-    QAction* closeAction = fileMenu->addAction(tr("Close"), this, &MainWindow::onClose, Qt::CTRL | Qt::Key_W);
-    QAction* closeAllAction =fileMenu->addAction(tr("Close All"), this, &MainWindow::onCloseAll, Qt::CTRL | Qt::SHIFT | Qt::Key_W);
-    QAction* closeOthersAction = fileMenu->addAction(tr("Close Others"), this, &MainWindow::onCloseOthers, Qt::CTRL | Qt::ALT | Qt::Key_W);
+    QAction* closeAction = fileMenu->addAction(tr("Close"), Qt::CTRL | Qt::Key_W, this, &MainWindow::onClose);
+    QAction* closeAllAction =fileMenu->addAction(tr("Close All"), Qt::CTRL | Qt::SHIFT | Qt::Key_W, this, &MainWindow::onCloseAll);
+    QAction* closeOthersAction = fileMenu->addAction(tr("Close Others"), Qt::CTRL | Qt::ALT | Qt::Key_W, this, &MainWindow::onCloseOthers);
 
     fileMenu->addSeparator();
     fileMenu->addAction(tr("Preferences..."), this, &MainWindow::onPreferences);
     fileMenu->addSeparator();
-    fileMenu->addAction(tr("Exit"), this, &QMainWindow::close, Qt::CTRL | Qt::Key_Q);
+    fileMenu->addAction(tr("Exit"), Qt::CTRL | Qt::Key_Q, this, &QMainWindow::close);
 
     // Edit
     QMenu* editMenu = menuBar()->addMenu(tr("Edit"));
@@ -189,7 +189,7 @@ void MainWindow::createActions() {
     redoAction->setShortcuts(QKeySequence::Redo);
     editMenu->addAction(redoAction);
 
-    QAction* clearAction = editMenu->addAction(tr("Clear"), this, &MainWindow::onClear, Qt::Key_Delete);
+    QAction* clearAction = editMenu->addAction(tr("Clear"), Qt::Key_Delete, this, &MainWindow::onClear);
 
     // View
     viewMenu = menuBar()->addMenu(tr("View"));
