@@ -145,7 +145,7 @@ void MainWindow::readSettings() {
     QByteArray geometry = settings.value("geometry", QByteArray()).toByteArray();
 
     if (geometry.isEmpty()) {
-        QSize screenSize = QGuiApplication::screens().first()->size();
+        QSize screenSize = QGuiApplication::screens().constFirst()->size();
         resize(screenSize.width() * 2 / 3, screenSize.height() * 2 / 3);
         move((screenSize.width() - width()) / 2, (screenSize.height() - height()) / 2);
     } else {
@@ -202,7 +202,7 @@ void MainWindow::createActions() {
     QMenu* helpMenu = menuBar()->addMenu(tr("Help"));
     helpMenu->addAction(tr("About %1...").arg(Const::App::Name), this, &MainWindow::onAbout);
 
-    connect(canvasTabWidget, &CanvasTabWidget::countChanged, [=] (int count) {
+    connect(canvasTabWidget, &CanvasTabWidget::countChanged, this, [=] (int count) {
         saveAction->setEnabled(count);
         saveAsAction->setEnabled(count);
         exportAction->setEnabled(count);
