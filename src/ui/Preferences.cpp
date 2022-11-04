@@ -1,8 +1,8 @@
-#include "Options.h"
+#include "Preferences.h"
 #include <QtWidgets>
 
-Options::Options(QWidget* parent) : Dialog (parent) {
-    setWindowTitle(tr("Options"));
+Preferences::Preferences(QWidget* parent) : Dialog (parent) {
+    setWindowTitle(tr("Preferences"));
     auto groupBoxUi = new QGroupBox(tr("User Interface"));
     auto gridLayoutUi = new QGridLayout;
     gridLayoutUi->setColumnStretch(1, 1);
@@ -24,7 +24,7 @@ Options::Options(QWidget* parent) : Dialog (parent) {
     readSettings();
 }
 
-void Options::accept() {
+void Preferences::accept() {
     if (writeSettings()) {
         QMessageBox::information(this, tr("Restart requred"), tr("You must restart application"));
     }
@@ -33,7 +33,7 @@ void Options::accept() {
 }
 
 
-void Options::readSettings() {
+void Preferences::readSettings() {
     QSettings settings;
     QString language = settings.value("language").toString();
 
@@ -46,7 +46,7 @@ void Options::readSettings() {
     }
 }
 
-bool Options::writeSettings() {
+bool Preferences::writeSettings() {
     bool restartRequre = false;
     QSettings settings;
     QString language = m_languageComboBox->currentData().toString();

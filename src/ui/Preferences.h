@@ -3,10 +3,10 @@
 
 class QComboBox;
 
-class Options : public Dialog {
+class Preferences : public Dialog {
     Q_OBJECT
 public:
-    Options(QWidget* parent = nullptr);
+    Preferences(QWidget* parent = nullptr);
 
 public slots:
     void accept() override;

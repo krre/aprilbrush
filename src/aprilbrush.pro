@@ -23,7 +23,7 @@ SOURCES += \
     ui/InputDevice.cpp \
     ui/MainWindow.cpp \
     ui/NewImage.cpp \
-    ui/Options.cpp
+    ui/Preferences.cpp
 
 HEADERS += \
     core/CommonTypes.h \
@@ -47,7 +47,7 @@ HEADERS += \
     ui/InputDevice.h \
     ui/MainWindow.h \
     ui/NewImage.h \
-    ui/Options.h
+    ui/Preferences.h
 
 RESOURCES += \
     resources.qrc \

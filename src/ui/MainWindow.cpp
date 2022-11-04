@@ -1,7 +1,7 @@
 #include "MainWindow.h"
 #include "CanvasTabWidget.h"
 #include "NewImage.h"
-#include "Options.h"
+#include "Preferences.h"
 #include "Canvas.h"
 #include "InputDevice.h"
 #include "ColorPicker.h"
@@ -127,10 +127,10 @@ void MainWindow::onAbout() {
            .arg(Name, Version, QT_VERSION_STR, BuildDate, BuildTime, URL, CopyrightLastYear));
 }
 
-void MainWindow::onOptions() {
-    Options options;
+void MainWindow::onPreferences() {
+    Preferences preferences;
 
-    if (options.exec() == QDialog::Accepted) {
+    if (preferences.exec() == QDialog::Accepted) {
         applyHotSettings();
     }
 }
@@ -174,6 +174,8 @@ void MainWindow::createActions() {
     QAction* closeOthersAction = fileMenu->addAction(tr("Close Others"), this, &MainWindow::onCloseOthers, Qt::CTRL | Qt::ALT | Qt::Key_W);
 
     fileMenu->addSeparator();
+    fileMenu->addAction(tr("Preferences..."), this, &MainWindow::onPreferences);
+    fileMenu->addSeparator();
     fileMenu->addAction(tr("Exit"), this, &QMainWindow::close, Qt::CTRL | Qt::Key_Q);
 
     // Edit
@@ -188,10 +190,6 @@ void MainWindow::createActions() {
     editMenu->addAction(redoAction);
 
     QAction* clearAction = editMenu->addAction(tr("Clear"), this, &MainWindow::onClear, Qt::Key_Delete);
-
-    // Tools
-    QMenu* toolsMenu = menuBar()->addMenu(tr("Tools"));
-    toolsMenu->addAction(tr("Options..."), this, &MainWindow::onOptions);
 
     // View
     viewMenu = menuBar()->addMenu(tr("View"));

@@ -27,7 +27,7 @@ private slots:
     void onClear();
 
     void onAbout();
-    void onOptions();
+    void onPreferences();
     void onInputDevice();
 
 private:
