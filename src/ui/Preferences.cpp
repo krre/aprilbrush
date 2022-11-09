@@ -3,22 +3,18 @@
 
 Preferences::Preferences(QWidget* parent) : Dialog (parent) {
     setWindowTitle(tr("Preferences"));
-    auto groupBoxUi = new QGroupBox(tr("User Interface"));
-    auto gridLayoutUi = new QGridLayout;
-    gridLayoutUi->setColumnStretch(1, 1);
-
-    // Language
-    gridLayoutUi->addWidget(new QLabel(tr("Language:")), 0, 0);
+    auto uiGroupBox = new QGroupBox(tr("User Interface"));
 
     m_languageComboBox = new QComboBox;
     m_languageComboBox->addItem(tr("<System>"));
     m_languageComboBox->addItem("English", "en");
     m_languageComboBox->addItem("Russian", "ru");
 
-    gridLayoutUi->addWidget(m_languageComboBox, 0, 1, Qt::AlignLeft);
-    groupBoxUi->setLayout(gridLayoutUi);
+    auto uiLayout = new QFormLayout(uiGroupBox);
+    uiLayout->addRow(new QLabel(tr("Language:")), m_languageComboBox);
+    uiLayout->itemAt(0, QFormLayout::FieldRole)->setAlignment(Qt::AlignLeft);
 
-    setContentWidget(groupBoxUi);
+    setContentWidget(uiGroupBox);
 
     resizeToWidth(500);
     readSettings();
