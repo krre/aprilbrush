@@ -9,9 +9,10 @@ public:
     Dialog(QWidget* parent);
 
     QDialogButtonBox* buttonBox() const;
+    void resizeToWidth(int width);
+
     void setContentWidget(QWidget* contentWidget, bool stretchAfter = true);
     void setContentLayout(QLayout* contentLayout, bool stretchAfter = true);
-    void resizeToWidth(int width);
 
 private:
     QDialogButtonBox* m_buttonBox = nullptr;
