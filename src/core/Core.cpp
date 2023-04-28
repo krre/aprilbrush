@@ -6,6 +6,10 @@ bool Core::isFileExists(const QString& filePath) {
     return fi.exists() && fi.isFile();
 }
 
+QString Core::urlToPath(const QUrl& url) {
+    return url.toLocalFile();
+}
+
 QString Core::pathToBaseName(const QString& path) {
     QFileInfo fileInfo(path);
     return fileInfo.baseName();

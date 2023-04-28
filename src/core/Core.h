@@ -8,7 +8,7 @@ class Core {
 public:
     Core() = default;
     bool isFileExists(const QString& filePath);
-    QString urlToPath(const QUrl& url) { return url.toLocalFile(); }
+    QString urlToPath(const QUrl& url);
     QString pathToBaseName(const QString& path);
     QString pathToFileName(const QString& path);
     QColor hsvToColor(qreal h, qreal s, qreal v);
