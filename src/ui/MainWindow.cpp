@@ -17,19 +17,15 @@ MainWindow::MainWindow(QWidget* parent) : QMainWindow(parent) {
     new SignalHub(this);
     new Context(this);
 
-    m_undoGroup = new QUndoGroup(this);
+    undoGroup = new QUndoGroup(this);
 
-    canvasTabWidget = new CanvasTabWidget(this);
+    canvasTabWidget = new CanvasTabWidget(undoGroup);
     setCentralWidget(canvasTabWidget);
 
     createActions();
     createUi();
     readSettings();
     canvasTabWidget->addCanvas();
-}
-
-QUndoGroup* MainWindow::undoGroup() const {
-    return m_undoGroup;
 }
 
 void MainWindow::closeEvent(QCloseEvent* event) {
@@ -181,11 +177,11 @@ void MainWindow::createActions() {
     // Edit
     QMenu* editMenu = menuBar()->addMenu(tr("Edit"));
 
-    auto undoAction = m_undoGroup->createUndoAction(this, tr("Undo"));
+    auto undoAction = undoGroup->createUndoAction(this, tr("Undo"));
     undoAction->setShortcuts(QKeySequence::Undo);
     editMenu->addAction(undoAction);
 
-    auto redoAction = m_undoGroup->createRedoAction(this, tr("Redo"));
+    auto redoAction = undoGroup->createRedoAction(this, tr("Redo"));
     redoAction->setShortcuts(QKeySequence::Redo);
     editMenu->addAction(redoAction);
 
@@ -235,7 +231,7 @@ void MainWindow::createDockWindows() {
     addDockWidget(Qt::RightDockWidgetArea, dock);
     viewMenu->addAction(dock->toggleViewAction());
 
-    auto undoView = new QUndoView(m_undoGroup);
+    auto undoView = new QUndoView(undoGroup);
     dock = new QDockWidget(tr("Commands"), this);
     dock->setAllowedAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea);
     dock->setWidget(undoView);

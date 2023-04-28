@@ -1,12 +1,12 @@
 #pragma once
 #include <QTabWidget>
 
-class MainWindow;
+class QUndoGroup;
 
 class CanvasTabWidget : public QTabWidget {
     Q_OBJECT
 public:
-    CanvasTabWidget(MainWindow* mainWindow);
+    CanvasTabWidget(QUndoGroup* undoGroup);
 
     void addCanvas();
     void addCanvas(const QString& name, const QSize& size);
@@ -24,5 +24,5 @@ private slots:
 
 private:
     int maxTabCount = 1;
-    MainWindow* mainWindow;
+    QUndoGroup* undoGroup;
 };
