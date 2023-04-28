@@ -98,7 +98,7 @@ Layers OpenRaster::read(const QString& filePath) {
 }
 
 QVariantMap OpenRaster::readAttr(const QString& filePath) {
-    QVariantMap map;
+    QVariantMap result;
 
     QZipReader zipReader(filePath, QIODevice::ReadOnly);
 
@@ -109,7 +109,7 @@ QVariantMap OpenRaster::readAttr(const QString& filePath) {
         if (stream.isStartElement()) {
             if (stream.name().toString() == "image") {
                 for (int i = 0; i < stream.attributes().size(); i++) {
-                    map[stream.attributes().at(i).name().toString()] = stream.attributes().at(i).value().toString();
+                    result[stream.attributes().at(i).name().toString()] = stream.attributes().at(i).value().toString();
                 }
             }
         }
@@ -118,5 +118,5 @@ QVariantMap OpenRaster::readAttr(const QString& filePath) {
 
     zipReader.close();
 
-    return map;
+    return result;
 }
