@@ -231,7 +231,7 @@ QColor ColorPicker::coordToColor(const QPoint& coord) {
     // Position relative to the widget center with considering rotating of the wheel
     qreal length = qSqrt(qPow(relX, 2) + qPow(relY, 2));
     // Rotating the triangle so that the black corner pointing to the east
-    qreal angle = qAtan2(relY, relX) - (hueColor + 120) * pi / 180;
+    qreal angle = qAtan2(relY, relX) - (hueColor + 120) * M_PI / 180;
     // Correcting relative position
     relX = length * qCos(angle);
     relY = length * qSin(angle);
@@ -275,7 +275,7 @@ QPoint ColorPicker::colorToCoord(const QColor& color) {
     qreal median = edgeTriangle * qSqrt(3) / 2;
     qreal relX = innerRadius - qSqrt((qPow(median, 2) + qPow(edgeTriangle / 2 - edgeTriangle * saturation / 255.0, 2)) * qPow(value / 255.0, 2) - qPow(relY, 2));
     qreal length = qSqrt(qPow(relX, 2) + qPow(relY, 2));
-    qreal angle = qAtan2(relY, relX) + (hueColor + 120) * pi / 180;
+    qreal angle = qAtan2(relY, relX) + (hueColor + 120) * M_PI / 180;
 
     relX = length * qCos(angle);
     relY = length * qSin(angle);
@@ -297,7 +297,7 @@ void ColorPicker::mousePressEvent(QMouseEvent* event) {
 
     if (length >= innerRadius && length <= outerRadius) {
         hueAngle = qAtan2(point.x(), point.y());
-        hueColor = hueAngle * 180 / pi - 90;
+        hueColor = hueAngle * 180 / M_PI - 90;
         if (hueColor < 0) hueColor += 360;
         m_color.setHsv(qRound(hueColor), m_color.saturation(), m_color.value());
         hueGrab = true;
@@ -319,7 +319,7 @@ void ColorPicker::mouseMoveEvent(QMouseEvent* event) {
 
     if (hueGrab) {
         hueAngle = qAtan2(point.x(), point.y());
-        hueColor = hueAngle * 180 / pi - 90;
+        hueColor = hueAngle * 180 / M_PI - 90;
         if (hueColor < 0) hueColor += 360;
         m_color.setHsv(qRound(hueColor), m_color.saturation(), m_color.value());
         emit colorChanged(m_color);

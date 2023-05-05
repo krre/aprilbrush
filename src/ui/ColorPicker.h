@@ -34,12 +34,11 @@ private:
 
     QColor backgroundColor = QPalette().color(QPalette::Window);
     qreal scaleInnerWheel = 0.8;
-    qreal pi = qAtan2(1, 0) * 2; // 3.14
     qreal edgeTriangle;
     int diameterWheel;
     int innerRadius;
     int outerRadius;
-    qreal hueAngle = pi / 2;
+    qreal hueAngle = M_PI_2;
     qreal satValAngle;
     qreal hueColor;
     bool hueGrab = false;
