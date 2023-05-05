@@ -3,14 +3,15 @@
 
 class QUndoGroup;
 class BrushEngine;
+class EventFilter;
 
 class CanvasTabWidget : public QTabWidget {
     Q_OBJECT
 public:
     CanvasTabWidget(QUndoGroup* undoGroup);
 
-    void addCanvas(BrushEngine* brushEngine);
-    void addCanvas(const QString& name, const QSize& size, BrushEngine* brushEngine);
+    void addCanvas(BrushEngine* brushEngine, EventFilter* eventFilter);
+    void addCanvas(const QString& name, const QSize& size, BrushEngine* brushEngine, EventFilter* eventFilter);
 
     QString nextName();
 

@@ -1,16 +1,15 @@
 #include "Canvas.h"
 #include "InputDevice.h"
-#include "ColorPicker.h"
 #include "engine/BrushEngine.h"
 #include "engine/Layer.h"
 #include "engine/undo/ClearCommand.h"
 #include "engine/undo/BrushCommand.h"
 #include "core/SignalHub.h"
-#include "core/Context.h"
+#include "core/EventFilter.h"
 #include "core/OpenRaster.h"
 #include <QtGui>
 
-Canvas::Canvas(const QSize& size, BrushEngine* brushEngine) : brushEngine(brushEngine) {
+Canvas::Canvas(const QSize& size, BrushEngine* brushEngine, EventFilter* eventFilter) : brushEngine(brushEngine) {
     resize(size);
     m_buffer = QPixmap(size);
     m_buffer.fill(Qt::transparent);
@@ -20,8 +19,8 @@ Canvas::Canvas(const QSize& size, BrushEngine* brushEngine) : brushEngine(brushE
 
     addLayer(nextName());
 
-    connect(Context::instance(), &Context::keyPressed, this, &Canvas::onKeyPressed);
-    connect(Context::instance(), &Context::keyReleased, this, &Canvas::onKeyReleased);
+    connect(eventFilter, &EventFilter::keyPressed, this, &Canvas::onKeyPressed);
+    connect(eventFilter, &EventFilter::keyReleased, this, &Canvas::onKeyReleased);
 
     connect(brushEngine, &BrushEngine::sizeChanged, this, &Canvas::drawCursor);
     drawCursor(brushEngine->size());

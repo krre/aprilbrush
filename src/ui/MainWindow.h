@@ -5,6 +5,7 @@ class CanvasTabWidget;
 class Canvas;
 class ColorPicker;
 class BrushEngine;
+class EventFilter;
 class QUndoGroup;
 
 class MainWindow : public QMainWindow {
@@ -42,6 +43,7 @@ private:
 
     Canvas* currentCanvas() const;
 
+    EventFilter* eventFilter = nullptr;
     CanvasTabWidget* canvasTabWidget;
     ColorPicker* colorPicker = nullptr;
     BrushEngine* brushEngine = nullptr;
