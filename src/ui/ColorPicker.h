@@ -10,10 +10,12 @@ public:
     ~ColorPicker();
 
     const QColor& color() const;
-    void setColor(const QColor& color);
 
 signals:
     void colorChanged(const QColor& color);
+
+public slots:
+    void setColor(const QColor& color);
 
 protected:
     void resizeEvent(QResizeEvent*);

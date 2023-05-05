@@ -3,6 +3,8 @@
 
 class CanvasTabWidget;
 class Canvas;
+class ColorPicker;
+class BrushEngine;
 class QUndoGroup;
 
 class MainWindow : public QMainWindow {
@@ -41,6 +43,8 @@ private:
     Canvas* currentCanvas() const;
 
     CanvasTabWidget* canvasTabWidget;
+    ColorPicker* colorPicker = nullptr;
+    BrushEngine* brushEngine = nullptr;
     QMenu* viewMenu = nullptr;
     QUndoGroup* undoGroup = nullptr;
 };

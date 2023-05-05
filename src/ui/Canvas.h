@@ -4,11 +4,13 @@
 #include <QScopedPointer>
 
 class QUndoStack;
+class BrushEngine;
+
 
 class Canvas : public QWidget {
     Q_OBJECT
 public:
-    explicit Canvas(const QSize& size);
+    explicit Canvas(const QSize& size, BrushEngine* brushEngine);
     ~Canvas();
 
     void setName(const QString& name);
@@ -40,6 +42,9 @@ public:
 
     QString nextName();
 
+signals:
+    void colorPicked(const QColor& color);
+
 protected:
     void mouseMoveEvent(QMouseEvent* event) override;
     void mousePressEvent(QMouseEvent* event) override;
@@ -62,6 +67,7 @@ private:
 
     QRect clipBound(const QRect& bound);
 
+    BrushEngine* brushEngine = nullptr;
     Layers layers;
     int m_currentLayerIndex = -1;
     int maxTabCount = 1;

@@ -10,7 +10,7 @@
 #include "core/OpenRaster.h"
 #include <QtGui>
 
-Canvas::Canvas(const QSize& size) {
+Canvas::Canvas(const QSize& size, BrushEngine* brushEngine) : brushEngine(brushEngine) {
     resize(size);
     m_buffer = QPixmap(size);
     m_buffer.fill(Qt::transparent);
@@ -23,8 +23,8 @@ Canvas::Canvas(const QSize& size) {
     connect(Context::instance(), &Context::keyPressed, this, &Canvas::onKeyPressed);
     connect(Context::instance(), &Context::keyReleased, this, &Canvas::onKeyReleased);
 
-    connect(Context::brushEngine(), &BrushEngine::sizeChanged, this, &Canvas::drawCursor);
-    drawCursor(Context::brushEngine()->size());
+    connect(brushEngine, &BrushEngine::sizeChanged, this, &Canvas::drawCursor);
+    drawCursor(brushEngine->size());
 }
 
 Canvas::~Canvas() {
@@ -139,7 +139,7 @@ void Canvas::mousePressEvent(QMouseEvent* event) {
 }
 
 void Canvas::mouseReleaseEvent(QMouseEvent*) {
-    double opacity = Context::brushEngine()->opacity() / 100.0;
+    double opacity = brushEngine->opacity() / 100.0;
     m_undoStack->push(new BrushCommand(this, currentLayer(), paintArea, opacity));
 
     QPainter painter(currentLayer()->pixmap());
@@ -147,7 +147,7 @@ void Canvas::mouseReleaseEvent(QMouseEvent*) {
     painter.drawPixmap(0, 0, m_buffer);
 
     m_buffer.fill(Qt::transparent);
-    Context::brushEngine()->finish();
+    brushEngine->finish();
     update();
 }
 
@@ -157,7 +157,7 @@ void Canvas::paintEvent(QPaintEvent* event) {
 
     for (int i = layers.count() - 1; i >= 0; i--) {
         if (m_currentLayerIndex == i) {
-            painter.setOpacity(Context::brushEngine()->opacity() / 100.0);
+            painter.setOpacity(brushEngine->opacity() / 100.0);
             painter.drawPixmap(0, 0, m_buffer);
         }
 
@@ -191,12 +191,12 @@ void Canvas::onKeyPressed(QKeyEvent* event) {
 
 void Canvas::onKeyReleased(QKeyEvent* event) {
     if (event->key() == Qt::Key_Alt) {
-        drawCursor(Context::brushEngine()->size());
+        drawCursor(brushEngine->size());
     }
 }
 
 void Canvas::paintAction(const QPointF& pos) {
-    QRect bound = Context::brushEngine()->paint(Context::brushEngine()->eraser() < 50 ? &m_buffer : currentLayer()->pixmap(), pos);
+    QRect bound = brushEngine->paint(brushEngine->eraser() < 50 ? &m_buffer : currentLayer()->pixmap(), pos);
 
     if (bound.isNull()) return;
 
@@ -230,12 +230,12 @@ void Canvas::pickColor(const QPointF& pos) {
         painter.drawPixmap(0, 0, *layers.at(i)->pixmap());
     }
 
-    Context::colorPicker()->setColor(QColor(pixmap.toImage().pixel(qRound(pos.x()), qRound(pos.y()))));
+    emit colorPicked(QColor(pixmap.toImage().pixel(qRound(pos.x()), qRound(pos.y()))));
 }
 
 QRect Canvas::clipBound(const QRect& bound) {
     // Correct corner positions on brush size
-    int burhsSize = Context::brushEngine()->size();
+    int burhsSize = brushEngine->size();
     QPoint topLeft(bound.topLeft().x() - burhsSize, bound.topLeft().y() - burhsSize);
     QPoint bottomRight(bound.bottomRight().x() + burhsSize, bound.bottomRight().y() + burhsSize);
 

@@ -1,6 +1,7 @@
 #include "CanvasTabWidget.h"
 #include "Canvas.h"
 #include "core/Utils.h"
+#include "engine/BrushEngine.h"
 #include <QtWidgets>
 
 CanvasTabWidget::CanvasTabWidget(QUndoGroup* undoGroup) : undoGroup(undoGroup) {
@@ -9,12 +10,14 @@ CanvasTabWidget::CanvasTabWidget(QUndoGroup* undoGroup) : undoGroup(undoGroup) {
     connect(this, &QTabWidget::currentChanged, this, &CanvasTabWidget::onCurrentChanged);
 }
 
-void CanvasTabWidget::addCanvas() {
-    addCanvas(nextName(), Utils::defaultCanvasSize());
+void CanvasTabWidget::addCanvas(BrushEngine* brushEngine) {
+    addCanvas(nextName(), Utils::defaultCanvasSize(), brushEngine);
 }
 
-void CanvasTabWidget::addCanvas(const QString& name, const QSize& size) {
-    Canvas* canvas = new Canvas(size);
+void CanvasTabWidget::addCanvas(const QString& name, const QSize& size, BrushEngine* brushEngine) {
+    Canvas* canvas = new Canvas(size, brushEngine);
+    connect(canvas, &Canvas::colorPicked, brushEngine, &BrushEngine::setColor);
+
     canvas->setName(name);
     addTab(canvas, name);
     setCurrentIndex(count() - 1);

@@ -9,6 +9,7 @@
 #include "core/Context.h"
 #include "core/SignalHub.h"
 #include "core/Constants.h"
+#include "engine/BrushEngine.h"
 #include <QtWidgets>
 
 MainWindow::MainWindow(QWidget* parent) : QMainWindow(parent) {
@@ -18,6 +19,7 @@ MainWindow::MainWindow(QWidget* parent) : QMainWindow(parent) {
     new Context(this);
 
     undoGroup = new QUndoGroup(this);
+    brushEngine = new BrushEngine(this);
 
     canvasTabWidget = new CanvasTabWidget(undoGroup);
     setCentralWidget(canvasTabWidget);
@@ -25,7 +27,7 @@ MainWindow::MainWindow(QWidget* parent) : QMainWindow(parent) {
     createActions();
     createUi();
     readSettings();
-    canvasTabWidget->addCanvas();
+    canvasTabWidget->addCanvas(brushEngine);
 }
 
 void MainWindow::closeEvent(QCloseEvent* event) {
@@ -37,7 +39,7 @@ void MainWindow::onNew() {
     NewImage newImage(canvasTabWidget->nextName());
 
     if (newImage.exec() == QDialog::Accepted) {
-        canvasTabWidget->addCanvas(newImage.name(), newImage.size());
+        canvasTabWidget->addCanvas(newImage.name(), newImage.size(), brushEngine);
     }
 }
 
@@ -45,7 +47,7 @@ void MainWindow::onOpen() {
     QString filePath = QFileDialog::getOpenFileName(this, tr("Open Image"), QString(), tr("Images (*.ora)"));
 
     if (!filePath.isEmpty()) {
-        canvasTabWidget->addCanvas(QString(), QSize());
+        canvasTabWidget->addCanvas(QString(), QSize(), brushEngine);
         currentCanvas()->open(filePath);
         canvasTabWidget->setTabText(canvasTabWidget->currentIndex(), currentCanvas()->name());
     }
@@ -216,15 +218,17 @@ void MainWindow::createUi() {
 }
 
 void MainWindow::createDockWindows() {
-    auto colorPicker = new ColorPicker;
-    Context::setColorPicker(colorPicker);
+    colorPicker = new ColorPicker;
+    connect(colorPicker, &ColorPicker::colorChanged, brushEngine, &BrushEngine::setColor);
+    connect(brushEngine, &BrushEngine::colorChanged, colorPicker, &ColorPicker::setColor);
+
     auto dock = new QDockWidget(colorPicker->windowTitle(), this);
     dock->setWidget(colorPicker);
     dock->setAllowedAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea);
     addDockWidget(Qt::RightDockWidgetArea, dock);
     viewMenu->addAction(dock->toggleViewAction());
 
-    auto brushSettings = new BrushSettings(Context::brushEngine());
+    auto brushSettings = new BrushSettings(brushEngine);
     dock = new QDockWidget(brushSettings->windowTitle(), this);
     dock->setWidget(brushSettings);
     dock->setAllowedAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea);

@@ -2,14 +2,15 @@
 #include <QTabWidget>
 
 class QUndoGroup;
+class BrushEngine;
 
 class CanvasTabWidget : public QTabWidget {
     Q_OBJECT
 public:
     CanvasTabWidget(QUndoGroup* undoGroup);
 
-    void addCanvas();
-    void addCanvas(const QString& name, const QSize& size);
+    void addCanvas(BrushEngine* brushEngine);
+    void addCanvas(const QString& name, const QSize& size, BrushEngine* brushEngine);
 
     QString nextName();
 
