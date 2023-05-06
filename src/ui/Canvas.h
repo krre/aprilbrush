@@ -1,5 +1,6 @@
 #pragma once
 #include "core/CommonTypes.h"
+#include "ui/InputDevice.h"
 #include <QWidget>
 #include <QScopedPointer>
 
@@ -44,6 +45,7 @@ public:
 
 signals:
     void colorPicked(const QColor& color);
+    void inputDeviceDataChanged(const InputDevice::Data& data);
 
 protected:
     void mouseMoveEvent(QMouseEvent* event) override;

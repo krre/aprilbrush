@@ -20,7 +20,7 @@ public:
 
     InputDevice(QWidget* parent);
 
-private slots:
+public slots:
    void onDataChanged(const Data& data);
 
 private:

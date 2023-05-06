@@ -1,5 +1,4 @@
 #include "InputDevice.h"
-#include "core/SignalHub.h"
 #include <QtWidgets>
 
 InputDevice::InputDevice(QWidget* parent) : QWidget(parent) {
@@ -20,7 +19,6 @@ InputDevice::InputDevice(QWidget* parent) : QWidget(parent) {
     formLayout->addRow(tr("Pressure:"), pressure);
 
     setLayout(formLayout);
-    connect(SignalHub::instance(), &SignalHub::inputDeviceDataChanged, this, &InputDevice::onDataChanged);
 }
 
 void InputDevice::onDataChanged(const Data& data) {

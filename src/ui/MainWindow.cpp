@@ -7,15 +7,12 @@
 #include "ColorPicker.h"
 #include "BrushSettings.h"
 #include "core/EventFilter.h"
-#include "core/SignalHub.h"
 #include "core/Constants.h"
 #include "engine/BrushEngine.h"
 #include <QtWidgets>
 
 MainWindow::MainWindow(QWidget* parent) : QMainWindow(parent) {
     setAutoFillBackground(true);
-
-    new SignalHub(this);
 
     eventFilter = new EventFilter(this);
     qApp->installEventFilter(eventFilter);
@@ -137,6 +134,7 @@ void MainWindow::onPreferences() {
 
 void MainWindow::onInputDevice() {
     auto inputDevice = new InputDevice(this);
+    connect(canvasTabWidget, &CanvasTabWidget::inputDeviceDataChanged, inputDevice, &InputDevice::onDataChanged);
     inputDevice->show();
 }
 

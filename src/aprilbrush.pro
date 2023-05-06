@@ -6,7 +6,6 @@ SOURCES += \
     core/Core.cpp \
     core/EventFilter.cpp \
     core/OpenRaster.cpp \
-    core/SignalHub.cpp \
     core/TabletEventFilter.cpp \
     core/Utils.cpp \
     engine/BrushEngine.cpp \
@@ -30,7 +29,6 @@ HEADERS += \
     core/Core.h \
     core/EventFilter.h \
     core/OpenRaster.h \
-    core/SignalHub.h \
     core/TabletEventFilter.h \
     core/Utils.h \
     engine/BrushEngine.h \

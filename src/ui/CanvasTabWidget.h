@@ -1,4 +1,5 @@
 #pragma once
+#include "ui/InputDevice.h"
 #include <QTabWidget>
 
 class QUndoGroup;
@@ -20,6 +21,7 @@ public slots:
 
 signals:
     void countChanged(int count);
+    void inputDeviceDataChanged(const InputDevice::Data& data);
 
 private slots:
     void onCurrentChanged(int index);

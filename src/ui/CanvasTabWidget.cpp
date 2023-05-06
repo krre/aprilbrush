@@ -41,6 +41,7 @@ void CanvasTabWidget::closeCanvas(int index) {
 void CanvasTabWidget::onCurrentChanged(int index) {
     if (index >= 0) {
         Canvas* canvas = static_cast<Canvas*>(widget(index));
+        connect(canvas, &Canvas::inputDeviceDataChanged, this, &CanvasTabWidget::inputDeviceDataChanged);
         undoGroup->setActiveStack(canvas->undoStack());
     }
 }

@@ -4,7 +4,6 @@
 #include "engine/Layer.h"
 #include "engine/undo/ClearCommand.h"
 #include "engine/undo/BrushCommand.h"
-#include "core/SignalHub.h"
 #include "core/EventFilter.h"
 #include "core/OpenRaster.h"
 #include <QtGui>
@@ -209,7 +208,7 @@ void Canvas::paintAction(const QPointF& pos) {
     data.type = InputDevice::Type::Mouse;
     data.pos = pos;
 
-    emit SignalHub::instance()->inputDeviceDataChanged(data);
+    emit inputDeviceDataChanged(data);
 }
 
 QString Canvas::filePathToName(const QString& filePath) const {
