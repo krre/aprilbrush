@@ -82,7 +82,7 @@ void Canvas::addLayer(const QString& name) {
 }
 
 void Canvas::addLayer(const QSharedPointer<Layer>& layer) {
-
+    Q_UNUSED(layer)
 }
 
 void Canvas::select() {
