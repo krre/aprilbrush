@@ -7,7 +7,6 @@ class ColorPicker : public QWidget {
     Q_OBJECT
 public:
     ColorPicker();
-    ~ColorPicker();
 
     const QColor& color() const;
 

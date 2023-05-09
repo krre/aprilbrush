@@ -6,10 +6,6 @@ Layer::Layer(const QString& name, const QSize& size) {
     setSize(size);
 }
 
-Layer::~Layer() {
-
-}
-
 void Layer::setName(const QString& name) {
     m_name = name;
 }

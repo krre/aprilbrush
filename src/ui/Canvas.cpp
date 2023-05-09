@@ -25,10 +25,6 @@ Canvas::Canvas(const QSize& size, BrushEngine* brushEngine, EventFilter* eventFi
     drawCursor(brushEngine->size());
 }
 
-Canvas::~Canvas() {
-
-}
-
 void Canvas::setName(const QString& name) {
     m_name = name;
 }
@@ -71,7 +67,7 @@ void Canvas::exportPng(const QString& filePath) {
     QPixmap pixmap(width(), height());
     pixmap.fill(Qt::white);
     QPainter painter(&pixmap);
-    
+
     for (int i = m_layers.count() - 1; i >= 0; i--) {
         painter.drawPixmap(0, 0, *m_layers.at(i)->pixmap());
     }
@@ -152,7 +148,7 @@ void Canvas::mouseReleaseEvent(QMouseEvent*) {
 void Canvas::paintEvent(QPaintEvent* event) {
     Q_UNUSED(event)
     QPainter painter(this);
-    
+
     for (int i = m_layers.count() - 1; i >= 0; i--) {
         if (m_currentLayerIndex == i) {
             painter.setOpacity(m_brushEngine->opacity() / 100.0);
@@ -200,7 +196,7 @@ void Canvas::paintAction(const QPointF& pos) {
 
     QRect clipedBound = clipBound(bound);
     update(clipedBound);
-    
+
     m_paintArea.setTopLeft(QPoint(qMin(m_paintArea.topLeft().x(), clipedBound.topLeft().x()), qMin(m_paintArea.topLeft().y(), clipedBound.topLeft().y())));
     m_paintArea.setBottomRight(QPoint(qMax(m_paintArea.bottomRight().x(), clipedBound.bottomRight().x()), qMax(m_paintArea.bottomRight().y(), clipedBound.bottomRight().y())));
 
@@ -223,7 +219,7 @@ void Canvas::pickColor(const QPointF& pos) {
     QPixmap pixmap(width(), height());
     pixmap.fill(Qt::white);
     QPainter painter(&pixmap);
-    
+
     for (int i = m_layers.count() - 1; i >= 0; i--) {
         painter.drawPixmap(0, 0, *m_layers.at(i)->pixmap());
     }

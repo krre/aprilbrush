@@ -8,10 +8,6 @@ ClearCommand::ClearCommand(Canvas* canvas, Layer* layer) :
     setText(QObject::tr("Clear"));
 }
 
-ClearCommand::~ClearCommand() {
-
-}
-
 void ClearCommand::undo() {
     m_layer->setPixmap(m_pixmap);
     m_canvas->update();

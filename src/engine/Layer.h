@@ -8,7 +8,6 @@ class QPixmap;
 class Layer {
 public:
     Layer(const QString& name, const QSize& size);
-    ~Layer();
 
     void setName(const QString& name);
     const QString& name() const;

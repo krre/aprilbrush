@@ -9,7 +9,6 @@ class Layer;
 class ClearCommand : public QUndoCommand {
 public:
     ClearCommand(Canvas* canvas, Layer* layer);
-    ~ClearCommand();
 
 protected:
     void undo() override;

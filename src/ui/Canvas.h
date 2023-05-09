@@ -12,7 +12,6 @@ class Canvas : public QWidget {
     Q_OBJECT
 public:
     explicit Canvas(const QSize& size, BrushEngine* brushEngine, EventFilter* eventFilter);
-    ~Canvas();
 
     void setName(const QString& name);
     const QString& name() const;

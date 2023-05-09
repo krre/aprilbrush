@@ -7,9 +7,6 @@ ColorPicker::ColorPicker() {
     setMinimumSize(200, 200);
 }
 
-ColorPicker::~ColorPicker() {
-}
-
 const QColor& ColorPicker::color() const {
     return m_color;
 }
@@ -50,7 +47,7 @@ void ColorPicker::drawWheel() {
     painter.setBrush(QBrush(m_backgroundColor));
     painter.setPen(Qt::NoPen);
     painter.drawEllipse(QPointF(0, 0), m_innerRadius + 2, m_innerRadius + 2);
-    
+
     m_wheelKey = QPixmapCache::insert(pixmap);
 }
 
@@ -60,7 +57,7 @@ void ColorPicker::paintWheel() {
     }
 
     QPixmap pixmap;
-    
+
     if (!QPixmapCache::find(m_wheelKey, &pixmap)) {
         qWarning() << "Color picker wheel pixmap not found in cache";
         return;
@@ -78,7 +75,7 @@ void ColorPicker::drawWheelSelector() {
     painter.setViewport((width() - m_outerRadius * 2) / 2, (height() - m_outerRadius * 2) / 2, m_outerRadius * 2, m_outerRadius * 2);
     painter.setWindow(-m_outerRadius, -m_outerRadius, m_outerRadius * 2, m_outerRadius * 2);
     painter.rotate(360 - m_hueColor);
-    
+
     QPointF hueSelectorInner(m_innerRadius + 3, 0);
     QPointF hueSelectorOuter(m_outerRadius, 0);
 
@@ -119,7 +116,7 @@ void ColorPicker::drawTriangle() {
             stepColor = qSqrt(3) / (2 * (2 * m_innerRadius - pointX)) * 255;
             color = 0;
             x1 = m_innerRadius * 2 - pointX;
-            
+
             for (int pointY = 0; pointY < m_innerRadius * 2; pointY++) {
                 if (qAlpha(image.pixel(pointX, pointY)) != 0) {
                     roundColor = qRound(color);
@@ -136,7 +133,7 @@ void ColorPicker::drawTriangle() {
     // Convert image to pixmap
     QPixmap pixmap(m_innerRadius * 2, m_innerRadius * 2);
     pixmap = pixmap.fromImage(image);
-    
+
     m_triangleKey = QPixmapCache::insert(pixmap);
 }
 
@@ -146,7 +143,7 @@ void ColorPicker::paintTriangle() {
     }
 
     QPixmap pixmap;
-    
+
     if (!QPixmapCache::find(m_triangleKey, &pixmap)) {
         qWarning() << "Color picker wheel pixmap not found in cache";
         return;
@@ -217,7 +214,7 @@ void ColorPicker::drawTriangleSelector() {
     } else {
        painter.setPen(QPen(Qt::white, 2));
     }
-    
+
     m_triangleSelectorPoint = colorToCoord(m_color);
     QPointF correctPoint = QPointF(m_triangleSelectorPoint.x(), -m_triangleSelectorPoint.y());
     painter.drawEllipse(correctPoint, 4, 4);
@@ -268,7 +265,7 @@ QColor ColorPicker::coordToColor(const QPoint& coord) {
 QPoint ColorPicker::colorToCoord(const QColor& color) {
     int saturation = color.saturation();
     int value = color.value();
-    
+
     qreal y1 = value / 255.0 * m_edgeTriangle;
     qreal relY = m_edgeTriangle * saturation / 255.0 * value / 255.0;
     relY = y1 / 2.0 - relY;
@@ -294,7 +291,7 @@ void ColorPicker::paintEvent(QPaintEvent*) {
 void ColorPicker::mousePressEvent(QMouseEvent* event) {
     QPointF point = event->pos() - rect().center();
     qreal length = qSqrt(qPow(point.x(), 2) + qPow(point.y(), 2));
-    
+
     if (length >= m_innerRadius && length <= m_outerRadius) {
        m_hueAngle = qAtan2(point.x(), point.y());
        m_hueColor = m_hueAngle * 180 / M_PI - 90;
@@ -303,7 +300,7 @@ void ColorPicker::mousePressEvent(QMouseEvent* event) {
        m_hueGrab = true;
         emit colorChanged(m_color);
     }
-    
+
     if (length < m_innerRadius) {
         m_satValAngle = qAtan2(point.x(), point.y());
         m_satValGrab = true;
@@ -316,7 +313,7 @@ void ColorPicker::mousePressEvent(QMouseEvent* event) {
 
 void ColorPicker::mouseMoveEvent(QMouseEvent* event) {
     QPointF point = event->pos() - rect().center();
-    
+
     if (m_hueGrab) {
         m_hueAngle = qAtan2(point.x(), point.y());
         m_hueColor = m_hueAngle * 180 / M_PI - 90;
@@ -324,7 +321,7 @@ void ColorPicker::mouseMoveEvent(QMouseEvent* event) {
         m_color.setHsv(qRound(m_hueColor), m_color.saturation(), m_color.value());
         emit colorChanged(m_color);
     }
-    
+
     if (m_satValGrab) {
         m_satValAngle = qAtan2(point.x(), point.y());
         m_color = coordToColor(event->pos());
