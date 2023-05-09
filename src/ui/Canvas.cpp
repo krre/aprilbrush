@@ -8,7 +8,7 @@
 #include "core/OpenRaster.h"
 #include <QtGui>
 
-Canvas::Canvas(const QSize& size, BrushEngine* brushEngine, EventFilter* eventFilter) : brushEngine(brushEngine) {
+Canvas::Canvas(const QSize& size, BrushEngine* brushEngine, EventFilter* eventFilter) : m_brushEngine(brushEngine) {
     resize(size);
     m_buffer = QPixmap(size);
     m_buffer.fill(Qt::transparent);
@@ -56,12 +56,12 @@ QUndoStack* Canvas::undoStack() const {
 
 void Canvas::save() {
     OpenRaster openRaster;
-    openRaster.write(m_filePath, size(), layers);
+    openRaster.write(m_filePath, size(), m_layers);
 }
 
 void Canvas::open(const QString& filePath) {
     OpenRaster openRaster;
-    layers = openRaster.read(filePath);
+    m_layers = openRaster.read(filePath);
 
     m_filePath = filePath;
     m_name = filePathToName(filePath);
@@ -71,9 +71,9 @@ void Canvas::exportPng(const QString& filePath) {
     QPixmap pixmap(width(), height());
     pixmap.fill(Qt::white);
     QPainter painter(&pixmap);
-
-    for (int i = layers.count() - 1; i >= 0; i--) {
-        painter.drawPixmap(0, 0, *layers.at(i)->pixmap());
+    
+    for (int i = m_layers.count() - 1; i >= 0; i--) {
+        painter.drawPixmap(0, 0, *m_layers.at(i)->pixmap());
     }
 
     pixmap.save(filePath);
@@ -81,8 +81,8 @@ void Canvas::exportPng(const QString& filePath) {
 
 void Canvas::addLayer(const QString& name) {
     auto newLayer = QSharedPointer<Layer>(new Layer(name, size()));
-    layers.append(newLayer);
-    m_currentLayerIndex = layers.count() - 1;
+    m_layers.append(newLayer);
+    m_currentLayerIndex = m_layers.count() - 1;
 }
 
 void Canvas::addLayer(const QSharedPointer<Layer>& layer) {
@@ -110,11 +110,11 @@ int Canvas::currentLayerIndex() const {
 }
 
 Layer* Canvas::currentLayer() const {
-    return m_currentLayerIndex >= 0 ? layers.at(m_currentLayerIndex).data() : nullptr;
+    return m_currentLayerIndex >= 0 ? m_layers.at(m_currentLayerIndex).data() : nullptr;
 }
 
 QString Canvas::nextName() {
-    return tr("Untitled-%1").arg(maxTabCount++);
+    return tr("Untitled-%1").arg(m_maxTabCount++);
 }
 
 void Canvas::mouseMoveEvent(QMouseEvent* event) {
@@ -131,36 +131,36 @@ void Canvas::mousePressEvent(QMouseEvent* event) {
     if (pickPressed()) {
         pickColor(event->position());
     } else {
-        paintArea = QRect(event->position().toPoint(), event->position().toPoint());
+        m_paintArea = QRect(event->position().toPoint(), event->position().toPoint());
         paintAction(event->position());
     }
 }
 
 void Canvas::mouseReleaseEvent(QMouseEvent*) {
-    double opacity = brushEngine->opacity() / 100.0;
-    m_undoStack->push(new BrushCommand(this, currentLayer(), paintArea, opacity));
+    double opacity = m_brushEngine->opacity() / 100.0;
+    m_undoStack->push(new BrushCommand(this, currentLayer(), m_paintArea, opacity));
 
     QPainter painter(currentLayer()->pixmap());
     painter.setOpacity(opacity);
     painter.drawPixmap(0, 0, m_buffer);
 
     m_buffer.fill(Qt::transparent);
-    brushEngine->finish();
+    m_brushEngine->finish();
     update();
 }
 
 void Canvas::paintEvent(QPaintEvent* event) {
     Q_UNUSED(event)
     QPainter painter(this);
-
-    for (int i = layers.count() - 1; i >= 0; i--) {
+    
+    for (int i = m_layers.count() - 1; i >= 0; i--) {
         if (m_currentLayerIndex == i) {
-            painter.setOpacity(brushEngine->opacity() / 100.0);
+            painter.setOpacity(m_brushEngine->opacity() / 100.0);
             painter.drawPixmap(0, 0, m_buffer);
         }
 
         painter.setOpacity(1.0);
-        painter.drawPixmap(0, 0, *layers.at(i)->pixmap());
+        painter.drawPixmap(0, 0, *m_layers.at(i)->pixmap());
     }
 }
 
@@ -189,20 +189,20 @@ void Canvas::onKeyPressed(QKeyEvent* event) {
 
 void Canvas::onKeyReleased(QKeyEvent* event) {
     if (event->key() == Qt::Key_Alt) {
-        drawCursor(brushEngine->size());
+        drawCursor(m_brushEngine->size());
     }
 }
 
 void Canvas::paintAction(const QPointF& pos) {
-    QRect bound = brushEngine->paint(brushEngine->eraser() < 50 ? &m_buffer : currentLayer()->pixmap(), pos);
+    QRect bound = m_brushEngine->paint(m_brushEngine->eraser() < 50 ? &m_buffer : currentLayer()->pixmap(), pos);
 
     if (bound.isNull()) return;
 
     QRect clipedBound = clipBound(bound);
     update(clipedBound);
-
-    paintArea.setTopLeft(QPoint(qMin(paintArea.topLeft().x(), clipedBound.topLeft().x()), qMin(paintArea.topLeft().y(), clipedBound.topLeft().y())));
-    paintArea.setBottomRight(QPoint(qMax(paintArea.bottomRight().x(), clipedBound.bottomRight().x()), qMax(paintArea.bottomRight().y(), clipedBound.bottomRight().y())));
+    
+    m_paintArea.setTopLeft(QPoint(qMin(m_paintArea.topLeft().x(), clipedBound.topLeft().x()), qMin(m_paintArea.topLeft().y(), clipedBound.topLeft().y())));
+    m_paintArea.setBottomRight(QPoint(qMax(m_paintArea.bottomRight().x(), clipedBound.bottomRight().x()), qMax(m_paintArea.bottomRight().y(), clipedBound.bottomRight().y())));
 
     InputDevice::Data data{};
     data.type = InputDevice::Type::Mouse;
@@ -223,9 +223,9 @@ void Canvas::pickColor(const QPointF& pos) {
     QPixmap pixmap(width(), height());
     pixmap.fill(Qt::white);
     QPainter painter(&pixmap);
-
-    for (int i = layers.count() - 1; i >= 0; i--) {
-        painter.drawPixmap(0, 0, *layers.at(i)->pixmap());
+    
+    for (int i = m_layers.count() - 1; i >= 0; i--) {
+        painter.drawPixmap(0, 0, *m_layers.at(i)->pixmap());
     }
 
     emit colorPicked(QColor(pixmap.toImage().pixel(qRound(pos.x()), qRound(pos.y()))));
@@ -233,7 +233,7 @@ void Canvas::pickColor(const QPointF& pos) {
 
 QRect Canvas::clipBound(const QRect& bound) {
     // Correct corner positions on brush size
-    int burhsSize = brushEngine->size();
+    int burhsSize = m_brushEngine->size();
     QPoint topLeft(bound.topLeft().x() - burhsSize, bound.topLeft().y() - burhsSize);
     QPoint bottomRight(bound.bottomRight().x() + burhsSize, bound.bottomRight().y() + burhsSize);
 

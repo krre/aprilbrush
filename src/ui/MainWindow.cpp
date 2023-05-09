@@ -13,20 +13,20 @@
 
 MainWindow::MainWindow(QWidget* parent) : QMainWindow(parent) {
     setAutoFillBackground(true);
+    
+    m_eventFilter = new EventFilter(this);
+    qApp->installEventFilter(m_eventFilter);
 
-    eventFilter = new EventFilter(this);
-    qApp->installEventFilter(eventFilter);
+    m_undoGroup = new QUndoGroup(this);
+    m_brushEngine = new BrushEngine(this);
 
-    undoGroup = new QUndoGroup(this);
-    brushEngine = new BrushEngine(this);
-
-    canvasTabWidget = new CanvasTabWidget(undoGroup);
-    setCentralWidget(canvasTabWidget);
+    m_canvasTabWidget = new CanvasTabWidget(m_undoGroup);
+    setCentralWidget(m_canvasTabWidget);
 
     createActions();
     createUi();
     readSettings();
-    canvasTabWidget->addCanvas(brushEngine, eventFilter);
+    m_canvasTabWidget->addCanvas(m_brushEngine, m_eventFilter);
 }
 
 void MainWindow::closeEvent(QCloseEvent* event) {
@@ -35,10 +35,10 @@ void MainWindow::closeEvent(QCloseEvent* event) {
 }
 
 void MainWindow::onNew() {
-    NewImage newImage(canvasTabWidget->nextName());
+    NewImage newImage(m_canvasTabWidget->nextName());
 
     if (newImage.exec() == QDialog::Accepted) {
-        canvasTabWidget->addCanvas(newImage.name(), newImage.size(), brushEngine, eventFilter);
+        m_canvasTabWidget->addCanvas(newImage.name(), newImage.size(), m_brushEngine, m_eventFilter);
     }
 }
 
@@ -46,9 +46,9 @@ void MainWindow::onOpen() {
     QString filePath = QFileDialog::getOpenFileName(this, tr("Open Image"), QString(), tr("Images (*.ora)"));
 
     if (!filePath.isEmpty()) {
-        canvasTabWidget->addCanvas(QString(), QSize(), brushEngine, eventFilter);
+        m_canvasTabWidget->addCanvas(QString(), QSize(), m_brushEngine, m_eventFilter);
         currentCanvas()->open(filePath);
-        canvasTabWidget->setTabText(canvasTabWidget->currentIndex(), currentCanvas()->name());
+        m_canvasTabWidget->setTabText(m_canvasTabWidget->currentIndex(), currentCanvas()->name());
     }
 }
 
@@ -69,7 +69,7 @@ void MainWindow::onSaveAs() {
         QString oraPath = filePath.last(4) != ".ora" ? filePath + ".ora" : filePath;
         currentCanvas()->setFilePath(oraPath);
         currentCanvas()->save();
-        canvasTabWidget->setTabText(canvasTabWidget->currentIndex(), currentCanvas()->name());
+        m_canvasTabWidget->setTabText(m_canvasTabWidget->currentIndex(), currentCanvas()->name());
     }
 }
 
@@ -83,26 +83,26 @@ void MainWindow::onExport() {
 }
 
 void MainWindow::onClose() {
-    canvasTabWidget->closeCanvas(canvasTabWidget->currentIndex());
+    m_canvasTabWidget->closeCanvas(m_canvasTabWidget->currentIndex());
 }
 
 void MainWindow::onCloseAll() {
-    int count = canvasTabWidget->count();
+    int count = m_canvasTabWidget->count();
 
     for (int i = 0; i < count; ++i) {
-        canvasTabWidget->closeCanvas(0);
+        m_canvasTabWidget->closeCanvas(0);
     }
 }
 
 void MainWindow::onCloseOthers() {
-    int count = canvasTabWidget->count() - 1;
-    QWidget* activeTab = canvasTabWidget->currentWidget();
+    int count = m_canvasTabWidget->count() - 1;
+    QWidget* activeTab = m_canvasTabWidget->currentWidget();
 
     for (int i = 0; i < count; i++) {
-        if (canvasTabWidget->widget(0) != activeTab) {
-            canvasTabWidget->closeCanvas(0);
+        if (m_canvasTabWidget->widget(0) != activeTab) {
+            m_canvasTabWidget->closeCanvas(0);
         } else {
-            canvasTabWidget->closeCanvas(1);
+            m_canvasTabWidget->closeCanvas(1);
         }
     }
 }
@@ -134,7 +134,7 @@ void MainWindow::onPreferences() {
 
 void MainWindow::onInputDevice() {
     auto inputDevice = new InputDevice(this);
-    connect(canvasTabWidget, &CanvasTabWidget::inputDeviceDataChanged, inputDevice, &InputDevice::onDataChanged);
+    connect(m_canvasTabWidget, &CanvasTabWidget::inputDeviceDataChanged, inputDevice, &InputDevice::onDataChanged);
     inputDevice->show();
 }
 
@@ -179,18 +179,18 @@ void MainWindow::createActions() {
     // Edit
     QMenu* editMenu = menuBar()->addMenu(tr("Edit"));
 
-    auto undoAction = undoGroup->createUndoAction(this, tr("Undo"));
+    auto undoAction = m_undoGroup->createUndoAction(this, tr("Undo"));
     undoAction->setShortcuts(QKeySequence::Undo);
     editMenu->addAction(undoAction);
 
-    auto redoAction = undoGroup->createRedoAction(this, tr("Redo"));
+    auto redoAction = m_undoGroup->createRedoAction(this, tr("Redo"));
     redoAction->setShortcuts(QKeySequence::Redo);
     editMenu->addAction(redoAction);
 
     QAction* clearAction = editMenu->addAction(tr("Clear"), Qt::Key_Delete, this, &MainWindow::onClear);
 
     // View
-    viewMenu = menuBar()->addMenu(tr("View"));
+    m_viewMenu = menuBar()->addMenu(tr("View"));
 
     // Window
     QMenu* windowMenu = menuBar()->addMenu(tr("Window"));
@@ -200,7 +200,7 @@ void MainWindow::createActions() {
     QMenu* helpMenu = menuBar()->addMenu(tr("Help"));
     helpMenu->addAction(tr("About %1...").arg(Const::App::Name), this, &MainWindow::onAbout);
 
-    connect(canvasTabWidget, &CanvasTabWidget::countChanged, this, [=] (int count) {
+    connect(m_canvasTabWidget, &CanvasTabWidget::countChanged, this, [=] (int count) {
         saveAction->setEnabled(count);
         saveAsAction->setEnabled(count);
         exportAction->setEnabled(count);
@@ -218,24 +218,24 @@ void MainWindow::createUi() {
 }
 
 void MainWindow::createDockWindows() {
-    colorPicker = new ColorPicker;
-    connect(colorPicker, &ColorPicker::colorChanged, brushEngine, &BrushEngine::setColor);
-    connect(brushEngine, &BrushEngine::colorChanged, colorPicker, &ColorPicker::setColor);
+    m_colorPicker = new ColorPicker;
+    connect(m_colorPicker, &ColorPicker::colorChanged, m_brushEngine, &BrushEngine::setColor);
+    connect(m_brushEngine, &BrushEngine::colorChanged, m_colorPicker, &ColorPicker::setColor);
 
-    auto dock = new QDockWidget(colorPicker->windowTitle(), this);
-    dock->setWidget(colorPicker);
+    auto dock = new QDockWidget(m_colorPicker->windowTitle(), this);
+    dock->setWidget(m_colorPicker);
     dock->setAllowedAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea);
     addDockWidget(Qt::RightDockWidgetArea, dock);
-    viewMenu->addAction(dock->toggleViewAction());
-
-    auto brushSettings = new BrushSettings(brushEngine);
+    m_viewMenu->addAction(dock->toggleViewAction());
+    
+    auto brushSettings = new BrushSettings(m_brushEngine);
     dock = new QDockWidget(brushSettings->windowTitle(), this);
     dock->setWidget(brushSettings);
     dock->setAllowedAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea);
     addDockWidget(Qt::RightDockWidgetArea, dock);
-    viewMenu->addAction(dock->toggleViewAction());
+    m_viewMenu->addAction(dock->toggleViewAction());
 
-    auto undoView = new QUndoView(undoGroup);
+    auto undoView = new QUndoView(m_undoGroup);
     dock = new QDockWidget(tr("Commands"), this);
     dock->setAllowedAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea);
     dock->setWidget(undoView);
@@ -247,5 +247,5 @@ void MainWindow::applyHotSettings() {
 }
 
 Canvas* MainWindow::currentCanvas() const {
-    return static_cast<Canvas*>(canvasTabWidget->currentWidget());
+    return static_cast<Canvas*>(m_canvasTabWidget->currentWidget());
 }

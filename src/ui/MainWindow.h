@@ -43,10 +43,10 @@ private:
 
     Canvas* currentCanvas() const;
 
-    EventFilter* eventFilter = nullptr;
-    CanvasTabWidget* canvasTabWidget;
-    ColorPicker* colorPicker = nullptr;
-    BrushEngine* brushEngine = nullptr;
-    QMenu* viewMenu = nullptr;
-    QUndoGroup* undoGroup = nullptr;
+    EventFilter* m_eventFilter = nullptr;
+    CanvasTabWidget* m_canvasTabWidget;
+    ColorPicker* m_colorPicker = nullptr;
+    BrushEngine* m_brushEngine = nullptr;
+    QMenu* m_viewMenu = nullptr;
+    QUndoGroup* m_undoGroup = nullptr;
 };

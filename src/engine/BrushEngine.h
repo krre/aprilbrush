@@ -67,8 +67,8 @@ private:
     int m_jitter = 0;
     int m_eraser = 0;
 
-    QPointF startPoint;
-    QPointF lastPoint;
-    QPoint topLeft;
-    QPoint bottomRight;
+    QPointF m_startPoint;
+    QPointF m_lastPoint;
+    QPoint m_topLeft;
+    QPoint m_bottomRight;
 };

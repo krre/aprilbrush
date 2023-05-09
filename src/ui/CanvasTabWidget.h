@@ -27,6 +27,6 @@ private slots:
     void onCurrentChanged(int index);
 
 private:
-    int maxTabCount = 1;
-    QUndoGroup* undoGroup;
+    int m_maxTabCount = 1;
+    QUndoGroup* m_undoGroup;
 };

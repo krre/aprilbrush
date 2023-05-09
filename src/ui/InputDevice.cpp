@@ -6,24 +6,24 @@ InputDevice::InputDevice(QWidget* parent) : QWidget(parent) {
     setFixedSize(250, 100);
     setWindowFlags(Qt::WindowStaysOnTopHint | Qt::Tool);
     setAttribute(Qt::WA_DeleteOnClose);
-
-    type = new QLabel;
-    posX = new QLabel;
-    posY = new QLabel;
-    pressure = new QLabel;
+    
+    m_type = new QLabel;
+    m_posX = new QLabel;
+    m_posY = new QLabel;
+    m_pressure = new QLabel;
 
     auto formLayout = new QFormLayout;
-    formLayout->addRow(tr("Type:"), type);
-    formLayout->addRow(tr("Position X:"), posX);
-    formLayout->addRow(tr("Position Y:"), posY);
-    formLayout->addRow(tr("Pressure:"), pressure);
+    formLayout->addRow(tr("Type:"), m_type);
+    formLayout->addRow(tr("Position X:"), m_posX);
+    formLayout->addRow(tr("Position Y:"), m_posY);
+    formLayout->addRow(tr("Pressure:"), m_pressure);
 
     setLayout(formLayout);
 }
 
 void InputDevice::onDataChanged(const Data& data) {
-    type->setText(data.type == Type::Mouse ? tr("Mouse") : tr("Tablet"));
-    posX->setText(QString::number(data.pos.x()));
-    posY->setText(QString::number(data.pos.y()));
-    pressure->setText(QString::number(data.pressure));
+    m_type->setText(data.type == Type::Mouse ? tr("Mouse") : tr("Tablet"));
+    m_posX->setText(QString::number(data.pos.x()));
+    m_posY->setText(QString::number(data.pos.y()));
+    m_pressure->setText(QString::number(data.pressure));
 }

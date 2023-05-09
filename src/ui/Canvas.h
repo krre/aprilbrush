@@ -69,13 +69,13 @@ private:
 
     QRect clipBound(const QRect& bound);
 
-    BrushEngine* brushEngine = nullptr;
-    Layers layers;
+    BrushEngine* m_brushEngine = nullptr;
+    Layers m_layers;
     int m_currentLayerIndex = -1;
-    int maxTabCount = 1;
+    int m_maxTabCount = 1;
     QString m_name;
     QString m_filePath;
     QUndoStack* m_undoStack = nullptr;
     QPixmap m_buffer;
-    QRect paintArea;
+    QRect m_paintArea;
 };

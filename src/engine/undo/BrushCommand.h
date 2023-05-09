@@ -19,6 +19,6 @@ private:
     Layer* m_layer = nullptr;
     QRect m_bound;
     double m_opactity = 0;
-    QPixmap redoPixmap;
-    QPixmap undoPixmap;
+    QPixmap m_redoPixmap;
+    QPixmap m_undoPixmap;
 };

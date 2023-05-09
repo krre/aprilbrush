@@ -29,35 +29,35 @@ QRect BrushEngine::paint(QPixmap* pixmap, const QPointF& point, float pressure) 
     painter.setBrush(QBrush(radialGradient));
 
     QRect rect = QRect();
-    topLeft = point.toPoint();
-    bottomRight = point.toPoint();
-
-    if (startPoint.isNull()) {
-        startPoint = point.toPoint();
-        lastPoint = point.toPoint();
+    m_topLeft = point.toPoint();
+    m_bottomRight = point.toPoint();
+    
+    if (m_startPoint.isNull()) {
+        m_startPoint = point.toPoint();
+        m_lastPoint = point.toPoint();
         paintDab(point, painter);
-        rect = QRect(topLeft, bottomRight);
+        rect = QRect(m_topLeft, m_bottomRight);
     } else {
-        qreal length = qSqrt(qPow(lastPoint.x() - point.x(), 2) + qPow(lastPoint.y() - point.y(), 2));
+        qreal length = qSqrt(qPow(m_lastPoint.x() - point.x(), 2) + qPow(m_lastPoint.y() - point.y(), 2));
         qreal delta = m_size * m_spacing / 2.0 / 100.0;
 
         if (length >= delta) {
             int dabs = qRound(length / delta);
-            qreal angle = qAtan2(point.x() - lastPoint.x(), point.y() - lastPoint.y());
+            qreal angle = qAtan2(point.x() - m_lastPoint.x(), point.y() - m_lastPoint.y());
             qreal deltaX = delta * qSin(angle);
             qreal deltaY = delta * qCos(angle);
 
             QPointF betweenPoint;
 
             for (int i = 1; i <= dabs; i++) {
-                qreal x = lastPoint.x() + deltaX * i;
-                qreal y = lastPoint.y() + deltaY * i;
+                qreal x = m_lastPoint.x() + deltaX * i;
+                qreal y = m_lastPoint.y() + deltaY * i;
                 betweenPoint = QPointF(x, y);
                 paintDab(betweenPoint, painter);
             }
-
-            lastPoint = betweenPoint;
-            rect = QRect(topLeft, bottomRight);
+            
+            m_lastPoint = betweenPoint;
+            rect = QRect(m_topLeft, m_bottomRight);
         }
     }
 
@@ -65,7 +65,7 @@ QRect BrushEngine::paint(QPixmap* pixmap, const QPointF& point, float pressure) 
 }
 
 void BrushEngine::finish() {
-    startPoint = QPointF();
+    m_startPoint = QPointF();
 }
 
 const QColor& BrushEngine::color() const {
@@ -187,10 +187,10 @@ void BrushEngine::paintDab(const QPointF& point, QPainter& painter) {
     rect.moveTo(dubPoint.x() - m_size / 2.0, dubPoint.y() - m_size / 2.0);
 
     // Detect a min and max corner positions
-    topLeft.setX(qMin(topLeft.x(), qRound(dubPoint.x())));
-    topLeft.setY(qMin(topLeft.y(), qRound(dubPoint.y())));
-    bottomRight.setX(qMax(bottomRight.x(), qRound(dubPoint.x())));
-    bottomRight.setY(qMax(bottomRight.y(), qRound(dubPoint.y())));
+    m_topLeft.setX(qMin(m_topLeft.x(), qRound(dubPoint.x())));
+    m_topLeft.setY(qMin(m_topLeft.y(), qRound(dubPoint.y())));
+    m_bottomRight.setX(qMax(m_bottomRight.x(), qRound(dubPoint.x())));
+    m_bottomRight.setY(qMax(m_bottomRight.y(), qRound(dubPoint.y())));
 }
 
 qreal BrushEngine::jitterOffset() {

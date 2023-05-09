@@ -18,5 +18,5 @@ protected:
 private:
     Canvas* m_canvas = nullptr;
     Layer* m_layer = nullptr;
-    QSharedPointer<QPixmap> pixmap;
+    QSharedPointer<QPixmap> m_pixmap;
 };

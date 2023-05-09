@@ -24,9 +24,9 @@ public slots:
    void onDataChanged(const Data& data);
 
 private:
-    QLabel* type = nullptr;
-    QLabel* posX = nullptr;
-    QLabel* posY = nullptr;
-    QLabel* pressure = nullptr;
-    Canvas* canvas;
+    QLabel* m_type = nullptr;
+    QLabel* m_posX = nullptr;
+    QLabel* m_posY = nullptr;
+    QLabel* m_pressure = nullptr;
+    Canvas* m_canvas;
 };

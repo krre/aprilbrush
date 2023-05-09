@@ -13,12 +13,12 @@ ClearCommand::~ClearCommand() {
 }
 
 void ClearCommand::undo() {
-    m_layer->setPixmap(pixmap);
+    m_layer->setPixmap(m_pixmap);
     m_canvas->update();
 }
 
 void ClearCommand::redo() {
-    pixmap.reset(new QPixmap(*m_layer->pixmap()));
+    m_pixmap.reset(new QPixmap(*m_layer->pixmap()));
     m_layer->clear();
     m_canvas->update();
 }

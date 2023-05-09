@@ -4,7 +4,7 @@
 #include "engine/BrushEngine.h"
 #include <QtWidgets>
 
-CanvasTabWidget::CanvasTabWidget(QUndoGroup* undoGroup) : undoGroup(undoGroup) {
+CanvasTabWidget::CanvasTabWidget(QUndoGroup* undoGroup) : m_undoGroup(undoGroup) {
     setTabsClosable(true);
     connect(this, &QTabWidget::tabCloseRequested, this, &CanvasTabWidget::closeCanvas);
     connect(this, &QTabWidget::currentChanged, this, &CanvasTabWidget::onCurrentChanged);
@@ -22,18 +22,18 @@ void CanvasTabWidget::addCanvas(const QString& name, const QSize& size, BrushEng
     addTab(canvas, name);
     setCurrentIndex(count() - 1);
     canvas->setFocus();
-    undoGroup->addStack(canvas->undoStack());
+    m_undoGroup->addStack(canvas->undoStack());
     emit countChanged(count());
 }
 
 QString CanvasTabWidget::nextName() {
-    return tr("Untitled-%1").arg(maxTabCount++);
+    return tr("Untitled-%1").arg(m_maxTabCount++);
 }
 
 void CanvasTabWidget::closeCanvas(int index) {
     Canvas* canvas = static_cast<Canvas*>(widget(index));
     removeTab(index);
-    undoGroup->removeStack(canvas->undoStack());
+    m_undoGroup->removeStack(canvas->undoStack());
     delete canvas;
     emit countChanged(count());
 }
@@ -42,6 +42,6 @@ void CanvasTabWidget::onCurrentChanged(int index) {
     if (index >= 0) {
         Canvas* canvas = static_cast<Canvas*>(widget(index));
         connect(canvas, &Canvas::inputDeviceDataChanged, this, &CanvasTabWidget::inputDeviceDataChanged);
-        undoGroup->setActiveStack(canvas->undoStack());
+        m_undoGroup->setActiveStack(canvas->undoStack());
     }
 }

@@ -34,21 +34,21 @@ private:
     QColor coordToColor(const QPoint& coord);
     QPoint colorToCoord(const QColor& color);
 
-    QColor backgroundColor = QPalette().color(QPalette::Window);
-    qreal scaleInnerWheel = 0.8;
-    qreal edgeTriangle;
-    int diameterWheel;
-    int innerRadius;
-    int outerRadius;
-    qreal hueAngle = M_PI_2;
-    qreal satValAngle;
-    qreal hueColor;
-    bool hueGrab = false;
-    bool satValGrab = false;
-    QPointF triangleSelectorPoint;
+    QColor m_backgroundColor = QPalette().color(QPalette::Window);
+    qreal m_scaleInnerWheel = 0.8;
+    qreal m_edgeTriangle;
+    int m_diameterWheel;
+    int m_innerRadius;
+    int m_outerRadius;
+    qreal m_hueAngle = M_PI_2;
+    qreal m_satValAngle;
+    qreal m_hueColor;
+    bool m_hueGrab = false;
+    bool m_satValGrab = false;
+    QPointF m_triangleSelectorPoint;
     QColor m_color;
 
-    QPixmapCache::Key wheelKey;
-    QPixmapCache::Key triangleKey;
+    QPixmapCache::Key m_wheelKey;
+    QPixmapCache::Key m_triangleKey;
 };
 
