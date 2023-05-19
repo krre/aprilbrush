@@ -31,17 +31,21 @@ QString CanvasTabWidget::nextName() {
 }
 
 void CanvasTabWidget::closeCanvas(int index) {
+    if (index < 0) return;
+
     Canvas* canvas = static_cast<Canvas*>(widget(index));
-    removeTab(index);
     m_undoGroup->removeStack(canvas->undoStack());
+
+    removeTab(index);
     delete canvas;
+
     emit countChanged(count());
 }
 
 void CanvasTabWidget::onCurrentChanged(int index) {
-    if (index >= 0) {
-        Canvas* canvas = static_cast<Canvas*>(widget(index));
-        connect(canvas, &Canvas::inputDeviceDataChanged, this, &CanvasTabWidget::inputDeviceDataChanged);
-        m_undoGroup->setActiveStack(canvas->undoStack());
-    }
+    if (index < 0) return;
+
+    Canvas* canvas = static_cast<Canvas*>(widget(index));
+    connect(canvas, &Canvas::inputDeviceDataChanged, this, &CanvasTabWidget::inputDeviceDataChanged);
+    m_undoGroup->setActiveStack(canvas->undoStack());
 }
