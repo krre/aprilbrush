@@ -3,6 +3,8 @@
 #include <QTabWidget>
 
 class QUndoGroup;
+
+class Canvas;
 class BrushEngine;
 class EventFilter;
 
@@ -11,8 +13,8 @@ class CanvasTabWidget : public QTabWidget {
 public:
     CanvasTabWidget(QUndoGroup* undoGroup);
 
-    void addCanvas(BrushEngine* brushEngine, EventFilter* eventFilter);
-    void addCanvas(const QString& name, const QSize& size, BrushEngine* brushEngine, EventFilter* eventFilter);
+    Canvas* addCanvas(BrushEngine* brushEngine, EventFilter* eventFilter);
+    Canvas* addCanvas(const QString& name, const QSize& size, BrushEngine* brushEngine, EventFilter* eventFilter);
 
     QString nextName();
 
