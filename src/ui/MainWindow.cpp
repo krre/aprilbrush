@@ -82,24 +82,6 @@ void MainWindow::onExport() {
     }
 }
 
-void MainWindow::onClose() {
-    m_canvasTabWidget->closeCanvas(m_canvasTabWidget->currentIndex());
-}
-
-void MainWindow::onCloseAll() {
-    for (int i = m_canvasTabWidget->count() - 1; i >= 0; i--) {
-        m_canvasTabWidget->closeCanvas(i);
-    }
-}
-
-void MainWindow::onCloseOthers() {
-    for (int i = m_canvasTabWidget->count() - 1; i >= 0; i--) {
-        if (m_canvasTabWidget->widget(i) != m_canvasTabWidget->currentWidget()) {
-            m_canvasTabWidget->closeCanvas(i);
-        }
-    }
-}
-
 void MainWindow::onClear() {
     currentCanvas()->clear();
 }
@@ -160,9 +142,9 @@ void MainWindow::createActions() {
     QAction* exportAction = fileMenu->addAction(tr("Export..."), Qt::CTRL | Qt::Key_E, this, &MainWindow::onExport);
     fileMenu->addSeparator();
 
-    QAction* closeAction = fileMenu->addAction(tr("Close"), Qt::CTRL | Qt::Key_W, this, &MainWindow::onClose);
-    QAction* closeAllAction =fileMenu->addAction(tr("Close All"), Qt::CTRL | Qt::SHIFT | Qt::Key_W, this, &MainWindow::onCloseAll);
-    QAction* closeOthersAction = fileMenu->addAction(tr("Close Others"), Qt::CTRL | Qt::ALT | Qt::Key_W, this, &MainWindow::onCloseOthers);
+    QAction* closeAction = fileMenu->addAction(tr("Close"), Qt::CTRL | Qt::Key_W, m_canvasTabWidget, &CanvasTabWidget::closeCurrent);
+    QAction* closeAllAction =fileMenu->addAction(tr("Close All"), Qt::CTRL | Qt::SHIFT | Qt::Key_W, m_canvasTabWidget, &CanvasTabWidget::closeAll);
+    QAction* closeOthersAction = fileMenu->addAction(tr("Close Others"), Qt::CTRL | Qt::ALT | Qt::Key_W, m_canvasTabWidget, &CanvasTabWidget::closeOthers);
 
     fileMenu->addSeparator();
     fileMenu->addAction(tr("Preferences..."), this, &MainWindow::onPreferences);

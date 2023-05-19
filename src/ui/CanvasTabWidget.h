@@ -19,7 +19,9 @@ public:
     QString nextName();
 
 public slots:
-    void closeCanvas(int index);
+    void closeCurrent();
+    void closeAll();
+    void closeOthers();
 
 signals:
     void countChanged(int count);
@@ -29,6 +31,8 @@ private slots:
     void onCurrentChanged(int index);
 
 private:
+    void closeByIndex(int index);
+
     int m_maxTabCount = 1;
     QUndoGroup* m_undoGroup;
 };

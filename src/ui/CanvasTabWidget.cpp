@@ -6,7 +6,7 @@
 
 CanvasTabWidget::CanvasTabWidget(QUndoGroup* undoGroup) : m_undoGroup(undoGroup) {
     setTabsClosable(true);
-    connect(this, &QTabWidget::tabCloseRequested, this, &CanvasTabWidget::closeCanvas);
+    connect(this, &QTabWidget::tabCloseRequested, this, &CanvasTabWidget::closeByIndex);
     connect(this, &QTabWidget::currentChanged, this, &CanvasTabWidget::onCurrentChanged);
 }
 
@@ -32,7 +32,7 @@ QString CanvasTabWidget::nextName() {
     return tr("Untitled-%1").arg(m_maxTabCount++);
 }
 
-void CanvasTabWidget::closeCanvas(int index) {
+void CanvasTabWidget::closeByIndex(int index) {
     if (index < 0) return;
 
     Canvas* canvas = static_cast<Canvas*>(widget(index));
@@ -42,6 +42,24 @@ void CanvasTabWidget::closeCanvas(int index) {
     delete canvas;
 
     emit countChanged(count());
+}
+
+void CanvasTabWidget::closeCurrent() {
+    closeByIndex(currentIndex());
+}
+
+void CanvasTabWidget::closeAll() {
+    for (int i = count() - 1; i >= 0; i--) {
+        closeByIndex(i);
+    }
+}
+
+void CanvasTabWidget::closeOthers() {
+    for (int i = count() - 1; i >= 0; i--) {
+        if (widget(i) != currentWidget()) {
+            closeByIndex(i);
+        }
+    }
 }
 
 void CanvasTabWidget::onCurrentChanged(int index) {
