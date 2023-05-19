@@ -13,7 +13,7 @@
 
 MainWindow::MainWindow(QWidget* parent) : QMainWindow(parent) {
     setAutoFillBackground(true);
-    
+
     m_eventFilter = new EventFilter(this);
     qApp->installEventFilter(m_eventFilter);
 
@@ -87,22 +87,15 @@ void MainWindow::onClose() {
 }
 
 void MainWindow::onCloseAll() {
-    int count = m_canvasTabWidget->count();
-
-    for (int i = 0; i < count; ++i) {
-        m_canvasTabWidget->closeCanvas(0);
+    for (int i = m_canvasTabWidget->count() - 1; i >= 0; i--) {
+        m_canvasTabWidget->closeCanvas(i);
     }
 }
 
 void MainWindow::onCloseOthers() {
-    int count = m_canvasTabWidget->count() - 1;
-    QWidget* activeTab = m_canvasTabWidget->currentWidget();
-
-    for (int i = 0; i < count; i++) {
-        if (m_canvasTabWidget->widget(0) != activeTab) {
-            m_canvasTabWidget->closeCanvas(0);
-        } else {
-            m_canvasTabWidget->closeCanvas(1);
+    for (int i = m_canvasTabWidget->count() - 1; i >= 0; i--) {
+        if (m_canvasTabWidget->widget(i) != m_canvasTabWidget->currentWidget()) {
+            m_canvasTabWidget->closeCanvas(i);
         }
     }
 }
@@ -227,7 +220,7 @@ void MainWindow::createDockWindows() {
     dock->setAllowedAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea);
     addDockWidget(Qt::RightDockWidgetArea, dock);
     m_viewMenu->addAction(dock->toggleViewAction());
-    
+
     auto brushSettings = new BrushSettings(m_brushEngine);
     dock = new QDockWidget(brushSettings->windowTitle(), this);
     dock->setWidget(brushSettings);
