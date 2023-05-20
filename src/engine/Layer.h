@@ -3,8 +3,6 @@
 #include <QSize>
 #include <QPoint>
 
-class QPixmap;
-
 class Layer {
 public:
     Layer(const QString& name, const QSize& size);
