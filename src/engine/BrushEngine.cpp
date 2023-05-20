@@ -1,5 +1,4 @@
 #include "BrushEngine.h"
-#include "Layer.h"
 #include <QtGui>
 
 BrushEngine::BrushEngine(QObject* parent) : QObject(parent) {
@@ -31,7 +30,7 @@ QRect BrushEngine::paint(QPixmap* pixmap, const QPointF& point, float pressure) 
     QRect rect = QRect();
     m_topLeft = point.toPoint();
     m_bottomRight = point.toPoint();
-    
+
     if (m_startPoint.isNull()) {
         m_startPoint = point.toPoint();
         m_lastPoint = point.toPoint();
@@ -55,7 +54,7 @@ QRect BrushEngine::paint(QPixmap* pixmap, const QPointF& point, float pressure) 
                 betweenPoint = QPointF(x, y);
                 paintDab(betweenPoint, painter);
             }
-            
+
             m_lastPoint = betweenPoint;
             rect = QRect(m_topLeft, m_bottomRight);
         }
