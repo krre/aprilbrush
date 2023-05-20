@@ -1,6 +1,6 @@
 #include "BrushSettings.h"
 #include "BrushSlider.h"
-#include <engine/BrushEngine.h>
+#include "engine/BrushEngine.h"
 #include <QtWidgets>
 
 BrushSettings::BrushSettings(BrushEngine* brushEngine) : m_brushEngine(brushEngine) {
