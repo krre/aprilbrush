@@ -1,6 +1,6 @@
 TARGET = aprilbrush
 QT += widgets gui-private
-CONFIG += c++17
+CONFIG += c++20
 
 SOURCES += \
     core/EventFilter.cpp \
