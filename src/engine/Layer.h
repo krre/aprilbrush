@@ -1,5 +1,5 @@
 #pragma once
-#include <QSharedPointer>
+#include <QPixmap>
 #include <QSize>
 #include <QPoint>
 
@@ -15,8 +15,8 @@ public:
     const QSize& size() const;
     void setSize(QSize size);
 
-    QPixmap* pixmap() const;
-    void setPixmap(const QSharedPointer<QPixmap>& pixmap);
+    QPixmap* pixmap();
+    void setPixmap(const QPixmap& pixmap);
 
     void clear();
 
@@ -35,7 +35,7 @@ public:
 private:
     QString m_name;
     QSize m_size;
-    QSharedPointer<QPixmap> m_pixmap;
+    QPixmap m_pixmap;
     bool m_visible = true;
     bool m_locked = false;
     bool m_selected = false;

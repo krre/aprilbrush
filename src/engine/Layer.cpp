@@ -22,13 +22,13 @@ void Layer::setSize(QSize size) {
     m_size = size;
 
     if (size.width() && size.height()) {
-        m_pixmap.reset(new QPixmap(size));
-        m_pixmap->fill(Qt::transparent);
+        m_pixmap = QPixmap(size);
+        m_pixmap.fill(Qt::transparent);
     }
 }
 
 void Layer::clear() {
-    m_pixmap->fill(Qt::transparent);
+    m_pixmap.fill(Qt::transparent);
 }
 
 QByteArray Layer::image(const QPoint& topLeft, const QPoint& bottomRight) {
@@ -37,9 +37,9 @@ QByteArray Layer::image(const QPoint& topLeft, const QPoint& bottomRight) {
     buffer.open(QIODevice::WriteOnly);
 
     if (topLeft.isNull()) {
-        m_pixmap->save(&buffer, "TIFF");
+        m_pixmap.save(&buffer, "TIFF");
     } else {
-        m_pixmap->copy(QRect(topLeft, bottomRight)).save(&buffer, "TIFF");
+        m_pixmap.copy(QRect(topLeft, bottomRight)).save(&buffer, "TIFF");
     }
 
     buffer.close();
@@ -48,12 +48,12 @@ QByteArray Layer::image(const QPoint& topLeft, const QPoint& bottomRight) {
 
 void Layer::setImage(const QByteArray& image, const QPoint& topLeft) {
     if (topLeft.isNull()) {
-        m_pixmap->loadFromData(image);
+        m_pixmap.loadFromData(image);
     } else {
         QPixmap pixmap;
         pixmap.loadFromData(image);
 
-        QPainter painter(m_pixmap.data());
+        QPainter painter(&m_pixmap);
         painter.setCompositionMode(QPainter::CompositionMode_Source);
         painter.fillRect(QRect(topLeft, pixmap.size()), Qt::transparent);
         painter.setCompositionMode(QPainter::CompositionMode_SourceOver);
@@ -85,10 +85,10 @@ bool Layer::isSelected() const {
     return m_selected;
 }
 
-QPixmap* Layer::pixmap() const {
-    return m_pixmap.data();
+QPixmap* Layer::pixmap() {
+    return &m_pixmap;
 }
 
-void Layer::setPixmap(const QSharedPointer<QPixmap>& pixmap) {
+void Layer::setPixmap(const QPixmap& pixmap) {
     m_pixmap = pixmap;
 }

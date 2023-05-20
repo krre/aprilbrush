@@ -1,6 +1,6 @@
 #pragma once
 #include <QUndoCommand>
-#include <QSharedPointer>
+#include <QPixmap>
 
 class QPixmap;
 class Canvas;
@@ -17,5 +17,5 @@ protected:
 private:
     Canvas* m_canvas = nullptr;
     Layer* m_layer = nullptr;
-    QSharedPointer<QPixmap> m_pixmap;
+    QPixmap m_pixmap;
 };
