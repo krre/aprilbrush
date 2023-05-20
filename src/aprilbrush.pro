@@ -3,7 +3,6 @@ QT += widgets gui-private
 CONFIG += c++17
 
 SOURCES += \
-    core/Core.cpp \
     core/EventFilter.cpp \
     core/OpenRaster.cpp \
     core/TabletEventFilter.cpp \
@@ -27,7 +26,6 @@ SOURCES += \
 HEADERS += \
     core/CommonTypes.h \
     core/Constants.h \
-    core/Core.h \
     core/EventFilter.h \
     core/OpenRaster.h \
     core/TabletEventFilter.h \
