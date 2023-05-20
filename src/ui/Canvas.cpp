@@ -7,6 +7,7 @@
 #include "core/EventFilter.h"
 #include "core/OpenRaster.h"
 #include <QtGui>
+#include <ranges>
 
 Canvas::Canvas(const QSize& size, BrushEngine* brushEngine, EventFilter* eventFilter) : m_brushEngine(brushEngine) {
     resize(size);
@@ -68,8 +69,8 @@ void Canvas::exportPng(const QString& filePath) {
     pixmap.fill(Qt::white);
     QPainter painter(&pixmap);
 
-    for (int i = m_layers.count() - 1; i >= 0; i--) {
-        painter.drawPixmap(0, 0, *m_layers.at(i)->pixmap());
+    for (auto& layer : m_layers | std::views::reverse) {
+        painter.drawPixmap(0, 0, *layer->pixmap());
     }
 
     pixmap.save(filePath);
@@ -149,14 +150,14 @@ void Canvas::paintEvent(QPaintEvent* event) {
     Q_UNUSED(event)
     QPainter painter(this);
 
-    for (int i = m_layers.count() - 1; i >= 0; i--) {
-        if (m_currentLayerIndex == i) {
+    for (auto& layer : m_layers | std::views::reverse) {
+        if (m_layers.at(m_currentLayerIndex) == layer.data()) {
             painter.setOpacity(m_brushEngine->opacity() / 100.0);
             painter.drawPixmap(0, 0, m_buffer);
         }
 
         painter.setOpacity(1.0);
-        painter.drawPixmap(0, 0, *m_layers.at(i)->pixmap());
+        painter.drawPixmap(0, 0, *layer->pixmap());
     }
 }
 
@@ -220,8 +221,8 @@ void Canvas::pickColor(const QPointF& pos) {
     pixmap.fill(Qt::white);
     QPainter painter(&pixmap);
 
-    for (int i = m_layers.count() - 1; i >= 0; i--) {
-        painter.drawPixmap(0, 0, *m_layers.at(i)->pixmap());
+    for (auto& layer : m_layers | std::views::reverse) {
+        painter.drawPixmap(0, 0, *layer->pixmap());
     }
 
     emit colorPicked(QColor(pixmap.toImage().pixel(qRound(pos.x()), qRound(pos.y()))));
