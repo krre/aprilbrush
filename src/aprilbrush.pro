@@ -14,6 +14,7 @@ SOURCES += \
     engine/undo/ClearCommand.cpp \
     main.cpp \
     ui/BrushSettings.cpp \
+    ui/BrushSlider.cpp \
     ui/Canvas.cpp \
     ui/CanvasTabWidget.cpp \
     ui/ColorPicker.cpp \
@@ -36,6 +37,7 @@ HEADERS += \
     engine/undo/BrushCommand.h \
     engine/undo/ClearCommand.h \
     ui/BrushSettings.h \
+    ui/BrushSlider.h \
     ui/Canvas.h \
     ui/CanvasTabWidget.h \
     ui/ColorPicker.h \
