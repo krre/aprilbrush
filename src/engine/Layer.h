@@ -18,6 +18,9 @@ public:
     QPixmap* pixmap();
     void setPixmap(const QPixmap& pixmap);
 
+    QByteArray data() const;
+    void setData(QByteArray& data);
+
     void clear();
 
     QByteArray image(const QPoint& topLeft = QPoint(), const QPoint& bottomRight = QPoint());

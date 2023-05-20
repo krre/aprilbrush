@@ -92,3 +92,18 @@ QPixmap* Layer::pixmap() {
 void Layer::setPixmap(const QPixmap& pixmap) {
     m_pixmap = pixmap;
 }
+
+QByteArray Layer::data() const {
+    QByteArray result;
+    QBuffer buffer(&result);
+
+    buffer.open(QIODevice::WriteOnly);
+    m_pixmap.save(&buffer, "PNG");
+    buffer.close();
+
+    return result;
+}
+
+void Layer::setData(QByteArray& data) {
+    m_pixmap.loadFromData(data, "PNG");
+}
