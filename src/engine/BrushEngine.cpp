@@ -28,14 +28,13 @@ QRect BrushEngine::paint(QPixmap* pixmap, const QPointF& point, float pressure) 
     painter.setBrush(QBrush(radialGradient));
 
     QRect rect = QRect();
-    m_topLeft = point.toPoint();
-    m_bottomRight = point.toPoint();
+    m_dabRect = QRect(point.toPoint(), point.toPoint());
 
     if (m_startPoint.isNull()) {
         m_startPoint = point.toPoint();
         m_lastPoint = point.toPoint();
         paintDab(point, painter);
-        rect = QRect(m_topLeft, m_bottomRight);
+        rect = m_dabRect;
     } else {
         qreal length = qSqrt(qPow(m_lastPoint.x() - point.x(), 2) + qPow(m_lastPoint.y() - point.y(), 2));
         qreal delta = m_size * m_spacing / 2.0 / 100.0;
@@ -56,7 +55,7 @@ QRect BrushEngine::paint(QPixmap* pixmap, const QPointF& point, float pressure) 
             }
 
             m_lastPoint = betweenPoint;
-            rect = QRect(m_topLeft, m_bottomRight);
+            rect = m_dabRect;
         }
     }
 
@@ -185,11 +184,10 @@ void BrushEngine::paintDab(const QPointF& point, QPainter& painter) {
     painter.restore();
     rect.moveTo(dubPoint.x() - m_size / 2.0, dubPoint.y() - m_size / 2.0);
 
-    // Detect a min and max corner positions
-    m_topLeft.setX(qMin(m_topLeft.x(), qRound(dubPoint.x())));
-    m_topLeft.setY(qMin(m_topLeft.y(), qRound(dubPoint.y())));
-    m_bottomRight.setX(qMax(m_bottomRight.x(), qRound(dubPoint.x())));
-    m_bottomRight.setY(qMax(m_bottomRight.y(), qRound(dubPoint.y())));
+    m_dabRect = QRect(qMin(m_dabRect.topLeft().x(), qRound(dubPoint.x())),
+                      qMin(m_dabRect.topLeft().y(), qRound(dubPoint.y())),
+                      qMax(m_dabRect.bottomRight().x(), qRound(dubPoint.x())),
+                      qMax(m_dabRect.bottomRight().y(), qRound(dubPoint.y())));
 }
 
 qreal BrushEngine::jitterOffset() {

@@ -69,6 +69,5 @@ private:
 
     QPointF m_startPoint;
     QPointF m_lastPoint;
-    QPoint m_topLeft;
-    QPoint m_bottomRight;
+    QRect m_dabRect;
 };
