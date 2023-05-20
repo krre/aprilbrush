@@ -31,7 +31,7 @@ int main(int argc, char* argv[]) {
 
     auto appTranslator = new QTranslator(&app);
 
-    if (appTranslator->load("app-" + language, ":/i18n")) {
+    if (appTranslator->load("aprilbrush-" + language, ":/i18n")) {
         QCoreApplication::installTranslator(appTranslator);
     }
 

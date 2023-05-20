@@ -51,7 +51,7 @@ RESOURCES += \
 
 DISTFILES += \
     ../Changelog.md \
-    i18n/app-ru.ts \
-    ../README.md
+    ../README.md \
+    i18n/aprilbrush-ru.ts
 
-TRANSLATIONS = i18n/app-ru.ts
+TRANSLATIONS = i18n/aprilbrush-ru.ts
