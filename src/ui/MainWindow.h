@@ -17,17 +17,17 @@ protected:
     void closeEvent(QCloseEvent* event) override;
 
 private slots:
-    void onNew();
-    void onOpen();
-    void onSave();
-    void onSaveAs();
-    void onExport();
+    void createNew();
+    void open();
+    void save();
+    void saveAs();
+    void exportImage();
 
-    void onClear();
+    void clear();
 
-    void onAbout();
-    void onPreferences();
-    void onInputDevice();
+    void showAbout();
+    void showPreferences();
+    void showInputDevice();
 
 private:
     void readSettings();

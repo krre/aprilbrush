@@ -34,7 +34,7 @@ void MainWindow::closeEvent(QCloseEvent* event) {
     event->accept();
 }
 
-void MainWindow::onNew() {
+void MainWindow::createNew() {
     NewImage newImage(m_canvasTabWidget->nextName());
 
     if (newImage.exec() == QDialog::Accepted) {
@@ -42,7 +42,7 @@ void MainWindow::onNew() {
     }
 }
 
-void MainWindow::onOpen() {
+void MainWindow::open() {
     QString filePath = QFileDialog::getOpenFileName(this, tr("Open Image"), QString(), tr("Images (*.ora)"));
 
     if (!filePath.isEmpty()) {
@@ -52,17 +52,17 @@ void MainWindow::onOpen() {
     }
 }
 
-void MainWindow::onSave() {
+void MainWindow::save() {
     Canvas* canvas =  currentCanvas();
 
     if (!canvas->filePath().isEmpty()) {
         canvas->save();
     } else {
-        onSaveAs();
+        saveAs();
     }
 }
 
-void MainWindow::onSaveAs() {
+void MainWindow::saveAs() {
     QString filePath = QFileDialog::getSaveFileName(this, tr("Save Image As"),  currentCanvas()->name() + ".ora", tr("OpenRaster (*.ora)"));
 
     if (!filePath.isEmpty()) {
@@ -73,7 +73,7 @@ void MainWindow::onSaveAs() {
     }
 }
 
-void MainWindow::onExport() {
+void MainWindow::exportImage() {
     QString fileName = currentCanvas()->name() + ".png";
     QString filePath = QFileDialog::getSaveFileName(this, tr("Export Image"), fileName, tr("Images (*.png)"));
 
@@ -82,11 +82,11 @@ void MainWindow::onExport() {
     }
 }
 
-void MainWindow::onClear() {
+void MainWindow::clear() {
     currentCanvas()->clear();
 }
 
-void MainWindow::onAbout() {
+void MainWindow::showAbout() {
     using namespace Const::App;
 
     QMessageBox::about(this, tr("About %1").arg(Name),
@@ -99,7 +99,7 @@ void MainWindow::onAbout() {
            .arg(Name, Version, QT_VERSION_STR, BuildDate, BuildTime, URL, CopyrightLastYear));
 }
 
-void MainWindow::onPreferences() {
+void MainWindow::showPreferences() {
     Preferences preferences;
 
     if (preferences.exec() == QDialog::Accepted) {
@@ -107,7 +107,7 @@ void MainWindow::onPreferences() {
     }
 }
 
-void MainWindow::onInputDevice() {
+void MainWindow::showInputDevice() {
     auto inputDevice = new InputDevice(this);
     connect(m_canvasTabWidget, &CanvasTabWidget::inputDeviceDataChanged, inputDevice, &InputDevice::onDataChanged);
     inputDevice->show();
@@ -134,12 +134,12 @@ void MainWindow::writeSettings() {
 void MainWindow::createActions() {
     // File
     QMenu* fileMenu = menuBar()->addMenu(tr("File"));
-    fileMenu->addAction(tr("New..."), Qt::CTRL | Qt::Key_N, this, &MainWindow::onNew);
-    fileMenu->addAction(tr("Open..."), Qt::CTRL | Qt::Key_O, this, &MainWindow::onOpen);
+    fileMenu->addAction(tr("New..."), Qt::CTRL | Qt::Key_N, this, &MainWindow::createNew);
+    fileMenu->addAction(tr("Open..."), Qt::CTRL | Qt::Key_O, this, &MainWindow::open);
 
-    QAction* saveAction = fileMenu->addAction(tr("Save"), Qt::CTRL | Qt::Key_S, this, &MainWindow::onSave);
-    QAction* saveAsAction = fileMenu->addAction(tr("Save As..."), Qt::CTRL | Qt::SHIFT | Qt::Key_S, this, &MainWindow::onSaveAs);
-    QAction* exportAction = fileMenu->addAction(tr("Export..."), Qt::CTRL | Qt::Key_E, this, &MainWindow::onExport);
+    QAction* saveAction = fileMenu->addAction(tr("Save"), Qt::CTRL | Qt::Key_S, this, &MainWindow::save);
+    QAction* saveAsAction = fileMenu->addAction(tr("Save As..."), Qt::CTRL | Qt::SHIFT | Qt::Key_S, this, &MainWindow::saveAs);
+    QAction* exportAction = fileMenu->addAction(tr("Export..."), Qt::CTRL | Qt::Key_E, this, &MainWindow::exportImage);
     fileMenu->addSeparator();
 
     QAction* closeAction = fileMenu->addAction(tr("Close"), Qt::CTRL | Qt::Key_W, m_canvasTabWidget, &CanvasTabWidget::closeCurrent);
@@ -147,7 +147,7 @@ void MainWindow::createActions() {
     QAction* closeOthersAction = fileMenu->addAction(tr("Close Others"), Qt::CTRL | Qt::ALT | Qt::Key_W, m_canvasTabWidget, &CanvasTabWidget::closeOthers);
 
     fileMenu->addSeparator();
-    fileMenu->addAction(tr("Preferences..."), this, &MainWindow::onPreferences);
+    fileMenu->addAction(tr("Preferences..."), this, &MainWindow::showPreferences);
     fileMenu->addSeparator();
     fileMenu->addAction(tr("Exit"), Qt::CTRL | Qt::Key_Q, this, &QMainWindow::close);
 
@@ -162,18 +162,18 @@ void MainWindow::createActions() {
     redoAction->setShortcuts(QKeySequence::Redo);
     editMenu->addAction(redoAction);
 
-    QAction* clearAction = editMenu->addAction(tr("Clear"), Qt::Key_Delete, this, &MainWindow::onClear);
+    QAction* clearAction = editMenu->addAction(tr("Clear"), Qt::Key_Delete, this, &MainWindow::clear);
 
     // View
     m_viewMenu = menuBar()->addMenu(tr("View"));
 
     // Window
     QMenu* windowMenu = menuBar()->addMenu(tr("Window"));
-    windowMenu->addAction(tr("Input Device..."), this, &MainWindow::onInputDevice);
+    windowMenu->addAction(tr("Input Device..."), this, &MainWindow::showInputDevice);
 
     // Help
     QMenu* helpMenu = menuBar()->addMenu(tr("Help"));
-    helpMenu->addAction(tr("About %1...").arg(Const::App::Name), this, &MainWindow::onAbout);
+    helpMenu->addAction(tr("About %1...").arg(Const::App::Name), this, &MainWindow::showAbout);
 
     connect(m_canvasTabWidget, &CanvasTabWidget::countChanged, this, [=] (int count) {
         saveAction->setEnabled(count);
