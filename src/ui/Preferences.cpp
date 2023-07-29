@@ -1,4 +1,5 @@
 #include "Preferences.h"
+#include "core/Settings.h"
 #include <QtWidgets>
 
 Preferences::Preferences(QWidget* parent) : Dialog (parent) {
@@ -30,27 +31,23 @@ void Preferences::accept() {
 
 
 void Preferences::readSettings() {
-    QSettings settings;
-    QString language = settings.value("language").toString();
+    QString language = Settings::value<General::Language>();
 
-    if (!language.isEmpty()) {
-        int index = m_languageComboBox->findData(language);
+    int index = m_languageComboBox->findData(language);
 
-        if (index != -1) {
-            m_languageComboBox->setCurrentIndex(index);
-        }
+    if (index != -1) {
+        m_languageComboBox->setCurrentIndex(index);
     }
 }
 
 bool Preferences::writeSettings() {
     bool restartRequre = false;
-    QSettings settings;
     QString language = m_languageComboBox->currentData().toString();
 
-    if (language != settings.value("language").toString()) {
+    if (language != Settings::value<General::Language>()) {
         restartRequre = true;
     }
 
-    settings.setValue("language", language);
+    Settings::setValue<General::Language>(language);
     return restartRequre;
 }

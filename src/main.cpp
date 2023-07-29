@@ -1,7 +1,7 @@
 #include "core/Constants.h"
+#include "core/Settings.h"
 #include "ui/MainWindow.h"
 #include <QApplication>
-#include <QSettings>
 #include <QTranslator>
 #include <QLibraryInfo>
 
@@ -16,8 +16,7 @@ int main(int argc, char* argv[]) {
     QSettings::setDefaultFormat(QSettings::IniFormat);
 #endif
 
-    QSettings settings;
-    QString language = settings.value("language").toString();
+    QString language = Settings::value<General::Language>();
 
     if (language.isEmpty()) {
         language = QLocale::system().name().split("_").first();

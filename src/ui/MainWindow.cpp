@@ -8,6 +8,7 @@
 #include "BrushSettings.h"
 #include "core/EventFilter.h"
 #include "core/Constants.h"
+#include "core/Settings.h"
 #include "engine/BrushEngine.h"
 #include <QtWidgets>
 
@@ -114,8 +115,7 @@ void MainWindow::showInputDevice() {
 }
 
 void MainWindow::readSettings() {
-    QSettings settings;
-    QByteArray geometry = settings.value("geometry", QByteArray()).toByteArray();
+    QByteArray geometry = Settings::value<General::Geometry>();
 
     if (geometry.isEmpty()) {
         QSize screenSize = QGuiApplication::screens().constFirst()->size();
@@ -127,8 +127,7 @@ void MainWindow::readSettings() {
 }
 
 void MainWindow::writeSettings() {
-    QSettings settings;
-    settings.setValue("geometry", saveGeometry());
+    Settings::setValue<General::Geometry>(saveGeometry());
 }
 
 void MainWindow::createActions() {

@@ -26,6 +26,7 @@ HEADERS += \
     core/Constants.h \
     core/EventFilter.h \
     core/OpenRaster.h \
+    core/Settings.h \
     engine/BrushEngine.h \
     engine/Layer.h \
     engine/undo/BrushCommand.h \
