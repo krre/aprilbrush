@@ -9,12 +9,12 @@ CanvasTabWidget::CanvasTabWidget(QUndoGroup* undoGroup) : m_undoGroup(undoGroup)
     connect(this, &QTabWidget::currentChanged, this, &CanvasTabWidget::onCurrentChanged);
 }
 
-Canvas* CanvasTabWidget::addCanvas(BrushEngine* brushEngine, EventFilter* eventFilter) {
-    return addCanvas(nextName(), Canvas::defaultSize(), brushEngine, eventFilter);
+Canvas* CanvasTabWidget::addCanvas(BrushEngine* brushEngine) {
+    return addCanvas(nextName(), Canvas::defaultSize(), brushEngine);
 }
 
-Canvas* CanvasTabWidget::addCanvas(const QString& name, const QSize& size, BrushEngine* brushEngine, EventFilter* eventFilter) {
-    Canvas* canvas = new Canvas(size, brushEngine, eventFilter);
+Canvas* CanvasTabWidget::addCanvas(const QString& name, const QSize& size, BrushEngine* brushEngine) {
+    Canvas* canvas = new Canvas(size, brushEngine);
     canvas->setName(name);
     canvas->setFocus();
     connect(canvas, &Canvas::colorPicked, brushEngine, &BrushEngine::setColor);

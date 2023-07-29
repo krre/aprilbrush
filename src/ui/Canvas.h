@@ -11,7 +11,7 @@ class EventFilter;
 class Canvas : public QWidget {
     Q_OBJECT
 public:
-    explicit Canvas(const QSize& size, BrushEngine* brushEngine, EventFilter* eventFilter);
+    explicit Canvas(const QSize& size, BrushEngine* brushEngine);
     ~Canvas();
 
     void setName(const QString& name);
@@ -53,13 +53,13 @@ protected:
     void mousePressEvent(QMouseEvent* event) override;
     void mouseReleaseEvent(QMouseEvent*) override;
 
+    void keyPressEvent(QKeyEvent* event) override;
+    void keyReleaseEvent(QKeyEvent* event) override;
+
     void paintEvent(QPaintEvent* event) override;
 
 private slots:
     void drawCursor(int size);
-
-    void onKeyPressed(QKeyEvent* event);
-    void onKeyReleased(QKeyEvent* event);
 
 private:
     void paintAction(const QPointF& pos);

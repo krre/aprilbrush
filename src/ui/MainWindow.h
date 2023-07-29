@@ -40,7 +40,6 @@ private:
 
     Canvas* currentCanvas() const;
 
-    EventFilter* m_eventFilter = nullptr;
     CanvasTabWidget* m_canvasTabWidget;
     ColorPicker* m_colorPicker = nullptr;
     BrushEngine* m_brushEngine = nullptr;

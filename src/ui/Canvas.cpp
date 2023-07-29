@@ -4,12 +4,11 @@
 #include "engine/Layer.h"
 #include "engine/undo/ClearCommand.h"
 #include "engine/undo/BrushCommand.h"
-#include "core/EventFilter.h"
 #include "core/OpenRaster.h"
 #include <QtGui>
 #include <ranges>
 
-Canvas::Canvas(const QSize& size, BrushEngine* brushEngine, EventFilter* eventFilter) : m_brushEngine(brushEngine) {
+Canvas::Canvas(const QSize& size, BrushEngine* brushEngine) : m_brushEngine(brushEngine) {
     resize(size);
     m_buffer = QPixmap(size);
     m_buffer.fill(Qt::transparent);
@@ -18,9 +17,6 @@ Canvas::Canvas(const QSize& size, BrushEngine* brushEngine, EventFilter* eventFi
     m_undoStack->setUndoLimit(50);
 
     addLayer(nextName());
-
-    connect(eventFilter, &EventFilter::keyPressed, this, &Canvas::onKeyPressed);
-    connect(eventFilter, &EventFilter::keyReleased, this, &Canvas::onKeyReleased);
 
     connect(brushEngine, &BrushEngine::sizeChanged, this, &Canvas::drawCursor);
     drawCursor(brushEngine->size());
@@ -148,6 +144,18 @@ void Canvas::mouseReleaseEvent(QMouseEvent*) {
     update();
 }
 
+void Canvas::keyPressEvent(QKeyEvent* event) {
+    if (event->key() == Qt::Key_Alt) {
+        setCursor(Qt::CrossCursor);
+    }
+}
+
+void Canvas::keyReleaseEvent(QKeyEvent* event) {
+    if (event->key() == Qt::Key_Alt) {
+        drawCursor(m_brushEngine->size());
+    }
+}
+
 void Canvas::paintEvent(QPaintEvent* event [[maybe_unused]]) {
     QPainter painter(this);
 
@@ -177,18 +185,6 @@ void Canvas::drawCursor(int size) {
    painter.drawEllipse(1, 1, sizeBrush - 2, sizeBrush - 2);
 
    setCursor(QCursor(pixmap));
-}
-
-void Canvas::onKeyPressed(QKeyEvent* event) {
-    if (event->key() == Qt::Key_Alt) {
-        setCursor(Qt::CrossCursor);
-    }
-}
-
-void Canvas::onKeyReleased(QKeyEvent* event) {
-    if (event->key() == Qt::Key_Alt) {
-        drawCursor(m_brushEngine->size());
-    }
 }
 
 void Canvas::paintAction(const QPointF& pos) {

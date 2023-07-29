@@ -13,8 +13,8 @@ class CanvasTabWidget : public QTabWidget {
 public:
     CanvasTabWidget(QUndoGroup* undoGroup);
 
-    Canvas* addCanvas(BrushEngine* brushEngine, EventFilter* eventFilter);
-    Canvas* addCanvas(const QString& name, const QSize& size, BrushEngine* brushEngine, EventFilter* eventFilter);
+    Canvas* addCanvas(BrushEngine* brushEngine);
+    Canvas* addCanvas(const QString& name, const QSize& size, BrushEngine* brushEngine);
 
     QString nextName();
 

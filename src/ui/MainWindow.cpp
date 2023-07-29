@@ -6,7 +6,6 @@
 #include "InputDevice.h"
 #include "ColorPicker.h"
 #include "BrushSettings.h"
-#include "core/EventFilter.h"
 #include "core/Constants.h"
 #include "core/Settings.h"
 #include "engine/BrushEngine.h"
@@ -14,9 +13,6 @@
 
 MainWindow::MainWindow(QWidget* parent) : QMainWindow(parent) {
     setAutoFillBackground(true);
-
-    m_eventFilter = new EventFilter(this);
-    qApp->installEventFilter(m_eventFilter);
 
     m_undoGroup = new QUndoGroup(this);
     m_brushEngine = new BrushEngine(this);
@@ -27,7 +23,7 @@ MainWindow::MainWindow(QWidget* parent) : QMainWindow(parent) {
     createActions();
     createUi();
     readSettings();
-    m_canvasTabWidget->addCanvas(m_brushEngine, m_eventFilter);
+    m_canvasTabWidget->addCanvas(m_brushEngine);
 }
 
 void MainWindow::closeEvent(QCloseEvent* event) {
@@ -39,7 +35,7 @@ void MainWindow::createNew() {
     NewImage newImage(m_canvasTabWidget->nextName());
 
     if (newImage.exec() == QDialog::Accepted) {
-        m_canvasTabWidget->addCanvas(newImage.name(), newImage.size(), m_brushEngine, m_eventFilter);
+        m_canvasTabWidget->addCanvas(newImage.name(), newImage.size(), m_brushEngine);
     }
 }
 
@@ -47,7 +43,7 @@ void MainWindow::open() {
     QString filePath = QFileDialog::getOpenFileName(this, tr("Open Image"), QString(), tr("Images (*.ora)"));
 
     if (!filePath.isEmpty()) {
-        Canvas* canvas = m_canvasTabWidget->addCanvas(QString(), QSize(), m_brushEngine, m_eventFilter);
+        Canvas* canvas = m_canvasTabWidget->addCanvas(QString(), QSize(), m_brushEngine);
         canvas->open(filePath);
         m_canvasTabWidget->setTabText(m_canvasTabWidget->currentIndex(), canvas->name());
     }

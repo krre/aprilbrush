@@ -3,7 +3,6 @@ QT += widgets gui-private
 CONFIG += c++20
 
 SOURCES += \
-    core/EventFilter.cpp \
     core/OpenRaster.cpp \
     engine/BrushEngine.cpp \
     engine/Layer.cpp \
@@ -24,7 +23,6 @@ SOURCES += \
 HEADERS += \
     core/CommonTypes.h \
     core/Constants.h \
-    core/EventFilter.h \
     core/OpenRaster.h \
     core/Settings.h \
     engine/BrushEngine.h \
