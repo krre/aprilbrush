@@ -28,5 +28,5 @@ private:
     QLabel* m_posX = nullptr;
     QLabel* m_posY = nullptr;
     QLabel* m_pressure = nullptr;
-    Canvas* m_canvas;
+    Canvas* m_canvas = nullptr;
 };
