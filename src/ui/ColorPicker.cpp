@@ -87,10 +87,7 @@ void ColorPicker::drawTriangle() {
     // Transparent square
     image.fill(QColor(0, 0, 0, 0));
 
-    QPolygonF polygon;
-    polygon << QPointF(m_innerRadius * 2, m_innerRadius)
-            << QPointF(m_innerRadius / 2, m_innerRadius - m_edgeTriangle / 2)
-            << QPointF(m_innerRadius / 2, m_innerRadius + m_edgeTriangle / 2);
+    QPolygonF polygon { QPointF(m_innerRadius * 2, m_innerRadius), QPointF(m_innerRadius / 2, m_innerRadius - m_edgeTriangle / 2), QPointF(m_innerRadius / 2, m_innerRadius + m_edgeTriangle / 2) };
 
     // Painting the black opacity triangle on the square
     QPainter painter(&image);
@@ -159,8 +156,7 @@ void ColorPicker::paintTriangle() {
     painter.setBrush(QBrush(triangleHueColor));
     painter.setPen(Qt::NoPen);
 
-    QPolygonF polygon;
-    polygon << QPointF(m_innerRadius, 0) << QPointF(-m_innerRadius / 2, -m_edgeTriangle / 2) << QPointF(-m_innerRadius / 2, m_edgeTriangle / 2);
+    QPolygonF polygon { QPointF(m_innerRadius, 0), QPointF(-m_innerRadius / 2, -m_edgeTriangle / 2), QPointF(-m_innerRadius / 2, m_edgeTriangle / 2) };
     // Painting the hue-color triangle
     painter.drawPolygon(polygon);
     // Painting the alpha-mask triangle above hue-color triangle
