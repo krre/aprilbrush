@@ -95,8 +95,8 @@ void MainWindow::showAbout() {
            "Based on Qt %3<br>"
            "Build on %4 %5<br><br>"
            "<a href=%6>%6</a><br><br>"
-           "Copyright © 2012-%7, Vladimir Zarypov")
-           .arg(Name, Version, QT_VERSION_STR, BuildDate, BuildTime, URL, CopyrightLastYear));
+           "Copyright © %7, Vladimir Zarypov")
+                              .arg(Name, Version, QT_VERSION_STR, BuildDate, BuildTime, URL, CopyrightYear));
 }
 
 void MainWindow::showPreferences() {
