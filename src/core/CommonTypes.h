@@ -3,4 +3,4 @@
 
 class Layer;
 
-using Layers = QVector<QSharedPointer<Layer>>;
+using Layers = QList<QSharedPointer<Layer>>;
