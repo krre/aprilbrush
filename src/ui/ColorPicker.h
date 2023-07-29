@@ -17,34 +17,35 @@ public slots:
     void setColor(const QColor& color);
 
 protected:
-    void resizeEvent(QResizeEvent*);
-    void paintEvent(QPaintEvent*);
-    void mousePressEvent(QMouseEvent* event);
-    void mouseReleaseEvent(QMouseEvent*);
-    void mouseMoveEvent(QMouseEvent* event);
+    void resizeEvent(QResizeEvent*) override;
+    void paintEvent(QPaintEvent*) override;
+
+    void mousePressEvent(QMouseEvent* event) override;
+    void mouseReleaseEvent(QMouseEvent*) override;
+    void mouseMoveEvent(QMouseEvent* event) override;
 
 private:
-    void drawWheel();
-    void paintWheel();
-    void drawTriangle();
-    void paintTriangle();
+    QPixmap drawWheel() const;
+    QPixmap drawTriangle() const;
     void drawWheelSelector();
     void drawTriangleSelector();
-    QColor coordToColor(const QPoint& coord);
-    QPoint colorToCoord(const QColor& color);
 
-    QColor m_backgroundColor = QPalette().color(QPalette::Window);
-    qreal m_scaleInnerWheel = 0.8;
-    qreal m_edgeTriangle;
-    int m_diameterWheel;
-    int m_innerRadius;
-    int m_outerRadius;
-    qreal m_hueAngle = M_PI_2;
-    qreal m_satValAngle;
-    qreal m_hueColor;
+    void paintTriangle();
+    void paintWheel();
+
+    QColor backGroundColor() const;
+    QSize wheelSize() const;
+    int outerRadius() const;
+    int innerRadius() const;
+    qreal triangleEdgeLength() const;
+
+    void setHueAngle(qreal angle);
+
+    QColor coordToColor(const QPoint& coord) const;
+    QPoint colorToCoord(const QColor& color) const;
+
     bool m_hueGrab = false;
     bool m_satValGrab = false;
-    QPointF m_triangleSelectorPoint;
     QColor m_color;
 
     QPixmapCache::Key m_wheelKey;
