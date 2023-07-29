@@ -231,9 +231,9 @@ void Canvas::pickColor(const QPointF& pos) {
 
 QRect Canvas::clipBound(const QRect& bound) {
     // Correct corner positions on brush size
-    int burhsSize = m_brushEngine->size();
-    QPoint topLeft(bound.topLeft().x() - burhsSize, bound.topLeft().y() - burhsSize);
-    QPoint bottomRight(bound.bottomRight().x() + burhsSize, bound.bottomRight().y() + burhsSize);
+    int brushSize = m_brushEngine->size();
+    QPoint topLeft(bound.topLeft().x() - brushSize, bound.topLeft().y() - brushSize);
+    QPoint bottomRight(bound.bottomRight().x() + brushSize, bound.bottomRight().y() + brushSize);
 
     // Bound to canvas size
     topLeft.setX(qMax(0, topLeft.x()));
