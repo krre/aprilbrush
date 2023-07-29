@@ -67,17 +67,17 @@ Layers OpenRaster::read(const QString& filePath) {
     while (!stream.atEnd()) {
         if (stream.isStartElement()) {
             if (stream.name().toString() == "layer") {
-                QSharedPointer<Layer> layer(new Layer("", QSize()));
-
-                layer->setName(stream.attributes().value("name").toString());
-                layer->setVisible(QVariant(stream.attributes().value("visibility").toString()).toBool());
-                layer->setLocked(QVariant(stream.attributes().value("edit-locked").toString()).toBool());
-                layer->setSelected(QVariant(stream.attributes().value("selected").toString()).toBool());
+                QString name = stream.attributes().value("name").toString();
 
                 QByteArray data = zipReader.fileData(stream.attributes().value("src").toString());
                 QPixmap pixmap;
                 pixmap.loadFromData(data, "PNG");
-                layer->setPixmap(pixmap);
+
+                QSharedPointer<Layer> layer(new Layer(name, pixmap));
+
+                layer->setVisible(QVariant(stream.attributes().value("visibility").toString()).toBool());
+                layer->setLocked(QVariant(stream.attributes().value("edit-locked").toString()).toBool());
+                layer->setSelected(QVariant(stream.attributes().value("selected").toString()).toBool());
 
                 result.append(layer);
             }

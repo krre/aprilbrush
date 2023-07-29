@@ -10,6 +10,11 @@ Layer::Layer(const QString& name, const QSize& size) {
     }
 }
 
+Layer::Layer(const QString& name, const QPixmap& pixmap) {
+    setName(name);
+    setPixmap(pixmap);
+}
+
 void Layer::setName(const QString& name) {
     m_name = name;
 }

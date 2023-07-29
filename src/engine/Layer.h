@@ -6,6 +6,7 @@
 class Layer {
 public:
     Layer(const QString& name, const QSize& size);
+    Layer(const QString& name, const QPixmap& pixmap);
 
     void setName(const QString& name);
     const QString& name() const;
