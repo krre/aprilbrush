@@ -1,6 +1,6 @@
 #pragma once
-#include <QSharedPointer>
+#include <QList>
 
 class Layer;
 
-using Layers = QList<QSharedPointer<Layer>>;
+using Layers = QList<Layer>;

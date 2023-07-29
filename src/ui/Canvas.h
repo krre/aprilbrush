@@ -12,6 +12,7 @@ class Canvas : public QWidget {
     Q_OBJECT
 public:
     explicit Canvas(const QSize& size, BrushEngine* brushEngine, EventFilter* eventFilter);
+    ~Canvas();
 
     void setName(const QString& name);
     const QString& name() const;
@@ -28,7 +29,6 @@ public:
     void exportPng(const QString& filePath);
 
     void addLayer(const QString& name = QString());
-    void addLayer(const QSharedPointer<Layer>& layer);
 
     void select();
     void unselect();
@@ -38,7 +38,7 @@ public:
     void setCurrentLayerIndex(int index);
     int currentLayerIndex() const;
 
-    Layer* currentLayer() const;
+    Layer* currentLayer();
 
     QString nextName();
 

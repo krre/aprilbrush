@@ -26,22 +26,22 @@ void OpenRaster::write(const QString& filePath, const QSize& size, const Layers&
     stream.writeStartElement("stack");
 
     for (const auto& layer : layers) {
-        QString src = "data/" + layer->name() + ".png";
+        QString src = "data/" + layer.name() + ".png";
 
         QByteArray data;
         QBuffer buffer(&data);
         buffer.open(QIODevice::WriteOnly);
-        layer->pixmap()->save(&buffer, "PNG");
+        layer.refPixmap().save(&buffer, "PNG");
         buffer.close();
         zipWriter.addFile(src, data);
 
         // layer
         stream.writeStartElement("layer");
-        stream.writeAttribute("name", layer->name());
+        stream.writeAttribute("name", layer.name());
         stream.writeAttribute("composite-op", "svg:src-over");
-        stream.writeAttribute("visibility", layer->isVisible() ? "visible" : "hidden");
-        stream.writeAttribute("edit-locked", QVariant(layer->isLocked()).toString());
-        stream.writeAttribute("selected", QVariant(layer->isSelected()).toString());
+        stream.writeAttribute("visibility", layer.isVisible() ? "visible" : "hidden");
+        stream.writeAttribute("edit-locked", QVariant(layer.isLocked()).toString());
+        stream.writeAttribute("selected", QVariant(layer.isSelected()).toString());
         stream.writeAttribute("src", src);
         stream.writeAttribute("x", "0");
         stream.writeAttribute("y", "0");
@@ -73,13 +73,13 @@ Layers OpenRaster::read(const QString& filePath) {
                 QPixmap pixmap;
                 pixmap.loadFromData(data, "PNG");
 
-                QSharedPointer<Layer> layer(new Layer(name, pixmap));
+                Layer layer(name, pixmap);
 
-                layer->setVisible(QVariant(stream.attributes().value("visibility").toString()).toBool());
-                layer->setLocked(QVariant(stream.attributes().value("edit-locked").toString()).toBool());
-                layer->setSelected(QVariant(stream.attributes().value("selected").toString()).toBool());
+                layer.setVisible(QVariant(stream.attributes().value("visibility").toString()).toBool());
+                layer.setLocked(QVariant(stream.attributes().value("edit-locked").toString()).toBool());
+                layer.setSelected(QVariant(stream.attributes().value("selected").toString()).toBool());
 
-                result.append(layer);
+                result.append(std::move(layer));
             }
         }
 

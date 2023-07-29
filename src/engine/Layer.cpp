@@ -59,6 +59,10 @@ QPixmap* Layer::pixmap() {
     return &m_pixmap;
 }
 
+const QPixmap& Layer::refPixmap() const {
+    return m_pixmap;
+}
+
 void Layer::setPixmap(const QPixmap& pixmap) {
     m_pixmap = pixmap;
 }

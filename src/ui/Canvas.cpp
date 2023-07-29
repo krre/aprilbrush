@@ -26,6 +26,10 @@ Canvas::Canvas(const QSize& size, BrushEngine* brushEngine, EventFilter* eventFi
     drawCursor(brushEngine->size());
 }
 
+Canvas::~Canvas() {
+
+}
+
 void Canvas::setName(const QString& name) {
     m_name = name;
 }
@@ -68,20 +72,16 @@ void Canvas::exportPng(const QString& filePath) {
     QPainter painter(&pixmap);
 
     for (auto& layer : m_layers | std::views::reverse) {
-        painter.drawPixmap(0, 0, *layer->pixmap());
+        painter.drawPixmap(0, 0, *layer.pixmap());
     }
 
     pixmap.save(filePath);
 }
 
 void Canvas::addLayer(const QString& name) {
-    auto newLayer = QSharedPointer<Layer>(new Layer(name, size()));
-    m_layers.append(newLayer);
+    Layer layer(name, size());
+    m_layers.append(std::move(layer));
     m_currentLayerIndex = m_layers.count() - 1;
-}
-
-void Canvas::addLayer(const QSharedPointer<Layer>& layer) {
-    Q_UNUSED(layer)
 }
 
 void Canvas::select() {
@@ -104,8 +104,8 @@ int Canvas::currentLayerIndex() const {
     return m_currentLayerIndex;
 }
 
-Layer* Canvas::currentLayer() const {
-    return m_currentLayerIndex >= 0 ? m_layers.at(m_currentLayerIndex).data() : nullptr;
+Layer* Canvas::currentLayer() {
+    return m_currentLayerIndex >= 0 ? &m_layers[m_currentLayerIndex] : nullptr;
 }
 
 QString Canvas::nextName() {
@@ -148,18 +148,17 @@ void Canvas::mouseReleaseEvent(QMouseEvent*) {
     update();
 }
 
-void Canvas::paintEvent(QPaintEvent* event) {
-    Q_UNUSED(event)
+void Canvas::paintEvent(QPaintEvent* event [[maybe_unused]]) {
     QPainter painter(this);
 
-    for (auto& layer : m_layers | std::views::reverse) {
-        if (m_layers.at(m_currentLayerIndex) == layer.data()) {
+    for (int i = m_layers.count() - 1; i >= 0; i--) {
+        if (m_currentLayerIndex == i) {
             painter.setOpacity(m_brushEngine->opacity() / 100.0);
             painter.drawPixmap(0, 0, m_buffer);
         }
 
         painter.setOpacity(1.0);
-        painter.drawPixmap(0, 0, *layer->pixmap());
+        painter.drawPixmap(0, 0, *m_layers[i].pixmap());
     }
 }
 
@@ -224,7 +223,7 @@ void Canvas::pickColor(const QPointF& pos) {
     QPainter painter(&pixmap);
 
     for (auto& layer : m_layers | std::views::reverse) {
-        painter.drawPixmap(0, 0, *layer->pixmap());
+        painter.drawPixmap(0, 0, *layer.pixmap());
     }
 
     emit colorPicked(QColor(pixmap.toImage().pixel(qRound(pos.x()), qRound(pos.y()))));
