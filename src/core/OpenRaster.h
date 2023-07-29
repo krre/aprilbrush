@@ -3,9 +3,7 @@
 
 class OpenRaster {
 public:
-    OpenRaster();
-
-    void write(const QString& filePath, const QSize& size, const Layers& layers);
-    Layers read(const QString& filePath);
+    static void write(const QString& filePath, const QSize& size, const Layers& layers);
+    static Layers read(const QString& filePath);
 };
 

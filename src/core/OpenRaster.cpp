@@ -4,10 +4,6 @@
 #include <QtGui/private/qzipreader_p.h>
 #include <QtGui>
 
-OpenRaster::OpenRaster() {
-
-}
-
 void OpenRaster::write(const QString& filePath, const QSize& size, const Layers& layers) {
     QZipWriter zipWriter(filePath);
     zipWriter.setCompressionPolicy(QZipWriter::AutoCompress);

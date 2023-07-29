@@ -52,13 +52,11 @@ QUndoStack* Canvas::undoStack() const {
 }
 
 void Canvas::save() {
-    OpenRaster openRaster;
-    openRaster.write(m_filePath, size(), m_layers);
+    OpenRaster::write(m_filePath, size(), m_layers);
 }
 
 void Canvas::open(const QString& filePath) {
-    OpenRaster openRaster;
-    m_layers = openRaster.read(filePath);
+    m_layers = OpenRaster::read(filePath);
 
     m_filePath = filePath;
     m_name = filePathToName(filePath);
