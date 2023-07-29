@@ -34,5 +34,5 @@ private:
     void closeByIndex(int index);
 
     int m_maxTabCount = 1;
-    QUndoGroup* m_undoGroup;
+    QUndoGroup* m_undoGroup = nullptr;
 };
