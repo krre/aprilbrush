@@ -11,13 +11,13 @@ public:
     const QString& name() const;
 
     const QSize& size() const;
-    void setSize(QSize size);
+    void setSize(const QSize& size);
 
     QPixmap* pixmap();
     void setPixmap(const QPixmap& pixmap);
 
     QByteArray data() const;
-    void setData(QByteArray& data);
+    void setData(const QByteArray& data);
 
     void clear();
 

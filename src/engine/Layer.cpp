@@ -18,7 +18,7 @@ const QSize& Layer::size() const {
     return m_size;
 }
 
-void Layer::setSize(QSize size) {
+void Layer::setSize(const QSize& size) {
     m_size = size;
 
     if (size.width() && size.height()) {
@@ -104,6 +104,6 @@ QByteArray Layer::data() const {
     return result;
 }
 
-void Layer::setData(QByteArray& data) {
+void Layer::setData(const QByteArray& data) {
     m_pixmap.loadFromData(data, "PNG");
 }
