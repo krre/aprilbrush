@@ -15,9 +15,6 @@ public:
     QPixmap* pixmap();
     void setPixmap(const QPixmap& pixmap);
 
-    QByteArray data() const;
-    void setData(const QByteArray& data);
-
     void clear();
 
     void setVisible(bool visible);

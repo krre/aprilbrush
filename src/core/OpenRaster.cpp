@@ -27,7 +27,13 @@ void OpenRaster::write(const QString& filePath, const QSize& size, const Layers&
 
     for (const auto& layer : layers) {
         QString src = "data/" + layer->name() + ".png";
-        zipWriter.addFile(src, layer->data());
+
+        QByteArray data;
+        QBuffer buffer(&data);
+        buffer.open(QIODevice::WriteOnly);
+        layer->pixmap()->save(&buffer, "PNG");
+        buffer.close();
+        zipWriter.addFile(src, data);
 
         // layer
         stream.writeStartElement("layer");
@@ -69,7 +75,9 @@ Layers OpenRaster::read(const QString& filePath) {
                 layer->setSelected(QVariant(stream.attributes().value("selected").toString()).toBool());
 
                 QByteArray data = zipReader.fileData(stream.attributes().value("src").toString());
-                layer->setData(data);
+                QPixmap pixmap;
+                pixmap.loadFromData(data, "PNG");
+                layer->setPixmap(pixmap);
 
                 result.append(layer);
             }
