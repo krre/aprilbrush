@@ -7,10 +7,9 @@
 
 int main(int argc, char* argv[]) {
     QApplication app(argc, argv);
-
-    QApplication::setOrganizationName(Const::App::Name);
-    QApplication::setApplicationName(Const::App::Name);
-    QApplication::setApplicationVersion(Const::App::Version);
+    app.setOrganizationName(Const::App::Name);
+    app.setApplicationName(Const::App::Name);
+    app.setApplicationVersion(Const::App::Version);
 
 #ifdef Q_OS_WIN
     QSettings::setDefaultFormat(QSettings::IniFormat);
@@ -25,13 +24,13 @@ int main(int argc, char* argv[]) {
     auto qtTranslator = new QTranslator(&app);
 
     if (qtTranslator->load("qt_" + language, QLibraryInfo::path(QLibraryInfo::TranslationsPath))) {
-        QCoreApplication::installTranslator(qtTranslator);
+        app.installTranslator(qtTranslator);
     }
 
     auto appTranslator = new QTranslator(&app);
 
     if (appTranslator->load("aprilbrush-" + language, ":/i18n")) {
-        QCoreApplication::installTranslator(appTranslator);
+        app.installTranslator(appTranslator);
     }
 
     MainWindow mainWindow;
