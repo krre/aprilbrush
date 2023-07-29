@@ -20,9 +20,6 @@ public:
 
     void clear();
 
-    QByteArray image(const QPoint& topLeft = QPoint(), const QPoint& bottomRight = QPoint());
-    void setImage(const QByteArray& image, const QPoint& topLeft = QPoint());
-
     void setVisible(bool visible);
     bool isVisible() const;
 

@@ -26,36 +26,6 @@ void Layer::clear() {
     m_pixmap.fill(Qt::transparent);
 }
 
-QByteArray Layer::image(const QPoint& topLeft, const QPoint& bottomRight) {
-    QByteArray result;
-    QBuffer buffer(&result);
-    buffer.open(QIODevice::WriteOnly);
-
-    if (topLeft.isNull()) {
-        m_pixmap.save(&buffer, "TIFF");
-    } else {
-        m_pixmap.copy(QRect(topLeft, bottomRight)).save(&buffer, "TIFF");
-    }
-
-    buffer.close();
-    return result;
-}
-
-void Layer::setImage(const QByteArray& image, const QPoint& topLeft) {
-    if (topLeft.isNull()) {
-        m_pixmap.loadFromData(image);
-    } else {
-        QPixmap pixmap;
-        pixmap.loadFromData(image);
-
-        QPainter painter(&m_pixmap);
-        painter.setCompositionMode(QPainter::CompositionMode_Source);
-        painter.fillRect(QRect(topLeft, pixmap.size()), Qt::transparent);
-        painter.setCompositionMode(QPainter::CompositionMode_SourceOver);
-        painter.drawPixmap(topLeft, pixmap);
-    }
-}
-
 void Layer::setVisible(bool visible) {
     m_visible = visible;
 }
