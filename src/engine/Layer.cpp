@@ -3,7 +3,11 @@
 
 Layer::Layer(const QString& name, const QSize& size) {
     setName(name);
-    setSize(size);
+
+    if (size.isValid()) {
+        m_pixmap = QPixmap(size);
+        clear();
+    }
 }
 
 void Layer::setName(const QString& name) {
@@ -14,17 +18,8 @@ const QString& Layer::name() const {
     return m_name;
 }
 
-const QSize& Layer::size() const {
-    return m_size;
-}
-
-void Layer::setSize(const QSize& size) {
-    m_size = size;
-
-    if (size.width() && size.height()) {
-        m_pixmap = QPixmap(size);
-        m_pixmap.fill(Qt::transparent);
-    }
+QSize Layer::size() const {
+    return m_pixmap.size();
 }
 
 void Layer::clear() {

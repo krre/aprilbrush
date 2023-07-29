@@ -10,8 +10,7 @@ public:
     void setName(const QString& name);
     const QString& name() const;
 
-    const QSize& size() const;
-    void setSize(const QSize& size);
+    QSize size() const;
 
     QPixmap* pixmap();
     void setPixmap(const QPixmap& pixmap);
@@ -35,7 +34,6 @@ public:
 
 private:
     QString m_name;
-    QSize m_size;
     QPixmap m_pixmap;
     bool m_visible = true;
     bool m_locked = false;
