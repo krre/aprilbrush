@@ -1,5 +1,5 @@
 #include "NewImage.h"
-#include "core/Utils.h"
+#include "Canvas.h"
 #include <QtWidgets>
 
 NewImage::NewImage(const QString& name, QWidget* parent) : Dialog(parent) {
@@ -47,7 +47,7 @@ void NewImage::accept() {
 }
 
 void NewImage::resetSize() {
-    QSize canvasSize = Utils::defaultCanvasSize();
+    QSize canvasSize = Canvas::defaultSize();
     m_widthSpinBox->setValue(canvasSize.width());
     m_heightSpinBox->setValue(canvasSize.height());
 }

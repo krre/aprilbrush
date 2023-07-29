@@ -42,6 +42,8 @@ public:
 
     QString nextName();
 
+    static QSize defaultSize();
+
 signals:
     void colorPicked(const QColor& color);
     void inputDeviceDataChanged(const InputDevice::Data& data);

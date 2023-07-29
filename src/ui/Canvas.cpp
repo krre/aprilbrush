@@ -114,6 +114,10 @@ QString Canvas::nextName() {
     return tr("Untitled-%1").arg(m_maxTabCount++);
 }
 
+QSize Canvas::defaultSize() {
+    return QGuiApplication::screens().constFirst()->size();
+}
+
 void Canvas::mouseMoveEvent(QMouseEvent* event) {
     if (pickPressed()) {
         pickColor(event->position());

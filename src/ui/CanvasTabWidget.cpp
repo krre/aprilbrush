@@ -1,6 +1,5 @@
 #include "CanvasTabWidget.h"
 #include "Canvas.h"
-#include "core/Utils.h"
 #include "engine/BrushEngine.h"
 #include <QtWidgets>
 
@@ -11,7 +10,7 @@ CanvasTabWidget::CanvasTabWidget(QUndoGroup* undoGroup) : m_undoGroup(undoGroup)
 }
 
 Canvas* CanvasTabWidget::addCanvas(BrushEngine* brushEngine, EventFilter* eventFilter) {
-    return addCanvas(nextName(), Utils::defaultCanvasSize(), brushEngine, eventFilter);
+    return addCanvas(nextName(), Canvas::defaultSize(), brushEngine, eventFilter);
 }
 
 Canvas* CanvasTabWidget::addCanvas(const QString& name, const QSize& size, BrushEngine* brushEngine, EventFilter* eventFilter) {

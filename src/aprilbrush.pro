@@ -6,7 +6,6 @@ SOURCES += \
     core/EventFilter.cpp \
     core/OpenRaster.cpp \
     core/TabletEventFilter.cpp \
-    core/Utils.cpp \
     engine/BrushEngine.cpp \
     engine/Layer.cpp \
     engine/undo/BrushCommand.cpp \
@@ -29,7 +28,6 @@ HEADERS += \
     core/EventFilter.h \
     core/OpenRaster.h \
     core/TabletEventFilter.h \
-    core/Utils.h \
     engine/BrushEngine.h \
     engine/Layer.h \
     engine/undo/BrushCommand.h \
