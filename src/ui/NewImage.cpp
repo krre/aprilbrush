@@ -58,11 +58,11 @@ void NewImage::onNameChanged(const QString& text) {
 
 void NewImage::readSettings() {
     QSettings settings;
-    settings.beginGroup("NewImage");
+    QSize size = settings.value("NewImage/size").toSize();
 
-    if (settings.contains("width")) {
-        m_widthSpinBox->setValue(settings.value("width").toInt());
-        m_heightSpinBox->setValue(settings.value("height").toInt());
+    if (size.isValid()) {
+        m_widthSpinBox->setValue(size.width());
+        m_heightSpinBox->setValue(size.height());
     } else {
         resetSize();
     }
@@ -70,9 +70,7 @@ void NewImage::readSettings() {
 
 void NewImage::writeSettings() {
     QSettings settings;
-    settings.beginGroup("NewImage");
-    settings.setValue("width", m_widthSpinBox->value());
-    settings.setValue("height", m_heightSpinBox->value());
+    settings.setValue("NewImage/size", QSize(m_widthSpinBox->value(), m_heightSpinBox->value()));
 }
 
 void NewImage::setupSpinBox(QSpinBox* spinBox) {
