@@ -86,27 +86,3 @@ Layers OpenRaster::read(const QString& filePath) {
 
     return result;
 }
-
-QVariantMap OpenRaster::readAttr(const QString& filePath) {
-    QVariantMap result;
-
-    QZipReader zipReader(filePath, QIODevice::ReadOnly);
-
-    QByteArray xmlByteArray = zipReader.fileData("stack.xml");
-    QXmlStreamReader stream(xmlByteArray);
-
-    while (!stream.atEnd()) {
-        if (stream.isStartElement()) {
-            if (stream.name().toString() == "image") {
-                for (int i = 0; i < stream.attributes().size(); i++) {
-                    result[stream.attributes().at(i).name().toString()] = stream.attributes().at(i).value().toString();
-                }
-            }
-        }
-        stream.readNextStartElement();
-    }
-
-    zipReader.close();
-
-    return result;
-}
