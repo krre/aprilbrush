@@ -11,10 +11,10 @@ class EventFilter;
 class CanvasTabWidget : public QTabWidget {
     Q_OBJECT
 public:
-    CanvasTabWidget(QUndoGroup* undoGroup);
+    CanvasTabWidget(BrushEngine* brushEngine, QUndoGroup* undoGroup);
 
-    Canvas* addCanvas(BrushEngine* brushEngine);
-    Canvas* addCanvas(const QString& name, const QSize& size, BrushEngine* brushEngine);
+    Canvas* addCanvas();
+    Canvas* addCanvas(const QString& name, const QSize& size);
 
     QString nextName();
 
@@ -33,6 +33,7 @@ private slots:
 private:
     void closeByIndex(int index);
 
-    int m_maxTabCount = 1;
+    BrushEngine* m_brushEngine = nullptr;
     QUndoGroup* m_undoGroup = nullptr;
+    int m_maxTabCount = 1;
 };

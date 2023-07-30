@@ -3,21 +3,22 @@
 #include "engine/BrushEngine.h"
 #include <QtWidgets>
 
-CanvasTabWidget::CanvasTabWidget(QUndoGroup* undoGroup) : m_undoGroup(undoGroup) {
+CanvasTabWidget::CanvasTabWidget(BrushEngine* brushEngine, QUndoGroup* undoGroup) :
+        m_brushEngine(brushEngine), m_undoGroup(undoGroup) {
     setTabsClosable(true);
     connect(this, &QTabWidget::tabCloseRequested, this, &CanvasTabWidget::closeByIndex);
     connect(this, &QTabWidget::currentChanged, this, &CanvasTabWidget::onCurrentChanged);
 }
 
-Canvas* CanvasTabWidget::addCanvas(BrushEngine* brushEngine) {
-    return addCanvas(nextName(), Canvas::defaultSize(), brushEngine);
+Canvas* CanvasTabWidget::addCanvas() {
+    return addCanvas(nextName(), Canvas::defaultSize());
 }
 
-Canvas* CanvasTabWidget::addCanvas(const QString& name, const QSize& size, BrushEngine* brushEngine) {
-    Canvas* canvas = new Canvas(size, brushEngine);
+Canvas* CanvasTabWidget::addCanvas(const QString& name, const QSize& size) {
+    Canvas* canvas = new Canvas(size, m_brushEngine);
     canvas->setName(name);
     canvas->setFocus();
-    connect(canvas, &Canvas::colorPicked, brushEngine, &BrushEngine::setColor);
+    connect(canvas, &Canvas::colorPicked, m_brushEngine, &BrushEngine::setColor);
 
     addTab(canvas, name);
     setCurrentIndex(count() - 1);

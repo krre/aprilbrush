@@ -16,14 +16,15 @@ MainWindow::MainWindow(QWidget* parent) : QMainWindow(parent) {
 
     m_undoGroup = new QUndoGroup(this);
     m_brushEngine = new BrushEngine(this);
+    m_canvasTabWidget = new CanvasTabWidget(m_brushEngine, m_undoGroup);
 
-    m_canvasTabWidget = new CanvasTabWidget(m_undoGroup);
     setCentralWidget(m_canvasTabWidget);
 
     createActions();
     createUi();
     readSettings();
-    m_canvasTabWidget->addCanvas(m_brushEngine);
+
+    m_canvasTabWidget->addCanvas();
 }
 
 void MainWindow::closeEvent(QCloseEvent* event) {
@@ -35,7 +36,7 @@ void MainWindow::createNew() {
     NewImage newImage(m_canvasTabWidget->nextName());
 
     if (newImage.exec() == QDialog::Accepted) {
-        m_canvasTabWidget->addCanvas(newImage.name(), newImage.size(), m_brushEngine);
+        m_canvasTabWidget->addCanvas(newImage.name(), newImage.size());
     }
 }
 
@@ -43,7 +44,7 @@ void MainWindow::open() {
     QString filePath = QFileDialog::getOpenFileName(this, tr("Open Image"), QString(), tr("Images (*.ora)"));
 
     if (!filePath.isEmpty()) {
-        Canvas* canvas = m_canvasTabWidget->addCanvas(QString(), QSize(), m_brushEngine);
+        Canvas* canvas = m_canvasTabWidget->addCanvas(QString(), QSize());
         canvas->open(filePath);
         m_canvasTabWidget->setTabText(m_canvasTabWidget->currentIndex(), canvas->name());
     }
