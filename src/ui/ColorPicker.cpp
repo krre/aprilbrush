@@ -131,7 +131,6 @@ QPixmap ColorPicker::drawTriangle() const {
 }
 
 void ColorPicker::drawWheelSelector() {
-    // Draw the hue selector
     QPainter painter(this);
     painter.setRenderHint(QPainter::Antialiasing, true);
     painter.setPen(QPen(Qt::white, 2));
@@ -146,7 +145,6 @@ void ColorPicker::drawWheelSelector() {
 }
 
 void ColorPicker::drawTriangleSelector() {
-    // Drawing the sat/val pointer
     QPainter painter(this);
     painter.setViewport(width() / 2 - innerRadius(), height() / 2 - innerRadius(), innerRadius() * 2, innerRadius() * 2);
     painter.setWindow(-innerRadius(), -innerRadius(), innerRadius() * 2, innerRadius() * 2);
