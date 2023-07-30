@@ -5,7 +5,6 @@
 ColorPicker::ColorPicker() {
     setWindowTitle(tr("Color"));
     setMinimumSize(200, 200);
-    setColor(Qt::red);
 }
 
 const QColor& ColorPicker::color() const {

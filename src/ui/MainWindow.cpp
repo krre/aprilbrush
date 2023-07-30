@@ -25,6 +25,7 @@ MainWindow::MainWindow(QWidget* parent) : QMainWindow(parent) {
     readSettings();
 
     m_canvasTabWidget->addCanvas();
+    m_colorPicker->setColor(Qt::red);
 }
 
 void MainWindow::closeEvent(QCloseEvent* event) {
