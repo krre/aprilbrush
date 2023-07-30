@@ -19,8 +19,9 @@ void ColorPicker::setColor(const QColor& color) {
 }
 
 void ColorPicker::resizeEvent(QResizeEvent*) {
-    drawWheel();
-    drawTriangle();
+    QPixmapCache::remove(m_wheelKey);
+    QPixmapCache::remove(m_triangleKey);
+    update();
 }
 
 void ColorPicker::paintEvent(QPaintEvent*) {
