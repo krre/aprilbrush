@@ -194,25 +194,25 @@ void MainWindow::createDockWindows() {
     connect(m_colorPicker, &ColorPicker::colorChanged, m_brushEngine, &BrushEngine::setColor);
     connect(m_brushEngine, &BrushEngine::colorChanged, m_colorPicker, &ColorPicker::setColor);
 
-    auto dock = new QDockWidget(m_colorPicker->windowTitle(), this);
-    dock->setWidget(m_colorPicker);
-    dock->setAllowedAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea);
-    addDockWidget(Qt::RightDockWidgetArea, dock);
-    m_viewMenu->addAction(dock->toggleViewAction());
+    auto colorPickerDock = new QDockWidget(m_colorPicker->windowTitle(), this);
+    colorPickerDock->setWidget(m_colorPicker);
+    colorPickerDock->setAllowedAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea);
+    addDockWidget(Qt::RightDockWidgetArea, colorPickerDock);
+    m_viewMenu->addAction(colorPickerDock->toggleViewAction());
 
     auto brushSettings = new BrushSettings(m_brushEngine);
-    dock = new QDockWidget(brushSettings->windowTitle(), this);
-    dock->setWidget(brushSettings);
-    dock->setAllowedAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea);
-    addDockWidget(Qt::RightDockWidgetArea, dock);
-    m_viewMenu->addAction(dock->toggleViewAction());
+    auto brushSettingsDock = new QDockWidget(brushSettings->windowTitle(), this);
+    brushSettingsDock->setWidget(brushSettings);
+    brushSettingsDock->setAllowedAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea);
+    addDockWidget(Qt::RightDockWidgetArea, brushSettingsDock);
+    m_viewMenu->addAction(brushSettingsDock->toggleViewAction());
 
     auto undoView = new QUndoView(m_undoGroup);
-    dock = new QDockWidget(tr("Commands"), this);
-    dock->setAllowedAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea);
-    dock->setWidget(undoView);
-    addDockWidget(Qt::RightDockWidgetArea, dock);
-    m_viewMenu->addAction(dock->toggleViewAction());
+    auto undoViewDock = new QDockWidget(tr("Commands"), this);
+    undoViewDock->setAllowedAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea);
+    undoViewDock->setWidget(undoView);
+    addDockWidget(Qt::RightDockWidgetArea, undoViewDock);
+    m_viewMenu->addAction(undoViewDock->toggleViewAction());
 }
 
 void MainWindow::applyHotSettings() {
