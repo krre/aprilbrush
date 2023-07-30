@@ -212,6 +212,7 @@ void MainWindow::createDockWindows() {
     dock->setAllowedAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea);
     dock->setWidget(undoView);
     addDockWidget(Qt::RightDockWidgetArea, dock);
+    m_viewMenu->addAction(dock->toggleViewAction());
 }
 
 void MainWindow::applyHotSettings() {
