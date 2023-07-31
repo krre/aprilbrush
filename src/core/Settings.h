@@ -19,6 +19,12 @@ public:
         T m_default;
     };
 
+    static void init() {
+        #ifdef Q_OS_WIN
+            QSettings::setDefaultFormat(QSettings::IniFormat);
+        #endif
+    }
+
     template <typename K>
     static void setValue(K::value_type value) {
         QSettings settings;

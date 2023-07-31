@@ -9,9 +9,7 @@ Application::Application(int argc, char* argv[]) : QApplication(argc, argv) {
     setApplicationName(Const::App::Name);
     setApplicationVersion(Const::App::Version);
 
-#ifdef Q_OS_WIN
-    QSettings::setDefaultFormat(QSettings::IniFormat);
-#endif
+    Settings::init();
 
     QString language = Settings::value<General::Language>();
 
