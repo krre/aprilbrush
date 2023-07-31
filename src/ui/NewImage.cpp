@@ -23,6 +23,9 @@ NewImage::NewImage(const QString& name, QWidget* parent) : Dialog(parent) {
     formLayout->addRow(tr("Width:"), m_widthSpinBox);
     formLayout->addRow(tr("Height:"), m_heightSpinBox);
 
+    formLayout->itemAt(formLayout->indexOf(m_widthSpinBox))->setAlignment(Qt::AlignLeft);
+    formLayout->itemAt(formLayout->indexOf(m_heightSpinBox))->setAlignment(Qt::AlignLeft);
+
     auto columnLayout = new QVBoxLayout;
     columnLayout->addLayout(formLayout);
     columnLayout->addWidget(sizeButton, 0, Qt::AlignLeft);
