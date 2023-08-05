@@ -43,8 +43,7 @@ HEADERS += \
     ui/Preferences.h
 
 RESOURCES += \
-    resources.qrc \
-    media.qrc
+    resources.qrc
 
 DISTFILES += \
     ../Changelog.md \
