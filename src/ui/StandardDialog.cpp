@@ -1,7 +1,7 @@
-#include "Dialog.h"
+#include "StandardDialog.h"
 #include <QtWidgets>
 
-Dialog::Dialog(QWidget* parent) : QDialog(parent) {
+StandardDialog::StandardDialog(QWidget* parent) : QDialog(parent) {
     m_buttonBox = new QDialogButtonBox;
     m_buttonBox->setOrientation(Qt::Horizontal);
     m_buttonBox->setStandardButtons(QDialogButtonBox::Ok|QDialogButtonBox::Cancel);
@@ -14,11 +14,11 @@ Dialog::Dialog(QWidget* parent) : QDialog(parent) {
     setLayout(verticalLayout);
 }
 
-QDialogButtonBox* Dialog::buttonBox() const {
+QDialogButtonBox* StandardDialog::buttonBox() const {
     return m_buttonBox;
 }
 
-void Dialog::setContentWidget(QWidget* contentWidget, bool stretchAfter) {
+void StandardDialog::setContentWidget(QWidget* contentWidget, bool stretchAfter) {
     auto verticalLayout = static_cast<QVBoxLayout*>(layout());
     verticalLayout->insertWidget(0, contentWidget);
 
@@ -27,7 +27,7 @@ void Dialog::setContentWidget(QWidget* contentWidget, bool stretchAfter) {
     }
 }
 
-void Dialog::setContentLayout(QLayout* contentLayout, bool stretchAfter) {
+void StandardDialog::setContentLayout(QLayout* contentLayout, bool stretchAfter) {
     auto verticalLayout = static_cast<QVBoxLayout*>(layout());
     verticalLayout->insertLayout(0, contentLayout);
 
@@ -36,6 +36,6 @@ void Dialog::setContentLayout(QLayout* contentLayout, bool stretchAfter) {
     }
 }
 
-void Dialog::resizeToWidth(int width) {
+void StandardDialog::resizeToWidth(int width) {
     resize(width, sizeHint().height());
 }

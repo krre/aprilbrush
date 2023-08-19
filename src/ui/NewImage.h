@@ -1,10 +1,10 @@
 #pragma once
-#include "Dialog.h"
+#include "StandardDialog.h"
 
 class QLineEdit;
 class QSpinBox;
 
-class NewImage : public Dialog {
+class NewImage : public StandardDialog {
     Q_OBJECT
 public:
     explicit NewImage(const QString& name, QWidget* parent = nullptr);

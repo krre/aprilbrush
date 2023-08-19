@@ -2,7 +2,7 @@
 #include "core/Settings.h"
 #include <QtWidgets>
 
-Preferences::Preferences(QWidget* parent) : Dialog (parent) {
+Preferences::Preferences(QWidget* parent) : StandardDialog (parent) {
     setWindowTitle(tr("Preferences"));
     auto uiGroupBox = new QGroupBox(tr("User Interface"));
 

@@ -15,11 +15,11 @@ SOURCES += \
     ui/Canvas.cpp \
     ui/CanvasTabWidget.cpp \
     ui/ColorPicker.cpp \
-    ui/Dialog.cpp \
     ui/InputDevice.cpp \
     ui/MainWindow.cpp \
     ui/NewImage.cpp \
-    ui/Preferences.cpp
+    ui/Preferences.cpp \
+    ui/StandardDialog.cpp
 
 HEADERS += \
     core/Application.h \
@@ -36,11 +36,11 @@ HEADERS += \
     ui/Canvas.h \
     ui/CanvasTabWidget.h \
     ui/ColorPicker.h \
-    ui/Dialog.h \
     ui/InputDevice.h \
     ui/MainWindow.h \
     ui/NewImage.h \
-    ui/Preferences.h
+    ui/Preferences.h \
+    ui/StandardDialog.h
 
 RESOURCES += \
     resources.qrc
