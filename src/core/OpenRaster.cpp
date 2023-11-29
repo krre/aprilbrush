@@ -1,7 +1,7 @@
 #include "OpenRaster.h"
 #include "engine/Layer.h"
-#include <QtGui/private/qzipwriter_p.h>
-#include <QtGui/private/qzipreader_p.h>
+#include <QtCore/private/qzipwriter_p.h>
+#include <QtCore/private/qzipreader_p.h>
 #include <QtGui>
 
 void OpenRaster::write(const QString& filePath, const QSize& size, const Layers& layers) {
