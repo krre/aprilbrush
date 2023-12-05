@@ -46,7 +46,6 @@ RESOURCES += \
     resources.qrc
 
 DISTFILES += \
-    ../Changelog.md \
     ../README.md \
     i18n/aprilbrush-ru.ts
 
