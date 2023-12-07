@@ -64,4 +64,3 @@ struct Size : public Settings::Key<QSize> {
 };
 
 }
-

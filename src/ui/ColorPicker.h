@@ -51,4 +51,3 @@ private:
     QPixmapCache::Key m_wheelKey;
     QPixmapCache::Key m_triangleKey;
 };
-

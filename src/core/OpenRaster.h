@@ -8,4 +8,3 @@ public:
     static void write(const QString& filePath, const QSize& size, const Layers& layers);
     static Layers read(const QString& filePath);
 };
-
