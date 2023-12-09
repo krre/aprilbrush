@@ -1,5 +1,5 @@
-#include "core/Application.h"
-#include "ui/MainWindow.h"
+#include <core/Application.h>
+#include <ui/MainWindow.h>
 
 int main(int argc, char* argv[]) {
     // Hack to fix styling with Qt 6.5 on GTK3

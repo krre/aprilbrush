@@ -4,7 +4,7 @@
 #include <QTranslator>
 #include <QLibraryInfo>
 
-Application::Application(int argc, char* argv[]) : QApplication(argc, argv) {
+Application::Application(int& argc, char* argv[]) : QApplication(argc, argv) {
     setOrganizationName(Const::App::Name);
     setApplicationName(Const::App::Name);
     setApplicationVersion(Const::App::Version);
