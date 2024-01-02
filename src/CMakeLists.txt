@@ -3,7 +3,6 @@ find_package(Qt6 REQUIRED COMPONENTS LinguistTools)
 add_library(common STATIC
     core/Application.cpp core/Application.h
     core/CommonTypes.h
-    core/Constants.h
     core/OpenRaster.cpp core/OpenRaster.h
     core/Settings.h
     engine/undo/BrushCommand.cpp engine/undo/BrushCommand.h

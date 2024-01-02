@@ -6,7 +6,7 @@
 #include "InputDevice.h"
 #include "ColorPicker.h"
 #include "BrushSettings.h"
-#include "core/Constants.h"
+#include "core/Application.h"
 #include "core/Settings.h"
 #include "engine/BrushEngine.h"
 #include <QtWidgets>
@@ -86,16 +86,15 @@ void MainWindow::clear() {
 }
 
 void MainWindow::showAbout() {
-    using namespace Const::App;
-
-    QMessageBox::about(this, tr("About %1").arg(Name),
+    QMessageBox::about(this, tr("About %1").arg(Application::Name),
         tr("<h3>%1 %2</h3>"
            "Painting application<br><br>"
            "Based on Qt %3<br>"
            "Build on %4 %5<br><br>"
            "<a href=%6>%6</a><br><br>"
            "Copyright © %7, Vladimir Zarypov")
-                              .arg(Name, Version, QT_VERSION_STR, BuildDate, BuildTime, URL, CopyrightYear));
+            .arg(Application::Name, Application::Version, QT_VERSION_STR, Application::BuildDate,
+            Application::BuildTime, Application::Url, Application::CopyrightYear));
 }
 
 void MainWindow::showPreferences() {
@@ -170,7 +169,7 @@ void MainWindow::createActions() {
 
     // Help
     QMenu* helpMenu = menuBar()->addMenu(tr("Help"));
-    helpMenu->addAction(tr("About %1...").arg(Const::App::Name), this, &MainWindow::showAbout);
+    helpMenu->addAction(tr("About %1...").arg(Application::Name), this, &MainWindow::showAbout);
 
     connect(m_canvasTabWidget, &CanvasTabWidget::countChanged, this, [=] (int count) {
         saveAction->setEnabled(count);

@@ -1,13 +1,12 @@
 #include "Application.h"
-#include "core/Constants.h"
 #include "core/Settings.h"
 #include <QTranslator>
 #include <QLibraryInfo>
 
 Application::Application(int& argc, char* argv[]) : QApplication(argc, argv) {
-    setOrganizationName(Const::App::Name);
-    setApplicationName(Const::App::Name);
-    setApplicationVersion(Const::App::Version);
+    setOrganizationName(Name);
+    setApplicationName(Name);
+    setApplicationVersion(Version);
 
     Settings::init();
 
