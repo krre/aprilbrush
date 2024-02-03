@@ -1,13 +1,15 @@
 #pragma once
 #include "StandardDialog.h"
 
+class Settings;
+
 class QLineEdit;
 class QSpinBox;
 
 class NewImage : public StandardDialog {
     Q_OBJECT
 public:
-    explicit NewImage(const QString& name, QWidget* parent = nullptr);
+    explicit NewImage(const QString& name, Settings* settings, QWidget* parent = nullptr);
 
     QString name() const;
     QSize size() const;
@@ -22,6 +24,8 @@ private:
     void writeSettings();
 
     void setupSpinBox(QSpinBox* spinBox);
+
+    Settings* m_settings = nullptr;
 
     QLineEdit* m_nameEdit = nullptr;
     QSpinBox* m_widthSpinBox = nullptr;

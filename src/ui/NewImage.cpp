@@ -1,9 +1,9 @@
 #include "NewImage.h"
 #include "Canvas.h"
-#include "core/Settings.h"
+#include "settings/Settings.h"
 #include <QtWidgets>
 
-NewImage::NewImage(const QString& name, QWidget* parent) : StandardDialog(parent) {
+NewImage::NewImage(const QString& name, Settings* settings, QWidget* parent) : StandardDialog(parent), m_settings(settings) {
     setWindowTitle(tr("Create New Image"));
 
     m_nameEdit = new QLineEdit(name);
@@ -61,7 +61,7 @@ void NewImage::onNameChanged(const QString& text) {
 }
 
 void NewImage::readSettings() {
-    QSize size = Settings::value<NewImageKey::Size>();
+    QSize size = m_settings->newImage().size;
 
     if (size.isValid()) {
         m_widthSpinBox->setValue(size.width());
@@ -72,7 +72,10 @@ void NewImage::readSettings() {
 }
 
 void NewImage::writeSettings() {
-    Settings::setValue<NewImageKey::Size>(QSize(m_widthSpinBox->value(), m_heightSpinBox->value()));
+    Settings::NewImage newImage = m_settings->newImage();
+    newImage.size = QSize(m_widthSpinBox->value(), m_heightSpinBox->value());
+
+    m_settings->setNewImage(newImage);
 }
 
 void NewImage::setupSpinBox(QSpinBox* spinBox) {
