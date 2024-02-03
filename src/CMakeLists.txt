@@ -20,6 +20,8 @@ add_library(common STATIC
     ui/Preferences.cpp ui/Preferences.h
     ui/StandardDialog.cpp ui/StandardDialog.h
     i18n/aprilbrush-ru.ts
+    settings/Settings.h
+    settings/FileSettings.h settings/FileSettings.cpp
 )
 
 qt_add_translations(common TS_FILES i18n/aprilbrush-ru.ts)
