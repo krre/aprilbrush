@@ -14,7 +14,7 @@ void ClearCommand::undo() {
 }
 
 void ClearCommand::redo() {
-    m_pixmap = *m_layer->pixmap();
+    m_pixmap = m_layer->pixmap();
     m_layer->clear();
     m_canvas->update();
 }

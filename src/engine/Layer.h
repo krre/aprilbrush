@@ -13,8 +13,7 @@ public:
 
     QSize size() const;
 
-    QPixmap* pixmap();
-    const QPixmap& refPixmap() const;
+    QPixmap& pixmap();
     void setPixmap(const QPixmap& pixmap);
 
     void clear();

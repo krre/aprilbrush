@@ -55,11 +55,7 @@ bool Layer::isSelected() const {
     return m_selected;
 }
 
-QPixmap* Layer::pixmap() {
-    return &m_pixmap;
-}
-
-const QPixmap& Layer::refPixmap() const {
+QPixmap& Layer::pixmap() {
     return m_pixmap;
 }
 
