@@ -2,7 +2,6 @@
 #include "settings/FileSettings.h"
 #include <QTranslator>
 #include <QLibraryInfo>
-#include <QSettings>
 
 Application::Application(int& argc, char* argv[]) : QApplication(argc, argv) {
     setOrganizationName(Name);
