@@ -4,16 +4,18 @@
 
 Preferences::Preferences(QWidget* parent) : StandardDialog (parent) {
     setWindowTitle(tr("Preferences"));
-    auto uiGroupBox = new QGroupBox(tr("User Interface"));
 
     m_languageComboBox = new QComboBox;
     m_languageComboBox->addItem(tr("<System>"));
     m_languageComboBox->addItem("English", "en");
     m_languageComboBox->addItem("Russian", "ru");
 
-    auto uiLayout = new QFormLayout(uiGroupBox);
+    auto uiLayout = new QFormLayout;
     uiLayout->addRow(new QLabel(tr("Language:")), m_languageComboBox);
     uiLayout->itemAt(0, QFormLayout::FieldRole)->setAlignment(Qt::AlignLeft);
+
+    auto uiGroupBox = new QGroupBox(tr("User Interface"));
+    uiGroupBox->setLayout(uiLayout);
 
     setContentWidget(uiGroupBox);
 
