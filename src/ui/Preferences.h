@@ -1,12 +1,14 @@
 #pragma once
 #include "StandardDialog.h"
 
+class Settings;
+
 class QComboBox;
 
 class Preferences : public StandardDialog {
     Q_OBJECT
 public:
-    Preferences(QWidget* parent = nullptr);
+    Preferences(Settings* settings, QWidget* parent = nullptr);
 
 public slots:
     void accept() override;
@@ -14,6 +16,8 @@ public slots:
 private:
     void readSettings();
     bool writeSettings();
+
+    Settings* m_settings = nullptr;
 
     QComboBox* m_languageComboBox = nullptr;
 };

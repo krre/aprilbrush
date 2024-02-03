@@ -104,7 +104,7 @@ void MainWindow::showAbout() {
 }
 
 void MainWindow::showPreferences() {
-    Preferences preferences;
+    Preferences preferences(m_fileSettings.data());
 
     if (preferences.exec() == QDialog::Accepted) {
         applyHotSettings();

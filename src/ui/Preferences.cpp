@@ -1,8 +1,8 @@
 #include "Preferences.h"
-#include "core/Settings.h"
+#include "settings/Settings.h"
 #include <QtWidgets>
 
-Preferences::Preferences(QWidget* parent) : StandardDialog (parent) {
+Preferences::Preferences(Settings* settings, QWidget* parent) : StandardDialog (parent), m_settings(settings) {
     setWindowTitle(tr("Preferences"));
 
     m_languageComboBox = new QComboBox;
@@ -33,9 +33,7 @@ void Preferences::accept() {
 
 
 void Preferences::readSettings() {
-    QString language = Settings::value<General::Language>();
-
-    int index = m_languageComboBox->findData(language);
+    int index = m_languageComboBox->findData(m_settings->general().language);
 
     if (index != -1) {
         m_languageComboBox->setCurrentIndex(index);
@@ -45,11 +43,15 @@ void Preferences::readSettings() {
 bool Preferences::writeSettings() {
     bool restartRequre = false;
     QString language = m_languageComboBox->currentData().toString();
+    Settings::General general = m_settings->general();
 
-    if (language != Settings::value<General::Language>()) {
+
+    if (language != general.language) {
         restartRequre = true;
     }
 
-    Settings::setValue<General::Language>(language);
+    general.language = language;
+    m_settings->setGeneral(general);
+
     return restartRequre;
 }
