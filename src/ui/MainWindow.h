@@ -1,6 +1,7 @@
 #pragma once
 #include <QMainWindow>
 
+class FileSettings;
 class CanvasTabWidget;
 class Canvas;
 class ColorPicker;
@@ -12,6 +13,7 @@ class MainWindow : public QMainWindow {
     Q_OBJECT
 public:
     explicit MainWindow(QWidget* parent = nullptr);
+    ~MainWindow();
 
 protected:
     void closeEvent(QCloseEvent* event) override;
@@ -37,6 +39,8 @@ private:
     void createUi();
     void createDockWindows();
     void applyHotSettings();
+
+    QScopedPointer<FileSettings> m_fileSettings;
 
     Canvas* currentCanvas() const;
 

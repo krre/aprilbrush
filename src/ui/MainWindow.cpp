@@ -7,12 +7,14 @@
 #include "ColorPicker.h"
 #include "BrushSettings.h"
 #include "core/Application.h"
-#include "core/Settings.h"
+#include "settings/FileSettings.h"
 #include "engine/BrushEngine.h"
 #include <QtWidgets>
 
 MainWindow::MainWindow(QWidget* parent) : QMainWindow(parent) {
     setAutoFillBackground(true);
+
+    m_fileSettings.reset(new FileSettings);
 
     m_undoGroup = new QUndoGroup(this);
     m_brushEngine = new BrushEngine(this);
@@ -26,6 +28,10 @@ MainWindow::MainWindow(QWidget* parent) : QMainWindow(parent) {
 
     m_canvasTabWidget->addCanvas();
     m_colorPicker->setColor(Qt::red);
+}
+
+MainWindow::~MainWindow() {
+
 }
 
 void MainWindow::closeEvent(QCloseEvent* event) {
@@ -112,19 +118,22 @@ void MainWindow::showInputDevice() {
 }
 
 void MainWindow::readSettings() {
-    QByteArray geometry = Settings::value<General::Geometry>();
-
-    if (geometry.isEmpty()) {
-        QSize screenSize = QGuiApplication::screens().constFirst()->size();
-        resize(screenSize.width() * 2 / 3, screenSize.height() * 2 / 3);
-        move((screenSize.width() - width()) / 2, (screenSize.height() - height()) / 2);
+    if (m_fileSettings->containsGeometry()) {
+        restoreGeometry(m_fileSettings->mainWindow().geometry);
+        restoreState(m_fileSettings->mainWindow().state);
     } else {
-        restoreGeometry(geometry);
+        const QRect availableGeometry = QGuiApplication::screens().constFirst()->availableGeometry();
+        resize(availableGeometry.width() / 2, availableGeometry.height() / 2);
+        move((availableGeometry.width() - width()) / 2, (availableGeometry.height() - height()) / 2);
     }
 }
 
 void MainWindow::writeSettings() {
-    Settings::setValue<General::Geometry>(saveGeometry());
+    Settings::MainWindow mainWindow;
+    mainWindow.geometry = saveGeometry();
+    mainWindow.state = saveState();
+
+    m_fileSettings->setMainWindow(mainWindow);
 }
 
 void MainWindow::createActions() {
@@ -194,6 +203,7 @@ void MainWindow::createDockWindows() {
     connect(m_brushEngine, &BrushEngine::colorChanged, m_colorPicker, &ColorPicker::setColor);
 
     auto colorPickerDock = new QDockWidget(m_colorPicker->windowTitle(), this);
+    colorPickerDock->setObjectName("color");
     colorPickerDock->setWidget(m_colorPicker);
     colorPickerDock->setAllowedAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea);
     addDockWidget(Qt::RightDockWidgetArea, colorPickerDock);
@@ -201,6 +211,7 @@ void MainWindow::createDockWindows() {
 
     auto brushSettings = new BrushSettings(m_brushEngine);
     auto brushSettingsDock = new QDockWidget(brushSettings->windowTitle(), this);
+    brushSettingsDock->setObjectName("brushSettings");
     brushSettingsDock->setWidget(brushSettings);
     brushSettingsDock->setAllowedAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea);
     addDockWidget(Qt::RightDockWidgetArea, brushSettingsDock);
@@ -208,6 +219,7 @@ void MainWindow::createDockWindows() {
 
     auto undoView = new QUndoView(m_undoGroup);
     auto undoViewDock = new QDockWidget(tr("Commands"), this);
+    undoViewDock->setObjectName("commands");
     undoViewDock->setAllowedAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea);
     undoViewDock->setWidget(undoView);
     addDockWidget(Qt::RightDockWidgetArea, undoViewDock);
