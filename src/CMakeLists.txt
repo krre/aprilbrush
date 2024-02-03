@@ -4,7 +4,6 @@ add_library(common STATIC
     core/Application.cpp core/Application.h
     core/CommonTypes.h
     core/OpenRaster.cpp core/OpenRaster.h
-    core/Settings.h
     engine/undo/BrushCommand.cpp engine/undo/BrushCommand.h
     engine/undo/ClearCommand.cpp engine/undo/ClearCommand.h
     engine/BrushEngine.cpp engine/BrushEngine.h
