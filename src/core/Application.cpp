@@ -1,16 +1,24 @@
 #include "Application.h"
-#include "core/Settings.h"
+#include "settings/FileSettings.h"
 #include <QTranslator>
 #include <QLibraryInfo>
+#include <QSettings>
 
 Application::Application(int& argc, char* argv[]) : QApplication(argc, argv) {
     setOrganizationName(Name);
     setApplicationName(Name);
     setApplicationVersion(Version);
 
-    Settings::init();
+#ifdef Q_OS_WIN
+    QSettings::setDefaultFormat(QSettings::IniFormat);
+#endif
 
-    QString language = Settings::value<General::Language>();
+    installTranslators();
+}
+
+void Application::installTranslators() {
+    FileSettings settings;
+    QString language = settings.general().language;
 
     if (language.isEmpty()) {
         language = QLocale::system().name().split("_").first();
@@ -20,6 +28,12 @@ Application::Application(int& argc, char* argv[]) : QApplication(argc, argv) {
 
     if (qtTranslator->load("qt_" + language, QLibraryInfo::path(QLibraryInfo::TranslationsPath))) {
         installTranslator(qtTranslator);
+    }
+
+    auto qtbaseTranslator = new QTranslator(this);
+
+    if (qtbaseTranslator->load("qtbase_" + language, QLibraryInfo::path(QLibraryInfo::TranslationsPath))) {
+        installTranslator(qtbaseTranslator);
     }
 
     auto appTranslator = new QTranslator(this);
