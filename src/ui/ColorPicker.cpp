@@ -1,6 +1,5 @@
 #include "ColorPicker.h"
-#include "qmath.h"
-#include <QtWidgets>
+#include <QtGui>
 
 ColorPicker::ColorPicker() {
     setWindowTitle(tr("Color"));
