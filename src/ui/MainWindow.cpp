@@ -27,7 +27,6 @@ MainWindow::MainWindow(QWidget* parent) : QMainWindow(parent) {
     readSettings();
 
     m_canvasTabWidget->addCanvas();
-    m_colorPicker->setColor(Qt::red);
 }
 
 MainWindow::~MainWindow() {
@@ -126,6 +125,8 @@ void MainWindow::readSettings() {
         resize(availableGeometry.width() / 2, availableGeometry.height() / 2);
         move((availableGeometry.width() - width()) / 2, (availableGeometry.height() - height()) / 2);
     }
+
+    m_colorPicker->setColor(m_fileSettings->colorPicker().color);
 }
 
 void MainWindow::writeSettings() {
@@ -134,6 +135,11 @@ void MainWindow::writeSettings() {
     mainWindow.state = saveState();
 
     m_fileSettings->setMainWindow(mainWindow);
+
+    Settings::ColorPicker colorPicker;
+    colorPicker.color = m_colorPicker->color();
+
+    m_fileSettings->setColorPicker(colorPicker);
 }
 
 void MainWindow::createActions() {

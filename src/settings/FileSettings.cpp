@@ -67,3 +67,21 @@ Settings::NewImage FileSettings::newImage() const {
 
     return result;
 }
+
+void FileSettings::setColorPicker(const ColorPicker& colorPicker) {
+    QSettings settings;
+    settings.beginGroup("ColorPicker");
+    settings.setValue("color", colorPicker.color);
+    settings.endGroup();
+}
+
+Settings::ColorPicker FileSettings::colorPicker() const {
+    ColorPicker result;
+
+    QSettings settings;
+    settings.beginGroup("ColorPicker");
+    result.color = settings.value("color", QColor(Qt::red)).value<QColor>();
+    settings.endGroup();
+
+    return result;
+}
