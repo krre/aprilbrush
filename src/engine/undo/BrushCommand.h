@@ -2,7 +2,6 @@
 #include <QUndoCommand>
 #include <QPixmap>
 
-class QPixmap;
 class Canvas;
 class Layer;
 

@@ -1,7 +1,6 @@
 #pragma once
 #include <QWidget>
 
-class BrushEngine;
 class QSpinBox;
 
 class BrushSlider : public QWidget {

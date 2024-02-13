@@ -6,7 +6,6 @@ class QUndoGroup;
 
 class Canvas;
 class BrushEngine;
-class EventFilter;
 
 class CanvasTabWidget : public QTabWidget {
     Q_OBJECT

@@ -6,7 +6,6 @@
 
 class QUndoStack;
 class BrushEngine;
-class EventFilter;
 
 class Canvas : public QWidget {
     Q_OBJECT

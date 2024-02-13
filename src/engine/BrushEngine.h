@@ -6,7 +6,6 @@
 #include <QRect>
 
 class QPainter;
-class Layer;
 
 class BrushEngine : public QObject {
     Q_OBJECT

@@ -6,7 +6,6 @@ class CanvasTabWidget;
 class Canvas;
 class ColorPicker;
 class BrushEngine;
-class EventFilter;
 class QUndoGroup;
 
 class MainWindow : public QMainWindow {
