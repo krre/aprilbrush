@@ -14,5 +14,5 @@ signals:
     void valueChanged(int value);
 
 private:
-    QSpinBox* spinBox = nullptr;
+    QSpinBox* m_spinBox = nullptr;
 };
