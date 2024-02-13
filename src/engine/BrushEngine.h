@@ -40,7 +40,7 @@ public slots:
     void setEraser(int eraser);
 
 signals:
-    void colorChanged(QColor color);
+    void colorChanged(const QColor& color);
     void sizeChanged(int size);
     void hardnessChanged(int hardness);
     void opacityChanged(int opacity);
