@@ -13,7 +13,7 @@ public:
 
     struct Data {
         Type type;
-        QPointF pos;
+        QPointF position;
         double pressure = 1.0;
     };
 
@@ -24,7 +24,6 @@ public slots:
 
 private:
     QLabel* m_type = nullptr;
-    QLabel* m_posX = nullptr;
-    QLabel* m_posY = nullptr;
+    QLabel* m_position = nullptr;
     QLabel* m_pressure = nullptr;
 };

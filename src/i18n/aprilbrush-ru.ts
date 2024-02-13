@@ -73,7 +73,7 @@
 <context>
     <name>ColorPicker</name>
     <message>
-        <location filename="../ui/ColorPicker.cpp" line="6"/>
+        <location filename="../ui/ColorPicker.cpp" line="5"/>
         <source>Color</source>
         <translation>Цвет</translation>
     </message>
@@ -86,32 +86,35 @@
         <translation>Устройство ввода</translation>
     </message>
     <message>
-        <location filename="../ui/InputDevice.cpp" line="16"/>
+        <location filename="../ui/InputDevice.cpp" line="15"/>
         <source>Type:</source>
         <translation>Тип:</translation>
     </message>
     <message>
-        <location filename="../ui/InputDevice.cpp" line="17"/>
         <source>Position X:</source>
-        <translation>Позиция X:</translation>
+        <translation type="vanished">Позиция X:</translation>
     </message>
     <message>
-        <location filename="../ui/InputDevice.cpp" line="18"/>
         <source>Position Y:</source>
-        <translation>Позиция Y:</translation>
+        <translation type="vanished">Позиция Y:</translation>
     </message>
     <message>
-        <location filename="../ui/InputDevice.cpp" line="19"/>
+        <location filename="../ui/InputDevice.cpp" line="16"/>
+        <source>Position:</source>
+        <translation>Позиция:</translation>
+    </message>
+    <message>
+        <location filename="../ui/InputDevice.cpp" line="17"/>
         <source>Pressure:</source>
         <translation>Давление:</translation>
     </message>
     <message>
-        <location filename="../ui/InputDevice.cpp" line="25"/>
+        <location filename="../ui/InputDevice.cpp" line="23"/>
         <source>Mouse</source>
         <translation>Мышь</translation>
     </message>
     <message>
-        <location filename="../ui/InputDevice.cpp" line="25"/>
+        <location filename="../ui/InputDevice.cpp" line="23"/>
         <source>Tablet</source>
         <translation>Планшет</translation>
     </message>
@@ -119,147 +122,147 @@
 <context>
     <name>MainWindow</name>
     <message>
-        <location filename="../ui/MainWindow.cpp" line="51"/>
+        <location filename="../ui/MainWindow.cpp" line="50"/>
         <source>Open Image</source>
         <translation>Открыть изображение</translation>
     </message>
     <message>
-        <location filename="../ui/MainWindow.cpp" line="51"/>
+        <location filename="../ui/MainWindow.cpp" line="50"/>
         <source>Images (*.ora)</source>
         <translation>Изображение (*.ora)</translation>
     </message>
     <message>
-        <location filename="../ui/MainWindow.cpp" line="71"/>
+        <location filename="../ui/MainWindow.cpp" line="70"/>
         <source>Save Image As</source>
         <translation>Сохранить изображение как</translation>
     </message>
     <message>
-        <location filename="../ui/MainWindow.cpp" line="71"/>
+        <location filename="../ui/MainWindow.cpp" line="70"/>
         <source>OpenRaster (*.ora)</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../ui/MainWindow.cpp" line="83"/>
+        <location filename="../ui/MainWindow.cpp" line="82"/>
         <source>Export Image</source>
         <translation>Экспортировать изображение</translation>
     </message>
     <message>
-        <location filename="../ui/MainWindow.cpp" line="83"/>
+        <location filename="../ui/MainWindow.cpp" line="82"/>
         <source>Images (*.png)</source>
         <translation>Изображения (*.png)</translation>
     </message>
     <message>
-        <location filename="../ui/MainWindow.cpp" line="95"/>
+        <location filename="../ui/MainWindow.cpp" line="94"/>
         <source>About %1</source>
         <translation>О программе %1</translation>
     </message>
     <message>
-        <location filename="../ui/MainWindow.cpp" line="141"/>
+        <location filename="../ui/MainWindow.cpp" line="147"/>
         <source>File</source>
         <translation>Файл</translation>
     </message>
     <message>
-        <location filename="../ui/MainWindow.cpp" line="142"/>
+        <location filename="../ui/MainWindow.cpp" line="148"/>
         <source>New...</source>
         <translation>Создать...</translation>
     </message>
     <message>
-        <location filename="../ui/MainWindow.cpp" line="143"/>
+        <location filename="../ui/MainWindow.cpp" line="149"/>
         <source>Open...</source>
         <translation>Открыть...</translation>
     </message>
     <message>
-        <location filename="../ui/MainWindow.cpp" line="145"/>
+        <location filename="../ui/MainWindow.cpp" line="151"/>
         <source>Save</source>
         <translation>Сохранить</translation>
     </message>
     <message>
-        <location filename="../ui/MainWindow.cpp" line="146"/>
+        <location filename="../ui/MainWindow.cpp" line="152"/>
         <source>Save As...</source>
         <translation>Сохранить как...</translation>
     </message>
     <message>
-        <location filename="../ui/MainWindow.cpp" line="147"/>
+        <location filename="../ui/MainWindow.cpp" line="153"/>
         <source>Export...</source>
         <translation>Экспортировать...</translation>
     </message>
     <message>
-        <location filename="../ui/MainWindow.cpp" line="150"/>
+        <location filename="../ui/MainWindow.cpp" line="156"/>
         <source>Close</source>
         <translation>Закрыть</translation>
     </message>
     <message>
-        <location filename="../ui/MainWindow.cpp" line="151"/>
+        <location filename="../ui/MainWindow.cpp" line="157"/>
         <source>Close All</source>
         <translation>Закрыть всё</translation>
     </message>
     <message>
-        <location filename="../ui/MainWindow.cpp" line="152"/>
+        <location filename="../ui/MainWindow.cpp" line="158"/>
         <source>Close Others</source>
         <translation>Закрыть другие</translation>
     </message>
     <message>
-        <location filename="../ui/MainWindow.cpp" line="155"/>
+        <location filename="../ui/MainWindow.cpp" line="161"/>
         <source>Preferences...</source>
         <translation>Настройки...</translation>
     </message>
     <message>
-        <location filename="../ui/MainWindow.cpp" line="157"/>
+        <location filename="../ui/MainWindow.cpp" line="163"/>
         <source>Exit</source>
         <translation>Выход</translation>
     </message>
     <message>
-        <location filename="../ui/MainWindow.cpp" line="160"/>
+        <location filename="../ui/MainWindow.cpp" line="166"/>
         <source>Edit</source>
         <translation>Правка</translation>
     </message>
     <message>
-        <location filename="../ui/MainWindow.cpp" line="162"/>
+        <location filename="../ui/MainWindow.cpp" line="168"/>
         <source>Undo</source>
         <translation>Отменить</translation>
     </message>
     <message>
-        <location filename="../ui/MainWindow.cpp" line="166"/>
+        <location filename="../ui/MainWindow.cpp" line="172"/>
         <source>Redo</source>
         <translation>Повторить</translation>
     </message>
     <message>
-        <location filename="../ui/MainWindow.cpp" line="170"/>
+        <location filename="../ui/MainWindow.cpp" line="176"/>
         <source>Clear</source>
         <translation>Очистить</translation>
     </message>
     <message>
-        <location filename="../ui/MainWindow.cpp" line="173"/>
+        <location filename="../ui/MainWindow.cpp" line="179"/>
         <source>View</source>
         <translation>Вид</translation>
     </message>
     <message>
-        <location filename="../ui/MainWindow.cpp" line="176"/>
+        <location filename="../ui/MainWindow.cpp" line="182"/>
         <source>Window</source>
         <translation>Окно</translation>
     </message>
     <message>
-        <location filename="../ui/MainWindow.cpp" line="177"/>
+        <location filename="../ui/MainWindow.cpp" line="183"/>
         <source>Input Device...</source>
         <translation>Устройство вввода...</translation>
     </message>
     <message>
-        <location filename="../ui/MainWindow.cpp" line="221"/>
+        <location filename="../ui/MainWindow.cpp" line="227"/>
         <source>Commands</source>
         <translation>Команды</translation>
     </message>
     <message>
-        <location filename="../ui/MainWindow.cpp" line="180"/>
+        <location filename="../ui/MainWindow.cpp" line="186"/>
         <source>Help</source>
         <translation>Справка</translation>
     </message>
     <message>
-        <location filename="../ui/MainWindow.cpp" line="96"/>
+        <location filename="../ui/MainWindow.cpp" line="95"/>
         <source>&lt;h3&gt;%1 %2&lt;/h3&gt;Painting application&lt;br&gt;&lt;br&gt;Based on Qt %3&lt;br&gt;Build on %4 %5&lt;br&gt;&lt;br&gt;&lt;a href=%6&gt;%6&lt;/a&gt;&lt;br&gt;&lt;br&gt;Copyright © %7, Vladimir Zarypov</source>
         <translation>&lt;h3&gt;%1 %2&lt;/h3&gt;Приложение для рисования&lt;br&gt;&lt;br&gt;Основано на Qt %3&lt;br&gt;Собрано %4 %5&lt;br&gt;&lt;br&gt;&lt;a href=%6&gt;%6&lt;/a&gt;&lt;br&gt;&lt;br&gt;© %7, Владимир Зарыпов</translation>
     </message>
     <message>
-        <location filename="../ui/MainWindow.cpp" line="181"/>
+        <location filename="../ui/MainWindow.cpp" line="187"/>
         <source>About %1...</source>
         <translation>О программе %1...</translation>
     </message>

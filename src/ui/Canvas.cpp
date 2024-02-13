@@ -200,7 +200,7 @@ void Canvas::paintAction(const QPointF& pos) {
 
     InputDevice::Data data{};
     data.type = InputDevice::Type::Mouse;
-    data.pos = pos;
+    data.position = pos;
 
     emit inputDeviceDataChanged(data);
 }
