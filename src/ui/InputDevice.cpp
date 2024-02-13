@@ -19,7 +19,7 @@ InputDevice::InputDevice(QWidget* parent) : QWidget(parent) {
     setLayout(formLayout);
 }
 
-void InputDevice::onDataChanged(const Data& data) {
+void InputDevice::setData(const Data& data) {
     m_type->setText(data.type == Type::Mouse ? tr("Mouse") : tr("Tablet"));
     m_position->setText(QString("%1, %2").arg(data.position.x()).arg(data.position.y()));
     m_pressure->setText(QString::number(data.pressure));

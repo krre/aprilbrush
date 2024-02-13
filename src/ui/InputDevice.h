@@ -20,7 +20,7 @@ public:
     InputDevice(QWidget* parent);
 
 public slots:
-   void onDataChanged(const Data& data);
+    void setData(const Data& data);
 
 private:
     QLabel* m_type = nullptr;

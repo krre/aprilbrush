@@ -112,7 +112,7 @@ void MainWindow::showPreferences() {
 
 void MainWindow::showInputDevice() {
     auto inputDevice = new InputDevice(this);
-    connect(m_canvasTabWidget, &CanvasTabWidget::inputDeviceDataChanged, inputDevice, &InputDevice::onDataChanged);
+    connect(m_canvasTabWidget, &CanvasTabWidget::inputDeviceDataChanged, inputDevice, &InputDevice::setData);
     inputDevice->show();
 }
 
