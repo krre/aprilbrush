@@ -17,7 +17,7 @@ BrushSlider::BrushSlider(int minValue, int maxValue, int defaultValue) {
     spinBox->setValue(defaultValue);
 
     auto layout = new QHBoxLayout;
-    layout->setContentsMargins(0, 0, 0, 0);
+    layout->setContentsMargins(QMargins());
     layout->addWidget(slider);
     layout->addWidget(spinBox);
 
