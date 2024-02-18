@@ -10,7 +10,6 @@ public:
 
     void setMainWindow(const MainWindow& mainWindow) override;
     MainWindow mainWindow() const override;
-    bool containsGeometry() const override;
 
     void setNewImage(const NewImage& newImage) override;
     NewImage newImage() const override;

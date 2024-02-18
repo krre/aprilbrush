@@ -45,11 +45,6 @@ Settings::MainWindow FileSettings::mainWindow() const {
     return result;
 }
 
-bool FileSettings::containsGeometry() const {
-    QSettings settings;
-    return settings.contains("MainWindow/geometry");
-}
-
 void FileSettings::setNewImage(const NewImage& newImage) {
     QSettings settings;
     settings.beginGroup("NewImage");

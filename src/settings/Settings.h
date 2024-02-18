@@ -28,7 +28,6 @@ public:
 
     virtual void setMainWindow(const MainWindow& mainWindow) = 0;
     virtual MainWindow mainWindow() const = 0;
-    virtual bool containsGeometry() const = 0;
 
     virtual void setNewImage(const NewImage& newImage) = 0;
     virtual NewImage newImage() const = 0;
