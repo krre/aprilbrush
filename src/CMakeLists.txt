@@ -1,5 +1,7 @@
 find_package(Qt6 REQUIRED COMPONENTS LinguistTools)
 
+configure_file(config.h.in config.h @ONLY)
+
 add_library(common STATIC
     core/Application.cpp core/Application.h
     core/CommonTypes.h
@@ -23,7 +25,16 @@ add_library(common STATIC
     settings/FileSettings.h settings/FileSettings.cpp
 )
 
-qt_add_translations(common TS_FILES i18n/aprilbrush-ru.ts)
+SET(TS_SOURCE i18n/aprilbrush-ru.ts)
+
+qt_add_translations(common TS_FILES ${TS_SOURCE})
+
+# For visibility in IDE (e.g., Qt Creator)
+add_custom_target(custom
+    SOURCES
+    ${TS_SOURCE}
+    config.h.in
+)
 
 target_link_libraries(common PRIVATE Qt6::Widgets )
 target_include_directories(common PUBLIC ${CMAKE_CURRENT_SOURCE_DIR} ${Qt6Gui_PRIVATE_INCLUDE_DIRS})
