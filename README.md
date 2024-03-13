@@ -7,8 +7,5 @@ Required a pressure sentive input device (graphic tablet).
 ## Dependencies
 - Qt 6.6
 
-## Download
-https://github.com/krre/aprilbrush/releases
-
 ## Screenshot
 ![Screenshot](/images/screenshot.png?raw=true)
