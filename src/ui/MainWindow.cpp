@@ -57,10 +57,8 @@ void MainWindow::open() {
 }
 
 void MainWindow::save() {
-    Canvas* canvas =  currentCanvas();
-
-    if (!canvas->filePath().isEmpty()) {
-        canvas->save();
+    if (!currentCanvas()->filePath().isEmpty()) {
+        currentCanvas()->save();
     } else {
         saveAs();
     }
