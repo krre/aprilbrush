@@ -18,8 +18,15 @@ add_subdirectory(app)
 add_subdirectory(src)
 add_subdirectory(tests)
 
+SET(TS_SOURCE src/i18n/aprilbrush-ru.ts)
+
+qt_add_translations(aprilbrush
+    TS_FILES ${TS_SOURCE}
+)
+
 # For visibility in IDE (e.g., Qt Creator)
 add_custom_target(other
     SOURCES
+    ${TS_SOURCE}
     README.md
 )

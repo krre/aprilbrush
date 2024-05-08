@@ -18,19 +18,13 @@ add_library(common STATIC
     ui/NewImage.cpp ui/NewImage.h
     ui/Preferences.cpp ui/Preferences.h
     ui/StandardDialog.cpp ui/StandardDialog.h
-    i18n/aprilbrush-ru.ts
     settings/Settings.h
     settings/FileSettings.h settings/FileSettings.cpp
 )
 
-SET(TS_SOURCE i18n/aprilbrush-ru.ts)
-
-qt_add_translations(common TS_FILES ${TS_SOURCE})
-
 # For visibility in IDE (e.g., Qt Creator)
 add_custom_target(custom
     SOURCES
-    ${TS_SOURCE}
     config.h.in
 )
 
