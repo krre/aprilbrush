@@ -22,16 +22,13 @@ NewImage::NewImage(const QString& name, Settings* settings, QWidget* parent) : S
     formLayout->addRow(tr("Name:"), m_nameEdit);
     formLayout->addRow(tr("Width:"), m_widthSpinBox);
     formLayout->addRow(tr("Height:"), m_heightSpinBox);
+    formLayout->addRow(sizeButton);
 
     formLayout->itemAt(formLayout->indexOf(m_widthSpinBox))->setAlignment(Qt::AlignLeft);
     formLayout->itemAt(formLayout->indexOf(m_heightSpinBox))->setAlignment(Qt::AlignLeft);
+    formLayout->itemAt(formLayout->indexOf(sizeButton))->setAlignment(Qt::AlignLeft);
 
-    auto columnLayout = new QVBoxLayout;
-    columnLayout->addLayout(formLayout);
-    columnLayout->addWidget(sizeButton, 0, Qt::AlignLeft);
-    columnLayout->addStretch();
-
-    setContentLayout(columnLayout);
+    setContentLayout(formLayout);
     resizeToWidth(400);
     readSettings();
     m_nameEdit->setFocus();
