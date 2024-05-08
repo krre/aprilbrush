@@ -45,7 +45,6 @@ bool Preferences::writeSettings() {
     QString language = m_languageComboBox->currentData().toString();
     Settings::General general = m_settings->general();
 
-
     if (language != general.language) {
         restartRequre = true;
     }
