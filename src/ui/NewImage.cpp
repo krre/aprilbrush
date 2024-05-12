@@ -3,7 +3,8 @@
 #include "settings/Settings.h"
 #include <QtWidgets>
 
-NewImage::NewImage(const QString& name, Settings* settings, QWidget* parent) : StandardDialog(parent), m_settings(settings) {
+NewImage::NewImage(const QString& name, Settings* settings, QWidget* parent)
+    : StandardDialog(parent), m_settings(settings) {
     setWindowTitle(tr("Create New Image"));
 
     m_nameEdit = new QLineEdit(name);

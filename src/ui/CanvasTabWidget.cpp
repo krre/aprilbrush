@@ -3,8 +3,8 @@
 #include "engine/BrushEngine.h"
 #include <QtWidgets>
 
-CanvasTabWidget::CanvasTabWidget(BrushEngine* brushEngine, QUndoGroup* undoGroup) :
-        m_brushEngine(brushEngine), m_undoGroup(undoGroup) {
+CanvasTabWidget::CanvasTabWidget(BrushEngine* brushEngine, QUndoGroup* undoGroup)
+    : m_brushEngine(brushEngine), m_undoGroup(undoGroup) {
     setTabsClosable(true);
     connect(this, &QTabWidget::tabCloseRequested, this, &CanvasTabWidget::closeByIndex);
     connect(this, &QTabWidget::currentChanged, this, &CanvasTabWidget::onCurrentChanged);

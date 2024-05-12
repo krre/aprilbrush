@@ -2,7 +2,8 @@
 #include "settings/Settings.h"
 #include <QtWidgets>
 
-Preferences::Preferences(Settings* settings, QWidget* parent) : StandardDialog (parent), m_settings(settings) {
+Preferences::Preferences(Settings* settings, QWidget* parent)
+    : StandardDialog (parent), m_settings(settings) {
     setWindowTitle(tr("Preferences"));
 
     m_languageComboBox = new QComboBox;

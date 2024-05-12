@@ -3,8 +3,8 @@
 #include "engine/Layer.h"
 #include <QPainter>
 
-BrushCommand::BrushCommand(Canvas* canvas, Layer* layer, const QRect& bound, double opacity) :
-        m_canvas(canvas), m_layer(layer), m_bound(bound), m_opactity(opacity) {
+BrushCommand::BrushCommand(Canvas* canvas, Layer* layer, const QRect& bound, double opacity)
+    : m_canvas(canvas), m_layer(layer), m_bound(bound), m_opactity(opacity) {
     setText(QObject::tr("Brush"));
 }
 

@@ -3,8 +3,8 @@
 #include "engine/Layer.h"
 #include <QPixmap>
 
-ClearCommand::ClearCommand(Canvas* canvas, Layer* layer) :
-        m_canvas(canvas), m_layer(layer) {
+ClearCommand::ClearCommand(Canvas* canvas, Layer* layer)
+    : m_canvas(canvas), m_layer(layer) {
     setText(QObject::tr("Clear"));
 }
 
