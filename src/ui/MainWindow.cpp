@@ -97,7 +97,7 @@ void MainWindow::showAbout() {
            "<a href=%6>%6</a><br><br>"
            "Copyright © %7, Vladimir Zarypov")
             .arg(Application::Name, Application::Version, QT_VERSION_STR, Application::BuildDate,
-            Application::BuildTime, Application::Url, Application::CopyrightYear));
+            Application::BuildTime, Application::Url, Application::Years));
 }
 
 void MainWindow::showPreferences() {
