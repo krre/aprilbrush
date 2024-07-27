@@ -225,7 +225,7 @@ void Canvas::pickColor(const QPointF& pos) {
     emit colorPicked(QColor(pixmap.toImage().pixel(qRound(pos.x()), qRound(pos.y()))));
 }
 
-QRect Canvas::clipBound(const QRect& bound) {
+QRect Canvas::clipBound(const QRect& bound) const {
     // Correct corner positions on brush size
     int brushSize = m_brushEngine->size();
     QPoint topLeft(bound.topLeft().x() - brushSize, bound.topLeft().y() - brushSize);
