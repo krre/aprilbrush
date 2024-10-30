@@ -5,8 +5,8 @@ class FileSettings : public Settings {
 public:
     FileSettings();
 
-    void setGeneral(const General& general) override;
-    General general() const override;
+    void setApplication(const Application& application) override;
+    Application application() const override;
 
     void setMainWindow(const MainWindow& mainWindow) override;
     MainWindow mainWindow() const override;

@@ -34,7 +34,7 @@ void Preferences::accept() {
 
 
 void Preferences::readSettings() {
-    int index = m_languageComboBox->findData(m_settings->general().language);
+    int index = m_languageComboBox->findData(m_settings->application().language);
 
     if (index != -1) {
         m_languageComboBox->setCurrentIndex(index);
@@ -44,14 +44,14 @@ void Preferences::readSettings() {
 bool Preferences::writeSettings() {
     bool restartRequired = false;
     QString language = m_languageComboBox->currentData().toString();
-    Settings::General general = m_settings->general();
+    Settings::Application general = m_settings->application();
 
     if (language != general.language) {
         restartRequired = true;
     }
 
     general.language = language;
-    m_settings->setGeneral(general);
+    m_settings->setApplication(general);
 
     return restartRequired;
 }

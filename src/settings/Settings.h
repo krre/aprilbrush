@@ -6,7 +6,7 @@
 
 class Settings {
 public:
-    struct General {
+    struct Application {
         QString language;
     };
 
@@ -23,8 +23,8 @@ public:
         QColor color;
     };
 
-    virtual void setGeneral(const General& general) = 0;
-    virtual General general() const = 0;
+    virtual void setApplication(const Application& application) = 0;
+    virtual Application application() const = 0;
 
     virtual void setMainWindow(const MainWindow& mainWindow) = 0;
     virtual MainWindow mainWindow() const = 0;

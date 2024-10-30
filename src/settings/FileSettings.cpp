@@ -3,18 +3,18 @@
 
 FileSettings::FileSettings() {}
 
-void FileSettings::setGeneral(const General& general) {
+void FileSettings::setApplication(const Application& application) {
     QSettings settings;
-    settings.beginGroup("General");
-    settings.setValue("language", general.language);
+    settings.beginGroup("Application");
+    settings.setValue("language", application.language);
     settings.endGroup();
 }
 
-Settings::General FileSettings::general() const {
-    General result;
+Settings::Application FileSettings::application() const {
+    Application result;
 
     QSettings settings;
-    settings.beginGroup("General");
+    settings.beginGroup("Application");
     result.language = settings.value("language").toString();
     settings.endGroup();
 
