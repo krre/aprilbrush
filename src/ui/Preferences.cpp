@@ -44,14 +44,14 @@ void Preferences::readSettings() {
 bool Preferences::writeSettings() {
     bool restartRequired = false;
     QString language = m_languageComboBox->currentData().toString();
-    Settings::Application general = m_settings->application();
+    Settings::Application application = m_settings->application();
 
-    if (language != general.language) {
+    if (language != application.language) {
         restartRequired = true;
     }
 
-    general.language = language;
-    m_settings->setApplication(general);
+    application.language = language;
+    m_settings->setApplication(application);
 
     return restartRequired;
 }
