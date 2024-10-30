@@ -1,7 +1,8 @@
 #include "InputDevice.h"
+#include "settings/Settings.h"
 #include <QtWidgets>
 
-InputDevice::InputDevice(QWidget* parent) : QWidget(parent) {
+InputDevice::InputDevice(Settings* settings, QWidget* parent) : QWidget(parent), m_settings(settings) {
     setWindowTitle(tr("Input Device"));
     setFixedSize(250, 100);
     setWindowFlags(Qt::WindowStaysOnTopHint | Qt::Tool);
@@ -17,10 +18,32 @@ InputDevice::InputDevice(QWidget* parent) : QWidget(parent) {
     formLayout->addRow(tr("Pressure:"), m_pressure);
 
     setLayout(formLayout);
+
+    readSettings();
 }
 
 void InputDevice::setData(const Data& data) {
     m_type->setText(data.type == Type::Mouse ? tr("Mouse") : tr("Tablet"));
     m_position->setText(QString("%1, %2").arg(data.position.x()).arg(data.position.y()));
     m_pressure->setText(QString::number(data.pressure));
+}
+
+void InputDevice::closeEvent(QCloseEvent* event) {
+    writeSettings();
+    event->accept();
+}
+
+void InputDevice::readSettings() {
+    QByteArray geometry = m_settings->inputDevice().geometry;
+
+    if (!geometry.isEmpty()) {
+        restoreGeometry(geometry);
+    }
+}
+
+void InputDevice::writeSettings() {
+    Settings::InputDevice inputDevice;
+    inputDevice.geometry = saveGeometry();
+
+    m_settings->setInputDevice(inputDevice);
 }

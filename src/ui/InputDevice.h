@@ -1,6 +1,8 @@
 #pragma once
 #include <QWidget>
 
+class Settings;
+
 class QLabel;
 
 class InputDevice : public QWidget {
@@ -17,12 +19,20 @@ public:
         double pressure = 1.0;
     };
 
-    InputDevice(QWidget* parent);
+    InputDevice(Settings* settings, QWidget* parent);
 
 public slots:
     void setData(const Data& data);
 
+protected:
+    void closeEvent(QCloseEvent* event) override;
+
 private:
+    void readSettings();
+    void writeSettings();
+
+    Settings* m_settings = nullptr;
+
     QLabel* m_type = nullptr;
     QLabel* m_position = nullptr;
     QLabel* m_pressure = nullptr;

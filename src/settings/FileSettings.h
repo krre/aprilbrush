@@ -16,4 +16,7 @@ public:
 
     void setColorPicker(const ColorPicker& colorPicker) override;
     ColorPicker colorPicker() const override;
+
+    void setInputDevice(const InputDevice& inputDevice) override;
+    InputDevice inputDevice() const override;
 };

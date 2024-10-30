@@ -23,6 +23,10 @@ public:
         QColor color;
     };
 
+    struct InputDevice {
+        QByteArray geometry;
+    };
+
     virtual void setApplication(const Application& application) = 0;
     virtual Application application() const = 0;
 
@@ -34,4 +38,7 @@ public:
 
     virtual void setColorPicker(const ColorPicker& colorPicker) = 0;
     virtual ColorPicker colorPicker() const = 0;
+
+    virtual void setInputDevice(const InputDevice& inputDevice) = 0;
+    virtual InputDevice inputDevice() const = 0;
 };
