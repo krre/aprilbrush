@@ -9,9 +9,9 @@ public:
     Layer(const QString& name, const QPixmap& pixmap);
     Layer(const Layer& layer);
 
-    Layer& operator=(const Layer& layer);
-
     ~Layer();
+
+    Layer& operator=(const Layer& layer);
 
     void setName(const QString& name);
     QString name() const;

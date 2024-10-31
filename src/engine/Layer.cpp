@@ -19,15 +19,15 @@ Layer::Layer(const Layer& layer) {
     m_pixmap.reset(new QPixmap(*layer.m_pixmap.data()));
 }
 
+Layer::~Layer() {
+
+}
+
 Layer& Layer::operator=(const Layer& layer) {
     if (this == &layer) return *this;
 
     m_pixmap.reset(new QPixmap(*layer.m_pixmap));
     return *this;
-}
-
-Layer::~Layer() {
-
 }
 
 void Layer::setName(const QString& name) {
