@@ -14,7 +14,7 @@ public:
     ~Layer();
 
     void setName(const QString& name);
-    const QString& name() const;
+    QString name() const;
 
     QSize size() const;
 

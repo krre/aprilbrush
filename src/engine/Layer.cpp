@@ -34,7 +34,7 @@ void Layer::setName(const QString& name) {
     m_name = name;
 }
 
-const QString& Layer::name() const {
+QString Layer::name() const {
     return m_name;
 }
 
