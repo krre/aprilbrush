@@ -12,7 +12,7 @@ class BrushEngine : public QObject {
 public:
     BrushEngine(QObject* parent);
 
-    QRect paint(QPixmap& pixmap, const QPointF& point, float pressure = 1.0);
+    QRect paint(QPixmap* pixmap, const QPointF& point, float pressure = 1.0);
     void finish();
     const QRect& bound() const;
 

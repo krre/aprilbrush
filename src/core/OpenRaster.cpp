@@ -31,7 +31,7 @@ void OpenRaster::write(const QString& filePath, const QSize& size, const Layers&
         QByteArray data;
         QBuffer buffer(&data);
         buffer.open(QIODevice::WriteOnly);
-        const_cast<Layer&>(layer).pixmap().save(&buffer, "PNG");
+        const_cast<Layer&>(layer).pixmap()->save(&buffer, "PNG");
         buffer.close();
         zipWriter.addFile(src, data);
 

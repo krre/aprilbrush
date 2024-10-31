@@ -5,7 +5,7 @@ Layer::Layer(const QString& name, const QSize& size) {
     setName(name);
 
     if (size.isValid()) {
-        m_pixmap = QPixmap(size);
+        m_pixmap.reset(new QPixmap(size));
         clear();
     }
 }
@@ -13,6 +13,21 @@ Layer::Layer(const QString& name, const QSize& size) {
 Layer::Layer(const QString& name, const QPixmap& pixmap) {
     setName(name);
     setPixmap(pixmap);
+}
+
+Layer::Layer(const Layer& layer) {
+    m_pixmap.reset(new QPixmap(*layer.m_pixmap.data()));
+}
+
+Layer& Layer::operator=(const Layer& layer) {
+    if (this == &layer) return *this;
+
+    m_pixmap.reset(new QPixmap(*layer.m_pixmap));
+    return *this;
+}
+
+Layer::~Layer() {
+
 }
 
 void Layer::setName(const QString& name) {
@@ -24,11 +39,11 @@ const QString& Layer::name() const {
 }
 
 QSize Layer::size() const {
-    return m_pixmap.size();
+    return m_pixmap->size();
 }
 
 void Layer::clear() {
-    m_pixmap.fill(Qt::transparent);
+    m_pixmap->fill(Qt::transparent);
 }
 
 void Layer::setVisible(bool visible) {
@@ -55,10 +70,10 @@ bool Layer::isSelected() const {
     return m_selected;
 }
 
-QPixmap& Layer::pixmap() {
-    return m_pixmap;
+QPixmap* Layer::pixmap() const {
+    return m_pixmap.data();
 }
 
 void Layer::setPixmap(const QPixmap& pixmap) {
-    m_pixmap = pixmap;
+    m_pixmap.reset(new QPixmap(pixmap));
 }

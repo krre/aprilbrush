@@ -7,13 +7,18 @@ class Layer {
 public:
     Layer(const QString& name, const QSize& size);
     Layer(const QString& name, const QPixmap& pixmap);
+    Layer(const Layer& layer);
+
+    Layer& operator=(const Layer& layer);
+
+    ~Layer();
 
     void setName(const QString& name);
     const QString& name() const;
 
     QSize size() const;
 
-    QPixmap& pixmap();
+    QPixmap* pixmap() const;
     void setPixmap(const QPixmap& pixmap);
 
     void clear();
@@ -29,7 +34,7 @@ public:
 
 private:
     QString m_name;
-    QPixmap m_pixmap;
+    QScopedPointer<QPixmap> m_pixmap;
     bool m_visible = true;
     bool m_locked = false;
     bool m_selected = false;

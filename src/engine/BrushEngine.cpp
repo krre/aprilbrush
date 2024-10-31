@@ -5,8 +5,8 @@ BrushEngine::BrushEngine(QObject* parent) : QObject(parent) {
 
 }
 
-QRect BrushEngine::paint(QPixmap& pixmap, const QPointF& point, float pressure) {
-    QPainter painter(std::addressof(pixmap));
+QRect BrushEngine::paint(QPixmap* pixmap, const QPointF& point, float pressure) {
+    QPainter painter(pixmap);
     painter.setRenderHint(QPainter::Antialiasing, true);
     painter.setPen(Qt::NoPen);
 

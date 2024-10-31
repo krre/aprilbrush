@@ -25,7 +25,7 @@ public:
 
     void save();
     void open(const QString& filePath);
-    void exportPng(const QString& filePath);
+    void exportPng(const QString& filePath) const;
 
     void addLayer(const QString& name = QString());
 

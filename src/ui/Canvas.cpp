@@ -62,13 +62,13 @@ void Canvas::open(const QString& filePath) {
     m_name = filePathToName(filePath);
 }
 
-void Canvas::exportPng(const QString& filePath) {
+void Canvas::exportPng(const QString& filePath) const {
     QPixmap pixmap(width(), height());
     pixmap.fill(Qt::white);
     QPainter painter(&pixmap);
 
     for (auto& layer : m_layers | std::views::reverse) {
-        painter.drawPixmap(0, 0, layer.pixmap());
+        painter.drawPixmap(0, 0, *layer.pixmap());
     }
 
     pixmap.save(filePath);
@@ -135,7 +135,7 @@ void Canvas::mouseReleaseEvent(QMouseEvent*) {
     double opacity = m_brushEngine->opacity() / 100.0;
     m_undoStack->push(new BrushCommand(this, currentLayer(), m_paintArea, opacity));
 
-    QPainter painter(std::addressof(currentLayer()->pixmap()));
+    QPainter painter(currentLayer()->pixmap());
     painter.setOpacity(opacity);
     painter.drawPixmap(0, 0, m_buffer);
 
@@ -166,7 +166,7 @@ void Canvas::paintEvent(QPaintEvent* event [[maybe_unused]]) {
         }
 
         painter.setOpacity(1.0);
-        painter.drawPixmap(0, 0, m_layers[i].pixmap());
+        painter.drawPixmap(0, 0, *m_layers[i].pixmap());
     }
 }
 
@@ -188,7 +188,7 @@ void Canvas::drawCursor(int size) {
 }
 
 void Canvas::paintAction(const QPointF& pos) {
-    QRect bound = m_brushEngine->paint(m_brushEngine->eraser() < 50 ? m_buffer : currentLayer()->pixmap(), pos);
+    QRect bound = m_brushEngine->paint(m_brushEngine->eraser() < 50 ? &m_buffer : currentLayer()->pixmap(), pos);
 
     if (bound.isNull()) return;
 
@@ -219,7 +219,7 @@ void Canvas::pickColor(const QPointF& pos) {
     QPainter painter(&pixmap);
 
     for (auto& layer : m_layers | std::views::reverse) {
-        painter.drawPixmap(0, 0, layer.pixmap());
+        painter.drawPixmap(0, 0, *layer.pixmap());
     }
 
     emit colorPicked(QColor(pixmap.toImage().pixel(qRound(pos.x()), qRound(pos.y()))));
