@@ -23,7 +23,7 @@ public:
 
     QUndoStack* undoStack() const;
 
-    void save();
+    void save() const;
     void open(const QString& filePath);
     void exportPng(const QString& filePath) const;
 

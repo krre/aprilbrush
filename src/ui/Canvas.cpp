@@ -51,7 +51,7 @@ QUndoStack* Canvas::undoStack() const {
     return m_undoStack;
 }
 
-void Canvas::save() {
+void Canvas::save() const {
     OpenRaster::write(m_filePath, size(), m_layers);
 }
 
