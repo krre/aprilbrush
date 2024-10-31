@@ -6,7 +6,7 @@ ColorPicker::ColorPicker() {
     setMinimumSize(200, 200);
 }
 
-const QColor& ColorPicker::color() const {
+QColor ColorPicker::color() const {
     return m_color;
 }
 

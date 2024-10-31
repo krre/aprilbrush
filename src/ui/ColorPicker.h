@@ -8,7 +8,7 @@ class ColorPicker : public QWidget {
 public:
     ColorPicker();
 
-    const QColor& color() const;
+    QColor color() const;
 
 signals:
     void colorChanged(const QColor& color);
