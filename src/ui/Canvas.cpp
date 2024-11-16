@@ -218,7 +218,7 @@ void Canvas::pickColor(const QPointF& pos) {
     pixmap.fill(Qt::white);
     QPainter painter(&pixmap);
 
-    for (auto& layer : m_layers | std::views::reverse) {
+    for (const auto& layer : m_layers | std::views::reverse) {
         painter.drawPixmap(0, 0, *layer.pixmap());
     }
 
