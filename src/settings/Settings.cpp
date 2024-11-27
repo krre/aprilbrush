@@ -39,3 +39,11 @@ void Settings::setColorPickerColor(const QColor& color) {
 QColor Settings::colorPickerColor() const {
     return value("ColorPicker/color", QColor(Qt::red)).value<QColor>();
 }
+
+void Settings::setInputDeviceGeometry(const QByteArray& geometry) {
+    setValue("InputDevice/geometry", geometry);
+}
+
+QByteArray Settings::inputDeviceGeometry() const {
+    return value("InputDevice/geometry").toByteArray();
+}

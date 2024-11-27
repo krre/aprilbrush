@@ -34,7 +34,7 @@ void InputDevice::closeEvent(QCloseEvent* event) {
 }
 
 void InputDevice::readSettings() {
-    QByteArray geometry = m_settings->inputDevice().geometry;
+    QByteArray geometry = m_settings->inputDeviceGeometry();
 
     if (!geometry.isEmpty()) {
         restoreGeometry(geometry);
@@ -42,8 +42,5 @@ void InputDevice::readSettings() {
 }
 
 void InputDevice::writeSettings() {
-    Settings::InputDevice inputDevice;
-    inputDevice.geometry = saveGeometry();
-
-    m_settings->setInputDevice(inputDevice);
+    m_settings->setInputDeviceGeometry(saveGeometry());
 }

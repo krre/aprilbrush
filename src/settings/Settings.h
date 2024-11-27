@@ -5,10 +5,6 @@
 
 class Settings {
 public:
-    struct InputDevice {
-        QByteArray geometry;
-    };
-
     void setApplicationLanguage(const QString& lang);
     QString applicationLanguage() const;
 
@@ -24,8 +20,8 @@ public:
     void setColorPickerColor(const QColor& color);
     QColor colorPickerColor() const;
 
-    virtual void setInputDevice(const InputDevice& inputDevice) = 0;
-    virtual InputDevice inputDevice() const = 0;
+    void setInputDeviceGeometry(const QByteArray& geometry);
+    QByteArray inputDeviceGeometry() const;
 
 protected:
     virtual void setValue(const QString& key, const QVariant& value) = 0;

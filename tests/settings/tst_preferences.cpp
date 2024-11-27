@@ -3,10 +3,6 @@
 
 class TestSettings : public Settings {
 
-public:
-    void setInputDevice(const InputDevice& inputDevice) override {}
-    InputDevice inputDevice() const override {}
-
 protected:
     void setValue(const QString& key, const QVariant& value) override {
         settings[key] = value;
