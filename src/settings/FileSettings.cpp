@@ -3,24 +3,6 @@
 
 FileSettings::FileSettings() {}
 
-void FileSettings::setNewImage(const NewImage& newImage) {
-    QSettings settings;
-    settings.beginGroup("NewImage");
-    settings.setValue("size", newImage.size);
-    settings.endGroup();
-}
-
-Settings::NewImage FileSettings::newImage() const {
-    NewImage result;
-
-    QSettings settings;
-    settings.beginGroup("NewImage");
-    result.size = settings.value("size").toSize();
-    settings.endGroup();
-
-    return result;
-}
-
 void FileSettings::setColorPicker(const ColorPicker& colorPicker) {
     QSettings settings;
     settings.beginGroup("ColorPicker");

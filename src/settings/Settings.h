@@ -5,10 +5,6 @@
 
 class Settings {
 public:
-    struct NewImage {
-        QSize size;
-    };
-
     struct ColorPicker {
         QColor color;
     };
@@ -26,8 +22,8 @@ public:
     void setMainWindowState(const  QByteArray& state);
     QByteArray mainWindowState() const;
 
-    virtual void setNewImage(const NewImage& newImage) = 0;
-    virtual NewImage newImage() const = 0;
+    void setNewImageSize(const QSize& size);
+    QSize newImageSize() const;
 
     virtual void setColorPicker(const ColorPicker& colorPicker) = 0;
     virtual ColorPicker colorPicker() const = 0;

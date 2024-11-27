@@ -23,3 +23,11 @@ void Settings::setMainWindowState(const QByteArray& state) {
 QByteArray Settings::mainWindowState() const {
     return value("MainWindow/state").toByteArray();
 }
+
+void Settings::setNewImageSize(const QSize& size) {
+    setValue("NewImage/size", size);
+}
+
+QSize Settings::newImageSize() const {
+    return value("NewImage/size").toSize();
+}

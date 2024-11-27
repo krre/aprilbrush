@@ -4,9 +4,6 @@
 class TestSettings : public Settings {
 
 public:
-    void setNewImage(const NewImage& newImage) override {}
-    NewImage newImage() const override {}
-
     void setColorPicker(const ColorPicker& colorPicker) override {}
     ColorPicker colorPicker() const override {}
 
