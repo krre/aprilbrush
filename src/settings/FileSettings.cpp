@@ -3,24 +3,6 @@
 
 FileSettings::FileSettings() {}
 
-void FileSettings::setApplication(const Application& application) {
-    QSettings settings;
-    settings.beginGroup("Application");
-    settings.setValue("language", application.language);
-    settings.endGroup();
-}
-
-Settings::Application FileSettings::application() const {
-    Application result;
-
-    QSettings settings;
-    settings.beginGroup("Application");
-    result.language = settings.value("language").toString();
-    settings.endGroup();
-
-    return result;
-}
-
 void FileSettings::setMainWindow(const MainWindow& mainWindow) {
     QSettings settings;
     settings.beginGroup("MainWindow");

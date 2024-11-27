@@ -5,10 +5,6 @@
 
 class Settings {
 public:
-    struct Application {
-        QString language;
-    };
-
     struct MainWindow {
         QByteArray geometry;
         QByteArray state;
@@ -26,8 +22,8 @@ public:
         QByteArray geometry;
     };
 
-    virtual void setApplication(const Application& application) = 0;
-    virtual Application application() const = 0;
+    void setApplicationLanguage(const QString& lang);
+    QString applicationLanguage() const;
 
     virtual void setMainWindow(const MainWindow& mainWindow) = 0;
     virtual MainWindow mainWindow() const = 0;

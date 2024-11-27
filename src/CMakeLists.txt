@@ -20,6 +20,7 @@ add_library(common STATIC
     ui/StandardDialog.cpp ui/StandardDialog.h
     settings/Settings.h
     settings/FileSettings.h settings/FileSettings.cpp
+    settings/Settings.cpp
 )
 
 # For visibility in IDE (e.g., Qt Creator)

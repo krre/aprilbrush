@@ -17,7 +17,7 @@ Application::Application(int& argc, char* argv[]) : QApplication(argc, argv) {
 
 void Application::installTranslators() {
     FileSettings settings;
-    QString language = settings.application().language;
+    QString language = settings.applicationLanguage();
 
     if (language.isEmpty()) {
         language = QLocale::system().name().split("_").first();

@@ -4,9 +4,6 @@
 class TestSettings : public Settings {
 
 public:
-    void setApplication(const Application& application) override {}
-    Application application() const override {}
-
     void setMainWindow(const MainWindow& mainWindow) override {}
     MainWindow mainWindow() const override {}
 
