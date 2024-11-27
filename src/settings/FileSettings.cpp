@@ -3,30 +3,6 @@
 
 FileSettings::FileSettings() {}
 
-void FileSettings::setMainWindow(const MainWindow& mainWindow) {
-    QSettings settings;
-    settings.beginGroup("MainWindow");
-
-    settings.setValue("geometry", mainWindow.geometry);
-    settings.setValue("state", mainWindow.state);
-
-    settings.endGroup();
-}
-
-Settings::MainWindow FileSettings::mainWindow() const {
-    MainWindow result;
-
-    QSettings settings;
-    settings.beginGroup("MainWindow");
-
-    result.geometry = settings.value("geometry").toByteArray();
-    result.state = settings.value("state").toByteArray();
-
-    settings.endGroup();
-
-    return result;
-}
-
 void FileSettings::setNewImage(const NewImage& newImage) {
     QSettings settings;
     settings.beginGroup("NewImage");

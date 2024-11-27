@@ -4,9 +4,6 @@
 class TestSettings : public Settings {
 
 public:
-    void setMainWindow(const MainWindow& mainWindow) override {}
-    MainWindow mainWindow() const override {}
-
     void setNewImage(const NewImage& newImage) override {}
     NewImage newImage() const override {}
 

@@ -5,11 +5,6 @@
 
 class Settings {
 public:
-    struct MainWindow {
-        QByteArray geometry;
-        QByteArray state;
-    };
-
     struct NewImage {
         QSize size;
     };
@@ -25,8 +20,11 @@ public:
     void setApplicationLanguage(const QString& lang);
     QString applicationLanguage() const;
 
-    virtual void setMainWindow(const MainWindow& mainWindow) = 0;
-    virtual MainWindow mainWindow() const = 0;
+    void setMainWindowGeometry(const  QByteArray& geometry);
+    QByteArray mainWindowGeometry() const;
+
+    void setMainWindowState(const  QByteArray& state);
+    QByteArray mainWindowState() const;
 
     virtual void setNewImage(const NewImage& newImage) = 0;
     virtual NewImage newImage() const = 0;

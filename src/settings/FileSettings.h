@@ -5,9 +5,6 @@ class FileSettings : public Settings {
 public:
     FileSettings();
 
-    void setMainWindow(const MainWindow& mainWindow) override;
-    MainWindow mainWindow() const override;
-
     void setNewImage(const NewImage& newImage) override;
     NewImage newImage() const override;
 

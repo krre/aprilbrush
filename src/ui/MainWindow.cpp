@@ -115,7 +115,7 @@ void MainWindow::showInputDevice() {
 }
 
 void MainWindow::readSettings() {
-    QByteArray geometry = m_fileSettings->mainWindow().geometry;
+    QByteArray geometry = m_fileSettings->mainWindowGeometry();
 
     if (!geometry.isEmpty()) {
         restoreGeometry(geometry);
@@ -125,16 +125,13 @@ void MainWindow::readSettings() {
         move((availableGeometry.width() - width()) / 2, (availableGeometry.height() - height()) / 2);
     }
 
-    restoreState(m_fileSettings->mainWindow().state);
+    restoreState(m_fileSettings->mainWindowState());
     m_colorPicker->setColor(m_fileSettings->colorPicker().color);
 }
 
 void MainWindow::writeSettings() {
-    Settings::MainWindow mainWindow;
-    mainWindow.geometry = saveGeometry();
-    mainWindow.state = saveState();
-
-    m_fileSettings->setMainWindow(mainWindow);
+    m_fileSettings->setMainWindowGeometry(saveGeometry());
+    m_fileSettings->setMainWindowState(saveState());
 
     Settings::ColorPicker colorPicker;
     colorPicker.color = m_colorPicker->color();
