@@ -1,6 +1,5 @@
 #pragma once
-#include <QByteArray>
-#include <QString>
+#include <QVariant>
 #include <QSize>
 #include <QColor>
 
@@ -41,4 +40,8 @@ public:
 
     virtual void setInputDevice(const InputDevice& inputDevice) = 0;
     virtual InputDevice inputDevice() const = 0;
+
+protected:
+    virtual void setValue(const QString& key, const QVariant& value) = 0;
+    virtual QVariant value(const QString& key, const QVariant& defaultValue = QVariant()) const = 0;
 };

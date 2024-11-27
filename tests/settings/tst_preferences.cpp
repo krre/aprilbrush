@@ -18,6 +18,18 @@ public:
 
     void setInputDevice(const InputDevice& inputDevice) override {}
     InputDevice inputDevice() const override {}
+
+protected:
+    void setValue(const QString& key, const QVariant& value) override {
+        settings[key] = value;
+    }
+
+    QVariant value(const QString& key, const QVariant& defaultValue = QVariant()) const override {
+        return settings.contains(key) ? settings[key] : defaultValue;
+    }
+
+private:
+    QHash<QString, QVariant> settings;
 };
 
 class TestPreferences : public QObject {
