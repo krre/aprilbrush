@@ -126,17 +126,13 @@ void MainWindow::readSettings() {
     }
 
     restoreState(m_fileSettings->mainWindowState());
-    m_colorPicker->setColor(m_fileSettings->colorPicker().color);
+    m_colorPicker->setColor(m_fileSettings->colorPickerColor());
 }
 
 void MainWindow::writeSettings() {
     m_fileSettings->setMainWindowGeometry(saveGeometry());
     m_fileSettings->setMainWindowState(saveState());
-
-    Settings::ColorPicker colorPicker;
-    colorPicker.color = m_colorPicker->color();
-
-    m_fileSettings->setColorPicker(colorPicker);
+    m_fileSettings->setColorPickerColor(m_colorPicker->color());
 }
 
 void MainWindow::createActions() {

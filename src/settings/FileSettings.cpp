@@ -3,24 +3,6 @@
 
 FileSettings::FileSettings() {}
 
-void FileSettings::setColorPicker(const ColorPicker& colorPicker) {
-    QSettings settings;
-    settings.beginGroup("ColorPicker");
-    settings.setValue("color", colorPicker.color);
-    settings.endGroup();
-}
-
-Settings::ColorPicker FileSettings::colorPicker() const {
-    ColorPicker result;
-
-    QSettings settings;
-    settings.beginGroup("ColorPicker");
-    result.color = settings.value("color", QColor(Qt::red)).value<QColor>();
-    settings.endGroup();
-
-    return result;
-}
-
 void FileSettings::setInputDevice(const InputDevice& inputDevice) {
     QSettings settings;
     settings.beginGroup("InputDevice");

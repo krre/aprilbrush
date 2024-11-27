@@ -5,10 +5,6 @@
 
 class Settings {
 public:
-    struct ColorPicker {
-        QColor color;
-    };
-
     struct InputDevice {
         QByteArray geometry;
     };
@@ -25,8 +21,8 @@ public:
     void setNewImageSize(const QSize& size);
     QSize newImageSize() const;
 
-    virtual void setColorPicker(const ColorPicker& colorPicker) = 0;
-    virtual ColorPicker colorPicker() const = 0;
+    void setColorPickerColor(const QColor& color);
+    QColor colorPickerColor() const;
 
     virtual void setInputDevice(const InputDevice& inputDevice) = 0;
     virtual InputDevice inputDevice() const = 0;

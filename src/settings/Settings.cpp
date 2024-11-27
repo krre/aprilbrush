@@ -31,3 +31,11 @@ void Settings::setNewImageSize(const QSize& size) {
 QSize Settings::newImageSize() const {
     return value("NewImage/size").toSize();
 }
+
+void Settings::setColorPickerColor(const QColor& color) {
+    setValue("ColorPicker/color", color);
+}
+
+QColor Settings::colorPickerColor() const {
+    return value("ColorPicker/color", QColor(Qt::red)).value<QColor>();
+}
