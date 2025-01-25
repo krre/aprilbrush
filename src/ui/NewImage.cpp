@@ -1,7 +1,11 @@
 #include "NewImage.h"
 #include "Canvas.h"
 #include "settings/Settings.h"
-#include <QtWidgets>
+#include <QLineEdit>
+#include <QSpinBox>
+#include <QPushButton>
+#include <QDialogButtonBox>
+#include <QFormLayout>
 
 NewImage::NewImage(const QString& name, Settings* settings, QWidget* parent)
     : StandardDialog(parent), m_settings(settings) {

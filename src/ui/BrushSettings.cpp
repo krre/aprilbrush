@@ -1,7 +1,7 @@
 #include "BrushSettings.h"
 #include "BrushSlider.h"
 #include "engine/BrushEngine.h"
-#include <QtWidgets>
+#include <QFormLayout>
 
 BrushSettings::BrushSettings(BrushEngine* brushEngine) : m_brushEngine(brushEngine) {
     setWindowTitle(tr("Brush Settings"));

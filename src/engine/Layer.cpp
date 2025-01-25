@@ -1,5 +1,4 @@
 #include "Layer.h"
-#include <QtGui>
 
 Layer::Layer(const QString& name, const QSize& size) {
     setName(name);

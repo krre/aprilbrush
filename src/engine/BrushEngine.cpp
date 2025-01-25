@@ -1,5 +1,6 @@
 #include "BrushEngine.h"
-#include <QtGui>
+#include <QPainter>
+#include <QRandomGenerator>
 
 BrushEngine::BrushEngine(QObject* parent) : QObject(parent) {
 

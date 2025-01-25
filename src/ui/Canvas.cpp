@@ -5,7 +5,11 @@
 #include "engine/undo/ClearCommand.h"
 #include "engine/undo/BrushCommand.h"
 #include "core/OpenRaster.h"
-#include <QtGui>
+#include <QPainter>
+#include <QGuiApplication>
+#include <QScreen>
+#include <QMouseEvent>
+#include <QFileInfo>
 #include <ranges>
 
 Canvas::Canvas(const QSize& size, BrushEngine* brushEngine) : m_brushEngine(brushEngine) {

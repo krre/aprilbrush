@@ -2,7 +2,8 @@
 #include "engine/Layer.h"
 #include <QtCore/private/qzipwriter_p.h>
 #include <QtCore/private/qzipreader_p.h>
-#include <QtGui>
+#include <QXmlStreamWriter>
+#include <QBuffer>
 
 void OpenRaster::write(const QString& filePath, const QSize& size, const Layers& layers) {
     QZipWriter zipWriter(filePath);

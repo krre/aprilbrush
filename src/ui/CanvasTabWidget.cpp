@@ -1,7 +1,7 @@
 #include "CanvasTabWidget.h"
 #include "Canvas.h"
 #include "engine/BrushEngine.h"
-#include <QtWidgets>
+#include <QUndoGroup>
 
 CanvasTabWidget::CanvasTabWidget(BrushEngine* brushEngine, QUndoGroup* undoGroup)
     : m_brushEngine(brushEngine), m_undoGroup(undoGroup) {

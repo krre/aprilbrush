@@ -1,6 +1,10 @@
 #include "Preferences.h"
 #include "settings/Settings.h"
-#include <QtWidgets>
+#include <QComboBox>
+#include <QLabel>
+#include <QGroupBox>
+#include <QMessageBox>
+#include <QFormLayout>
 
 Preferences::Preferences(Settings* settings, QWidget* parent)
     : StandardDialog (parent), m_settings(settings) {

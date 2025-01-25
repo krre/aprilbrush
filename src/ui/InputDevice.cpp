@@ -1,6 +1,8 @@
 #include "InputDevice.h"
 #include "settings/Settings.h"
-#include <QtWidgets>
+#include <QLabel>
+#include <QFormLayout>
+#include <QCloseEvent>
 
 InputDevice::InputDevice(Settings* settings, QWidget* parent) : QWidget(parent), m_settings(settings) {
     setWindowTitle(tr("Input Device"));

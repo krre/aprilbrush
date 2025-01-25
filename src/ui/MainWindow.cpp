@@ -9,7 +9,13 @@
 #include "core/Application.h"
 #include "settings/FileSettings.h"
 #include "engine/BrushEngine.h"
-#include <QtWidgets>
+#include <QFileDialog>
+#include <QMenuBar>
+#include <QMessageBox>
+#include <QDockWidget>
+#include <QUndoGroup>
+#include <QUndoView>
+#include <QCloseEvent>
 
 MainWindow::MainWindow(QWidget* parent) : QMainWindow(parent) {
     setAutoFillBackground(true);
