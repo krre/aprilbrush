@@ -21,9 +21,9 @@ add_subdirectory(app)
 add_subdirectory(src)
 add_subdirectory(tests)
 
-SET(TS_SOURCE src/i18n/aprilbrush-ru.ts)
+SET(TS_SOURCE src/i18n/${PROJECT_NAME}-ru.ts)
 
-qt_add_translations(aprilbrush
+qt_add_translations(${PROJECT_NAME}
     TS_FILES ${TS_SOURCE}
 )
 

@@ -1,5 +1,5 @@
-add_executable(aprilbrush main.cpp)
+add_executable(${PROJECT_NAME} main.cpp)
 
-target_link_libraries(aprilbrush PRIVATE
+target_link_libraries(${PROJECT_NAME} PRIVATE
     common
 )
