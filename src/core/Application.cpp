@@ -37,7 +37,7 @@ void Application::installTranslators() {
 
     auto appTranslator = new QTranslator(this);
 
-    if (appTranslator->load("aprilbrush-" + language, ":/i18n")) {
+    if (appTranslator->load(QString("%1-%2").arg(PROJECT_NAME, language), ":/i18n")) {
         installTranslator(appTranslator);
     }
 }
