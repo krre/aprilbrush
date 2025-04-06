@@ -157,8 +157,6 @@ void MainWindow::createActions() {
     QAction* closeOthersAction = fileMenu->addAction(tr("Close Others"), Qt::CTRL | Qt::ALT | Qt::Key_W, m_canvasTabWidget, &CanvasTabWidget::closeOthers);
 
     fileMenu->addSeparator();
-    fileMenu->addAction(tr("Preferences..."), this, &MainWindow::showPreferences);
-    fileMenu->addSeparator();
     fileMenu->addAction(tr("Exit"), Qt::CTRL | Qt::Key_Q, this, &QMainWindow::close);
 
     // Edit
@@ -173,6 +171,9 @@ void MainWindow::createActions() {
     editMenu->addAction(redoAction);
 
     QAction* clearAction = editMenu->addAction(tr("Clear"), Qt::Key_Delete, this, &MainWindow::clear);
+
+    editMenu->addSeparator();
+    editMenu->addAction(tr("Preferences..."), this, &MainWindow::showPreferences);
 
     // View
     m_viewMenu = menuBar()->addMenu(tr("View"));
