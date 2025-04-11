@@ -48,7 +48,7 @@ QRect BrushEngine::paint(QPixmap* pixmap, const QPointF& point, float pressure) 
 
             QPointF betweenPoint;
 
-            for (int i = 1; i <= dabs; i++) {
+            for (int i = 1; i <= dabs; ++i) {
                 qreal x = m_lastPoint.x() + deltaX * i;
                 qreal y = m_lastPoint.y() + deltaY * i;
                 betweenPoint = QPointF(x, y);
