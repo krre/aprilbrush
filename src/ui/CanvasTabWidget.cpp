@@ -49,13 +49,13 @@ void CanvasTabWidget::closeCurrent() {
 }
 
 void CanvasTabWidget::closeAll() {
-    for (int i = count() - 1; i >= 0; i--) {
+    for (int i = count() - 1; i >= 0; --i) {
         closeByIndex(i);
     }
 }
 
 void CanvasTabWidget::closeOthers() {
-    for (int i = count() - 1; i >= 0; i--) {
+    for (int i = count() - 1; i >= 0; --i) {
         if (widget(i) != currentWidget()) {
             closeByIndex(i);
         }

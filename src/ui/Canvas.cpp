@@ -163,7 +163,7 @@ void Canvas::keyReleaseEvent(QKeyEvent* event) {
 void Canvas::paintEvent(QPaintEvent* event [[maybe_unused]]) {
     QPainter painter(this);
 
-    for (int i = m_layers.count() - 1; i >= 0; i--) {
+    for (int i = m_layers.count() - 1; i >= 0; --i) {
         if (m_currentLayerIndex == i) {
             painter.setOpacity(m_brushEngine->opacity() / 100.0);
             painter.drawPixmap(0, 0, m_buffer);
