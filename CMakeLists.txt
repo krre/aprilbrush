@@ -13,7 +13,7 @@ find_package(Qt6 REQUIRED COMPONENTS
     LinguistTools
 )
 
-qt_standard_project_setup()
+qt_standard_project_setup(I18N_TRANSLATED_LANGUAGES ru)
 
 include_directories(${CMAKE_CURRENT_BINARY_DIR})
 
@@ -21,15 +21,13 @@ add_subdirectory(app)
 add_subdirectory(src)
 add_subdirectory(tests)
 
-SET(TS_SOURCE src/i18n/${PROJECT_NAME}-ru.ts)
-
 qt_add_translations(${PROJECT_NAME}
-    TS_FILES ${TS_SOURCE}
+    NO_GENERATE_PLURALS_TS_FILE
+    TS_OUTPUT_DIRECTORY src/i18n
 )
 
 # For visibility in IDE (e.g., Qt Creator)
 add_custom_target(other
     SOURCES
-    ${TS_SOURCE}
     README.md
 )
