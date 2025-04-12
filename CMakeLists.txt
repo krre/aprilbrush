@@ -23,7 +23,7 @@ add_subdirectory(tests)
 
 qt_add_translations(${PROJECT_NAME}
     NO_GENERATE_PLURALS_TS_FILE
-    TS_OUTPUT_DIRECTORY src/i18n
+    TS_OUTPUT_DIRECTORY i18n
 )
 
 # For visibility in IDE (e.g., Qt Creator)
