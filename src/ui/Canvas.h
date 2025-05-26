@@ -64,7 +64,7 @@ private:
     void paintAction(const QPointF& pos);
     QString filePathToName(const QString& filePath) const;
 
-    bool pickPressed() const;
+    bool isAltPressed() const;
     void pickColor(const QPointF& pos);
 
     QRect clipBound(const QRect& bound) const;

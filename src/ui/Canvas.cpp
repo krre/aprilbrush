@@ -117,7 +117,7 @@ QSize Canvas::defaultSize() {
 }
 
 void Canvas::mouseMoveEvent(QMouseEvent* event) {
-    if (pickPressed()) {
+    if (isAltPressed()) {
         pickColor(event->position());
     } else {
         paintAction(event->position());
@@ -127,7 +127,7 @@ void Canvas::mouseMoveEvent(QMouseEvent* event) {
 void Canvas::mousePressEvent(QMouseEvent* event) {
     setFocus();
 
-    if (pickPressed()) {
+    if (isAltPressed()) {
         pickColor(event->position());
     } else {
         m_paintArea = QRect(event->position().toPoint(), event->position().toPoint());
@@ -213,7 +213,7 @@ QString Canvas::filePathToName(const QString& filePath) const {
     return QFileInfo(filePath).fileName().replace(".ora", "");
 }
 
-bool Canvas::pickPressed() const {
+bool Canvas::isAltPressed() const {
     return QGuiApplication::queryKeyboardModifiers().testFlag(Qt::AltModifier);
 }
 
