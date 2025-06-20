@@ -18,8 +18,6 @@
 #include <QCloseEvent>
 
 MainWindow::MainWindow(QWidget* parent) : QMainWindow(parent) {
-    setAutoFillBackground(true);
-
     m_fileSettings.reset(new FileSettings);
 
     m_undoGroup = new QUndoGroup(this);
