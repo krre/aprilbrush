@@ -17,7 +17,7 @@
 #include <QUndoView>
 #include <QCloseEvent>
 
-MainWindow::MainWindow(QWidget* parent) : QMainWindow(parent) {
+MainWindow::MainWindow() {
     m_fileSettings.reset(new FileSettings);
 
     m_undoGroup = new QUndoGroup(this);
