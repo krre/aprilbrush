@@ -18,7 +18,7 @@ protected:
     void closeEvent(QCloseEvent* event) override;
 
 private slots:
-    void createNew();
+    void create();
     void open();
     void save();
     void saveAs();
