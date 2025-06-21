@@ -15,7 +15,7 @@ Canvas* CanvasTabWidget::addCanvas() {
 }
 
 Canvas* CanvasTabWidget::addCanvas(const QString& name, const QSize& size) {
-    Canvas* canvas = new Canvas(size, m_brushEngine);
+    auto canvas = new Canvas(size, m_brushEngine);
     canvas->setName(name);
     canvas->setFocus();
     connect(canvas, &Canvas::colorPicked, m_brushEngine, &BrushEngine::setColor);
@@ -65,7 +65,7 @@ void CanvasTabWidget::closeOthers() {
 void CanvasTabWidget::onCurrentChanged(int index) {
     if (index < 0) return;
 
-    Canvas* canvas = static_cast<Canvas*>(widget(index));
+    auto canvas = static_cast<Canvas*>(widget(index));
     connect(canvas, &Canvas::inputDeviceDataChanged, this, &CanvasTabWidget::inputDeviceDataChanged);
     m_undoGroup->setActiveStack(canvas->undoStack());
 }

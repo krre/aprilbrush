@@ -54,7 +54,7 @@ void MainWindow::open() {
     QString filePath = QFileDialog::getOpenFileName(this, tr("Open Image"), QString(), tr("Images (*.ora)"));
 
     if (!filePath.isEmpty()) {
-        Canvas* canvas = m_canvasTabWidget->addCanvas();
+        auto canvas = m_canvasTabWidget->addCanvas();
         canvas->open(filePath);
         m_canvasTabWidget->setTabText(m_canvasTabWidget->currentIndex(), canvas->name());
     }
@@ -141,24 +141,24 @@ void MainWindow::writeSettings() {
 
 void MainWindow::createActions() {
     // File
-    QMenu* fileMenu = menuBar()->addMenu(tr("File"));
+    auto fileMenu = menuBar()->addMenu(tr("File"));
     fileMenu->addAction(tr("New..."), Qt::CTRL | Qt::Key_N, this, &MainWindow::create);
     fileMenu->addAction(tr("Open..."), Qt::CTRL | Qt::Key_O, this, &MainWindow::open);
 
-    QAction* saveAction = fileMenu->addAction(tr("Save"), Qt::CTRL | Qt::Key_S, this, &MainWindow::save);
-    QAction* saveAsAction = fileMenu->addAction(tr("Save As..."), Qt::CTRL | Qt::SHIFT | Qt::Key_S, this, &MainWindow::saveAs);
-    QAction* exportAction = fileMenu->addAction(tr("Export..."), Qt::CTRL | Qt::Key_E, this, &MainWindow::exportImage);
+    auto saveAction = fileMenu->addAction(tr("Save"), Qt::CTRL | Qt::Key_S, this, &MainWindow::save);
+    auto saveAsAction = fileMenu->addAction(tr("Save As..."), Qt::CTRL | Qt::SHIFT | Qt::Key_S, this, &MainWindow::saveAs);
+    auto exportAction = fileMenu->addAction(tr("Export..."), Qt::CTRL | Qt::Key_E, this, &MainWindow::exportImage);
     fileMenu->addSeparator();
 
-    QAction* closeAction = fileMenu->addAction(tr("Close"), Qt::CTRL | Qt::Key_W, m_canvasTabWidget, &CanvasTabWidget::closeCurrent);
-    QAction* closeAllAction =fileMenu->addAction(tr("Close All"), Qt::CTRL | Qt::SHIFT | Qt::Key_W, m_canvasTabWidget, &CanvasTabWidget::closeAll);
-    QAction* closeOthersAction = fileMenu->addAction(tr("Close Others"), Qt::CTRL | Qt::ALT | Qt::Key_W, m_canvasTabWidget, &CanvasTabWidget::closeOthers);
+    auto closeAction = fileMenu->addAction(tr("Close"), Qt::CTRL | Qt::Key_W, m_canvasTabWidget, &CanvasTabWidget::closeCurrent);
+    auto closeAllAction =fileMenu->addAction(tr("Close All"), Qt::CTRL | Qt::SHIFT | Qt::Key_W, m_canvasTabWidget, &CanvasTabWidget::closeAll);
+    auto closeOthersAction = fileMenu->addAction(tr("Close Others"), Qt::CTRL | Qt::ALT | Qt::Key_W, m_canvasTabWidget, &CanvasTabWidget::closeOthers);
 
     fileMenu->addSeparator();
     fileMenu->addAction(tr("Exit"), Qt::CTRL | Qt::Key_Q, this, &QMainWindow::close);
 
     // Edit
-    QMenu* editMenu = menuBar()->addMenu(tr("Edit"));
+    auto editMenu = menuBar()->addMenu(tr("Edit"));
 
     auto undoAction = m_undoGroup->createUndoAction(this, tr("Undo"));
     undoAction->setShortcuts(QKeySequence::Undo);
@@ -168,7 +168,7 @@ void MainWindow::createActions() {
     redoAction->setShortcuts(QKeySequence::Redo);
     editMenu->addAction(redoAction);
 
-    QAction* clearAction = editMenu->addAction(tr("Clear"), Qt::Key_Delete, this, &MainWindow::clear);
+    auto clearAction = editMenu->addAction(tr("Clear"), Qt::Key_Delete, this, &MainWindow::clear);
 
     editMenu->addSeparator();
     editMenu->addAction(tr("Preferences..."), this, &MainWindow::showPreferences);
@@ -177,11 +177,11 @@ void MainWindow::createActions() {
     m_viewMenu = menuBar()->addMenu(tr("View"));
 
     // Window
-    QMenu* windowMenu = menuBar()->addMenu(tr("Window"));
+    auto windowMenu = menuBar()->addMenu(tr("Window"));
     windowMenu->addAction(tr("Input Device..."), this, &MainWindow::showInputDevice);
 
     // Help
-    QMenu* helpMenu = menuBar()->addMenu(tr("Help"));
+    auto helpMenu = menuBar()->addMenu(tr("Help"));
     helpMenu->addAction(tr("About %1...").arg(Application::Name), this, &MainWindow::showAbout);
 
     connect(m_canvasTabWidget, &CanvasTabWidget::countChanged, this, [=] (int count) {
