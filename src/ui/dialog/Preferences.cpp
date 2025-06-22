@@ -6,8 +6,7 @@
 #include <QMessageBox>
 #include <QFormLayout>
 
-Preferences::Preferences(Settings* settings, QWidget* parent)
-    : StandardDialog (parent), m_settings(settings) {
+Preferences::Preferences(Settings* settings) : m_settings(settings) {
     setWindowTitle(tr("Preferences"));
 
     m_languageComboBox = new QComboBox;

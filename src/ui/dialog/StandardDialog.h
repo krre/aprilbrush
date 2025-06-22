@@ -6,7 +6,7 @@ class QDialogButtonBox;
 
 class StandardDialog : public QDialog {
 public:
-    StandardDialog(QWidget* parent);
+    StandardDialog(QWidget* parent = nullptr);
 
     QDialogButtonBox* buttonBox() const;
     void resizeToWidth(int width);

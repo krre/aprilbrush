@@ -9,7 +9,7 @@ class QSpinBox;
 class NewImage : public StandardDialog {
     Q_OBJECT
 public:
-    explicit NewImage(const QString& name, Settings* settings, QWidget* parent = nullptr);
+    explicit NewImage(const QString& name, Settings* settings);
 
     QString name() const;
     QSize size() const;

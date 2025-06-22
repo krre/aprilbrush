@@ -8,7 +8,7 @@ class QComboBox;
 class Preferences : public StandardDialog {
     Q_OBJECT
 public:
-    Preferences(Settings* settings, QWidget* parent = nullptr);
+    Preferences(Settings* settings);
 
 public slots:
     void accept() override;
