@@ -10,7 +10,7 @@ class BrushEngine;
 class Canvas : public QWidget {
     Q_OBJECT
 public:
-    explicit Canvas(const QSize& size, BrushEngine* brushEngine);
+    Canvas(const QSize& size, BrushEngine* brushEngine);
     ~Canvas();
 
     void setName(const QString& name);
