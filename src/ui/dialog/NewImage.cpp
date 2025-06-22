@@ -1,5 +1,5 @@
 #include "NewImage.h"
-#include "Canvas.h"
+#include "../Canvas.h"
 #include "settings/Settings.h"
 #include <QLineEdit>
 #include <QSpinBox>

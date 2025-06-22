@@ -15,9 +15,9 @@ add_library(common STATIC
     ui/ColorPicker.cpp ui/ColorPicker.h
     ui/InputDevice.cpp ui/InputDevice.h
     ui/MainWindow.cpp ui/MainWindow.h
-    ui/NewImage.cpp ui/NewImage.h
-    ui/Preferences.cpp ui/Preferences.h
-    ui/StandardDialog.cpp ui/StandardDialog.h
+    ui/dialog/NewImage.cpp ui/dialog/NewImage.h
+    ui/dialog/Preferences.cpp ui/dialog/Preferences.h
+    ui/dialog/StandardDialog.cpp ui/dialog/StandardDialog.h
     settings/Settings.h
     settings/FileSettings.h settings/FileSettings.cpp
     settings/Settings.cpp
