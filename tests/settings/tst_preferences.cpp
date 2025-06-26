@@ -45,7 +45,7 @@ void TestPreferences::readPreferences() {
 void TestPreferences::setPreferences() {
     TestSettings settings;
 
-    // To prevent opening the need restart dialog
+    // To prevent opening `Restart requred` dialog
     settings.setApplicationLanguage(Language);
 
     Preferences preferences(&settings);
