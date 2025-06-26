@@ -37,7 +37,6 @@ void TestPreferences::readPreferences() {
     QTest::keyClick(&preferences, Qt::Key_Tab); // Cancel button
     QTest::keyClick(&preferences, Qt::Key_Tab);
     auto languageComboBox = static_cast<QComboBox*>(preferences.focusWidget());
-    languageComboBox->setCurrentIndex(languageComboBox->findData(Language));
 
     QCOMPARE(languageComboBox->currentData(), Language);
 }
