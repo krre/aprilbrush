@@ -1,7 +1,9 @@
 #include "FileSettings.h"
 #include <QSettings>
 
-FileSettings::FileSettings() {}
+FileSettings::FileSettings(QObject* parent) : QObject(parent) {
+
+}
 
 void FileSettings::setValue(const QString& key, const QVariant& value) {
     QSettings settings;

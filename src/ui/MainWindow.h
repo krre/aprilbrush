@@ -12,7 +12,6 @@ class MainWindow : public QMainWindow {
     Q_OBJECT
 public:
     MainWindow();
-    ~MainWindow();
 
 protected:
     void closeEvent(QCloseEvent* event) override;
@@ -39,10 +38,9 @@ private:
     void createDockWindows();
     void applyHotSettings();
 
-    QScopedPointer<FileSettings> m_fileSettings;
-
     Canvas* currentCanvas() const;
 
+    FileSettings* m_fileSettings = nullptr;
     CanvasTabWidget* m_canvasTabWidget;
     ColorPicker* m_colorPicker = nullptr;
     BrushEngine* m_brushEngine = nullptr;

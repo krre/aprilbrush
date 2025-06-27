@@ -18,8 +18,7 @@
 #include <QCloseEvent>
 
 MainWindow::MainWindow() {
-    m_fileSettings.reset(new FileSettings);
-
+    m_fileSettings = new FileSettings(this);
     m_undoGroup = new QUndoGroup(this);
     m_brushEngine = new BrushEngine(this);
     m_canvasTabWidget = new CanvasTabWidget(m_brushEngine, m_undoGroup);
@@ -33,17 +32,13 @@ MainWindow::MainWindow() {
     m_canvasTabWidget->addCanvas();
 }
 
-MainWindow::~MainWindow() {
-
-}
-
 void MainWindow::closeEvent(QCloseEvent* event) {
     writeSettings();
     event->accept();
 }
 
 void MainWindow::create() {
-    NewImage newImage(m_canvasTabWidget->nextName(), m_fileSettings.data());
+    NewImage newImage(m_canvasTabWidget->nextName(), m_fileSettings);
 
     if (newImage.exec() == QDialog::Accepted) {
         m_canvasTabWidget->addCanvas(newImage.name(), newImage.size());
@@ -105,7 +100,7 @@ Copyright © %7, Vladimir Zarypov)")
 }
 
 void MainWindow::showPreferences() {
-    Preferences preferences(m_fileSettings.data());
+    Preferences preferences(m_fileSettings);
 
     if (preferences.exec() == QDialog::Accepted) {
         applyHotSettings();
@@ -113,7 +108,7 @@ void MainWindow::showPreferences() {
 }
 
 void MainWindow::showInputDevice() {
-    auto inputDevice = new InputDevice(m_fileSettings.data(), this);
+    auto inputDevice = new InputDevice(m_fileSettings, this);
     connect(m_canvasTabWidget, &CanvasTabWidget::inputDeviceDataChanged, inputDevice, &InputDevice::setData);
     inputDevice->show();
 }
