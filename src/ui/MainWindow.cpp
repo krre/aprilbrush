@@ -21,7 +21,9 @@ MainWindow::MainWindow() {
     m_fileSettings = new FileSettings(this);
     m_undoGroup = new QUndoGroup(this);
     m_brushEngine = new BrushEngine(this);
+
     m_canvasTabWidget = new CanvasTabWidget(m_brushEngine, m_undoGroup);
+    connect(m_canvasTabWidget, &QTabWidget::currentChanged, this, &MainWindow::onCurrentTabChanged);
 
     setCentralWidget(m_canvasTabWidget);
 
@@ -111,6 +113,11 @@ void MainWindow::showInputDevice() {
     auto inputDevice = new InputDevice(m_fileSettings, this);
     connect(m_canvasTabWidget, &CanvasTabWidget::inputDeviceDataChanged, inputDevice, &InputDevice::setData);
     inputDevice->show();
+}
+
+void MainWindow::onCurrentTabChanged(int index) {
+    Q_UNUSED(index)
+    changeWindowTitle();
 }
 
 void MainWindow::readSettings() {
@@ -227,6 +234,16 @@ void MainWindow::createDockWindows() {
 
 void MainWindow::applyHotSettings() {
 
+}
+
+void MainWindow::changeWindowTitle() {
+    QString title = Application::Name;
+
+    if (m_canvasTabWidget->count()) {
+        title = currentCanvas()->name() + " - " + title;
+    }
+
+    setWindowTitle(title);
 }
 
 Canvas* MainWindow::currentCanvas() const {

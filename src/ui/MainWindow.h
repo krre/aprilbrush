@@ -29,6 +29,8 @@ private slots:
     void showPreferences();
     void showInputDevice();
 
+    void onCurrentTabChanged(int index);
+
 private:
     void readSettings();
     void writeSettings();
@@ -36,7 +38,9 @@ private:
     void createActions();
     void createUi();
     void createDockWindows();
+
     void applyHotSettings();
+    void changeWindowTitle();
 
     Canvas* currentCanvas() const;
 
