@@ -15,7 +15,7 @@ Preferences::Preferences(Settings* settings) : m_settings(settings) {
     m_languageComboBox->addItem(tr("Russian"), "ru");
 
     auto uiLayout = new QFormLayout;
-    uiLayout->addRow(new QLabel(tr("Language:")), m_languageComboBox);
+    uiLayout->addRow(tr("Language:"), m_languageComboBox);
     uiLayout->itemAt(0, QFormLayout::FieldRole)->setAlignment(Qt::AlignLeft);
 
     auto uiGroupBox = new QGroupBox(tr("User Interface"));
