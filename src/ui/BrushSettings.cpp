@@ -30,7 +30,7 @@ BrushSettings::BrushSettings(BrushEngine* brushEngine) : m_brushEngine(brushEngi
     connect(roundnessSlider, &BrushSlider::valueChanged, m_brushEngine, &BrushEngine::setRoundness);
     m_brushEngine->setRoundness(roundnessSlider->value());
 
-    auto angleSlider = new BrushSlider(1, 180, 0);
+    auto angleSlider = new BrushSlider(0, 180, 0);
     connect(angleSlider, &BrushSlider::valueChanged, m_brushEngine, &BrushEngine::setAngle);
     m_brushEngine->setAngle(angleSlider->value());
 
