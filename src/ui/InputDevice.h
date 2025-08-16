@@ -22,7 +22,7 @@ public:
     InputDevice(Settings* settings, QWidget* parent);
 
 public slots:
-    void setData(const Data& data);
+    void setData(const InputDevice::Data& data);
 
 protected:
     void closeEvent(QCloseEvent* event) override;
