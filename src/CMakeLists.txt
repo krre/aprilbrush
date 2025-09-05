@@ -1,6 +1,6 @@
 configure_file(config.h.in config.h @ONLY)
 
-add_library(common STATIC
+qt_add_library(common STATIC
     core/Application.cpp core/Application.h
     core/CommonTypes.h
     core/OpenRaster.cpp core/OpenRaster.h
