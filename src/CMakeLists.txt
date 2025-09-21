@@ -29,5 +29,5 @@ add_custom_target(custom
     config.h.in
 )
 
-target_link_libraries(common PUBLIC Qt6::Widgets )
+target_link_libraries(common PUBLIC Qt6::Widgets)
 target_include_directories(common PUBLIC ${CMAKE_CURRENT_SOURCE_DIR} ${Qt6Gui_PRIVATE_INCLUDE_DIRS})
