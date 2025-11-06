@@ -1,3 +1,4 @@
 /build*
+/.qtcreator
 /.vscode
 *.user
