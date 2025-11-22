@@ -12,7 +12,7 @@ private slots:
 
 void TestOpenRaster::writeAndRead() {
     QTemporaryFile tempFile;
-    tempFile.open();
+    QVERIFY2(tempFile.open(), "Failed to open temporary file");
 
     QSize imageSize = QSize(100, 100);
 
