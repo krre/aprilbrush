@@ -11,6 +11,7 @@ set(CMAKE_EXPERIMENTAL_CXX_MODULE_CMAKE_API ON)
 find_package(Qt6 REQUIRED COMPONENTS
     Widgets
     LinguistTools
+    CorePrivate
 )
 
 qt_standard_project_setup(I18N_TRANSLATED_LANGUAGES ru)
