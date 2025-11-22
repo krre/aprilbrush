@@ -5,7 +5,7 @@ brush libraries and multi-page. The program saves the image files in the format 
 Required a pressure sentive input device (graphic tablet).
 
 ## Dependencies
-- Qt 6.7
+- Qt 6.10
 
 ## Screenshot
 ![Screenshot](/images/screenshot.png?raw=true)
