@@ -5,6 +5,7 @@
 
 BrushSlider::BrushSlider(int minValue, int maxValue, int defaultValue) {
     auto slider = new QSlider(Qt::Horizontal);
+    slider->setMinimumWidth(50);
     slider->setRange(minValue, maxValue);
 
     m_spinBox = new QSpinBox;
