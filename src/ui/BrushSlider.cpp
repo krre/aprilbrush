@@ -7,7 +7,7 @@ BrushSlider::BrushSlider(int minValue, int maxValue, int defaultValue) {
     auto slider = new QSlider(Qt::Horizontal);
     slider->setRange(minValue, maxValue);
 
-    m_spinBox = new QSpinBox();
+    m_spinBox = new QSpinBox;
     m_spinBox->setRange(minValue, maxValue);
 
     connect(slider, &QSlider::valueChanged, m_spinBox, &QSpinBox::setValue);
