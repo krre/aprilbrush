@@ -121,14 +121,11 @@ void MainWindow::onCurrentTabChanged(int index) {
 }
 
 void MainWindow::readSettings() {
-    QByteArray geometry = m_fileSettings->mainWindowGeometry();
-
-    if (!geometry.isEmpty()) {
-        restoreGeometry(geometry);
-    } else {
-        const QRect availableGeometry = QGuiApplication::screens().constFirst()->availableGeometry();
-        resize(availableGeometry.width() / 2, availableGeometry.height() / 2);
-        move((availableGeometry.width() - width()) / 2, (availableGeometry.height() - height()) / 2);
+    if (!restoreGeometry(m_fileSettings->mainWindowGeometry())) {
+        const auto screenSize = screen()->size();
+        constexpr auto scale = 0.75;
+        resize(screenSize.width() * scale, screenSize.height() * scale);
+        move((screenSize.width() - width()) / 2, (screenSize.height() - height()) / 2);
     }
 
     restoreState(m_fileSettings->mainWindowState());
