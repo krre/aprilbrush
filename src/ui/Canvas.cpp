@@ -160,7 +160,9 @@ void Canvas::keyReleaseEvent(QKeyEvent* event) {
     }
 }
 
-void Canvas::paintEvent(QPaintEvent* event [[maybe_unused]]) {
+void Canvas::paintEvent(QPaintEvent* event) {
+    Q_UNUSED(event)
+
     QPainter painter(this);
 
     for (int i = m_layers.count() - 1; i >= 0; --i) {
