@@ -18,13 +18,7 @@ void TestPreferences::readPreferences() {
     settings.setApplicationLanguage(Language);
 
     Preferences preferences(&settings);
-
-    QTest::keyClick(&preferences, Qt::Key_Tab); // OK button
-    QTest::keyClick(&preferences, Qt::Key_Tab); // Cancel button
-    QTest::keyClick(&preferences, Qt::Key_Tab);
-    auto languageComboBox = static_cast<QComboBox*>(preferences.focusWidget());
-
-    QCOMPARE(languageComboBox->currentData(), Language);
+    QCOMPARE(preferences.m_languageComboBox->currentData(), Language);
 }
 
 void TestPreferences::setPreferences() {
@@ -34,12 +28,7 @@ void TestPreferences::setPreferences() {
     settings.setApplicationLanguage(Language);
 
     Preferences preferences(&settings);
-
-    QTest::keyClick(&preferences, Qt::Key_Tab); // OK button
-    QTest::keyClick(&preferences, Qt::Key_Tab); // Cancel button
-    QTest::keyClick(&preferences, Qt::Key_Tab);
-    auto languageComboBox = static_cast<QComboBox*>(preferences.focusWidget());
-    languageComboBox->setCurrentIndex(languageComboBox->findData(Language));
+    preferences.m_languageComboBox->setCurrentIndex(preferences.m_languageComboBox->findData(Language));
 
     preferences.accept();
 

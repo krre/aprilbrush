@@ -7,6 +7,7 @@ class QComboBox;
 
 class Preferences : public StandardDialog {
     Q_OBJECT
+    friend class TestPreferences;
 public:
     Preferences(Settings* settings);
 
